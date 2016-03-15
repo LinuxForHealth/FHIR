@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ibm.watsonhealth</groupId>
+	<artifactId>fhir-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>FHIR Prototype</name>
+
+	<properties>
+	</properties>
+
+	<modules>
+		<module>../fhir-tools</module>
+		<module>../fhir-model</module>
+		<module>../fhir-persistence</module>
+		<module>../fhir-provider</module>
+		<module>../fhir-validation</module>
+		<module>../fhir-search</module>
+		<module>../fhir-client</module>
+		<module>../fhir-server/fhir-server</module>
+	</modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.5.1</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<testSource>1.8</testSource>
+						<testTarget>1.8</testTarget>
+						<debug>true</debug>
+						<debuglevel>source,lines,vars</debuglevel>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
