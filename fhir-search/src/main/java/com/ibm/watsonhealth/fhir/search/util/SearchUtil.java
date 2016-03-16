@@ -331,6 +331,8 @@ public class SearchUtil {
 		try {
 			new URL(s);
 			return true;
-		} catch (MalformedURLException e) { return false; }
+		} catch (MalformedURLException e) {
+			return false;
+		}
 	}
 }
