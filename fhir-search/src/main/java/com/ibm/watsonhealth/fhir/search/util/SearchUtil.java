@@ -262,9 +262,9 @@ public class SearchUtil {
 						String number = parts[0];
 						parameterValue.setValueNumber(Double.parseDouble(number));
 						String system = parts[1];	// could be empty string
-						parameterValue.setSystem(system);
+						parameterValue.setValueSystem(system);
 						String code = parts[2];
-						parameterValue.setCode(code);
+						parameterValue.setValueCode(code);
 						break;
 					}
 					case STRING: {
@@ -278,10 +278,10 @@ public class SearchUtil {
 						// [parameter]=[system]|[code]
 						String[] parts = v.split("|");
 						if (parts.length == 2) {
-							parameterValue.setSystem(parts[0]);
-							parameterValue.setCode(parts[1]);
+							parameterValue.setValueSystem(parts[0]);
+							parameterValue.setValueCode(parts[1]);
 						} else {
-							parameterValue.setCode(v);
+							parameterValue.setValueCode(v);
 						}
 						break;
 					}
