@@ -204,14 +204,14 @@ public class SearchUtil {
 			Modifier modifier = null;
 			String modifierResourceTypeName = null;
 			if (name.contains(":")) {
-				String mod = name.substring(name.indexOf(":"));
+				String mod = name.substring(name.indexOf(":") + 1);
 				if (FHIRUtil.isValidResourceTypeName(mod)) {
 					modifier = Modifier.TYPE;
 					modifierResourceTypeName = mod;
 				} else {
 					modifier = Modifier.fromValue(mod);
 				}
-				name.substring(0, name.indexOf(":"));
+				name = name.substring(0, name.indexOf(":"));
 			}
 			
 			// parse values		
