@@ -7,8 +7,6 @@
 package com.ibm.watsonhealth.fhir.search.util;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,9 +39,9 @@ import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
+import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.ParameterValue.Prefix;
 
 public class SearchUtil {
@@ -230,7 +228,7 @@ public class SearchUtil {
 							v = v.substring(2);
 							parameterValue.setPrefix(prefix);
 						}
-						parameterValue.setPart("value", datatypeFactory.newXMLGregorianCalendar(v));
+						parameterValue.setValueDate(datatypeFactory.newXMLGregorianCalendar(v));
 						break;
 					}
 					case NUMBER: {
@@ -241,26 +239,15 @@ public class SearchUtil {
 							v = v.substring(2);
 							parameterValue.setPrefix(prefix);
 						}
-						parameterValue.setPart("value", Double.parseDouble(v));
+						parameterValue.setValueNumber(Double.parseDouble(v));
 						break;
 					}
 					case REFERENCE: {
 						// reference
-						if (isURL(v)) {
-							// [parameter]=[url]
-							parameterValue.setPart("url", v);
-						} else {
-							if (v.contains("/")) {
-								// [parameter]=[type]/[id]
-								String[] parts = v.split("/");
-								parameterValue.setPart("type", parts[0]);
-								parameterValue.setPart("id", parts[1]);
-								parameterValue.setSeparator("/");
-							} else {
-								// [parameter]=[id]
-								parameterValue.setPart("id", v);
-							}
-						}
+						// [parameter]=[url]
+						// [parameter]=[type]/[id]
+						// [parameter]=[id]
+						parameterValue.setValueString(v);
 						break;
 					}
 					case QUANTITY: {
@@ -273,18 +260,17 @@ public class SearchUtil {
 						}
 						String[] parts = v.split("|");
 						String number = parts[0];
-						parameterValue.setPart("number", Double.parseDouble(number));
+						parameterValue.setValueNumber(Double.parseDouble(number));
 						String system = parts[1];	// could be empty string
-						parameterValue.setPart("system", system);
+						parameterValue.setSystem(system);
 						String code = parts[2];
-						parameterValue.setPart("code", code);
-						parameterValue.setSeparator("|");
+						parameterValue.setCode(code);
 						break;
 					}
 					case STRING: {
 						// string
 						// [parameter]=[value]
-						parameterValue.setPart("value", v);
+						parameterValue.setValueString(v);
 						break;
 					}
 					case TOKEN: {
@@ -292,19 +278,16 @@ public class SearchUtil {
 						// [parameter]=[system]|[code]
 						String[] parts = v.split("|");
 						if (parts.length == 2) {
-							parameterValue.setPart("system", parts[0]);	// could be empty string
-							parameterValue.setPart("code", parts[1]);
-							parameterValue.setSeparator("|");
+							parameterValue.setSystem(parts[0]);
+							parameterValue.setCode(parts[1]);
 						} else {
-							parameterValue.setPart("code", v);
+							parameterValue.setCode(v);
 						}
 						break;
 					}
 					case URI: {
 						// [parameter]=[value]
-						if (isURL(v)) {
-							parameterValue.setPart("value", v);
-						}
+						parameterValue.setValueString(v);
 						break;
 					}
 					default:
@@ -325,14 +308,5 @@ public class SearchUtil {
 			}
 		}
 		return null;
-	}
-	
-	private static boolean isURL(String s) {
-		try {
-			new URL(s);
-			return true;
-		} catch (MalformedURLException e) {
-			return false;
-		}
 	}
 }
