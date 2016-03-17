@@ -13,6 +13,7 @@ import javax.ws.rs.core.Application;
 
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.impl.FHIRPersistenceImpl;
+import com.ibm.watsonhealth.fhir.persistence.jpa.impl.FHIRPersistenceJPAImpl;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 import com.ibm.watsonhealth.fhir.server.resources.FHIRResource;
 import com.ibm.watsonhealth.fhir.validation.Validator;
@@ -25,7 +26,8 @@ public class FHIRApplication extends Application {
 		classes = new HashSet<Class<?>>();
 		
 		Validator validator = new Validator();
-		FHIRPersistence persistence = new FHIRPersistenceImpl();	// basic in-memory implementation
+//		FHIRPersistence persistence = new FHIRPersistenceImpl();	// basic in-memory implementation
+		FHIRPersistence persistence = new FHIRPersistenceJPAImpl();
 		
 		singletons = new HashSet<Object>();
 		singletons.add(new FHIRProvider());
