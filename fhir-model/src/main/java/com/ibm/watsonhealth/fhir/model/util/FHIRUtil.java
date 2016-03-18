@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -37,12 +38,25 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.w3c.dom.Node;
 
+import com.ibm.watsonhealth.fhir.model.Code;
+import com.ibm.watsonhealth.fhir.model.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.Coding;
+import com.ibm.watsonhealth.fhir.model.ContactPoint;
+import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
+import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
+import com.ibm.watsonhealth.fhir.model.Date;
 import com.ibm.watsonhealth.fhir.model.DomainResource;
+import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Id;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.Narrative;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
+import com.ibm.watsonhealth.fhir.model.ObservationStatus;
+import com.ibm.watsonhealth.fhir.model.ObservationStatusList;
+import com.ibm.watsonhealth.fhir.model.Quantity;
+import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.Uri;
 
 public class FHIRUtil {
 	private static final String HL7_FHIR_NS_URI = "http://hl7.org/fhir";	
@@ -199,6 +213,55 @@ public class FHIRUtil {
 		marshaller.marshal(resource, node);
 	}
 	
+	public static Code code(String code) {
+		return objectFactory.createCode().withValue(code);
+	}
+
+	public static CodeableConcept codeableConcept(Coding...coding) {
+		return objectFactory.createCodeableConcept().withCoding(coding);
+	}
+	
+	public static CodeableConcept codeableConcept(String system, String code) {
+		return codeableConcept(coding(system, code));
+	}
+
+	public static CodeableConcept codeableConcept(String system, String code, String display) {
+		return codeableConcept(coding(system, code, display));
+	}
+	
+	public static Coding coding(String system, String code) {
+		return objectFactory.createCoding().withSystem(uri(system)).withCode(code(code));
+	}
+
+	public static Coding coding(String system, String code, String display) {
+		return objectFactory.createCoding().withSystem(uri(system)).withCode(code(code)).withDisplay(string(display));
+	}
+
+	public static ContactPoint contactPoint(ContactPointSystemList system, String value) {
+		return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse());
+	}
+
+	public static ContactPoint contactPoint(ContactPointSystemList system, String value, ContactPointUseList use) {
+		return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse().withValue(use));
+	}
+	
+	public static Date date(String date) {
+		return objectFactory.createDate().withValue(date);
+	}
+	
+	public static HumanName humanName(String name) {
+		return objectFactory.createHumanName().withText(string(name));
+	}
+	
+	public static HumanName humanName(String family, String... given) {
+		HumanName humanName = objectFactory.createHumanName();
+		humanName.getFamily().add(string(family));
+		for (String g : given) {
+			humanName.getGiven().add(string(g));
+		}
+		return humanName;
+	}
+
 	public static Id id(String s) {
 		return objectFactory.createId().withValue(s);
 	}
@@ -209,9 +272,33 @@ public class FHIRUtil {
 		XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
 		return objectFactory.createInstant().withValue(xmlCalendar);
 	}
+	
+	public static ObservationStatus observationStatus(ObservationStatusList status) {
+		return objectFactory.createObservationStatus().withValue(status);
+	}
+
+	public static Quantity quantity(double value, String unit) {
+		return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit));
+	}
+
+	public static Quantity quantity(double value, String system, String code) {
+		return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withSystem(uri(system)).withCode(code(code));
+	}
+
+	public static Quantity quantity(double value, String unit, String system, String code) {
+		return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit)).withSystem(uri(system)).withCode(code(code));
+	}
+
+	public static Reference reference(String reference) {
+		return objectFactory.createReference().withReference(string(reference));
+	}
 
 	public static com.ibm.watsonhealth.fhir.model.String string(String s) {
 		return objectFactory.createString().withValue(s);
+	}
+	
+	public static Uri uri(String uri) {
+		return objectFactory.createUri().withValue(uri);
 	}
 	
 	@SuppressWarnings("unchecked")
