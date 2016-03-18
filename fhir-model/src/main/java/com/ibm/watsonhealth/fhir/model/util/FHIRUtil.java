@@ -253,13 +253,8 @@ public class FHIRUtil {
 		return objectFactory.createHumanName().withText(string(name));
 	}
 	
-	public static HumanName humanName(String family, String... given) {
-		HumanName humanName = objectFactory.createHumanName();
-		humanName.getFamily().add(string(family));
-		for (String g : given) {
-			humanName.getGiven().add(string(g));
-		}
-		return humanName;
+	public static HumanName humanName(String given, String family) {
+		return objectFactory.createHumanName().withGiven(string(given)).withFamily(string(family));
 	}
 
 	public static Id id(String s) {
