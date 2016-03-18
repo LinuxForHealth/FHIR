@@ -6,22 +6,33 @@
 
 package com.ibm.watsonhealth.fhir.server.resources;
 
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.BundleEntry;
+import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
 @Path("/")
@@ -31,9 +42,12 @@ public class FHIRResource {
 	private Validator validator = null;	
 	private FHIRPersistence persistence = null;
 	
+	private ObjectFactory objectFactory = null;
+	
 	public FHIRResource(Validator validator, FHIRPersistence persistence) {
 		this.validator = validator;
 		this.persistence = persistence;
+		objectFactory = new ObjectFactory();
 	}
 	
 	@POST
@@ -80,7 +94,7 @@ public class FHIRResource {
 	@GET
 	@Produces({ "application/json+fhir" })
 	@Path("{type}/{id}/_history/{vid}")
-	public Resource vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) throws ClassNotFoundException {
+	public Resource vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) {
 		Class<? extends Resource> resourceType = getResourceType(type);
 		Resource resource = null;
 		try {
@@ -92,6 +106,65 @@ public class FHIRResource {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 		return resource;
+	}
+	
+	@PUT
+	@Consumes({ "application/json+fhir" })
+	@Path("{type}/{id}")
+	public Response update(@PathParam("id") String id, Resource resource) {
+		Class<? extends Resource> resourceType = resource.getClass();
+		try {
+			List<String> messages = validator.validate(resource);
+			if (!messages.isEmpty()) {
+				StringBuffer buffer = new StringBuffer();
+				for (String message : messages) {
+					buffer.append(message);
+					buffer.append(NL);
+				}
+				return Response.status(Response.Status.BAD_REQUEST).entity(buffer.toString()).build();
+			} else {
+				persistence.update(id, resource);
+			}
+		} catch (Exception e) {
+			throw new WebApplicationException(e);
+		}
+		String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();		
+		return Response.created(URI.create(resourceType.getSimpleName() + "/" + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
+	}
+	
+	@GET
+	@Produces({ "application/json+fhir" })
+	@Path("{type}")
+	public Response search(@PathParam("type") String type, @Context UriInfo uriInfo) {
+		Class<? extends Resource> resourceType = getResourceType(type);
+		Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
+		List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+		try {
+			List<Resource> resources = persistence.search(resourceType, searchParameters);
+			Bundle bundle = createBundle(resources);
+			return Response.ok(bundle).build();
+		} catch (FHIRPersistenceException e) {
+			throw new WebApplicationException(e);
+		}
+	}
+	
+	private Bundle createBundle(List<Resource> resources) {
+		Bundle bundle = objectFactory.createBundle();
+		for (Resource resource : resources) {
+			Class<? extends Resource> resourceType = resource.getClass();
+			BundleEntry entry = objectFactory.createBundleEntry();
+			ResourceContainer container = objectFactory.createResourceContainer();
+			entry.setResource(container);
+			Method method;
+			try {
+				method = ResourceContainer.class.getMethod("set" + resourceType.getSimpleName(), resourceType);
+				method.invoke(container, resource);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			bundle.getEntry().add(entry);
+		}
+		return bundle;
 	}
 	
 	@SuppressWarnings("unchecked")
