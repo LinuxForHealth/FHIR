@@ -11,6 +11,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,22 +34,40 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
 @Path("/")
 public class FHIRResource {
 	private static final String NL = System.getProperty("line.separator");
 
+	@Inject
+	private FHIRPersistenceHelper persistenceHelper;
+	
 	private Validator validator = null;	
 	private FHIRPersistence persistence = null;
+	private ObjectFactory objectFactory = new ObjectFactory();
 	
-	private ObjectFactory objectFactory = null;
-	
-	public FHIRResource(Validator validator, FHIRPersistence persistence) {
-		this.validator = validator;
-		this.persistence = persistence;
-		objectFactory = new ObjectFactory();
+	public FHIRResource() {
+	    System.out.println(">>> In FHIRResource ctor");
+	    validator = new Validator();
 	}
+	
+	/**
+	 * Retrieves an appropriate persistence implementation according to the 
+	 * current configuration.
+	 */
+    private FHIRPersistence getPersistenceMgr() {
+        if (persistence == null) {
+            if (persistenceHelper == null) {
+                System.out.println(">>> FHIRPersistenceHelper instance was not injected into FHIRResource instance!");
+                persistenceHelper = new FHIRPersistenceHelper();
+            }
+            persistence = persistenceHelper.getFHIRPersistenceImpl();
+        }
+        
+        return persistence;
+    }
 	
 	@POST
 	@Consumes({ "application/json+fhir" })
@@ -65,7 +84,7 @@ public class FHIRResource {
 				}
 				return Response.status(Response.Status.BAD_REQUEST).entity(buffer.toString()).build();
 			} else {
-				persistence.create(resource);
+				getPersistenceMgr().create(resource);
 			}
 		} catch (Exception e) {
 			throw new WebApplicationException(e);
@@ -81,7 +100,7 @@ public class FHIRResource {
 		Class<? extends Resource> resourceType = getResourceType(type);
 		Resource resource = null;
 		try {
-			resource = persistence.read(resourceType, id);
+			resource = getPersistenceMgr().read(resourceType, id);
 		} catch (FHIRPersistenceException e) {
 			throw new WebApplicationException(e);
 		}
@@ -98,7 +117,7 @@ public class FHIRResource {
 		Class<? extends Resource> resourceType = getResourceType(type);
 		Resource resource = null;
 		try {
-			resource = persistence.vread(resourceType, id, vid);
+			resource = getPersistenceMgr().vread(resourceType, id, vid);
 		} catch (FHIRPersistenceException e) {
 			throw new WebApplicationException(e);
 		}
@@ -123,7 +142,7 @@ public class FHIRResource {
 				}
 				return Response.status(Response.Status.BAD_REQUEST).entity(buffer.toString()).build();
 			} else {
-				persistence.update(id, resource);
+				getPersistenceMgr().update(id, resource);
 			}
 		} catch (Exception e) {
 			throw new WebApplicationException(e);
@@ -140,7 +159,7 @@ public class FHIRResource {
 		Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
 		List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
 		try {
-			List<Resource> resources = persistence.search(resourceType, searchParameters);
+			List<Resource> resources = getPersistenceMgr().search(resourceType, searchParameters);
 			Bundle bundle = createBundle(resources);
 			return Response.ok(bundle).build();
 		} catch (FHIRPersistenceException e) {

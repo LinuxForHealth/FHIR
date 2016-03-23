@@ -42,37 +42,37 @@
                     <groupId>javax.ws.rs</groupId>
                     <artifactId>javax.ws.rs-api</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>eclipselink</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-jpa</artifactId>
             <version>${project.version}</version>
-            <!--
             <exclusions>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                </exclusion>
 				<exclusion>
 					<groupId>org.eclipse.persistence</groupId>
-					<artifactId>javax.persistence</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse.persistence</groupId>
-					<artifactId>commonj.sdo</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.glassfish</groupId>
-					<artifactId>javax.json</artifactId>
+					<artifactId>eclipselink</artifactId>
 				</exclusion>
             </exclusions>
-            -->
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-validation</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>eclipselink</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 		<dependency>
 			<groupId>com.ibm.tools.target</groupId>
