@@ -10,6 +10,8 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -25,6 +27,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
@@ -39,6 +42,8 @@ import com.ibm.watsonhealth.fhir.validation.Validator;
 
 @Path("/")
 public class FHIRResource {
+    private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
+
 	private static final String NL = System.getProperty("line.separator");
 
 	@Inject
@@ -49,7 +54,7 @@ public class FHIRResource {
 	private ObjectFactory objectFactory = new ObjectFactory();
 	
 	public FHIRResource() {
-	    System.out.println(">>> In FHIRResource ctor");
+	    log.fine("In FHIRResource() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
 	    validator = new Validator();
 	}
 	
@@ -60,7 +65,7 @@ public class FHIRResource {
     private FHIRPersistence getPersistenceMgr() {
         if (persistence == null) {
             if (persistenceHelper == null) {
-                System.out.println(">>> FHIRPersistenceHelper instance was not injected into FHIRResource instance!");
+                log.warning("FHIRPersistenceHelper instance was not injected into FHIRResource instance!");
                 persistenceHelper = new FHIRPersistenceHelper();
             }
             persistence = persistenceHelper.getFHIRPersistenceImpl();
@@ -73,7 +78,10 @@ public class FHIRResource {
 	@Consumes({ "application/json+fhir" })
 	@Path("{type}")
 	public Response create(Resource resource) {
-		Class<? extends Resource> resourceType = resource.getClass();
+        if (log.isLoggable(Level.FINE)) {
+            log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+        Class<? extends Resource> resourceType = resource.getClass();
 		try {
 			List<String> messages = validator.validate(resource);
 			if (!messages.isEmpty()) {
@@ -86,53 +94,76 @@ public class FHIRResource {
 			} else {
 				getPersistenceMgr().create(resource);
 			}
+			
+	        String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();
+	        return Response.created(URI.create(resourceType.getSimpleName() + "/" + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
 		} catch (Exception e) {
 			throw new WebApplicationException(e);
+		} finally {
+		    if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+            }
 		}
-		String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();
-		return Response.created(URI.create(resourceType.getSimpleName() + "/" + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
+		
 	}
 	
 	@GET
 	@Produces({ "application/json+fhir" })
 	@Path("{type}/{id}")
 	public Resource read(@PathParam("type") String type, @PathParam("id") String id) throws ClassNotFoundException {
+        if (log.isLoggable(Level.FINE)) {
+            log.entering(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
 		Class<? extends Resource> resourceType = getResourceType(type);
 		Resource resource = null;
 		try {
 			resource = getPersistenceMgr().read(resourceType, id);
+	        if (resource == null) {
+	            throw new WebApplicationException(Response.Status.NOT_FOUND);
+	        }
+	        return resource;
 		} catch (FHIRPersistenceException e) {
 			throw new WebApplicationException(e);
+		} finally {
+		    if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+            }
 		}
-		if (resource == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		}
-		return resource;
 	}
 	
 	@GET
 	@Produces({ "application/json+fhir" })
 	@Path("{type}/{id}/_history/{vid}")
 	public Resource vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) {
+        if (log.isLoggable(Level.FINE)) {
+            log.entering(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
 		Class<? extends Resource> resourceType = getResourceType(type);
 		Resource resource = null;
 		try {
 			resource = getPersistenceMgr().vread(resourceType, id, vid);
+	        if (resource == null) {
+	            throw new WebApplicationException(Response.Status.NOT_FOUND);
+	        }
+	        return resource;
 		} catch (FHIRPersistenceException e) {
 			throw new WebApplicationException(e);
+		} finally {
+		    if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+            }
 		}
-		if (resource == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		}
-		return resource;
 	}
 	
 	@PUT
 	@Consumes({ "application/json+fhir" })
 	@Path("{type}/{id}")
 	public Response update(@PathParam("id") String id, Resource resource) {
-		Class<? extends Resource> resourceType = resource.getClass();
+        if (log.isLoggable(Level.FINE)) {
+            log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
 		try {
+	        Class<? extends Resource> resourceType = resource.getClass();
 			List<String> messages = validator.validate(resource);
 			if (!messages.isEmpty()) {
 				StringBuffer buffer = new StringBuffer();
@@ -144,26 +175,40 @@ public class FHIRResource {
 			} else {
 				getPersistenceMgr().update(id, resource);
 			}
+			
+	        String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();      
+	        return Response.created(URI.create(resourceType.getSimpleName() + "/" + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
 		} catch (Exception e) {
 			throw new WebApplicationException(e);
+		} finally {
+		    if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+            }
 		}
-		String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();		
-		return Response.created(URI.create(resourceType.getSimpleName() + "/" + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
 	}
 	
 	@GET
 	@Produces({ "application/json+fhir" })
 	@Path("{type}")
 	public Response search(@PathParam("type") String type, @Context UriInfo uriInfo) {
-		Class<? extends Resource> resourceType = getResourceType(type);
-		Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
-		List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        if (log.isLoggable(Level.FINE)) {
+            log.entering(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
 		try {
+	        Class<? extends Resource> resourceType = getResourceType(type);
+	        Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
+	        
+	        List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
 			List<Resource> resources = getPersistenceMgr().search(resourceType, searchParameters);
+			
 			Bundle bundle = createBundle(resources);
 			return Response.ok(bundle).build();
 		} catch (FHIRPersistenceException e) {
 			throw new WebApplicationException(e);
+		} finally {
+		    if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
+            }
 		}
 	}
 	

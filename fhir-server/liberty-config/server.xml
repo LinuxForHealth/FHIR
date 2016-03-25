@@ -8,6 +8,8 @@
         <feature>appSecurity-2.0</feature>
         <feature>ssl-1.0</feature>
         <feature>cdi-1.2</feature>
+        <feature>jsonp-1.0</feature>
+        <feature>beanValidation-1.1</feature>
 	    <feature>jsf-2.2</feature>
 	</featureManager>
 
@@ -29,14 +31,14 @@ CODE_REMOVED
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
         
-    <library apiTypeVisibility="spec,third-party" id="eclipseLinkLib">
-        <fileset dir="${shared.resource.dir}/lib/eclipselink" includes="*.jar"/>
-    </library>
-    
     <library id="derbyLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
 
+    <library apiTypeVisibility="spec,third-party" id="moxyLib">
+        <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
+    </library>
+    
     <dataSource id="derbyDB" jndiName="jdbc/fhirDerbyDB">
         <jdbcDriver libraryRef="derbyLib"/>
 CODE_REMOVED
@@ -53,9 +55,10 @@ CODE_REMOVED
     <applicationMonitor updateTrigger="mbean"/>   
 
     <webApplication id="fhir-server" location="fhir-server.war" name="fhir-server">
-        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="eclipseLinkLib"/>
+        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib"/>
     </webApplication>
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
+    <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=all" traceFormat="BASIC"></logging>
 </server>
