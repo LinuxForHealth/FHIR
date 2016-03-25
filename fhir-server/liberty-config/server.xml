@@ -10,8 +10,8 @@
         <feature>cdi-1.2</feature>
         <feature>jsonp-1.0</feature>
         <feature>beanValidation-1.1</feature>
-	    <feature>jsf-2.2</feature>
-	</featureManager>
+        <feature>jsf-2.2</feature>
+    </featureManager>
 
     <!-- This template enables security. To get the full use of all the capabilities, a keystore and user registry are required. -->
     
@@ -43,7 +43,7 @@ CODE_REMOVED
         <jdbcDriver libraryRef="derbyLib"/>
 CODE_REMOVED
     </dataSource>
-	
+    
     <dataSource id="derbyDBNonJTA" jndiName="jdbc/fhirDerbyDBNonJTA" transactional="false">
         <jdbcDriver libraryRef="derbyLib"/>
 CODE_REMOVED
@@ -61,5 +61,7 @@ CODE_REMOVED
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
     <!-- Modify the tracestring below as needed to enable/disable tracing -->
-    <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=all" traceFormat="BASIC"></logging>
+    <!-- 
+        <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=fine" traceFormat="BASIC"></logging>
+    -->
 </server>
