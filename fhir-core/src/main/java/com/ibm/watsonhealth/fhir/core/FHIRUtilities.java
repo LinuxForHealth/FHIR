@@ -6,10 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.core;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Arrays;
-
 /**
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
  */
