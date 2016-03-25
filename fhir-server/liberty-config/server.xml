@@ -60,5 +60,6 @@ CODE_REMOVED
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
+    <!-- Modify the tracestring below as needed to enable/disable tracing -->
     <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=all" traceFormat="BASIC"></logging>
 </server>

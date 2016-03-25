@@ -54,7 +54,8 @@ public class FHIRResource {
 	private ObjectFactory objectFactory = new ObjectFactory();
 	
 	public FHIRResource() {
-	    log.fine("In FHIRResource() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
+	    log.finest("In FHIRResource() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
+	    log.finest(FHIRUtilities.getCurrentStacktrace());
 	    validator = new Validator();
 	}
 	
@@ -117,6 +118,7 @@ public class FHIRResource {
 		Class<? extends Resource> resourceType = getResourceType(type);
 		Resource resource = null;
 		try {
+		    log.finest("Inside read(). using persistence helper: " + FHIRUtilities.getObjectHandle(persistenceHelper));
 			resource = getPersistenceMgr().read(resourceType, id);
 	        if (resource == null) {
 	            throw new WebApplicationException(Response.Status.NOT_FOUND);
