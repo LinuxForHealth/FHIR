@@ -38,6 +38,7 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.w3c.dom.Node;
 
+import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.Coding;
@@ -105,7 +106,7 @@ public class FHIRUtil {
 			String metadataSource = null;
 			if (Format.XML.equals(format)) {
 				// XML-specific configuration
-				properties.put(JAXBContextProperties.MEDIA_TYPE, APPLICATION_XML);
+				properties.put(JAXBContextProperties.MEDIA_TYPE, MediaType.APPLICATION_XML);
 				metadataSource = XML_FHIR_METADATA_SOURCE;
 			} else {
 				// JSON-specific configuration

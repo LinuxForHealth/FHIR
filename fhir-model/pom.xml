@@ -12,6 +12,18 @@
 	<artifactId>fhir-model</artifactId>
 
 	<dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.tools.target</groupId>
+            <artifactId>was-liberty</artifactId>
+            <version>LATEST</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>

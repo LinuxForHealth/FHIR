@@ -24,12 +24,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
 public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWriter<Resource> {
-	private static final String JSON_FHIR_SUBTYPE = "json+fhir";
-	private static final String XML_FHIR_SUBTYPE = "xml+fhir";
 	
-	public static final String JSON_FHIR_MEDIA_TYPE = "application/" + JSON_FHIR_SUBTYPE;
-	public static final String XML_FHIR_MEDIA_TYPE = "application/" + XML_FHIR_SUBTYPE;
-
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
 		return supportsMediaType(mediaType);
@@ -74,9 +69,9 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 
 	private Format getFormat(MediaType mediaType) {
 		if (mediaType != null) {
-			if (mediaType.getSubtype().startsWith(JSON_FHIR_SUBTYPE)) {
+			if (mediaType.getSubtype().startsWith(com.ibm.watsonhealth.fhir.core.MediaType.SUBTYPE_JSON_FHIR)) {
 				return Format.JSON;
-			} else if (mediaType.getSubtype().startsWith(XML_FHIR_SUBTYPE)) {
+			} else if (mediaType.getSubtype().startsWith(com.ibm.watsonhealth.fhir.core.MediaType.SUBTYPE_XML_FHIR)) {
 				return Format.XML;
 			}
 		}

@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
+import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
@@ -76,7 +77,7 @@ public class FHIRResource {
     }
 	
 	@POST
-	@Consumes({ "application/json+fhir" })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}")
 	public Response create(Resource resource) {
         if (log.isLoggable(Level.FINE)) {
@@ -109,7 +110,7 @@ public class FHIRResource {
 	}
 	
 	@GET
-	@Produces({ "application/json+fhir" })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}/{id}")
 	public Resource read(@PathParam("type") String type, @PathParam("id") String id) throws ClassNotFoundException {
         if (log.isLoggable(Level.FINE)) {
@@ -134,7 +135,7 @@ public class FHIRResource {
 	}
 	
 	@GET
-	@Produces({ "application/json+fhir" })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}/{id}/_history/{vid}")
 	public Resource vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) {
         if (log.isLoggable(Level.FINE)) {
@@ -158,7 +159,7 @@ public class FHIRResource {
 	}
 	
 	@PUT
-	@Consumes({ "application/json+fhir" })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}/{id}")
 	public Response update(@PathParam("id") String id, Resource resource) {
         if (log.isLoggable(Level.FINE)) {
@@ -190,7 +191,7 @@ public class FHIRResource {
 	}
 	
 	@GET
-	@Produces({ "application/json+fhir" })
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}")
 	public Response search(@PathParam("type") String type, @Context UriInfo uriInfo) {
         if (log.isLoggable(Level.FINE)) {
