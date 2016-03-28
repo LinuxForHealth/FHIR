@@ -77,7 +77,7 @@ public class FHIRResource {
     }
 	
 	@POST
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
+	@Consumes({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}")
 	public Response create(Resource resource) {
         if (log.isLoggable(Level.FINE)) {
@@ -110,7 +110,7 @@ public class FHIRResource {
 	}
 	
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
+	@Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}/{id}")
 	public Resource read(@PathParam("type") String type, @PathParam("id") String id) throws ClassNotFoundException {
         if (log.isLoggable(Level.FINE)) {
@@ -135,7 +135,7 @@ public class FHIRResource {
 	}
 	
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
+	@Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}/{id}/_history/{vid}")
 	public Resource vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) {
         if (log.isLoggable(Level.FINE)) {
@@ -159,7 +159,7 @@ public class FHIRResource {
 	}
 	
 	@PUT
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
+	@Consumes({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}/{id}")
 	public Response update(@PathParam("id") String id, Resource resource) {
         if (log.isLoggable(Level.FINE)) {
@@ -191,7 +191,7 @@ public class FHIRResource {
 	}
 	
 	@GET
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_FHIR })
+	@Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
 	@Path("{type}")
 	public Response search(@PathParam("type") String type, @Context UriInfo uriInfo) {
         if (log.isLoggable(Level.FINE)) {
