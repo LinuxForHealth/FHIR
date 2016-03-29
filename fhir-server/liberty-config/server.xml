@@ -49,6 +49,9 @@ CODE_REMOVED
 CODE_REMOVED
     </dataSource>
     
+    <!-- This required JNDI entry specifies the name of the FHIRPersistence implementation class to be used by the server -->
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.impl.FHIRPersistenceJPAImpl" jndiName="com.ibm.watsonhealth.fhir.persistence.FHIRPersistence.classname" id="fhirPersistenceImpl"/>
+
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
 
@@ -60,8 +63,9 @@ CODE_REMOVED
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
-    <!-- Modify the tracestring below as needed to enable/disable tracing -->
     <!-- 
-        <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=fine" traceFormat="BASIC"></logging>
+        Modify the trace string below as needed to enable/disable tracing. 
+        Hint: com.ibm.watsonhealth.fhir.*=finer 
     -->
+    <logging traceSpecification="*=info" traceFormat="BASIC"/>
 </server>

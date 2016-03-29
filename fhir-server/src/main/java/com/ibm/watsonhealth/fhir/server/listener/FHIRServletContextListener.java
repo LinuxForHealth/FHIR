@@ -13,6 +13,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
 @WebListener
@@ -25,11 +26,16 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
-			// put a validator instance in the servlet context so that it can be shared
-			// between FHIRResource class instances
+			// For any singleton resources that need to be shared among our resource class instances,
+		    // we'll add them to our servlet context so that the resource class can easily retrieve them.
+		    
+		    // Set the shared Validator.
 			event.getServletContext().setAttribute(Validator.class.getName(), new Validator());
-		} catch (Exception e) {
 			
+			// Set the shared FHIRPersistenceHelper.
+            event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
+		} catch (Exception e) {
+			// ignore exceptions here
 		} finally {
 			if (log.isLoggable(Level.FINE)) {
 				log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
@@ -37,7 +43,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 		}
 	}
 
-	@Override
+    @Override
 	public void contextDestroyed(ServletContextEvent event) {
 		if (log.isLoggable(Level.FINE)) {
 			log.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
