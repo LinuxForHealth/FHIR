@@ -64,9 +64,7 @@ public class FHIRUtil {
 	private static final String DEFAULT_NS_PREFIX = "";
 	private static final String XHTML_NS_PREFIX = "xhtml";
 	private static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
-	private static final String APPLICATION_XML = "application/xml";
 	private static final String XML_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/xml-fhir-metadata.xml";	
-	private static final String APPLICATION_JSON = "application/json";
 	private static final String JSON_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/json-fhir-metadata.xml";
 	
 	public static enum Format {
@@ -110,7 +108,7 @@ public class FHIRUtil {
 				metadataSource = XML_FHIR_METADATA_SOURCE;
 			} else {
 				// JSON-specific configuration
-				properties.put(JAXBContextProperties.MEDIA_TYPE, APPLICATION_JSON);
+				properties.put(JAXBContextProperties.MEDIA_TYPE, MediaType.APPLICATION_JSON);
 				properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
 				metadataSource = JSON_FHIR_METADATA_SOURCE;
 			}
@@ -311,6 +309,15 @@ public class FHIRUtil {
 	
 	public static boolean isValidResourceTypeName(String name) {
 		return resourceTypeNames.contains(name);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Class<? extends Resource> getResourceType(String name) {
+		try {
+			return (Class<? extends Resource>) Class.forName("com.ibm.watsonhealth.fhir.model." + name);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("Resource type for name: " + name + " not found.");
+		}
 	}
 	
 	private static final List<String> resourceTypeNames = Arrays.asList(

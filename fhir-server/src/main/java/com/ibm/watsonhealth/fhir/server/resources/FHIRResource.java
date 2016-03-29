@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.server.resources;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
+
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -54,10 +57,13 @@ public class FHIRResource {
 	private FHIRPersistence persistence = null;
 	private ObjectFactory objectFactory = new ObjectFactory();
 	
+	@Context
+	private ServletContext context;
+	
 	public FHIRResource() {
 	    log.finest("In FHIRResource() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
 	    log.finest(FHIRUtilities.getCurrentStacktrace());
-	    validator = new Validator();
+//	    validator = new Validator();
 	}
 	
 	/**
@@ -72,7 +78,6 @@ public class FHIRResource {
             }
             persistence = persistenceHelper.getFHIRPersistenceImpl();
         }
-        
         return persistence;
     }
 	
@@ -85,7 +90,7 @@ public class FHIRResource {
         }
         Class<? extends Resource> resourceType = resource.getClass();
 		try {
-			List<String> messages = validator.validate(resource);
+			List<String> messages = getValidator().validate(resource);
 			if (!messages.isEmpty()) {
 				StringBuffer buffer = new StringBuffer();
 				for (String message : messages) {
@@ -96,7 +101,6 @@ public class FHIRResource {
 			} else {
 				getPersistenceMgr().create(resource);
 			}
-			
 	        String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();
 	        return Response.created(URI.create(resourceType.getSimpleName() + "/" + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
 		} catch (Exception e) {
@@ -167,7 +171,7 @@ public class FHIRResource {
         }
 		try {
 	        Class<? extends Resource> resourceType = resource.getClass();
-			List<String> messages = validator.validate(resource);
+			List<String> messages = getValidator().validate(resource);
 			if (!messages.isEmpty()) {
 				StringBuffer buffer = new StringBuffer();
 				for (String message : messages) {
@@ -234,11 +238,10 @@ public class FHIRResource {
 		return bundle;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Class<? extends Resource> getResourceType(String type) {
-		try {
-			return (Class<? extends Resource>) Class.forName("com.ibm.watsonhealth.fhir.model." + type);
-		} catch (ClassNotFoundException e) { }
-		return Resource.class;
+	private Validator getValidator() {
+		if (validator == null) {
+			validator = (Validator) context.getAttribute(Validator.class.getName());
+		}
+		return validator;
 	}
 }
