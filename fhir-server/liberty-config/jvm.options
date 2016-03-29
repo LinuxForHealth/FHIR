@@ -1,0 +1,19 @@
+# ----------------------------------------------------------------------------
+# (C) Copyright IBM Corp. 2016,2017,2018,2019
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ----------------------------------------------------------------------------
+
+# WebSphere Application Server Liberty Profile
+# This file contains options that are passed directly to the JVM on startup
+# See the InfoCenter for full documentation
+
+# Uncomment the following line to enable verbose output for class loading
+#-verbose:class
+
+# Uncomment the following line to enable debug messages during VM bootstrapping
+#-Dws.ext.debug
+
+# This property is used to select the FHIR persistence implementation 
+# to be used by the FHIR server
+-Dcom.ibm.watsonhealth.fhir.persistence.classname=com.ibm.watsonhealth.fhir.persistence.jpa.impl.FHIRPersistenceJPAImpl
