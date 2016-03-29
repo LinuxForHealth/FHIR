@@ -17,12 +17,12 @@ import com.ibm.watsonhealth.fhir.validation.Validator;
 
 @WebListener
 public class FHIRServletContextListener implements ServletContextListener {
-	private static final Logger logger = Logger.getLogger(FHIRServletContextListener.class.getName());
+	private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		if (logger.isLoggable(Level.FINE)) {
-			logger.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
+		if (log.isLoggable(Level.FINE)) {
+			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
 			// put a validator instance in the servlet context so that it can be shared
@@ -31,23 +31,23 @@ public class FHIRServletContextListener implements ServletContextListener {
 		} catch (Exception e) {
 			
 		} finally {
-			if (logger.isLoggable(Level.FINE)) {
-				logger.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
+			if (log.isLoggable(Level.FINE)) {
+				log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
 			}
 		}
 	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {
-		if (logger.isLoggable(Level.FINE)) {
-			logger.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
+		if (log.isLoggable(Level.FINE)) {
+			log.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
 		}
 		try {
 			// TODO
 		} catch (Exception e) {
 		} finally {
-			if (logger.isLoggable(Level.FINE)) {
-				logger.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
+			if (log.isLoggable(Level.FINE)) {
+				log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
 			}
 		}
 	}
