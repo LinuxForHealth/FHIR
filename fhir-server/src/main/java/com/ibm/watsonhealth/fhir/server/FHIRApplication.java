@@ -22,7 +22,7 @@ public class FHIRApplication extends Application {
     private Set<Class<?>> classes = null;
 
     public FHIRApplication() {
-        log.fine("In FHIRApplication ctor.");
+        log.finest("In FHIRApplication ctor.");
     }
 
     @Override
