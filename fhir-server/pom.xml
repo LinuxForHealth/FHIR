@@ -33,11 +33,13 @@
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
+	
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-provider</artifactId>
@@ -49,15 +51,39 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>eclipselink</artifactId>
+                    <artifactId>org.eclipse.persistence.moxy</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-memory</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>org.eclipse.persistence.moxy</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-persistence-jpa</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>eclipselink</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>org.eclipse.persistence.moxy</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-validation</artifactId>
@@ -65,10 +91,11 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>eclipselink</artifactId>
+                    <artifactId>org.eclipse.persistence.moxy</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+        
 		<dependency>
 			<groupId>com.ibm.tools.target</groupId>
 			<artifactId>was-liberty</artifactId>
@@ -76,6 +103,7 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<build>
