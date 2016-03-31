@@ -46,7 +46,6 @@ import com.ibm.watsonhealth.fhir.validation.Validator;
 @Path("/")
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
-
     private static final String NL = System.getProperty("line.separator");
 
     private Validator validator = null;
@@ -163,6 +162,23 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
+    
+    @GET
+    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Path("{type}/{id}")
+    public Response history(@PathParam("type") String type, @PathParam("id") String id) {
+        log.entering(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            Class<? extends Resource> resourceType = getResourceType(type);
+            List<Resource> resources = getPersistenceImpl().history(resourceType, id);
+            Bundle bundle = createBundle(resources);
+            return Response.ok(bundle).build();
+        } catch (FHIRPersistenceException e) {
+            throw new WebApplicationException(e);
+        } finally {
+            log.exiting(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
 
     @GET
     @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
@@ -172,10 +188,8 @@ public class FHIRResource {
         try {
             Class<? extends Resource> resourceType = getResourceType(type);
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
-
             List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             List<Resource> resources = getPersistenceImpl().search(resourceType, searchParameters);
-
             Bundle bundle = createBundle(resources);
             return Response.ok(bundle).build();
         } catch (FHIRPersistenceException e) {
@@ -231,7 +245,6 @@ public class FHIRResource {
             persistence = getPersistenceHelper().getFHIRPersistenceImplementation();
             log.fine("Obtained new  FHIRPersistence instance: " + persistence);
         }
-
         return persistence;
     }
 }

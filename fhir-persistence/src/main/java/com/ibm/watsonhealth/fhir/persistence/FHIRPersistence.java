@@ -17,5 +17,6 @@ public interface FHIRPersistence {
 	Resource vread(Class<? extends Resource> resourceType, String logicalId, String versionId) throws FHIRPersistenceException;
 	void update(String logicalId, Resource resource) throws FHIRPersistenceException;
 	void delete(String logicalId) throws FHIRPersistenceException;
+	List<Resource> history(Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
 	List<Resource> search(Class<? extends Resource> resourceType, List<Parameter> searchParameters) throws FHIRPersistenceException;
 }
