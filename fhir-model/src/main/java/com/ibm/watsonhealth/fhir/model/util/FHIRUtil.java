@@ -114,7 +114,8 @@ public class FHIRUtil {
 			}
 			// common configuration
 			properties.put(JAXBContextProperties.OXM_METADATA_SOURCE, metadataSource);
-			return JAXBContext.newInstance(new Class[] { Resource.class }, properties);
+//			return JAXBContext.newInstance(new Class[] { Resource.class }, properties);
+			return JAXBContext.newInstance("com.ibm.watsonhealth.fhir.model", ObjectFactory.class.getClassLoader(), properties);
 		} catch (JAXBException e) {
 			throw new Error(e);
 		}
@@ -147,6 +148,18 @@ public class FHIRUtil {
 		return binder;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private static <T extends Resource> JAXBElement<T> wrap(T resource) {
+		try {
+			Class<? extends Resource> resourceType = resource.getClass();
+			Method method = objectFactory.getClass().getDeclaredMethod("create" + resourceType.getSimpleName(), resourceType);
+			return (JAXBElement<T>) method.invoke(objectFactory, resource);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	private static Unmarshaller createUnmarshaller(Format format) throws JAXBException {
 		JAXBContext context = getContext(format);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -158,22 +171,40 @@ public class FHIRUtil {
 		// TODO: add format specific configuration here
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(format);
-		JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(stream), resourceType);
-		return element.getValue();
+		if (Format.XML.equals(format)) {
+			return (T) unmarshaller.unmarshal(stream);
+		} else {
+			JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(stream), resourceType);
+			return element.getValue();
+		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(format);
-		JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(reader), resourceType);
-		return element.getValue();
+		if (Format.XML.equals(format)) {
+			return (T) unmarshaller.unmarshal(reader);
+		} else {
+			JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(reader), resourceType);
+			return element.getValue();
+		}
 	}
 	
+	/*
 	public static <T extends Resource> T read(Class<T> resourceType, Node node) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(Format.XML);
 		JAXBElement<T> element = unmarshaller.unmarshal(new DOMSource(node), resourceType);
 		return element.getValue();
+	}
+	*/
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Resource> T read(Node node) throws JAXBException {
+		Unmarshaller unmarshaller = createUnmarshaller(Format.XML);
+		return (T) unmarshaller.unmarshal(new DOMSource(node));
 	}
 	
 	private static Marshaller createMarshaller(Format format) throws JAXBException {
@@ -293,18 +324,6 @@ public class FHIRUtil {
 	
 	public static Uri uri(String uri) {
 		return objectFactory.createUri().withValue(uri);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static <T extends Resource> JAXBElement<T> wrap(T resource) {
-		try {
-			Class<? extends Resource> resourceType = resource.getClass();
-			Method method = objectFactory.getClass().getDeclaredMethod("create" + resourceType.getSimpleName(), resourceType);
-			return (JAXBElement<T>) method.invoke(objectFactory, resource);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	public static boolean isValidResourceTypeName(String name) {

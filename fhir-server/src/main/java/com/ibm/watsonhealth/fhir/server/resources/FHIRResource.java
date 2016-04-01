@@ -165,7 +165,7 @@ public class FHIRResource {
     
     @GET
     @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
-    @Path("{type}/{id}")
+    @Path("{type}/{id}/_history")
     public Response history(@PathParam("type") String type, @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
