@@ -31,7 +31,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
@@ -204,7 +203,7 @@ public class FHIRUtil {
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Node node) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(Format.XML);
-		return (T) unmarshaller.unmarshal(new DOMSource(node));
+		return (T) unmarshaller.unmarshal(node);
 	}
 	
 	private static Marshaller createMarshaller(Format format) throws JAXBException {
