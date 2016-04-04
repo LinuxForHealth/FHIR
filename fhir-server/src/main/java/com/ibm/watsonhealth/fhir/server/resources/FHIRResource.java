@@ -38,6 +38,7 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
@@ -82,6 +83,8 @@ public class FHIRResource {
             String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();
             return Response.created(URI.create(resourceType.getSimpleName() + "/"
                     + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
+        } catch (FHIRPersistenceException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
         } catch (Exception e) {
             throw new WebApplicationException(e);
         } finally {
@@ -104,7 +107,7 @@ public class FHIRResource {
             }
             return resource;
         } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e);
+            throw new WebApplicationException(e.getMessage(), e, Response.Status.BAD_REQUEST);
         } finally {
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -128,7 +131,7 @@ public class FHIRResource {
             }
             return resource;
         } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e);
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
         } finally {
             log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
@@ -156,8 +159,10 @@ public class FHIRResource {
             String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();
             return Response.created(URI.create(resourceType.getSimpleName() + "/"
                     + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.METHOD_NOT_ALLOWED);
         } catch (Exception e) {
-            throw new WebApplicationException(e);
+            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
         } finally {
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
@@ -174,7 +179,7 @@ public class FHIRResource {
             Bundle bundle = createBundle(resources);
             return Response.ok(bundle).build();
         } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e);
+            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
         } finally {
             log.exiting(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
@@ -193,7 +198,7 @@ public class FHIRResource {
             Bundle bundle = createBundle(resources);
             return Response.ok(bundle).build();
         } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e);
+            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
         } finally {
             log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
