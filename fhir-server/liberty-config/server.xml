@@ -50,7 +50,8 @@ CODE_REMOVED
     
     <!-- This required JNDI entry specifies the name of the FHIRPersistence implementation class to be used by the server -->
     <!-- 
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.impl.FHIRPersistenceJPAImpl" jndiName="com.ibm.watsonhealth.fhir.persistence.FHIRPersistence.classname" id="fhirPersistenceImpl"/>
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.impl.FHIRPersistenceFactoryMemory" jndiName="com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceFactory.classname" id="fhirPersistenceFactory"/>
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.impl.FHIRPersistenceFactoryJPA" jndiName="com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceFactory.classname" id="fhirPersistenceFactory"/>
     -->
  
     <!-- Automatically expand WAR files and EAR files -->
