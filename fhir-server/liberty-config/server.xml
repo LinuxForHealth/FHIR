@@ -29,30 +29,13 @@ CODE_REMOVED
     
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
-        
-    <library id="derbyLib">
-        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
-    </library>
-
-    <library apiTypeVisibility="spec,third-party" id="moxyLib">
-        <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
-    </library>
-    
-    <dataSource id="derbyDB" jndiName="jdbc/fhirDerbyDB">
-        <jdbcDriver libraryRef="derbyLib"/>
-CODE_REMOVED
-    </dataSource>
-    
-    <dataSource id="derbyDBNonJTA" jndiName="jdbc/fhirDerbyDBNonJTA" transactional="false">
-        <jdbcDriver libraryRef="derbyLib"/>
-CODE_REMOVED
-    </dataSource>
-    
-    <!-- This required JNDI entry specifies the name of the FHIRPersistence implementation class to be used by the server -->
+   
+    <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
     <!-- 
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     -->
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.impl.FHIRPersistenceFactoryJPA" jndiName="com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceFactory.classname" id="fhirPersistenceFactory"/>
  
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
@@ -63,11 +46,46 @@ CODE_REMOVED
         <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib"/>
     </webApplication>
 
+    <library apiTypeVisibility="spec,third-party" id="moxyLib">
+        <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
+    </library>
+
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
     <!-- 
         Modify the trace string below as needed to enable/disable tracing. 
-        Hint: com.ibm.watsonhealth.fhir.*=finer 
+        <logging traceSpecification="*=info" traceFormat="BASIC"/>
+        <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
     -->
     <logging traceSpecification="*=info" traceFormat="BASIC"/>
-</server>
+
+    <!-- Derby-related configuration -->
+    <library id="derbyLib">
+        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
+    </library>
+
+    <dataSource id="derbyDB" jndiName="jdbc/fhirDerbyDB">
+        <jdbcDriver libraryRef="derbyLib"/>
+CODE_REMOVED
+    </dataSource>
+    
+    <dataSource id="derbyDBNonJTA" jndiName="jdbc/fhirDerbyDBNonJTA" transactional="false">
+        <jdbcDriver libraryRef="derbyLib"/>
+CODE_REMOVED
+    </dataSource>
+    
+    <!-- DB2-related configuration -->
+    <library id="db2Lib">
+        <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
+    </library>
+    
+    <dataSource id="db2DB" jndiName="jdbc/fhirDB2DB">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+    
+    <dataSource id="db2DBNonJTA" jndiName="jdbc/fhirDB2DBNonJTA" transactional="false">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+ </server>
