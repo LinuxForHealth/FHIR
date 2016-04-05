@@ -35,7 +35,7 @@ CODE_REMOVED
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     -->
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.impl.FHIRPersistenceFactoryJPA" jndiName="com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceFactory.classname" id="fhirPersistenceFactory"/>
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
  
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
