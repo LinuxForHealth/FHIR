@@ -190,14 +190,6 @@ public class SearchUtil {
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		
 		for (String name : queryParameters.keySet()) {
-			// get the definition for this search parameter based on resource type and name
-			SearchParameter searchParameter = name.startsWith("_") ? 
-					SearchUtil.getSearchParameter(Resource.class, name) : 
-					SearchUtil.getSearchParameter(resourceType, name);
-					
-			// get the type of parameter so that we can use it to parse the value
-			Type type = Type.fromValue(searchParameter.getType().getValue());
-			
 			// parse name
 			Modifier modifier = null;
 			String modifierResourceTypeName = null;
@@ -211,6 +203,14 @@ public class SearchUtil {
 				}
 				name = name.substring(0, name.indexOf(":"));
 			}
+			
+			// get the definition for this search parameter based on resource type and name
+			SearchParameter searchParameter = name.startsWith("_") ? 
+					SearchUtil.getSearchParameter(Resource.class, name) : 
+					SearchUtil.getSearchParameter(resourceType, name);
+					
+			// get the type of parameter so that we can use it to parse the value
+			Type type = Type.fromValue(searchParameter.getType().getValue());
 			
 			// parse values		
 			for (String value : queryParameters.get(name)) {
