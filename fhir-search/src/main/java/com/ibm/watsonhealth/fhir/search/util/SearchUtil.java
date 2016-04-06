@@ -190,31 +190,32 @@ public class SearchUtil {
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		
 		for (String name : queryParameters.keySet()) {
-			// parse name
+			// parse name into parameter name
+			String parameterName = name;
 			Modifier modifier = null;
 			String modifierResourceTypeName = null;
-			if (name.contains(":")) {
-				String mod = name.substring(name.indexOf(":") + 1);
+			if (parameterName.contains(":")) {
+				String mod = parameterName.substring(parameterName.indexOf(":") + 1);
 				if (FHIRUtil.isValidResourceTypeName(mod)) {
 					modifier = Modifier.TYPE;
 					modifierResourceTypeName = mod;
 				} else {
 					modifier = Modifier.fromValue(mod);
 				}
-				name = name.substring(0, name.indexOf(":"));
+				parameterName = parameterName.substring(0, parameterName.indexOf(":"));
 			}
 			
-			// get the definition for this search parameter based on resource type and name
-			SearchParameter searchParameter = name.startsWith("_") ? 
-					SearchUtil.getSearchParameter(Resource.class, name) : 
-					SearchUtil.getSearchParameter(resourceType, name);
+			// get the definition for this search parameter based on resource type and parameter name
+			SearchParameter searchParameter = parameterName.startsWith("_") ? 
+					SearchUtil.getSearchParameter(Resource.class, parameterName) : 
+					SearchUtil.getSearchParameter(resourceType, parameterName);
 					
 			// get the type of parameter so that we can use it to parse the value
 			Type type = Type.fromValue(searchParameter.getType().getValue());
 			
-			// parse values		
+			// parse values
 			for (String value : queryParameters.get(name)) {
-				Parameter parameter = new Parameter(type, name, modifier, modifierResourceTypeName);
+				Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
 				parameters.add(parameter);
 				for (String v : value.split(",")) {
 					ParameterValue parameterValue = new ParameterValue();
