@@ -5,7 +5,7 @@
 	<artifactId>fhir-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>FHIR Prototype</name>
+	<name>Watson Health Cloud FHIR Server</name>
 
 	<properties>
 	</properties>
@@ -17,6 +17,7 @@
 		<module>../fhir-persistence</module>
         <module>../fhir-persistence-memory</module>
         <module>../fhir-persistence-jpa</module>
+        <module>../fhir-persistence-cloudant</module>
 		<module>../fhir-provider</module>
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
