@@ -35,7 +35,7 @@ CODE_REMOVED
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     -->
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
  
     <!-- This JNDI entry specifies the schema name to be used by the JPA persistence layer -->
     <!-- Note: this is currently not working due to a bug in eclipselink.
