@@ -13,6 +13,7 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.w3c.dom.Node;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.Attachment;
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.Coding;
@@ -45,18 +47,33 @@ import com.ibm.watsonhealth.fhir.model.ContactPoint;
 import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
 import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
 import com.ibm.watsonhealth.fhir.model.Date;
+import com.ibm.watsonhealth.fhir.model.DateTime;
+import com.ibm.watsonhealth.fhir.model.Decimal;
 import com.ibm.watsonhealth.fhir.model.DomainResource;
 import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Id;
+import com.ibm.watsonhealth.fhir.model.Identifier;
+import com.ibm.watsonhealth.fhir.model.IdentifierUse;
+import com.ibm.watsonhealth.fhir.model.IdentifierUseList;
 import com.ibm.watsonhealth.fhir.model.Instant;
+import com.ibm.watsonhealth.fhir.model.Meta;
 import com.ibm.watsonhealth.fhir.model.Narrative;
+import com.ibm.watsonhealth.fhir.model.NarrativeStatus;
+import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
+import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.ObservationStatus;
 import com.ibm.watsonhealth.fhir.model.ObservationStatusList;
+import com.ibm.watsonhealth.fhir.model.PatientLink;
 import com.ibm.watsonhealth.fhir.model.Quantity;
+import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.RiskAssessmentPrediction;
+import com.ibm.watsonhealth.fhir.model.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.Uri;
+import com.ibm.watsonhealth.fhir.model.adapters.DivAdapter;
+import com.ibm.watsonhealth.fhir.model.xhtml.Div;
 
 public class FHIRUtil {
 	private static final String HL7_FHIR_NS_URI = "http://hl7.org/fhir";	
@@ -242,92 +259,196 @@ public class FHIRUtil {
 		marshaller.marshal(resource, node);
 	}
 	
-	public static Code code(String code) {
-		return objectFactory.createCode().withValue(code);
-	}
+    public static Attachment attachment(String contentType) {
+        return objectFactory.createAttachment().withContentType(code(contentType));
+    }
 
-	public static CodeableConcept codeableConcept(Coding...coding) {
-		return objectFactory.createCodeableConcept().withCoding(coding);
-	}
-	
-	public static CodeableConcept codeableConcept(String system, String code) {
-		return codeableConcept(coding(system, code));
-	}
+    public static com.ibm.watsonhealth.fhir.model.Base64Binary base64Binary(String b64Binary) {
+        return objectFactory.createBase64Binary().withValue(Base64.getDecoder().decode(b64Binary));
+    }
 
-	public static CodeableConcept codeableConcept(String system, String code, String display) {
-		return codeableConcept(coding(system, code, display));
-	}
-	
-	public static Coding coding(String system, String code) {
-		return objectFactory.createCoding().withSystem(uri(system)).withCode(code(code));
-	}
+    public static com.ibm.watsonhealth.fhir.model.Boolean bool(boolean b) {
+        return objectFactory.createBoolean().withValue(b);
+    }
 
-	public static Coding coding(String system, String code, String display) {
-		return objectFactory.createCoding().withSystem(uri(system)).withCode(code(code)).withDisplay(string(display));
-	}
+    public static Code code(String code) {
+        return objectFactory.createCode().withValue(code);
+    }
 
-	public static ContactPoint contactPoint(ContactPointSystemList system, String value) {
-		return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse());
-	}
+    public static CodeableConcept codeableConcept(Coding... coding) {
+        return objectFactory.createCodeableConcept().withCoding(coding);
+    }
 
-	public static ContactPoint contactPoint(ContactPointSystemList system, String value, ContactPointUseList use) {
-		return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse().withValue(use));
-	}
-	
-	public static Date date(String date) {
-		return objectFactory.createDate().withValue(date);
-	}
-	
-	public static HumanName humanName(String name) {
-		return objectFactory.createHumanName().withText(string(name));
-	}
-	
-	public static HumanName humanName(String given, String family) {
-		return objectFactory.createHumanName().withGiven(string(given)).withFamily(string(family));
-	}
+    public static CodeableConcept codeableConcept(String text) {
+        return objectFactory.createCodeableConcept().withText(string(text));
+    }
 
-	public static Id id(String s) {
-		return objectFactory.createId().withValue(s);
-	}
-	
-	public static Instant instant(long time) {
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.setTimeInMillis(time);
-		XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
-		return objectFactory.createInstant().withValue(xmlCalendar);
-	}
-	
-	public static ObservationStatus observationStatus(ObservationStatusList status) {
-		return objectFactory.createObservationStatus().withValue(status);
-	}
+    public static CodeableConcept codeableConcept(String system, String code) {
+        return codeableConcept(coding(system, code));
+    }
 
-	public static Quantity quantity(double value, String unit) {
-		return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit));
-	}
+    public static CodeableConcept codeableConceptWithCoding_Text(String system, String code, String text) {
+        return codeableConcept(coding(system, code)).withText(string(text));
+    }
 
-	public static Quantity quantity(double value, String system, String code) {
-		return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withSystem(uri(system)).withCode(code(code));
-	}
+    public static CodeableConcept codeableConcept(String system, String code, String display) {
+        return codeableConcept(coding(system, code, display));
+    }
 
-	public static Quantity quantity(double value, String unit, String system, String code) {
-		return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit)).withSystem(uri(system)).withCode(code(code));
-	}
+    public static Coding coding(String code) {
+        return objectFactory.createCoding().withCode(code(code));
+    }
 
-	public static Reference reference(String reference) {
-		return objectFactory.createReference().withReference(string(reference));
-	}
+    public static Coding coding(String system, String code) {
+        return objectFactory.createCoding().withSystem(uri(system)).withCode(code(code));
+    }
 
-	public static com.ibm.watsonhealth.fhir.model.String string(String s) {
-		return objectFactory.createString().withValue(s);
-	}
-	
-	public static Uri uri(String uri) {
-		return objectFactory.createUri().withValue(uri);
-	}
-	
-	public static boolean isValidResourceTypeName(String name) {
-		return resourceTypeNames.contains(name);
-	}
+    public static Coding coding(String system, String code, String display) {
+        return objectFactory.createCoding().withSystem(uri(system)).withCode(code(code)).withDisplay(string(display));
+    }
+
+    public static ContactPoint contactPoint(ContactPointSystemList system, String value) {
+        return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse());
+    }
+
+    public static ContactPoint contactPoint(ContactPointSystemList system, String value, ContactPointUseList use) {
+        return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse().withValue(use));
+    }
+
+    public static Date date(String date) {
+        return objectFactory.createDate().withValue(date);
+    }
+
+    public static DateTime dateTime(String dateTime) {
+        return objectFactory.createDateTime().withValue(dateTime);
+    }
+
+    public static Decimal decimal(double v) {
+        return objectFactory.createDecimal().withValue(new BigDecimal(v));
+    }
+
+    public static Div div(String s) {
+        try {
+            return new DivAdapter().unmarshal(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static HumanName humanName(String name) {
+        return objectFactory.createHumanName().withText(string(name));
+    }
+
+    public static HumanName humanName(String given, String family) {
+        return objectFactory.createHumanName().withGiven(string(given)).withFamily(string(family));
+    }
+
+    public static HumanName humanName(String given1, String given2, String family) {
+        return objectFactory.createHumanName().withGiven(string(given1)).withGiven(string(given2)).withFamily(string(family));
+    }
+
+    public static Id id(String s) {
+        return objectFactory.createId().withValue(s);
+    }
+
+    public static Identifier identifier(String value) {
+        return objectFactory.createIdentifier().withValue(string(value));
+    }
+
+    public static Identifier identifier(String value, String system) {
+        return objectFactory.createIdentifier().withValue(string(value)).withSystem(uri(system));
+    }
+
+    public static IdentifierUse identifierUse(String identifierUse) {
+        return objectFactory.createIdentifierUse().withValue(IdentifierUseList.fromValue(identifierUse));
+    }
+
+    public static Instant instant(long time) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(time);
+        XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
+        return objectFactory.createInstant().withValue(xmlCalendar);
+    }
+
+    public static CodeableConcept interpretation(String system, String code, String display, String text) {
+        return codeableConcept(coding(system, code, display)).withText(string(text));
+    }
+
+    public static Meta meta(long lastUpdated) {
+        return objectFactory.createMeta().withLastUpdated(instant(lastUpdated));
+    }
+
+    public static NarrativeStatus narrativeStatus(String narStatus) {
+        return objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.fromValue(narStatus));
+    }
+
+    public static ObservationComponent observationComponent(CodeableConcept c, Quantity q) {
+        return objectFactory.createObservationComponent().withCode(c).withValueQuantity(q);
+    }
+
+    public static ObservationStatus observationStatus(ObservationStatusList status) {
+        return objectFactory.createObservationStatus().withValue(status);
+    }
+
+    public static PatientLink patientLink(String otherReference) {
+        return objectFactory.createPatientLink().withOther(reference(otherReference));
+    }
+
+    public static Quantity quantity(double value, String unit) {
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit));
+    }
+
+    public static Quantity quantity(double value, String system, String code) {
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withSystem(uri(system)).withCode(code(code));
+    }
+
+    public static Quantity quantity(double value, String unit, String system, String code) {
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit)).withSystem(uri(system)).withCode(code(code));
+    }
+
+    public static Range range(String c, String unit, String system, double v) {
+        return objectFactory.createRange().withHigh(simpleQty(c, unit, system, v));
+    }
+
+    public static Reference reference(String reference) {
+        return objectFactory.createReference().withReference(string(reference));
+    }
+
+    public static Reference reference(String reference, String display) {
+        return objectFactory.createReference().withReference(string(reference)).withDisplay(string(display));
+    }
+
+    public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, double d, String c, String unit, String system, double v) {
+        return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConcept(outcomeText)).withProbabilityDecimal(decimal(d)).withWhenRange(range(c, unit, system, v));
+    }
+
+    public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, double d, String highC, String highUnit, String highSystem, double highV,
+        String lowC, String lowUnit, String lowSystem, double lowV) {
+        Range r = range(highC, highUnit, highSystem, highV);
+        r.setLow(simpleQty(lowC, lowUnit, lowSystem, lowV));
+        return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConcept(outcomeText)).withProbabilityDecimal(decimal(d)).withWhenRange(r);
+    }
+
+    public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, String c, String system, String pCode, String pDisplay, String pSystem) {
+        return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConceptWithCoding_Text(system, c, outcomeText)).withProbabilityCodeableConcept(codeableConcept(pSystem, pCode, pDisplay));
+    }
+
+    public static SimpleQuantity simpleQty(String c, String unit, String system, double v) {
+        return objectFactory.createSimpleQuantity().withCode(code(c)).withUnit(string(unit)).withSystem(uri(system)).withValue(decimal(v));
+    }
+
+    public static com.ibm.watsonhealth.fhir.model.String string(String s) {
+        return objectFactory.createString().withValue(s);
+    }
+
+    public static Uri uri(String uri) {
+        return objectFactory.createUri().withValue(uri);
+    }
+
+    public static boolean isValidResourceTypeName(String name) {
+        return resourceTypeNames.contains(name);
+    }
 	
 	@SuppressWarnings("unchecked")
 	public static Class<? extends Resource> getResourceType(String name) {
