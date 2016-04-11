@@ -11,19 +11,99 @@
 	</properties>
 
 	<modules>
-        <module>../fhir-core</module>
+		<module>../fhir-core</module>
 		<module>../fhir-tools</module>
 		<module>../fhir-model</module>
 		<module>../fhir-persistence</module>
-        <module>../fhir-persistence-memory</module>
-        <module>../fhir-persistence-jpa</module>
-        <module>../fhir-persistence-cloudant</module>
+		<module>../fhir-persistence-memory</module>
+		<module>../fhir-persistence-jpa</module>
+		<module>../fhir-persistence-cloudant</module>
 		<module>../fhir-provider</module>
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
 		<module>../fhir-server</module>
 	</modules>
+
+	<!-- This section "enforces" that we're using consistent versions of artifacts 
+		within our modules -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.ibm.tools.target</groupId>
+				<artifactId>was-liberty</artifactId>
+				<version>LATEST</version>
+				<type>pom</type>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-rs-client</artifactId>
+				<version>3.1.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>2.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>org.eclipse.persistence.moxy</artifactId>
+				<version>2.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.2</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.skyscreamer</groupId>
+				<artifactId>jsonassert</artifactId>
+				<version>1.3.0</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.googlecode.json-simple</groupId>
+				<artifactId>json-simple</artifactId>
+				<version>1.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>xmlunit</groupId>
+				<artifactId>xmlunit</artifactId>
+				<version>1.6</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.cloudant</groupId>
+				<artifactId>cloudant-client</artifactId>
+				<version>2.4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derbyclient</artifactId>
+				<version>10.12.1.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.transaction</groupId>
+				<artifactId>javax.transaction-api</artifactId>
+				<version>1.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.saxon</groupId>
+				<artifactId>Saxon-HE</artifactId>
+				<version>9.7.0-2</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
@@ -43,18 +123,18 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
-    <repositories>
-        <repository>
-            <id>maven online</id>
-            <name>maven repository</name>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>liberty maven online</id>
-            <name>liberty maven repository</name>
-            <url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/</url>
-        </repository>
-    </repositories>
+
+	<repositories>
+		<repository>
+			<id>maven online</id>
+			<name>maven repository</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>liberty maven online</id>
+			<name>liberty maven repository</name>
+			<url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/</url>
+		</repository>
+	</repositories>
 
 </project>
