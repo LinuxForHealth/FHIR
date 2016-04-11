@@ -76,6 +76,7 @@ public class FHIRResource {
                     buffer.append(message);
                     buffer.append(NL);
                 }
+                log.fine("Validation errors:\n" + buffer.toString());
                 return Response.status(Response.Status.BAD_REQUEST).entity(buffer.toString()).build();
             } else {
                 getPersistenceImpl().create(resource);
@@ -151,6 +152,7 @@ public class FHIRResource {
                     buffer.append(message);
                     buffer.append(NL);
                 }
+                log.fine("Validation errors:\n" + buffer.toString());
                 return Response.status(Response.Status.BAD_REQUEST).entity(buffer.toString()).build();
             } else {
                 getPersistenceImpl().update(id, resource);
