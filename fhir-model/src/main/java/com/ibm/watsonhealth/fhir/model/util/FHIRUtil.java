@@ -324,7 +324,7 @@ public class FHIRUtil {
     }
 
     public static Decimal decimal(double v) {
-        return objectFactory.createDecimal().withValue(new BigDecimal(v));
+        return objectFactory.createDecimal().withValue(BigDecimal.valueOf(v).stripTrailingZeros());
     }
 
     public static Div div(String s) {
@@ -396,15 +396,15 @@ public class FHIRUtil {
     }
 
     public static Quantity quantity(double value, String unit) {
-        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit));
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(BigDecimal.valueOf(value).stripTrailingZeros())).withUnit(string(unit));
     }
 
     public static Quantity quantity(double value, String system, String code) {
-        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withSystem(uri(system)).withCode(code(code));
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(BigDecimal.valueOf(value).stripTrailingZeros())).withSystem(uri(system)).withCode(code(code));
     }
 
     public static Quantity quantity(double value, String unit, String system, String code) {
-        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value))).withUnit(string(unit)).withSystem(uri(system)).withCode(code(code));
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(BigDecimal.valueOf(value).stripTrailingZeros())).withUnit(string(unit)).withSystem(uri(system)).withCode(code(code));
     }
 
     public static Range range(String c, String unit, String system, double v) {
