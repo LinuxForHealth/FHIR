@@ -277,7 +277,7 @@ public class SearchUtil {
 					case TOKEN: {
 						// token
 						// [parameter]=[system]|[code]
-						String[] parts = v.split("|");
+						String[] parts = v.split("\\|");
 						if (parts.length == 2) {
 							parameterValue.setValueSystem(parts[0]);
 							parameterValue.setValueCode(parts[1]);
