@@ -18,96 +18,103 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.ibm.watsonhealth</groupId>
-        <artifactId>fhir-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../fhir-parent</relativePath>
-    </parent>
+	<parent>
+		<groupId>com.ibm.watsonhealth</groupId>
+		<artifactId>fhir-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../fhir-parent</relativePath>
+	</parent>
 
-    <artifactId>fhir-server</artifactId>
+	<artifactId>fhir-server</artifactId>
 
 	<packaging>war</packaging>
-	
+
 	<name>fhir-server</name>
 	<url>http://maven.apache.org</url>
 
+	<properties>
+
+		<!-- We don't want maven to automatically run our tests since they require 
+			a server -->
+		<skipTests>true</skipTests>
+	</properties>
+
 	<dependencies>
-	
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-provider</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.ws.rs</groupId>
-                    <artifactId>javax.ws.rs-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>org.eclipse.persistence.moxy</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-persistence-memory</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>org.eclipse.persistence.moxy</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-persistence-jpa</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>eclipselink</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>org.eclipse.persistence.moxy</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-validation</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>org.eclipse.persistence.moxy</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-provider</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.ws.rs</groupId>
+					<artifactId>javax.ws.rs-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>org.eclipse.persistence.moxy</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-persistence-memory</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>org.eclipse.persistence.moxy</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-persistence-jpa</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>eclipselink</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>org.eclipse.persistence.moxy</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-validation</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>org.eclipse.persistence.moxy</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<dependency>
 			<groupId>com.ibm.tools.target</groupId>
 			<artifactId>was-liberty</artifactId>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-		
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
