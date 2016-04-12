@@ -287,7 +287,7 @@ public class FHIRUtil {
         return codeableConcept(coding(system, code));
     }
 
-    public static CodeableConcept codeableConceptWithCoding_Text(String system, String code, String text) {
+    public static CodeableConcept codeableConceptWithText(String system, String code, String text) {
         return codeableConcept(coding(system, code)).withText(string(text));
     }
 
@@ -323,8 +323,8 @@ public class FHIRUtil {
         return objectFactory.createDateTime().withValue(dateTime);
     }
 
-    public static Decimal decimal(double v) {
-        return objectFactory.createDecimal().withValue(BigDecimal.valueOf(v));
+    public static Decimal decimal(Number value) {
+        return objectFactory.createDecimal().withValue(new BigDecimal(value.toString()));
     }
 
     public static Div div(String s) {
@@ -370,12 +370,21 @@ public class FHIRUtil {
         XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
         return objectFactory.createInstant().withValue(xmlCalendar);
     }
+    
+    public static Instant instant(String time) {
+        XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(time);
+        return objectFactory.createInstant().withValue(xmlCalendar);
+    }
 
     public static CodeableConcept interpretation(String system, String code, String display, String text) {
         return codeableConcept(coding(system, code, display)).withText(string(text));
     }
 
     public static Meta meta(long lastUpdated) {
+        return objectFactory.createMeta().withLastUpdated(instant(lastUpdated));
+    }
+    
+    public static Meta meta(String lastUpdated) {
         return objectFactory.createMeta().withLastUpdated(instant(lastUpdated));
     }
 
@@ -395,20 +404,20 @@ public class FHIRUtil {
         return objectFactory.createPatientLink().withOther(reference(otherReference));
     }
 
-    public static Quantity quantity(double value, String unit) {
-        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(BigDecimal.valueOf(value))).withUnit(string(unit));
+    public static Quantity quantity(Number value, String unit) {
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value.toString()))).withUnit(string(unit));
     }
 
-    public static Quantity quantity(double value, String system, String code) {
-        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(BigDecimal.valueOf(value))).withSystem(uri(system)).withCode(code(code));
+    public static Quantity quantity(Number value, String system, String code) {
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value.toString()))).withSystem(uri(system)).withCode(code(code));
     }
 
-    public static Quantity quantity(double value, String unit, String system, String code) {
-        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(BigDecimal.valueOf(value))).withUnit(string(unit)).withSystem(uri(system)).withCode(code(code));
+    public static Quantity quantity(Number value, String unit, String system, String code) {
+        return objectFactory.createQuantity().withValue(objectFactory.createDecimal().withValue(new BigDecimal(value.toString()))).withUnit(string(unit)).withSystem(uri(system)).withCode(code(code));
     }
 
-    public static Range range(String c, String unit, String system, double v) {
-        return objectFactory.createRange().withHigh(simpleQty(c, unit, system, v));
+    public static Range range(String code, String unit, String system, Number value) {
+        return objectFactory.createRange().withHigh(simpleQty(code, unit, system, value));
     }
 
     public static Reference reference(String reference) {
@@ -419,23 +428,22 @@ public class FHIRUtil {
         return objectFactory.createReference().withReference(string(reference)).withDisplay(string(display));
     }
 
-    public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, double d, String c, String unit, String system, double v) {
+    public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, Number d, String c, String unit, String system, Number v) {
         return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConcept(outcomeText)).withProbabilityDecimal(decimal(d)).withWhenRange(range(c, unit, system, v));
     }
 
-    public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, double d, String highC, String highUnit, String highSystem, double highV,
-        String lowC, String lowUnit, String lowSystem, double lowV) {
+    public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, Number d, String highC, String highUnit, String highSystem, Number highV, String lowC, String lowUnit, String lowSystem, Number lowV) {
         Range r = range(highC, highUnit, highSystem, highV);
         r.setLow(simpleQty(lowC, lowUnit, lowSystem, lowV));
         return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConcept(outcomeText)).withProbabilityDecimal(decimal(d)).withWhenRange(r);
     }
 
     public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, String c, String system, String pCode, String pDisplay, String pSystem) {
-        return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConceptWithCoding_Text(system, c, outcomeText)).withProbabilityCodeableConcept(codeableConcept(pSystem, pCode, pDisplay));
+        return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConceptWithText(system, c, outcomeText)).withProbabilityCodeableConcept(codeableConcept(pSystem, pCode, pDisplay));
     }
 
-    public static SimpleQuantity simpleQty(String c, String unit, String system, double v) {
-        return objectFactory.createSimpleQuantity().withCode(code(c)).withUnit(string(unit)).withSystem(uri(system)).withValue(decimal(v));
+    public static SimpleQuantity simpleQty(String code, String unit, String system, Number value) {
+        return objectFactory.createSimpleQuantity().withCode(code(code)).withUnit(string(unit)).withSystem(uri(system)).withValue(decimal(value));
     }
 
     public static com.ibm.watsonhealth.fhir.model.String string(String s) {
