@@ -39,10 +39,18 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.w3c.dom.Node;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.Address;
+import com.ibm.watsonhealth.fhir.model.AddressUse;
+import com.ibm.watsonhealth.fhir.model.AddressUseList;
 import com.ibm.watsonhealth.fhir.model.Attachment;
+import com.ibm.watsonhealth.fhir.model.CarePlanParticipant;
+import com.ibm.watsonhealth.fhir.model.CarePlanStatus;
+import com.ibm.watsonhealth.fhir.model.CarePlanStatusList;
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.Coding;
+import com.ibm.watsonhealth.fhir.model.ConditionVerificationStatus;
+import com.ibm.watsonhealth.fhir.model.ConditionVerificationStatusList;
 import com.ibm.watsonhealth.fhir.model.ContactPoint;
 import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
 import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
@@ -50,13 +58,19 @@ import com.ibm.watsonhealth.fhir.model.Date;
 import com.ibm.watsonhealth.fhir.model.DateTime;
 import com.ibm.watsonhealth.fhir.model.Decimal;
 import com.ibm.watsonhealth.fhir.model.DomainResource;
+import com.ibm.watsonhealth.fhir.model.Extension;
+import com.ibm.watsonhealth.fhir.model.GoalStatus;
+import com.ibm.watsonhealth.fhir.model.GoalStatusList;
 import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Id;
 import com.ibm.watsonhealth.fhir.model.Identifier;
 import com.ibm.watsonhealth.fhir.model.IdentifierUse;
 import com.ibm.watsonhealth.fhir.model.IdentifierUseList;
 import com.ibm.watsonhealth.fhir.model.Instant;
+import com.ibm.watsonhealth.fhir.model.Integer;
 import com.ibm.watsonhealth.fhir.model.Meta;
+import com.ibm.watsonhealth.fhir.model.NameUse;
+import com.ibm.watsonhealth.fhir.model.NameUseList;
 import com.ibm.watsonhealth.fhir.model.Narrative;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
@@ -64,13 +78,20 @@ import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.ObservationStatus;
 import com.ibm.watsonhealth.fhir.model.ObservationStatusList;
+import com.ibm.watsonhealth.fhir.model.PatientAnimal;
+import com.ibm.watsonhealth.fhir.model.PatientCommunication;
+import com.ibm.watsonhealth.fhir.model.PatientContact;
 import com.ibm.watsonhealth.fhir.model.PatientLink;
+import com.ibm.watsonhealth.fhir.model.Period;
 import com.ibm.watsonhealth.fhir.model.Quantity;
 import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.RiskAssessmentPrediction;
 import com.ibm.watsonhealth.fhir.model.SimpleQuantity;
+import com.ibm.watsonhealth.fhir.model.TimingRepeat;
+import com.ibm.watsonhealth.fhir.model.UnitsOfTime;
+import com.ibm.watsonhealth.fhir.model.UnitsOfTimeList;
 import com.ibm.watsonhealth.fhir.model.Uri;
 import com.ibm.watsonhealth.fhir.model.adapters.DivAdapter;
 import com.ibm.watsonhealth.fhir.model.xhtml.Div;
@@ -230,6 +251,10 @@ public class FHIRUtil {
 		return marshaller;
 	}
 	
+	public static ConditionVerificationStatus conditionVerificationStatus(String s) {
+		return objectFactory.createConditionVerificationStatus().withValue(ConditionVerificationStatusList.fromValue("confirmed"));
+	}
+	
 	private static void configureMarshaller(Marshaller marshaller, Format format) throws PropertyException {
 		// common configuration
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -269,6 +294,14 @@ public class FHIRUtil {
 
     public static com.ibm.watsonhealth.fhir.model.Boolean bool(boolean b) {
         return objectFactory.createBoolean().withValue(b);
+    }
+    
+    public static CarePlanParticipant carePlanParticipant(CodeableConcept c, Reference r) {
+    	return objectFactory.createCarePlanParticipant().withRole(c).withMember(r);
+    }
+    
+    public static CarePlanStatus carePlanStatus(String s) {
+    	return objectFactory.createCarePlanStatus().withValue(CarePlanStatusList.fromValue(s));
     }
 
     public static Code code(String code) {
@@ -314,6 +347,22 @@ public class FHIRUtil {
     public static ContactPoint contactPoint(ContactPointSystemList system, String value, ContactPointUseList use) {
         return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse().withValue(use));
     }
+    
+    public static Address address(String city, String country, String line, String postalCode, String use) {
+        return objectFactory.createAddress().withCity(string(city))
+        								.withCountry(string(country))
+        								.withLine(string(line))
+        								.withPostalCode(string(postalCode))
+        								.withUse(addressUse(use));
+    }
+    
+    public static PatientCommunication patientCommunication(CodeableConcept c, Boolean b) {
+        return objectFactory.createPatientCommunication().withLanguage(c).withPreferred(bool(b));
+    }    
+    
+    public static AddressUse addressUse(String a) {
+        return objectFactory.createAddressUse().withValue(AddressUseList.fromValue(a));
+    }
 
     public static Date date(String date) {
         return objectFactory.createDate().withValue(date);
@@ -335,6 +384,14 @@ public class FHIRUtil {
         }
         return null;
     }
+    
+    public static Extension extension(String url) {
+        return objectFactory.createExtension().withUrl(url);
+    }
+    
+    public static GoalStatus goalStatus(String s) {
+        return objectFactory.createGoalStatus().withValue(GoalStatusList.fromValue(s));
+    }
 
     public static HumanName humanName(String name) {
         return objectFactory.createHumanName().withText(string(name));
@@ -347,6 +404,37 @@ public class FHIRUtil {
     public static HumanName humanName(String given1, String given2, String family) {
         return objectFactory.createHumanName().withGiven(string(given1)).withGiven(string(given2)).withFamily(string(family));
     }
+    
+    public static HumanName humanName(String given1, String given2, String family, String prefix, String suffix, String text, String use) {
+        return objectFactory.createHumanName().withGiven(string(given1))
+        									.withGiven(string(given2))
+        									.withFamily(string(family))
+        									.withPrefix(string(prefix))
+        									.withSuffix(string(suffix))
+        									.withText(string(text))
+        									.withUse(nameUse(use));
+    }
+    
+    public static HumanName humanName(String given, String family, String prefix, String suffix, String text, String use) {
+        return objectFactory.createHumanName().withGiven(string(given))
+        									.withFamily(string(family))
+        									.withPrefix(string(prefix))
+        									.withSuffix(string(suffix))
+        									.withText(string(text))
+        									.withUse(nameUse(use));
+    }
+    
+    public static NameUse nameUse(String use) {
+        return objectFactory.createNameUse().withValue(NameUseList.fromValue(use));
+    }
+    
+    public static Period period(String d) {
+        return objectFactory.createPeriod().withStart(dateTime(d));
+    }
+    
+    public static PatientAnimal patientAnimal(CodeableConcept c) {
+        return objectFactory.createPatientAnimal().withBreed(c);
+    }
 
     public static Id id(String s) {
         return objectFactory.createId().withValue(s);
@@ -358,6 +446,10 @@ public class FHIRUtil {
 
     public static Identifier identifier(String value, String system) {
         return objectFactory.createIdentifier().withValue(string(value)).withSystem(uri(system));
+    }
+    
+    public static Identifier identifier(String value, String system, String type, String use) {
+        return objectFactory.createIdentifier().withValue(string(value)).withSystem(uri(system)).withType(codeableConcept(type)).withUse(identifierUse(use));
     }
 
     public static IdentifierUse identifierUse(String identifierUse) {
@@ -374,6 +466,10 @@ public class FHIRUtil {
     public static Instant instant(String time) {
         XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(time);
         return objectFactory.createInstant().withValue(xmlCalendar);
+    }
+    
+    public static Integer integer(int i) {
+        return objectFactory.createInteger().withValue(i);
     }
 
     public static CodeableConcept interpretation(String system, String code, String display, String text) {
@@ -427,6 +523,10 @@ public class FHIRUtil {
     public static Reference reference(String reference, String display) {
         return objectFactory.createReference().withReference(string(reference)).withDisplay(string(display));
     }
+    
+    public static PatientContact patientContact(CodeableConcept r, ContactPoint pc, HumanName h) {
+        return objectFactory.createPatientContact().withRelationship(r).withTelecom(pc).withName(h);
+    }
 
     public static RiskAssessmentPrediction riskAssmtPred(String outcomeText, Number d, String c, String unit, String system, Number v) {
         return objectFactory.createRiskAssessmentPrediction().withOutcome(codeableConcept(outcomeText)).withProbabilityDecimal(decimal(d)).withWhenRange(range(c, unit, system, v));
@@ -449,9 +549,20 @@ public class FHIRUtil {
     public static com.ibm.watsonhealth.fhir.model.String string(String s) {
         return objectFactory.createString().withValue(s);
     }
+    
+    public static TimingRepeat timingRepeat(int n1, int n2, String s) {
+    	return objectFactory.createTimingRepeat()
+				.withFrequency(integer(n1))
+				.withPeriod(decimal(n2))
+				.withPeriodUnits(unitsOfTime(s));
+    }
 
     public static Uri uri(String uri) {
         return objectFactory.createUri().withValue(uri);
+    }
+    
+    public static UnitsOfTime unitsOfTime(String s) {
+    	return objectFactory.createUnitsOfTime().withValue(UnitsOfTimeList.fromValue(s));
     }
 
     public static boolean isValidResourceTypeName(String name) {
