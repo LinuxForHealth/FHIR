@@ -356,6 +356,15 @@ public class FHIRUtil {
         								.withUse(addressUse(use));
     }
     
+    public static Address address(String city, String state, String line, String postalCode, String use, Extension e) {
+        return objectFactory.createAddress().withCity(string(city))
+        								.withState(string(state))
+        								.withLine(string(line))
+        								.withPostalCode(string(postalCode))
+        								.withUse(addressUse(use))
+        								.withExtension(e);
+    }    
+    
     public static PatientCommunication patientCommunication(CodeableConcept c, Boolean b) {
         return objectFactory.createPatientCommunication().withLanguage(c).withPreferred(bool(b));
     }    
@@ -387,6 +396,10 @@ public class FHIRUtil {
     
     public static Extension extension(String url) {
         return objectFactory.createExtension().withUrl(url);
+    }
+    
+    public static Extension extension(String url, CodeableConcept vc) {
+        return objectFactory.createExtension().withUrl(url).withValueCodeableConcept(vc);
     }
     
     public static GoalStatus goalStatus(String s) {
