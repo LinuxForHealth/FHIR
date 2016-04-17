@@ -62,7 +62,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-persistence-memory</artifactId>
@@ -74,7 +73,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-persistence-jpa</artifactId>
@@ -90,7 +88,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-validation</artifactId>
@@ -102,19 +99,27 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>com.ibm.tools.target</groupId>
 			<artifactId>was-liberty</artifactId>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
