@@ -120,6 +120,11 @@
             <artifactId>org.eclipse.persistence.moxy</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
