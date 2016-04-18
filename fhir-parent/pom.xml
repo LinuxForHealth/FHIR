@@ -102,6 +102,12 @@
 				<artifactId>Saxon-HE</artifactId>
 				<version>9.7.0-2</version>
 			</dependency>
+			<dependency>
+				<groupId>com.jayway.restassured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>2.5.0</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
