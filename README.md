@@ -15,3 +15,10 @@ To associate a commit with an RTC work item (task, defect, etc.), add "workitem 
 
         git commit -m "workitem 123456 - Finished the FHIR Server code"  
         (ignore any error messages that start with "remote:")
+        
+If you forget to include your work item number in your commit message, you can always "amend" the commit message
+by running this command prior to pushing your changes to the server:  
+
+        git commit --amend  
+        (this will open up your editor and allow you to change the commit message)
+        
