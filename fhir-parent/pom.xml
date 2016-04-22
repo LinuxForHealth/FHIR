@@ -23,6 +23,7 @@
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
 		<module>../fhir-server</module>
+        <module>../fhir-install</module>
 	</modules>
 
 	<!-- This section "enforces" that we're using consistent versions of artifacts 
@@ -35,6 +36,11 @@
 				<version>LATEST</version>
 				<type>pom</type>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.ibm.websphere.appserver.runtime</groupId>
+				<artifactId>wlp-javaee7</artifactId>
+				<version>8.5.5.9</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
@@ -90,6 +96,12 @@
 				<artifactId>derbyclient</artifactId>
 				<version>10.12.1.1</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.ibm.db2</groupId>
+				<!-- <artifactId>db2jcc</artifactId> -->
+				<artifactId>db2jcc4</artifactId>
+				<version>4.18.60</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.transaction</groupId>

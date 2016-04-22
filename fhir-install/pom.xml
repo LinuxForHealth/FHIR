@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ibm.watsonhealth</groupId>
+		<artifactId>fhir-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../fhir-parent</relativePath>
+	</parent>
+
+	<artifactId>fhir-install</artifactId>
+	
+	<packaging>pom</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+		</dependency>
+        <!-- 
+		<dependency>
+			<groupId>com.ibm.websphere.appserver.runtime</groupId>
+			<artifactId>wlp-javaee7</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.db2</groupId>
+			<artifactId>db2jcc4</artifactId>
+		</dependency>
+		 -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>fhir-server-distribution</id>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<finalName>fhir-server</finalName>
+							<outputDirectory>${publish.dir}</outputDirectory>
+							<appendAssemblyId>true</appendAssemblyId>
+							<attach>false</attach>
+							<descriptors>
+								<descriptor>src/main/assembly/distribution.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
