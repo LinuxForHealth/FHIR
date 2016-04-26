@@ -48,11 +48,19 @@ CODE_REMOVED
     <applicationMonitor updateTrigger="mbean"/>   
 
     <webApplication id="fhir-server" location="fhir-server.war" name="fhir-server">
-        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib"/>
+        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" privateLibraryRef="configResources"/>
     </webApplication>
 
     <library apiTypeVisibility="spec,third-party" id="moxyLib">
         <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
+    </library>
+    
+	<!-- 
+		This library element puts a specific directory in the classpath so that it can be used
+		for user-provided configuration files (e.g. extension-search-parameters.xml)
+	-->
+    <library id="configResources">
+    	<folder dir="${server.config.dir}/config"/>
     </library>
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
