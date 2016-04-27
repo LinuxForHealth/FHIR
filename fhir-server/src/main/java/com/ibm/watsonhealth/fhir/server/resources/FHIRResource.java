@@ -10,6 +10,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,6 +34,7 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
+import com.ibm.watsonhealth.fhir.model.Conformance;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
@@ -48,6 +50,10 @@ import com.ibm.watsonhealth.fhir.validation.Validator;
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     private static final String NL = System.getProperty("line.separator");
+    
+    private static final String FHIR_SERVER_VERSION = "0.1";
+    private static final String FHIR_SPEC_VERSION = "1.0.2";
+    
 
     private Validator validator = null;
     private FHIRPersistenceHelper persistenceHelper = null;
@@ -204,6 +210,37 @@ public class FHIRResource {
         } finally {
             log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
+    }
+
+    @GET
+    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Path("metadata")
+    public Resource metadata() throws ClassNotFoundException {
+        log.entering(this.getClass().getName(), "metadata()");
+        
+        try {
+            return buildConformanceStatement();
+        } finally {
+            if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "metadata()");
+            }
+        }
+    }
+    
+    /**
+     * Builds a Conformance resource instance which describes this server.
+     */
+    private Resource buildConformanceStatement() {
+        ObjectFactory of = new ObjectFactory();
+        
+        // TODO - we need to fill out more of the Conformance resource.
+        Conformance conformance = of.createConformance().
+                withDate(of.createDateTime().withValue(new Date().toString())).
+                withFormat(of.createCode().withValue("json"), of.createCode().withValue("xml")).
+                withVersion(of.createString().withValue(FHIR_SERVER_VERSION)).
+                withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION));
+        
+        return conformance;
     }
 
     private Bundle createBundle(List<Resource> resources) {
