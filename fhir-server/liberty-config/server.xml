@@ -10,32 +10,28 @@
         <feature>cdi-1.2</feature>
         <feature>jsonp-1.0</feature>
         <feature>beanValidation-1.1</feature>
+        <feature>jsf-2.2</feature>
     </featureManager>
 
     <!-- This template enables security. To get the full use of all the capabilities, a keystore and user registry are required. -->
     
-    <!-- For the keystore, default keys are generated and stored in a keystore. To provide the keystore password, generate an 
-         encoded password using bin/securityUtility encode and add it below in the password attribute of the keyStore element. 
-         Then uncomment the keyStore element. -->
+    <!-- FHIR Server's keystore (used with https endpoints) -->
 CODE_REMOVED
     
-    <!--For a user registry configuration, configure your user registry. For example, configure a basic user registry using the
-        basicRegistry element. Specify your own user name below in the name attribute of the user element. For the password, 
-        generate an encoded password using bin/securityUtility encode and add it in the password attribute of the user element. 
-        Then uncomment the user element. -->
+    <!-- Define a basic user registry. -->
     <basicRegistry id="basic" realm="BasicRealm"> 
 CODE_REMOVED
     </basicRegistry>
     
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
-    <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
+    <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" onError="FAIL"/>
    
     <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
     <!-- 
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     -->
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
+    <jndiEntry  value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
  
     <!-- This JNDI entry specifies the schema name to be used by the JPA persistence layer -->
     <!-- Note: this is currently not working due to a bug in eclipselink.
@@ -48,19 +44,11 @@ CODE_REMOVED
     <applicationMonitor updateTrigger="mbean"/>   
 
     <webApplication id="fhir-server" location="fhir-server.war" name="fhir-server">
-        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" privateLibraryRef="configResources"/>
+        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib"/>
     </webApplication>
 
     <library apiTypeVisibility="spec,third-party" id="moxyLib">
         <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
-    </library>
-    
-	<!-- 
-		This library element puts a specific directory in the classpath so that it can be used
-		for user-provided configuration files (e.g. extension-search-parameters.xml)
-	-->
-    <library id="configResources">
-    	<folder dir="${server.config.dir}/config"/>
     </library>
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
@@ -70,10 +58,8 @@ CODE_REMOVED
         <logging traceSpecification="*=info" traceFormat="BASIC"/>
         <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
     -->
-
+    
     <!-- Derby-related configuration -->
-    <!-- 
-    -->   
     <library id="derbyLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
@@ -88,8 +74,7 @@ CODE_REMOVED
 CODE_REMOVED
     </dataSource>
      
-    <!-- DB2-related configuration -->
-    <!-- 
+    <!-- DB2-related configuration
     <library id="db2Lib">
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
     </library>
