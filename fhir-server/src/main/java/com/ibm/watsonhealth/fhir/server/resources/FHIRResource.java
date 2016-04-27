@@ -51,6 +51,7 @@ public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     private static final String NL = System.getProperty("line.separator");
     
+    private static final String FHIR_SERVER_DESC = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SERVER_VERSION = "0.1";
     private static final String FHIR_SPEC_VERSION = "1.0.2";
     
@@ -238,7 +239,8 @@ public class FHIRResource {
                 withDate(of.createDateTime().withValue(new Date().toString())).
                 withFormat(of.createCode().withValue("json"), of.createCode().withValue("xml")).
                 withVersion(of.createString().withValue(FHIR_SERVER_VERSION)).
-                withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION));
+                withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION)).
+                withName(of.createString().withValue(FHIR_SERVER_DESC));
         
         return conformance;
     }
