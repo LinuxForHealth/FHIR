@@ -34,10 +34,22 @@
             <fileMode>0755</fileMode>
         </file>
 	</files>
-	<!-- <dependencySets> <dependencySet> <outputDirectory>lib</outputDirectory> 
-		<scope>test</scope> <directoryMode>0755</directoryMode> <fileMode>0755</fileMode> 
-		<useTransitiveFiltering>true</useTransitiveFiltering> <excludes> <exclude>*:bcmail*</exclude> 
-		<exclude>*:com.ibm.bluej*</exclude> <exclude>*:com.ibm.sai*</exclude> <exclude>*:com.ibm.watson*</exclude> 
-		<exclude>*:derby*</exclude> <exclude>*:geronimo*</exclude> <exclude>*:lucene*</exclude> 
-		<exclude>*:override*</exclude> </excludes> </dependencySet> </dependencySets> -->
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>server-runtime</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+                <include>com.ibm.websphere.appserver.runtime:wlp-javaee7:*</include>
+			</includes>
+		</dependencySet>
+        <dependencySet>
+            <outputDirectory>usr/shared/resources/lib/derby</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>org.apache.derby:derbyclient:*</include>
+            </includes>
+        </dependencySet>
+	</dependencySets>
 </assembly>

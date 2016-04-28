@@ -42,6 +42,7 @@
 				<groupId>com.ibm.websphere.appserver.runtime</groupId>
 				<artifactId>wlp-javaee7</artifactId>
 				<version>8.5.5.9</version>
+				<type>zip</type>
 			</dependency>
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
@@ -96,7 +97,6 @@
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbyclient</artifactId>
 				<version>10.12.1.1</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.ibm.db2</groupId>
@@ -156,8 +156,8 @@
 			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
 		<repository>
-			<id>liberty maven online</id>
-			<name>liberty maven repository</name>
+			<id>Liberty</id>
+			<name>Liberty Maven Repository</name>
 			<url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/</url>
 		</repository>
 	</repositories>
