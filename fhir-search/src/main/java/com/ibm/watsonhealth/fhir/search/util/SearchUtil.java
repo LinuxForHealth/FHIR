@@ -272,7 +272,7 @@ public class SearchUtil {
 	                            v = v.substring(2);
 	                            parameterValue.setPrefix(prefix);
 	                        }
-	                        String[] parts = v.split("|");
+	                        String[] parts = v.split("\\|");
 	                        String number = parts[0];
 	                        parameterValue.setValueNumber(Double.parseDouble(number));
 	                        String system = parts[1];   // could be empty string
