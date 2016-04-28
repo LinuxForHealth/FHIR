@@ -23,8 +23,7 @@ CODE_REMOVED
 CODE_REMOVED
     </basicRegistry>
     
-    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
-    <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" onError="FAIL"/>
+    <httpEndpoint httpPort="9080" httpsPort="9443" host="*" id="defaultHttpEndpoint" onError="FAIL"/>
    
     <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
     <!-- 
