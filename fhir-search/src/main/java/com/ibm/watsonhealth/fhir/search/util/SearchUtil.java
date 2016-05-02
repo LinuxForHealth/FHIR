@@ -116,7 +116,8 @@ public class SearchUtil {
         try {
             populateSearchParameterMap(searchParameterMap, "extension-search-parameters.xml");
         } catch (Exception e) {
-            log.fine("An error occured loading FHIR extension search parameters.");
+            log.fine("An error occurred loading FHIR extension search parameters.");
+            log.fine(e.getMessage());
         }
 		return searchParameterMap;
 	}
