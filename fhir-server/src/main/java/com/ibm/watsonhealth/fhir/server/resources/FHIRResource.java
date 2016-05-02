@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
+import static javax.servlet.http.HttpServletResponse.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -36,6 +37,7 @@ import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.Conformance;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -46,7 +48,17 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
+
 @Path("/")
+// @Api(tags = {"Tag1"})
+// @SwaggerDefinition(tags= {@Tag(name = "Tag2", description = "IBM Watson Health Cloud FHIR Server API")})
+@Api
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     private static final String NL = System.getProperty("line.separator");
@@ -72,7 +84,15 @@ public class FHIRResource {
     @POST
     @Consumes({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("{type}")
-    public Response create(Resource resource) {
+    @ApiOperation(value = "Creates a new resource.", 
+        notes = "The resource should be passed in the request body.")
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_CREATED, message = "The 'create' operation was successful.", responseHeaders = @ResponseHeader(name = "Location", description = "Contains the location URI of the newly-created resource")),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'create' operation resulted in an error.", response = OperationOutcome.class)
+    })
+    public Response create(
+        @ApiParam(value = "The resource to be created.", required = true)
+        Resource resource) {
         log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         Class<? extends Resource> resourceType = resource.getClass();
         try {
@@ -98,13 +118,23 @@ public class FHIRResource {
         } finally {
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
-
     }
 
     @GET
     @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("{type}/{id}")
-    public Resource read(@PathParam("type") String type, @PathParam("id") String id) throws ClassNotFoundException {
+    @ApiOperation(value = "Retrieves the most recent version of a resource.", 
+        notes = "For a specific version, you can use the 'vread' API.",
+        response = Resource.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_OK, message = "The 'read' operation was successful and the specified resource has been returned in the response body."),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'read' operation resulted in an error.", response = OperationOutcome.class)
+    })
+    public Resource read(
+        @ApiParam(value = "The resource type to be retrieved.", required = true)
+        @PathParam("type") String type, 
+        @ApiParam(value = "The id of the resource to be retrieved.", required = true)
+        @PathParam("id") String id) throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         Class<? extends Resource> resourceType = getResourceType(type);
         Resource resource = null;
@@ -126,7 +156,20 @@ public class FHIRResource {
     @GET
     @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("{type}/{id}/_history/{vid}")
-    public Resource vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) {
+    @ApiOperation(value = "Retrieves a specific version of a resource.", 
+        notes = "For the latest version of a resource, you can use the 'read' API.",
+        response = Resource.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_OK, message = "The 'vread' operation was successful and the specified resource has been returned in the response body."),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'vread' operation resulted in an error.", response = OperationOutcome.class)
+    })
+    public Resource vread(
+        @ApiParam(value = "The resource type to be retrieved.", required = true)
+        @PathParam("type") String type, 
+        @ApiParam(value = "The id of the resource to be retrieved.", required = true)
+        @PathParam("id") String id, 
+        @ApiParam(value = "The version of the resource to be retrieved.", required = true)
+        @PathParam("vid") String vid) {
         if (log.isLoggable(Level.FINE)) {
             log.entering(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
@@ -148,7 +191,18 @@ public class FHIRResource {
     @PUT
     @Consumes({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("{type}/{id}")
-    public Response update(@PathParam("id") String id, Resource resource) {
+    @ApiOperation(value = "Updates a resource.", 
+        notes = "The 'update' operation will create a new version of the resource.")
+    @ApiResponses(value = {
+            @ApiResponse(code = SC_CREATED, message = "The 'update' operation was successful.", responseHeaders = @ResponseHeader(name = "Location", description = "Contains the location URI of the updated resource")),
+            @ApiResponse(code = SC_BAD_REQUEST, message = "The 'update' operation resulted in an error.", response = OperationOutcome.class),
+            @ApiResponse(code = SC_METHOD_NOT_ALLOWED, message = "The specified resource could not be updated because it does not yet exist.", response = OperationOutcome.class)
+    })
+    public Response update(
+        @ApiParam(value = "The id of the resource to be updated.", required = true)
+        @PathParam("id") String id, 
+        @ApiParam(value = "The new contents of the resource to be updated.", required = true)
+        Resource resource) {
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
             Class<? extends Resource> resourceType = resource.getClass();
@@ -180,7 +234,18 @@ public class FHIRResource {
     @GET
     @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("{type}/{id}/_history")
-    public Response history(@PathParam("type") String type, @PathParam("id") String id) {
+    @ApiOperation(value = "Retrieves all of the versions of the specified resource.", 
+                  notes = "To retrieve the most recent version, use the 'read' API.  To retrieve a specific version, use the 'vread' API",
+                  response = Bundle.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_OK, message = "The '_history' operation was successful and the specified resources have been returned in the response body."),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The '_history' operation resulted in an error.", response = OperationOutcome.class)
+    })
+    public Response history(
+        @ApiParam(value = "The resource type to be retrieved.", required = true)
+        @PathParam("type") String type, 
+        @ApiParam(value = "The id of the resource to be retrieved.", required = true)
+        @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
             Class<? extends Resource> resourceType = getResourceType(type);
@@ -197,7 +262,17 @@ public class FHIRResource {
     @GET
     @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("{type}")
-    public Response search(@PathParam("type") String type, @Context UriInfo uriInfo) {
+    @ApiOperation(value = "Performs a search to retrieve resources of the specified type.", 
+        notes = "Search criteria are specified by using the query string or form parameters.",
+        response = Bundle.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_OK, message = "The 'search' operation was successful and the search results have been returned in the response body."),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'search' operation resulted in an error.", response = OperationOutcome.class)
+    })
+    public Response search(
+        @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
+        @PathParam("type") String type, 
+        @Context UriInfo uriInfo) {
         log.entering(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
             Class<? extends Resource> resourceType = getResourceType(type);
@@ -216,6 +291,12 @@ public class FHIRResource {
     @GET
     @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("metadata")
+    @ApiOperation(value = "Returns information about the FHIR server.", 
+        notes = "Currently, the information returned is minimal; we'll expand the set of information as new features are implemented in the server.",
+        response = Conformance.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_OK, message = "The 'metadata' operation was successful and the Conformance resource has been returned in the response body.")
+    })
     public Resource metadata() throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "metadata()");
         

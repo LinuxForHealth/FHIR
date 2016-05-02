@@ -18,14 +18,13 @@
 		<module>../fhir-persistence-memory</module>
 		<module>../fhir-persistence-jpa</module>
 		<module>../fhir-persistence-cloudant</module>
-        <module>../fhir-persistence-router</module>
+		<module>../fhir-persistence-router</module>
 		<module>../fhir-provider</module>
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
 		<module>../fhir-server</module>
-        <module>../fhir-install</module>
-        <modeul>../fhir-swagger-generator</modeul>
+		<module>../fhir-install</module>
 	</modules>
 
 	<!-- This section "enforces" that we're using consistent versions of artifacts 
@@ -123,10 +122,25 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-  				<groupId>org.testng</groupId>
-  				<artifactId>testng</artifactId>
-  				<version>6.9.10</version>
-  				<scope>test</scope>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>6.9.10</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-jaxrs</artifactId>
+				<version>1.5.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>1.5.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-servlet</artifactId>
+				<version>1.5.8</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
