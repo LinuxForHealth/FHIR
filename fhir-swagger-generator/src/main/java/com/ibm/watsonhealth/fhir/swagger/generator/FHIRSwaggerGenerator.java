@@ -23,6 +23,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
@@ -49,8 +50,9 @@ public class FHIRSwaggerGenerator {
         swagger.add("swagger", "2.0");
         
         JsonObjectBuilder info = factory.createObjectBuilder();
-        info.add("version", "0.0.0");
-        info.add("title", "IBM Watson Health Cloud FHIR Server API");
+        info.add("title", "FHIR REST API");
+        info.add("description", "IBM Watson Health Cloud FHIR Server API");
+        info.add("version", "0.1");
         swagger.add("info", info);
         
         swagger.add("basePath", "/fhir-server/api");
@@ -70,7 +72,10 @@ public class FHIRSwaggerGenerator {
         swagger.add("paths", paths);
         JsonObjectBuilder parameters = factory.createObjectBuilder();
         generateParameters(parameters, filter);
-        swagger.add("parameters", parameters);
+        JsonObject parametersObject = parameters.build();
+        if (!parametersObject.isEmpty()) {
+            swagger.add("parameters", parameters);
+        }
         swagger.add("definitions", definitions);
         
         Map<String, Object> config = new HashMap<String, Object>();
@@ -102,27 +107,47 @@ public class FHIRSwaggerGenerator {
     }
     
     private static void generatePaths(Class<?> modelClass, JsonObjectBuilder paths, Filter filter) {
+        JsonObjectBuilder path = factory.createObjectBuilder();       
         // FHIR create operation
         if (filter.acceptOperation(modelClass, "create")) {
-            generateCreatePath(modelClass, paths);
+            generateCreatePathItem(modelClass, path);
         }
-        
-        
-        // FHIR read operation
-        if (filter.acceptOperation(modelClass, "read")) {
-            generateReadPath(modelClass, paths);
+        // FHIR search operation
+        if (filter.acceptOperation(modelClass, "search")) {
+            // TODO: implement generateSearchPathItem(modelClass, path)
         }
-        
-        // FHIR vread operation
-        if (filter.acceptOperation(modelClass, "vread")) {
-            generateVreadPath(modelClass, paths);
+        JsonObject pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/" + modelClass.getSimpleName(), pathObject);
         }
 
+        path = factory.createObjectBuilder();
+        // FHIR vread operation
+        if (filter.acceptOperation(modelClass, "vread")) {
+            generateVreadPathItem(modelClass, path);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/" + modelClass.getSimpleName() + "/{id}/_history/{vid}", pathObject);
+        }
+        
+        path = factory.createObjectBuilder();
+        // FHIR read operation
+        if (filter.acceptOperation(modelClass, "read")) {
+            generateReadPathItem(modelClass, path);
+        }
         // FHIR update operation
-        
+        if (filter.acceptOperation(modelClass, "update")) {
+            generateUpdatePathItem(modelClass, path);
+        }
         // FHIR delete operation
-        
-        // FHIR search operation
+        if (filter.acceptOperation(modelClass, "delete")) {
+            generateDeletePathItem(modelClass, path);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/" + modelClass.getSimpleName() + "/{id}", pathObject);
+        }
         
         // FHIR history operation
         
@@ -133,8 +158,7 @@ public class FHIRSwaggerGenerator {
         // FHIR metadata operation
     }
     
-    private static void generateCreatePath(Class<?> modelClass, JsonObjectBuilder paths) {
-        JsonObjectBuilder createPath = factory.createObjectBuilder();
+    private static void generateCreatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder post = factory.createObjectBuilder();
         
         post.add("operationId", "create" + modelClass.getSimpleName());
@@ -144,17 +168,17 @@ public class FHIRSwaggerGenerator {
         post.add("consumes", consumes);
         
         JsonArrayBuilder parameters = factory.createArrayBuilder();
-        JsonObjectBuilder parameter = factory.createObjectBuilder();
+        JsonObjectBuilder bodyParameter = factory.createObjectBuilder();
         
-        parameter.add("name", "body");
-        parameter.add("in", "body");
-        parameter.add("required", true);
+        bodyParameter.add("name", "body");
+        bodyParameter.add("in", "body");
+        bodyParameter.add("required", true);
         
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/definitions/" + modelClass.getSimpleName());
-        parameter.add("schema", schema);
+        bodyParameter.add("schema", schema);
         
-        parameters.add(parameter);
+        parameters.add(bodyParameter);
         post.add("parameters", parameters);
         
         JsonObjectBuilder responses = factory.createObjectBuilder();
@@ -162,15 +186,12 @@ public class FHIRSwaggerGenerator {
         JsonObjectBuilder response = factory.createObjectBuilder();
         response.add("description", "create " + modelClass.getSimpleName() + " operation successful");
         responses.add("201", response);
-        
         post.add("responses", responses);
         
-        createPath.add("post", post);
-        paths.add("/" + modelClass.getSimpleName(), createPath);
+        path.add("post", post);
     }
 
-    private static void generateReadPath(Class<?> modelClass, JsonObjectBuilder paths) {
-        JsonObjectBuilder readPath = factory.createObjectBuilder();
+    private static void generateReadPathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
         get.add("operationId", "read" + modelClass.getSimpleName());
@@ -196,15 +217,12 @@ public class FHIRSwaggerGenerator {
         
         response.add("schema", schema);
         responses.add("200", response);
-        
         get.add("responses", responses);
         
-        readPath.add("get", get);
-        paths.add("/" + modelClass.getSimpleName() + "/{id}", readPath);
+        path.add("get", get);
     }
 
-    private static void generateVreadPath(Class<?> modelClass, JsonObjectBuilder paths) {
-        JsonObjectBuilder vreadPath = factory.createObjectBuilder();
+    private static void generateVreadPathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
         get.add("operationId", "vread" + modelClass.getSimpleName());
@@ -234,11 +252,69 @@ public class FHIRSwaggerGenerator {
         
         response.add("schema", schema);
         responses.add("200", response);
-        
         get.add("responses", responses);
         
-        vreadPath.add("get", get);
-        paths.add("/" + modelClass.getSimpleName() + "/{id}/_history/{vid}", vreadPath);
+        path.add("get", get);
+    }
+
+    private static void generateUpdatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
+        JsonObjectBuilder put = factory.createObjectBuilder();
+        
+        put.add("operationId", "update" + modelClass.getSimpleName());
+        
+        JsonArrayBuilder consumes = factory.createArrayBuilder();
+        consumes.add("application/json+fhir");
+        put.add("consumes", consumes);
+        
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+        
+        JsonObjectBuilder idParamRef = factory.createObjectBuilder();
+        idParamRef.add("$ref", "#/parameters/idParam");
+        parameters.add(idParamRef);
+        
+        JsonObjectBuilder bodyParameter = factory.createObjectBuilder();
+        bodyParameter.add("name", "body");
+        bodyParameter.add("in", "body");
+        bodyParameter.add("required", true);
+        
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/definitions/" + modelClass.getSimpleName());
+        bodyParameter.add("schema", schema);
+        
+        parameters.add(bodyParameter);
+        put.add("parameters", parameters);
+        
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+        
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "update " + modelClass.getSimpleName() + " operation successful");
+        responses.add("200", response);
+        put.add("responses", responses);
+        
+        path.add("put", put);
+    }
+
+    private static void generateDeletePathItem(Class<?> modelClass, JsonObjectBuilder path) {
+        JsonObjectBuilder delete = factory.createObjectBuilder();
+        
+        delete.add("operationId", "delete" + modelClass.getSimpleName());
+        
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+        
+        JsonObjectBuilder idParamRef = factory.createObjectBuilder();
+        idParamRef.add("$ref", "#/parameters/idParam");
+        parameters.add(idParamRef);
+        
+        delete.add("parameters", parameters);
+        
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+        
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "delete " + modelClass.getSimpleName() + " operation successful");
+        responses.add("200", response);
+        delete.add("responses", responses);
+        
+        path.add("delete", delete);
     }
 
     private static void generateDefinition(Class<?> modelClass, JsonObjectBuilder definitions) throws Exception {
@@ -402,6 +478,12 @@ public class FHIRSwaggerGenerator {
             return filterMap.containsKey(resourceType.getSimpleName());
         }
         
+        /*
+        public boolean acceptOperation(String resourceType, String operation) {
+            return filterMap.get(resourceType).contains(operation);
+        }
+        */
+        
         public boolean acceptOperation(Class<?> resourceType, String operation) {
             return filterMap.get(resourceType.getSimpleName()).contains(operation);
         }
@@ -421,9 +503,9 @@ public class FHIRSwaggerGenerator {
         return new Filter(parseFilterString(filterString));
     }
 
-    private static Map<String, List<String>> parseFilterString(String arguments) {
+    private static Map<String, List<String>> parseFilterString(String filterString) {
         Map<String, List<String>> filterMap = new HashMap<String, List<String>>();
-        for (String component : arguments.split(";")) {
+        for (String component : filterString.split(";")) {
             String resourceType = component.substring(0, component.indexOf("("));
             String operations = component.substring(component.indexOf("(") + 1, component.indexOf(")"));            
             List<String> operationList = new ArrayList<String>();
