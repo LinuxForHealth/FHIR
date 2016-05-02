@@ -24,7 +24,9 @@
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
 		<module>../fhir-server</module>
-		<module>../fhir-install</module>
+		<module>../fhir-swagger-ui</module>
+        <module>../fhir-swagger-generator</module>
+        <module>../fhir-install</module>
 	</modules>
 
 	<!-- This section "enforces" that we're using consistent versions of artifacts 
