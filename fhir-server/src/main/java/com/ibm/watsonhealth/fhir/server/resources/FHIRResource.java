@@ -81,6 +81,27 @@ public class FHIRResource {
         log.finest(FHIRUtilities.getCurrentStacktrace());
     }
 
+    @GET
+    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Path("metadata")
+    @ApiOperation(value = "Returns information about the FHIR server.", 
+        notes = "Currently, the information returned is minimal; we'll expand the set of information as new features are implemented in the server.",
+        response = Conformance.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_OK, message = "The 'metadata' operation was successful and the Conformance resource has been returned in the response body.")
+    })
+    public Resource metadata() throws ClassNotFoundException {
+        log.entering(this.getClass().getName(), "metadata()");
+        
+        try {
+            return buildConformanceStatement();
+        } finally {
+            if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "metadata()");
+            }
+        }
+    }
+    
     @POST
     @Consumes({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
     @Path("{type}")
@@ -285,27 +306,6 @@ public class FHIRResource {
             throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
         } finally {
             log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
-        }
-    }
-
-    @GET
-    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
-    @Path("metadata")
-    @ApiOperation(value = "Returns information about the FHIR server.", 
-        notes = "Currently, the information returned is minimal; we'll expand the set of information as new features are implemented in the server.",
-        response = Conformance.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'metadata' operation was successful and the Conformance resource has been returned in the response body.")
-    })
-    public Resource metadata() throws ClassNotFoundException {
-        log.entering(this.getClass().getName(), "metadata()");
-        
-        try {
-            return buildConformanceStatement();
-        } finally {
-            if (log.isLoggable(Level.FINE)) {
-                log.exiting(this.getClass().getName(), "metadata()");
-            }
         }
     }
     

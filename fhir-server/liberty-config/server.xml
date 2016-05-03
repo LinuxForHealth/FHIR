@@ -11,6 +11,7 @@
         <feature>jsonp-1.0</feature>
         <feature>beanValidation-1.1</feature>
         <feature>jsf-2.2</feature>
+        <feature>servlet-3.1</feature>
     </featureManager>
 
     <!-- This template enables security. To get the full use of all the capabilities, a keystore and user registry are required. -->
@@ -18,12 +19,28 @@
     <!-- FHIR Server's keystore (used with https endpoints) -->
 CODE_REMOVED
     
-    <!-- Define a basic user registry. -->
+    <!-- Define a basic user registry with a few users. -->
     <basicRegistry id="basic" realm="BasicRealm"> 
 CODE_REMOVED
+CODE_REMOVED
+        <group name="FHIRUsers">
+            <member name="fhiruser"></member>
+        </group>
     </basicRegistry>
     
+    <!-- This entry defines the ports that the server will listen on.
+        Modify the port #'s as needed to satisfy your config requirements.
+        Note: on Linux, the server must be running with root priviledges in order to
+        listen on ports <= 1024.
+     -->
     <httpEndpoint httpPort="9080" httpsPort="9443" host="*" id="defaultHttpEndpoint" onError="FAIL"/>
+
+    <!-- 
+        Modify the trace string below as needed to enable/disable tracing. 
+        <logging traceSpecification="*=info" traceFormat="BASIC"/>
+        <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
+    -->
+    
    
     <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
     <!-- 
@@ -42,30 +59,29 @@ CODE_REMOVED
 
     <applicationMonitor updateTrigger="mbean"/>   
 
-    <webApplication id="fhir-server" location="fhir-server.war" name="fhir-server">
+    <webApplication id="fhir-server" location="fhir-server.war" name="fhir-server" contextRoot="fhir-server/api">
         <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" privateLibraryRef="configResources"/>
+        <application-bnd>
+            <security-role name="FHIRUsers">
+                <group name="FHIRUsers"></group>
+            </security-role>
+        </application-bnd>
     </webApplication>
 
     <library apiTypeVisibility="spec,third-party" id="moxyLib">
         <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
     </library>
     
-	<!-- 
-		This library element puts a specific directory in the classpath so that it can be used
-		for user-provided configuration files (e.g. extension-search-parameters.xml)
-	-->
+    <!-- 
+        This library element puts a specific directory in the classpath so that it can be used
+        for user-provided configuration files (e.g. extension-search-parameters.xml)
+    -->
     <library id="configResources">
-    	<folder dir="${server.config.dir}/config"/>
+        <folder dir="${server.config.dir}/config"/>
     </library>
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
-    <!-- 
-        Modify the trace string below as needed to enable/disable tracing. 
-        <logging traceSpecification="*=info" traceFormat="BASIC"/>
-        <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
-    -->
-    
     <!-- Derby-related configuration -->
     <library id="derbyLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
@@ -96,4 +112,4 @@ CODE_REMOVED
 CODE_REMOVED
     </dataSource>
     -->
-  </server>
+</server>
