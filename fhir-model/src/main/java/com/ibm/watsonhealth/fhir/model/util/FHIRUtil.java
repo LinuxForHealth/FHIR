@@ -39,6 +39,8 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.w3c.dom.Node;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.exception.FHIRInvalidResourceTypeException;
 import com.ibm.watsonhealth.fhir.model.Address;
 import com.ibm.watsonhealth.fhir.model.AddressUse;
 import com.ibm.watsonhealth.fhir.model.AddressUseList;
@@ -583,11 +585,11 @@ public class FHIRUtil {
     }
 	
 	@SuppressWarnings("unchecked")
-	public static Class<? extends Resource> getResourceType(String name) {
+	public static Class<? extends Resource> getResourceType(String name) throws FHIRException {
 		try {
 			return (Class<? extends Resource>) Class.forName("com.ibm.watsonhealth.fhir.model." + name);
 		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException("Resource type for name: " + name + " not found.");
+			throw new FHIRInvalidResourceTypeException("'" + name + "' is not a valid resource type.");
 		}
 	}
 	

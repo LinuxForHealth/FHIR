@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
-public class FHIRPersistenceException extends Exception {
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
+
+public class FHIRPersistenceException extends FHIRException {
 	private static final long serialVersionUID = 1L;
 	
 	public FHIRPersistenceException() {

@@ -7,9 +7,16 @@
 package com.ibm.watsonhealth.fhir.server.resources;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_CREATED;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
-import static javax.servlet.http.HttpServletResponse.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,19 +31,26 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
+import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Conformance;
+import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -61,6 +74,7 @@ import io.swagger.annotations.ResponseHeader;
 @Api
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
+    
     private static final String NL = System.getProperty("line.separator");
     
     private static final String FHIR_SERVER_DESC = "IBM Watson Health Cloud FHIR Server";
@@ -82,19 +96,22 @@ public class FHIRResource {
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("metadata")
     @ApiOperation(value = "Returns information about the FHIR server.", 
-        notes = "Currently, the information returned is minimal; we'll expand the set of information as new features are implemented in the server.",
+        notes = "Currently, the information returned is minimal. The set of information will be expanded as new features are implemented in the server.",
         response = Conformance.class)
     @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'metadata' operation was successful and the Conformance resource has been returned in the response body.")
+        @ApiResponse(code = SC_OK, message = "The 'metadata' operation was successful and the Conformance resource has been returned in the response body."),
+        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
-    public Resource metadata() throws ClassNotFoundException {
+    public Response metadata() throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "metadata()");
         
         try {
-            return buildConformanceStatement();
+            return Response.ok().entity(buildConformanceStatement()).build();
+        } catch(Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "metadata()");
@@ -103,70 +120,134 @@ public class FHIRResource {
     }
     
     @POST
-    @Consumes({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}")
-    @ApiOperation(value = "Creates a new resource.", 
-        notes = "The resource should be passed in the request body.")
+    @ApiOperation(value = "Creates a new resource.", notes = "The resource should be passed in the request body.")
     @ApiResponses(value = {
         @ApiResponse(code = SC_CREATED, message = "The 'create' operation was successful.", responseHeaders = @ResponseHeader(name = "Location", description = "Contains the location URI of the newly-created resource")),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'create' operation resulted in an error.", response = OperationOutcome.class)
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'create' operation resulted in an error.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
     public Response create(
         @ApiParam(value = "The resource to be created.", required = true)
         Resource resource) {
+
         log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
-        Class<? extends Resource> resourceType = resource.getClass();
+
         try {
+            
+            // Validate the input resource and return any validation errors.
             List<String> messages = getValidator().validate(resource);
             if (!messages.isEmpty()) {
-                StringBuffer buffer = new StringBuffer();
-                for (String message : messages) {
-                    buffer.append(message);
-                    buffer.append(NL);
-                }
-                log.fine("Validation errors:\n" + buffer.toString());
-                return Response.status(Response.Status.BAD_REQUEST).entity(buffer.toString()).build();
-            } else {
-                getPersistenceImpl().create(resource);
+                OperationOutcome operationOutcome = buildOperationOutcome(messages);
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity(operationOutcome)
+                        .build();
             }
-            String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();
-            return Response.created(URI.create(resourceType.getSimpleName() + "/"
-                    + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
+            
+            // If there were no validation errors, then create the resource and return the location header.
+            getPersistenceImpl().create(resource);
+            
+            ResponseBuilder response = Response.created(buildLocationURI(resource));
+            response = addHeaders(response, resource);
+            return response.build();
         } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
-            throw new WebApplicationException(e);
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
 
+    @PUT
+    @Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
+    @Path("{type}/{id}")
+    @ApiOperation(value = "Updates a resource.", 
+        notes = "The 'update' operation will create a new version of the resource.")
+    @ApiResponses(value = {
+            @ApiResponse(code = SC_OK, message = "The 'update' operation was successful.", responseHeaders = @ResponseHeader(name = "Location", description = "Contains the location URI of the updated resource")),
+            @ApiResponse(code = SC_BAD_REQUEST, message = "The 'update' operation resulted in an error.", response = OperationOutcome.class),
+            @ApiResponse(code = SC_METHOD_NOT_ALLOWED, message = "The specified resource could not be updated because it does not yet exist.", response = OperationOutcome.class),
+            @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
+    })
+    public Response update(
+        @ApiParam(value = "The id of the resource to be updated.", required = true)
+        @PathParam("id") String id, 
+        @ApiParam(value = "The new contents of the resource to be updated.", required = true)
+        Resource resource) {
+
+        log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+
+        try {
+            
+            // Validate the input resource and return any validation errors.
+            List<String> messages = getValidator().validate(resource);
+            if (!messages.isEmpty()) {
+                OperationOutcome operationOutcome = buildOperationOutcome(messages);
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity(operationOutcome)
+                        .build();
+            }
+            
+            // Make sure the resource has an 'id' attribute and that it matches the input 'id' parameter.
+            if (resource.getId() == null) {
+                throw new FHIRException("Input resource must contain an 'id' attribute.");
+            } else if (!resource.getId().getValue().equals(id)) {
+                throw new FHIRException("Input resource 'id' attribute must match 'id' parameter.");
+            }
+            
+            // If there were no validation errors, then create the resource and return the location header.
+            getPersistenceImpl().update(id, resource);
+
+            ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, buildLocationURI(resource));
+            response = addHeaders(response, resource);
+            return response.build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+        } catch (FHIRException e) {
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+
     @GET
-    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}/{id}")
     @ApiOperation(value = "Retrieves the most recent version of a resource.", 
         notes = "For a specific version, you can use the 'vread' API.",
         response = Resource.class)
     @ApiResponses(value = {
         @ApiResponse(code = SC_OK, message = "The 'read' operation was successful and the specified resource has been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'read' operation resulted in an error.", response = OperationOutcome.class)
+        @ApiResponse(code = SC_NOT_FOUND, message = "The requested resource was not found.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'read' operation resulted in an error.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
-    public Resource read(
+    public Response read(
         @ApiParam(value = "The resource type to be retrieved.", required = true)
         @PathParam("type") String type, 
         @ApiParam(value = "The id of the resource to be retrieved.", required = true)
         @PathParam("id") String id) throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
-        Class<? extends Resource> resourceType = getResourceType(type);
-        Resource resource = null;
         try {
-            resource = getPersistenceImpl().read(resourceType, id);
+            Class<? extends Resource> resourceType = getResourceType(type);
+            Resource resource = getPersistenceImpl().read(resourceType, id);
             if (resource == null) {
-                throw new WebApplicationException(Response.Status.NOT_FOUND);
+                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + " not found.");
             }
-            return resource;
-        } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e.getMessage(), e, Response.Status.BAD_REQUEST);
+
+            ResponseBuilder response = Response.ok().entity(resource);
+            response = addHeaders(response, resource);
+             return response.build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            return exceptionResponse(e, Response.Status.NOT_FOUND);
+        } catch (FHIRException e) {
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -175,16 +256,18 @@ public class FHIRResource {
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}/{id}/_history/{vid}")
     @ApiOperation(value = "Retrieves a specific version of a resource.", 
         notes = "For the latest version of a resource, you can use the 'read' API.",
         response = Resource.class)
     @ApiResponses(value = {
         @ApiResponse(code = SC_OK, message = "The 'vread' operation was successful and the specified resource has been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'vread' operation resulted in an error.", response = OperationOutcome.class)
+        @ApiResponse(code = SC_NOT_FOUND, message = "The requested resource was not found.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'vread' operation resulted in an error.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
-    public Resource vread(
+    public Response vread(
         @ApiParam(value = "The resource type to be retrieved.", required = true)
         @PathParam("type") String type, 
         @ApiParam(value = "The id of the resource to be retrieved.", required = true)
@@ -194,73 +277,37 @@ public class FHIRResource {
         if (log.isLoggable(Level.FINE)) {
             log.entering(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
-        Class<? extends Resource> resourceType = getResourceType(type);
-        Resource resource = null;
         try {
-            resource = getPersistenceImpl().vread(resourceType, id, vid);
+            Class<? extends Resource> resourceType = getResourceType(type);
+            Resource resource = getPersistenceImpl().vread(resourceType, id, vid);
             if (resource == null) {
-                throw new WebApplicationException(Response.Status.NOT_FOUND);
+                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + " version " + vid + " not found.");
             }
-            return resource;
-        } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+
+            ResponseBuilder response = Response.ok().entity(resource);
+            response = addHeaders(response, resource);
+            return response.build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            return exceptionResponse(e, Response.Status.NOT_FOUND);
+        } catch (FHIRException e) {
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
-
-    @PUT
-    @Consumes({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
-    @Path("{type}/{id}")
-    @ApiOperation(value = "Updates a resource.", 
-        notes = "The 'update' operation will create a new version of the resource.")
-    @ApiResponses(value = {
-            @ApiResponse(code = SC_CREATED, message = "The 'update' operation was successful.", responseHeaders = @ResponseHeader(name = "Location", description = "Contains the location URI of the updated resource")),
-            @ApiResponse(code = SC_BAD_REQUEST, message = "The 'update' operation resulted in an error.", response = OperationOutcome.class),
-            @ApiResponse(code = SC_METHOD_NOT_ALLOWED, message = "The specified resource could not be updated because it does not yet exist.", response = OperationOutcome.class)
-    })
-    public Response update(
-        @ApiParam(value = "The id of the resource to be updated.", required = true)
-        @PathParam("id") String id, 
-        @ApiParam(value = "The new contents of the resource to be updated.", required = true)
-        Resource resource) {
-        log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
-        try {
-            Class<? extends Resource> resourceType = resource.getClass();
-            List<String> messages = getValidator().validate(resource);
-            if (!messages.isEmpty()) {
-                StringBuffer buffer = new StringBuffer();
-                for (String message : messages) {
-                    buffer.append(message);
-                    buffer.append(NL);
-                }
-                log.fine("Validation errors:\n" + buffer.toString());
-                return Response.status(Response.Status.BAD_REQUEST).entity(buffer.toString()).build();
-            } else {
-                getPersistenceImpl().update(id, resource);
-            }
-
-            String lastUpdated = resource.getMeta().getLastUpdated().getValue().toXMLFormat();
-            return Response.created(URI.create(resourceType.getSimpleName() + "/"
-                    + resource.getId().getValue())).header(HttpHeaders.LAST_MODIFIED, lastUpdated).build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            throw new WebApplicationException(e.getMessage(), Response.Status.METHOD_NOT_ALLOWED);
-        } catch (Exception e) {
-            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
-        } finally {
-            log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
-        }
-    }
     
     @GET
-    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}/{id}/_history")
     @ApiOperation(value = "Retrieves all of the versions of the specified resource.", 
                   notes = "To retrieve the most recent version, use the 'read' API.  To retrieve a specific version, use the 'vread' API",
                   response = Bundle.class)
     @ApiResponses(value = {
         @ApiResponse(code = SC_OK, message = "The '_history' operation was successful and the specified resources have been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The '_history' operation resulted in an error.", response = OperationOutcome.class)
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The '_history' operation resulted in an error.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
     public Response history(
         @ApiParam(value = "The resource type to be retrieved.", required = true)
@@ -271,24 +318,27 @@ public class FHIRResource {
         try {
             Class<? extends Resource> resourceType = getResourceType(type);
             List<Resource> resources = getPersistenceImpl().history(resourceType, id);
-            Bundle bundle = createBundle(resources);
+            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY);
             return Response.ok(bundle).build();
         } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             log.exiting(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_JSON_FHIR })
+    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}")
     @ApiOperation(value = "Performs a search to retrieve resources of the specified type.", 
         notes = "Search criteria are specified by using the query string or form parameters.",
         response = Bundle.class)
     @ApiResponses(value = {
         @ApiResponse(code = SC_OK, message = "The 'search' operation was successful and the search results have been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'search' operation resulted in an error.", response = OperationOutcome.class)
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'search' operation resulted in an error.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
     public Response search(
         @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
@@ -300,13 +350,84 @@ public class FHIRResource {
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
             List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             List<Resource> resources = getPersistenceImpl().search(resourceType, searchParameters);
-            Bundle bundle = createBundle(resources);
+            Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET);
             return Response.ok(bundle).build();
         } catch (FHIRPersistenceException e) {
-            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
+    }
+    
+    /**
+     * Adds the Etag and Last-Modified headers to the specified response object.
+     */
+    private ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
+        return rb.header(HttpHeaders.ETAG, resource.getMeta().getVersionId().getValue())
+                .header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toXMLFormat());
+    }
+
+    /**
+     * Build an OperationOutcome that contains the specified list of validation messages.
+     */
+    private OperationOutcome buildOperationOutcome(List<String> messages) {
+        // First, build the list of issues from the input messages.
+        List<OperationOutcomeIssue> ooiList = new ArrayList<>();
+        for (String msg : messages) {
+            log.fine("Validation error: " + msg);
+            OperationOutcomeIssue ooi = objectFactory.createOperationOutcomeIssue()
+                    .withCode(objectFactory.createIssueType().withValue(IssueTypeList.STRUCTURE))
+                    .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.ERROR))
+                    .withDiagnostics(objectFactory.createString().withValue(msg));
+            ooiList.add(ooi);
+        }
+        
+        // Next, build the OperationOutcome.
+        OperationOutcome oo = objectFactory.createOperationOutcome()
+                .withId(objectFactory.createId().withValue("validationfail"))
+                .withText(objectFactory.createNarrative()
+                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
+                .withIssue(ooiList);
+        return oo;
+    }
+
+    /**
+     * Build an OperationOutcome for the specified exception.
+     */
+    private OperationOutcome buildOperationOutcome(Exception exception) {
+        // First, build a set of exception messages to be included in the OperationOutcome.
+        // We'll include the exception message from each exception in the hierarchy, 
+        // following the "causedBy" exceptions.
+        StringBuilder msgs = new StringBuilder();
+        Throwable e = exception;
+        String causedBy = "";
+        while (e != null) {
+            msgs.append(causedBy + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "<null message>"));
+            e = e.getCause();
+            causedBy = NL + "Caused by: ";
+        }
+        
+        log.fine("Building OperationOutcome for exception: " + msgs);
+        
+        // Build an OperationOutcomeIssue that contains the exception messages.
+        OperationOutcomeIssue ooi = objectFactory.createOperationOutcomeIssue()
+                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.EXCEPTION))
+                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.FATAL))
+                .withDiagnostics(objectFactory.createString().withValue(msgs.toString()));
+        
+        // Next, build the OperationOutcome.
+        OperationOutcome oo = objectFactory.createOperationOutcome()
+                .withId(objectFactory.createId().withValue("exception"))
+                .withText(objectFactory.createNarrative()
+                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
+                .withIssue(ooi);
+        return oo;
+    }
+    
+    private Response exceptionResponse(Exception e, Status status) {
+        return Response.status(status).entity(buildOperationOutcome(e)).build();
     }
     
     /**
@@ -325,9 +446,23 @@ public class FHIRResource {
         
         return conformance;
     }
+    
+    /**
+     * Builds a relative "Location" header value for the specified resource.
+     * This will be a string of the form "<resource-type>/<id>/_history/<version>".
+     * Note that the server will turn this into an absolute URL prior to returning it to the client.
+     * @param resource the resource for which the location header value should be returned
+     */
+    private URI buildLocationURI(Resource resource) {
+        return URI.create(
+            resource.getClass().getSimpleName() + "/"
+                    + resource.getId().getValue() + "/_history/"
+                    + resource.getMeta().getVersionId().getValue());
+    }
 
-    private Bundle createBundle(List<Resource> resources) {
-        Bundle bundle = objectFactory.createBundle();
+    private Bundle createBundle(List<Resource> resources, BundleTypeList type) {
+        Bundle bundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(type));
+        
         for (Resource resource : resources) {
             Class<? extends Resource> resourceType = resource.getClass();
             BundleEntry entry = objectFactory.createBundleEntry();
