@@ -36,13 +36,11 @@ import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.DomainResource;
 import com.ibm.watsonhealth.fhir.model.ElementDefinition;
-import com.ibm.watsonhealth.fhir.model.FilterOperator;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Quantity;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.StructureDefinition;
-import com.ibm.watsonhealth.fhir.model.ValueSetFilter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -508,9 +506,9 @@ public class FHIRSwaggerGenerator {
             
             StructureDefinition structureDefinition = getStructureDefinition(modelClass);
             /*
-            String description = null;
             if (!BackboneElement.class.isAssignableFrom(modelClass)) {
-                description = structureDefinition.getDifferential().getElement().get(0).getDefinition().getValue();
+                String description = structureDefinition.getDifferential().getElement().get(0).getDefinition().getValue();
+                definition.add("description", description);
             }
             */
             for (Field field : modelClass.getDeclaredFields()) {
@@ -539,19 +537,10 @@ public class FHIRSwaggerGenerator {
                 wrapper.add("type", "object");
                 wrapper.add("properties", properties);
                 allOf.add(wrapper);
-                /*
-                if (description != null) {
-                    definition.add("description", description);
-                }
-                */
+
                 definition.add("allOf", allOf);
             } else {
                 definition.add("type", "object");
-                /*
-                if (description != null) {
-                    definition.add("description", description);
-                }
-                */
                 if (Resource.class.equals(modelClass)) {
                     definition.add("discriminator", "resourceType");
                 }
@@ -574,9 +563,6 @@ public class FHIRSwaggerGenerator {
     
     private static StructureDefinition getEnclosingStructureDefinition(Class<?> modelClass) {
         StructureDefinition structureDefinition = null;
-        if (FilterOperator.class.equals(modelClass)) {
-            return getEnclosingStructureDefinition(ValueSetFilter.class);
-        }
         int nameLength = 0;
         for (Class<?> key : structureDefinitionMap.keySet()) {
             if (modelClass.getSimpleName().startsWith(key.getSimpleName()) && key.getSimpleName().length() > nameLength) {
