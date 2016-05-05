@@ -69,8 +69,8 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
 
 @Path("/")
-// @Api(tags = {"Tag1"})
-// @SwaggerDefinition(tags= {@Tag(name = "Tag2", description = "IBM Watson Health Cloud FHIR Server API")})
+@Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
+@Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
 @Api
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
@@ -96,7 +96,6 @@ public class FHIRResource {
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("metadata")
     @ApiOperation(value = "Returns information about the FHIR server.", 
         notes = "Currently, the information returned is minimal. The set of information will be expanded as new features are implemented in the server.",
@@ -120,7 +119,6 @@ public class FHIRResource {
     }
     
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}")
     @ApiOperation(value = "Creates a new resource.", notes = "The resource should be passed in the request body.")
     @ApiResponses(value = {
@@ -161,7 +159,6 @@ public class FHIRResource {
     }
 
     @PUT
-    @Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}/{id}")
     @ApiOperation(value = "Updates a resource.", 
         notes = "The 'update' operation will create a new version of the resource.")
@@ -215,7 +212,6 @@ public class FHIRResource {
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}/{id}")
     @ApiOperation(value = "Retrieves the most recent version of a resource.", 
         notes = "For a specific version, you can use the 'vread' API.",
@@ -256,7 +252,6 @@ public class FHIRResource {
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}/{id}/_history/{vid}")
     @ApiOperation(value = "Retrieves a specific version of a resource.", 
         notes = "For the latest version of a resource, you can use the 'read' API.",
@@ -299,7 +294,6 @@ public class FHIRResource {
     }
     
     @GET
-    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}/{id}/_history")
     @ApiOperation(value = "Retrieves all of the versions of the specified resource.", 
                   notes = "To retrieve the most recent version, use the 'read' API.  To retrieve a specific version, use the 'vread' API",
@@ -330,7 +324,6 @@ public class FHIRResource {
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
     @Path("{type}")
     @ApiOperation(value = "Performs a search to retrieve resources of the specified type.", 
         notes = "Search criteria are specified by using the query string or form parameters.",
