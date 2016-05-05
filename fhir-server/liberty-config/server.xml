@@ -46,9 +46,18 @@ CODE_REMOVED
     <!-- 
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     -->
     <jndiEntry  value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
- 
+    
+    <!--  This JNDI entry specifies the Cloudant DB account credentials, which are encoded using
+          the {WLP_ROOT}/wlp/bin/securityUtility . 
+          This entry is used only when the fhirPersistenceFactory entry points to the FHIRPersistenceCloudantFactory. 
+    -->
+    <!--  <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.cloudant.account" id="com.ibm.watsonhealth.fhir.persistence.cloudant.account" decode="true" 
+CODE_REMOVED
+ 	-->
+ 	
     <!-- This JNDI entry specifies the schema name to be used by the JPA persistence layer -->
     <!-- Note: this is currently not working due to a bug in eclipselink.
         <jndiEntry value="FHIR1" jndiName="com.ibm.watsonhealth.fhir.Schema"/>
