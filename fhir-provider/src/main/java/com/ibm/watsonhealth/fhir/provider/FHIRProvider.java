@@ -12,6 +12,8 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -23,11 +25,12 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
+@Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
+@Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
 public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWriter<Resource> {
-	
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-		return supportsMediaType(mediaType);
+	    return Resource.class.isAssignableFrom(type);
 	}
 	
 	@Override
@@ -44,7 +47,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-		return supportsMediaType(mediaType);
+	    return Resource.class.isAssignableFrom(type);
 	}
 
 	@Override
@@ -62,17 +65,13 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 	public long getSize(Resource t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
 		return -1;
 	}
-
-	private boolean supportsMediaType(MediaType mediaType) {
-		return getFormat(mediaType) != null;
-	}
-
+	
 	private Format getFormat(MediaType mediaType) {
 		if (mediaType != null) {
-			if (mediaType.getSubtype().startsWith(com.ibm.watsonhealth.fhir.core.MediaType.SUBTYPE_JSON_FHIR)) {
-				return Format.JSON;
-			} else if (mediaType.getSubtype().startsWith(com.ibm.watsonhealth.fhir.core.MediaType.SUBTYPE_XML_FHIR)) {
-				return Format.XML;
+			if (mediaType.isCompatible(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR_TYPE) || mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
+			    return Format.JSON;
+			} else if (mediaType.isCompatible(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR_TYPE) || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+			    return Format.XML;
 			}
 		}
 		return null;
