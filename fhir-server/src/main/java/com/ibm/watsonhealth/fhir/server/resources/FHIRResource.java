@@ -57,7 +57,6 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
@@ -128,12 +127,19 @@ public class FHIRResource {
         @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
     public Response create(
-        @ApiParam(value = "The resource to be created.", required = true)
+        @ApiParam(value = "The type of the resource to be created.", required = true) 
+        @PathParam("type") String type, 
+        @ApiParam(value = "The resource to be created.", required = true) 
         Resource resource) {
 
         log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
+            
+            String resourceType = resource.getClass().getSimpleName();
+            if (!resourceType.equals(type)) {
+                throw new FHIRException("Resource type '" + resourceType + "' does not match type specified in request URI: " + type);
+            }
             
             // Validate the input resource and return any validation errors.
             List<String> messages = getValidator().validate(resource);
@@ -150,7 +156,7 @@ public class FHIRResource {
             ResponseBuilder response = Response.created(buildLocationURI(resource));
             response = addHeaders(response, resource);
             return response.build();
-        } catch (FHIRPersistenceException e) {
+        } catch (FHIRException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
@@ -170,6 +176,8 @@ public class FHIRResource {
             @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
     public Response update(
+        @ApiParam(value = "The type of the resource to be updated.", required = true)
+        @PathParam("type") String type, 
         @ApiParam(value = "The id of the resource to be updated.", required = true)
         @PathParam("id") String id, 
         @ApiParam(value = "The new contents of the resource to be updated.", required = true)
@@ -233,7 +241,7 @@ public class FHIRResource {
             Class<? extends Resource> resourceType = getResourceType(type);
             Resource resource = getPersistenceImpl().read(resourceType, id);
             if (resource == null) {
-                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + " not found.");
+                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' not found.");
             }
 
             ResponseBuilder response = Response.ok().entity(resource);
@@ -277,7 +285,7 @@ public class FHIRResource {
             Class<? extends Resource> resourceType = getResourceType(type);
             Resource resource = getPersistenceImpl().vread(resourceType, id, vid);
             if (resource == null) {
-                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + " version " + vid + " not found.");
+                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + vid + " not found.");
             }
 
             ResponseBuilder response = Response.ok().entity(resource);
@@ -346,7 +354,7 @@ public class FHIRResource {
             List<Resource> resources = getPersistenceImpl().search(resourceType, searchParameters);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET);
             return Response.ok(bundle).build();
-        } catch (FHIRSearchException | FHIRPersistenceException e) {
+        } catch (FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
@@ -359,7 +367,7 @@ public class FHIRResource {
      * Adds the Etag and Last-Modified headers to the specified response object.
      */
     private ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
-        return rb.header(HttpHeaders.ETAG, resource.getMeta().getVersionId().getValue())
+        return rb.header(HttpHeaders.ETAG, "W/\"" + resource.getMeta().getVersionId().getValue() + "\"")
                 .header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toXMLFormat());
     }
 
