@@ -63,7 +63,7 @@ public class FHIRSwaggerGenerator {
         } else {
             filter = createAcceptAllFilter();
         }
- //     filter = createFilter("Patient(create);Observation(create);QuestionnaireResponse(create);RiskAssessment(read)");
+ //     filter = createFilter("Patient(create,read);Contract(create,read);Questionnaire(create,read),QuestionnaireResponse(create,read);RiskAssessment(read,search)");
  //     filter = createFilter("Patient(create,read,vread,update,delete,search,history)");
 
         JsonObjectBuilder swagger = factory.createObjectBuilder();
@@ -77,6 +77,7 @@ public class FHIRSwaggerGenerator {
         
         swagger.add("basePath", "/fhir-server/api");
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
         
@@ -85,9 +86,16 @@ public class FHIRSwaggerGenerator {
             Class<?> modelClass = Class.forName("com.ibm.watsonhealth.fhir.model." + className);
             if (DomainResource.class.isAssignableFrom(modelClass) && filter.acceptResourceType(modelClass)) {
                 generatePaths(modelClass, paths, filter);
+                JsonObjectBuilder tag = factory.createObjectBuilder();
+                tag.add("name", modelClass.getSimpleName());
+                tags.add(tag);
             }
             generateDefinition(modelClass, definitions);
         }
+        
+        JsonObjectBuilder tag = factory.createObjectBuilder();
+        tag.add("name", "Other");
+        tags.add(tag);
         
         // FHIR metadata operation
         JsonObjectBuilder path = factory.createObjectBuilder();
@@ -98,7 +106,9 @@ public class FHIRSwaggerGenerator {
         
         // TODO: FHIR transaction operation
         
+        swagger.add("tags", tags);
         swagger.add("paths", paths);
+        
         JsonObjectBuilder parameters = factory.createObjectBuilder();
         generateParameters(parameters, filter);
         JsonObject parametersObject = parameters.build();
@@ -229,6 +239,10 @@ public class FHIRSwaggerGenerator {
     private static void generateCreatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder post = factory.createObjectBuilder();
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+        
+        post.add("tags", tags);
         post.add("summary", "Create" + getArticle(modelClass) + modelClass.getSimpleName() + " resource");
         post.add("operationId", "create" + modelClass.getSimpleName());
         
@@ -263,6 +277,10 @@ public class FHIRSwaggerGenerator {
     private static void generateReadPathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+        
+        get.add("tags", tags);
         get.add("summary", "Read" + getArticle(modelClass) + modelClass.getSimpleName() + " resource");
         get.add("operationId", "read" + modelClass.getSimpleName());
         
@@ -295,6 +313,10 @@ public class FHIRSwaggerGenerator {
     private static void generateVreadPathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+        
+        get.add("tags", tags);
         get.add("summary", "Read specific version of" + getArticle(modelClass) + modelClass.getSimpleName() + " resource");
         get.add("operationId", "vread" + modelClass.getSimpleName());
         
@@ -331,6 +353,10 @@ public class FHIRSwaggerGenerator {
     private static void generateUpdatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder put = factory.createObjectBuilder();
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+        
+        put.add("tags", tags);
         put.add("summary", "Update an existing " + modelClass.getSimpleName() + " resource");
         put.add("operationId", "update" + modelClass.getSimpleName());
         
@@ -369,6 +395,10 @@ public class FHIRSwaggerGenerator {
     private static void generateDeletePathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder delete = factory.createObjectBuilder();
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+        
+        delete.add("tags", tags);
         delete.add("summary", "Delete" + getArticle(modelClass) + modelClass.getSimpleName() + " resource");
         delete.add("operationId", "delete" + modelClass.getSimpleName());
         
@@ -393,6 +423,10 @@ public class FHIRSwaggerGenerator {
     private static void generateSearchPathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+        
+        get.add("tags", tags);
         get.add("summary", "Search for " + modelClass.getSimpleName() + " resources");
         get.add("operationId", "search" + modelClass.getSimpleName());
         
@@ -444,7 +478,11 @@ public class FHIRSwaggerGenerator {
     private static void generateHistoryPathItem(Class<?> modelClass, JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
-        get.add("summary", "Return the history for" + getArticle(modelClass) + modelClass.getSimpleName() + " resource");
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+        
+        get.add("tags", tags);
+        get.add("summary", "Return the history of" + getArticle(modelClass) + modelClass.getSimpleName() + " resource");
         get.add("operationId", "history" + modelClass.getSimpleName());
         
         JsonArrayBuilder produces = factory.createArrayBuilder();
@@ -476,6 +514,10 @@ public class FHIRSwaggerGenerator {
     private static void generateMetadataPathItem(JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Other");
+        
+        get.add("tags", tags);
         get.add("summary", "Get the FHIR conformance statement for this endpoint");
         get.add("operationId", "metadata");
         
