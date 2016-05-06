@@ -44,6 +44,7 @@ import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.ParameterValue.Prefix;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 public class SearchUtil {
     private static final Logger log = Logger.getLogger(SearchUtil.class.getName());
@@ -116,7 +117,7 @@ public class SearchUtil {
         try {
             populateSearchParameterMap(searchParameterMap, "extension-search-parameters.xml");
         } catch (Exception e) {
-            log.fine("An error occurred loading FHIR extension search parameters.");
+            log.fine("Unable to load extension search parameters from location: ${server.config.dir}/config/extension-search-parameters.xml");
             log.fine(e.getMessage());
         }
 		return searchParameterMap;
@@ -199,7 +200,7 @@ public class SearchUtil {
 		return result;
 	}
 	
-	public static List<Parameter> parseQueryParameters(Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters) {
+	public static List<Parameter> parseQueryParameters(Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters) throws FHIRSearchException {
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		
 		for (String name : queryParameters.keySet()) {
@@ -313,6 +314,7 @@ public class SearchUtil {
 	            }
 		    } catch (Exception e) {
 		        log.fine("Unable to parse query parameter named: " + name);
+		        throw new FHIRSearchException("Unable to parse query parameter named: '" + name + "'");
 		    }
 		}
 		

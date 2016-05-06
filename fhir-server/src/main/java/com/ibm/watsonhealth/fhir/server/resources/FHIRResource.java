@@ -57,6 +57,7 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
@@ -345,7 +346,7 @@ public class FHIRResource {
             List<Resource> resources = getPersistenceImpl().search(resourceType, searchParameters);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET);
             return Response.ok(bundle).build();
-        } catch (FHIRPersistenceException e) {
+        } catch (FHIRSearchException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
