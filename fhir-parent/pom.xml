@@ -100,6 +100,11 @@
 				<artifactId>derbyclient</artifactId>
 				<version>10.12.1.1</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>10.12.1.1</version>
+            </dependency>
 			<dependency>
 				<groupId>com.ibm.db2</groupId>
 				<!-- <artifactId>db2jcc</artifactId> -->

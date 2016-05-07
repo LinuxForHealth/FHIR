@@ -222,8 +222,11 @@ public class SearchUtil {
 	            
 	            // get the definition for this search parameter based on resource type and parameter name
 	            SearchParameter searchParameter = parameterName.startsWith("_") ? 
-	                    SearchUtil.getSearchParameter(Resource.class, parameterName) : 
-	                    SearchUtil.getSearchParameter(resourceType, parameterName);
+	                    getSearchParameter(Resource.class, parameterName) : 
+	                    getSearchParameter(resourceType, parameterName);
+	            if (searchParameter == null) {
+	                throw new FHIRSearchException("Search parameter '" + parameterName + "' for resource type '" + resourceType.getSimpleName() + "' was not found.");
+	            }
 	                    
 	            // get the type of parameter so that we can use it to parse the value
 	            Type type = Type.fromValue(searchParameter.getType().getValue());
@@ -279,8 +282,10 @@ public class SearchUtil {
 	                        parameterValue.setValueNumber(Double.parseDouble(number));
 	                        String system = parts[1];   // could be empty string
 	                        parameterValue.setValueSystem(system);
-	                        String code = parts[2];
-	                        parameterValue.setValueCode(code);
+                            if (parts.length > 2) {
+                                String code = parts[2];
+                                parameterValue.setValueCode(code);
+                            }
 	                        break;
 	                    }
 	                    case STRING: {
@@ -312,9 +317,12 @@ public class SearchUtil {
 	                    parameter.getValues().add(parameterValue);
 	                }
 	            }
-		    } catch (Exception e) {
+		    } catch (FHIRSearchException e) {
+		        throw e;
+		    }
+		    catch (Exception e) {
 		        log.fine("Unable to parse query parameter named: " + name);
-		        throw new FHIRSearchException("Unable to parse query parameter named: '" + name + "'");
+		        throw new FHIRSearchException("Unable to parse query parameter named: '" + name + "'", e);
 		    }
 		}
 		
