@@ -37,6 +37,9 @@ public class FHIRApplication extends Application {
         beanConfig.setBasePath("/fhir-server/api");
         beanConfig.setResourcePackage(FHIRResource.class.getPackage().getName());
         beanConfig.setScan(true);
+        
+        FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
+        log.info("FHIR Server version " + buildInfo.getBuildVersion() + " build id '" + buildInfo.getBuildId() + "' starting.");
     }
 
     @Override

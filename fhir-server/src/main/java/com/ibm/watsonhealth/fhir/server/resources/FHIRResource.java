@@ -45,6 +45,7 @@ import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Conformance;
+import com.ibm.watsonhealth.fhir.model.ConformanceStatementKindList;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
@@ -59,6 +60,7 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNo
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
@@ -78,8 +80,7 @@ public class FHIRResource {
     
     private static final String NL = System.getProperty("line.separator");
     
-    private static final String FHIR_SERVER_DESC = "IBM Watson Health Cloud FHIR Server";
-    private static final String FHIR_SERVER_VERSION = "0.1";
+    private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SPEC_VERSION = "1.0.2";
     
 
@@ -437,15 +438,34 @@ public class FHIRResource {
      * Builds a Conformance resource instance which describes this server.
      */
     private Resource buildConformanceStatement() {
+        FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
+        
+        String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion()
+            + " build id " + buildInfo.getBuildId() + "";
+        
         ObjectFactory of = new ObjectFactory();
         
         // TODO - we need to fill out more of the Conformance resource.
-        Conformance conformance = of.createConformance().
-                withDate(of.createDateTime().withValue(new Date().toString())).
-                withFormat(of.createCode().withValue("json"), of.createCode().withValue("xml")).
-                withVersion(of.createString().withValue(FHIR_SERVER_VERSION)).
-                withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION)).
-                withName(of.createString().withValue(FHIR_SERVER_DESC));
+        Conformance conformance = of.createConformance()
+                .withDate(of.createDateTime().withValue(new Date().toString()))
+                .withFormat(
+                    of.createCode().withValue(MediaType.APPLICATION_JSON), 
+                    of.createCode().withValue(MediaType.APPLICATION_JSON_FHIR), 
+                    of.createCode().withValue(MediaType.APPLICATION_XML),
+                    of.createCode().withValue(MediaType.APPLICATION_XML_FHIR))
+                .withVersion(of.createString().withValue(buildInfo.getBuildVersion()))
+                .withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION))
+                .withName(of.createString().withValue(FHIR_SERVER_NAME))
+                .withDescription(of.createString().withValue(buildDescription))
+                .withCopyright(of.createString().withValue("© Copyright IBM Corporation 2016"))
+                .withPublisher(of.createString().withValue("IBM Corporation"))
+                .withKind(of.createConformanceStatementKind().withValue(ConformanceStatementKindList.INSTANCE))
+                .withSoftware(
+                    of.createConformanceSoftware()
+                        .withName(of.createString().withValue(FHIR_SERVER_NAME))
+                        .withVersion(of.createString().withValue(buildInfo.getBuildVersion()))
+                        .withId(buildInfo.getBuildId()))
+                ;
         
         return conformance;
     }

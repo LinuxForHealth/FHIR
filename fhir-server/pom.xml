@@ -166,6 +166,37 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>sandbox</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.id>development</build.id>
+			</properties>
+		</profile>
+		<profile>
+			<id>jenkins</id>
+			<activation>
+				<property>
+					<name>profile</name>
+					<value>jenkins</value>
+				</property>
+			</activation>
+			<properties>
+				<build.id>${env.BUILD_TIMESTAMP}</build.id>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>
