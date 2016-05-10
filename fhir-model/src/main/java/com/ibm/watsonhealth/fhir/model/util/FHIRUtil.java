@@ -9,6 +9,8 @@ package com.ibm.watsonhealth.fhir.model.util;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -19,6 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import javax.xml.bind.Binder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -29,6 +35,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -60,6 +67,7 @@ import com.ibm.watsonhealth.fhir.model.Date;
 import com.ibm.watsonhealth.fhir.model.DateTime;
 import com.ibm.watsonhealth.fhir.model.Decimal;
 import com.ibm.watsonhealth.fhir.model.DomainResource;
+import com.ibm.watsonhealth.fhir.model.Element;
 import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.GoalStatus;
 import com.ibm.watsonhealth.fhir.model.GoalStatusList;
@@ -246,7 +254,31 @@ public class FHIRUtil {
 		return (T) unmarshaller.unmarshal(node);
 	}
 	
-	private static Marshaller createMarshaller(Format format) throws JAXBException {
+	public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws JAXBException {
+        // write JsonObject to String
+	    StringWriter writer = new StringWriter();
+        Json.createWriter(writer).writeObject(jsonObject);
+        String jsonString = writer.toString();
+        
+        // read Resource from String
+        Unmarshaller unmarshaller = createUnmarshaller(Format.JSON);
+        JAXBElement<T> jaxbElement = unmarshaller.unmarshal(new StreamSource(new StringReader(jsonString)), resourceType);
+        return jaxbElement.getValue();
+    }
+
+    public static <T extends Element> T toElement(Class<T> elementType, JsonObject jsonObject) throws JAXBException {
+        // write JsonObject to String
+        StringWriter writer = new StringWriter();
+        Json.createWriter(writer).writeObject(jsonObject);
+        String jsonString = writer.toString();
+        
+        // read Element from String
+        Unmarshaller unmarshaller = createUnmarshaller(Format.JSON);
+        JAXBElement<T> jaxbElement = unmarshaller.unmarshal(new StreamSource(new StringReader(jsonString)), elementType);
+        return jaxbElement.getValue();
+    }
+
+    private static Marshaller createMarshaller(Format format) throws JAXBException {
 		JAXBContext context = getContext(format);
 		Marshaller marshaller = context.createMarshaller();
 		configureMarshaller(marshaller, format);
@@ -286,6 +318,49 @@ public class FHIRUtil {
 		marshaller.marshal(resource, node);
 	}
 	
+    public static JsonObject toJsonObject(Resource resource) throws JAXBException {
+        // write Resource to String
+        StringWriter writer = new StringWriter();
+        write(resource, Format.JSON, writer);
+        String jsonString = writer.toString();
+        
+        // read JsonObject from String
+        return Json.createReader(new StringReader(jsonString)).readObject();
+    }
+    
+    public static JsonObjectBuilder toJsonObjectBuilder(Resource resource) throws JAXBException {
+        return toJsonObjectBuilder(toJsonObject(resource));
+    }
+
+    public static <T extends Element> JsonObject toJsonObject(Class<T> elementType, T element) throws JAXBException {
+        // write Element to String
+        StringWriter writer = new StringWriter();
+        Marshaller marshaller = createMarshaller(Format.JSON);
+        
+        // wrap "element" in a JAXBElement to omit "type" field from output
+        JAXBElement<T> jaxbElement = new JAXBElement<T>(new QName(""), elementType, element);
+        marshaller.marshal(jaxbElement, writer);
+        String jsonString = writer.toString();
+        
+        // read JsonObject from String
+        return Json.createReader(new StringReader(jsonString)).readObject();
+    }
+    
+    public static <T extends Element> JsonObjectBuilder toJsonObjectBuilder(Class<T> elementType, T element) throws JAXBException {
+        return toJsonObjectBuilder(toJsonObject(elementType, element));
+    }
+
+    // copy an immutable JsonObject into a mutable JsonObjectBuilder
+    public static JsonObjectBuilder toJsonObjectBuilder(JsonObject jsonObject) {
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+        // JsonObject is a Map<String, JsonValue>
+        for (String key : jsonObject.keySet()) {
+            JsonValue value = jsonObject.get(key);
+            builder.add(key, value);
+        }
+        return builder;
+    }
+
     public static Attachment attachment(String contentType) {
         return objectFactory.createAttachment().withContentType(code(contentType));
     }
@@ -579,8 +654,8 @@ public class FHIRUtil {
     public static UnitsOfTime unitsOfTime(String s) {
     	return objectFactory.createUnitsOfTime().withValue(UnitsOfTimeList.fromValue(s));
     }
-
-    public static boolean isValidResourceTypeName(String name) {
+    
+    public static boolean isStandardResourceType(String name) {
         return resourceTypeNames.contains(name);
     }
 	
