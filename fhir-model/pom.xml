@@ -10,6 +10,8 @@
 	</parent>
 
 	<artifactId>fhir-model</artifactId>
+	
+	<packaging>jar</packaging>
 
 	<dependencies>
         <dependency>
