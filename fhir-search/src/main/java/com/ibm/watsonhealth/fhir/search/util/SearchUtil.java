@@ -211,7 +211,7 @@ public class SearchUtil {
 	            String modifierResourceTypeName = null;
 	            if (parameterName.contains(":")) {
 	                String mod = parameterName.substring(parameterName.indexOf(":") + 1);
-	                if (FHIRUtil.isValidResourceTypeName(mod)) {
+	                if (FHIRUtil.isStandardResourceType(mod)) {
 	                    modifier = Modifier.TYPE;
 	                    modifierResourceTypeName = mod;
 	                } else {
