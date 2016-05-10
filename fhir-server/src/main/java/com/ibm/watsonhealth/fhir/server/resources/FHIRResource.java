@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.server.resources;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,6 +56,7 @@ import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -137,9 +140,8 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
-            
             String resourceType = resource.getClass().getSimpleName();
-            if (!resourceType.equals(type)) {
+            if (!resourceType.equals(type) && !"Basic".equals(resourceType)) {
                 throw new FHIRException("Resource type '" + resourceType + "' does not match type specified in request URI: " + type);
             }
             
@@ -155,8 +157,9 @@ public class FHIRResource {
             // If there were no validation errors, then create the resource and return the location header.
             getPersistenceImpl().create(resource);
             
-            ResponseBuilder response = Response.created(buildLocationURI(resource));
+            ResponseBuilder response = Response.created(buildLocationURI(type, resource));
             response = addHeaders(response, resource);
+            
             return response.build();
         } catch (FHIRException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -208,7 +211,7 @@ public class FHIRResource {
             // If there were no validation errors, then create the resource and return the location header.
             getPersistenceImpl().update(id, resource);
 
-            ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, buildLocationURI(resource));
+            ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, buildLocationURI(type, resource));
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
@@ -240,15 +243,20 @@ public class FHIRResource {
         @PathParam("id") String id) throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
-            Class<? extends Resource> resourceType = getResourceType(type);
+            String resourceTypeName = type;
+            if (!FHIRUtil.isStandardResourceType(type)) {
+                resourceTypeName = "Basic";
+            }
+//          Class<? extends Resource> resourceType = getResourceType(type);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             Resource resource = getPersistenceImpl().read(resourceType, id);
             if (resource == null) {
-                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' not found.");
+//              throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' not found.");
+                throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
             }
-
             ResponseBuilder response = Response.ok().entity(resource);
             response = addHeaders(response, resource);
-             return response.build();
+            return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             return exceptionResponse(e, Response.Status.NOT_FOUND);
         } catch (FHIRException e) {
@@ -284,12 +292,16 @@ public class FHIRResource {
             log.entering(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
         try {
-            Class<? extends Resource> resourceType = getResourceType(type);
+            String resourceTypeName = type;
+            if (!FHIRUtil.isStandardResourceType(type)) {
+                resourceTypeName = "Basic";
+            }
+//          Class<? extends Resource> resourceType = getResourceType(type);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             Resource resource = getPersistenceImpl().vread(resourceType, id, vid);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + vid + " not found.");
             }
-
             ResponseBuilder response = Response.ok().entity(resource);
             response = addHeaders(response, resource);
             return response.build();
@@ -303,7 +315,7 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
-    
+
     @GET
     @Path("{type}/{id}/_history")
     @ApiOperation(value = "Retrieves all of the versions of the specified resource.", 
@@ -321,7 +333,12 @@ public class FHIRResource {
         @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
-            Class<? extends Resource> resourceType = getResourceType(type);
+            String resourceTypeName = type;
+            if (!FHIRUtil.isStandardResourceType(type)) {
+                resourceTypeName = "Basic";
+            }
+//          Class<? extends Resource> resourceType = getResourceType(type);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             List<Resource> resources = getPersistenceImpl().history(resourceType, id);
             Bundle bundle = createBundle(resources, BundleTypeList.HISTORY);
             return Response.ok(bundle).build();
@@ -350,7 +367,12 @@ public class FHIRResource {
         @Context UriInfo uriInfo) {
         log.entering(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
-            Class<? extends Resource> resourceType = getResourceType(type);
+            String resourceTypeName = type;
+            if (!FHIRUtil.isStandardResourceType(type)) {
+                resourceTypeName = "Basic";
+            }
+//          Class<? extends Resource> resourceType = getResourceType(type);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
             List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             List<Resource> resources = getPersistenceImpl().search(resourceType, searchParameters);
@@ -476,9 +498,14 @@ public class FHIRResource {
      * Note that the server will turn this into an absolute URL prior to returning it to the client.
      * @param resource the resource for which the location header value should be returned
      */
-    private URI buildLocationURI(Resource resource) {
+    private URI buildLocationURI(String type, Resource resource) {
+        String resourceTypeName = resource.getClass().getSimpleName();
+        if (!resourceTypeName.equals(type)) {
+            resourceTypeName = type;
+        }
         return URI.create(
-            resource.getClass().getSimpleName() + "/"
+//          resource.getClass().getSimpleName() + "/"
+            resourceTypeName + "/"
                     + resource.getId().getValue() + "/_history/"
                     + resource.getMeta().getVersionId().getValue());
     }
@@ -486,6 +513,9 @@ public class FHIRResource {
     private Bundle createBundle(List<Resource> resources, BundleTypeList type) {
         Bundle bundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(type));
         
+        // generate ID for this bundle
+        bundle.setId(id(UUID.randomUUID().toString()));
+
         for (Resource resource : resources) {
             Class<? extends Resource> resourceType = resource.getClass();
             BundleEntry entry = objectFactory.createBundleEntry();
