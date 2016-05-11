@@ -145,6 +145,11 @@ public class FHIRResource {
                 throw new FHIRException("Resource type '" + resourceType + "' does not match type specified in request URI: " + type);
             }
             
+            // A new resource should not contain an ID.
+            if (resource.getId() != null) {
+                throw new FHIRException("A 'create' operation cannot be performed on a resource that contains an 'id' attribute.");
+            }
+            
             // Validate the input resource and return any validation errors.
             List<String> messages = getValidator().validate(resource);
             if (!messages.isEmpty()) {
