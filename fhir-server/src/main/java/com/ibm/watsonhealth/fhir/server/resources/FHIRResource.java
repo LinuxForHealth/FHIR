@@ -16,6 +16,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -535,6 +536,12 @@ public class FHIRResource {
             }
             bundle.getEntry().add(entry);
         }
+        
+        // Finally, set the "total" field.
+        bundle.setTotal(
+            objectFactory.createUnsignedInt()
+                .withValue(BigInteger.valueOf(bundle.getEntry().size())));
+        
         return bundle;
     }
 
