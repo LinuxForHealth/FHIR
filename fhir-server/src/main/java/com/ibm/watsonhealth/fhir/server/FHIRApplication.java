@@ -10,9 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.Application;
 
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
+import com.ibm.watsonhealth.fhir.provider.FHIRVirtualResourceProvider;
 import com.ibm.watsonhealth.fhir.server.resources.FHIRResource;
 
 import io.swagger.jaxrs.config.BeanConfig;
@@ -66,7 +68,8 @@ public class FHIRApplication extends Application {
         try {
             if (singletons == null) {
                 singletons = new HashSet<Object>();
-                singletons.add(new FHIRProvider());
+                singletons.add(new FHIRProvider(RuntimeType.SERVER));
+                singletons.add(new FHIRVirtualResourceProvider());
             }
             return singletons;
         } finally {
