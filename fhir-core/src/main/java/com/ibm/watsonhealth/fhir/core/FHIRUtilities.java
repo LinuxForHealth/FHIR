@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Base64;
 
 /**
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
@@ -84,5 +85,27 @@ public class FHIRUtilities {
             }
         }
         return str;
+    }
+    
+    public static String decode(String encodedString) throws Exception {
+        String decodedString = null;
+        if (isEncoded(encodedString)) {
+            String withoutTag = encodedString.substring(5);
+            byte[] bytes = withoutTag.getBytes("UTF-8");
+            byte[] decodedBytes = Base64.getDecoder().decode(bytes);
+            byte[] xor_bytes = new byte[bytes.length];
+            for (int i = 0; i < bytes.length; i++) {
+                xor_bytes[i] = (byte) (0x5F ^ bytes[i]);
+            }
+            decodedString = new String(xor_bytes, "UTF-8");
+        } else {
+            decodedString = encodedString;
+        }
+
+        return decodedString;
+    }
+    
+    public static boolean isEncoded(String s) {
+        return s.startsWith("{xor}");
     }
 }
