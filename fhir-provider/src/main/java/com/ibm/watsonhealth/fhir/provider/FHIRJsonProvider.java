@@ -33,7 +33,7 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return type == JsonObject.class;
+        return JsonObject.class.isAssignableFrom(type);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return type == JsonObject.class;
+        return JsonObject.class.isAssignableFrom(type);
     }
 
     @Override
