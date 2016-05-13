@@ -93,9 +93,9 @@ public class FHIRUtilities {
             String withoutTag = encodedString.substring(5);
             byte[] bytes = withoutTag.getBytes("UTF-8");
             byte[] decodedBytes = Base64.getDecoder().decode(bytes);
-            byte[] xor_bytes = new byte[bytes.length];
-            for (int i = 0; i < bytes.length; i++) {
-                xor_bytes[i] = (byte) (0x5F ^ bytes[i]);
+            byte[] xor_bytes = new byte[decodedBytes.length];
+            for (int i = 0; i < decodedBytes.length; i++) {
+                xor_bytes[i] = (byte) (0x5F ^ decodedBytes[i]);
             }
             decodedString = new String(xor_bytes, "UTF-8");
         } else {
