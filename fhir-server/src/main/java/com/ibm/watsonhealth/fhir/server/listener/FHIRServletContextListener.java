@@ -13,6 +13,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
@@ -22,7 +23,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		if (log.isLoggable(Level.FINE)) {
+		if (log.isLoggable(Level.FINER)) {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
@@ -34,10 +35,13 @@ public class FHIRServletContextListener implements ServletContextListener {
 			
 			// Set the shared FHIRPersistenceHelper.
             event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
+
+            // Set the shared interceptor mgr.
+            event.getServletContext().setAttribute(FHIRPersistenceInterceptorMgr.class.getName(), FHIRPersistenceInterceptorMgr.getInstance());
 		} catch (Exception e) {
 			// ignore exceptions here
 		} finally {
-			if (log.isLoggable(Level.FINE)) {
+			if (log.isLoggable(Level.FINER)) {
 				log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
 			}
 		}
@@ -45,14 +49,14 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     @Override
 	public void contextDestroyed(ServletContextEvent event) {
-		if (log.isLoggable(Level.FINE)) {
+		if (log.isLoggable(Level.FINER)) {
 			log.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
 		}
 		try {
 			// TODO
 		} catch (Exception e) {
 		} finally {
-			if (log.isLoggable(Level.FINE)) {
+			if (log.isLoggable(Level.FINER)) {
 				log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
 			}
 		}

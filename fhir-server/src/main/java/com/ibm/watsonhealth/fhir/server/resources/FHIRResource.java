@@ -59,8 +59,10 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -90,6 +92,7 @@ public class FHIRResource {
 
     private Validator validator = null;
     private FHIRPersistenceHelper persistenceHelper = null;
+    private FHIRPersistenceInterceptorMgr interceptorMgr = null;
     private FHIRPersistence persistence = null;
     private ObjectFactory objectFactory = new ObjectFactory();
 
@@ -161,7 +164,13 @@ public class FHIRResource {
             }
             
             // If there were no validation errors, then create the resource and return the location header.
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent();
+            event.setFhirResource(resource);
+            getInterceptorMgr().fireBeforeCreateEvent(event);
+            
             getPersistenceImpl().create(resource);
+            
+            getInterceptorMgr().fireAfterCreateEvent(event);
             
             ResponseBuilder response = Response.created(buildLocationURI(type, resource));
             response = addHeaders(response, resource);
@@ -215,7 +224,13 @@ public class FHIRResource {
             }
             
             // If there were no validation errors, then create the resource and return the location header.
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent();
+            event.setFhirResource(resource);
+            getInterceptorMgr().fireBeforeUpdateEvent(event);
+            
             getPersistenceImpl().update(id, resource);
+            
+            getInterceptorMgr().fireAfterUpdateEvent(event);
 
             ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, buildLocationURI(type, resource));
             response = addHeaders(response, resource);
@@ -554,6 +569,17 @@ public class FHIRResource {
             log.fine("Retrieved Validator instance from servlet context: " + validator);
         }
         return validator;
+    }
+
+    /**
+     * Retrieves the shared interceptor mgr instance from the servlet context.
+     */
+    private FHIRPersistenceInterceptorMgr getInterceptorMgr() {
+        if (interceptorMgr == null) {
+            interceptorMgr = (FHIRPersistenceInterceptorMgr) context.getAttribute(FHIRPersistenceInterceptorMgr.class.getName());
+            log.fine("Retrieved FHIRPersistenceInterceptorMgr instance from servlet context: " + interceptorMgr);
+        }
+        return interceptorMgr;
     }
 
     /**
