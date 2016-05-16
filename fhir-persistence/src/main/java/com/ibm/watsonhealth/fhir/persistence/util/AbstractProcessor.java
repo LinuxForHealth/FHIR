@@ -20,7 +20,7 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
             Class<?> valueType = value.getClass();
             if (isEnumerationWrapper(valueType)) {
                 value = getValue(value);
-                valueType = value.getClass();
+                valueType = String.class;
             } else if (valueType == Extension.class) {
                 value = getValue((Extension) value);
                 valueType = value.getClass();
