@@ -177,10 +177,11 @@ public class FHIRResource {
             
             ResponseBuilder response = Response.created(buildLocationURI(type, resource));
             response = addHeaders(response, resource);
-            //for now add boolean check ..so it can control later on with some kind of external parameter
-            if( sendNotification){
-            //Send out the notification
-            	FHIRNotificationService.getInstance().broadcast(buildNotificationObject("create", buildLocationURI(type, resource).toString(), resource ));
+            
+            // for now add boolean check ..so it can control later on with some kind of external parameter
+            if (sendNotification) {
+                // Send out the notification
+                FHIRNotificationService.getInstance().broadcast(buildNotificationObject("create", buildLocationURI(type, resource).toString(), resource));
             }
             return response.build();
         } catch (FHIRException e) {
@@ -241,10 +242,10 @@ public class FHIRResource {
 
             ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, buildLocationURI(type, resource));
             response = addHeaders(response, resource);
-            if( sendNotification){
-                //Send out the notification
-                	FHIRNotificationService.getInstance().broadcast(buildNotificationObject("update", buildLocationURI(type, resource).toString(), resource ));
-                }
+            if (sendNotification) {
+                // Send out the notification
+                FHIRNotificationService.getInstance().broadcast(buildNotificationObject("update", buildLocationURI(type, resource).toString(), resource));
+            }
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
