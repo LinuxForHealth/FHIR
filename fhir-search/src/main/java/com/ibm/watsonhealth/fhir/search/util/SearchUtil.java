@@ -130,6 +130,9 @@ public class SearchUtil {
             ResourceContainer container = entry.getResource();
             SearchParameter parameter = container.getSearchParameter();
             if (parameter != null) {
+                if (!FHIRUtil.isStandardResourceType(parameter.getBase().getValue())) {
+                    transformParameter(parameter);
+                }
                 String base = parameter.getBase().getValue();
                 Map<String, SearchParameter> map = searchParameterMap.get(base);
                 if (map == null) {
@@ -142,7 +145,29 @@ public class SearchUtil {
         }
     }
 	
-	public static List<SearchParameter> getSearchParameters(Class<? extends Resource> resourceType) {
+	private static void transformParameter(SearchParameter parameter) {
+	    parameter.getBase().setValue("Basic");
+	    String path = parameter.getXpath().getValue();
+	    parameter.getXpath().setValue(transformPath(path));
+    }
+
+    private static String transformPath(String path) {
+	    StringBuffer result = new StringBuffer();
+	    result.append("f:Basic/");
+        path = path.substring(path.indexOf("/") + 1);
+        for (String component : path.split("/f:")) {
+            String fieldName = component.replace("f:", "");
+            result.append("f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/" + fieldName + "']");
+            result.append("//");
+        }
+        int index = result.lastIndexOf("//");
+        if (index != -1) {
+            result.replace(index, index + 2, "");
+        }
+        return result.toString();
+    }
+
+    public static List<SearchParameter> getSearchParameters(Class<? extends Resource> resourceType) {
 		Map<String, SearchParameter> map = searchParameterMap.get(resourceType.getSimpleName());
 		if (map != null) {
 			return new ArrayList<SearchParameter>(map.values());
