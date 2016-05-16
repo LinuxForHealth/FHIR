@@ -13,11 +13,11 @@ import java.lang.reflect.Method;
 import com.ibm.watsonhealth.fhir.model.Element;
 import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
-import com.ibm.watsonhealth.fhir.persistence.exception.SearchParmException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
 public abstract class AbstractProcessor<T> implements Processor<T> {
     @SuppressWarnings("unchecked")
-    public T process(SearchParameter parameter, Object value) throws  SearchParmException {
+    public T process(SearchParameter parameter, Object value) throws  FHIRPersistenceProcessorException {
         try {
             Class<?> valueType = value.getClass();
             if (isEnumerationWrapper(valueType)) {
@@ -34,16 +34,16 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
         }
         catch(NoSuchMethodException | IllegalAccessException e) 
         {
-        	throw new SearchParmException(e);
+        	throw new FHIRPersistenceProcessorException(e);
         }
         catch(InvocationTargetException e) {
         	Throwable targetException = e.getCause();
-        	if (targetException instanceof SearchParmException) {
-        		SearchParmException spe = (SearchParmException) targetException;
+        	if (targetException instanceof FHIRPersistenceProcessorException) {
+        		FHIRPersistenceProcessorException spe = (FHIRPersistenceProcessorException) targetException;
         		throw spe;
         	}
         	else {
-        		throw new SearchParmException(targetException);
+        		throw new FHIRPersistenceProcessorException(targetException);
         	}
         }
     }
