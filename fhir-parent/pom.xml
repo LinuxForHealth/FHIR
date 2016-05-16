@@ -23,6 +23,8 @@
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
+		<module>../fhir-notification</module>
+		<module>../fhir-notification-websocket</module>
 		<module>../fhir-server</module>
 		<module>../fhir-swagger-generator</module>
 		<module>../fhir-swagger-ui</module>
@@ -100,6 +102,13 @@
 				<groupId>com.cloudant</groupId>
 				<artifactId>cloudant-client</artifactId>
 				<version>2.4.1</version>
+			</dependency>
+			<!-- This dependency version needs to be in sync 
+			with the library that is being used by com.cloudant.cloudant-client -->
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.2.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
