@@ -7,15 +7,17 @@
 package com.ibm.watsonhealth.fhir.persistence.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.ibm.watsonhealth.fhir.model.Element;
 import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.persistence.exception.SearchParmException;
 
 public abstract class AbstractProcessor<T> implements Processor<T> {
     @SuppressWarnings("unchecked")
-    public T process(SearchParameter parameter, Object value) {
+    public T process(SearchParameter parameter, Object value) throws  SearchParmException {
         try {
             Class<?> valueType = value.getClass();
             if (isEnumerationWrapper(valueType)) {
@@ -29,10 +31,21 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
             }
             Method processMethod = this.getClass().getMethod("process", SearchParameter.class, valueType);
             return (T) processMethod.invoke(this, parameter, value);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
+        catch(NoSuchMethodException | IllegalAccessException e) 
+        {
+        	throw new SearchParmException(e);
+        }
+        catch(InvocationTargetException e) {
+        	Throwable targetException = e.getCause();
+        	if (targetException instanceof SearchParmException) {
+        		SearchParmException spe = (SearchParmException) targetException;
+        		throw spe;
+        	}
+        	else {
+        		throw new SearchParmException(targetException);
+        	}
+        }
     }
     
     protected boolean isEnumerationWrapper(Class<?> valueType) {

@@ -106,7 +106,7 @@ public class ProcessorTest {
     private Processor<String> processor = new MockProcessor();
 
     @Test
-    public void testProcessAccountStatus() {
+    public void testProcessAccountStatus()  throws Exception {
         AccountStatus value = factory.createAccountStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.AccountStatusList.ACTIVE);
         String result = processor.process(null, value);
@@ -114,7 +114,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessActionList() {
+    public void testProcessActionList()  throws Exception {
         ActionList value = factory.createActionList();
         value.setValue(com.ibm.watsonhealth.fhir.model.ActionListList.CANCEL);
         String result = processor.process(null, value);
@@ -122,14 +122,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAddress() {
+    public void testProcessAddress()  throws Exception {
         Object value = factory.createAddress();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Address)", result);
     }
 
     @Test
-    public void testProcessAddressUse() {
+    public void testProcessAddressUse()  throws Exception {
         AddressUse value = factory.createAddressUse();
         value.setValue(com.ibm.watsonhealth.fhir.model.AddressUseList.HOME);
         String result = processor.process(null, value);
@@ -137,7 +137,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAllergyIntoleranceCategory() {
+    public void testProcessAllergyIntoleranceCategory()  throws Exception {
         AllergyIntoleranceCategory value = factory.createAllergyIntoleranceCategory();
         value.setValue(com.ibm.watsonhealth.fhir.model.AllergyIntoleranceCategoryList.FOOD);
         String result = processor.process(null, value);
@@ -145,7 +145,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAllergyIntoleranceCriticality() {
+    public void testProcessAllergyIntoleranceCriticality()  throws Exception {
         AllergyIntoleranceCriticality value = factory.createAllergyIntoleranceCriticality();
         value.setValue(com.ibm.watsonhealth.fhir.model.AllergyIntoleranceCriticalityList.CRITL);
         String result = processor.process(null, value);
@@ -153,7 +153,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAllergyIntoleranceSeverity() {
+    public void testProcessAllergyIntoleranceSeverity()  throws Exception {
         AllergyIntoleranceSeverity value = factory.createAllergyIntoleranceSeverity();
         value.setValue(com.ibm.watsonhealth.fhir.model.AllergyIntoleranceSeverityList.MILD);
         String result = processor.process(null, value);
@@ -161,7 +161,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAllergyIntoleranceStatus() {
+    public void testProcessAllergyIntoleranceStatus()  throws Exception {
         AllergyIntoleranceStatus value = factory.createAllergyIntoleranceStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.AllergyIntoleranceStatusList.ACTIVE);
         String result = processor.process(null, value);
@@ -169,7 +169,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAllergyIntoleranceType() {
+    public void testProcessAllergyIntoleranceType()  throws Exception {
         AllergyIntoleranceType value = factory.createAllergyIntoleranceType();
         value.setValue(com.ibm.watsonhealth.fhir.model.AllergyIntoleranceTypeList.ALLERGY);
         String result = processor.process(null, value);
@@ -177,14 +177,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAnnotation() {
+    public void testProcessAnnotation()  throws Exception {
         Object value = factory.createAnnotation();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Annotation)", result);
     }
 
     @Test
-    public void testProcessAppointmentStatus() {
+    public void testProcessAppointmentStatus()  throws Exception {
         AppointmentStatus value = factory.createAppointmentStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.AppointmentStatusList.PROPOSED);
         String result = processor.process(null, value);
@@ -192,14 +192,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessAttachment() {
+    public void testProcessAttachment()  throws Exception {
         Object value = factory.createAttachment();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Attachment)", result);
     }
 
     @Test
-    public void testProcessAuditEventAction() {
+    public void testProcessAuditEventAction()  throws Exception {
         AuditEventAction value = factory.createAuditEventAction();
         value.setValue(com.ibm.watsonhealth.fhir.model.AuditEventActionList.C);
         String result = processor.process(null, value);
@@ -207,21 +207,21 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessBase64Binary() {
+    public void testProcessBase64Binary()  throws Exception {
         Object value = factory.createBase64Binary();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Base64Binary)", result);
     }
 
     @Test
-    public void testProcessBoolean() {
+    public void testProcessBoolean()  throws Exception {
         Object value = factory.createBoolean();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Boolean)", result);
     }
 
     @Test
-    public void testProcessCarePlanRelationship() {
+    public void testProcessCarePlanRelationship()  throws Exception {
         CarePlanRelationship value = factory.createCarePlanRelationship();
         value.setValue(com.ibm.watsonhealth.fhir.model.CarePlanRelationshipList.INCLUDES);
         String result = processor.process(null, value);
@@ -229,7 +229,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessClinicalImpressionStatus() {
+    public void testProcessClinicalImpressionStatus()  throws Exception {
         ClinicalImpressionStatus value = factory.createClinicalImpressionStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.ClinicalImpressionStatusList.IN_PROGRESS);
         String result = processor.process(null, value);
@@ -237,28 +237,28 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessCode() {
+    public void testProcessCode()  throws Exception {
         Object value = factory.createCode();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Code)", result);
     }
 
     @Test
-    public void testProcessCodeableConcept() {
+    public void testProcessCodeableConcept()  throws Exception {
         Object value = factory.createCodeableConcept();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, CodeableConcept)", result);
     }
 
     @Test
-    public void testProcessCoding() {
+    public void testProcessCoding()  throws Exception {
         Object value = factory.createCoding();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Coding)", result);
     }
 
     @Test
-    public void testProcessCommunicationRequestStatus() {
+    public void testProcessCommunicationRequestStatus()  throws Exception {
         CommunicationRequestStatus value = factory.createCommunicationRequestStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.CommunicationRequestStatusList.PROPOSED);
         String result = processor.process(null, value);
@@ -266,7 +266,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessCommunicationStatus() {
+    public void testProcessCommunicationStatus()  throws Exception {
         CommunicationStatus value = factory.createCommunicationStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.CommunicationStatusList.IN_PROGRESS);
         String result = processor.process(null, value);
@@ -274,7 +274,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessCompositionStatus() {
+    public void testProcessCompositionStatus()  throws Exception {
         CompositionStatus value = factory.createCompositionStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.CompositionStatusList.PRELIMINARY);
         String result = processor.process(null, value);
@@ -282,14 +282,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessContactPoint() {
+    public void testProcessContactPoint()  throws Exception {
         Object value = factory.createContactPoint();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, ContactPoint)", result);
     }
 
     @Test
-    public void testProcessDataElementStringency() {
+    public void testProcessDataElementStringency()  throws Exception {
         DataElementStringency value = factory.createDataElementStringency();
         value.setValue(com.ibm.watsonhealth.fhir.model.DataElementStringencyList.COMPARABLE);
         String result = processor.process(null, value);
@@ -297,28 +297,28 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessDate() {
+    public void testProcessDate()  throws Exception {
         Object value = factory.createDate();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Date)", result);
     }
 
     @Test
-    public void testProcessDateTime() {
+    public void testProcessDateTime()  throws Exception {
         Object value = factory.createDateTime();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, DateTime)", result);
     }
 
     @Test
-    public void testProcessDecimal() {
+    public void testProcessDecimal()  throws Exception {
         Object value = factory.createDecimal();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Decimal)", result);
     }
 
     @Test
-    public void testProcessDeviceMetricCategory() {
+    public void testProcessDeviceMetricCategory()  throws Exception {
         DeviceMetricCategory value = factory.createDeviceMetricCategory();
         value.setValue(com.ibm.watsonhealth.fhir.model.DeviceMetricCategoryList.MEASUREMENT);
         String result = processor.process(null, value);
@@ -326,7 +326,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessDiagnosticOrderStatus() {
+    public void testProcessDiagnosticOrderStatus()  throws Exception {
         DiagnosticOrderStatus value = factory.createDiagnosticOrderStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.DiagnosticOrderStatusList.PROPOSED);
         String result = processor.process(null, value);
@@ -334,7 +334,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessDiagnosticReportStatus() {
+    public void testProcessDiagnosticReportStatus()  throws Exception {
         DiagnosticReportStatus value = factory.createDiagnosticReportStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.DiagnosticReportStatusList.REGISTERED);
         String result = processor.process(null, value);
@@ -342,7 +342,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessDigitalMediaType() {
+    public void testProcessDigitalMediaType()  throws Exception {
         DigitalMediaType value = factory.createDigitalMediaType();
         value.setValue(com.ibm.watsonhealth.fhir.model.DigitalMediaTypeList.PHOTO);
         String result = processor.process(null, value);
@@ -350,7 +350,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessDocumentRelationshipType() {
+    public void testProcessDocumentRelationshipType()  throws Exception {
         DocumentRelationshipType value = factory.createDocumentRelationshipType();
         value.setValue(com.ibm.watsonhealth.fhir.model.DocumentRelationshipTypeList.REPLACES);
         String result = processor.process(null, value);
@@ -358,14 +358,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessDuration() {
+    public void testProcessDuration()  throws Exception {
         Object value = factory.createDuration();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Quantity)", result);
     }
 
     @Test
-    public void testProcessEncounterState() {
+    public void testProcessEncounterState()  throws Exception {
         EncounterState value = factory.createEncounterState();
         value.setValue(com.ibm.watsonhealth.fhir.model.EncounterStateList.PLANNED);
         String result = processor.process(null, value);
@@ -373,7 +373,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessEpisodeOfCareStatus() {
+    public void testProcessEpisodeOfCareStatus()  throws Exception {
         EpisodeOfCareStatus value = factory.createEpisodeOfCareStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.EpisodeOfCareStatusList.PLANNED);
         String result = processor.process(null, value);
@@ -381,7 +381,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessExtension() {
+    public void testProcessExtension()  throws Exception {
         Extension extension = factory.createExtension();
         String result = null;
 
@@ -592,7 +592,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessExtensionContext() {
+    public void testProcessExtensionContext()  throws Exception {
         ExtensionContext value = factory.createExtensionContext();
         value.setValue(com.ibm.watsonhealth.fhir.model.ExtensionContextList.RESOURCE);
         String result = processor.process(null, value);
@@ -600,7 +600,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessGoalStatus() {
+    public void testProcessGoalStatus()  throws Exception {
         GoalStatus value = factory.createGoalStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.GoalStatusList.PROPOSED);
         String result = processor.process(null, value);
@@ -608,7 +608,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessGroupType() {
+    public void testProcessGroupType()  throws Exception {
         GroupType value = factory.createGroupType();
         value.setValue(com.ibm.watsonhealth.fhir.model.GroupTypeList.PERSON);
         String result = processor.process(null, value);
@@ -616,42 +616,42 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessHumanName() {
+    public void testProcessHumanName()  throws Exception {
         Object value = factory.createHumanName();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, HumanName)", result);
     }
 
     @Test
-    public void testProcessId() {
+    public void testProcessId()  throws Exception {
         Object value = factory.createId();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Id)", result);
     }
 
     @Test
-    public void testProcessIdentifier() {
+    public void testProcessIdentifier()  throws Exception {
         Object value = factory.createIdentifier();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Identifier)", result);
     }
 
     @Test
-    public void testProcessInstant() {
+    public void testProcessInstant()  throws Exception {
         Object value = factory.createInstant();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Instant)", result);
     }
 
     @Test
-    public void testProcessInteger() {
+    public void testProcessInteger()  throws Exception {
         Object value = factory.createInteger();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Integer)", result);
     }
 
     @Test
-    public void testProcessListStatus() {
+    public void testProcessListStatus()  throws Exception {
         ListStatus value = factory.createListStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.ListStatusList.CURRENT);
         String result = processor.process(null, value);
@@ -659,14 +659,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessLocationPosition() {
+    public void testProcessLocationPosition()  throws Exception {
         Object value = factory.createLocationPosition();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, LocationPosition)", result);
     }
 
     @Test
-    public void testProcessLocationStatus() {
+    public void testProcessLocationStatus()  throws Exception {
         LocationStatus value = factory.createLocationStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.LocationStatusList.ACTIVE);
         String result = processor.process(null, value);
@@ -674,14 +674,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessMarkdown() {
+    public void testProcessMarkdown()  throws Exception {
         Object value = factory.createMarkdown();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Markdown)", result);
     }
 
     @Test
-    public void testProcessMedicationAdministrationStatus() {
+    public void testProcessMedicationAdministrationStatus()  throws Exception {
         MedicationAdministrationStatus value = factory.createMedicationAdministrationStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.MedicationAdministrationStatusList.IN_PROGRESS);
         String result = processor.process(null, value);
@@ -689,7 +689,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessMedicationDispenseStatus() {
+    public void testProcessMedicationDispenseStatus()  throws Exception {
         MedicationDispenseStatus value = factory.createMedicationDispenseStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.MedicationDispenseStatusList.IN_PROGRESS);
         String result = processor.process(null, value);
@@ -697,7 +697,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessMedicationOrderStatus() {
+    public void testProcessMedicationOrderStatus()  throws Exception {
         MedicationOrderStatus value = factory.createMedicationOrderStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.MedicationOrderStatusList.ACTIVE);
         String result = processor.process(null, value);
@@ -705,7 +705,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessMedicationStatementStatus() {
+    public void testProcessMedicationStatementStatus()  throws Exception {
         MedicationStatementStatus value = factory.createMedicationStatementStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.MedicationStatementStatusList.ACTIVE);
         String result = processor.process(null, value);
@@ -713,21 +713,21 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessMeta() {
+    public void testProcessMeta()  throws Exception {
         Object value = factory.createMeta();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Meta)", result);
     }
 
     @Test
-    public void testProcessMoney() {
+    public void testProcessMoney()  throws Exception {
         Object value = factory.createMoney();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Quantity)", result);
     }
 
     @Test
-    public void testProcessNamingSystemIdentifierType() {
+    public void testProcessNamingSystemIdentifierType()  throws Exception {
         NamingSystemIdentifierType value = factory.createNamingSystemIdentifierType();
         value.setValue(com.ibm.watsonhealth.fhir.model.NamingSystemIdentifierTypeList.OID);
         String result = processor.process(null, value);
@@ -735,7 +735,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessNamingSystemType() {
+    public void testProcessNamingSystemType()  throws Exception {
         NamingSystemType value = factory.createNamingSystemType();
         value.setValue(com.ibm.watsonhealth.fhir.model.NamingSystemTypeList.CODESYSTEM);
         String result = processor.process(null, value);
@@ -743,7 +743,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessNutritionOrderStatus() {
+    public void testProcessNutritionOrderStatus()  throws Exception {
         NutritionOrderStatus value = factory.createNutritionOrderStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.NutritionOrderStatusList.PROPOSED);
         String result = processor.process(null, value);
@@ -751,7 +751,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessObservationRelationshipType() {
+    public void testProcessObservationRelationshipType()  throws Exception {
         ObservationRelationshipType value = factory.createObservationRelationshipType();
         value.setValue(com.ibm.watsonhealth.fhir.model.ObservationRelationshipTypeList.HAS_MEMBER);
         String result = processor.process(null, value);
@@ -759,7 +759,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessObservationStatus() {
+    public void testProcessObservationStatus()  throws Exception {
         ObservationStatus value = factory.createObservationStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.ObservationStatusList.REGISTERED);
         String result = processor.process(null, value);
@@ -767,14 +767,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessOid() {
+    public void testProcessOid()  throws Exception {
         Object value = factory.createOid();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Oid)", result);
     }
 
     @Test
-    public void testProcessOperationKind() {
+    public void testProcessOperationKind()  throws Exception {
         OperationKind value = factory.createOperationKind();
         value.setValue(com.ibm.watsonhealth.fhir.model.OperationKindList.OPERATION);
         String result = processor.process(null, value);
@@ -782,7 +782,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessOrderStatus() {
+    public void testProcessOrderStatus()  throws Exception {
         OrderStatus value = factory.createOrderStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.OrderStatusList.PENDING);
         String result = processor.process(null, value);
@@ -790,7 +790,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessParticipantStatus() {
+    public void testProcessParticipantStatus()  throws Exception {
         ParticipantStatus value = factory.createParticipantStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.ParticipantStatusList.ACCEPTED);
         String result = processor.process(null, value);
@@ -798,7 +798,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessParticipationStatus() {
+    public void testProcessParticipationStatus()  throws Exception {
         ParticipationStatus value = factory.createParticipationStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.ParticipationStatusList.ACCEPTED);
         String result = processor.process(null, value);
@@ -806,28 +806,28 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessPeriod() {
+    public void testProcessPeriod()  throws Exception {
         Object value = factory.createPeriod();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Period)", result);
     }
 
     @Test
-    public void testProcessPositiveInt() {
+    public void testProcessPositiveInt()  throws Exception {
         Object value = factory.createPositiveInt();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, PositiveInt)", result);
     }
 
     @Test
-    public void testProcessQuantity() {
+    public void testProcessQuantity()  throws Exception {
         Object value = factory.createQuantity();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Quantity)", result);
     }
 
     @Test
-    public void testProcessQuestionnaireResponseStatus() {
+    public void testProcessQuestionnaireResponseStatus()  throws Exception {
         QuestionnaireResponseStatus value = factory.createQuestionnaireResponseStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.QuestionnaireResponseStatusList.IN_PROGRESS);
         String result = processor.process(null, value);
@@ -835,7 +835,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessQuestionnaireStatus() {
+    public void testProcessQuestionnaireStatus()  throws Exception {
         QuestionnaireStatus value = factory.createQuestionnaireStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.QuestionnaireStatusList.DRAFT);
         String result = processor.process(null, value);
@@ -843,28 +843,28 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessRange() {
+    public void testProcessRange()  throws Exception {
         Object value = factory.createRange();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Range)", result);
     }
 
     @Test
-    public void testProcessRatio() {
+    public void testProcessRatio()  throws Exception {
         Object value = factory.createRatio();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Ratio)", result);
     }
 
     @Test
-    public void testProcessReference() {
+    public void testProcessReference()  throws Exception {
         Object value = factory.createReference();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Reference)", result);
     }
 
     @Test
-    public void testProcessReferralStatus() {
+    public void testProcessReferralStatus()  throws Exception {
         ReferralStatus value = factory.createReferralStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.ReferralStatusList.DRAFT);
         String result = processor.process(null, value);
@@ -872,7 +872,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessResponseType() {
+    public void testProcessResponseType()  throws Exception {
         ResponseType value = factory.createResponseType();
         value.setValue(com.ibm.watsonhealth.fhir.model.ResponseTypeList.OK);
         String result = processor.process(null, value);
@@ -880,7 +880,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessRestfulConformanceMode() {
+    public void testProcessRestfulConformanceMode()  throws Exception {
         RestfulConformanceMode value = factory.createRestfulConformanceMode();
         value.setValue(com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList.CLIENT);
         String result = processor.process(null, value);
@@ -888,28 +888,28 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessSampledData() {
+    public void testProcessSampledData()  throws Exception {
         Object value = factory.createSampledData();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, SampledData)", result);
     }
 
     @Test
-    public void testProcessSignature() {
+    public void testProcessSignature()  throws Exception {
         Object value = factory.createSignature();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Signature)", result);
     }
 
     @Test
-    public void testProcessSimpleQuantity() {
+    public void testProcessSimpleQuantity()  throws Exception {
         Object value = factory.createSimpleQuantity();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Quantity)", result);
     }
 
     @Test
-    public void testProcessSlotStatus() {
+    public void testProcessSlotStatus()  throws Exception {
         SlotStatus value = factory.createSlotStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.SlotStatusList.BUSY);
         String result = processor.process(null, value);
@@ -917,14 +917,14 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessString() {
+    public void testProcessString()  throws Exception {
         Object value = factory.createString();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, String)", result);
     }
 
     @Test
-    public void testProcessStructureDefinitionKind() {
+    public void testProcessStructureDefinitionKind()  throws Exception {
         StructureDefinitionKind value = factory.createStructureDefinitionKind();
         value.setValue(com.ibm.watsonhealth.fhir.model.StructureDefinitionKindList.DATATYPE);
         String result = processor.process(null, value);
@@ -932,7 +932,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessSubscriptionChannelType() {
+    public void testProcessSubscriptionChannelType()  throws Exception {
         SubscriptionChannelType value = factory.createSubscriptionChannelType();
         value.setValue(com.ibm.watsonhealth.fhir.model.SubscriptionChannelTypeList.REST_HOOK);
         String result = processor.process(null, value);
@@ -940,7 +940,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessSubscriptionStatus() {
+    public void testProcessSubscriptionStatus()  throws Exception {
         SubscriptionStatus value = factory.createSubscriptionStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.SubscriptionStatusList.REQUESTED);
         String result = processor.process(null, value);
@@ -948,7 +948,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessSupplyDeliveryStatus() {
+    public void testProcessSupplyDeliveryStatus()  throws Exception {
         SupplyDeliveryStatus value = factory.createSupplyDeliveryStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.SupplyDeliveryStatusList.IN_PROGRESS);
         String result = processor.process(null, value);
@@ -956,7 +956,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessSupplyRequestStatus() {
+    public void testProcessSupplyRequestStatus()  throws Exception {
         SupplyRequestStatus value = factory.createSupplyRequestStatus();
         value.setValue(com.ibm.watsonhealth.fhir.model.SupplyRequestStatusList.REQUESTED);
         String result = processor.process(null, value);
@@ -964,35 +964,35 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessTime() {
+    public void testProcessTime()  throws Exception {
         Object value = factory.createTime();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Time)", result);
     }
 
     @Test
-    public void testProcessTiming() {
+    public void testProcessTiming()  throws Exception {
         Object value = factory.createTiming();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Timing)", result);
     }
 
     @Test
-    public void testProcessUnsignedInt() {
+    public void testProcessUnsignedInt()  throws Exception {
         Object value = factory.createUnsignedInt();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, UnsignedInt)", result);
     }
 
     @Test
-    public void testProcessUri() {
+    public void testProcessUri()  throws Exception {
         Object value = factory.createUri();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Uri)", result);
     }
 
     @Test
-    public void testProcessUse() {
+    public void testProcessUse()  throws Exception {
         Use value = factory.createUse();
         value.setValue(com.ibm.watsonhealth.fhir.model.UseList.COMPLETE);
         String result = processor.process(null, value);
@@ -1000,7 +1000,7 @@ public class ProcessorTest {
     }
 
     @Test
-    public void testProcessUuid() {
+    public void testProcessUuid()  throws Exception {
         Object value = factory.createUuid();
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Uuid)", result);
@@ -1039,19 +1039,19 @@ public class ProcessorTest {
             return "process(SearchParameter, Coding)";
         }
 
-        public String process(SearchParameter parameter, ContactPoint value) {
+        public String process(SearchParameter parameter, ContactPoint value)  {
             return "process(SearchParameter, ContactPoint)";
         }
 
-        public String process(SearchParameter parameter, Date value) {
+        public String process(SearchParameter parameter, Date value)  {
             return "process(SearchParameter, Date)";
         }
 
-        public String process(SearchParameter parameter, DateTime value) {
+        public String process(SearchParameter parameter, DateTime value)  {
             return "process(SearchParameter, DateTime)";
         }
 
-        public String process(SearchParameter parameter, Decimal value) {
+        public String process(SearchParameter parameter, Decimal value)  {
             return "process(SearchParameter, Decimal)";
         }
 
