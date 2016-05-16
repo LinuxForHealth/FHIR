@@ -23,8 +23,6 @@
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
-		<module>../fhir-notification</module>
-		<module>../fhir-notification-websocket</module>
 		<module>../fhir-server</module>
 		<module>../fhir-swagger-generator</module>
 		<module>../fhir-swagger-ui</module>
@@ -103,13 +101,6 @@
 				<artifactId>cloudant-client</artifactId>
 				<version>2.4.1</version>
 			</dependency>
-			<!-- This dependency version needs to be in sync 
-			with the library that is being used by com.cloudant.cloudant-client -->
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>2.2.4</version>
-			</dependency>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbyclient</artifactId>
@@ -163,6 +154,12 @@
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-servlet</artifactId>
 				<version>1.5.8</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.mockito</groupId>
+			    <artifactId>mockito-core</artifactId>
+			    <version>1.10.19</version>
+			    <scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
