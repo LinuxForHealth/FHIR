@@ -19,13 +19,15 @@ public class FHIRUtilities {
 	
 	protected static final String NL = System.getProperty("line.separator");
     
+	/**
+	 * Returns the specified object's handle in hex format.
+	 */
     public static String getObjectHandle(Object o) {
         return Integer.toHexString(System.identityHashCode(o));
     }
 
     /**
      * Retrieves the current thread's stacktrace and returns it as a string.
-     * @return
      */
     public static String getCurrentStacktrace() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
@@ -38,7 +40,9 @@ public class FHIRUtilities {
         return sb.toString();
     }
     
-    // Read data for a resource from a control document (JSON/XML file)
+    /**
+     *  Read data for a resource from a control document (JSON/XML file)
+     */
     public static String readFromFile(String filePath) {
         try {
             StringBuffer buffer = new StringBuffer();
@@ -62,6 +66,12 @@ public class FHIRUtilities {
         return null;
     }
     
+    /**
+     * This function will remove any whitspace characters which appear in a '<div>...</div>' section
+     * within the specified string.
+     * @param str the string to process
+     * @return the input string with the 'div' whitespace characters removed
+     */
     public static String stripNamespaceIfPresentInDiv(String str) {
         int startIndex = str.indexOf("<div xmlns=");
         if (startIndex != -1) {
@@ -72,6 +82,12 @@ public class FHIRUtilities {
         return str;
     }
     
+    /**
+     * This function will remove any newlines which appear in a '<div>...</div>' section
+     * within the specified string.
+     * @param str the string to process
+     * @return the input string with the 'div' new lines removed
+     */
     public static String stripNewLineWhitespaceIfPresentInDiv(String str) {
         int startIndex = str.indexOf("<div>");
         if (startIndex != -1) {
@@ -87,6 +103,13 @@ public class FHIRUtilities {
         return str;
     }
     
+    /**
+     * This function can be used to decode an xor-encoded value that was produced by the 
+     * WebSphere Liberty 'securityUtility' command.
+     * @param encodedString the encoded string to be decoded
+     * @return the decoded version of the input string
+     * @throws Exception
+     */
     public static String decode(String encodedString) throws Exception {
         String decodedString = null;
         if (isEncoded(encodedString)) {
@@ -105,6 +128,11 @@ public class FHIRUtilities {
         return decodedString;
     }
     
+    /**
+     * Returns true if and only if the specified string 's' is an encoded value, which means it starts
+     * with the string "{xor}".
+     * @param s the string value to check
+     */
     public static boolean isEncoded(String s) {
         return s.startsWith("{xor}");
     }
