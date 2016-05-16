@@ -58,6 +58,8 @@ import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
+import com.ibm.watsonhealth.fhir.notification.util.NotificationObject;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -88,6 +90,7 @@ public class FHIRResource {
     
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SPEC_VERSION = "1.0.2";
+    private boolean sendNotification = true;
     
 
     private Validator validator = null;
@@ -174,7 +177,11 @@ public class FHIRResource {
             
             ResponseBuilder response = Response.created(buildLocationURI(type, resource));
             response = addHeaders(response, resource);
-            
+            //for now add boolean check ..so it can control later on with some kind of external parameter
+            if( sendNotification){
+            //Send out the notification
+            	FHIRNotificationService.getInstance().broadcast(buildNotificationObject("create", buildLocationURI(type, resource).toString(), resource ));
+            }
             return response.build();
         } catch (FHIRException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -234,6 +241,10 @@ public class FHIRResource {
 
             ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, buildLocationURI(type, resource));
             response = addHeaders(response, resource);
+            if( sendNotification){
+                //Send out the notification
+                	FHIRNotificationService.getInstance().broadcast(buildNotificationObject("update", buildLocationURI(type, resource).toString(), resource ));
+                }
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
@@ -599,5 +610,19 @@ public class FHIRResource {
             log.fine("Obtained new  FHIRPersistence instance: " + persistence);
         }
         return persistence;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    private NotificationObject buildNotificationObject(String type, String locationURL, Resource resource){
+    		NotificationObject obj = new NotificationObject();
+    		obj.setActionType(type);
+    		obj.setCreateTime(resource.getMeta().getLastUpdated().getValue().toString());
+    		obj.setLocation(locationURL);
+    		obj.setResourceId(Integer.parseInt(resource.getId().getValue()));
+     		return obj;
+    	
     }
 }
