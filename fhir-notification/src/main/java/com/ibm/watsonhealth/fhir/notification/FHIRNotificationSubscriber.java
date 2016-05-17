@@ -6,11 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.notification;
 
+import com.ibm.watsonhealth.fhir.notification.exception.FHIRNotificationException;
+import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
+
 public interface FHIRNotificationSubscriber {
     /**
-     * Abstract method to send message
-     * @param Message
+     * Notify subscriber of an event
+     * @param event
      * @throws FHIRNotificationException
      */
-    void publish(String message) throws FHIRNotificationException;
+    void notify(FHIRNotificationEvent event) throws FHIRNotificationException;
 }

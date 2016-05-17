@@ -617,13 +617,12 @@ public class FHIRResource {
      * 
      * @return
      */
-    private FHIRNotificationEvent buildNotificationEvent(String type, String locationURL, Resource resource){
-    		FHIRNotificationEvent obj = new FHIRNotificationEvent();
-    		obj.setActionType(type);
-    		obj.setCreateTime(resource.getMeta().getLastUpdated().getValue().toString());
-    		obj.setLocation(locationURL);
-    		obj.setResourceId(Integer.parseInt(resource.getId().getValue()));
-     		return obj;
-    	
+    private FHIRNotificationEvent buildNotificationEvent(String type, String location, Resource resource){
+		FHIRNotificationEvent event = new FHIRNotificationEvent();
+		event.setOperationType(type);
+		event.setLastUpdated(resource.getMeta().getLastUpdated().getValue().toString());
+		event.setLocation(location);
+		event.setResourceId(Integer.parseInt(resource.getId().getValue()));
+ 		return event;
     }
 }
