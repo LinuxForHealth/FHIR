@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.notification.util.NotificationObject;
-import com.ibm.watsonhealth.fhir.notification.util.NotificationUtils;
+import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
+import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationUtils;
 
 public class FHIRNotificationService {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRNotificationService.class.getName());
     private static final String className = FHIRNotificationService.class.getName();
-    private List<FHIRNotification> listeners = new CopyOnWriteArrayList<FHIRNotification>();
+    private List<FHIRNotificationSubscriber> subscribers = new CopyOnWriteArrayList<FHIRNotificationSubscriber>();
     private static final FHIRNotificationService INSTANCE = new FHIRNotificationService();
 
     public static FHIRNotificationService getInstance() {
@@ -29,15 +29,15 @@ public class FHIRNotificationService {
      * @param message
      *            to send down to the connected client
      */
-    public void broadcast(NotificationObject obj) {
-        String methodName = "broadcast";
+    public void publish(FHIRNotificationEvent obj) {
+        String methodName = "publish";
         try {
             log.entering(className, methodName);
-            for (FHIRNotification notifier : listeners) {
+            for (FHIRNotificationSubscriber subscriber : subscribers) {
                 try {
-                    notifier.notify(NotificationUtils.convertNotificationObjectToJson(obj));
+                	subscriber.publish(FHIRNotificationUtils.convertNotificationObjectToJson(obj));
                 } catch (FHIRNotificationException ne) {
-                    listeners.remove(notifier);
+                	subscribers.remove(subscriber);
                 }
             }
         } finally {
@@ -50,11 +50,11 @@ public class FHIRNotificationService {
      * 
      * @param notifier
      */
-    public void subscribe(FHIRNotification notification) {
+    public void subscribe(FHIRNotificationSubscriber notification) {
         String methodName = "subscribe";
         try {
             log.entering(className, methodName);
-            listeners.add(notification);
+            subscribers.add(notification);
         } finally {
             log.exiting(className, methodName);
         }
@@ -66,11 +66,11 @@ public class FHIRNotificationService {
      * @param notifier
      */
 
-    public void unsubscribe(FHIRNotification notification) {
+    public void unsubscribe(FHIRNotificationSubscriber notification) {
         String methodName = "unsubscribe";
         try {
             log.entering(className, methodName);
-            listeners.remove(notification);
+            subscribers.remove(notification);
         } finally {
             log.exiting(className, methodName);
         }
@@ -82,11 +82,11 @@ public class FHIRNotificationService {
      * @param notifier
      * @return
      */
-    public boolean subscribed(FHIRNotification notification) {
+    public boolean subscribed(FHIRNotificationSubscriber notification) {
         String methodName = "subscribed";
         try {
             log.entering(className, methodName);
-            return listeners.contains(notification);
+            return subscribers.contains(notification);
         } finally {
             log.exiting(className, methodName);
         }

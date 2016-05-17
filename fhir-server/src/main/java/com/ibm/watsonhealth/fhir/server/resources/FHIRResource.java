@@ -59,7 +59,7 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
-import com.ibm.watsonhealth.fhir.notification.util.NotificationObject;
+import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -181,7 +181,7 @@ public class FHIRResource {
             // for now add boolean check ..so it can control later on with some kind of external parameter
             if (sendNotification) {
                 // Send out the notification
-                FHIRNotificationService.getInstance().broadcast(buildNotificationObject("create", buildLocationURI(type, resource).toString(), resource));
+                FHIRNotificationService.getInstance().publish(buildNotificationEvent("create", buildLocationURI(type, resource).toString(), resource));
             }
             return response.build();
         } catch (FHIRException e) {
@@ -244,7 +244,7 @@ public class FHIRResource {
             response = addHeaders(response, resource);
             if (sendNotification) {
                 // Send out the notification
-                FHIRNotificationService.getInstance().broadcast(buildNotificationObject("update", buildLocationURI(type, resource).toString(), resource));
+                FHIRNotificationService.getInstance().publish(buildNotificationEvent("update", buildLocationURI(type, resource).toString(), resource));
             }
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
@@ -617,8 +617,8 @@ public class FHIRResource {
      * 
      * @return
      */
-    private NotificationObject buildNotificationObject(String type, String locationURL, Resource resource){
-    		NotificationObject obj = new NotificationObject();
+    private FHIRNotificationEvent buildNotificationEvent(String type, String locationURL, Resource resource){
+    		FHIRNotificationEvent obj = new FHIRNotificationEvent();
     		obj.setActionType(type);
     		obj.setCreateTime(resource.getMeta().getLastUpdated().getValue().toString());
     		obj.setLocation(locationURL);
