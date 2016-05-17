@@ -21,6 +21,11 @@
 			<outputDirectory>fhir-server</outputDirectory>
 			<fileMode>0755</fileMode>
 		</fileSet>
+        <fileSet>
+            <directory>../fhir-persistence-jpa/scripts</directory>
+            <outputDirectory>fhir/bin</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
 	</fileSets>
 	<files>
 		<file>

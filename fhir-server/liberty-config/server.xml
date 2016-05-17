@@ -42,28 +42,6 @@ CODE_REMOVED
         <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
     -->
     
-   
-    <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
-    <!-- 
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
-    -->
-    <jndiEntry  value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
-    
-    <!--  This JNDI entry specifies the Cloudant DB account credentials, which are encoded using
-          the {WLP_ROOT}/wlp/bin/securityUtility . 
-          This entry is used only when the fhirPersistenceFactory entry points to the FHIRPersistenceCloudantFactory. 
-    -->
-    <!--  <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.cloudant.account" id="com.ibm.watsonhealth.fhir.persistence.cloudant.account" decode="true" 
-CODE_REMOVED
- 	-->
- 	
-    <!-- This JNDI entry specifies the schema name to be used by the JPA persistence layer -->
-    <!-- Note: this is currently not working due to a bug in eclipselink.
-        <jndiEntry value="FHIR1" jndiName="com.ibm.watsonhealth.fhir.Schema"/>
-    -->
-    
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
 
@@ -89,37 +67,60 @@ CODE_REMOVED
     <library id="configResources">
         <folder dir="${server.config.dir}/config"/>
     </library>
+   
+    <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
+    <!-- 
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
+    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
+    -->
+    <jndiEntry  jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"
+        value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory"/>
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
-    <!-- Derby-related configuration -->
+    <!-- Derby-related configuration
+    -->    
     <library id="derbyLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
 
-    <dataSource id="derbyDB" jndiName="jdbc/fhirDerbyDB">
+    <dataSource id="derbyDB" jndiName="jdbc/fhirDB">
         <jdbcDriver libraryRef="derbyLib"/>
 CODE_REMOVED
     </dataSource>
     
-    <dataSource id="derbyDBNonJTA" jndiName="jdbc/fhirDerbyDBNonJTA" transactional="false">
+    <dataSource id="derbyDBNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
         <jdbcDriver libraryRef="derbyLib"/>
 CODE_REMOVED
     </dataSource>
      
     <!-- DB2-related configuration
+    <jndiEntry value="FHIR1" jndiName="com.ibm.watsonhealth.fhir.Schema"/>
     <library id="db2Lib">
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
     </library>
     
-    <dataSource id="db2DB" jndiName="jdbc/fhirDB2DB">
+    <dataSource id="db2DB" jndiName="jdbc/fhirDB">
         <jdbcDriver libraryRef="db2Lib"/>
 CODE_REMOVED
     </dataSource>
     
-    <dataSource id="db2DBNonJTA" jndiName="jdbc/fhirDB2DBNonJTA" transactional="false">
+    <dataSource id="db2DBNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
         <jdbcDriver libraryRef="db2Lib"/>
 CODE_REMOVED
     </dataSource>
     -->
+    
+    <!-- Cloudant-related configuration
+    This JNDI entry specifies the Cloudant DB account credentials, which are encoded using
+    the {WLP_ROOT}/wlp/bin/securityUtility . 
+    This entry is used only when the fhirPersistenceFactory entry points to the FHIRPersistenceCloudantFactory. 
+    -->
+    <!--  
+        <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.cloudant.account" id="com.ibm.watsonhealth.fhir.persistence.cloudant.account" decode="true" 
+CODE_REMOVED
+    -->
+    
+    
 </server>
