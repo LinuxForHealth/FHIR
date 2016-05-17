@@ -26,6 +26,11 @@
             <outputDirectory>fhir/bin</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
+        <fileSet>
+            <directory>src/main/resources/docs</directory>
+            <outputDirectory>fhir/docs</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
 	</fileSets>
 	<files>
 		<file>
