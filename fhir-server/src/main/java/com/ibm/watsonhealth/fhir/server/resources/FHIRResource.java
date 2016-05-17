@@ -63,13 +63,13 @@ import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
-import com.ibm.watsonhealth.fhir.server.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
 import io.swagger.annotations.Api;
