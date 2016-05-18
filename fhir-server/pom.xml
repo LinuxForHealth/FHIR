@@ -58,10 +58,24 @@
 			<artifactId>fhir-persistence</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-notification-websocket</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.websocket</groupId>
+					<artifactId>javax.websocket-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.glassfish.tyrus.bundles</groupId>
+			<artifactId>tyrus-standalone-client-jdk</artifactId>
+			<version>1.12</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -170,6 +184,9 @@
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-servlet</artifactId>
 		</dependency>
+		
+		
+		
 	</dependencies>
 
 	<build>
