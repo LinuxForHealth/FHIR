@@ -18,6 +18,10 @@
 			<artifactId>derbyclient</artifactId>
 		</dependency>
         <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.ibm.websphere.appserver.runtime</groupId>
             <artifactId>wlp-javaee7</artifactId>
             <type>zip</type>

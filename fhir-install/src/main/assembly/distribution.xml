@@ -59,6 +59,7 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>org.apache.derby:derbyclient:*</include>
+                <include>org.apache.derby:derby:*</include>
             </includes>
         </dependencySet>
 	</dependencySets>
