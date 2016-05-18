@@ -79,8 +79,22 @@ CODE_REMOVED
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
-    <!-- Derby-related configuration
+    <!-- Derby/Embedded-related configuration
     -->    
+    <library id="derbyLib">
+        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
+    </library>
+
+    <dataSource id="derbyEmbedded" jndiName="jdbc/fhirDB">
+        <jdbcDriver libraryRef="derbyLib"/>
+        <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+    </dataSource>
+    <dataSource id="derbyEmbeddedNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
+        <jdbcDriver libraryRef="derbyLib"/>
+        <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+    </dataSource>
+    
+    <!-- Derby/Network Server-related configuration
     <library id="derbyLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
@@ -89,11 +103,11 @@ CODE_REMOVED
         <jdbcDriver libraryRef="derbyLib"/>
 CODE_REMOVED
     </dataSource>
-    
     <dataSource id="derbyDBNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
         <jdbcDriver libraryRef="derbyLib"/>
 CODE_REMOVED
     </dataSource>
+    -->    
      
     <!-- DB2-related configuration
     <jndiEntry value="FHIR1" jndiName="com.ibm.watsonhealth.fhir.Schema"/>
@@ -105,7 +119,6 @@ CODE_REMOVED
         <jdbcDriver libraryRef="db2Lib"/>
 CODE_REMOVED
     </dataSource>
-    
     <dataSource id="db2DBNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
         <jdbcDriver libraryRef="db2Lib"/>
 CODE_REMOVED
