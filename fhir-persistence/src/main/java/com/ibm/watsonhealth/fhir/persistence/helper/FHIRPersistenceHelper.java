@@ -27,20 +27,22 @@ public class FHIRPersistenceHelper {
         log.finest("In FHIRPersistenceHelper() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
         log.finest(FHIRUtilities.getCurrentStacktrace());
     }
-
+    
     /**
      * Retrieves the name of the factory class that should be instantiated for use by the server.
+     * @param factoryJndiName Name of the JNDI resource that contains the {@link FHIRPersistenceFactory} class name.
+     * @return Name of the factory class that will be loaded.
      */
-    private String retrieveFactoryClassName() throws FHIRPersistenceException {
+    private String retrieveFactoryClassName(String factoryJndiName) throws FHIRPersistenceException {
         String factoryClassName = null;
 
         try {
             // Retrieve the name of the impl class via JNDI.
             InitialContext ctx = new InitialContext();
-            factoryClassName = (String) ctx.lookup(JNDI_NAME_FHIR_PERSISTENCE_FACTORY);
-            log.fine("Found JNDI entry for key: " + JNDI_NAME_FHIR_PERSISTENCE_FACTORY + ", value=" + factoryClassName);
+            factoryClassName = (String) ctx.lookup(factoryJndiName);
+            log.fine("Found JNDI entry for key: " + factoryJndiName + ", value=" + factoryClassName);
         } catch (Throwable t) {
-            throw new FHIRPersistenceException("Unable to find jndi entry: " + JNDI_NAME_FHIR_PERSISTENCE_FACTORY);
+            throw new FHIRPersistenceException("Unable to find jndi entry: " + factoryJndiName);
         }
 
         return factoryClassName;
@@ -51,10 +53,18 @@ public class FHIRPersistenceHelper {
      * @throws FHIRPersistenceException 
      */
     public FHIRPersistence getFHIRPersistenceImplementation() throws FHIRPersistenceException {
+        return getFHIRPersistenceImplementation(JNDI_NAME_FHIR_PERSISTENCE_FACTORY);
+    }
+
+    /**
+     * Returns an appropriate FHIRPersistance implementation according to the current configuration.
+     * @throws FHIRPersistenceException 
+     */
+    public FHIRPersistence getFHIRPersistenceImplementation(String factoryJndiName) throws FHIRPersistenceException {
         log.entering(this.getClass().getName(), "getFHIRPersistenceImplementation");
 
         try {
-            String factoryClassName = retrieveFactoryClassName();
+            String factoryClassName = retrieveFactoryClassName(factoryJndiName);
             log.fine("Using FHIR persistence factory class name: " + factoryClassName);
 
             Class<?> factoryClass = null;
