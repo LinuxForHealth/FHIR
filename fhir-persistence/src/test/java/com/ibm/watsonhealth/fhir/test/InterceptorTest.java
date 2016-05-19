@@ -42,8 +42,7 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testBeforeCreate() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(patient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, null);
         
         mgr.fireBeforeCreateEvent(event);
         
@@ -52,8 +51,7 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testAfterCreate() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(patient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, null);
         
         mgr.fireAfterCreateEvent(event);
         mgr.fireAfterCreateEvent(event);
@@ -65,8 +63,7 @@ public class InterceptorTest extends FHIRModelTestBase {
 
     @Test
     public void testBeforeUpdate() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(patient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, null);
         
         mgr.fireBeforeUpdateEvent(event);
         mgr.fireBeforeUpdateEvent(event);
@@ -76,8 +73,7 @@ public class InterceptorTest extends FHIRModelTestBase {
 
     @Test
     public void testAfterUpdate() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(patient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, null);
         
         mgr.fireAfterUpdateEvent(event);
         
@@ -86,32 +82,28 @@ public class InterceptorTest extends FHIRModelTestBase {
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class})
     public void testBeforeCreateException() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(badPatient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
         
         mgr.fireBeforeCreateEvent(event);
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class})
     public void testAfterCreateException() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(badPatient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
         
         mgr.fireAfterCreateEvent(event);
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class})
     public void testBeforeUpdateException() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(badPatient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
         
         mgr.fireBeforeUpdateEvent(event);
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class})
     public void testAfterUpdateException() throws Exception {
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-        event.setFhirResource(badPatient);
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
         
         mgr.fireAfterUpdateEvent(event);
     }

@@ -32,12 +32,15 @@ public class FHIRServletContextListener implements ServletContextListener {
 		    
 		    // Set the shared Validator.
 			event.getServletContext().setAttribute(Validator.class.getName(), new Validator());
+			log.fine("Set shared validator on servlet context.");
 			
 			// Set the shared FHIRPersistenceHelper.
             event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
+            log.fine("Set shared persistence helper on servlet context.");
 
             // Set the shared interceptor mgr.
             event.getServletContext().setAttribute(FHIRPersistenceInterceptorMgr.class.getName(), FHIRPersistenceInterceptorMgr.getInstance());
+            log.fine("Set shared persistence interceptor mgr on servlet context.");
 		} catch (Exception e) {
 			// ignore exceptions here
 		} finally {

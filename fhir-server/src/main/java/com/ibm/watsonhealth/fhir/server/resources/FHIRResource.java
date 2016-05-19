@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,6 +40,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -101,6 +103,15 @@ public class FHIRResource {
 
     @Context
     private ServletContext context;
+    
+    @Context
+    private UriInfo uriInfo;
+    
+    @Context
+    private HttpHeaders httpHeaders;
+    
+    @Context
+    private SecurityContext securityContext;
 
     public FHIRResource() {
         log.finest("In FHIRResource() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
@@ -167,8 +178,7 @@ public class FHIRResource {
             }
             
             // If there were no validation errors, then create the resource and return the location header.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-            event.setFhirResource(resource);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties());
             getInterceptorMgr().fireBeforeCreateEvent(event);
             
             getPersistenceImpl().create(resource);
@@ -191,6 +201,17 @@ public class FHIRResource {
         } finally {
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
+    }
+
+    /**
+     * Builds a collection of properties that will be passed to the persistence interceptors.
+     */
+    private Map<String, Object> buildPersistenceEventProperties() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(FHIRPersistenceEvent.PROPNAME_URI_INFO, uriInfo);
+        props.put(FHIRPersistenceEvent.PROPNAME_HTTP_HEADERS, httpHeaders);
+        props.put(FHIRPersistenceEvent.PROPNAME_SECURITY_CONTEXT, securityContext);
+        return props;
     }
 
     @PUT
@@ -232,8 +253,7 @@ public class FHIRResource {
             }
             
             // If there were no validation errors, then create the resource and return the location header.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-            event.setFhirResource(resource);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties());
             getInterceptorMgr().fireBeforeUpdateEvent(event);
             
             getPersistenceImpl().update(id, resource);
