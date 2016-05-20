@@ -22,11 +22,11 @@ public class FHIRNotificationUtil {
 		event.setOperationType(jsonObject.getString("operationType"));
 		event.setLocation(jsonObject.getString("location"));
 		event.setLastUpdated(jsonObject.getString("lastUpdated"));
-		event.setResourceId(jsonObject.getInt("resourceId"));
+		event.setResourceId(jsonObject.getString("resourceId"));
 		return event;
 	}
 	
-	public static String toJsonString(FHIRNotificationEvent event){
+	public static String toJsonString(FHIRNotificationEvent event) {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		builder.add("lastUpdated", event.getLastUpdated());
 		builder.add("location", event.getLocation());

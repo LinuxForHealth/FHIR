@@ -638,12 +638,17 @@ public class FHIRResource {
      * 
      * @return
      */
-    private FHIRNotificationEvent buildNotificationEvent(String type, String location, Resource resource){
-		FHIRNotificationEvent event = new FHIRNotificationEvent();
-		event.setOperationType(type);
-		event.setLastUpdated(resource.getMeta().getLastUpdated().getValue().toString());
-		event.setLocation(location);
-		event.setResourceId(Integer.parseInt(resource.getId().getValue()));
- 		return event;
+    private FHIRNotificationEvent buildNotificationEvent(String type, String location, Resource resource) {
+        try {
+            FHIRNotificationEvent event = new FHIRNotificationEvent();
+            event.setOperationType(type);
+            event.setLastUpdated(resource.getMeta().getLastUpdated().getValue().toString());
+            event.setLocation(location);
+            event.setResourceId(resource.getId().getValue());
+            return event;
+        } catch (Exception e) {
+            log.log(Level.WARNING, this.getClass().getName() + ": unable to build notification event", e);
+        }
+        return null;
     }
 }

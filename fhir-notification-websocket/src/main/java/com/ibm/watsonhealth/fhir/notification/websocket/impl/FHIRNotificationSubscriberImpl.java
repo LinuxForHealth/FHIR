@@ -28,7 +28,7 @@ public class FHIRNotificationSubscriberImpl implements FHIRNotificationSubscribe
             log.info("Session ID" + session.getId() + "message:" + message);
             session.getBasicRemote().sendText(message);
         } catch (Exception e) {
-            throw new FHIRNotificationException("Error sending message to WebSocket :" + session.getId(), e);
+            throw new FHIRNotificationException("Error sending message to web socket: " + session.getId(), e);
         }finally {
         	log.exiting(this.getClass().getName(), "notify");
         }
