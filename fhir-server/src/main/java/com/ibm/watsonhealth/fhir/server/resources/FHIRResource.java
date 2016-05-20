@@ -587,7 +587,8 @@ public class FHIRResource {
         // Finally, set the "total" field.
         bundle.setTotal(
             objectFactory.createUnsignedInt()
-                .withValue(BigInteger.valueOf(bundle.getEntry().size())));
+//              .withValue(BigInteger.valueOf(bundle.getEntry().size())));
+                .withValue(BigInteger.valueOf(resources.size())));
         
         return bundle;
     }
