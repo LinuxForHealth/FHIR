@@ -77,6 +77,21 @@ CODE_REMOVED
     <jndiEntry  jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"
         value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory"/>
 
+   <!-- FHIR Persistence Router related config -->
+      <!--
+              To use the FHIR persistence router, you need to perform the following steps:
+              1. Configure the config/router-persistence-rules.json
+              2. Set the JNDI entry for the default persistence factory (jndiName="com.ibm.watsonhealth.fhir.persistence.factory"), to use the FHIRPersistenceRouterFactory class.
+              3. Create JNDI entries matching the "factoryJndiName" entries specified on config/router-persistence-rules.json.
+
+              You can find below an example on how to create this configuration.
+       -->
+       <!--
+      <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.router.FHIRPersistenceRouterFactory"/>
+      <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory.clinical" id="clinicalFhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" />
+      <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory.profile" id="profileFhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" />
+      -->
+
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
     <!-- Derby/Embedded-related configuration
