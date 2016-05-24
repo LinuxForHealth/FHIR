@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +34,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -272,7 +275,15 @@ public class SearchUtil {
 	                            v = v.substring(2);
 	                            parameterValue.setPrefix(prefix);
 	                        }
-	                        parameterValue.setValueDate(datatypeFactory.newXMLGregorianCalendar(v));
+//	                        parameterValue.setValueDate(FHIRUtilities.newXMLGregorianCalendar(v));
+	                        Date date = FHIRUtilities.parseDate(v);
+	                        if (date != null) {
+	                            GregorianCalendar calendar = new GregorianCalendar();
+	                            calendar.setTime(date);
+	                            parameterValue.setValueDate(datatypeFactory.newXMLGregorianCalendar(calendar));
+	                        } else {
+	                            throw new FHIRSearchException("Unable to parse date: '" + v + "'");
+	                        }
 	                        break;
 	                    }
 	                    case NUMBER: {
@@ -344,8 +355,7 @@ public class SearchUtil {
 	            }
 		    } catch (FHIRSearchException e) {
 		        throw e;
-		    }
-		    catch (Exception e) {
+		    } catch (Exception e) {
 		        log.fine("Unable to parse query parameter named: " + name);
 		        throw new FHIRSearchException("Unable to parse query parameter named: '" + name + "'", e);
 		    }

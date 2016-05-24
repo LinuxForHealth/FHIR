@@ -10,7 +10,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
@@ -135,5 +140,22 @@ public class FHIRUtilities {
      */
     public static boolean isEncoded(String s) {
         return s.startsWith("{xor}");
+    }
+    
+    public static Date parseDate(String source) {
+        List<String> patterns = Arrays.asList(
+            "yyyy-MM-dd'T'HH:mm:ssXXX", 
+            "yyyy-MM-dd", 
+            "yyyy-MM", 
+            "yyyy"
+        );
+        for (String pattern : patterns) {
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
+            try {
+                return format.parse(source);
+            } catch (ParseException e) {
+            }
+        }
+        return null;
     }
 }
