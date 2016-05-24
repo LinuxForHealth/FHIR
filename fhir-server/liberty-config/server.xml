@@ -25,7 +25,7 @@ CODE_REMOVED
 CODE_REMOVED
 CODE_REMOVED
         <group name="FHIRUsers">
-            <member name="fhiruser"></member>
+            <member name="fhiruser"/>
         </group>
     </basicRegistry>
     
@@ -34,12 +34,13 @@ CODE_REMOVED
         Note: on Linux, the server must be running with root priviledges in order to
         listen on ports <= 1024.
      -->
-    <httpEndpoint httpPort="9080" httpsPort="9443" host="*" id="defaultHttpEndpoint" onError="FAIL"/>
+    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" onError="FAIL"/>
 
     <!-- 
         Modify the trace string below as needed to enable/disable tracing. 
         <logging traceSpecification="*=info" traceFormat="BASIC"/>
         <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
+        <logging traceFormat="BASIC" traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer"/>
     -->
     
     <!-- Automatically expand WAR files and EAR files -->
@@ -47,15 +48,19 @@ CODE_REMOVED
 
     <applicationMonitor updateTrigger="mbean"/>   
 
-    <webApplication id="fhir-server" location="fhir-server.war" name="fhir-server" contextRoot="fhir-server/api">
+    <!-- This is the main FHIR Server REST API war -->
+    <webApplication contextRoot="fhir-server/api" id="fhir-server" location="fhir-server.war" name="fhir-server">
         <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" privateLibraryRef="configResources"/>
         <application-bnd>
             <security-role name="FHIRUsers">
-                <group name="FHIRUsers"></group>
+                <group name="FHIRUsers"/>
             </security-role>
         </application-bnd>
     </webApplication>
 
+    <!-- This is the swagger UI for the FHIR Server -->
+    <webApplication id="fhir-swagger-ui" location="fhir-swagger-ui.war" name="fhir-swagger-ui"/>
+    
     <library apiTypeVisibility="spec,third-party" id="moxyLib">
         <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
     </library>
@@ -66,6 +71,7 @@ CODE_REMOVED
     -->
     <library id="configResources">
         <folder dir="${server.config.dir}/config"/>
+        <fileset dir="${server.config.dir}/config" includes="*.jar"/>
     </library>
    
     <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
@@ -74,23 +80,7 @@ CODE_REMOVED
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     -->
-    <jndiEntry  jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"
-        value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory"/>
-
-   <!-- FHIR Persistence Router related config -->
-      <!--
-              To use the FHIR persistence router, you need to perform the following steps:
-              1. Configure the config/router-persistence-rules.json
-              2. Set the JNDI entry for the default persistence factory (jndiName="com.ibm.watsonhealth.fhir.persistence.factory"), to use the FHIRPersistenceRouterFactory class.
-              3. Create JNDI entries matching the "factoryJndiName" entries specified on config/router-persistence-rules.json.
-
-              You can find below an example on how to create this configuration.
-       -->
-       <!--
-      <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.router.FHIRPersistenceRouterFactory"/>
-      <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory.clinical" id="clinicalFhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" />
-      <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory.profile" id="profileFhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" />
-      -->
+    <jndiEntry id="fhirPersistenceFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory"/>
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
@@ -149,6 +139,5 @@ CODE_REMOVED
         <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.cloudant.account" id="com.ibm.watsonhealth.fhir.persistence.cloudant.account" decode="true" 
 CODE_REMOVED
     -->
-    
     
 </server>
