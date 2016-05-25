@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
@@ -151,6 +152,7 @@ public class FHIRUtilities {
         );
         for (String pattern : patterns) {
             SimpleDateFormat format = new SimpleDateFormat(pattern);
+            format.setTimeZone(TimeZone.getTimeZone("GMT"));
             try {
                 return format.parse(source);
             } catch (ParseException e) {
