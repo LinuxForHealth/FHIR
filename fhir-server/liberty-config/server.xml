@@ -139,5 +139,10 @@ CODE_REMOVED
         <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.cloudant.account" id="com.ibm.watsonhealth.fhir.persistence.cloudant.account" decode="true" 
 CODE_REMOVED
     -->
+
+    
+    <!-- These JNDI entries pertain to the FHIR Notification service -->
+    <jndiEntry id="enableWebSocketNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.websocket.enabled" value="true"/>
+    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="false"/>
     
 </server>
