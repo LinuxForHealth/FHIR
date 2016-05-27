@@ -28,9 +28,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
  */
 public class FHIRUtilities {
-	protected static final String NL = System.getProperty("line.separator");
-	private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
-	private static final ThreadLocal<SimpleDateFormat> threadLocalSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
+    protected static final String NL = System.getProperty("line.separator");
+    private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
+    private static final ThreadLocal<SimpleDateFormat> threadLocalSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
         public SimpleDateFormat initialValue() {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
@@ -38,8 +38,8 @@ public class FHIRUtilities {
             return format;
         }
     };
-    
-	private static DatatypeFactory createDatatypeFactory() {
+
+    private static DatatypeFactory createDatatypeFactory() {
         try {
             return DatatypeFactory.newInstance();
         } catch (DatatypeConfigurationException e) {
@@ -48,8 +48,8 @@ public class FHIRUtilities {
     }
 
     /**
-	 * Returns the specified object's handle in hex format.
-	 */
+     * Returns the specified object's handle in hex format.
+     */
     public static String getObjectHandle(Object o) {
         return Integer.toHexString(System.identityHashCode(o));
     }
@@ -67,18 +67,14 @@ public class FHIRUtilities {
 
         return sb.toString();
     }
-    
+
     /**
-     *  Read data for a resource from a control document (JSON/XML file)
+     * Read data for a resource from a control document (JSON/XML file)
      */
     public static String readFromFile(String filePath) {
         try {
             StringBuffer buffer = new StringBuffer();
-            BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                		FHIRUtilities.class.getClassLoader().getResourceAsStream(filePath)
-                )
-            );
+            BufferedReader in = new BufferedReader(new InputStreamReader(FHIRUtilities.class.getClassLoader().getResourceAsStream(filePath)));
             String line = null;
             while ((line = in.readLine()) != null) {
                 buffer.append(line);
@@ -93,11 +89,13 @@ public class FHIRUtilities {
         }
         return null;
     }
-    
+
     /**
-     * This function will remove any whitspace characters which appear in a '<div>...</div>' section
-     * within the specified string.
-     * @param str the string to process
+     * This function will remove any whitspace characters which appear in a '<div>...</div>' section within the
+     * specified string.
+     * 
+     * @param str
+     *            the string to process
      * @return the input string with the 'div' whitespace characters removed
      */
     public static String stripNamespaceIfPresentInDiv(String str) {
@@ -109,19 +107,20 @@ public class FHIRUtilities {
         }
         return str;
     }
-    
+
     /**
-     * This function will remove any newlines which appear in a '<div>...</div>' section
-     * within the specified string.
-     * @param str the string to process
+     * This function will remove any newlines which appear in a '<div>...</div>' section within the specified string.
+     * 
+     * @param str
+     *            the string to process
      * @return the input string with the 'div' new lines removed
      */
     public static String stripNewLineWhitespaceIfPresentInDiv(String str) {
         int startIndex = str.indexOf("<div>");
         if (startIndex != -1) {
             int endIndex = str.indexOf("</div>", startIndex);
-            if(endIndex != -1) {
-            	String divContent = str.substring(startIndex+5, endIndex);
+            if (endIndex != -1) {
+                String divContent = str.substring(startIndex + 5, endIndex);
                 String divWithoutNewLine = divContent.replace("\\n", "");
                 String strNewLineStrippedInDiv = str.replace(divContent, divWithoutNewLine);
                 String divWithoutNewLineWhiteSpace = divWithoutNewLine.replace(" ", "");
@@ -130,11 +129,13 @@ public class FHIRUtilities {
         }
         return str;
     }
-    
+
     /**
-     * This function can be used to decode an xor-encoded value that was produced by the 
-     * WebSphere Liberty 'securityUtility' command.
-     * @param encodedString the encoded string to be decoded
+     * This function can be used to decode an xor-encoded value that was produced by the WebSphere Liberty
+     * 'securityUtility' command.
+     * 
+     * @param encodedString
+     *            the encoded string to be decoded
      * @return the decoded version of the input string
      * @throws Exception
      */
@@ -155,23 +156,20 @@ public class FHIRUtilities {
 
         return decodedString;
     }
-    
+
     /**
-     * Returns true if and only if the specified string 's' is an encoded value, which means it starts
-     * with the string "{xor}".
-     * @param s the string value to check
+     * Returns true if and only if the specified string 's' is an encoded value, which means it starts with the string
+     * "{xor}".
+     * 
+     * @param s
+     *            the string value to check
      */
     public static boolean isEncoded(String s) {
         return s.startsWith("{xor}");
     }
-    
+
     public static Date parseDate(String source) {
-        List<String> patterns = Arrays.asList(
-            "yyyy-MM-dd'T'HH:mm:ssXXX", 
-            "yyyy-MM-dd", 
-            "yyyy-MM", 
-            "yyyy"
-        );
+        List<String> patterns = Arrays.asList("yyyy-MM-dd'T'HH:mm:ssXXX", "yyyy-MM-dd", "yyyy-MM", "yyyy");
         for (String pattern : patterns) {
             SimpleDateFormat format = new SimpleDateFormat(pattern);
             format.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -182,7 +180,7 @@ public class FHIRUtilities {
         }
         return null;
     }
-    
+
     public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) {
         try {
             XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
@@ -194,7 +192,7 @@ public class FHIRUtilities {
         }
         return null;
     }
-    
+
     public static void setDefaults(XMLGregorianCalendar calendar) {
         if (isYear(calendar)) {
             calendar.setMonth(DatatypeConstants.JANUARY);
@@ -225,55 +223,39 @@ public class FHIRUtilities {
         }
         return datatypeFactory.newDuration(true, years, months, days, 0, 0, 0);
     }
-    
+
     public static boolean isDateTime(XMLGregorianCalendar calendar) {
-        return calendar != null && 
-                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
-                calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getHour() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getMinute() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getSecond() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getTimezone() != DatatypeConstants.FIELD_UNDEFINED;
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() != DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getTimezone() != DatatypeConstants.FIELD_UNDEFINED;
     }
 
     public static boolean isPartialDate(XMLGregorianCalendar calendar) {
         return isYear(calendar) || isYearMonth(calendar) || isDate(calendar);
     }
-    
+
     public static boolean isYear(XMLGregorianCalendar calendar) {
-        return calendar != null && 
-                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
-                calendar.getMonth() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
     }
-    
+
     public static boolean isYearMonth(XMLGregorianCalendar calendar) {
-        return calendar != null && 
-                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
-                calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
     }
-    
+
     public static boolean isDate(XMLGregorianCalendar calendar) {
-        return calendar != null && 
-                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
-                calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED &&
-                calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
     }
-    
+
     public static String formatTimestamp(Date date) {
         return threadLocalSimpleDateFormat.get().format(date);
     }
