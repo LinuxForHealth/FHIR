@@ -10,8 +10,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,8 +19,6 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.Binder;
 import javax.xml.bind.JAXBException;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -55,17 +51,8 @@ public class SearchUtil {
     private static final Map<String, Map<String, SearchParameter>> searchParameterMap = buildSearchParameterMap();
 	private static final XPath xpath = createXPath();
 	private static final Map<String, XPathExpression> expressionMap = new HashMap<String, XPathExpression>();
-	private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
 	
 	private SearchUtil() { }
-	
-	private static DatatypeFactory createDatatypeFactory() {
-		try {
-			return DatatypeFactory.newInstance();
-		} catch (DatatypeConfigurationException e) {
-			throw new Error(e);
-		}
-	}
 	
 	private static XPath createXPath() {
 		XPathFactory xf = XPathFactory.newInstance();
@@ -275,15 +262,7 @@ public class SearchUtil {
 	                            v = v.substring(2);
 	                            parameterValue.setPrefix(prefix);
 	                        }
-//	                        parameterValue.setValueDate(FHIRUtilities.newXMLGregorianCalendar(v));
-	                        Date date = FHIRUtilities.parseDate(v);
-	                        if (date != null) {
-	                            GregorianCalendar calendar = new GregorianCalendar();
-	                            calendar.setTime(date);
-	                            parameterValue.setValueDate(datatypeFactory.newXMLGregorianCalendar(calendar));
-	                        } else {
-	                            throw new FHIRSearchException("Unable to parse date: '" + v + "'");
-	                        }
+	                        parameterValue.setValueDate(FHIRUtilities.parseDateTime(v, false));
 	                        break;
 	                    }
 	                    case NUMBER: {

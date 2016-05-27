@@ -18,14 +18,36 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
  */
 public class FHIRUtilities {
-	
 	protected static final String NL = System.getProperty("line.separator");
+	private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
+	private static final ThreadLocal<SimpleDateFormat> threadLocalSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        public SimpleDateFormat initialValue() {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+            format.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return format;
+        }
+    };
     
-	/**
+	private static DatatypeFactory createDatatypeFactory() {
+        try {
+            return DatatypeFactory.newInstance();
+        } catch (DatatypeConfigurationException e) {
+            throw new Error(e);
+        }
+    }
+
+    /**
 	 * Returns the specified object's handle in hex format.
 	 */
     public static String getObjectHandle(Object o) {
@@ -159,5 +181,100 @@ public class FHIRUtilities {
             }
         }
         return null;
+    }
+    
+    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) {
+        try {
+            XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
+            if (defaults) {
+                setDefaults(calendar);
+            }
+            return calendar;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    
+    public static void setDefaults(XMLGregorianCalendar calendar) {
+        if (isYear(calendar)) {
+            calendar.setMonth(DatatypeConstants.JANUARY);
+        }
+        if (isYear(calendar) || isYearMonth(calendar)) {
+            calendar.setDay(1);
+        }
+        if (isYear(calendar) || isYearMonth(calendar) || isDate(calendar)) {
+            calendar.setHour(0);
+            calendar.setMinute(0);
+            calendar.setSecond(0);
+            calendar.setTimezone(0);
+        }
+    }
+
+    public static Duration createDuration(XMLGregorianCalendar calendar) throws DatatypeConfigurationException {
+        int years = 0;
+        if (isYear(calendar)) {
+            years = 1;
+        }
+        int months = 0;
+        if (isYearMonth(calendar)) {
+            months = 1;
+        }
+        int days = 0;
+        if (isDate(calendar)) {
+            days = 1;
+        }
+        return datatypeFactory.newDuration(true, years, months, days, 0, 0, 0);
+    }
+    
+    public static boolean isDateTime(XMLGregorianCalendar calendar) {
+        return calendar != null && 
+                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
+                calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getHour() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getMinute() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getSecond() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getTimezone() != DatatypeConstants.FIELD_UNDEFINED;
+    }
+
+    public static boolean isPartialDate(XMLGregorianCalendar calendar) {
+        return isYear(calendar) || isYearMonth(calendar) || isDate(calendar);
+    }
+    
+    public static boolean isYear(XMLGregorianCalendar calendar) {
+        return calendar != null && 
+                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
+                calendar.getMonth() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
+    }
+    
+    public static boolean isYearMonth(XMLGregorianCalendar calendar) {
+        return calendar != null && 
+                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
+                calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
+    }
+    
+    public static boolean isDate(XMLGregorianCalendar calendar) {
+        return calendar != null && 
+                calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && 
+                calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED &&
+                calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
+    }
+    
+    public static String formatTimestamp(Date date) {
+        return threadLocalSimpleDateFormat.get().format(date);
     }
 }
