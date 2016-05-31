@@ -34,9 +34,9 @@ public class DateTestMain {
                 Date date = calendar.toGregorianCalendar().getTime();
                 System.out.println("date in milliseconds: " + date.getTime());
                 System.out.println("date: " + formatTimestamp(date));
-                System.out.println("p.dateValue = '" + formatTimestamp(date) + "'");
+                System.out.println("p.valueDate = '" + formatTimestamp(date) + "'");
                 System.out.println("");
-            } else if (isPartialDate(calendar)){
+            } else if (isPartialDate(calendar)) {
                 // partial date
                 Duration duration = createDuration(calendar);   // amount to add
                 setDefaults(calendar);  // set defaults
@@ -50,7 +50,7 @@ public class DateTestMain {
                 Date end = calendar.toGregorianCalendar().getTime();
                 System.out.println("end time in milliseconds: " + end.getTime());
                 System.out.println("end:   " + formatTimestamp(end));
-                System.out.println("p.dateValue >= '" + formatTimestamp(start) + "' AND p.dateValue < '" + formatTimestamp(end) + "'");
+                System.out.println("p.valueDate >= '" + formatTimestamp(start) + "' AND p.valueDate < '" + formatTimestamp(end) + "'");
                 System.out.println("");
             }
         }
