@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.interceptor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -32,6 +33,12 @@ public class FHIRPersistenceEvent {
      * associated with the REST API request for which the interceptor is being invoked.
      */
     public static final String PROPNAME_SECURITY_CONTEXT = "SECURITY_CONTEXT";
+    
+    /**
+     * This property is of type String and contains the location URI that can be used to 
+     * retrieve the resource via a GET request.
+     */
+    public static final String PROPNAME_RESOURCE_LOCATION_URI = "LOCATION_URI";
     
     Resource fhirResource;
     Map<String, Object> properties;
@@ -65,5 +72,12 @@ public class FHIRPersistenceEvent {
      */
     public Object getProperty(String propertyName) {
         return (properties != null ? properties.get(propertyName) : null);
+    }
+    
+    public Map<String, Object> getProperties() {
+        if (properties == null) {
+            properties = new HashMap<String, Object>();
+        }
+        return properties;
     }
 }

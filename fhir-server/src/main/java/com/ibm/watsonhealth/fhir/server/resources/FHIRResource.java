@@ -60,8 +60,6 @@ import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
-import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -92,8 +90,6 @@ public class FHIRResource {
     
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SPEC_VERSION = "1.0.2";
-    private boolean sendNotification = true;
-    
 
     private Validator validator = null;
     private FHIRPersistenceHelper persistenceHelper = null;
@@ -178,21 +174,22 @@ public class FHIRResource {
             }
             
             // If there were no validation errors, then create the resource and return the location header.
+            
+            // First, invoke the 'beforeCreate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties());
             getInterceptorMgr().fireBeforeCreateEvent(event);
             
             getPersistenceImpl().create(resource);
             
+            // Build our location URI and add it to the interceptor event structure since it is now known.
+            URI locationURI = buildLocationURI(type, resource);
+            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
+            
+            // Invoke the 'afterCreate' interceptor methods.
             getInterceptorMgr().fireAfterCreateEvent(event);
             
-            ResponseBuilder response = Response.created(buildLocationURI(type, resource));
+            ResponseBuilder response = Response.created(locationURI);
             response = addHeaders(response, resource);
-            
-            // for now add boolean check ..so it can control later on with some kind of external parameter
-            if (sendNotification) {
-                // Send out the notification
-                FHIRNotificationService.getInstance().publish(buildNotificationEvent("create", buildLocationURI(type, resource).toString(), resource));
-            }
             return response.build();
         } catch (FHIRException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -253,19 +250,22 @@ public class FHIRResource {
             }
             
             // If there were no validation errors, then create the resource and return the location header.
+            
+            // First, invoke the 'beforeUpdate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties());
             getInterceptorMgr().fireBeforeUpdateEvent(event);
             
             getPersistenceImpl().update(id, resource);
             
+            // Build our location URI and add it to the interceptor event structure since it is now known.
+            URI locationURI = buildLocationURI(type, resource);
+            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
+            
+            // Invoke the 'afterCreate' interceptor methods.
             getInterceptorMgr().fireAfterUpdateEvent(event);
 
-            ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, buildLocationURI(type, resource));
+            ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, locationURI);
             response = addHeaders(response, resource);
-            if (sendNotification) {
-                // Send out the notification
-                FHIRNotificationService.getInstance().publish(buildNotificationEvent("update", buildLocationURI(type, resource).toString(), resource));
-            }
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
@@ -632,23 +632,5 @@ public class FHIRResource {
             log.fine("Obtained new  FHIRPersistence instance: " + persistence);
         }
         return persistence;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    private FHIRNotificationEvent buildNotificationEvent(String type, String location, Resource resource) {
-        try {
-            FHIRNotificationEvent event = new FHIRNotificationEvent();
-            event.setOperationType(type);
-            event.setLastUpdated(resource.getMeta().getLastUpdated().getValue().toString());
-            event.setLocation(location);
-            event.setResourceId(resource.getId().getValue());
-            return event;
-        } catch (Exception e) {
-            log.log(Level.WARNING, this.getClass().getName() + ": unable to build notification event", e);
-        }
-        return null;
     }
 }

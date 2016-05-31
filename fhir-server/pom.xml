@@ -71,6 +71,16 @@
 			</exclusions>
 		</dependency>
 		
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-notification-kafka</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+        </dependency>
+		
 		<dependency>
 			<groupId>org.glassfish.tyrus.bundles</groupId>
 			<artifactId>tyrus-standalone-client-jdk</artifactId>

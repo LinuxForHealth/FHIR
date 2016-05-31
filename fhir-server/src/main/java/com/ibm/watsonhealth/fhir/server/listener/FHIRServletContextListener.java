@@ -16,16 +16,25 @@ import javax.servlet.annotation.WebListener;
 import javax.websocket.server.ServerContainer;
 
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
-import com.ibm.watsonhealth.fhir.server.notification.endpoint.FHIRNotificationServiceEndpointConfig;
+import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
+import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.validation.Validator;
 
-@WebListener
+@WebListener("IBM Watson Health FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
 	private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
 	
 	private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
 	private static final String JNDINAME_WEBSOCKET_ENABLED = "com.ibm.watsonhealth.fhir.notification.websocket.enabled";
+    private static final String JNDINAME_KAFKA_ENABLED = "com.ibm.watsonhealth.fhir.notification.kafka.enabled";
+    private static final String JNDINAME_KAFKA_TOPICNAME = "com.ibm.watsonhealth.fhir.notification.kafka.topicName";
+    private static final String JNDINAME_KAFKA_CONNINFO = "com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo";
+
+    private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
+    
+    private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
@@ -49,17 +58,29 @@ public class FHIRServletContextListener implements ServletContextListener {
             log.fine("Set shared persistence interceptor mgr on servlet context.");
             
             // Grab the "websocket.enabled" jndi value.
-            Boolean websocketEnabled = getBooleanJNDIValue(JNDINAME_WEBSOCKET_ENABLED, Boolean.FALSE);
+            Boolean websocketEnabled = getJNDIValue(JNDINAME_WEBSOCKET_ENABLED, Boolean.FALSE);
             
             // If configured, start up our WebSocket endpoint for notifications.
             if (websocketEnabled) {
-                log.info("Opening websocket for notifications.");
+                log.info("Initializing WebSocket notification publisher.");
                 ServerContainer container = (ServerContainer) event.getServletContext().getAttribute(ATTRNAME_WEBSOCKET_SERVERCONTAINER);
                 container.addEndpoint(new FHIRNotificationServiceEndpointConfig());
             } else {
-                log.info("Bypassing websocket notification initialization.");
+                log.info("Bypassing WebSocket notification init.");
             }
-
+            
+            // Grab the "kafka.enabled" jndi value.
+            Boolean kafkaEnabled = getJNDIValue(JNDINAME_KAFKA_ENABLED, Boolean.FALSE);
+            
+            // If configured, start up our Kafka notification publisher.
+            if (kafkaEnabled) {
+                log.info("Initializing Kafka notification publisher.");
+                String topicName = getJNDIValue(JNDINAME_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
+                String connectionInfo = getJNDIValue(JNDINAME_KAFKA_CONNINFO, DEFAULT_KAFKA_CONNINFO);
+                kafkaPublisher = new FHIRNotificationKafkaPublisher(topicName, connectionInfo);
+            } else {
+                log.info("Bypassing Kafka notification init.");
+            }
 		} catch (Exception e) {
 			// ignore exceptions here
 		} finally {
@@ -75,7 +96,12 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
 		}
 		try {
-			// TODO
+		    
+		    // If we previously intialized the Kafka publisher, then shut it down now.
+		    if (kafkaPublisher != null) {
+		        kafkaPublisher.shutdown();
+		        kafkaPublisher = null;
+		    }
 		} catch (Exception e) {
 		} finally {
 			if (log.isLoggable(Level.FINER)) {
@@ -85,15 +111,16 @@ public class FHIRServletContextListener implements ServletContextListener {
 	}
 
     /**
-     * Retrieves the specified JNDI entry and interprets it as a Boolean value.
+     * Retrieves the specified JNDI entry and interprets it as a value of type "T".
      * @param jndiName the name of the JNDI entry to search for
      * @param defaultValue the defaultValue to be returned if the JNDI entry isn't found
      */
-    private Boolean getBooleanJNDIValue(String jndiName, Boolean defaultValue) {
-        Boolean result = defaultValue;
+    @SuppressWarnings("unchecked")
+    private <T> T getJNDIValue(String jndiName, T defaultValue) {
+        T result = defaultValue;
         try {
             InitialContext ctx = new InitialContext();
-            Boolean jndiValue = (Boolean) ctx.lookup(jndiName);
+            T jndiValue = (T) ctx.lookup(jndiName);
             if (jndiValue != null ) {
                 log.fine("JNDI entry " + jndiName + "=" + jndiValue);
                 result = jndiValue;
@@ -104,5 +131,4 @@ public class FHIRServletContextListener implements ServletContextListener {
         }
         return result;
     }
-    
 }

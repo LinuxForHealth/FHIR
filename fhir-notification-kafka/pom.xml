@@ -5,21 +5,22 @@
 		<groupId>com.ibm.watsonhealth</groupId>
 		<artifactId>fhir-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../fhir-parent</relativePath>
+        <relativePath>../fhir-parent</relativePath>
 	</parent>
 
-	<artifactId>fhir-notification</artifactId>
-	
+	<artifactId>fhir-notification-kafka</artifactId>
+	<description>FHIR server notifications implementation for kafka</description>
+	<packaging>jar</packaging>
+
 	<dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-persistence</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 		<dependency>
-			<groupId>javax.json</groupId>
-			<artifactId>javax.json-api</artifactId>
-			<version>1.0</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-notification</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
 		</dependency>
 	</dependencies>
 </project>

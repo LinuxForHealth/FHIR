@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.notification.websocket.impl;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.websocket.Session;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationSubscriber;
@@ -16,21 +17,23 @@ import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationUtil;
 public class FHIRNotificationSubscriberImpl implements FHIRNotificationSubscriber {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRNotificationSubscriberImpl.class.getName());
     private Session session = null;
-    
+
     public FHIRNotificationSubscriberImpl(Session session) {
         this.session = session;
     }
-    
+
     public void notify(FHIRNotificationEvent event) throws FHIRNotificationException {
-    	log.entering(this.getClass().getName(), "notify");
+        log.entering(this.getClass().getName(), "notify");
         try {
             String message = FHIRNotificationUtil.toJsonString(event);
-            log.info("Session ID" + session.getId() + "message:" + message);
-            session.getBasicRemote().sendText(message);
+            log.fine("Publishing websocket notification on session [id=" + session.getId() + "], message:" + message);
+            session.getAsyncRemote().sendText(message);
         } catch (Exception e) {
-            throw new FHIRNotificationException("Error sending message to web socket: " + session.getId(), e);
-        }finally {
-        	log.exiting(this.getClass().getName(), "notify");
+            String msg = "Error sending message to websocket: " + session.getId();
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRNotificationException(msg, e);
+        } finally {
+            log.exiting(this.getClass().getName(), "notify");
         }
     }
 }
