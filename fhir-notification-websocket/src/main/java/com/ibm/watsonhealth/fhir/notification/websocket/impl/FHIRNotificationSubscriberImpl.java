@@ -9,9 +9,10 @@ package com.ibm.watsonhealth.fhir.notification.websocket.impl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.websocket.Session;
+
+import com.ibm.watsonhealth.fhir.notification.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationSubscriber;
 import com.ibm.watsonhealth.fhir.notification.exception.FHIRNotificationException;
-import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationUtil;
 
 public class FHIRNotificationSubscriberImpl implements FHIRNotificationSubscriber {

@@ -13,6 +13,8 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
+import com.ibm.watsonhealth.fhir.notification.FHIRNotificationEvent;
+
 public class FHIRNotificationUtil {
 	public static FHIRNotificationEvent toNotificationEvent(String jsonString) {
 		JsonReader reader = Json.createReader(new StringReader(jsonString));

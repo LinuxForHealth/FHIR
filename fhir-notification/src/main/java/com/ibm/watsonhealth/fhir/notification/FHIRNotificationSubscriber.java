@@ -7,7 +7,6 @@
 package com.ibm.watsonhealth.fhir.notification;
 
 import com.ibm.watsonhealth.fhir.notification.exception.FHIRNotificationException;
-import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
 
 public interface FHIRNotificationSubscriber {
     /**

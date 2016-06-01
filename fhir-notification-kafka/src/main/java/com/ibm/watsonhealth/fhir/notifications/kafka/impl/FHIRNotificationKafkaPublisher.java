@@ -15,10 +15,10 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import com.ibm.watsonhealth.fhir.notification.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationSubscriber;
 import com.ibm.watsonhealth.fhir.notification.exception.FHIRNotificationException;
-import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationUtil;
 
 /**
