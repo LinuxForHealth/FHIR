@@ -44,10 +44,10 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
-		    System.out.println("Initializing FHIRUtil...");
+		    log.fine("Initializing FHIRUtil...");
 		    FHIRUtil.init();
 		    
-		    System.out.println("Initializing SearchUtil...");
+		    log.fine("Initializing SearchUtil...");
 		    SearchUtil.init();
 		    
 			// For any singleton resources that need to be shared among our resource class instances,
