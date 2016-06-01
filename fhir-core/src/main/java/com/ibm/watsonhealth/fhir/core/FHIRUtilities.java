@@ -208,7 +208,7 @@ public class FHIRUtilities {
         }
     }
 
-    public static Duration createDuration(XMLGregorianCalendar calendar) throws DatatypeConfigurationException {
+    public static Duration createDuration(XMLGregorianCalendar calendar) {
         int years = 0;
         if (isYear(calendar)) {
             years = 1;
