@@ -10,8 +10,8 @@ import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.createDuration;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.formatTimestamp;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.isDateTime;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.isPartialDate;
+import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.normalize;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.parseDateTime;
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.setDefaults;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class DateTestMain {
             } else if (isPartialDate(calendar)) {
                 // partial date
                 Duration duration = createDuration(calendar);   // amount to add
-                setDefaults(calendar);  // set defaults
+                normalize(calendar);  // set defaults
                 
                 Date start = calendar.toGregorianCalendar().getTime();
                 System.out.println("start time in milliseconds: " + start.getTime());
