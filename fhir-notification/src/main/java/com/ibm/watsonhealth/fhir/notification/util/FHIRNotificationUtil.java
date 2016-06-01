@@ -12,7 +12,9 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
+import javax.xml.bind.JAXBException;
 
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationEvent;
 
 public class FHIRNotificationUtil {
@@ -28,12 +30,13 @@ public class FHIRNotificationUtil {
 		return event;
 	}
 	
-	public static String toJsonString(FHIRNotificationEvent event) {
+	public static String toJsonString(FHIRNotificationEvent event) throws JAXBException {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		builder.add("lastUpdated", event.getLastUpdated());
 		builder.add("location", event.getLocation());
 		builder.add("operationType", event.getOperationType());
 		builder.add("resourceId", event.getResourceId());
+		builder.add("resource", FHIRUtil.toJsonObject(event.getResource()));
 		JsonObject jsonObject = builder.build();
 		String jsonString = jsonObject.toString();
 		return jsonString;

@@ -48,6 +48,8 @@ CODE_REMOVED
 
     <applicationMonitor updateTrigger="mbean"/>   
 
+    <webContainer deferServletLoad="false"/>   
+
     <!-- This is the main FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api" id="fhir-server" location="fhir-server.war" name="fhir-server">
         <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" privateLibraryRef="configResources"/>
@@ -156,6 +158,12 @@ CODE_REMOVED
     
     <!-- These JNDI entries pertain to the FHIR Notification service -->
     <jndiEntry id="enableWebSocketNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.websocket.enabled" value="true"/>
+
     <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="false"/>
+    <!-- 
+    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="true"/>
+    <jndiEntry id="kafkaTopicName" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.topicName" value="fhirKafkaNotifications"/>
+    <jndiEntry id="kafkaConnectionInfo" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo" value="localhost:9092"/>
+    -->    
     
 </server>
