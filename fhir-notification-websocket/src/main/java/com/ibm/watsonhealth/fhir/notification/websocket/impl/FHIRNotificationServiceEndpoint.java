@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 import javax.websocket.CloseReason;
 import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
 import javax.websocket.Session;
 
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
@@ -62,7 +60,6 @@ public class FHIRNotificationServiceEndpoint extends Endpoint {
      * @param session
      * @return
      */
-    @OnMessage
     public String onMessage(String message, Session session) {
         log.entering(this.getClass().getName(), "onMessage");
         try {
@@ -79,7 +76,6 @@ public class FHIRNotificationServiceEndpoint extends Endpoint {
      * @param session
      * @param closeReason
      */
-    @OnClose
     public void onClose(Session session, CloseReason closeReason) {
         log.entering(this.getClass().getName(), "onClose");
         try {

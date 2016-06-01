@@ -164,6 +164,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             event.setLastUpdated(resource.getMeta().getLastUpdated().getValue().toString());
             event.setLocation((String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI));
             event.setResourceId(resource.getId().getValue());
+            event.setResource(resource);
             return event;
         } catch (Exception e) {
             log.log(Level.SEVERE, this.getClass().getName() + ": unable to build notification event", e);

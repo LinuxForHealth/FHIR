@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
@@ -57,19 +58,22 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
 
             // Set up our properties for connecting to the kafka server.
             connectionProps = new Properties();
-            connectionProps.put("bootstrap.servers", connectionInfo);
-            connectionProps.put("acks", "all");
-            connectionProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-            connectionProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+            connectionProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, connectionInfo);
+            connectionProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+            connectionProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+            connectionProps.put(ProducerConfig.CLIENT_ID_CONFIG, "fhir-server");
+            // connectionProps.put(ProducerConfig.ACKS_CONFIG, "1");
+            // connectionProps.put(ProducerConfig.RETRIES_CONFIG, "0");
+            // connectionProps.put(ProducerConfig.LINGER_MS_CONFIG, "0");
+            // connectionProps.put(ProducerConfig.BATCH_SIZE_CONFIG, "16384");
 
             // Create our producer object to be used for publishing.
             producer = new KafkaProducer<String, String>(connectionProps);
-            log.fine("Created KafkaProducer...");
 
             // Register this Kafka implementation as a "subscriber" with our Notification Service.
             // This means that our "notify" method will be called when the server publishes an event.
             service.subscribe(this);
-            log.fine("Initialized Kafka publisher for topic '" + connectionInfo + "/" + topicName + "'.");
+            log.info("Initialized Kafka publisher for topic '" + connectionInfo + "/" + topicName + "'.");
         } catch (Throwable t) {
             log.log(Level.SEVERE, "Caught exception while initializing Kafka publisher: ", t);
         } finally {
@@ -107,7 +111,8 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
             String jsonString = FHIRNotificationUtil.toJsonString(event);
             log.fine("Publishing kafka notification event to topic '" + topicId + "', message: " + jsonString);
             producer.send(new ProducerRecord<String, String>(topicName, jsonString));
-        } catch (Exception e) {
+            log.fine("message sent...");
+        } catch (Throwable e) {
             String msg = "Error publishing kafka notification event to topic '" + topicId;
             log.log(Level.SEVERE, msg, e);
             throw new FHIRNotificationException(msg, e);
