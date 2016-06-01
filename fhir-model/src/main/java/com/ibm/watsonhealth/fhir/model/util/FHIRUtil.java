@@ -128,7 +128,7 @@ public class FHIRUtil {
 	private FHIRUtil() { }
 	
 	public static void init() {
-	    // allows us to initialize this initialization during startup
+	    // allows us to initialize this class during startup
 	}
 	
 	private static DocumentBuilder createDocumentBuilder() {
