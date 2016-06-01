@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -181,18 +182,23 @@ public class FHIRUtilities {
         return null;
     }
 
-    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) {
+    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean normalize) {
         try {
             XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
-            if (defaults) {
-                setDefaults(calendar);
+            if (normalize) {
+                normalize(calendar);
             }
             return calendar;
         } catch (Exception e) {
         }
         return null;
     }
-
+    
+    public static Timestamp convertToTimestamp(XMLGregorianCalendar calendar) {
+        return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
+    }
+    
+    @Deprecated
     public static void setDefaults(XMLGregorianCalendar calendar) {
         if (isYear(calendar)) {
             calendar.setMonth(DatatypeConstants.JANUARY);
@@ -201,6 +207,23 @@ public class FHIRUtilities {
             calendar.setDay(1);
         }
         if (isYear(calendar) || isYearMonth(calendar) || isDate(calendar)) {
+            calendar.setHour(0);
+            calendar.setMinute(0);
+            calendar.setSecond(0);
+            calendar.setTimezone(0);
+        }
+    }
+    
+    public static void normalize(XMLGregorianCalendar calendar) {
+        if (isDateTime(calendar)) {
+            calendar.normalize();
+        } else if (isPartialDate(calendar)) {
+            if (isYear(calendar)) {
+                calendar.setMonth(DatatypeConstants.JANUARY);
+            }
+            if (isYear(calendar) || isYearMonth(calendar)) {
+                calendar.setDay(1);
+            }
             calendar.setHour(0);
             calendar.setMinute(0);
             calendar.setSecond(0);
