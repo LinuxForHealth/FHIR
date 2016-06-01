@@ -169,6 +169,7 @@ public class FHIRUtilities {
         return s.startsWith("{xor}");
     }
 
+    @Deprecated
     public static Date parseDate(String source) {
         List<String> patterns = Arrays.asList("yyyy-MM-dd'T'HH:mm:ssXXX", "yyyy-MM-dd", "yyyy-MM", "yyyy");
         for (String pattern : patterns) {
