@@ -91,12 +91,17 @@ public class FHIRResource {
     
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SPEC_VERSION = "1.0.2";
+    private static final String ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
+    private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
 
     private Validator validator = null;
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistenceInterceptorMgr interceptorMgr = null;
     private FHIRPersistence persistence = null;
     private ObjectFactory objectFactory = new ObjectFactory();
+    
+    private List<String> allowableVirtualResourceTypes = null;
+    private Boolean virtualResourceTypesFeatureEnabled = null;
 
     @Context
     private ServletContext context;
@@ -299,6 +304,12 @@ public class FHIRResource {
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
+                if (!isVirtualResourceTypesFeatureEnabled()) {
+                    throw new FHIRException("The virtual resource types feature is not enabled for this server");
+                }
+                if (!isAllowable(type)) {
+                    throw new FHIRException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                }
                 resourceTypeName = "Basic";
             }
 //          Class<? extends Resource> resourceType = getResourceType(type);
@@ -348,6 +359,12 @@ public class FHIRResource {
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
+                if (!isVirtualResourceTypesFeatureEnabled()) {
+                    throw new FHIRException("The virtual resource types feature is not enabled for this server");
+                }
+                if (!isAllowable(type)) {
+                    throw new FHIRException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                }
                 resourceTypeName = "Basic";
             }
 //          Class<? extends Resource> resourceType = getResourceType(type);
@@ -389,6 +406,12 @@ public class FHIRResource {
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
+                if (!isVirtualResourceTypesFeatureEnabled()) {
+                    throw new FHIRException("The virtual resource types feature is not enabled for this server");
+                }
+                if (!isAllowable(type)) {
+                    throw new FHIRException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                }
                 resourceTypeName = "Basic";
             }
 //          Class<? extends Resource> resourceType = getResourceType(type);
@@ -423,6 +446,12 @@ public class FHIRResource {
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
+                if (!isVirtualResourceTypesFeatureEnabled()) {
+                    throw new FHIRException("The virtual resource types feature is not enabled for this server");
+                }
+                if (!isAllowable(type)) {
+                    throw new FHIRException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                }
                 resourceTypeName = "Basic";
             }
 //          Class<? extends Resource> resourceType = getResourceType(type);
@@ -633,5 +662,29 @@ public class FHIRResource {
             log.fine("Obtained new  FHIRPersistence instance: " + persistence);
         }
         return persistence;
+    }
+    
+    private boolean isAllowable(String virtualReosurceType) {
+        return getAllowableVirtualResourceTypes().contains(virtualReosurceType) || 
+                getAllowableVirtualResourceTypes().contains("*");
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<String> getAllowableVirtualResourceTypes() {
+        if (allowableVirtualResourceTypes == null) {
+            allowableVirtualResourceTypes = (List<String>) context.getAttribute(ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
+        }
+        return allowableVirtualResourceTypes;
+    }
+    
+    private Boolean isVirtualResourceTypesFeatureEnabled() {
+        return getVirtualResourceTypesFeatureEnabled();
+    }
+    
+    private Boolean getVirtualResourceTypesFeatureEnabled() {
+        if (virtualResourceTypesFeatureEnabled == null) {
+            virtualResourceTypesFeatureEnabled = (Boolean) context.getAttribute(VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED);
+        }
+        return virtualResourceTypesFeatureEnabled;
     }
 }

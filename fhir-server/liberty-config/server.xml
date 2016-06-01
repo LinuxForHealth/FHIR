@@ -172,6 +172,9 @@ CODE_REMOVED
     <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="true"/>
     <jndiEntry id="kafkaTopicName" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.topicName" value="fhirNotifications"/>
     <jndiEntry id="kafkaConnectionInfo" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo" value="localhost:9092"/>
-    -->    
+    -->
+    
+    <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
+    <jndiEntry id="virtualResourceTypesFeatureEnabled" jndiName="com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled" value="true"/>
     
 </server>
