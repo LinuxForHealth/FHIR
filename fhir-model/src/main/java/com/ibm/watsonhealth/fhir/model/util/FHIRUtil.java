@@ -127,6 +127,10 @@ public class FHIRUtil {
 	
 	private FHIRUtil() { }
 	
+	public static void init() {
+	    // allows us to initialize this initialization during startup
+	}
+	
 	private static DocumentBuilder createDocumentBuilder() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

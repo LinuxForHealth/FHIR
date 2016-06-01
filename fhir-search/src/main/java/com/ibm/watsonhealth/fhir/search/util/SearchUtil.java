@@ -54,6 +54,10 @@ public class SearchUtil {
 	
 	private SearchUtil() { }
 	
+	public static void init() {
+	    // allows us to initialize this class during startup
+	}
+	
 	private static XPath createXPath() {
 		XPathFactory xf = XPathFactory.newInstance();
 		XPath xp = xf.newXPath();

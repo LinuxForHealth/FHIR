@@ -16,6 +16,8 @@ import javax.servlet.annotation.WebListener;
 import javax.websocket.server.ServerContainer;
 
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -42,6 +44,12 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
+		    System.out.println("Initializing FHIRUtil...");
+		    FHIRUtil.init();
+		    
+		    System.out.println("Initializing SearchUtil...");
+		    SearchUtil.init();
+		    
 			// For any singleton resources that need to be shared among our resource class instances,
 		    // we'll add them to our servlet context so that the resource class can easily retrieve them.
 		    
