@@ -19,9 +19,9 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
  * This class serves as a helper for obtaining the correct persistence implementation to be used by the FHIR REST API
  * layer.
  */
-public class FHIRPersistenceHelper {
+public class FHIRPersistenceHelper implements PersistenceHelper {
     private static final Logger log = Logger.getLogger(FHIRPersistenceHelper.class.getName());
-    private static final String JNDI_NAME_FHIR_PERSISTENCE_FACTORY = "com.ibm.watsonhealth.fhir.persistence.factory";
+    protected static final String JNDI_NAME_FHIR_PERSISTENCE_FACTORY = "com.ibm.watsonhealth.fhir.persistence.factory";
 
     public FHIRPersistenceHelper() {
         log.finest("In FHIRPersistenceHelper() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
@@ -33,7 +33,7 @@ public class FHIRPersistenceHelper {
      * @param factoryJndiName Name of the JNDI resource that contains the {@link FHIRPersistenceFactory} class name.
      * @return Name of the factory class that will be loaded.
      */
-    private String retrieveFactoryClassName(String factoryJndiName) throws FHIRPersistenceException {
+    protected String retrieveFactoryClassName(String factoryJndiName) throws FHIRPersistenceException {
         String factoryClassName = null;
 
         try {
@@ -48,18 +48,18 @@ public class FHIRPersistenceHelper {
         return factoryClassName;
     }
 
-    /**
-     * Returns an appropriate FHIRPersistance implementation according to the current configuration.
-     * @throws FHIRPersistenceException 
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper#getFHIRPersistenceImplementation()
      */
+    @Override
     public FHIRPersistence getFHIRPersistenceImplementation() throws FHIRPersistenceException {
         return getFHIRPersistenceImplementation(JNDI_NAME_FHIR_PERSISTENCE_FACTORY);
     }
 
-    /**
-     * Returns an appropriate FHIRPersistance implementation according to the current configuration.
-     * @throws FHIRPersistenceException 
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper#getFHIRPersistenceImplementation(java.lang.String)
      */
+    @Override
     public FHIRPersistence getFHIRPersistenceImplementation(String factoryJndiName) throws FHIRPersistenceException {
         log.entering(this.getClass().getName(), "getFHIRPersistenceImplementation");
 

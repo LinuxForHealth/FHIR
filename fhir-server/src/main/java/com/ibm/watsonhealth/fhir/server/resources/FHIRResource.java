@@ -64,6 +64,7 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
+import com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.watsonhealth.fhir.search.Parameter;
@@ -92,7 +93,7 @@ public class FHIRResource {
     private static final String FHIR_SPEC_VERSION = "1.0.2";
 
     private Validator validator = null;
-    private FHIRPersistenceHelper persistenceHelper = null;
+    private PersistenceHelper persistenceHelper = null;
     private FHIRPersistenceInterceptorMgr interceptorMgr = null;
     private FHIRPersistence persistence = null;
     private ObjectFactory objectFactory = new ObjectFactory();
@@ -618,9 +619,9 @@ public class FHIRResource {
     /**
      * Retrieves the shared persistence helper object from the servlet context.
      */
-    private synchronized FHIRPersistenceHelper getPersistenceHelper() {
+    private synchronized PersistenceHelper getPersistenceHelper() {
         if (persistenceHelper == null) {
-            persistenceHelper = (FHIRPersistenceHelper) context.getAttribute(FHIRPersistenceHelper.class.getName());
+            persistenceHelper = (PersistenceHelper) context.getAttribute(FHIRPersistenceHelper.class.getName());
             log.fine("Retrieved FHIRPersistenceHelper instance from servlet context: " + persistenceHelper);
         }
         return persistenceHelper;
