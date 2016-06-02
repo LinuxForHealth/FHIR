@@ -69,6 +69,7 @@ import com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
@@ -94,6 +95,7 @@ public class FHIRResource {
     private static final String FHIR_SPEC_VERSION = "1.0.2";
     private static final String ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
     private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
+    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 
     private Validator validator = null;
     private PersistenceHelper persistenceHelper = null;
@@ -103,6 +105,8 @@ public class FHIRResource {
     
     private List<String> allowableVirtualResourceTypes = null;
     private Boolean virtualResourceTypesFeatureEnabled = null;
+    
+    private Parameter basicCodeSearchParameter = null;
 
     @Context
     private ServletContext context;
@@ -446,6 +450,7 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
             String resourceTypeName = type;
+            Parameter implicitSearchParameter = null;
             if (!FHIRUtil.isStandardResourceType(type)) {
                 if (!isVirtualResourceTypesFeatureEnabled()) {
                     throw new FHIRVirtualResourceTypeException("The virtual resource types feature is not enabled for this server");
@@ -454,11 +459,15 @@ public class FHIRResource {
                     throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
                 }
                 resourceTypeName = "Basic";
+                implicitSearchParameter = getBasicCodeSearchParameter();
             }
 //          Class<? extends Resource> resourceType = getResourceType(type);
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
             List<Parameter> searchParameters = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+            if (implicitSearchParameter != null) {
+                searchParameters.add(implicitSearchParameter);
+            }
             List<Resource> resources = getPersistenceImpl().search(resourceType, searchParameters);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET);
             return Response.ok(bundle).build();
@@ -687,5 +696,16 @@ public class FHIRResource {
             virtualResourceTypesFeatureEnabled = (Boolean) context.getAttribute(VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED);
         }
         return virtualResourceTypesFeatureEnabled;
+    }
+    
+    private Parameter getBasicCodeSearchParameter() {
+        if (basicCodeSearchParameter == null) {
+            basicCodeSearchParameter = new Parameter(Parameter.Type.TOKEN, "code", null, null);
+            ParameterValue value = new ParameterValue();
+            value.setValueCode(uriInfo.getPathParameters().getFirst("type"));
+            value.setValueSystem(BASIC_RESOURCE_TYPE_URL);
+            basicCodeSearchParameter.getValues().add(value);
+        }
+        return basicCodeSearchParameter;
     }
 }
