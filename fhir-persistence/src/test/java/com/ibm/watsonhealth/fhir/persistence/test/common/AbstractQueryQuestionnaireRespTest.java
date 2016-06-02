@@ -34,7 +34,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "create", "questionnaireResponse" })
+    @Test(groups = { "persistence", "create", "questionnaireResponse" })
     public void testCreateQuestionnaireResponse1() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse.json");
 
@@ -52,7 +52,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "create", "questionnaireResponse" })
+    @Test(groups = { "persistence", "create", "questionnaireResponse" })
     public void testCreateQuestionnaireResponse2() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "questionnaireresponse-example-gcs.canonical.json");
 
@@ -69,7 +69,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with author = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "persistence", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_001() throws Exception {
 		
 		String parmName = "author";
@@ -89,7 +89,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with questionnaire = 'Questionnaire/1661690' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "persistence", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_002() throws Exception {
 		
 		String parmName = "questionnaire";
@@ -109,7 +109,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with subject = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "persistence", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_003() throws Exception {
 		
 		String parmName = "subject";
@@ -129,7 +129,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f007' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "persistence", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponseQuery_004() throws Exception {
 		
 		String parmName = "source";
@@ -149,7 +149,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with patient = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "persistence", "search", "questionnaireResponse", "referenceParam" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_005() throws Exception {
 		
 		String parmName = "patient";
