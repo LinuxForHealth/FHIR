@@ -35,7 +35,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "create", "device" })
+    @Test(groups = { "persistence", "create", "device" })
     public void testCreateDevice() throws Exception {
         Device device = readResource(Device.class, "Device.json");
 
@@ -52,7 +52,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with manufacturer = 'Acme Devices, Inc' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "device", "stringParam" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "persistence", "search", "device", "stringParam" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_001() throws Exception {
 		
 		String parmName = "manufacturer";
@@ -72,7 +72,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with model = 'AB45-J' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "device", "stringParam" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "persistence", "search", "device", "stringParam" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_002() throws Exception {
 		
 		String parmName = "model";
@@ -91,7 +91,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "device", "stringParam" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "persistence", "search", "device", "stringParam" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_003() throws Exception {
 		
 		String parmName = "udi";

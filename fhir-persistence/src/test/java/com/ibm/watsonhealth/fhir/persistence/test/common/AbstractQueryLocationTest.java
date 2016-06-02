@@ -23,10 +23,9 @@ import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
- *  Tests the Cloudant persistence search API as implemented by the FHIRPersistenceCloudantImpl class for the Location resource type.
- *  Search parameter types tested: String, Reference
- *  Search parameter names tested: name, address-country, address-city, address, organization, partof
- *
+ *  This class contains a collection of tests that will be run against
+ *  each of the various persistence layer implementations.
+ *  There will be a subclass in each persistence project.
  */
 public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest {
     
@@ -35,7 +34,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "create", "location" })
+    @Test(groups = { "persistence", "create", "location" })
     public void testCreateLocation1() throws Exception {
     	Location location = readResource(Location.class, "location-example.canonical.json");
 
@@ -53,7 +52,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "create", "location" })
+    @Test(groups = { "persistence", "create", "location" })
     public void testCreateLocation2() throws Exception {
     	Location location = readResource(Location.class, "location-example-room.canonical.json");
 
@@ -70,7 +69,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with name = 'South Wing, second floor' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_001() throws Exception {
 		
 		String parmName = "name";
@@ -90,7 +89,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address-country = 'USA' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_002() throws Exception {
 		
 		String parmName = "address-country";
@@ -109,7 +108,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address-city = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_003() throws Exception {
 		
 		String parmName = "address-city";
@@ -129,7 +128,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "cloudant", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	/*@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_004() throws Exception {
 		
 		String parmName = "address";
@@ -153,7 +152,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with organization = 'Organization/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "location", "referenceParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "persistence", "search", "location", "referenceParam" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_005() throws Exception {
 		
 		String parmName = "organization";
@@ -173,7 +172,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with partof = 'Location/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "search", "location", "referenceParam" }, dependsOnMethods = { "testCreateLocation2" })
+	@Test(groups = { "persistence", "search", "location", "referenceParam" }, dependsOnMethods = { "testCreateLocation2" })
 	public void testLocationQuery_006() throws Exception {
 		
 		String parmName = "partof";
