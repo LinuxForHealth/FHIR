@@ -313,7 +313,7 @@ public class FHIRResource {
                     throw new FHIRVirtualResourceTypeException("The virtual resource types feature is not enabled for this server");
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable virtual types for this server are: " + getAllowableVirtualResourceTypes().toString());
                 }
                 resourceTypeName = "Basic";
             }
@@ -368,7 +368,7 @@ public class FHIRResource {
                     throw new FHIRVirtualResourceTypeException("The virtual resource types feature is not enabled for this server");
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable virtual resource types for this server are: " + getAllowableVirtualResourceTypes().toString());
                 }
                 resourceTypeName = "Basic";
             }
@@ -415,7 +415,7 @@ public class FHIRResource {
                     throw new FHIRVirtualResourceTypeException("The virtual resource types feature is not enabled for this server");
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable virtual resource types for this server are: " + getAllowableVirtualResourceTypes().toString());
                 }
                 resourceTypeName = "Basic";
             }
@@ -456,7 +456,7 @@ public class FHIRResource {
                     throw new FHIRVirtualResourceTypeException("The virtual resource types feature is not enabled for this server");
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable virtual resource types for this server are: " + getAllowableVirtualResourceTypes().toString());
                 }
                 resourceTypeName = "Basic";
                 implicitSearchParameter = getBasicCodeSearchParameter();
