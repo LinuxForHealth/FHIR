@@ -30,13 +30,23 @@ public class FHIRNotificationUtil {
 		return event;
 	}
 	
-	public static String toJsonString(FHIRNotificationEvent event) throws JAXBException {
+	/**
+	 * Serializes the notification event into a JSON string.
+	 * @param event the FHIRNotificationEvent structure to be serialized
+	 * @param includeResource a flag that controls whether or not the resource object within
+	 * the event structure should be included in the serialized message.
+	 * @return the serialized message as a String
+	 * @throws JAXBException
+	 */
+	public static String toJsonString(FHIRNotificationEvent event, boolean includeResource) throws JAXBException {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		builder.add("lastUpdated", event.getLastUpdated());
 		builder.add("location", event.getLocation());
 		builder.add("operationType", event.getOperationType());
 		builder.add("resourceId", event.getResourceId());
-		builder.add("resource", FHIRUtil.toJsonObject(event.getResource()));
+		if (includeResource && event.getResource() != null) {
+		    builder.add("resource", FHIRUtil.toJsonObject(event.getResource()));
+		}
 		JsonObject jsonObject = builder.build();
 		String jsonString = jsonObject.toString();
 		return jsonString;

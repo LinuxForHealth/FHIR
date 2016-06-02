@@ -108,7 +108,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         log.entering(this.getClass().getName(), "notify");
         String topicId = connectionInfo + "/" + topicName;
         try {
-            String jsonString = FHIRNotificationUtil.toJsonString(event);
+            String jsonString = FHIRNotificationUtil.toJsonString(event, true);
             log.fine("Publishing kafka notification event to topic '" + topicId + "', message: " + jsonString);
             producer.send(new ProducerRecord<String, String>(topicName, jsonString));
             log.fine("message sent...");

@@ -26,7 +26,7 @@ public class FHIRNotificationSubscriberImpl implements FHIRNotificationSubscribe
     public void notify(FHIRNotificationEvent event) throws FHIRNotificationException {
         log.entering(this.getClass().getName(), "notify");
         try {
-            String message = FHIRNotificationUtil.toJsonString(event);
+            String message = FHIRNotificationUtil.toJsonString(event, false);
             log.fine("Publishing websocket notification on session [id=" + session.getId() + "], message:" + message);
             session.getAsyncRemote().sendText(message);
         } catch (Exception e) {
