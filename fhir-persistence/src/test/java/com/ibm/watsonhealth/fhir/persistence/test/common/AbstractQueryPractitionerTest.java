@@ -174,7 +174,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_006() throws Exception {
 		
 		String parmName = "address";
@@ -187,12 +187,11 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getText().getValue(),"Galapagosweg 91, Den Burg, 9105 PZ, NLD");
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getLine().get(0).getValue(),"Galapagosweg 91");
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getPostalCode().getValue(),"9105 PZ");
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCountry().getValue(),"NLD");
-	}*/
+	}
 	
 	/**
 	 * Tests a query for a Practitioner with name = 'Careful' which should yield correct results
