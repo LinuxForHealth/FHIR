@@ -1,0 +1,45 @@
+{
+        "resourceType" : "Observation",
+        "status" : "final",
+        "category" : {
+            "coding" : [ {
+                "system" : "http://hl7.org/fhir/observation-category",
+                "code" : "vital-signs",
+                "display" : "Vital Signs"
+            } ]
+        },
+        "code" : {
+            "coding" : [ {
+                "system" : "http://loinc.org",
+                "code" : "55284-4",
+                "display" : "Blood pressure systolic & diastolic"
+            } ]
+        },
+        "component" : [ {
+            "code" : {
+                "coding" : [ {
+                    "system" : "http://loinc.org",
+                    "code" : "8459-0",
+                    "display" : "Systolic"
+                } ]
+            },
+            "valueQuantity" : {
+                "value" : 124.9,
+                "unit" : "mmHg"
+            },
+            "valueString" : "Systolic" 
+        }, {
+            "code" : {
+                "coding" : [ {
+                    "system" : "http://loinc.org",
+                    "code" : "8453-3",
+                    "display" : "Diastolic"
+                } ]
+            },
+            "valueQuantity" : {
+                "value" : 93.7,
+                "unit" : "mmHg"
+            },
+            "valueString" : "Diastolic"
+        } ]
+}
