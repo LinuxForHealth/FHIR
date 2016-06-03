@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.core.test.mains;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -24,5 +25,14 @@ public class TimestampTestMain {
         timestamp = Timestamp.valueOf(FHIRUtilities.formatTimestamp(calendar.toGregorianCalendar().getTime()));
         System.out.println(timestamp);
         System.out.println(timestamp.getTime());
+        
+        calendar = FHIRUtilities.parseDateTime("1944-08-11", false);
+        Date time = calendar.toGregorianCalendar().getTime();
+        System.out.println("partial date (not normalized): " + FHIRUtilities.formatTimestamp(time));
+        
+        FHIRUtilities.normalize(calendar);
+        
+        time = calendar.toGregorianCalendar().getTime();
+        System.out.println("partial date (normalized): " + FHIRUtilities.formatTimestamp(time));
     }
 }
