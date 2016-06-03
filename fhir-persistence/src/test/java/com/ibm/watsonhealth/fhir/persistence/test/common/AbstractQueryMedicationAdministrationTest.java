@@ -19,7 +19,6 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.MedicationAdministration;
-import com.ibm.watsonhealth.fhir.model.MedicationOrder;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
