@@ -8,6 +8,8 @@ package com.ibm.watsonhealth.fhir.server.resources;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -49,6 +51,7 @@ import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.exception.FHIRVirtualResourceTypeException;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
+import com.ibm.watsonhealth.fhir.model.BundleLink;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Conformance;
 import com.ibm.watsonhealth.fhir.model.ConformanceStatementKindList;
@@ -423,7 +426,7 @@ public class FHIRResource {
 //          Class<? extends Resource> resourceType = getResourceType(type);
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             List<Resource> resources = getPersistenceImpl().history(resourceType, id);
-            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY);
+            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, resources.size());
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -471,7 +474,48 @@ public class FHIRResource {
                 searchParameters.add(implicitSearchParameter);
             }
             List<Resource> resources = getPersistenceImpl().search(resourceType, context);
-            Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET);
+            Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, context.getTotalCount());
+            
+            // create 'self' link
+            BundleLink selfLink = objectFactory.createBundleLink();
+            selfLink.setRelation(string("self"));
+            selfLink.setUrl(uri(uriInfo.getRequestUri().toString()));
+            bundle.getLink().add(selfLink);
+            
+            int nextPageNumber = context.getPageNumber() + 1;
+            if (nextPageNumber <= context.getLastPageNumber()) {
+                // create 'next' link
+                BundleLink nextLink = objectFactory.createBundleLink();
+                nextLink.setRelation(string("next"));
+                
+                // remove existing _page and _count parameters from the request URI
+                String requestUri = uriInfo.getRequestUri().toString();
+                requestUri = requestUri.replace("&_page=" + context.getPageNumber(), "");
+                requestUri = requestUri.replace("_page=" + context.getPageNumber(), "");
+                requestUri = requestUri.replace("&_count=" + context.getPageSize(), "");
+                requestUri = requestUri.replace("_count=" + context.getPageSize(), "");
+                nextLink.setUrl(uri(requestUri + "&_page=" + nextPageNumber + "&_count=" + context.getPageSize()));
+                
+                bundle.getLink().add(nextLink);
+            }
+            
+            int prevPageNumber = context.getPageNumber() - 1;
+            if (prevPageNumber > 0) {
+                // create 'previous' link
+                BundleLink prevLink = objectFactory.createBundleLink();
+                prevLink.setRelation(string("previous"));
+                
+                // remove existing _page and _count parameters from the request URI
+                String requestUri = uriInfo.getRequestUri().toString();
+                requestUri = requestUri.replace("&_page=" + context.getPageNumber(), "");
+                requestUri = requestUri.replace("_page=" + context.getPageNumber(), "");
+                requestUri = requestUri.replace("&_count=" + context.getPageSize(), "");
+                requestUri = requestUri.replace("_count=" + context.getPageSize(), "");
+                prevLink.setUrl(uri(requestUri + "&_page=" + prevPageNumber + "&_count=" + context.getPageSize()));
+                
+                bundle.getLink().add(prevLink);
+            }
+            
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRSearchException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -605,7 +649,7 @@ public class FHIRResource {
                     + resource.getMeta().getVersionId().getValue());
     }
 
-    private Bundle createBundle(List<Resource> resources, BundleTypeList type) {
+    private Bundle createBundle(List<Resource> resources, BundleTypeList type, long total) {
         Bundle bundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(type));
         
         // generate ID for this bundle
@@ -630,8 +674,9 @@ public class FHIRResource {
         bundle.setTotal(
             objectFactory.createUnsignedInt()
 //              .withValue(BigInteger.valueOf(bundle.getEntry().size())));
-                .withValue(BigInteger.valueOf(resources.size())));
-        
+//              .withValue(BigInteger.valueOf(resources.size()));
+                .withValue(BigInteger.valueOf(total)));
+
         return bundle;
     }
 

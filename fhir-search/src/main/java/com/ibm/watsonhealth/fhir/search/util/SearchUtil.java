@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.search.util;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -53,6 +54,8 @@ public class SearchUtil {
     private static final Map<String, Map<String, SearchParameter>> searchParameterMap = buildSearchParameterMap();
 	private static final XPath xpath = createXPath();
 	private static final Map<String, XPathExpression> expressionMap = new HashMap<String, XPathExpression>();
+	
+	private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList("_sort", "_count", "_include", "_revinclude", "_summary", "_elements", "_contained", "_containedType", "_page");
 	
 	private SearchUtil() { }
 	
@@ -222,10 +225,18 @@ public class SearchUtil {
 	}
 	
 	public static FHIRSearchContext parseQueryParameters(Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters) throws FHIRSearchException {
-		List<Parameter> parameters = new ArrayList<Parameter>();
-		
+		FHIRSearchContext context = new FHIRSearchContextImpl();
+	    List<Parameter> parameters = new ArrayList<Parameter>();
+	    
 		for (String name : queryParameters.keySet()) {
 		    try {
+	            if (isFormatParameter(name) || isSearchResultParameter(name)) {
+	                if (isSearchResultParameter(name)) {
+	                    parseSearchResultParameter(context, name, queryParameters.get(name));
+	                }
+	                continue;
+	            }
+	            
 	            // parse name into parameter name
 	            String parameterName = name;
 	            Modifier modifier = null;
@@ -346,7 +357,9 @@ public class SearchUtil {
 		    }
 		}
 		
-		return new FHIRSearchContextImpl(parameters);
+		context.setSearchParameters(parameters);
+//      return new FHIRSearchContextImpl(parameters);
+		return context;
 	}
 	
 	private static Prefix getPrefix(String s) {
@@ -356,5 +369,28 @@ public class SearchUtil {
 			}
 		}
 		return null;
+	}
+	
+	private static boolean isFormatParameter(String name) {
+	    return "_format".equals(name);
+	}
+	
+	private static boolean isSearchResultParameter(String name) {
+	    return SEARCH_RESULT_PARAMETER_NAMES.contains(name);
+	}
+	
+	private static void parseSearchResultParameter(FHIRSearchContext context, String name, List<String> values) throws FHIRSearchException {
+	    try {
+	        String first = values.get(0);
+	        if ("_count".equals(name)) {
+	            int pageSize = Integer.parseInt(first);
+	            context.setPageSize(pageSize);
+	        } else if ("_page".equals(name)) {
+	            int pageNumber = Integer.parseInt(first);
+	            context.setPageNumber(pageNumber);
+	        }
+	    } catch (Exception e) {
+            throw new FHIRSearchException("Unable to parse search result parameter named: '" + name + "'", e);
+	    }
 	}
 }
