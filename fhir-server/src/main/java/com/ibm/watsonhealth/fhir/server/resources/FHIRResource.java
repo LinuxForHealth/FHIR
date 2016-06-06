@@ -470,6 +470,7 @@ public class FHIRResource {
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
             FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             List<Parameter> searchParameters = context.getSearchParameters();
+            boolean hasExplicitSearchParameters = !searchParameters.isEmpty();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);
             }
@@ -488,14 +489,21 @@ public class FHIRResource {
                 BundleLink nextLink = objectFactory.createBundleLink();
                 nextLink.setRelation(string("next"));
                 
-                // remove existing _page and _count parameters from the request URI
-                String requestUri = uriInfo.getRequestUri().toString();
-                requestUri = requestUri.replace("&_page=" + context.getPageNumber(), "");
-                requestUri = requestUri.replace("_page=" + context.getPageNumber(), "");
-                requestUri = requestUri.replace("&_count=" + context.getPageSize(), "");
-                requestUri = requestUri.replace("_count=" + context.getPageSize(), "");
-                nextLink.setUrl(uri(requestUri + "&_page=" + nextPageNumber + "&_count=" + context.getPageSize()));
+                // starting with the original request URI
+                String nextLinkUrl = uriInfo.getRequestUri().toString();
                 
+                // remove existing _page and _count parameters
+                nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "")
+                            .replace("_page=" + context.getPageNumber(), "")
+                            .replace("&_count=" + context.getPageSize(), "")
+                            .replace("_count=" + context.getPageSize(), "");
+                
+                if (hasExplicitSearchParameters) {
+                    nextLinkUrl += "&";
+                }
+                
+                nextLinkUrl += "_page=" + nextPageNumber + "&_count=" + context.getPageSize();
+                nextLink.setUrl(uri(nextLinkUrl));
                 bundle.getLink().add(nextLink);
             }
             
@@ -505,14 +513,21 @@ public class FHIRResource {
                 BundleLink prevLink = objectFactory.createBundleLink();
                 prevLink.setRelation(string("previous"));
                 
-                // remove existing _page and _count parameters from the request URI
-                String requestUri = uriInfo.getRequestUri().toString();
-                requestUri = requestUri.replace("&_page=" + context.getPageNumber(), "");
-                requestUri = requestUri.replace("_page=" + context.getPageNumber(), "");
-                requestUri = requestUri.replace("&_count=" + context.getPageSize(), "");
-                requestUri = requestUri.replace("_count=" + context.getPageSize(), "");
-                prevLink.setUrl(uri(requestUri + "&_page=" + prevPageNumber + "&_count=" + context.getPageSize()));
+                // starting with the original request URI
+                String prevLinkUrl = uriInfo.getRequestUri().toString();
                 
+                // remove existing _page and _count parameters
+                prevLinkUrl = prevLinkUrl.replace("&_page=" + context.getPageNumber(), "")
+                            .replace("_page=" + context.getPageNumber(), "")
+                            .replace("&_count=" + context.getPageSize(), "")
+                            .replace("_count=" + context.getPageSize(), "");
+                
+                if (hasExplicitSearchParameters) {
+                    prevLinkUrl += "&";
+                }
+                
+                prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
+                prevLink.setUrl(uri(prevLinkUrl));
                 bundle.getLink().add(prevLink);
             }
             
