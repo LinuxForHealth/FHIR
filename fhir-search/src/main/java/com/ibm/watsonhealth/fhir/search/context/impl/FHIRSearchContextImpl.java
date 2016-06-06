@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.search.context.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.search.Parameter;
@@ -22,13 +23,9 @@ public class FHIRSearchContextImpl implements FHIRSearchContext {
     private long totalCount;
     
     public FHIRSearchContextImpl() {
-        this(null);
-    }
-    
-    public FHIRSearchContextImpl(List<Parameter> searchParameters) {
         this.pageNumber = DEFAULT_PAGE_NUMBER;
         this.pageSize = DEFAULT_PAGE_SIZE;
-        this.searchParameters = searchParameters;
+        searchParameters = new ArrayList<Parameter>();
     }
     
     @Override
