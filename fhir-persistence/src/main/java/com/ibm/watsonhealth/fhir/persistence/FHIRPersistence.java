@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
 /**
  * This interface defines the contract between the FHIR Server's REST API layer and the underlying
@@ -74,9 +74,9 @@ public interface FHIRPersistence {
 	/**
 	 * Performs a search on the specified target resource type using the specified search parameters.
 	 * @param resourceType the resource type which is the target of the search
-	 * @param searchParameters a list of parameters which control the search results
+	 * @param context the the search context including the search parameters
 	 * @return the list of FHIR Resources of the specified resource type which forms the search result set
 	 * @throws FHIRPersistenceException
 	 */
-	List<Resource> search(Class<? extends Resource> resourceType, List<Parameter> searchParameters) throws FHIRPersistenceException;
+	List<Resource> search(Class<? extends Resource> resourceType, FHIRSearchContext context) throws FHIRPersistenceException;
 }

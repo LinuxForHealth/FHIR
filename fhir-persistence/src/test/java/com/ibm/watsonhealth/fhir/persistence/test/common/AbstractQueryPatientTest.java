@@ -10,7 +10,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.PatientLink;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -93,10 +92,10 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 */
 	@Test(groups = { "persistence", "search", "patient" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testPatientQuery_001() throws Exception {
-		
-		List<Parameter> searchParms = new ArrayList<>();
-				
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+        Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}	
@@ -114,8 +113,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
@@ -135,8 +134,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -154,8 +153,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
@@ -175,8 +174,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -194,8 +193,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<PatientLink> linkList = ((Patient)resources.get(0)).getLink();
@@ -215,8 +214,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Patient)resources.get(0)).getManagingOrganization().getReference().getValue(),"Organization/1");
@@ -235,8 +234,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Patient)resources.get(0)).getCareProvider().get(0).getReference().getValue(),"Organization/2");

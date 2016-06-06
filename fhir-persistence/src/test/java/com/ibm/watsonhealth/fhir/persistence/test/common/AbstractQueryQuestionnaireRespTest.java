@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.QuestionnaireResponse;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -78,8 +78,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((QuestionnaireResponse)resources.get(0)).getAuthor().getReference().getValue(),"Patient/1");
@@ -98,8 +98,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((QuestionnaireResponse)resources.get(0)).getQuestionnaire().getReference().getValue(),"Questionnaire/1661690");
@@ -118,8 +118,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((QuestionnaireResponse)resources.get(0)).getSubject().getReference().getValue(),"Patient/1");
@@ -138,8 +138,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((QuestionnaireResponse)resources.get(0)).getSource().getReference().getValue(),"Practitioner/f007");
@@ -158,8 +158,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((QuestionnaireResponse)resources.get(0)).getSubject().getReference().getValue(),"Patient/1");

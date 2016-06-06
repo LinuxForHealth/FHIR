@@ -6,9 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -141,8 +141,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<ObservationComponent> compList = ((Observation)resources.get(0)).getComponent();
@@ -162,8 +162,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<ObservationComponent> compList = ((Observation)resources.get(0)).getComponent();
@@ -183,8 +183,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -202,8 +202,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getEncounter().getReference().getValue(),"Encounter/example");
@@ -222,8 +222,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
@@ -242,8 +242,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
@@ -262,8 +262,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getPerformer().get(0).getReference().getValue(),"Practitioner/example");
@@ -282,8 +282,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSpecimen().getReference().getValue(),"Specimen/spec-uslab-example2");

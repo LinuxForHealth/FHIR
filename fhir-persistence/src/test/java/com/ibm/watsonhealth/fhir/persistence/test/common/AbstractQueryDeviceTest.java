@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.model.Device;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -61,8 +61,8 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Device.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Device.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Device)resources.get(0)).getManufacturer().getValue(),"Acme Devices, Inc");
@@ -81,8 +81,8 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Device.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Device.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -100,8 +100,8 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Device.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Device.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Device)resources.get(0)).getUdi().getValue(),"(01)00000123000017(10)ABC123(17)120415");

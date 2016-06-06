@@ -6,9 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Practitioner;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -78,8 +78,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getName().getGiven().get(0).getValue(),"Adam");
@@ -98,8 +98,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getName().getGiven().get(0).getValue(),"Adam");
@@ -121,8 +121,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -140,8 +140,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getName().getGiven().get(0).getValue(),"Adam");
@@ -163,8 +163,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
@@ -183,8 +183,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
@@ -206,8 +206,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getName().getGiven().get(0).getValue(),"Adam");
@@ -229,8 +229,8 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Practitioner.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getName().getGiven().get(0).getValue(),"Adam");

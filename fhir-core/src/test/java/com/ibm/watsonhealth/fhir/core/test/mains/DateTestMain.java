@@ -10,13 +10,15 @@ import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.createDuration;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.formatTimestamp;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.isDateTime;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.isPartialDate;
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.normalize;
+import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.setDefaults;
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.parseDateTime;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -39,7 +41,7 @@ public class DateTestMain {
             } else if (isPartialDate(calendar)) {
                 // partial date
                 Duration duration = createDuration(calendar);   // amount to add
-                normalize(calendar);  // set defaults
+                setDefaults(calendar);  // set defaults
                 
                 Date start = calendar.toGregorianCalendar().getTime();
                 System.out.println("start time in milliseconds: " + start.getTime());
@@ -54,5 +56,10 @@ public class DateTestMain {
                 System.out.println("");
             }
         }
+        
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        XMLGregorianCalendar xcal = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
+        System.out.println(xcal.toXMLFormat());
     }
 }

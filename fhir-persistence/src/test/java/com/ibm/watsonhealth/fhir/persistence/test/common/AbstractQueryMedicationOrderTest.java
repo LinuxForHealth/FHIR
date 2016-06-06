@@ -10,7 +10,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +19,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.MedicationOrder;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -54,10 +53,10 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 */
 	@Test(groups = { "persistence", "search", "medicationOrder" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_001() throws Exception {
-		
-		List<Parameter> searchParms = new ArrayList<>();
-				
-		List<Resource> resources = persistence.search(MedicationOrder.class, searchParms);
+        Class<? extends Resource> resourceType = MedicationOrder.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);	
+		List<Resource> resources = persistence.search(MedicationOrder.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}	
@@ -75,8 +74,8 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationOrder.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(MedicationOrder.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationOrder)resources.get(0)).getEncounter().getReference().getValue(),"Encounter/f002");
@@ -95,8 +94,8 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationOrder.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(MedicationOrder.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationOrder)resources.get(0)).getPrescriber().getReference().getValue(),"Practitioner/f007");
@@ -115,8 +114,8 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationOrder.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(MedicationOrder.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationOrder)resources.get(0)).getPatient().getReference().getValue(),"Patient/f001");
@@ -135,8 +134,8 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		List<Parameter> searchParms = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationOrder.class, searchParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(MedicationOrder.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationOrder)resources.get(0)).getMedicationReference().getReference().getValue(),"Medication/MedicationExample2");

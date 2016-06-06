@@ -11,12 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -169,25 +166,11 @@ public class FHIRUtilities {
         return s.startsWith("{xor}");
     }
 
-    @Deprecated
-    public static Date parseDate(String source) {
-        List<String> patterns = Arrays.asList("yyyy-MM-dd'T'HH:mm:ssXXX", "yyyy-MM-dd", "yyyy-MM", "yyyy");
-        for (String pattern : patterns) {
-            SimpleDateFormat format = new SimpleDateFormat(pattern);
-            format.setTimeZone(TimeZone.getTimeZone("GMT"));
-            try {
-                return format.parse(source);
-            } catch (ParseException e) {
-            }
-        }
-        return null;
-    }
-
-    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean normalize) {
+    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) {
         try {
             XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
-            if (normalize) {
-                normalize(calendar);
+            if (defaults) {
+                setDefaults(calendar);
             }
             return calendar;
         } catch (Exception e) {
@@ -199,7 +182,6 @@ public class FHIRUtilities {
         return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
     }
     
-    @Deprecated
     public static void setDefaults(XMLGregorianCalendar calendar) {
         if (isYear(calendar)) {
             calendar.setMonth(DatatypeConstants.JANUARY);
@@ -208,23 +190,6 @@ public class FHIRUtilities {
             calendar.setDay(1);
         }
         if (isYear(calendar) || isYearMonth(calendar) || isDate(calendar)) {
-            calendar.setHour(0);
-            calendar.setMinute(0);
-            calendar.setSecond(0);
-            calendar.setTimezone(0);
-        }
-    }
-    
-    public static void normalize(XMLGregorianCalendar calendar) {
-        if (isDateTime(calendar)) {
-            calendar.normalize();
-        } else if (isPartialDate(calendar)) {
-            if (isYear(calendar)) {
-                calendar.setMonth(DatatypeConstants.JANUARY);
-            }
-            if (isYear(calendar) || isYearMonth(calendar)) {
-                calendar.setDay(1);
-            }
             calendar.setHour(0);
             calendar.setMinute(0);
             calendar.setSecond(0);

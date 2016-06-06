@@ -30,7 +30,7 @@ public class TimestampTestMain {
         Date time = calendar.toGregorianCalendar().getTime();
         System.out.println("partial date (not normalized): " + FHIRUtilities.formatTimestamp(time));
         
-        FHIRUtilities.normalize(calendar);
+        FHIRUtilities.setDefaults(calendar);
         
         time = calendar.toGregorianCalendar().getTime();
         System.out.println("partial date (normalized): " + FHIRUtilities.formatTimestamp(time));

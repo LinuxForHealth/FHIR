@@ -24,7 +24,7 @@ public class ParameterTestMain {
 //		queryParameters.put("subject", Collections.singletonList("1234"));
 //		queryParameters.put("subject", Collections.singletonList("Patient/1234"));
 		queryParameters.put("subject", Collections.singletonList("http://localhost:9080/fhir-server/api/Patient/1234"));
-		for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters)) {
+		for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters).getSearchParameters()) {
 			System.out.println(parameter);
 			System.out.println("");
 		}
