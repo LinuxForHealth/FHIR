@@ -69,7 +69,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with name = 'South Wing, second floor' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_001() throws Exception {
 		
 		String parmName = "name";
@@ -83,7 +83,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertTrue((parmValue.equals(((Location)resources.get(0)).getName().getValue())) || (parmValue.equals(((Location)resources.get(1)).getName().getValue())));
-	}*/	
+	}	
 	
 	/**
 	 * Tests a query for a Location with address-country = 'USA' which should yield no results
