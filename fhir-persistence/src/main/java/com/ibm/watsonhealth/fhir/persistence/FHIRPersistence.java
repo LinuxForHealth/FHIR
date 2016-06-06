@@ -74,7 +74,7 @@ public interface FHIRPersistence {
 	/**
 	 * Performs a search on the specified target resource type using the specified search parameters.
 	 * @param resourceType the resource type which is the target of the search
-	 * @param context the the search context including the search parameters
+	 * @param context the search context including the search parameters
 	 * @return the list of FHIR Resources of the specified resource type which forms the search result set
 	 * @throws FHIRPersistenceException
 	 */
