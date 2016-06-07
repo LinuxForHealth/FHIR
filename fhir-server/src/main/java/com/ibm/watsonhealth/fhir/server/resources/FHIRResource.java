@@ -737,22 +737,21 @@ public class FHIRResource {
             // starting with the original request URI
             String nextLinkUrl = uriInfo.getRequestUri().toString();
             
-            // remove existing _page and _count parameters
+            // remove existing _page and _count parameters from the query string
             nextLinkUrl = nextLinkUrl
-                    .replace("&_page=" + context.getPageNumber() + "&", "&")
-                    .replace("_page=" + context.getPageNumber() + "&", "")
                     .replace("&_page=" + context.getPageNumber(), "")
+                    .replace("_page=" + context.getPageNumber() + "&", "")                    
                     .replace("_page=" + context.getPageNumber(), "")
-                    .replace("&_count=" + context.getPageSize() + "&", "&")
-                    .replace("_count=" + context.getPageSize() + "&", "")
                     .replace("&_count=" + context.getPageSize(), "")
+                    .replace("_count=" + context.getPageSize() + "&", "")
                     .replace("_count=" + context.getPageSize(), "");
-            
+                        
             if (!nextLinkUrl.endsWith("?")) {
                 // there are other parameters in the query string
                 nextLinkUrl += "&";
             }
             
+            // add new _page and _count parameters to the query string
             nextLinkUrl += "_page=" + nextPageNumber + "&_count=" + context.getPageSize();
             nextLink.setUrl(uri(nextLinkUrl));
             bundle.getLink().add(nextLink);
@@ -767,22 +766,21 @@ public class FHIRResource {
             // starting with the original request URI
             String prevLinkUrl = uriInfo.getRequestUri().toString();
             
-            // remove existing _page and _count parameters
+            // remove existing _page and _count parameters from the query string
             prevLinkUrl = prevLinkUrl
-                        .replace("&_page=" + context.getPageNumber() + "&", "&")
-                        .replace("_page=" + context.getPageNumber() + "&", "")
-                        .replace("&_page=" + context.getPageNumber(), "")
-                        .replace("_page=" + context.getPageNumber(), "")
-                        .replace("&_count=" + context.getPageSize() + "&", "&")
-                        .replace("_count=" + context.getPageSize() + "&", "")
-                        .replace("&_count=" + context.getPageSize(), "")
-                        .replace("_count=" + context.getPageSize(), "");
+                    .replace("&_page=" + context.getPageNumber(), "")
+                    .replace("_page=" + context.getPageNumber() + "&", "")                    
+                    .replace("_page=" + context.getPageNumber(), "")
+                    .replace("&_count=" + context.getPageSize(), "")
+                    .replace("_count=" + context.getPageSize() + "&", "")
+                    .replace("_count=" + context.getPageSize(), "");
             
             if (!prevLinkUrl.endsWith("?")) {
                 // there are other parameters in the query string
                 prevLinkUrl += "&";
             }
             
+            // add new _page and _count parameters to the query string
             prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
             prevLink.setUrl(uri(prevLinkUrl));
             bundle.getLink().add(prevLink);
