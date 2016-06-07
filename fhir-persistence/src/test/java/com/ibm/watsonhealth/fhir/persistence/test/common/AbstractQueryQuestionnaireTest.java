@@ -34,7 +34,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "device" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateQuestionnaire() throws Exception {
     	Questionnaire questionnaire = readResource(Questionnaire.class, "Questionnaire.json");
 
@@ -51,7 +51,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with publisher = 'Team Voltron' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "questionnaire", "stringParam" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_001() throws Exception {
 		
 		String parmName = "publisher";
@@ -71,7 +71,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with version = '10.0' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "questionnaire", "stringParam" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_002() throws Exception {
 		
 		String parmName = "version";
@@ -90,7 +90,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with title = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "questionnaire", "stringParam" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_003() throws Exception {
 		
 		String parmName = "title";
@@ -104,4 +104,24 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	public void testQuestionnaireQuery_004() throws Exception {
+		
+		String parmName = "date";
+		String parmValue = "1969-12-31T19:00:02+00:00";
+		Class<? extends Resource> resourceType = Questionnaire.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Questionnaire.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");
+	}*/
 }
