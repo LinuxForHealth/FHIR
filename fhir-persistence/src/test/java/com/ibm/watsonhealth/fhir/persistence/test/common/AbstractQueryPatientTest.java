@@ -185,7 +185,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatient_006() throws Exception {
+	public void testPatient_link() throws Exception {
 		String parmName = "link";
 		String parmValue = "Patient/pat2";
 		Class<? extends Resource> resourceType = Patient.class;
@@ -205,7 +205,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient2" })
-	public void testPatient_007() throws Exception {
+	public void testPatient_organization() throws Exception {
 		String parmName = "organization";
 		String parmValue = "Organization/1";
 		Class<? extends Resource> resourceType = Patient.class;
@@ -224,7 +224,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient3" })
-	public void testPatient_008() throws Exception {
+	public void testPatient_careProvider() throws Exception {
 		String parmName = "careprovider";
 		String parmValue = "Organization/2";
 		Class<? extends Resource> resourceType = Patient.class;
@@ -243,7 +243,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatient_009() throws Exception {
+	public void testPatient_exactModifier() throws Exception {
 		String parmName = "family:exact";
 		String parmValue = "Doe";
 		Class<? extends Resource> resourceType = Patient.class;
@@ -263,7 +263,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatient_0010() throws Exception {
+	public void testPatient_notModifier() throws Exception {
 		
 		String parmName = "family:not";
 		String parmValue = "Doe";
@@ -304,4 +304,25 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		System.out.println("Size = " + resources.size());
 		assertTrue(resources.size() != 0);
 	}*/
+	
+	/**
+	 * Tests a query for Patients with address field containing partial matches using :contains modifier which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
+	public void testPatient_containsModifier() throws Exception {
+		
+		String parmName = "address:contains";
+		String parmValue = "Amsterdam";
+		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertTrue(addrList.get(0).getCity().getValue().equalsIgnoreCase("Amsterdam"));
+	}
 }
