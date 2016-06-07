@@ -99,7 +99,19 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Patient patient = readResource(Patient.class, "Patient1.json");
         persistence.create(patient);
         assertNotNull(patient);
-    } 
+    }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a Patient.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreatePatient5() throws Exception {
+        Patient patient = readResource(Patient.class, "patient-example-c.canonical.json");
+        persistence.create(patient);
+        assertNotNull(patient);
+    }
     
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
@@ -324,5 +336,64 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(resources.size() != 0);
 		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
 		assertTrue(addrList.get(0).getCity().getValue().equalsIgnoreCase("Amsterdam"));
+	}
+	
+	/**
+	 * Tests a query for Patients with birthdate = '1950-08-15' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatient_birthDate() throws Exception {
+		
+		String parmName = "birthdate";
+		String parmValue = "1950-08-15";
+		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertTrue(((Patient)resources.get(0)).getBirthDate().getValue().equals("1950-08-15"));
+	}*/
+	
+	/**
+	 * Tests a query for Patients with deathdate = '2015-02-14T13:42:00+10:00' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	public void testPatient_deathDate() throws Exception {
+		
+		String parmName = "deathdate";
+		String parmValue = "2015-02-14T13:42:00+10:00";
+		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertTrue(((Patient)resources.get(0)).getDeceasedDateTime().getValue().equals("2015-02-14T13:42:00+10:00"));
+	}
+	
+	/**
+	 * Tests a query for Patients with deathdate = '2020-02-14T13:42:00+10:00' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	public void testPatient_deathDateNoResults() throws Exception {
+		
+		String parmName = "deathdate";
+		String parmValue = "2020-02-14T13:42:00+10:00";
+		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
 	}
 }
