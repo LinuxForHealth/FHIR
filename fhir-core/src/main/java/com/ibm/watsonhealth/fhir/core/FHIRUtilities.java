@@ -39,7 +39,7 @@ public class FHIRUtilities {
     private static final ThreadLocal<SimpleDateFormat> calendarSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
         public SimpleDateFormat initialValue() {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             return format;
         }
     };
@@ -261,6 +261,6 @@ public class FHIRUtilities {
     }
     
     public static String formatCalendar(Timestamp timestamp) {
-        return calendarSimpleDateFormat.get().format(timestamp) + "Z";
+        return calendarSimpleDateFormat.get().format(timestamp);
     }
 }

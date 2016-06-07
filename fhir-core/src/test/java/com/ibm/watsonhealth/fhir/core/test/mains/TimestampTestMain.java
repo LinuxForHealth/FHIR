@@ -39,5 +39,10 @@ public class TimestampTestMain {
         System.out.println(FHIRUtilities.formatTimestamp(calendar.toGregorianCalendar().getTime()));
         calendar = calendar.normalize();
         System.out.println(FHIRUtilities.formatTimestamp(calendar.toGregorianCalendar().getTime()));
+        
+        timestamp = FHIRUtilities.convertToTimestamp(calendar);
+        System.out.println(timestamp);
+        
+        System.out.println(FHIRUtilities.formatCalendar(timestamp));
     }
 }
