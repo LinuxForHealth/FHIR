@@ -38,7 +38,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "patient" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreatePatient() throws Exception {
     	try {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
@@ -61,7 +61,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "observation" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient" })
     public void testCreateObservation1() throws Exception {
         Observation observation = buildObservation(savedPatient.getId().getValue(), "Observation1.json");
 
@@ -79,7 +79,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "observation" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateObservation2() throws Exception {
         Observation observation = buildObservation("example", "observation-example.canonical.json");
 
@@ -97,7 +97,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "observation" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateObservation3() throws Exception {
         Observation observation = buildObservation("blood-pressure", "observation-example-bloodpressure.canonical.json");
 
@@ -115,7 +115,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "observation" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateObservation4() throws Exception {
         Observation observation = buildObservation("blood-pressure", "obs-uslab-example8.canonical.json");
 
@@ -132,7 +132,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-value-string = 'Systolic' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "stringParam" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_001() throws Exception {
 		
 		String parmName = "component-value-string";
@@ -153,7 +153,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-value-string = 'Diastolic' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "stringParam" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_002() throws Exception {
 		
 		String parmName = "component-value-string";
@@ -174,7 +174,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-string = 'Diastolic' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "stringParam" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_003() throws Exception {
 		
 		String parmName = "value-string";
@@ -193,7 +193,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "referenceParam" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_004() throws Exception {
 		
 		String parmName = "encounter";
@@ -213,7 +213,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "referenceParam" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_005() throws Exception {
 		
 		String parmName = "patient";
@@ -233,7 +233,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with subject = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "referenceParam" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_006() throws Exception {
 		
 		String parmName = "subject";
@@ -253,7 +253,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with performer = 'Practitioner/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "referenceParam" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationQuery_007() throws Exception {
 		
 		String parmName = "performer";
@@ -273,7 +273,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with specimen = 'Specimen/spec-uslab-example2' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "observation", "referenceParam" }, dependsOnMethods = { "testCreateObservation4" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
 	public void testObservationQuery_008() throws Exception {
 		
 		String parmName = "specimen";
@@ -288,4 +288,64 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSpecimen().getReference().getValue(),"Specimen/spec-uslab-example2");
 	}
+	
+	/**
+	 * Tests a query for an Observation with date = '2012-09-17' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
+	public void testObservationQuery_009() throws Exception {
+		
+		String parmName = "date";
+		String parmValue = "2012-09-17";
+		Class<? extends Resource> resourceType = Observation.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getEffectiveDateTime().getValue(),"2012-09-17");
+	}
+	
+	/**
+	 * Tests a query for an Observation with value-date = '2014-12-04T15:42:15-08:00' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
+	public void testObservationQuery_0010() throws Exception {
+		
+		String parmName = "value-date";
+		String parmValue = "2014-12-04T15:42:15-08:00";
+		Class<? extends Resource> resourceType = Observation.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getValueDateTime().getValue(),"2014-12-04T15:42:15-08:00");
+	}
+	
+	/**
+	 * Tests a query for an Observation with value-date (valuePeriod - start) = '2014-11-04T15:42:15-08:00' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
+	public void testObservationQuery_0011() throws Exception {
+		
+		String parmName = "value-date";
+		String parmValue = "2014-11-04T15:42:15-08:00";
+		Class<? extends Resource> resourceType = Observation.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Observation.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getValueDateTime().getValue(),"2014-11-04T15:42:15-08:00");
+	}*/
 }
