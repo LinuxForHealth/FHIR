@@ -34,7 +34,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "riskAssessment" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateRiskAssessment1() throws Exception {
         RiskAssessment riskAssmt = readResource(RiskAssessment.class, "PrognosisRiskAssessment.json");
 
@@ -52,7 +52,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "riskAssessment" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateRiskAssessment2() throws Exception {
         RiskAssessment riskAssmt = readResource(RiskAssessment.class, "riskassessment-example-cardiac.canonical.json");
 
@@ -69,7 +69,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "riskAssessment", "referenceParam" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
 	public void testRiskAssessmentQuery_001() throws Exception {
 		
 		String parmName = "condition";
@@ -89,7 +89,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "riskAssessment", "referenceParam" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_002() throws Exception {
 		
 		String parmName = "performer";
@@ -104,4 +104,43 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		assertTrue(resources.size() != 0);
 		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
 	}
+	
+	/**
+	 * Tests a query for a RiskAssessment with date = "2010-11-22" which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	public void testRiskAssessmentQuery_003() throws Exception {
+		
+		String parmName = "date";
+		String parmValue = "2010-11-22";
+		Class<? extends Resource> resourceType = RiskAssessment.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RiskAssessment)resources.get(0)).getDate().getValue(),"2010-11-22");
+	}
+	
+	/**
+	 * Tests a query for a RiskAssessment with date = "2010-00-22" which should yield no results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	public void testRiskAssessmentQuery_004() throws Exception {
+		
+		String parmName = "date";
+		String parmValue = "2010-00-22";
+		Class<? extends Resource> resourceType = RiskAssessment.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}*/
 }
