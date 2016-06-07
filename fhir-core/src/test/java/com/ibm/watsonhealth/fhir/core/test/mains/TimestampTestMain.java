@@ -34,5 +34,10 @@ public class TimestampTestMain {
         
         time = calendar.toGregorianCalendar().getTime();
         System.out.println("partial date (normalized): " + FHIRUtilities.formatTimestamp(time));
+        
+        calendar = FHIRUtilities.parseDateTime("1944-08-10T20:00:00-04:00", false);
+        System.out.println(FHIRUtilities.formatTimestamp(calendar.toGregorianCalendar().getTime()));
+        calendar = calendar.normalize();
+        System.out.println(FHIRUtilities.formatTimestamp(calendar.toGregorianCalendar().getTime()));
     }
 }

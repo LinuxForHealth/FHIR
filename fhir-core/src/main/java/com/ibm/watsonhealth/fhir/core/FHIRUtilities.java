@@ -28,11 +28,18 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class FHIRUtilities {
     protected static final String NL = System.getProperty("line.separator");
     private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
-    private static final ThreadLocal<SimpleDateFormat> threadLocalSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
+    private static final ThreadLocal<SimpleDateFormat> timestampSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
         public SimpleDateFormat initialValue() {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
             format.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return format;
+        }
+    };
+    private static final ThreadLocal<SimpleDateFormat> calendarSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        public SimpleDateFormat initialValue() {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
             return format;
         }
     };
@@ -182,6 +189,10 @@ public class FHIRUtilities {
         return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
     }
     
+    public static XMLGregorianCalendar convertToCalendar(Timestamp timestamp) {
+        return parseDateTime(formatCalendar(timestamp), false);
+    }
+    
     public static void setDefaults(XMLGregorianCalendar calendar) {
         if (isYear(calendar)) {
             calendar.setMonth(DatatypeConstants.JANUARY);
@@ -246,6 +257,10 @@ public class FHIRUtilities {
     }
 
     public static String formatTimestamp(Date date) {
-        return threadLocalSimpleDateFormat.get().format(date);
+        return timestampSimpleDateFormat.get().format(date);
+    }
+    
+    public static String formatCalendar(Timestamp timestamp) {
+        return calendarSimpleDateFormat.get().format(timestamp) + "Z";
     }
 }

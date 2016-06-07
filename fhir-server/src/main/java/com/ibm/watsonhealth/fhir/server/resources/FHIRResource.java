@@ -47,6 +47,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.exception.FHIRVirtualResourceTypeException;
 import com.ibm.watsonhealth.fhir.model.Bundle;
@@ -428,8 +429,10 @@ public class FHIRResource {
 //          Class<? extends Resource> resourceType = getResourceType(type);
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(uriInfo.getQueryParameters());
+            boolean hasSinceParameter = context.getSince() != null;
             List<Resource> resources = getPersistenceImpl().history(resourceType, id, context);
-            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, resources.size());
+            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, context.getTotalCount());
+            addLinks(context, bundle, hasSinceParameter);
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -479,61 +482,7 @@ public class FHIRResource {
             }
             List<Resource> resources = getPersistenceImpl().search(resourceType, context);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, context.getTotalCount());
-            
-            // create 'self' link
-            BundleLink selfLink = objectFactory.createBundleLink();
-            selfLink.setRelation(string("self"));
-            selfLink.setUrl(uri(uriInfo.getRequestUri().toString()));
-            bundle.getLink().add(selfLink);
-            
-            int nextPageNumber = context.getPageNumber() + 1;
-            if (nextPageNumber <= context.getLastPageNumber()) {
-                // create 'next' link
-                BundleLink nextLink = objectFactory.createBundleLink();
-                nextLink.setRelation(string("next"));
-                
-                // starting with the original request URI
-                String nextLinkUrl = uriInfo.getRequestUri().toString();
-                
-                // remove existing _page and _count parameters
-                nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "")
-                            .replace("_page=" + context.getPageNumber(), "")
-                            .replace("&_count=" + context.getPageSize(), "")
-                            .replace("_count=" + context.getPageSize(), "");
-                
-                if (hasExplicitSearchParameters) {
-                    nextLinkUrl += "&";
-                }
-                
-                nextLinkUrl += "_page=" + nextPageNumber + "&_count=" + context.getPageSize();
-                nextLink.setUrl(uri(nextLinkUrl));
-                bundle.getLink().add(nextLink);
-            }
-            
-            int prevPageNumber = context.getPageNumber() - 1;
-            if (prevPageNumber > 0) {
-                // create 'previous' link
-                BundleLink prevLink = objectFactory.createBundleLink();
-                prevLink.setRelation(string("previous"));
-                
-                // starting with the original request URI
-                String prevLinkUrl = uriInfo.getRequestUri().toString();
-                
-                // remove existing _page and _count parameters
-                prevLinkUrl = prevLinkUrl.replace("&_page=" + context.getPageNumber(), "")
-                            .replace("_page=" + context.getPageNumber(), "")
-                            .replace("&_count=" + context.getPageSize(), "")
-                            .replace("_count=" + context.getPageSize(), "");
-                
-                if (hasExplicitSearchParameters) {
-                    prevLinkUrl += "&";
-                }
-                
-                prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
-                prevLink.setUrl(uri(prevLinkUrl));
-                bundle.getLink().add(prevLink);
-            }
-            
+            addLinks(context, bundle, hasExplicitSearchParameters);
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRSearchException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -772,5 +721,61 @@ public class FHIRResource {
             basicCodeSearchParameter.getValues().add(value);
         }
         return basicCodeSearchParameter;
+    }
+    
+    private void addLinks(FHIRPagingContext context, Bundle bundle, boolean hasOtherParameters) {
+        // create 'self' link
+        BundleLink selfLink = objectFactory.createBundleLink();
+        selfLink.setRelation(string("self"));
+        selfLink.setUrl(uri(uriInfo.getRequestUri().toString()));
+        bundle.getLink().add(selfLink);
+        
+        int nextPageNumber = context.getPageNumber() + 1;
+        if (nextPageNumber <= context.getLastPageNumber()) {
+            // create 'next' link
+            BundleLink nextLink = objectFactory.createBundleLink();
+            nextLink.setRelation(string("next"));
+            
+            // starting with the original request URI
+            String nextLinkUrl = uriInfo.getRequestUri().toString();
+            
+            // remove existing _page and _count parameters
+            nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "")
+                        .replace("_page=" + context.getPageNumber(), "")
+                        .replace("&_count=" + context.getPageSize(), "")
+                        .replace("_count=" + context.getPageSize(), "");
+            
+            if (hasOtherParameters) {
+                nextLinkUrl += "&";
+            }
+            
+            nextLinkUrl += "_page=" + nextPageNumber + "&_count=" + context.getPageSize();
+            nextLink.setUrl(uri(nextLinkUrl));
+            bundle.getLink().add(nextLink);
+        }
+        
+        int prevPageNumber = context.getPageNumber() - 1;
+        if (prevPageNumber > 0) {
+            // create 'previous' link
+            BundleLink prevLink = objectFactory.createBundleLink();
+            prevLink.setRelation(string("previous"));
+            
+            // starting with the original request URI
+            String prevLinkUrl = uriInfo.getRequestUri().toString();
+            
+            // remove existing _page and _count parameters
+            prevLinkUrl = prevLinkUrl.replace("&_page=" + context.getPageNumber(), "")
+                        .replace("_page=" + context.getPageNumber(), "")
+                        .replace("&_count=" + context.getPageSize(), "")
+                        .replace("_count=" + context.getPageSize(), "");
+            
+            if (hasOtherParameters) {
+                prevLinkUrl += "&";
+            }
+            
+            prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
+            prevLink.setUrl(uri(prevLinkUrl));
+            bundle.getLink().add(prevLink);
+        }
     }
 }
