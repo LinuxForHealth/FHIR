@@ -551,14 +551,28 @@ public class FHIRUtil {
     }
 
     public static Instant instant(long time) {
+        return instant(time, true);
+    }
+    
+    public static Instant instant(long time, boolean normalize) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(time);
         XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
+        if (normalize) {
+            xmlCalendar = xmlCalendar.normalize();
+        }
         return objectFactory.createInstant().withValue(xmlCalendar);
     }
     
     public static Instant instant(String time) {
+        return instant(time, true);
+    }
+    
+    public static Instant instant(String time, boolean normalize) {
         XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(time);
+        if (normalize) {
+            xmlCalendar = xmlCalendar.normalize();
+        }
         return objectFactory.createInstant().withValue(xmlCalendar);
     }
     
@@ -571,11 +585,19 @@ public class FHIRUtil {
     }
 
     public static Meta meta(long lastUpdated) {
-        return objectFactory.createMeta().withLastUpdated(instant(lastUpdated));
+        return meta(lastUpdated, true);
+    }
+    
+    public static Meta meta(long lastUpdated, boolean normalize) {
+        return objectFactory.createMeta().withLastUpdated(instant(lastUpdated, normalize));
     }
     
     public static Meta meta(String lastUpdated) {
-        return objectFactory.createMeta().withLastUpdated(instant(lastUpdated));
+        return meta(lastUpdated, true);
+    }
+    
+    public static Meta meta(String lastUpdated, boolean normalize) {
+        return objectFactory.createMeta().withLastUpdated(instant(lastUpdated, normalize));
     }
 
     public static NarrativeStatus narrativeStatus(String narStatus) {
