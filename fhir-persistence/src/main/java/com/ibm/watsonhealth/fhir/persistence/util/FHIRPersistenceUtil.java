@@ -50,6 +50,9 @@ public class FHIRPersistenceUtil {
                    } else {
                        throw new FHIRPersistenceException("The '_since' parameter must be a fully specified ISO 8601 date/time");
                    }
+               } else if ("_format".equals(name)) {
+                   // safely ignore
+                   continue;
                } else {
                    throw new FHIRPersistenceException("Unrecognized history parameter: '" + name + "'");
                }
