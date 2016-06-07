@@ -10,8 +10,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.humanName;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +37,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "patient" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreatePatient1() throws Exception {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
@@ -57,7 +55,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "patient" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreatePatient2() throws Exception {
    		Patient patient = readResource(Patient.class, "patient-example.canonical.json");
 
@@ -88,17 +86,25 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         assertEquals("1", patient.getMeta().getVersionId().getValue());
     } 
 	
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a Patient.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "persistence", "cloudant", "jpa" })
+    public void testCreatePatient4() throws Exception {
+        Patient patient = readResource(Patient.class, "Patient1.json");
+        persistence.create(patient);
+        assertNotNull(patient);
+    } 
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_001() throws Exception {
-        Class<? extends Resource> resourceType = Patient.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, context);
-		assertNotNull(resources);
+	@Test(groups = { "persistence", "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatientQuery_noparams() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, null, null);
 		assertTrue(resources.size() != 0);
 	}	
 	
@@ -106,29 +112,20 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Doe' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_002() throws Exception {
-		
-		String parmName = "family";
-		String parmValue = "Doe";
-		Class<? extends Resource> resourceType = Patient.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, context);
-		assertNotNull(resources);
+	@Test(groups = { "persistence", "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatientQuery_family() throws Exception {
+        List<Resource> resources = runQueryTest(Patient.class, persistence, "family", "Doe");
 		assertTrue(resources.size() != 0);
 		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
 		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Doe");
 	}
-	
-	/**
+
+    /**
 	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
 	@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_003() throws Exception {
+	public void testPatientQuery_family_noResults() throws Exception {
 		
 		String parmName = "family";
 		String parmValue = "Non-existent";
@@ -241,67 +238,11 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Patient)resources.get(0)).getCareProvider().get(0).getReference().getValue(),"Organization/2");
-	}	
-	
-	/**
-	 * Tests a query for a Patient with family name = 'Doe' using :exact modifier which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_009() throws Exception {
-		
-		String parmName = "family:exact";
-		String parmValue = "Doe";
-		Class<? extends Resource> resourceType = Patient.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, context);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
-		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Doe");
 	}
 	
-	/**
-	 * Tests a query for Patients with family name != 'Doe' using :not modifier which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_0010() throws Exception {
-		
-		String parmName = "family:not";
-		String parmValue = "Doe";
-		Class<? extends Resource> resourceType = Patient.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, context);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
-		assertTrue(hnList.contains(humanName("John Doe-Smith-Jones")) == false);
-	}
-	
-	/**
-	 * Tests a query for Patients with address field missing using :missing modifier which should yield correct results
-	 * @throws Exception
-	 */
-	/*@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
-	public void testPatientQuery_0011() throws Exception {
-		
-		String parmName = "address:missing";
-		String parmValue = "false";
-		Class<? extends Resource> resourceType = Patient.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, context);
-		assertNotNull(resources);
-		System.out.println("Size = " + resources.size());
-		assertTrue(resources.size() != 0);
-	}*/
+    @Test
+    public void testPatientQuery_birthdate() throws Exception {
+        List<Resource> resources = runQueryTest(Patient.class, persistence, "birthdate", "eq1944-08-11");
+        assertTrue(resources.size() > 0);
+    }
 }
