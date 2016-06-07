@@ -429,10 +429,9 @@ public class FHIRResource {
 //          Class<? extends Resource> resourceType = getResourceType(type);
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(uriInfo.getQueryParameters());
-            boolean hasSinceParameter = context.getSince() != null;
             List<Resource> resources = getPersistenceImpl().history(resourceType, id, context);
             Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, context.getTotalCount());
-            addLinks(context, bundle, hasSinceParameter);
+            addLinks(context, bundle);
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -476,13 +475,12 @@ public class FHIRResource {
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
             FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             List<Parameter> searchParameters = context.getSearchParameters();
-            boolean hasExplicitSearchParameters = !searchParameters.isEmpty();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);
             }
             List<Resource> resources = getPersistenceImpl().search(resourceType, context);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, context.getTotalCount());
-            addLinks(context, bundle, hasExplicitSearchParameters);
+            addLinks(context, bundle);
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRSearchException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -723,7 +721,7 @@ public class FHIRResource {
         return basicCodeSearchParameter;
     }
     
-    private void addLinks(FHIRPagingContext context, Bundle bundle, boolean hasOtherParameters) {
+    private void addLinks(FHIRPagingContext context, Bundle bundle) {
         // create 'self' link
         BundleLink selfLink = objectFactory.createBundleLink();
         selfLink.setRelation(string("self"));
@@ -740,12 +738,18 @@ public class FHIRResource {
             String nextLinkUrl = uriInfo.getRequestUri().toString();
             
             // remove existing _page and _count parameters
-            nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "")
-                        .replace("_page=" + context.getPageNumber(), "")
-                        .replace("&_count=" + context.getPageSize(), "")
-                        .replace("_count=" + context.getPageSize(), "");
+            nextLinkUrl = nextLinkUrl
+                    .replace("&_page=" + context.getPageNumber() + "&", "&")
+                    .replace("_page=" + context.getPageNumber() + "&", "")
+                    .replace("&_page=" + context.getPageNumber(), "")
+                    .replace("_page=" + context.getPageNumber(), "")
+                    .replace("&_count=" + context.getPageSize() + "&", "&")
+                    .replace("_count=" + context.getPageSize() + "&", "")
+                    .replace("&_count=" + context.getPageSize(), "")
+                    .replace("_count=" + context.getPageSize(), "");
             
-            if (hasOtherParameters) {
+            if (!nextLinkUrl.endsWith("?")) {
+                // there are other parameters in the query string
                 nextLinkUrl += "&";
             }
             
@@ -764,12 +768,18 @@ public class FHIRResource {
             String prevLinkUrl = uriInfo.getRequestUri().toString();
             
             // remove existing _page and _count parameters
-            prevLinkUrl = prevLinkUrl.replace("&_page=" + context.getPageNumber(), "")
+            prevLinkUrl = prevLinkUrl
+                        .replace("&_page=" + context.getPageNumber() + "&", "&")
+                        .replace("_page=" + context.getPageNumber() + "&", "")
+                        .replace("&_page=" + context.getPageNumber(), "")
                         .replace("_page=" + context.getPageNumber(), "")
+                        .replace("&_count=" + context.getPageSize() + "&", "&")
+                        .replace("_count=" + context.getPageSize() + "&", "")
                         .replace("&_count=" + context.getPageSize(), "")
                         .replace("_count=" + context.getPageSize(), "");
             
-            if (hasOtherParameters) {
+            if (!prevLinkUrl.endsWith("?")) {
+                // there are other parameters in the query string
                 prevLinkUrl += "&";
             }
             
