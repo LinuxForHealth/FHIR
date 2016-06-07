@@ -73,7 +73,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "patient" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreatePatient3() throws Exception {
    		Patient patient = readResource(Patient.class, "patient-glossy-example.canonical.json");
 
@@ -92,7 +92,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "cloudant", "jpa" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreatePatient4() throws Exception {
         Patient patient = readResource(Patient.class, "Patient1.json");
         persistence.create(patient);
@@ -102,8 +102,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_noparams() throws Exception {
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatient_noparams() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, null, null);
 		assertTrue(resources.size() != 0);
 	}	
@@ -112,8 +112,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Doe' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_family() throws Exception {
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatient_family() throws Exception {
         List<Resource> resources = runQueryTest(Patient.class, persistence, "family", "Doe");
 		assertTrue(resources.size() != 0);
 		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
@@ -124,8 +124,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_family_noResults() throws Exception {
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatient_family_noResults() throws Exception {
 		
 		String parmName = "family";
 		String parmValue = "Non-existent";
@@ -143,8 +143,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-city = 'Amsterdam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_004() throws Exception {
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatient_004() throws Exception {
 		
 		String parmName = "address-city";
 		String parmValue = "Amsterdam";
@@ -164,8 +164,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-city = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient", "stringParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_005() throws Exception {
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatient_005() throws Exception {
 		
 		String parmName = "address-city";
 		String parmValue = "Non-existent";
@@ -183,8 +183,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with link = 'Patient/pat2' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient", "referenceParam" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatientQuery_006() throws Exception {
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatient_006() throws Exception {
 		
 		String parmName = "link";
 		String parmValue = "Patient/pat2";
@@ -204,8 +204,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with organization = 'Organization/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient", "referenceParam" }, dependsOnMethods = { "testCreatePatient2" })
-	public void testPatientQuery_007() throws Exception {
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient2" })
+	public void testPatient_007() throws Exception {
 		
 		String parmName = "organization";
 		String parmValue = "Organization/1";
@@ -224,8 +224,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with careprovider = 'Organization/2' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "patient", "referenceParam" }, dependsOnMethods = { "testCreatePatient3" })
-	public void testPatientQuery_008() throws Exception {
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient3" })
+	public void testPatient_008() throws Exception {
 		
 		String parmName = "careprovider";
 		String parmValue = "Organization/2";
@@ -240,8 +240,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertEquals(((Patient)resources.get(0)).getCareProvider().get(0).getReference().getValue(),"Organization/2");
 	}
 	
-    @Test
-    public void testPatientQuery_birthdate() throws Exception {
+    @Test(enabled = false, groups = { "cloudant", "jpa"}, dependsOnMethods = {"testCreatePatient4"})
+    public void testPatient_birthdate() throws Exception {
         List<Resource> resources = runQueryTest(Patient.class, persistence, "birthdate", "eq1944-08-11");
         assertTrue(resources.size() > 0);
     }
