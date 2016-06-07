@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
@@ -66,10 +67,11 @@ public interface FHIRPersistence {
 	 * Retrieves all of the versions of the specified FHIR Resource.
      * @param resourceType the resource type of the Resource instances to be retrieved
      * @param logicalId the logical id of the Resource instances to be retrieved
+     * @param context the history context including parameters for paging results
 	 * @return a list containing the available versions of the specified FHIR Resource
 	 * @throws FHIRPersistenceException
 	 */
-	List<Resource> history(Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
+	List<Resource> history(Class<? extends Resource> resourceType, String logicalId, FHIRHistoryContext context) throws FHIRPersistenceException;
 	
 	/**
 	 * Performs a search on the specified target resource type using the specified search parameters.

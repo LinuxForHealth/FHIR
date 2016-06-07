@@ -65,12 +65,14 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -425,7 +427,8 @@ public class FHIRResource {
             }
 //          Class<? extends Resource> resourceType = getResourceType(type);
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
-            List<Resource> resources = getPersistenceImpl().history(resourceType, id);
+            FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(uriInfo.getQueryParameters());
+            List<Resource> resources = getPersistenceImpl().history(resourceType, id, context);
             Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, resources.size());
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRPersistenceException e) {

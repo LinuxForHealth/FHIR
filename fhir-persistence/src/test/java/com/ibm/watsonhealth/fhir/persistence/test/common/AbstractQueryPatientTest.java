@@ -309,7 +309,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with address field containing partial matches using :contains modifier which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
+	@Test(enabled = false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
 	public void testPatient_containsModifier() throws Exception {
 		
 		String parmName = "address:contains";
