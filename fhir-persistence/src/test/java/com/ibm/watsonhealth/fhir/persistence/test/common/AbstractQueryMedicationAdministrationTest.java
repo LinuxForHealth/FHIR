@@ -34,7 +34,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "medicationAdministration" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateMedicationAdministration() throws Exception {
     	MedicationAdministration medAdmin = readResource(MedicationAdministration.class, "medicationadministrationexample1.canonical.json");
 
@@ -51,7 +51,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "medicationAdministration" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_001() throws Exception {
         Class<? extends Resource> resourceType = MedicationAdministration.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
@@ -65,7 +65,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "medicationAdministration", "referenceParam" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_002() throws Exception {
 		
 		String parmName = "patient";
@@ -85,7 +85,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with prescription = 'MedicationOrder/medrx005' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "medicationAdministration", "referenceParam" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_003() throws Exception {
 		
 		String parmName = "prescription";
@@ -105,7 +105,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with practitioner = 'Practitioner/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "medicationAdministration", "referenceParam" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_004() throws Exception {
 		
 		String parmName = "practitioner";
@@ -125,7 +125,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with medication = 'Medication/medicationexample6' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "medicationAdministration", "referenceParam" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_005() throws Exception {
 		
 		String parmName = "medication";
@@ -139,5 +139,44 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationAdministration)resources.get(0)).getMedicationReference().getReference().getValue(),"Medication/medicationexample6");
+	}
+	
+	/**
+	 * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15T14:30:00+01:00' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	public void testMedicationAdministrationQuery_006() throws Exception {
+		
+		String parmName = "effectivetime";
+		String parmValue = "2015-01-15T14:30:00+01:00";
+		Class<? extends Resource> resourceType = MedicationAdministration.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((MedicationAdministration)resources.get(0)).getEffectiveTimePeriod().getEnd().getValue(),"2015-01-15T14:30:00+01:00");
+	}
+	
+	/**
+	 * Tests a query for a MedicationAdministration with effectivetime = '2025-01-15T14:30:00+01:00' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	public void testMedicationAdministrationQuery_007() throws Exception {
+		
+		String parmName = "effectivetime";
+		String parmValue = "2025-01-15T14:30:00+01:00";
+		Class<? extends Resource> resourceType = MedicationAdministration.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
 	}
 }

@@ -346,6 +346,6 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		List<Resource> resources = persistence.search(Observation.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Observation)resources.get(0)).getValueDateTime().getValue(),"2014-11-04T15:42:15-08:00");
+		assertEquals(((Observation)resources.get(0)).getValuePeriod().getStart().getValue(),"2014-11-04T15:42:15-08:00");
 	}*/
 }
