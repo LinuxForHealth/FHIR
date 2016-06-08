@@ -18,7 +18,7 @@
 		<module>../fhir-persistence-memory</module>
 		<module>../fhir-persistence-jpa</module>
 		<module>../fhir-persistence-cloudant</module>
-		<module>../fhir-persistence-router</module>
+		<module>../fhir-persistence-whc-lsf</module>
 		<module>../fhir-provider</module>
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
@@ -137,6 +137,12 @@
 				<groupId>net.sf.saxon</groupId>
 				<artifactId>Saxon-HE</artifactId>
 				<version>9.7.0-2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jayway.restassured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>2.5.0</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.testng</groupId>

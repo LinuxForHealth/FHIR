@@ -147,7 +147,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-persistence-router</artifactId>
+			<artifactId>fhir-persistence-whc-lsf</artifactId>
 			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>
