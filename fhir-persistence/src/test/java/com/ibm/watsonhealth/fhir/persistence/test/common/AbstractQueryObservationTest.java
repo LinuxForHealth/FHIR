@@ -333,7 +333,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-date (valuePeriod - start) = '2014-11-04T15:42:15-08:00' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
 	public void testObservationQuery_0011() throws Exception {
 		
 		String parmName = "value-date";
@@ -347,5 +347,5 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getValuePeriod().getStart().getValue(),"2014-11-04T15:42:15-08:00");
-	}*/
+	}
 }

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--                                                                                                -->
+<!-- This file is provided by FHIR and specifies search parameters for all supported FHIR searches  -->
+<!-- accross all Resource types.                                                                    -->
+<!-- In certain instances, errors in this file have been discovered by local testing where the      -->
+<!-- search parameters defined here do not match the FHIR spec. To correct these, local             -->
+<!-- modifications are possible in this file. A search on LOCALMOD in this file will find           -->
+<!-- the local modifications.                                                                       -->
+<!--                                                                                                -->
+<!--                                                                                                -->
+
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="searchParams"/>
   <meta>
@@ -23921,7 +23931,8 @@
         <base value="Observation"/>
         <type value="date"/>
         <description value="The value of the observation, if the value is a date or period of time"/>
-        <xpath value="f:Observation/f:valueDateTime"/>
+        <!-- LOCALMOD: added valuePeriod to the xpath to make it FHIR spec compliant.  -->
+        <xpath value="f:Observation/f:valueDateTime | f:Observation/f:valuePeriod"/>
         <xpathUsage value="normal"/>
       </SearchParameter>
     </resource>
