@@ -173,16 +173,13 @@ public class FHIRUtilities {
         return s.startsWith("{xor}");
     }
 
-    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) {
-        try {
+    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) throws IllegalArgumentException {
+        
             XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
             if (defaults) {
                 setDefaults(calendar);
             }
             return calendar;
-        } catch (Exception e) {
-        }
-        return null;
     }
     
     public static Timestamp convertToTimestamp(XMLGregorianCalendar calendar) {

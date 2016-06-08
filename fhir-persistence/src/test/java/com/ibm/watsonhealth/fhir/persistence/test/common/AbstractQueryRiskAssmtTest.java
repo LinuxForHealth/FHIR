@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.RiskAssessment;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -69,7 +70,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
 	public void testRiskAssessmentQuery_001() throws Exception {
 		
 		String parmName = "condition";
@@ -89,7 +90,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_002() throws Exception {
 		
 		String parmName = "performer";
@@ -109,7 +110,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with date = "2010-11-22" which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_003() throws Exception {
 		
 		String parmName = "date";
@@ -126,10 +127,11 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	}
 	
 	/**
-	 * Tests a query for a RiskAssessment with date = "2010-00-22" which should yield no results
-	 * @throws Exception
+	 * Tests a query for a RiskAssessment with date = "2010-00-22" which should result in a FHIRSearchException being thrown
+	 * because the date is invalid.
+	 * 
 	 */
-	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" }, expectedExceptions = FHIRSearchException.class)
 	public void testRiskAssessmentQuery_004() throws Exception {
 		
 		String parmName = "date";
@@ -142,5 +144,5 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		List<Resource> resources = persistence.search(RiskAssessment.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
-	}*/
+	}
 }
