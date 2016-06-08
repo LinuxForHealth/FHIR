@@ -490,6 +490,38 @@ public class FHIRResource {
         }
     }
     
+    @POST
+    @Path("Resource/$validate")
+    public Response validate(Resource resource) {
+        log.entering(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
+            if (!issues.isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity(buildOperationOutcome(issues))
+                        .build();
+            }
+            return Response.ok().entity(buildResourceValidOperationOutcome()).build();
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+    
+    private OperationOutcome buildResourceValidOperationOutcome() {
+        OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
+                .withId(id("allok"))
+                .withText(objectFactory.createNarrative()
+                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.ADDITIONAL))
+                    .withDiv(FHIRUtil.div("<div><p>All OK</p></div>")))
+                .withIssue(objectFactory.createOperationOutcomeIssue()
+                    .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.INFORMATION))
+                    .withCode(objectFactory.createIssueType().withValue(IssueTypeList.INFORMATIONAL))
+                    .withDetails(objectFactory.createCodeableConcept().withText(string("All OK"))));
+        return operationOutcome;
+    }
+    
     /**
      * Adds the Etag and Last-Modified headers to the specified response object.
      */
