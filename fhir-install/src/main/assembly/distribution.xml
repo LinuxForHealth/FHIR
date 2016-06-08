@@ -22,6 +22,12 @@
             <directoryMode>0775</directoryMode>
             <fileMode>0755</fileMode>
         </fileSet>
+        <fileSet>
+            <directory>src/main/resources/java</directory>
+            <outputDirectory>java</outputDirectory>
+            <directoryMode>0775</directoryMode>
+            <fileMode>0755</fileMode>
+        </fileSet>
 		<fileSet>
 			<directory>../fhir-server/liberty-config</directory>
 			<outputDirectory>fhir/server/usr/servers/fhir-server</outputDirectory>
