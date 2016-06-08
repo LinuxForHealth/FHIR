@@ -44,5 +44,6 @@ public class TimestampTestMain {
         System.out.println(timestamp);
         
         System.out.println(FHIRUtilities.formatCalendar(timestamp));
+        System.out.println(FHIRUtilities.formatTimestamp(new Date()));
     }
 }
