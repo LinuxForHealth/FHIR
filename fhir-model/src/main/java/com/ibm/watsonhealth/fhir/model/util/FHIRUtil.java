@@ -20,6 +20,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -97,6 +98,7 @@ import com.ibm.watsonhealth.fhir.model.Quantity;
 import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.RiskAssessmentPrediction;
 import com.ibm.watsonhealth.fhir.model.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.TimingRepeat;
@@ -792,4 +794,42 @@ public class FHIRUtil {
 		"ValueSet",
 		"VisionPrescription"
 	);
+	
+	
+    /**
+     * Retrieves the resource contained in the specified ResourceContainer.
+     * 
+     * @param container
+     *            the ResourceContainer containing the resource
+     * @return
+     * @throws Exception
+     */
+    public static Resource getResourceContainerResource(ResourceContainer container) throws Exception {
+        if (container != null) {
+            // Visit each of the ResourceContainer.getXXX() methods until we see a non-null value.
+            for (Method method : ResourceContainer.class.getMethods()) {
+                if (method.getName().startsWith("get")) {
+                    Resource resource = (Resource) method.invoke(container);
+                    if (resource != null) {
+                        return resource;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Sets the specified Resource within the specified ResourceContainer.
+     * @param container the ResourceContainer that will hold the Resource
+     * @param resource the Resource to store in the container
+     * @throws Exception 
+     */
+    public static void setResourceContainerResource(ResourceContainer container, Resource resource) throws Exception {
+        // Using reflection, call the appropriate ResourceContainer.setXXX() method, 
+        // depending on the resource type.
+        Class<? extends Resource> resourceType = resource.getClass();
+        Method method = ResourceContainer.class.getMethod("set" + resourceType.getSimpleName(), resourceType);
+        method.invoke(container, resource);
+    }
 }

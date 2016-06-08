@@ -17,7 +17,6 @@ import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
-import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
@@ -170,42 +169,6 @@ public class FHIRResource {
             // First, perform an overall validation of the bundle itself.
             Bundle responseBundle = validateBundle(bundle);
             
-//            String resourceType = resource.getClass().getSimpleName();
-//            if (!resourceType.equals(type) && !"Basic".equals(resourceType)) {
-//                throw new FHIRException("Resource type '" + resourceType + "' does not match type specified in request URI: " + type);
-//            }
-//            
-//            // A new resource should not contain an ID.
-//            if (resource.getId() != null) {
-//                throw new FHIRException("A 'create' operation cannot be performed on a resource that contains an 'id' attribute.");
-//            }
-//            
-//            // Validate the input resource and return any validation errors.
-//            List<String> messages = getValidator().validate(resource);
-//            if (!messages.isEmpty()) {
-//                OperationOutcome operationOutcome = buildOperationOutcome(messages);
-//                return Response.status(Response.Status.BAD_REQUEST)
-//                        .entity(operationOutcome)
-//                        .build();
-//            }
-            
-//            // If there were no validation errors, then create the resource and return the location header.
-//            
-//            // First, invoke the 'beforeCreate' interceptor methods.
-//            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties());
-//            getInterceptorMgr().fireBeforeCreateEvent(event);
-//            
-//            getPersistenceImpl().create(resource);
-//            
-//            // Build our location URI and add it to the interceptor event structure since it is now known.
-//            URI locationURI = buildLocationURI(type, resource);
-//            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
-//            
-//            // Invoke the 'afterCreate' interceptor methods.
-//            getInterceptorMgr().fireAfterCreateEvent(event);
-//            
-//            ResponseBuilder response = Response.created(locationURI);
-//            response = addHeaders(response, resource);
             ResponseBuilder response = Response.ok(responseBundle);
             return response.build();
         } catch (FHIRException e) {
@@ -291,11 +254,10 @@ public class FHIRResource {
                 Resource resource = getBundleEntryResource(requestEntry);
                 List<OperationOutcomeIssue> issues = getValidator().validate(resource);
                 if (!issues.isEmpty()) {
-                    OperationOutcome operationOutcome = buildOperationOutcome(issues);
+                    OperationOutcome oo = buildOperationOutcome(issues);
+                    setBundleEntryResource(responseEntry, oo);
+                    response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
                 }
-                
-                
-                
             } catch (FHIRException e) {
                 setBundleEntryResource(responseEntry, buildOperationOutcome(e));
                 response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
@@ -305,14 +267,6 @@ public class FHIRResource {
         return responseBundle;
     }
     
-    /**
-     * @param requestEntry
-     * @return
-     */
-    private Resource getBundleEntryResource(BundleEntry requestEntry) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     /**
      * Sets the specified Resource in the specified BundleEntry's 'resource' field.
@@ -325,15 +279,30 @@ public class FHIRResource {
      * @throws FHIRException
      */
     private void setBundleEntryResource(BundleEntry entry, Resource resource) throws FHIRException {
-        Class<? extends Resource> resourceType = resource.getClass();
         ResourceContainer container = objectFactory.createResourceContainer();
         entry.setResource(container);
-        Method method;
         try {
-            method = ResourceContainer.class.getMethod("set" + resourceType.getSimpleName(), resourceType);
-            method.invoke(container, resource);
+            FHIRUtil.setResourceContainerResource(container, resource);
         } catch (Throwable t) {
-            FHIRException e = new FHIRException("Internal error: unable to set resource of type '" + resourceType.getSimpleName() + "' in bundle entry", t);
+            String resourceType = resource.getClass().getSimpleName();
+            FHIRException e = new FHIRException("Internal error: unable to set resource of type '" + resourceType + "' in bundle entry", t);
+            log.log(Level.SEVERE, e.getMessage(), e);
+            throw e;
+        }
+    }
+    
+    /**
+     * Retrieves the Resource from the specified BundleEntry's ResourceContainer.
+     * @param entry the BundleEntry holding the Resource
+     * @return the Resource
+     * @throws FHIRException
+     */
+    private Resource getBundleEntryResource(BundleEntry entry) throws FHIRException{
+        try {
+            return FHIRUtil.getResourceContainerResource(entry.getResource());
+        }
+        catch (Throwable t) {
+            FHIRException e = new FHIRException("Internal error: unable to retrieve resource from BundleEntry's resource container.", t);
             log.log(Level.SEVERE, e.getMessage(), e);
             throw e;
         }
