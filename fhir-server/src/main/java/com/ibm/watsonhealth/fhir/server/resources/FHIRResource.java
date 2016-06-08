@@ -46,6 +46,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.exception.FHIRVirtualResourceTypeException;
 import com.ibm.watsonhealth.fhir.model.Bundle;
@@ -67,12 +68,14 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -286,7 +289,7 @@ public class FHIRResource {
                 
                 // Validate the resource contained in the request entry.
                 Resource resource = getBundleEntryResource(requestEntry);
-                List<OperationOutcomeIssue> issues = getValidator().validateWithIssues(resource);
+                List<OperationOutcomeIssue> issues = getValidator().validate(resource);
                 if (!issues.isEmpty()) {
                     OperationOutcome operationOutcome = buildOperationOutcome(issues);
                 }
@@ -364,7 +367,7 @@ public class FHIRResource {
             }
             
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = getValidator().validateWithIssues(resource);
+            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = buildOperationOutcome(issues);
                 return Response.status(Response.Status.BAD_REQUEST)
@@ -433,7 +436,7 @@ public class FHIRResource {
         try {
             
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = getValidator().validateWithIssues(resource);
+            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = buildOperationOutcome(issues);
                 return Response.status(Response.Status.BAD_REQUEST)
@@ -609,8 +612,10 @@ public class FHIRResource {
             }
 //          Class<? extends Resource> resourceType = getResourceType(type);
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
-            List<Resource> resources = getPersistenceImpl().history(resourceType, id);
-            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, resources.size());
+            FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(uriInfo.getQueryParameters());
+            List<Resource> resources = getPersistenceImpl().history(resourceType, id, context);
+            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, context.getTotalCount());
+            addLinks(context, bundle);
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -654,67 +659,12 @@ public class FHIRResource {
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
             FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             List<Parameter> searchParameters = context.getSearchParameters();
-            boolean hasExplicitSearchParameters = !searchParameters.isEmpty();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);
             }
             List<Resource> resources = getPersistenceImpl().search(resourceType, context);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, context.getTotalCount());
-            
-            // create 'self' link
-            BundleLink selfLink = objectFactory.createBundleLink();
-            selfLink.setRelation(string("self"));
-            selfLink.setUrl(uri(uriInfo.getRequestUri().toString()));
-            bundle.getLink().add(selfLink);
-            
-            int nextPageNumber = context.getPageNumber() + 1;
-            if (nextPageNumber <= context.getLastPageNumber()) {
-                // create 'next' link
-                BundleLink nextLink = objectFactory.createBundleLink();
-                nextLink.setRelation(string("next"));
-                
-                // starting with the original request URI
-                String nextLinkUrl = uriInfo.getRequestUri().toString();
-                
-                // remove existing _page and _count parameters
-                nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "")
-                            .replace("_page=" + context.getPageNumber(), "")
-                            .replace("&_count=" + context.getPageSize(), "")
-                            .replace("_count=" + context.getPageSize(), "");
-                
-                if (hasExplicitSearchParameters) {
-                    nextLinkUrl += "&";
-                }
-                
-                nextLinkUrl += "_page=" + nextPageNumber + "&_count=" + context.getPageSize();
-                nextLink.setUrl(uri(nextLinkUrl));
-                bundle.getLink().add(nextLink);
-            }
-            
-            int prevPageNumber = context.getPageNumber() - 1;
-            if (prevPageNumber > 0) {
-                // create 'previous' link
-                BundleLink prevLink = objectFactory.createBundleLink();
-                prevLink.setRelation(string("previous"));
-                
-                // starting with the original request URI
-                String prevLinkUrl = uriInfo.getRequestUri().toString();
-                
-                // remove existing _page and _count parameters
-                prevLinkUrl = prevLinkUrl.replace("&_page=" + context.getPageNumber(), "")
-                            .replace("_page=" + context.getPageNumber(), "")
-                            .replace("&_count=" + context.getPageSize(), "")
-                            .replace("_count=" + context.getPageSize(), "");
-                
-                if (hasExplicitSearchParameters) {
-                    prevLinkUrl += "&";
-                }
-                
-                prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
-                prevLink.setUrl(uri(prevLinkUrl));
-                bundle.getLink().add(prevLink);
-            }
-            
+            addLinks(context, bundle);
             return Response.ok(bundle).build();
         } catch (FHIRVirtualResourceTypeException | FHIRSearchException | FHIRPersistenceException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
@@ -723,6 +673,38 @@ public class FHIRResource {
         } finally {
             log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
+    }
+    
+    @POST
+    @Path("Resource/$validate")
+    public Response validate(Resource resource) {
+        log.entering(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
+            if (!issues.isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity(buildOperationOutcome(issues))
+                        .build();
+            }
+            return Response.ok().entity(buildResourceValidOperationOutcome()).build();
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+    
+    private OperationOutcome buildResourceValidOperationOutcome() {
+        OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
+                .withId(id("allok"))
+                .withText(objectFactory.createNarrative()
+                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.ADDITIONAL))
+                    .withDiv(FHIRUtil.div("<div><p>All OK</p></div>")))
+                .withIssue(objectFactory.createOperationOutcomeIssue()
+                    .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.INFORMATION))
+                    .withCode(objectFactory.createIssueType().withValue(IssueTypeList.INFORMATIONAL))
+                    .withDetails(objectFactory.createCodeableConcept().withText(string("All OK"))));
+        return operationOutcome;
     }
     
     /**
@@ -734,9 +716,10 @@ public class FHIRResource {
     }
 
     /**
-     * Build an OperationOutcome that contains the specified list of validation messages.
+     * Build an OperationOutcome that contains the specified list of operation outcome issues.
      */
     private OperationOutcome buildOperationOutcome(List<OperationOutcomeIssue> issues) {
+        // Build an OperationOutcome and stuff the issues into it.
         OperationOutcome oo = objectFactory.createOperationOutcome()
                 .withId(objectFactory.createId().withValue("validationfail"))
                 .withText(objectFactory.createNarrative()
@@ -928,5 +911,71 @@ public class FHIRResource {
             basicCodeSearchParameter.getValues().add(value);
         }
         return basicCodeSearchParameter;
+    }
+    
+    private void addLinks(FHIRPagingContext context, Bundle bundle) {
+        // create 'self' link
+        BundleLink selfLink = objectFactory.createBundleLink();
+        selfLink.setRelation(string("self"));
+        selfLink.setUrl(uri(uriInfo.getRequestUri().toString()));
+        bundle.getLink().add(selfLink);
+        
+        int nextPageNumber = context.getPageNumber() + 1;
+        if (nextPageNumber <= context.getLastPageNumber()) {
+            // create 'next' link
+            BundleLink nextLink = objectFactory.createBundleLink();
+            nextLink.setRelation(string("next"));
+            
+            // starting with the original request URI
+            String nextLinkUrl = uriInfo.getRequestUri().toString();
+            
+            // remove existing _page and _count parameters from the query string
+            nextLinkUrl = nextLinkUrl
+                    .replace("&_page=" + context.getPageNumber(), "")
+                    .replace("_page=" + context.getPageNumber() + "&", "")                    
+                    .replace("_page=" + context.getPageNumber(), "")
+                    .replace("&_count=" + context.getPageSize(), "")
+                    .replace("_count=" + context.getPageSize() + "&", "")
+                    .replace("_count=" + context.getPageSize(), "");
+                        
+            if (!nextLinkUrl.endsWith("?")) {
+                // there are other parameters in the query string
+                nextLinkUrl += "&";
+            }
+            
+            // add new _page and _count parameters to the query string
+            nextLinkUrl += "_page=" + nextPageNumber + "&_count=" + context.getPageSize();
+            nextLink.setUrl(uri(nextLinkUrl));
+            bundle.getLink().add(nextLink);
+        }
+        
+        int prevPageNumber = context.getPageNumber() - 1;
+        if (prevPageNumber > 0) {
+            // create 'previous' link
+            BundleLink prevLink = objectFactory.createBundleLink();
+            prevLink.setRelation(string("previous"));
+            
+            // starting with the original request URI
+            String prevLinkUrl = uriInfo.getRequestUri().toString();
+            
+            // remove existing _page and _count parameters from the query string
+            prevLinkUrl = prevLinkUrl
+                    .replace("&_page=" + context.getPageNumber(), "")
+                    .replace("_page=" + context.getPageNumber() + "&", "")                    
+                    .replace("_page=" + context.getPageNumber(), "")
+                    .replace("&_count=" + context.getPageSize(), "")
+                    .replace("_count=" + context.getPageSize() + "&", "")
+                    .replace("_count=" + context.getPageSize(), "");
+            
+            if (!prevLinkUrl.endsWith("?")) {
+                // there are other parameters in the query string
+                prevLinkUrl += "&";
+            }
+            
+            // add new _page and _count parameters to the query string
+            prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
+            prevLink.setUrl(uri(prevLinkUrl));
+            bundle.getLink().add(prevLink);
+        }
     }
 }
