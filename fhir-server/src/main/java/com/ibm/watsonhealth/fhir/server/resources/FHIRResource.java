@@ -20,7 +20,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -183,9 +182,9 @@ public class FHIRResource {
             }
             
             // Validate the input resource and return any validation errors.
-            List<String> messages = getValidator().validate(resource);
-            if (!messages.isEmpty()) {
-                OperationOutcome operationOutcome = buildOperationOutcome(messages);
+            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
+            if (!issues.isEmpty()) {
+                OperationOutcome operationOutcome = buildOperationOutcome(issues);
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(operationOutcome)
                         .build();
@@ -252,9 +251,9 @@ public class FHIRResource {
         try {
             
             // Validate the input resource and return any validation errors.
-            List<String> messages = getValidator().validate(resource);
-            if (!messages.isEmpty()) {
-                OperationOutcome operationOutcome = buildOperationOutcome(messages);
+            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
+            if (!issues.isEmpty()) {
+                OperationOutcome operationOutcome = buildOperationOutcome(issues);
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(operationOutcome)
                         .build();
@@ -500,26 +499,15 @@ public class FHIRResource {
     }
 
     /**
-     * Build an OperationOutcome that contains the specified list of validation messages.
+     * Build an OperationOutcome that contains the specified list of operation outcome issues.
      */
-    private OperationOutcome buildOperationOutcome(List<String> messages) {
-        // First, build the list of issues from the input messages.
-        List<OperationOutcomeIssue> ooiList = new ArrayList<>();
-        for (String msg : messages) {
-            log.fine("Validation error: " + msg);
-            OperationOutcomeIssue ooi = objectFactory.createOperationOutcomeIssue()
-                    .withCode(objectFactory.createIssueType().withValue(IssueTypeList.STRUCTURE))
-                    .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.ERROR))
-                    .withDiagnostics(objectFactory.createString().withValue(msg));
-            ooiList.add(ooi);
-        }
-        
+    private OperationOutcome buildOperationOutcome(List<OperationOutcomeIssue> issues) {
         // Next, build the OperationOutcome.
         OperationOutcome oo = objectFactory.createOperationOutcome()
                 .withId(objectFactory.createId().withValue("validationfail"))
                 .withText(objectFactory.createNarrative()
                     .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
-                .withIssue(ooiList);
+                .withIssue(issues);
         return oo;
     }
 
