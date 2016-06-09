@@ -381,7 +381,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	
-    @Test(enabled = false, groups = { "cloudant", "jpa"}, dependsOnMethods = {"testCreatePatient4"})
+    @Test(enabled = true, groups = { "cloudant", "jpa"}, dependsOnMethods = {"testCreatePatient4"})
     public void testPatient_birthdate() throws Exception {
         List<Resource> resources = runQueryTest(Patient.class, persistence, "birthdate", "eq1944-08-11");
         assertTrue(resources.size() > 0);
