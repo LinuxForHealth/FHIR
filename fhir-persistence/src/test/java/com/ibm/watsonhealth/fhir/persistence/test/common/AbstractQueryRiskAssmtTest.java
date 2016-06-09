@@ -145,4 +145,15 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield the first 10 resources created so far
+	 * 
+	 */
+	/*@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
+	public void testRiskAssessmentQuery_005() throws Exception {
+		
+		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, null, null);
+		assertTrue(resources.size() <= 10);
+	}*/
 }
