@@ -146,6 +146,10 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		assertTrue(resources.size() == 0);
 	}
 	
+	/*
+	 * Pagination Testcases
+	 */
+	
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield the first 10 resources created so far
 	 * 
@@ -156,4 +160,31 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, null, null);
 		assertTrue(resources.size() <= 10);
 	}*/
+	
+	/**
+	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+	public void testRiskAssessmentQuery_006() throws Exception {
+		
+		String parmName = "condition";
+		String parmValue = "Condition/stroke";
+		Class<? extends Resource> resourceType = RiskAssessment.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), context.getTotalCount());
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
 }
