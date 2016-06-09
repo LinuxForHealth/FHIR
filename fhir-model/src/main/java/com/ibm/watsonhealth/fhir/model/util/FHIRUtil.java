@@ -14,13 +14,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -79,6 +79,8 @@ import com.ibm.watsonhealth.fhir.model.IdentifierUse;
 import com.ibm.watsonhealth.fhir.model.IdentifierUseList;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.Integer;
+import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.Meta;
 import com.ibm.watsonhealth.fhir.model.NameUse;
 import com.ibm.watsonhealth.fhir.model.NameUseList;
@@ -89,6 +91,8 @@ import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.ObservationStatus;
 import com.ibm.watsonhealth.fhir.model.ObservationStatusList;
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.PatientAnimal;
 import com.ibm.watsonhealth.fhir.model.PatientCommunication;
 import com.ibm.watsonhealth.fhir.model.PatientContact;
@@ -115,6 +119,7 @@ public class FHIRUtil {
 	private static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
 	private static final String XML_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/xml-fhir-metadata.xml";	
 	private static final String JSON_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/json-fhir-metadata.xml";
+    private static final String NL = System.getProperty("line.separator");
 	
 	public static enum Format {
 		XML,
@@ -831,5 +836,67 @@ public class FHIRUtil {
         Class<? extends Resource> resourceType = resource.getClass();
         Method method = ResourceContainer.class.getMethod("set" + resourceType.getSimpleName(), resourceType);
         method.invoke(container, resource);
+    }
+    
+
+    /**
+     * Build an OperationOutcome that contains the specified list of operation outcome issues.
+     */
+    public static OperationOutcome buildOperationOutcome(List<OperationOutcomeIssue> issues) {
+        // Build an OperationOutcome and stuff the issues into it.
+        OperationOutcome oo = objectFactory.createOperationOutcome()
+                .withId(objectFactory.createId().withValue("validationfail"))
+                .withText(objectFactory.createNarrative()
+                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
+                .withIssue(issues);
+        return oo;
+    }
+    
+    /**
+     * Build an OperationOutcome for the specified exception.
+     */
+    public static OperationOutcome buildOperationOutcome(Exception exception) {
+        // First, build a set of exception messages to be included in the OperationOutcome.
+        // We'll include the exception message from each exception in the hierarchy, 
+        // following the "causedBy" exceptions.
+        StringBuilder msgs = new StringBuilder();
+        Throwable e = exception;
+        String causedBy = "";
+        while (e != null) {
+            msgs.append(causedBy + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "<null message>"));
+            e = e.getCause();
+            causedBy = NL + "Caused by: ";
+        }
+        
+        // Build an OperationOutcomeIssue that contains the exception messages.
+        OperationOutcomeIssue ooi = objectFactory.createOperationOutcomeIssue()
+                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.EXCEPTION))
+                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.FATAL))
+                .withDiagnostics(objectFactory.createString().withValue(msgs.toString()));
+        
+        // Next, build the OperationOutcome.
+        OperationOutcome oo = objectFactory.createOperationOutcome()
+                .withId(objectFactory.createId().withValue("exception"))
+                .withText(objectFactory.createNarrative()
+                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
+                .withIssue(ooi);
+        return oo;
+    }
+    
+    /**
+     * Builds a relative "Location" header value for the specified resource. This will be a string of the form
+     * "<resource-type>/<id>/_history/<version>". Note that the server will turn this into an absolute URL prior to
+     * returning it to the client.
+     * 
+     * @param resource
+     *            the resource for which the location header value should be returned
+     */
+    public static URI buildLocationURI(String type, Resource resource) {
+        String resourceTypeName = resource.getClass().getSimpleName();
+        if (!resourceTypeName.equals(type)) {
+            resourceTypeName = type;
+        }
+        return URI.create(resourceTypeName + "/" + resource.getId().getValue() 
+            + "/_history/" + resource.getMeta().getVersionId().getValue());
     }
 }

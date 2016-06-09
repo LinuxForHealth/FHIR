@@ -30,6 +30,23 @@
 			<type>test-jar</type>
 		</dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-validation</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>org.eclipse.persistence.moxy</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.tools.target</groupId>
+            <artifactId>was-liberty</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>

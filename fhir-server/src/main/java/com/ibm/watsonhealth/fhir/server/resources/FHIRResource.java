@@ -51,12 +51,9 @@ import com.ibm.watsonhealth.fhir.exception.FHIRVirtualResourceTypeException;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.BundleLink;
-import com.ibm.watsonhealth.fhir.model.BundleRequest;
-import com.ibm.watsonhealth.fhir.model.BundleResponse;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Conformance;
 import com.ibm.watsonhealth.fhir.model.ConformanceStatementKindList;
-import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
@@ -97,17 +94,13 @@ import io.swagger.annotations.ResponseHeader;
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     
-    private static final String NL = System.getProperty("line.separator");
-    
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SPEC_VERSION = "1.0.2";
     private static final String ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
     private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 
-    private Validator validator = null;
     private PersistenceHelper persistenceHelper = null;
-    private FHIRPersistenceInterceptorMgr interceptorMgr = null;
     private FHIRPersistence persistence = null;
     private ObjectFactory objectFactory = new ObjectFactory();
     
@@ -166,148 +159,42 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "bundle(Bundle)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
-            // First, perform an overall validation of the bundle itself.
-            Bundle responseBundle = validateBundle(bundle);
+            // First, we need to do some validation of the bundle.
+            if (bundle == null || bundle.getEntry() == null || bundle.getEntry().isEmpty()) {
+                throw new FHIRException("Bundle parameter is missing or empty.");
+            }
             
+            if (bundle.getType() == null || bundle.getType().getValue() == null) {
+                throw new FHIRException("Bundle.type is missing");
+            }
+            
+            // Finally, invoke the correct persistence function, depending on bundle type.
+            Bundle responseBundle = null;
+            switch (bundle.getType().getValue()) {
+            case BATCH:
+                responseBundle = getPersistenceImpl().batch(bundle);
+                break;
+            case TRANSACTION:
+                responseBundle = getPersistenceImpl().transaction(bundle);
+                break;
+
+            // For any other bundle type, we'll throw an error.
+            default:
+                throw new FHIRException("Bundle.type must be either 'batch' or 'transaction'.");
+            }                
+                
             ResponseBuilder response = Response.ok(responseBundle);
             return response.build();
         } catch (FHIRException e) {
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+            log.log(Level.SEVERE, "Error encountered during request processing: ", e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-            log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+            log.exiting(this.getClass().getName(), "bundle(Bundle)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
    
-    /**
-     * Performs validation of a bundled request.
-     * 
-     * @param bundle the bundle to be validated
-     * @param validator the Validator instance to be used to validate each resource contained in the bundle
-     * @return a list of validation error messages or null if no validation errors were identified
-     * @throws Exception 
-     */
-    private Bundle validateBundle(Bundle bundle) throws Exception {
-        
-        // First, we need to make sure that we in fact have a valid bundle.
-        if (bundle == null || bundle.getEntry() == null || bundle.getEntry().isEmpty()) {
-            throw new FHIRException("Bundle parameter was either missing or empty.");
-        }
-        
-        BundleTypeList responseBundleType = null;
-        
-        // Make sure the bundle type is either BATCH or TRANSACTION,
-        // and determine the response bundle type.
-        if (bundle.getType().getValue() != null) {
-            switch (bundle.getType().getValue()) {
-            case BATCH:
-                responseBundleType = BundleTypeList.BATCH_RESPONSE;
-                break;
-            case TRANSACTION:
-                responseBundleType = BundleTypeList.TRANSACTION_RESPONSE;
-                break;
-                
-                // For any other bundle type, we'll throw an error.
-            default:
-                throw new FHIRException("Bundle.type must be either 'batch' or 'transaction'.");
-            }
-        }
-        
-        // Create the response bundle with the appropriate type.
-        Bundle responseBundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(responseBundleType));
-        
-        // Next, make sure that each bundle entry contains a valid request.
-        // As we're validating the request bundle, we'll also construct entries for the response bundle.
-        for (BundleEntry requestEntry : bundle.getEntry()) {
-            BundleRequest request = requestEntry.getRequest();
-            
-            // Create a corresponding response entry and add it to the response bundle.
-            BundleResponse response = objectFactory.createBundleResponse();
-            BundleEntry responseEntry = objectFactory.createBundleEntry().withResponse(response);
-            responseBundle.getEntry().add(responseEntry);
-            
-            // Validate 'requestEntry' and update 'responseEntry' with any errors.
-            try {
-                
-                // Validate the HTTP method.
-                HTTPVerbList method = request.getMethod().getValue();
-                switch (method) {
-                case GET:
-                    if (requestEntry.getResource() != null) {
-                        throw new FHIRException("BundleEntry.resource not allowed for BundleEntry with GET method.");
-                    }
-                    break;
-                    
-                case POST:
-                case PUT:
-                    if (requestEntry.getResource() == null) {
-                        throw new FHIRException("BundleEntry.resource is required for BundleEntry with POST or PUT method.");
-                    }
-                    break;
-                    
-                default:
-                    throw new FHIRException("BundleEntry.request contains unsupported HTTP method: " + method.name());
-                }
-                
-                // Validate the resource contained in the request entry.
-                Resource resource = getBundleEntryResource(requestEntry);
-                List<OperationOutcomeIssue> issues = getValidator().validate(resource);
-                if (!issues.isEmpty()) {
-                    OperationOutcome oo = buildOperationOutcome(issues);
-                    setBundleEntryResource(responseEntry, oo);
-                    response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
-                }
-            } catch (FHIRException e) {
-                setBundleEntryResource(responseEntry, buildOperationOutcome(e));
-                response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
-            }
-        }
-        
-        return responseBundle;
-    }
-    
-
-    /**
-     * Sets the specified Resource in the specified BundleEntry's 'resource' field.
-     * We do this via reflection because the FHIR spec gods were determined to make it as difficult as
-     * possible to set a resource within the BundleEntry since they defined a distinct field within the
-     * ResourceContainer for each possible resource type.  (No, I didn't make this up!)
-     * 
-     * @param entry the BundleEntry that will hold the resource
-     * @param resource the Resource to be set in the BundleEntry
-     * @throws FHIRException
-     */
-    private void setBundleEntryResource(BundleEntry entry, Resource resource) throws FHIRException {
-        ResourceContainer container = objectFactory.createResourceContainer();
-        entry.setResource(container);
-        try {
-            FHIRUtil.setResourceContainerResource(container, resource);
-        } catch (Throwable t) {
-            String resourceType = resource.getClass().getSimpleName();
-            FHIRException e = new FHIRException("Internal error: unable to set resource of type '" + resourceType + "' in bundle entry", t);
-            log.log(Level.SEVERE, e.getMessage(), e);
-            throw e;
-        }
-    }
-    
-    /**
-     * Retrieves the Resource from the specified BundleEntry's ResourceContainer.
-     * @param entry the BundleEntry holding the Resource
-     * @return the Resource
-     * @throws FHIRException
-     */
-    private Resource getBundleEntryResource(BundleEntry entry) throws FHIRException{
-        try {
-            return FHIRUtil.getResourceContainerResource(entry.getResource());
-        }
-        catch (Throwable t) {
-            FHIRException e = new FHIRException("Internal error: unable to retrieve resource from BundleEntry's resource container.", t);
-            log.log(Level.SEVERE, e.getMessage(), e);
-            throw e;
-        }
-    }
-
     @POST
     @Path("{type}")
     @ApiOperation(value = "Creates a new resource.", notes = "The resource should be passed in the request body.")
@@ -336,9 +223,9 @@ public class FHIRResource {
             }
             
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
+            List<OperationOutcomeIssue> issues = Validator.getInstance().validate(resource);
             if (!issues.isEmpty()) {
-                OperationOutcome operationOutcome = buildOperationOutcome(issues);
+                OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(operationOutcome)
                         .build();
@@ -353,7 +240,7 @@ public class FHIRResource {
             getPersistenceImpl().create(resource);
             
             // Build our location URI and add it to the interceptor event structure since it is now known.
-            URI locationURI = buildLocationURI(type, resource);
+            URI locationURI = FHIRUtil.buildLocationURI(type, resource);
             event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
             
             // Invoke the 'afterCreate' interceptor methods.
@@ -405,9 +292,9 @@ public class FHIRResource {
         try {
             
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
+            List<OperationOutcomeIssue> issues = Validator.getInstance().validate(resource);
             if (!issues.isEmpty()) {
-                OperationOutcome operationOutcome = buildOperationOutcome(issues);
+                OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(operationOutcome)
                         .build();
@@ -429,7 +316,7 @@ public class FHIRResource {
             getPersistenceImpl().update(id, resource);
             
             // Build our location URI and add it to the interceptor event structure since it is now known.
-            URI locationURI = buildLocationURI(type, resource);
+            URI locationURI = FHIRUtil.buildLocationURI(type, resource);
             event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
             
             // Invoke the 'afterCreate' interceptor methods.
@@ -623,7 +510,6 @@ public class FHIRResource {
                 resourceTypeName = "Basic";
                 implicitSearchParameter = getBasicCodeSearchParameter();
             }
-//          Class<? extends Resource> resourceType = getResourceType(type);
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             Map<String, List<String>> queryParameters = uriInfo.getQueryParameters();
             FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
@@ -649,10 +535,10 @@ public class FHIRResource {
     public Response validate(Resource resource) {
         log.entering(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
-            List<OperationOutcomeIssue> issues = getValidator().validate(resource);
+            List<OperationOutcomeIssue> issues = Validator.getInstance().validate(resource);
             if (!issues.isEmpty()) {
                 return Response.status(Response.Status.BAD_REQUEST)
-                        .entity(buildOperationOutcome(issues))
+                        .entity(FHIRUtil.buildOperationOutcome(issues))
                         .build();
             }
             return Response.ok().entity(buildResourceValidOperationOutcome()).build();
@@ -684,54 +570,9 @@ public class FHIRResource {
                 .header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toXMLFormat());
     }
 
-    /**
-     * Build an OperationOutcome that contains the specified list of operation outcome issues.
-     */
-    private OperationOutcome buildOperationOutcome(List<OperationOutcomeIssue> issues) {
-        // Build an OperationOutcome and stuff the issues into it.
-        OperationOutcome oo = objectFactory.createOperationOutcome()
-                .withId(objectFactory.createId().withValue("validationfail"))
-                .withText(objectFactory.createNarrative()
-                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
-                .withIssue(issues);
-        return oo;
-    }
-
-    /**
-     * Build an OperationOutcome for the specified exception.
-     */
-    private OperationOutcome buildOperationOutcome(Exception exception) {
-        // First, build a set of exception messages to be included in the OperationOutcome.
-        // We'll include the exception message from each exception in the hierarchy, 
-        // following the "causedBy" exceptions.
-        StringBuilder msgs = new StringBuilder();
-        Throwable e = exception;
-        String causedBy = "";
-        while (e != null) {
-            msgs.append(causedBy + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "<null message>"));
-            e = e.getCause();
-            causedBy = NL + "Caused by: ";
-        }
-        
-        log.fine("Building OperationOutcome for exception: " + msgs);
-        
-        // Build an OperationOutcomeIssue that contains the exception messages.
-        OperationOutcomeIssue ooi = objectFactory.createOperationOutcomeIssue()
-                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.EXCEPTION))
-                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.FATAL))
-                .withDiagnostics(objectFactory.createString().withValue(msgs.toString()));
-        
-        // Next, build the OperationOutcome.
-        OperationOutcome oo = objectFactory.createOperationOutcome()
-                .withId(objectFactory.createId().withValue("exception"))
-                .withText(objectFactory.createNarrative()
-                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
-                .withIssue(ooi);
-        return oo;
-    }
     
     private Response exceptionResponse(Exception e, Status status) {
-        return Response.status(status).entity(buildOperationOutcome(e)).build();
+        return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e)).build();
     }
     
     /**
@@ -769,37 +610,25 @@ public class FHIRResource {
         
         return conformance;
     }
-    
-    /**
-     * Builds a relative "Location" header value for the specified resource.
-     * This will be a string of the form "<resource-type>/<id>/_history/<version>".
-     * Note that the server will turn this into an absolute URL prior to returning it to the client.
-     * @param resource the resource for which the location header value should be returned
-     */
-    private URI buildLocationURI(String type, Resource resource) {
-        String resourceTypeName = resource.getClass().getSimpleName();
-        if (!resourceTypeName.equals(type)) {
-            resourceTypeName = type;
-        }
-        return URI.create(
-//          resource.getClass().getSimpleName() + "/"
-            resourceTypeName + "/"
-                    + resource.getId().getValue() + "/_history/"
-                    + resource.getMeta().getVersionId().getValue());
-    }
 
     private Bundle createBundle(List<Resource> resources, BundleTypeList type, long total) throws FHIRException {
         Bundle bundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(type));
-        
+
         // generate ID for this bundle
         bundle.setId(id(UUID.randomUUID().toString()));
 
         for (Resource resource : resources) {
             BundleEntry entry = objectFactory.createBundleEntry();
-            setBundleEntryResource(entry, resource);
+            ResourceContainer container = objectFactory.createResourceContainer();
+            entry.setResource(container);
+            try {
+                FHIRUtil.setResourceContainerResource(container, resource);
+            } catch (Exception e) {
+                throw new FHIRException("Unable to set resource in bundle entry.", e);
+            }
             bundle.getEntry().add(entry);
         }
-        
+
         // Finally, set the "total" field.
         bundle.setTotal(objectFactory.createUnsignedInt().withValue(BigInteger.valueOf(total)));
 
@@ -807,25 +636,10 @@ public class FHIRResource {
     }
 
     /**
-     * Retrieves the shared Validator instance from the servlet context.
-     */
-    private Validator getValidator() {
-        if (validator == null) {
-            validator = (Validator) context.getAttribute(Validator.class.getName());
-            log.fine("Retrieved Validator instance from servlet context: " + validator);
-        }
-        return validator;
-    }
-
-    /**
      * Retrieves the shared interceptor mgr instance from the servlet context.
      */
     private FHIRPersistenceInterceptorMgr getInterceptorMgr() {
-        if (interceptorMgr == null) {
-            interceptorMgr = (FHIRPersistenceInterceptorMgr) context.getAttribute(FHIRPersistenceInterceptorMgr.class.getName());
-            log.fine("Retrieved FHIRPersistenceInterceptorMgr instance from servlet context: " + interceptorMgr);
-        }
-        return interceptorMgr;
+        return FHIRPersistenceInterceptorMgr.getInstance();
     }
 
     /**

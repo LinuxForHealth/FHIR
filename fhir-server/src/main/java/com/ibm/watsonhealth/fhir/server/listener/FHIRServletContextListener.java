@@ -21,9 +21,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
-import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
-import com.ibm.watsonhealth.fhir.validation.Validator;
 
 @WebListener("IBM Watson Health FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -57,18 +55,10 @@ public class FHIRServletContextListener implements ServletContextListener {
 			// For any singleton resources that need to be shared among our resource class instances,
 		    // we'll add them to our servlet context so that the resource class can easily retrieve them.
 		    
-		    // Set the shared Validator.
-			event.getServletContext().setAttribute(Validator.class.getName(), new Validator());
-			log.fine("Set shared validator on servlet context.");
-			
 			// Set the shared FHIRPersistenceHelper.
             event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
             log.fine("Set shared persistence helper on servlet context.");
 
-            // Set the shared interceptor mgr.
-            event.getServletContext().setAttribute(FHIRPersistenceInterceptorMgr.class.getName(), FHIRPersistenceInterceptorMgr.getInstance());
-            log.fine("Set shared persistence interceptor mgr on servlet context.");
-            
             event.getServletContext().setAttribute(JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES, lookupAllowableVirtualResourceTypes());
             log.fine("Set shared list of allowable virtual resource types.");
             
