@@ -518,7 +518,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'ne2015-02-14T13:42:00+10:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateNE() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "ne2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -540,7 +540,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'lt2015-02-14T13:42:00+10:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateLT() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "lt2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
