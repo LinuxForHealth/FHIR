@@ -34,7 +34,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
     public abstract FHIRPersistence getPersistenceImpl() throws Exception;
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         persistence = getPersistenceImpl();
     }
