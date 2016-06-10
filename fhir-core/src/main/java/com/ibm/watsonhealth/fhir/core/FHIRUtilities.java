@@ -43,6 +43,14 @@ public class FHIRUtilities {
             return format;
         }
     };
+    private static final ThreadLocal<SimpleDateFormat> calendarSimpleDateFormatGMT = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        public SimpleDateFormat initialValue() {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            format.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return format;
+        }
+    };
 
     private static DatatypeFactory createDatatypeFactory() {
         try {
@@ -259,5 +267,9 @@ public class FHIRUtilities {
     
     public static String formatCalendar(Timestamp timestamp) {
         return calendarSimpleDateFormat.get().format(timestamp);
+    }
+    
+    public static String formatCalendarGMT(XMLGregorianCalendar calendar) {
+    	return calendarSimpleDateFormatGMT.get().format(calendar.toGregorianCalendar().getTimeInMillis());
     }
 }
