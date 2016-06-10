@@ -109,7 +109,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_004() throws Exception {
 		
 		String parmName = "date";
@@ -123,5 +123,5 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");
-	}*/
+	}
 }
