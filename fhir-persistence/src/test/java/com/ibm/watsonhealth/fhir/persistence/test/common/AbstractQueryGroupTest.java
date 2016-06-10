@@ -34,7 +34,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "group" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateGroup() throws Exception {
     	Group group = readResource(Group.class, "group-example-member.canonical.json");
 
@@ -51,7 +51,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "group" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_001() throws Exception {
         Class<? extends Resource> resourceType = Group.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
@@ -65,7 +65,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patient/pat1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "group", "referenceParam" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_002() throws Exception {
 		
 		String parmName = "member";
@@ -85,7 +85,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "group", "referenceParam" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_003() throws Exception {
 		
 		String parmName = "member";

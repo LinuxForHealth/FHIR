@@ -34,7 +34,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "location" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateLocation1() throws Exception {
     	Location location = readResource(Location.class, "location-example.canonical.json");
 
@@ -52,7 +52,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "location" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateLocation2() throws Exception {
     	Location location = readResource(Location.class, "location-example-room.canonical.json");
 
@@ -69,7 +69,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with name = 'South Wing, second floor' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_001() throws Exception {
 		
 		String parmName = "name";
@@ -83,13 +83,13 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertTrue((parmValue.equals(((Location)resources.get(0)).getName().getValue())) || (parmValue.equals(((Location)resources.get(1)).getName().getValue())));
-	}*/	
+	}	
 	
 	/**
 	 * Tests a query for a Location with address-country = 'USA' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_002() throws Exception {
 		
 		String parmName = "address-country";
@@ -108,7 +108,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address-city = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_003() throws Exception {
 		
 		String parmName = "address-city";
@@ -128,7 +128,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "location", "stringParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_004() throws Exception {
 		
 		String parmName = "address";
@@ -151,7 +151,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with organization = 'Organization/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "location", "referenceParam" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_005() throws Exception {
 		
 		String parmName = "organization";
@@ -171,7 +171,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with partof = 'Location/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "location", "referenceParam" }, dependsOnMethods = { "testCreateLocation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
 	public void testLocationQuery_006() throws Exception {
 		
 		String parmName = "partof";

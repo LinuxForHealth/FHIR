@@ -165,7 +165,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
 	public void testRiskAssessmentQuery_006() throws Exception {
 		
 		String parmName = "condition";

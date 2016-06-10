@@ -34,7 +34,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "practitioner" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreatePractitioner1() throws Exception {
     	Practitioner practitioner = readResource(Practitioner.class, "practitioner-example.canonical.json");
 
@@ -52,7 +52,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "practitioner" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreatePractitioner2() throws Exception {
     	Practitioner practitioner = readResource(Practitioner.class, "practitioner-example-f001-evdb.canonical.json");
 
@@ -69,7 +69,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with given = 'Adam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_001() throws Exception {
 		
 		String parmName = "given";
@@ -89,7 +89,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Dr Adam Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_002() throws Exception {
 		
 		String parmName = "name";
@@ -112,7 +112,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Mr Adam Careful' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_003() throws Exception {
 		
 		String parmName = "name";
@@ -131,7 +131,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with phonetic = 'Dr Adam Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_004() throws Exception {
 		
 		String parmName = "phonetic";
@@ -154,7 +154,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address-city = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_005() throws Exception {
 		
 		String parmName = "address-city";
@@ -174,7 +174,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_006() throws Exception {
 		
 		String parmName = "address";
@@ -197,7 +197,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_007() throws Exception {
 		
 		String parmName = "name";
@@ -220,7 +220,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Adam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "practitioner", "stringParam" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_008() throws Exception {
 		
 		String parmName = "name";

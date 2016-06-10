@@ -34,7 +34,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "persistence", "create", "contract" })
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateContract() throws Exception {
     	Contract contract = readResource(Contract.class, "contract-example.canonical.json");
 
@@ -51,7 +51,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "contract" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_001() throws Exception {
 		Class<? extends Resource> resourceType = Contract.class;
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
@@ -65,7 +65,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "contract", "referenceParam" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_002() throws Exception {
 		
 		String parmName = "patient";
@@ -85,7 +85,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with subject = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "persistence", "search", "contract", "referenceParam" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_003() throws Exception {
 		
 		String parmName = "subject";
