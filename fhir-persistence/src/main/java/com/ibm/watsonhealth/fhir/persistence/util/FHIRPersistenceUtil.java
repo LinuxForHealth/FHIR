@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.persistence.util;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -16,9 +15,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Instant;
-import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.impl.FHIRHistoryContextImpl;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -27,7 +24,7 @@ public class FHIRPersistenceUtil {
 	private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
 
 	private static final ObjectFactory objectFactory = new ObjectFactory();
-
+	private final static double EARTH_RADIUS = 6371.0; //earth radius 
 	// Parse history parameters into a FHIRHistoryContext
 	public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters) throws FHIRPersistenceException {
 		if (log.isLoggable(Level.FINE)) {
@@ -72,82 +69,46 @@ public class FHIRPersistenceUtil {
 		return context;
 	}
 
-	public static boolean isLocationResourceType(Class<? extends Resource> resourceType){
-		if (log.isLoggable(Level.FINE)) {
-			log.entering(FHIRPersistenceUtil.class.getName(), "isLocationResourceType");
-		}
-		try{
-			if(resourceType.equals(Location.class)){
-				return true;
-			}
-
-			return false;
-		}finally{
-			if (log.isLoggable(Level.FINE)) {
-				log.exiting(FHIRPersistenceUtil.class.getName(), "isLocationResourceType");
-			}
-		}
-
-	}
+	
 
 	/**
 	 * Method to build bounding box
 	 * @param locationList
 	 * @return
 	 */
-	public  static Map <String, Double> createBoundingBox(List<Map <String, String>> locationList){
+	public  static BoundingBox createBoundingBox(double latitude, double longitude, double distance, String unit){
 		if (log.isLoggable(Level.FINE)) {
 			log.entering(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
 		}
-		Map <String, Double> boundingPoints = new HashMap<String, Double>();
+		
+		log.fine("distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude +  ":longitude:" + longitude);
+		BoundingBox boundingBox = new BoundingBox();
 		try{
-			Double latitude=0.0, longitude=0.0, minLongitude, maxLongitude, minLatitude, maxLatitude;
-			Double distance = 5.0; //Default 5 KM
-			String unit = "kilometers" ;
-			//extract out values 
-			for(Map <String, String> m : locationList){
-				if(m.get("name").equals("near")){
-					//system = lat
-					//code = long
-					latitude = Double.parseDouble( m.get("system"));
-					longitude = Double.parseDouble( m.get("code"));		
-				}else if(m.get("name").equals("near-distance")){
-					if(m.get("code") != null){
-						if(m.get("system") != null){
-							distance = Double.parseDouble( m.get("system"));
-						}
-						if( m.get("code") != null){
-							//if value is not null then only try to set it up so we can levarage default values
-							unit = m.get("code");
-						}
-					}
-				}
-			}
-
+			double minLongitude =0.0;
+			double maxLongitude =0.0;
+			double minLatitude = 0.0;
+			double maxLatitude = 0.0;
 			if(unit.contentEquals("km")){
 				unit = "kilometers"; //default is kilometers
 			}
-
 			if (unit.equalsIgnoreCase("miles")){
 				distance = covertMilesToKilometers(distance);
 			}
-
 			log.fine("distance   :" + distance + ":unit:" + unit  );
-			//earth radius 
-			double earthRadius = 6371.0;
+		
 			//build bounding box points 
-			minLatitude = latitude + (-distance / earthRadius) * (180.0 / Math.PI);
-			maxLatitude = latitude + (distance / earthRadius) * (180.0 / Math.PI);
-			minLongitude = longitude + ((-distance / earthRadius) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
-			maxLongitude = longitude + ((distance / earthRadius) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
-
-			boundingPoints.put("minLatitude", minLatitude);
-			boundingPoints.put("maxLatitude",  maxLatitude);
-			boundingPoints.put("minLongitude", minLongitude);
-			boundingPoints.put("maxLongitude", maxLongitude);
-
-			log.fine("boundingPoints   :" + boundingPoints  );
-			return boundingPoints ;
+			minLatitude = latitude + (-distance / EARTH_RADIUS) * (180.0 / Math.PI);
+			maxLatitude = latitude + (distance / EARTH_RADIUS) * (180.0 / Math.PI);
+			minLongitude = longitude + ((-distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
+			maxLongitude = longitude + ((distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
+			
+			boundingBox.setMaxLatitude(maxLatitude);
+			boundingBox.setMinLatitude(minLatitude);
+			boundingBox.setMaxLongitude(maxLongitude);
+			boundingBox.setMinLongitude(minLongitude);
+			
+			log.fine("boundingPoints   :" + boundingBox.toString()  );
+			return boundingBox ;
 		} finally {
 			if (log.isLoggable(Level.FINE)) {
 				log.exiting(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
