@@ -11,10 +11,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -23,8 +20,6 @@ import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.PatientLink;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -518,7 +513,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'ne2015-02-14T13:42:00+10:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateNE() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "ne2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
