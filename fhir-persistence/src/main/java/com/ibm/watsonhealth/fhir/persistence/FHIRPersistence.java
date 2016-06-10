@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.persistence;
 
 import java.util.List;
 
-import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -82,20 +81,4 @@ public interface FHIRPersistence {
 	 * @throws FHIRPersistenceException
 	 */
 	List<Resource> search(Class<? extends Resource> resourceType, FHIRSearchContext context) throws FHIRPersistenceException;
-    
-    /**
-     * Processes a batch request.
-     * @param requestBundle a Bundle containing a collection of requests to be processed
-     * @return a response Bundle containing the responses to each of the requests found in the request Bundle
-     * @throws FHIRPersistenceException
-     */
-    Bundle batch(Bundle requestBundle) throws FHIRPersistenceException;
-    
-    /**
-     * Processes a transaction request.
-     * @param requestBundle a Bundle containing a collection of requests to be processed as an atomic transaction
-     * @return a response Bundle containing the responses to each of the requests found in the request Bundle
-     * @throws FHIRPersistenceException
-     */
-    Bundle transaction(Bundle requestBundle) throws FHIRPersistenceException;
 }

@@ -53,6 +53,7 @@ import com.ibm.watsonhealth.fhir.model.Address;
 import com.ibm.watsonhealth.fhir.model.AddressUse;
 import com.ibm.watsonhealth.fhir.model.AddressUseList;
 import com.ibm.watsonhealth.fhir.model.Attachment;
+import com.ibm.watsonhealth.fhir.model.Basic;
 import com.ibm.watsonhealth.fhir.model.CarePlanParticipant;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatus;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatusList;
@@ -120,6 +121,7 @@ public class FHIRUtil {
 	private static final String XML_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/xml-fhir-metadata.xml";	
 	private static final String JSON_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/json-fhir-metadata.xml";
     private static final String NL = System.getProperty("line.separator");
+    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 	
 	public static enum Format {
 		XML,
@@ -699,6 +701,34 @@ public class FHIRUtil {
 		} catch (ClassNotFoundException e) {
 			throw new FHIRInvalidResourceTypeException("'" + name + "' is not a valid resource type.");
 		}
+	}
+	
+	/**
+	 * Returns the resource type (as a String) of the specified resource.   For a virtual resource,
+	 * this will be the actual virtual resource type (not Basic).
+	 * @param resource the resource 
+	 * @return the name of the resource type associated with the resource
+	 */
+	public static String getResourceTypeName(Resource resource) {
+	    if (resource instanceof Basic) {
+	        Basic basic = (Basic) resource;
+	        CodeableConcept cc = basic.getCode();
+	        if (cc != null) {
+	            List<Coding> codingList = cc.getCoding();
+	            if (codingList != null) {
+	                for (Coding coding : codingList) {
+	                    if (coding.getSystem() != null) {
+	                        String system = coding.getSystem().getValue();
+	                        if (BASIC_RESOURCE_TYPE_URL.equals(system)) {
+	                            return coding.getCode().getValue();
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
+	    return resource.getClass().getSimpleName();
 	}
 	
 	private static final List<String> resourceTypeNames = Arrays.asList(
