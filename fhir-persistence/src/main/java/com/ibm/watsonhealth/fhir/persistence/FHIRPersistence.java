@@ -81,4 +81,15 @@ public interface FHIRPersistence {
 	 * @throws FHIRPersistenceException
 	 */
 	List<Resource> search(Class<? extends Resource> resourceType, FHIRSearchContext context) throws FHIRPersistenceException;
+
+	/**
+	 * Returns true iff the persistence layer implementation supports transactions.
+	 */
+	boolean isTransactional();
+	
+	/**
+	 * Returns a FHIRTransaction object associated with the persistence layer implementation in use.
+	 * This can then be used to control transactional boundaries.
+	 */
+	FHIRTransaction getTransaction();
 }
