@@ -83,7 +83,7 @@ import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRRestException;
-import com.ibm.watsonhealth.fhir.validation.Validator;
+import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -452,7 +452,7 @@ public class FHIRResource {
             }
 
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = Validator.getInstance().validate(resource);
+            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
@@ -490,7 +490,7 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "doUpdate");
         try {
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = Validator.getInstance().validate(resource);
+            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
@@ -683,7 +683,7 @@ public class FHIRResource {
     protected OperationOutcome doValidate(Resource resource) throws Exception {
         log.entering(this.getClass().getName(), "doValidate");
         try {
-            List<OperationOutcomeIssue> issues = Validator.getInstance().validate(resource);
+            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
@@ -1017,7 +1017,7 @@ public class FHIRResource {
 
                     // Validate the resource contained in the request entry.
                     Resource resource = getBundleEntryResource(requestEntry);
-                    List<OperationOutcomeIssue> issues = Validator.getInstance().validate(resource);
+                    List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
                     if (!issues.isEmpty()) {
                         OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
                         setBundleEntryResource(responseEntry, oo);
