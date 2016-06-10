@@ -10,17 +10,12 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Contract;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -53,10 +48,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_001() throws Exception {
-		Class<? extends Resource> resourceType = Contract.class;
-		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Contract.class, context);
+		List<Resource> resources = runQueryTest(Contract.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}	
@@ -67,15 +59,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_002() throws Exception {
-		
-		String parmName = "patient";
-		String parmValue = "Patient/example";
-		Class<? extends Resource> resourceType = Contract.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Contract.class, context);
+		List<Resource> resources = runQueryTest(Contract.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Contract)resources.get(0)).getSubject().get(0).getReference().getValue(),"Patient/example");
@@ -87,15 +71,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_003() throws Exception {
-		
-		String parmName = "subject";
-		String parmValue = "Patient/example";
-		Class<? extends Resource> resourceType = Contract.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Contract.class, context);
+		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Contract)resources.get(0)).getSubject().get(0).getReference().getValue(),"Patient/example");

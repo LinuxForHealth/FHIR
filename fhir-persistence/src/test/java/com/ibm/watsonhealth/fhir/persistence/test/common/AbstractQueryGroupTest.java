@@ -10,17 +10,12 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Group;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -53,10 +48,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_001() throws Exception {
-        Class<? extends Resource> resourceType = Group.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Group.class, context);
+		List<Resource> resources = runQueryTest(Group.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}	
@@ -67,15 +59,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_002() throws Exception {
-		
-		String parmName = "member";
-		String parmValue = "Patient/pat1";
-		Class<? extends Resource> resourceType = Group.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Group.class, context);
+		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Group)resources.get(0)).getMember().get(0).getEntity().getReference().getValue(),"Patient/pat1");
@@ -87,15 +71,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_003() throws Exception {
-		
-		String parmName = "member";
-		String parmValue = "Patient/pat4";
-		Class<? extends Resource> resourceType = Group.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Group.class, context);
+		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat4");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Group)resources.get(0)).getMember().get(3).getEntity().getReference().getValue(),"Patient/pat4");

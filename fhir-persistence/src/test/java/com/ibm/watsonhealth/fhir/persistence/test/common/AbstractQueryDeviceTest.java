@@ -10,18 +10,13 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Device;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -54,15 +49,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_001() throws Exception {
-		
-		String parmName = "manufacturer";
-		String parmValue = "Acme Devices, Inc";
-		Class<? extends Resource> resourceType = Device.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Device.class, context);
+		List<Resource> resources = runQueryTest(Device.class, persistence, "manufacturer", "Acme Devices, Inc");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Device)resources.get(0)).getManufacturer().getValue(),"Acme Devices, Inc");
@@ -74,15 +61,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_002() throws Exception {
-		
-		String parmName = "model";
-		String parmValue = "AB45-J";
-		Class<? extends Resource> resourceType = Device.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Device.class, context);
+		List<Resource> resources = runQueryTest(Device.class, persistence, "model", "AB45-J");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -93,15 +72,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_003() throws Exception {
-		
-		String parmName = "udi";
-		String parmValue = "(01)00000123000017(10)ABC123(17)120415";
-		Class<? extends Resource> resourceType = Device.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Device.class, context);
+		List<Resource> resources = runQueryTest(Device.class, persistence, "udi", "(01)00000123000017(10)ABC123(17)120415");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Device)resources.get(0)).getUdi().getValue(),"(01)00000123000017(10)ABC123(17)120415");
