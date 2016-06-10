@@ -133,16 +133,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
-	public void testObservationQuery_001() throws Exception {
-		
-		String parmName = "component-value-string";
-		String parmValue = "Systolic";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_componentValueString1() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Systolic");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<ObservationComponent> compList = ((Observation)resources.get(0)).getComponent();
@@ -154,16 +146,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
-	public void testObservationQuery_002() throws Exception {
-		
-		String parmName = "component-value-string";
-		String parmValue = "Diastolic";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_componentValueString2() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastolic");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<ObservationComponent> compList = ((Observation)resources.get(0)).getComponent();
@@ -175,16 +159,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
-	public void testObservationQuery_003() throws Exception {
-		
-		String parmName = "value-string";
-		String parmValue = "Diastolic";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_valueString_noResults() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-string", "Diastolic");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -194,16 +170,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
-	public void testObservationQuery_004() throws Exception {
-		
-		String parmName = "encounter";
-		String parmValue = "Encounter/example";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_encounter() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getEncounter().getReference().getValue(),"Encounter/example");
@@ -214,16 +182,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
-	public void testObservationQuery_005() throws Exception {
-		
-		String parmName = "patient";
-		String parmValue = "Patient/example";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_Patient() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
@@ -234,16 +194,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
-	public void testObservationQuery_006() throws Exception {
-		
-		String parmName = "subject";
-		String parmValue = "Patient/example";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_subject() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
@@ -254,16 +206,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
-	public void testObservationQuery_007() throws Exception {
-		
-		String parmName = "performer";
-		String parmValue = "Practitioner/example";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_performer() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "performer", "Practitioner/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getPerformer().get(0).getReference().getValue(),"Practitioner/example");
@@ -274,16 +218,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
-	public void testObservationQuery_008() throws Exception {
-		
-		String parmName = "specimen";
-		String parmValue = "Specimen/spec-uslab-example2";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_specimen() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "specimen", "Specimen/spec-uslab-example2");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSpecimen().getReference().getValue(),"Specimen/spec-uslab-example2");
@@ -294,16 +230,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
-	public void testObservationQuery_009() throws Exception {
-		
-		String parmName = "date";
-		String parmValue = "2012-09-17";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_date() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "date", "2012-09-17");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getEffectiveDateTime().getValue(),"2012-09-17");
@@ -314,16 +242,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
-	public void testObservationQuery_0010() throws Exception {
-		
-		String parmName = "value-date";
-		String parmValue = "2014-12-04T15:42:15-08:00";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_valueDate() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-date", "2014-12-04T15:42:15-08:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getValueDateTime().getValue(),"2014-12-04T15:42:15-08:00");
@@ -334,16 +254,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation4" })
-	public void testObservationQuery_0011() throws Exception {
-		
-		String parmName = "value-date";
-		String parmValue = "2014-11-04T15:42:15-08:00";
-		Class<? extends Resource> resourceType = Observation.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Observation.class, context);
+	public void testObservationQuery_valueDate_valuePeriodStart() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-date", "2014-11-04T15:42:15-08:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getValuePeriod().getStart().getValue(),"2014-11-04T15:42:15-08:00");
