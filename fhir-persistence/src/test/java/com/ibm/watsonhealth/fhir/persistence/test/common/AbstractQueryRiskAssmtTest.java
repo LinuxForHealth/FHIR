@@ -72,15 +72,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 */
 	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
 	public void testRiskAssessmentQuery_001() throws Exception {
-		
-		String parmName = "condition";
-		String parmValue = "Condition/stroke";
-		Class<? extends Resource> resourceType = RiskAssessment.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "condition", "Condition/stroke");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");
@@ -92,15 +84,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 */
 	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_002() throws Exception {
-		
-		String parmName = "performer";
-		String parmValue = "Practitioner/f001";
-		Class<? extends Resource> resourceType = RiskAssessment.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "performer", "Practitioner/f001");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
@@ -112,15 +96,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 */
 	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_003() throws Exception {
-		
-		String parmName = "date";
-		String parmValue = "2010-11-22";
-		Class<? extends Resource> resourceType = RiskAssessment.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-11-22");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((RiskAssessment)resources.get(0)).getDate().getValue(),"2010-11-22");
@@ -133,15 +109,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 */
 	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" }, expectedExceptions = FHIRSearchException.class)
 	public void testRiskAssessmentQuery_004() throws Exception {
-		
-		String parmName = "date";
-		String parmValue = "2010-00-22";
-		Class<? extends Resource> resourceType = RiskAssessment.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-00-22");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -154,7 +122,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
+	@Test(enabled=false,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_005() throws Exception {
 		
 		Class<? extends Resource> resourceType = RiskAssessment.class;
