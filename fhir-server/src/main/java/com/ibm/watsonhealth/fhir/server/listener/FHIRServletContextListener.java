@@ -38,6 +38,9 @@ public class FHIRServletContextListener implements ServletContextListener {
     
 	private static final String JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
     private static final String JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
+    
+    private static final String JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
+    
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
 
 	@Override
@@ -65,6 +68,10 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean virtualResourceTypesEnabled = getJNDIValue(JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED, Boolean.FALSE);
             event.getServletContext().setAttribute(JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED, virtualResourceTypesEnabled);
             log.fine("Set shared virtual resource types enabled flag.");
+            
+            Boolean userDefinedSchematronEnabled = getJNDIValue(JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE);
+            event.getServletContext().setAttribute(JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED, userDefinedSchematronEnabled);
+            log.fine("Set shared user defined schematron enabled flag.");
             
             // Grab the "websocket.enabled" jndi value.
             Boolean websocketEnabled = getJNDIValue(JNDINAME_WEBSOCKET_ENABLED, Boolean.FALSE);

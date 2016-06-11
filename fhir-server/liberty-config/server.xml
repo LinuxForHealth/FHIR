@@ -177,4 +177,5 @@ CODE_REMOVED
     <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
     <jndiEntry id="virtualResourceTypesFeatureEnabled" jndiName="com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled" value="true"/>
     
+    <jndiEntry id="userDefinedSchematronEnabled" jndiName="com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled" value="true"/>
 </server>
