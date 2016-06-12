@@ -65,6 +65,24 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
         assertEquals("1", location.getMeta().getVersionId().getValue());
     }
 	
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a Location.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateLocation3() throws Exception {
+    	Location location = readResource(Location.class, "Location1.json");
+
+        persistence.create(location);
+        assertNotNull(location);
+        assertNotNull(location.getId());
+        assertNotNull(location.getId().getValue());
+        assertNotNull(location.getMeta());
+        assertNotNull(location.getMeta().getVersionId().getValue());
+        assertEquals("1", location.getMeta().getVersionId().getValue());
+    }
+    
 	/**
 	 * Tests a query for a Location with name = 'South Wing, second floor' which should yield correct results
 	 * @throws Exception
@@ -101,7 +119,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		List<Resource> resources = persistence.search(Location.class, context);
 		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
+		assertTrue(resources.size() != 0);
 	}
 	
 	/**
@@ -131,7 +149,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_004() throws Exception {
 		
-		String parmName = "address";
+		String parmName = "address-city";
 		String parmValue = "Den Burg";
 		Class<? extends Resource> resourceType = Location.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
@@ -186,4 +204,97 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		assertTrue(resources.size() != 0);
 		assertEquals(((Location)resources.get(0)).getPartOf().getReference().getValue(),"Location/1");
 	}
+	
+	/**
+	 * Test query for geo location with less distance 
+	 * @throws Exception
+	 */
+	
+	//enable for cloudant once query is implemented 
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	public void testWithLessDistance() throws Exception {
+		//this test will return no records
+		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		queryParms.put("near", Collections.singletonList("44.977490|-93.275220"));
+		queryParms.put("near-distance", Collections.singletonList("1|km"));
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+
+
+	}
+
+	/**
+	 *  Test query for geo location without distance - Default is 5KM
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	public void testWithNoDistance() throws Exception {
+		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		//system:code
+		queryParms.put("near", Collections.singletonList("44.977490|-93.275220"));
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+
+	/**
+	 * Test query for geo location with distance in KM
+	 * @throws Exception
+	 */
+	
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	public void testWithKMDistance() throws Exception {
+		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		//system:code
+		queryParms.put("near", Collections.singletonList("44.977490|-93.275220"));
+		//4=system|km=code
+		queryParms.put("near-distance", Collections.singletonList("4|km"));
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Test query for geo location with distance in kilometers
+	 * @throws Exception
+	 */
+	@Test
+	public void testWithKilometersDistance() throws Exception {
+		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		//system:code
+		queryParms.put("near", Collections.singletonList("44.977490|-93.275220"));
+		//4=system|km=code
+		queryParms.put("near-distance", Collections.singletonList("4|kilometers"));
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Test query for geo location with distance in miles
+	 * @throws Exception
+	 */
+	@Test
+	public void testWithMilesDistance() throws Exception {
+		Map<String, List<String>> queryParms= new HashMap<String, List<String>>();
+		//system:code
+		queryParms.put("near", Collections.singletonList("44.977490|-93.275220"));
+		//4=system|km=code
+		queryParms.put("near-distance", Collections.singletonList("4|miles"));
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
 }
