@@ -59,6 +59,11 @@
 				<artifactId>cxf-rt-rs-client</artifactId>
 				<version>3.1.4</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+                <version>3.1.4</version>
+            </dependency>
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>eclipselink</artifactId>
