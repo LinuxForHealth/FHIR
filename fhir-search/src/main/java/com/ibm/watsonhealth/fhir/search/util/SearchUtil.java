@@ -314,10 +314,8 @@ public class SearchUtil {
 	                        parameterValue.setValueNumber(Double.parseDouble(number));
 	                        String system = parts[1];   // could be empty string
 	                        parameterValue.setValueSystem(system);
-                            if (parts.length > 2) {
-                                String code = parts[2];
-                                parameterValue.setValueCode(code);
-                            }
+                            String code = parts[2];
+                            parameterValue.setValueCode(code);
 	                        break;
 	                    }
 	                    case STRING: {
