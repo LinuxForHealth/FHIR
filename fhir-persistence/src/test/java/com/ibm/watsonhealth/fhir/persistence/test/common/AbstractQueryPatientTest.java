@@ -292,47 +292,47 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with gender = 'Male' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_gender() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "gender", "Male");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Patient)resources.get(0)).getGender().getValue(),"Male");
-	}*/
+	}
 	
 	/**
 	 * Tests a query for a Patient with gender = 'Female' which should yield no results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_gender_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "gender", "Female");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
-	}*/
+	}
 	
 	/**
 	 * Tests a query for a Patient with phone = '8016626839' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_phone() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "phone", "8016626839");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Patient)resources.get(0)).getTelecom().get(1).getValue().getValue(),"8016626839");
-	}*/
+	}
 	
 	/**
 	 * Tests a query for a Patient with phone = '80166268396' which should yield no results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_phone_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "phone", "80166268396");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
-	}*/
+	}
 	
 	/**
 	 * Tests a query for a Patient with link = 'Patient/pat2' which should yield correct results
@@ -448,21 +448,13 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with address field missing using :missing modifier which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
-	public void testPatientQuery_0011() throws Exception {
-		
-		String parmName = "address:missing";
-		String parmValue = "false";
-		Class<? extends Resource> resourceType = Patient.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, context);
+	@Test(enabled = false, groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
+	public void testPatientQuery_missingModifier() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "address:missing", "false");
 		assertNotNull(resources);
 		System.out.println("Size = " + resources.size());
 		assertTrue(resources.size() != 0);
-	}*/
+	}
 	
 	/**
 	 * Tests a query for Patients with address field containing partial matches using :contains modifier which should yield correct results
@@ -476,26 +468,6 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
 		assertTrue(addrList.get(0).getCity().getValue().equalsIgnoreCase("Amsterdam"));
 	}
-	
-	/**
-	 * Tests a query for Patients with birthdate = '1950-08-15' which should yield correct results
-	 * @throws Exception
-	 */
-	/*@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatient_birthDate() throws Exception {
-		
-		String parmName = "birthdate";
-		String parmValue = "1950-08-15";
-		Class<? extends Resource> resourceType = Patient.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Patient.class, context);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertTrue(((Patient)resources.get(0)).getBirthDate().getValue().equals("1950-08-15"));
-	}*/
 	
 	/**
 	 * Tests a query for Patients with deathdate = 'eq2015-02-14T13:42:00+10:00' which should yield correct results
