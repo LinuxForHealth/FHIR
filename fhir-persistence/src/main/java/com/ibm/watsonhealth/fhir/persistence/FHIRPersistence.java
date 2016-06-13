@@ -88,8 +88,8 @@ public interface FHIRPersistence {
 	boolean isTransactional();
 	
 	/**
-	 * Returns a FHIRTransaction object associated with the persistence layer implementation in use.
+	 * Returns a FHIRPersistenceTransaction object associated with the persistence layer implementation in use.
 	 * This can then be used to control transactional boundaries.
 	 */
-	FHIRTransaction getTransaction();
+	FHIRPersistenceTransaction getTransaction();
 }
