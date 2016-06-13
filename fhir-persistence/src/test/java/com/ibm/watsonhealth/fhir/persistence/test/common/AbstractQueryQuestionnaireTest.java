@@ -10,17 +10,12 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Questionnaire;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -53,15 +48,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_001() throws Exception {
-		
-		String parmName = "publisher";
-		String parmValue = "Team Voltron";
-		Class<? extends Resource> resourceType = Questionnaire.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Questionnaire.class, context);
+		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "publisher", "Team Voltron");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Questionnaire)resources.get(0)).getPublisher().getValue(),"Team Voltron");
@@ -73,15 +60,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_002() throws Exception {
-		
-		String parmName = "version";
-		String parmValue = "10.0";
-		Class<? extends Resource> resourceType = Questionnaire.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Questionnaire.class, context);
+		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "version", "10.0");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -92,15 +71,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_003() throws Exception {
-		
-		String parmName = "title";
-		String parmValue = "Non-existent";
-		Class<? extends Resource> resourceType = Questionnaire.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Questionnaire.class, context);
+		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "title", "Non-existent");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -111,15 +82,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_004() throws Exception {
-		
-		String parmName = "date";
-		String parmValue = "1969-12-31T19:00:02+00:00";
-		Class<? extends Resource> resourceType = Questionnaire.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Questionnaire.class, context);
+		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "date", "1969-12-31T19:00:02+00:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");
