@@ -89,15 +89,8 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 */
 	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_001() throws Exception {
-		
-		String parmName = "name";
 		String parmValue = "South Wing, second floor";
-		Class<? extends Resource> resourceType = Location.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = runQueryTest(Location.class, persistence, "name", "South Wing, second floor");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertTrue((parmValue.equals(((Location)resources.get(0)).getName().getValue())) || (parmValue.equals(((Location)resources.get(1)).getName().getValue())));
@@ -109,15 +102,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_002() throws Exception {
-		
-		String parmName = "address-country";
-		String parmValue = "USA";
-		Class<? extends Resource> resourceType = Location.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = runQueryTest(Location.class, persistence, "address-country", "USA");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}
@@ -128,15 +113,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_003() throws Exception {
-		
-		String parmName = "address-city";
-		String parmValue = "Den Burg";
-		Class<? extends Resource> resourceType = Location.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = runQueryTest(Location.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Location)resources.get(0)).getAddress().getCity().getValue(),"Den Burg");
@@ -148,15 +125,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_004() throws Exception {
-		
-		String parmName = "address-city";
-		String parmValue = "Den Burg";
-		Class<? extends Resource> resourceType = Location.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = runQueryTest(Location.class, persistence, "address", "Den Burg");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Location)resources.get(0)).getAddress().getCity().getValue(),"Den Burg");
@@ -171,15 +140,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_005() throws Exception {
-		
-		String parmName = "organization";
-		String parmValue = "Organization/f001";
-		Class<? extends Resource> resourceType = Location.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = runQueryTest(Location.class, persistence, "organization", "Organization/f001");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Location)resources.get(0)).getManagingOrganization().getReference().getValue(),"Organization/f001");
@@ -191,15 +152,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
 	public void testLocationQuery_006() throws Exception {
-		
-		String parmName = "partof";
-		String parmValue = "Location/1";
-		Class<? extends Resource> resourceType = Location.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = runQueryTest(Location.class, persistence, "partof", "Location/1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Location)resources.get(0)).getPartOf().getReference().getValue(),"Location/1");
