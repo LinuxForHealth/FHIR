@@ -235,11 +235,52 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		//system:code
 		queryParms.put("near", Collections.singletonList("44.977490|-93.275220"));
+	
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		List<Resource> resources = persistence.search(Location.class, context);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
+	}
+
+	
+	/**
+	 *  Test query for geo location without distance - Default is 5KM
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	public void testWithDistanceCity() throws Exception {
+		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		//system:code
+		queryParms.put("near", Collections.singletonList("44.977490|-93.275220"));
+		queryParms.put("address-city", Collections.singletonList("Ann Arbor"));
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		//I know that it will not be match..
+		assertTrue(resources.size() == 0);
+	}
+	
+	
+	/**
+	 *  Test query for geo location without distance - Default is 5KM
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	public void testWithMultipleParameter() throws Exception {
+		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		//system:code
+	
+		queryParms.put("address-city", Collections.singletonList("Ann Arbor"));
+		queryParms.put("partof", Collections.singletonList("Location/1"));
+		
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		//I know that it will not be match..
+		assertTrue(resources.size() == 0);
 	}
 
 	/**
