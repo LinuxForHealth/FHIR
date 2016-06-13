@@ -108,6 +108,7 @@ public class FHIRResource {
     private static final String FHIR_SPEC_VERSION = "1.0.2";
     private static final String ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
     private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
+    private static final String USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 
     private PersistenceHelper persistenceHelper = null;
@@ -116,6 +117,8 @@ public class FHIRResource {
     
     private List<String> allowableVirtualResourceTypes = null;
     private Boolean virtualResourceTypesFeatureEnabled = null;
+    
+    private Boolean userDefinedSchematronEnabled = null;
     
     private Parameter basicCodeSearchParameter = null;
 
@@ -433,7 +436,7 @@ public class FHIRResource {
             }
 
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
+            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
@@ -477,7 +480,7 @@ public class FHIRResource {
             }
             
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
+            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
@@ -670,12 +673,11 @@ public class FHIRResource {
     protected OperationOutcome doValidate(Resource resource) throws Exception {
         log.entering(this.getClass().getName(), "doValidate");
         try {
-            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
+            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
             }
-
             return buildResourceValidOperationOutcome();
         } finally {
             log.exiting(this.getClass().getName(), "doValidate");
@@ -1035,6 +1037,17 @@ public class FHIRResource {
         return virtualResourceTypesFeatureEnabled;
     }
     
+    private Boolean isUserDefinedSchematronEnabled() {
+        return getUserDefinedSchematronEnabled();
+    }
+    
+    private Boolean getUserDefinedSchematronEnabled() {
+        if (userDefinedSchematronEnabled == null) {
+            userDefinedSchematronEnabled = (Boolean) context.getAttribute(USER_DEFINED_SCHEMATRON_ENABLED);
+        }
+        return userDefinedSchematronEnabled;
+    }
+    
     private Parameter getBasicCodeSearchParameter() {
         if (basicCodeSearchParameter == null) {
             basicCodeSearchParameter = new Parameter(Parameter.Type.TOKEN, "code", null, null);
@@ -1193,7 +1206,7 @@ public class FHIRResource {
 
                     // Validate the resource contained in the request entry.
                     Resource resource = getBundleEntryResource(requestEntry);
-                    List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource);
+                    List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
                     if (!issues.isEmpty()) {
                         OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
                         setBundleEntryResource(responseEntry, oo);
