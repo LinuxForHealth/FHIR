@@ -49,7 +49,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
-	public void testMedicationQuery_001() throws Exception {
+	public void testMedicationQuery_noParams() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -60,7 +60,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
-	public void testMedicationQuery_002() throws Exception {
+	public void testMedicationQuery_manufacturer() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "manufacturer", "http://www.a-smeds.com/fhirresource/1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -72,7 +72,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
-	public void testMedicationQuery_003() throws Exception {
+	public void testMedicationQuery_manufacturer_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "manufacturer", "http://www.a-smeds.com/fhirresource1");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
@@ -83,7 +83,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
-	public void testMedicationQuery_004() throws Exception {
+	public void testMedicationQuery_content() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "content", "MedicationExample14");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -95,7 +95,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
-	public void testMedicationQuery_005() throws Exception {
+	public void testMedicationQuery_ingredient() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "ingredient", "Amoxicillin");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);

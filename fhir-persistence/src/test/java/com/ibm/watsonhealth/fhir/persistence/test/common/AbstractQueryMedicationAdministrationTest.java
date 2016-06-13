@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.model.Group;
 import com.ibm.watsonhealth.fhir.model.MedicationAdministration;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -52,11 +53,8 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
-	public void testMedicationAdministrationQuery_001() throws Exception {
-        Class<? extends Resource> resourceType = MedicationAdministration.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+	public void testMedicationAdministrationQuery_noParams() throws Exception {
+		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}	
@@ -66,16 +64,8 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
-	public void testMedicationAdministrationQuery_002() throws Exception {
-		
-		String parmName = "patient";
-		String parmValue = "Patient/example";
-		Class<? extends Resource> resourceType = MedicationAdministration.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+	public void testMedicationAdministrationQuery_patient() throws Exception {
+		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationAdministration)resources.get(0)).getPatient().getReference().getValue(),"Patient/example");
@@ -86,16 +76,8 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
-	public void testMedicationAdministrationQuery_003() throws Exception {
-		
-		String parmName = "prescription";
-		String parmValue = "MedicationOrder/medrx005";
-		Class<? extends Resource> resourceType = MedicationAdministration.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+	public void testMedicationAdministrationQuery_prescription() throws Exception {
+		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "prescription", "MedicationOrder/medrx005");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationAdministration)resources.get(0)).getPrescription().getReference().getValue(),"MedicationOrder/medrx005");
@@ -106,16 +88,8 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
-	public void testMedicationAdministrationQuery_004() throws Exception {
-		
-		String parmName = "practitioner";
-		String parmValue = "Practitioner/example";
-		Class<? extends Resource> resourceType = MedicationAdministration.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+	public void testMedicationAdministrationQuery_practitioner() throws Exception {
+		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "practitioner", "Practitioner/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationAdministration)resources.get(0)).getPractitioner().getReference().getValue(),"Practitioner/example");
@@ -126,16 +100,8 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
-	public void testMedicationAdministrationQuery_005() throws Exception {
-		
-		String parmName = "medication";
-		String parmValue = "Medication/medicationexample6";
-		Class<? extends Resource> resourceType = MedicationAdministration.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+	public void testMedicationAdministrationQuery_medication() throws Exception {
+		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "medication", "Medication/medicationexample6");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationAdministration)resources.get(0)).getMedicationReference().getReference().getValue(),"Medication/medicationexample6");
@@ -146,16 +112,8 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
-	public void testMedicationAdministrationQuery_006() throws Exception {
-		
-		String parmName = "effectivetime";
-		String parmValue = "2015-01-15T14:30:00+01:00";
-		Class<? extends Resource> resourceType = MedicationAdministration.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+	public void testMedicationAdministrationQuery_effectivetime() throws Exception {
+		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "effectivetime", "2015-01-15T14:30:00+01:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationAdministration)resources.get(0)).getEffectiveTimePeriod().getEnd().getValue(),"2015-01-15T14:30:00+01:00");
@@ -166,16 +124,8 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
-	public void testMedicationAdministrationQuery_007() throws Exception {
-		
-		String parmName = "effectivetime";
-		String parmValue = "2025-01-15T14:30:00+01:00";
-		Class<? extends Resource> resourceType = MedicationAdministration.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+	public void testMedicationAdministrationQuery_effectivetime_noResults() throws Exception {
+		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "effectivetime", "2025-01-15T14:30:00+01:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}

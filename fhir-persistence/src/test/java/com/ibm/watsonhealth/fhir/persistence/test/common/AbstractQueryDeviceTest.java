@@ -48,7 +48,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDeviceQuery_001() throws Exception {
+	public void testDeviceQuery_manufacturer() throws Exception {
 		List<Resource> resources = runQueryTest(Device.class, persistence, "manufacturer", "Acme Devices, Inc");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -60,7 +60,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDeviceQuery_002() throws Exception {
+	public void testDeviceQuery_model() throws Exception {
 		List<Resource> resources = runQueryTest(Device.class, persistence, "model", "AB45-J");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
@@ -71,7 +71,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDeviceQuery_003() throws Exception {
+	public void testDeviceQuery_udi() throws Exception {
 		List<Resource> resources = runQueryTest(Device.class, persistence, "udi", "(01)00000123000017(10)ABC123(17)120415");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);

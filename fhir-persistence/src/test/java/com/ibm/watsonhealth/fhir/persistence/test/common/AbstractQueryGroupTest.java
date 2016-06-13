@@ -47,7 +47,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupQuery_001() throws Exception {
+	public void testGroupQuery_noParams() throws Exception {
 		List<Resource> resources = runQueryTest(Group.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -58,7 +58,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupQuery_002() throws Exception {
+	public void testGroupQuery_member1() throws Exception {
 		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -70,7 +70,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupQuery_003() throws Exception {
+	public void testGroupQuery_member2() throws Exception {
 		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat4");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);

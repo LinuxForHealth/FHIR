@@ -47,7 +47,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
-	public void testContractQuery_001() throws Exception {
+	public void testContractQuery_noParams() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -58,7 +58,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
-	public void testContractQuery_002() throws Exception {
+	public void testContractQuery_patient() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -70,7 +70,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
-	public void testContractQuery_003() throws Exception {
+	public void testContractQuery_subject() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
