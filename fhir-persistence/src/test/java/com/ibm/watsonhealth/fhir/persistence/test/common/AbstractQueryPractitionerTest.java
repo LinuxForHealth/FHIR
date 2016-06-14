@@ -10,12 +10,17 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Practitioner;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -168,5 +173,87 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		assertEquals(((Practitioner)resources.get(0)).getName().getFamily().get(0).getValue(),"Careful");
 		assertEquals(((Practitioner)resources.get(0)).getName().getPrefix().get(0).getValue(),"Dr");
 		assertEquals(((Practitioner)resources.get(0)).getName().getText().getValue(),"Dr Adam Careful");
+	}
+	
+	/*
+	 * Pagination Testcases
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+	 * 
+	 */
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1", "testCreatePractitioner2" })
+	public void testPractitionerPagination_001() throws Exception {
+		
+		Class<? extends Resource> resourceType = Practitioner.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
+	
+	/**
+	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	public void testPractitionerPagination_002() throws Exception {
+		
+		String parmName = "address";
+		String parmValue = "Den Burg";
+		Class<? extends Resource> resourceType = Practitioner.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getLine().get(0).getValue(),"Galapagosweg 91");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getPostalCode().getValue(),"9105 PZ");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCountry().getValue(),"NLD");
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
+	
+	/**
+	 * Tests a query for a Practitioner with name = 'Mr Adam Careful' which should yield no results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	public void testPractitionerPagination_003() throws Exception {
+		
+		String parmName = "name";
+		String parmValue = "Mr Adam Careful";
+		Class<? extends Resource> resourceType = Practitioner.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Practitioner.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count == 0) && (lastPgNum == 0));
 	}
 }
