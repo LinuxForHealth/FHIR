@@ -74,7 +74,7 @@ public class FHIRPersistenceUtil {
         log.entering(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
         log.fine("distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude + ":longitude:" + longitude);
         try {
-            if (!"km".equalsIgnoreCase(unit) && !"kilometers".equals(unit) && !"mi".equalsIgnoreCase(unit) && !"miles".equalsIgnoreCase(unit)) {
+            if (!"km".equalsIgnoreCase(unit) && !"kilometers".equalsIgnoreCase(unit) && !"mi".equalsIgnoreCase(unit) && !"miles".equalsIgnoreCase(unit)) {
                 throw new IllegalArgumentException("Invalid unit: '" + unit + "'. Must be one of: ['km', 'kilometers', 'mi', 'miles']");
             }
             
