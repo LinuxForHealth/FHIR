@@ -162,7 +162,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		long count = context.getTotalCount();
 		int pageSize = context.getPageSize();
 		int lastPgNum = context.getLastPageNumber();
-		assertEquals(resources.size(), context.getTotalCount());
+		assertEquals(resources.size(), count);
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
