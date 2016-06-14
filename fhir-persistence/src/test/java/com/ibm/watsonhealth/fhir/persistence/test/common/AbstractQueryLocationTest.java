@@ -18,6 +18,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Location;
+import com.ibm.watsonhealth.fhir.model.MedicationOrder;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -309,4 +310,82 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		assertTrue(resources.size() != 0);
 	}
 	
+	/*
+	 * Pagination Testcases
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+	 * 
+	 */
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1", "testCreateLocation2", "testCreateLocation3" })
+	public void testLocationPagination_001() throws Exception {
+		
+		Class<? extends Resource> resourceType = Location.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
+	
+	/**
+	 * Tests a query for a Location with partof = 'Location/1' which should yield correct results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
+	public void testLocationPagination_002() throws Exception {
+		
+		String parmName = "partof";
+		String parmValue = "Location/1";
+		Class<? extends Resource> resourceType = Location.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Location)resources.get(0)).getPartOf().getReference().getValue(),"Location/1");
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
+	
+	/**
+	 * Tests a query for a Location with partof = 'Location/999' which should yield no results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
+	public void testLocationPagination_003() throws Exception {
+		
+		String parmName = "partof";
+		String parmValue = "Location/999";
+		Class<? extends Resource> resourceType = Location.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count == 0) && (lastPgNum == 0));
+	}	
 }
