@@ -126,7 +126,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	// TODO - fix this test on JPA.
 	@Test(groups = { "cloudant", /**"jpa"**/ }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_address() throws Exception {
-		List<Resource> resources = runQueryTest(Location.class, persistence, "address", "Den Burg");
+		List<Resource> resources = runQueryTest(Location.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Location)resources.get(0)).getAddress().getCity().getValue(),"Den Burg");
@@ -197,6 +197,23 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		assertTrue(resources.size() != 0);
 	}
 
+	/**
+	 *  Test query for geo location without distance - Default is 5KM
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	public void testWithNoNear() throws Exception {
+		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		//system:code
+		queryParms.put("near-distance", Collections.singletonList("4|km"));
+	
+		Class<? extends Resource> resourceType = Location.class;
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		List<Resource> resources = persistence.search(Location.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
 	
 	/**
 	 *  Test query for geo location without distance - Default is 5KM
