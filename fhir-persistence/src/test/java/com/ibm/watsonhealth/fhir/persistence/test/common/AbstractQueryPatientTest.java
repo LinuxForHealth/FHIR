@@ -297,7 +297,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with gender = 'Male' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	// TODO - fix this test on Cloudant.
+	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_gender() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "gender", "Male");
 		assertNotNull(resources);
@@ -309,7 +310,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with gender = 'Female' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	// TODO - fix this test on Cloudant.
+	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_gender_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "gender", "Female");
 		assertNotNull(resources);
@@ -320,7 +322,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with phone = '8016626839' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	// TODO - fix this test on Cloudant.
+	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_phone() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "phone", "8016626839");
 		assertNotNull(resources);
@@ -332,7 +335,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with phone = '80166268396' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "non-cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	// TODO - fix this test on Cloudant.
+	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_phone_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "phone", "80166268396");
 		assertNotNull(resources);
@@ -453,11 +457,12 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with address field missing using :missing modifier which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled = false, groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
+	// TODO - fix this test on JPA and Cloudant.
+	@Test(enabled = true, groups = { "cloudant-broken", "jpa-broken"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
 	public void testPatientQuery_missingModifier() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "address:missing", "false");
 		assertNotNull(resources);
-		System.out.println("Size = " + resources.size());
+		//System.out.println("Size = " + resources.size());
 		assertTrue(resources.size() != 0);
 	}
 	
@@ -465,7 +470,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with address field containing partial matches using :contains modifier which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled = false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
+	// TODO - fix this test on JPA.
+	@Test(enabled = true, groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
 	public void testPatient_containsModifier() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "address:contains", "Amsterdam");
 		assertNotNull(resources);
@@ -547,7 +553,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with active = 'true' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	// TODO - fix this test on JPA.
+	@Test(enabled=true, groups = { "cloudant-broken", "jpa-broken" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_active() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "active", "true");
 		assertNotNull(resources);
