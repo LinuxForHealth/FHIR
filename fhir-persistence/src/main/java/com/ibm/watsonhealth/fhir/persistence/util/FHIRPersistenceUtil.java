@@ -22,7 +22,7 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 public class FHIRPersistenceUtil {
     private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
     private static final ObjectFactory objectFactory = new ObjectFactory();
-    private final static double EARTH_RADIUS = 6371.0; // earth radius
+    private final static double EARTH_RADIUS_KILOMETERS = 6371.0; // earth radius in kilometers
 
     // Parse history parameters into a FHIRHistoryContext
     public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters) throws FHIRPersistenceException {
@@ -74,18 +74,22 @@ public class FHIRPersistenceUtil {
         log.entering(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
         log.fine("distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude + ":longitude:" + longitude);
         try {
+            if (!"km".equalsIgnoreCase(unit) && !"kilometers".equals(unit) && !"mi".equalsIgnoreCase(unit) && !"miles".equalsIgnoreCase(unit)) {
+                throw new IllegalArgumentException("Invalid unit: '" + unit + "'. Must be one of: ['km', 'kilometers', 'mi', 'miles']");
+            }
+            
             if ("mi".equalsIgnoreCase(unit) || "miles".equalsIgnoreCase(unit)) {
                 distance = covertMilesToKilometers(distance);
                 unit = "kilometers";
             }
             
-            log.fine("distance: " + distance + ", unit:" + unit);
+            log.fine("distance: " + distance + ", unit: " + unit);
 
             // build bounding box points
-            double minLatitude = latitude - (distance / EARTH_RADIUS) * (180.0 / Math.PI);
-            double maxLatitude = latitude + (distance / EARTH_RADIUS) * (180.0 / Math.PI);
-            double minLongitude = longitude - ((distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
-            double maxLongitude = longitude + ((distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
+            double minLatitude = latitude - (distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI);
+            double maxLatitude = latitude + (distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI);
+            double minLongitude = longitude - ((distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
+            double maxLongitude = longitude + ((distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
             
             BoundingBox boundingBox = new BoundingBox(minLatitude, maxLatitude, minLongitude, maxLongitude);
             
