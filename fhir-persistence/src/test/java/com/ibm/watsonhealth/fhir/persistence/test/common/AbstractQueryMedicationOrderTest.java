@@ -19,6 +19,8 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.MedicationOrder;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
+import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
@@ -28,6 +30,8 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *  There will be a subclass in each persistence project.
  */
 public abstract class AbstractQueryMedicationOrderTest extends AbstractPersistenceTest {
+	
+	private static MedicationOrder savedMedicationOrder;
 	
     /**
      * Tests the FHIRPersistenceCloudantImpl create API for a MedicationOrder.
@@ -45,7 +49,8 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
         assertNotNull(medOrder.getMeta());
         assertNotNull(medOrder.getMeta().getVersionId().getValue());
         assertEquals("1", medOrder.getMeta().getVersionId().getValue());
-    } 
+        savedMedicationOrder = medOrder;
+    }
 	
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
@@ -130,7 +135,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	}
 	
 	/*
-	 * Pagination Testcases
+	 * Search Pagination Testcases
 	 */
 	
 	/**
@@ -203,5 +208,30 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 		int lastPgNum = context.getLastPageNumber();
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count == 0) && (lastPgNum == 0));
+	}
+	
+	/*
+	 * History Pagination Testcases
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any history query parameters. This should yield correct results using pagination
+	 * 
+	 */
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	public void testMedicationOrderHistoryPgn_001() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_page", Collections.singletonList("1"));
+		queryParms.put("_since", Collections.singletonList("2015-06-10T21:32:59.076Z"));
+		FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
+		
+		List<Resource> resources = persistence.history(MedicationOrder.class, savedMedicationOrder.getId().getValue(), context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
 }
