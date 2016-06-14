@@ -134,7 +134,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_address() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address", "Galapagosweg 91, Den Burg, 9105 PZ, NLD");
 		assertNotNull(resources);
@@ -149,7 +149,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name_last() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Careful");
 		assertNotNull(resources);
@@ -164,7 +164,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Adam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name_first() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Adam");
 		assertNotNull(resources);
@@ -204,7 +204,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(enabled=true, groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerPagination_002() throws Exception {
 		
 		String parmName = "address";
