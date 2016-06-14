@@ -73,32 +73,24 @@ public class FHIRPersistenceUtil {
     public static BoundingBox createBoundingBox(double latitude, double longitude, double distance, String unit) {
         log.entering(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
         log.fine("distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude + ":longitude:" + longitude);
-        BoundingBox boundingBox = new BoundingBox();
         try {
-            double minLongitude = 0.0;
-            double maxLongitude = 0.0;
-            double minLatitude = 0.0;
-            double maxLatitude = 0.0;
-            if (unit.contentEquals("km")) {
-                unit = "kilometers"; // default is kilometers
-            }
-            if (unit.equalsIgnoreCase("miles")) {
+            if ("mi".equalsIgnoreCase(unit) || "miles".equalsIgnoreCase(unit)) {
                 distance = covertMilesToKilometers(distance);
+                unit = "kilometers";
             }
-            log.fine("distance   :" + distance + ":unit:" + unit);
+            
+            log.fine("distance: " + distance + ", unit:" + unit);
 
             // build bounding box points
-            minLatitude = latitude + (-distance / EARTH_RADIUS) * (180.0 / Math.PI);
-            maxLatitude = latitude + (distance / EARTH_RADIUS) * (180.0 / Math.PI);
-            minLongitude = longitude + ((-distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
-            maxLongitude = longitude + ((distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
-
-            boundingBox.setMaxLatitude(maxLatitude);
-            boundingBox.setMinLatitude(minLatitude);
-            boundingBox.setMaxLongitude(maxLongitude);
-            boundingBox.setMinLongitude(minLongitude);
-
-            log.fine("boundingPoints   :" + boundingBox.toString());
+            double minLatitude = latitude - (distance / EARTH_RADIUS) * (180.0 / Math.PI);
+            double maxLatitude = latitude + (distance / EARTH_RADIUS) * (180.0 / Math.PI);
+            double minLongitude = longitude - ((distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
+            double maxLongitude = longitude + ((distance / EARTH_RADIUS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
+            
+            BoundingBox boundingBox = new BoundingBox(minLatitude, maxLatitude, minLongitude, maxLongitude);
+            
+            log.fine("bounding box: " + boundingBox);
+            
             return boundingBox;
         } finally {
             log.exiting(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
