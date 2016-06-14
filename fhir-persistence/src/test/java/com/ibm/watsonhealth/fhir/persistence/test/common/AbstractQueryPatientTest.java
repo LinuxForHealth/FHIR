@@ -543,6 +543,18 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(((Patient)resources.get(0)).getDeceasedDateTime().getValue().equals("2015-02-14T13:42:00+10:00"));
 	}
 	
+	/**
+	 * Tests a query for Patients with active = 'true' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	public void testPatient_active() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "active", "true");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertTrue(((Patient)resources.get(0)).getActive().getId().equals("true"));
+	}
+	
 	/*
 	 * Pagination Testcases
 	 */
