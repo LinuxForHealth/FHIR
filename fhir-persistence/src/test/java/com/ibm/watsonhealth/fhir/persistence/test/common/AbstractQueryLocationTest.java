@@ -88,7 +88,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
-	public void testLocationQuery_name() throws Exception {
+	public void testLocationQuery_001() throws Exception {
 		String parmValue = "South Wing, second floor";
 		List<Resource> resources = runQueryTest(Location.class, persistence, "name", "South Wing, second floor");
 		assertNotNull(resources);
@@ -101,7 +101,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
-	public void testLocationQuery_addressCountry() throws Exception {
+	public void testLocationQuery_002() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "address-country", "USA");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -112,7 +112,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
-	public void testLocationQuery_addressCity() throws Exception {
+	public void testLocationQuery_003() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -123,8 +123,9 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant" }, dependsOnMethods = { "testCreateLocation1" })
-	public void testLocationQuery_address() throws Exception {
+	// TODO - fix this test on JPA.
+	@Test(groups = { "cloudant", /**"jpa"**/ }, dependsOnMethods = { "testCreateLocation1" })
+	public void testLocationQuery_004() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "address", "Den Burg");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -139,7 +140,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
-	public void testLocationQuery_organization() throws Exception {
+	public void testLocationQuery_005() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "organization", "Organization/f001");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -151,7 +152,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
-	public void testLocationQuery_partof() throws Exception {
+	public void testLocationQuery_006() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "partof", "Location/1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
