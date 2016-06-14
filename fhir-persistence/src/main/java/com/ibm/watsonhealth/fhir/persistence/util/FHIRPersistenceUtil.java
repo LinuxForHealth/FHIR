@@ -65,9 +65,12 @@ public class FHIRPersistenceUtil {
     }
 
     /**
-     * Method to build bounding box
+     * Method to build a bounding box given a latitude, longitude and distance
      * 
-     * @param locationList
+     * @param latitude
+     * @param longitude
+     * @param distance
+     * @param unit
      * @return
      */
     public static BoundingBox createBoundingBox(double latitude, double longitude, double distance, String unit) {
@@ -79,7 +82,7 @@ public class FHIRPersistenceUtil {
             }
             
             if ("mi".equalsIgnoreCase(unit) || "miles".equalsIgnoreCase(unit)) {
-                distance = covertMilesToKilometers(distance);
+                distance = convertMilesToKilometers(distance);
                 unit = "kilometers";
             }
             
@@ -104,15 +107,15 @@ public class FHIRPersistenceUtil {
     /**
      * Method to convert miles into kilometers
      * 
-     * @param miles
-     * @return
+     * @param miles distance in miles
+     * @return distance in kilometers
      */
-    public static double covertMilesToKilometers(double miles) {
-        log.entering(FHIRPersistenceUtil.class.getName(), "covertMilesToKilometers");
+    public static double convertMilesToKilometers(double miles) {
+        log.entering(FHIRPersistenceUtil.class.getName(), "convertMilesToKilometers");
         try {
             return miles * 1.609344;
         } finally {
-            log.exiting(FHIRPersistenceUtil.class.getName(), "covertMilesToKilometers");
+            log.exiting(FHIRPersistenceUtil.class.getName(), "convertMilesToKilometers");
         }
     }
 }
