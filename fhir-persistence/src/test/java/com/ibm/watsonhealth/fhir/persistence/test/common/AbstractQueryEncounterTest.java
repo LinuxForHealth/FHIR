@@ -58,9 +58,20 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * @throws Exception
 	 */
 	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
-	public void testEncounter_lengthValue() throws Exception {
+	public void testEncounter_length() throws Exception {
 		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "60.0");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = '40.5' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_lengthNoResults() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "40.5");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
 	}
 }
