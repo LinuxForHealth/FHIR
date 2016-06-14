@@ -128,7 +128,6 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 		long count = context.getTotalCount();
 		int pageSize = context.getPageSize();
 		int lastPgNum = context.getLastPageNumber();
-		assertEquals(resources.size(), count);
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
@@ -155,7 +154,6 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 		long count = context.getTotalCount();
 		int pageSize = context.getPageSize();
 		int lastPgNum = context.getLastPageNumber();
-		assertEquals(resources.size(), count);
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
@@ -181,7 +179,6 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 		long count = context.getTotalCount();
 		int pageSize = context.getPageSize();
 		int lastPgNum = context.getLastPageNumber();
-		assertEquals(resources.size(), count);
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count == 0) && (lastPgNum == 0));
 	}
