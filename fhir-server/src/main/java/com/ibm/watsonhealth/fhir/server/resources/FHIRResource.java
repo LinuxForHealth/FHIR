@@ -325,7 +325,7 @@ public class FHIRResource {
         @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
-            Bundle bundle = doHistory(type, id, uriInfo.getQueryParameters());
+            Bundle bundle = doHistory(type, id, uriInfo.getQueryParameters(), uriInfo.getRequestUri().toString());
 
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -351,12 +351,11 @@ public class FHIRResource {
     })
     public Response search(
         @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
-        @PathParam("type") String type, 
-        @Context UriInfo uriInfo) {
+        @PathParam("type") String type) {
         log.entering(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         try {
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
-            Bundle bundle = doSearch(type, queryParameters);
+            Bundle bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
             return exceptionResponse(e);
@@ -597,7 +596,7 @@ public class FHIRResource {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    protected Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters) throws Exception {
+    protected Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
         try {
             String resourceTypeName = type;
@@ -616,7 +615,7 @@ public class FHIRResource {
             FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
             List<Resource> resources = getPersistenceImpl().history(resourceType, id, context);
             Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, context.getTotalCount());
-            addLinks(context, bundle);
+            addLinks(context, bundle, requestUri);
 
             return bundle;
         } finally {
@@ -631,7 +630,7 @@ public class FHIRResource {
      * @return a Bundle containing the search result set
      * @throws Exception
      */
-    protected Bundle doSearch(String type, MultivaluedMap<String, String> queryParameters) throws Exception {
+    protected Bundle doSearch(String type, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
         try {
             String resourceTypeName = type;
@@ -656,7 +655,7 @@ public class FHIRResource {
             
             List<Resource> resources = getPersistenceImpl().search(resourceType, context);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, context.getTotalCount());
-            addLinks(context, bundle);
+            addLinks(context, bundle, requestUri);
             
             return bundle;
         } finally {
@@ -782,6 +781,11 @@ public class FHIRResource {
                         log.finer("--> query: " + query);
                         String[] pathTokens = requestURL.getPathTokens();
                         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
+                        
+                        // Construct the absolute requestUri to be used for any response bundles associated 
+                        // with history and search requests.
+                        String absoluteUri = getAbsoluteUri(uriInfo.getRequestUri().toString(), request.getUrl().getValue());
+                        
                         switch (request.getMethod().getValue()) {
                         case GET:
                         {
@@ -792,7 +796,7 @@ public class FHIRResource {
                             // Determine the type of request from the path tokens.
                             if (pathTokens.length == 1) {
                                 // This is a 'search' request.
-                                resource = doSearch(pathTokens[0], queryParams);
+                                resource = doSearch(pathTokens[0], queryParams, absoluteUri);
                             }
                             else if (pathTokens.length == 2) {
                                 // This is a 'read' request.
@@ -800,7 +804,7 @@ public class FHIRResource {
                             } 
                             else if (pathTokens.length == 3 && pathTokens[2].equals("_history")) {
                                 // This is a 'history' request.
-                                resource = doHistory(pathTokens[0], pathTokens[1], queryParams);
+                                resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri);
                             } 
                             else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
                                 // This is a 'vread' request.
@@ -869,6 +873,22 @@ public class FHIRResource {
         } finally {
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
+    }
+
+    /**
+     * This function will build an absolute URI from the specified base URI and relative URI.
+     * @param baseUri the base URI to be used; this will be of the form <scheme>://<host>:<port>/<context-root>
+     * @param relativeUri the path and query parts 
+     * @return the full URI value as a String
+     */
+    private String getAbsoluteUri(String baseUri, String relativeUri) {
+        StringBuilder fullUri = new StringBuilder();
+        fullUri.append(baseUri);
+        if (!baseUri.endsWith("/")) {
+            fullUri.append("/");
+        }
+        fullUri.append((relativeUri.startsWith("/") ? relativeUri.substring(1) : relativeUri));
+        return fullUri.toString();
     }
 
     private void setBundleResponseFields(BundleEntry responseEntry, Resource resource, URI locationURI, int httpStatus) throws FHIRException {
@@ -1058,11 +1078,11 @@ public class FHIRResource {
         return basicCodeSearchParameter;
     }
     
-    private void addLinks(FHIRPagingContext context, Bundle bundle) {
+    private void addLinks(FHIRPagingContext context, Bundle bundle, String requestUri) {
         // create 'self' link
         BundleLink selfLink = objectFactory.createBundleLink();
         selfLink.setRelation(string("self"));
-        selfLink.setUrl(uri(uriInfo.getRequestUri().toString()));
+        selfLink.setUrl(uri(requestUri));
         bundle.getLink().add(selfLink);
         
         int nextPageNumber = context.getPageNumber() + 1;
@@ -1072,7 +1092,7 @@ public class FHIRResource {
             nextLink.setRelation(string("next"));
             
             // starting with the original request URI
-            String nextLinkUrl = uriInfo.getRequestUri().toString();
+            String nextLinkUrl = requestUri;
             
             // remove existing _page and _count parameters from the query string
             nextLinkUrl = nextLinkUrl
@@ -1101,7 +1121,7 @@ public class FHIRResource {
             prevLink.setRelation(string("previous"));
             
             // starting with the original request URI
-            String prevLinkUrl = uriInfo.getRequestUri().toString();
+            String prevLinkUrl = requestUri;
             
             // remove existing _page and _count parameters from the query string
             prevLinkUrl = prevLinkUrl
