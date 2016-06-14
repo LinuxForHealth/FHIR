@@ -134,9 +134,9 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_address() throws Exception {
-		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address", "Galapagosweg 91, Den Burg, 9105 PZ, NLD");
+		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
@@ -149,9 +149,9 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name_last() throws Exception {
-		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Careful");
+		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Dr Adam Careful");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getName().getGiven().get(0).getValue(),"Adam");
@@ -164,9 +164,9 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Adam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name_first() throws Exception {
-		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Adam");
+		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Dr Adam");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getName().getGiven().get(0).getValue(),"Adam");
@@ -174,40 +174,40 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		assertEquals(((Practitioner)resources.get(0)).getName().getPrefix().get(0).getValue(),"Dr");
 		assertEquals(((Practitioner)resources.get(0)).getName().getText().getValue(),"Dr Adam Careful");
 	}
-	
-	/*
-	 * Pagination Testcases
-	 */
-	
-	/**
-	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
-	 * 
-	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1", "testCreatePractitioner2" })
-	public void testPractitionerPagination_001() throws Exception {
-		
-		Class<? extends Resource> resourceType = Practitioner.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Practitioner.class, context);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
+//	
+//	/*
+//	 * Pagination Testcases
+//	 */
+//	
+//	/**
+//	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+//	 * 
+//	 */
+//	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1", "testCreatePractitioner2" })
+//	public void testPractitionerPagination_001() throws Exception {
+//		
+//		Class<? extends Resource> resourceType = Practitioner.class;
+//        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+//		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+//		context.setPageNumber(1);
+//		List<Resource> resources = persistence.search(Practitioner.class, context);
+//		assertNotNull(resources);
+//		assertTrue(resources.size() != 0);
+//		long count = context.getTotalCount();
+//		int pageSize = context.getPageSize();
+//		int lastPgNum = context.getLastPageNumber();
+//		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+//		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+//	}
+//	
 	/**
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "non-jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerPagination_002() throws Exception {
 		
-		String parmName = "address";
+		String parmName = "address-city";
 		String parmValue = "Den Burg";
 		Class<? extends Resource> resourceType = Practitioner.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
@@ -229,28 +229,28 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
 	
-	/**
-	 * Tests a query for a Practitioner with name = 'Mr Adam Careful' which should yield no results using pagination
-	 * @throws Exception
-	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
-	public void testPractitionerPagination_003() throws Exception {
-		
-		String parmName = "name";
-		String parmValue = "Mr Adam Careful";
-		Class<? extends Resource> resourceType = Practitioner.class;
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Practitioner.class, context);
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count == 0) && (lastPgNum == 0));
-	}
+//	/**
+//	 * Tests a query for a Practitioner with name = 'Mr Adam Careful' which should yield no results using pagination
+//	 * @throws Exception
+//	 */
+//	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+//	public void testPractitionerPagination_003() throws Exception {
+//		
+//		String parmName = "name";
+//		String parmValue = "Mr Adam Careful";
+//		Class<? extends Resource> resourceType = Practitioner.class;
+//        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+//		
+//		queryParms.put(parmName, Collections.singletonList(parmValue));
+//		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+//		context.setPageNumber(1);
+//		List<Resource> resources = persistence.search(Practitioner.class, context);
+//		assertNotNull(resources);
+//		assertTrue(resources.size() == 0);
+//		long count = context.getTotalCount();
+//		int pageSize = context.getPageSize();
+//		int lastPgNum = context.getLastPageNumber();
+//		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+//		assertTrue((count == 0) && (lastPgNum == 0));
+//	}
 }
