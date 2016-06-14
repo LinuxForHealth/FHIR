@@ -6,45 +6,45 @@
 
 package com.ibm.watsonhealth.fhir.persistence.util;
 
-/**
- * Object to hold and transport bounding box points
- * 
- *
- */
 public class BoundingBox {
-	
-	public double minLatitude =0.0;
-	public double maxLatitude =0.0;
-	public double minLongitude =0.0;
-	public double maxLongitude =0.0;
-	public double getMinLatitude() {
-		return minLatitude;
-	}
-	public void setMinLatitude(double minLatitude) {
-		this.minLatitude = minLatitude;
-	}
-	public double getMaxLatitude() {
-		return maxLatitude;
-	}
-	public void setMaxLatitude(double maxLatitude) {
-		this.maxLatitude = maxLatitude;
-	}
-	public double getMinLongitude() {
-		return minLongitude;
-	}
-	public void setMinLongitude(double minLongitude) {
-		this.minLongitude = minLongitude;
-	}
-	public double getMaxLongitude() {
-		return maxLongitude;
-	}
-	public void setMaxLongitude(double maxLongitude) {
-		this.maxLongitude = maxLongitude;
-	}
-	
-	public String toString() {
-		
-		return "minLatitude : " + this.minLatitude + " :maxLatitude: " + this.maxLatitude + " :minLongitude: " + this.minLongitude + " :maxLongitude: " + this.maxLongitude;
-	}
-	
+    public double minLatitude;
+    public double maxLatitude;
+    public double minLongitude;
+    public double maxLongitude;
+
+    public BoundingBox(double minLatitude, double maxLatitude, double minLongitude, double maxLongitude) {
+        this.minLatitude = minLatitude;
+        this.maxLatitude = maxLatitude;
+        this.minLongitude = minLongitude;
+        this.maxLongitude = maxLongitude;
+    }
+
+    public double getMinLatitude() {
+        return minLatitude;
+    }
+
+    public double getMaxLatitude() {
+        return maxLatitude;
+    }
+
+    public double getMinLongitude() {
+        return minLongitude;
+    }
+
+    public double getMaxLongitude() {
+        return maxLongitude;
+    }
+
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("minLatitude: ");
+        buffer.append(minLatitude);
+        buffer.append(", maxLatitude: ");
+        buffer.append(maxLatitude);
+        buffer.append(", minLongitude: ");
+        buffer.append(minLongitude);
+        buffer.append(", maxLongitude: ");
+        buffer.append(maxLongitude);
+        return buffer.toString();
+    }
 }
