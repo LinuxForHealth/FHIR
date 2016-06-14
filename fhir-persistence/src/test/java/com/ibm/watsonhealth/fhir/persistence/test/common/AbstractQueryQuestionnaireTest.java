@@ -47,7 +47,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_001() throws Exception {
+	public void testQuestionnaireQuery_publisher() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "publisher", "Team Voltron");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -59,7 +59,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_002() throws Exception {
+	public void testQuestionnaireQuery_version() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "version", "10.0");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
@@ -70,7 +70,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_003() throws Exception {
+	public void testQuestionnaireQuery_title() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "title", "Non-existent");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
@@ -81,7 +81,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_004() throws Exception {
+	public void testQuestionnaireQuery_date() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "date", "1969-12-31T19:00:02+00:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);

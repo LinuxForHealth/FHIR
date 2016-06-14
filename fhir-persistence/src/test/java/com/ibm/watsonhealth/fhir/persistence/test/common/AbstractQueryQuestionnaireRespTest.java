@@ -65,7 +65,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
-	public void testQuestionnaireResponseQuery_001() throws Exception {
+	public void testQuestionnaireResponseQuery_author() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "author", "Patient/1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -77,7 +77,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
-	public void testQuestionnaireResponseQuery_002() throws Exception {
+	public void testQuestionnaireResponseQuery_questionnaire() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "questionnaire", "Questionnaire/1661690");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -89,7 +89,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
-	public void testQuestionnaireResponseQuery_003() throws Exception {
+	public void testQuestionnaireResponseQuery_subject() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "subject", "Patient/1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -101,7 +101,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
-	public void testQuestionnaireResponseQuery_004() throws Exception {
+	public void testQuestionnaireResponseQuery_source() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "source", "Practitioner/f007");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -113,7 +113,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
-	public void testQuestionnaireResponseQuery_005() throws Exception {
+	public void testQuestionnaireResponseQuery_patient() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "patient", "Patient/1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -125,7 +125,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
-	public void testQuestionnaireResponseQuery_006() throws Exception {
+	public void testQuestionnaireResponseQuery_authored() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "authored", "2015-11-25T18:30:50+01:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -137,7 +137,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
-	public void testQuestionnaireResponseQuery_007() throws Exception {
+	public void testQuestionnaireResponseQuery_authored_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);

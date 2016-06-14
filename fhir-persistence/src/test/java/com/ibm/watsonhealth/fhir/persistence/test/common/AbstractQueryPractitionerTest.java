@@ -65,7 +65,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
-	public void testPractitionerQuery_001() throws Exception {
+	public void testPractitionerQuery_given() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "given", "Adam");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -77,7 +77,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
-	public void testPractitionerQuery_002() throws Exception {
+	public void testPractitionerQuery_name() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Dr Adam Careful");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -92,7 +92,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
-	public void testPractitionerQuery_003() throws Exception {
+	public void testPractitionerQuery_name_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Mr Adam Careful");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
@@ -103,7 +103,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
-	public void testPractitionerQuery_004() throws Exception {
+	public void testPractitionerQuery_phonetic() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "phonetic", "Dr Adam Careful");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -118,7 +118,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
-	public void testPractitionerQuery_005() throws Exception {
+	public void testPractitionerQuery_addressCity() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -130,7 +130,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
-	public void testPractitionerQuery_006() throws Exception {
+	public void testPractitionerQuery_address() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address", "Galapagosweg 91, Den Burg, 9105 PZ, NLD");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -145,7 +145,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
-	public void testPractitionerQuery_007() throws Exception {
+	public void testPractitionerQuery_name_last() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Careful");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
@@ -160,7 +160,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
-	public void testPractitionerQuery_008() throws Exception {
+	public void testPractitionerQuery_name_first() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Adam");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
