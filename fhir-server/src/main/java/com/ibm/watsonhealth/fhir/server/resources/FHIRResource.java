@@ -19,7 +19,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.math.BigInteger;
 import java.net.URI;
-import java.net.URL;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,9 +44,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
-
-import org.apache.cxf.jaxrs.impl.MetadataMap;
-import org.apache.cxf.jaxrs.utils.JAXRSUtils;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.core.MediaType;
@@ -87,7 +83,9 @@ import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
+import com.ibm.watsonhealth.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRRestException;
+import com.ibm.watsonhealth.fhir.server.helper.FHIRUrlParser;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
 import io.swagger.annotations.Api;
@@ -402,6 +400,8 @@ public class FHIRResource {
                 
             ResponseBuilder response = Response.ok(responseBundle);
             return response.build();
+        } catch (FHIRRestBundledRequestException e) {
+            return exceptionResponse(e);
         } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -769,15 +769,19 @@ public class FHIRResource {
                 if (response.getStatus() == null && request.getMethod().getValue().equals(httpMethod)) {
                     try {
                         // Parse the request URL string to determine the path and query strings.
-                        URL requestURL = new URL(request.getUrl().getValue());
+                        if (request.getUrl() == null || request.getUrl().getValue() == null || request.getUrl().getValue().isEmpty()) {
+                            throw new FHIRException("BundleEntry.request is missing the 'url' field.");
+                        }
+                        FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
+                        
                         String path = requestURL.getPath();
                         String query = requestURL.getQuery();
                         log.finer("Processing bundle request; method=" + request.getMethod().getValue().value()
-                            + ", url=" + requestURL.toString());
+                            + ", url=" + request.getUrl().getValue());
                         log.finer("--> path: " + path);
                         log.finer("--> query: " + query);
-                        String[] pathTokens = path.split("/");
-                        MultivaluedMap<String, String> queryParams = parseQueryParams(query, false);
+                        String[] pathTokens = requestURL.getPathTokens();
+                        MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
                         switch (request.getMethod().getValue()) {
                         case GET:
                         {
@@ -796,7 +800,7 @@ public class FHIRResource {
                             } 
                             else if (pathTokens.length == 3 && pathTokens[2].equals("_history")) {
                                 // This is a 'history' request.
-                                resource = doHistory(pathTokens[1], pathTokens[1], queryParams);
+                                resource = doHistory(pathTokens[0], pathTokens[1], queryParams);
                             } 
                             else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
                                 // This is a 'vread' request.
@@ -821,7 +825,7 @@ public class FHIRResource {
                             }
                             Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
                             URI locationURI = doCreate(pathTokens[0], resource);
-                            setBundleResponseFields(response, resource, locationURI, SC_CREATED);
+                            setBundleResponseFields(responseEntry, resource, locationURI, SC_CREATED);
                         }
                         break;
 
@@ -833,7 +837,7 @@ public class FHIRResource {
                             }
                             Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
                             URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource);
-                            setBundleResponseFields(response, resource, locationURI, SC_OK);
+                            setBundleResponseFields(responseEntry, resource, locationURI, SC_OK);
                         }
                         break;
 
@@ -845,19 +849,19 @@ public class FHIRResource {
                         setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
                         setBundleEntryResource(responseEntry, e.getOperationOutcome());
                         if (failFast) {
-                            throw new FHIRRestException(null, e.getOperationOutcome(), Response.Status.BAD_REQUEST, e);
+                            throw new FHIRRestBundledRequestException(null, e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
                         }
                     } catch (FHIRPersistenceResourceNotFoundException e) {
                         setBundleResponseStatus(response, SC_NOT_FOUND);
                         setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e));
                         if (failFast) {
-                            throw new FHIRRestException(null, FHIRUtil.buildOperationOutcome(e), Response.Status.BAD_REQUEST, e);
+                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e), Response.Status.NOT_FOUND, responseBundle, e);
                         }
                     } catch (FHIRException e) {
                         setBundleResponseStatus(response, SC_BAD_REQUEST);
                         setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e));
                         if (failFast) {
-                            throw new FHIRRestException(null, FHIRUtil.buildOperationOutcome(e), Response.Status.BAD_REQUEST, e);
+                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e), Response.Status.BAD_REQUEST, responseBundle, e);
                         }
                     }
                 }
@@ -866,25 +870,15 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
     }
-    
-    /**
-     * Parses the specified query string (of the form key1=value1&key2=value2=...keyn=valuen)
-     * into a MultivaluedMap.
-     */
-    private MultivaluedMap<String, String> parseQueryParams(String queryString, boolean decode) {
-        MultivaluedMap<String, String> map = new MetadataMap<>(false, true);
-        if (queryString != null && !queryString.isEmpty()) {
-            JAXRSUtils.getStructuredParams(map, queryString, "&", decode, decode);
-        }
-        return map;
-    }
 
-    private void setBundleResponseFields(BundleResponse response, Resource resource, URI locationURI, int httpStatus) {
+    private void setBundleResponseFields(BundleEntry responseEntry, Resource resource, URI locationURI, int httpStatus) throws FHIRException {
+        BundleResponse response = responseEntry.getResponse();
         response.setStatus(objectFactory.createString().withValue(Integer.toString(httpStatus)));
         response.setLocation(objectFactory.createUri().withValue(locationURI.toString()));
         response.setEtag(objectFactory.createString().withValue(getEtagValue(resource)));
         response.setId(resource.getId().getValue());
         response.setLastModified(resource.getMeta().getLastUpdated());
+        setBundleEntryResource(responseEntry, resource);
     }
 
     private void setBundleResponseStatus(BundleResponse response, int httpStatus) {
@@ -923,6 +917,11 @@ public class FHIRResource {
                 exceptionResponse(e, Response.Status.BAD_REQUEST));
     }
     
+    private Response exceptionResponse(FHIRRestBundledRequestException e) {
+        return (e.getResponseBundle() != null ? 
+                Response.status(e.getHttpStatus()).entity(e.getResponseBundle()).build() : exceptionResponse(e));
+    }
+    
     private Response exceptionResponse(Exception e, Status status) {
         return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e)).build();
     }
@@ -950,7 +949,7 @@ public class FHIRResource {
                 .withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION))
                 .withName(of.createString().withValue(FHIR_SERVER_NAME))
                 .withDescription(of.createString().withValue(buildDescription))
-                .withCopyright(of.createString().withValue("© Copyright IBM Corporation 2016"))
+                .withCopyright(of.createString().withValue("Copyright IBM Corporation 2016"))
                 .withPublisher(of.createString().withValue("IBM Corporation"))
                 .withKind(of.createConformanceStatementKind().withValue(ConformanceStatementKindList.INSTANCE))
                 .withSoftware(
@@ -1174,28 +1173,44 @@ public class FHIRResource {
             // As we're validating the request bundle, we'll also construct entries for the response bundle.
             int numErrors = 0;
             for (BundleEntry requestEntry : bundle.getEntry()) {
-                BundleRequest request = requestEntry.getRequest();
-
                 // Create a corresponding response entry and add it to the response bundle.
                 BundleResponse response = objectFactory.createBundleResponse();
                 BundleEntry responseEntry = objectFactory.createBundleEntry().withResponse(response);
                 responseBundle.getEntry().add(responseEntry);
-
+                
                 // Validate 'requestEntry' and update 'responseEntry' with any errors.
                 try {
+                    BundleRequest request = requestEntry.getRequest();
+                    // Verify that the request field is present.
+                    if (request == null) {
+                        throw new FHIRException("BundleEntry is missing the 'request' field.");
+                    }
+                    
+                    // Verify that a method was specified.
+                    if (request.getMethod() == null || request.getMethod().getValue() == null) {
+                        throw new FHIRException("BundleEntry.request is missing the 'method' field");
+                    }
+
+                    // Verify that a URL was specified.
+                    if (request.getUrl() == null || request.getUrl().getValue() == null) {
+                        throw new FHIRException("BundleEntry.request is missing the 'url' field");
+                    }
+                    
+                    // Retrieve the resource from the request entry to prepare for some validations below.
+                    Resource resource = getBundleEntryResource(requestEntry);
 
                     // Validate the HTTP method.
                     HTTPVerbList method = request.getMethod().getValue();
                     switch (method) {
                     case GET:
-                        if (requestEntry.getResource() != null) {
+                        if (resource != null) {
                             throw new FHIRException("BundleEntry.resource not allowed for BundleEntry with GET method.");
                         }
                         break;
 
                     case POST:
                     case PUT:
-                        if (requestEntry.getResource() == null) {
+                        if (resource == null) {
                             throw new FHIRException("BundleEntry.resource is required for BundleEntry with POST or PUT method.");
                         }
                         break;
@@ -1204,14 +1219,15 @@ public class FHIRResource {
                         throw new FHIRException("BundleEntry.request contains unsupported HTTP method: " + method.name());
                     }
 
-                    // Validate the resource contained in the request entry.
-                    Resource resource = getBundleEntryResource(requestEntry);
-                    List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
-                    if (!issues.isEmpty()) {
-                        OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
-                        setBundleEntryResource(responseEntry, oo);
-                        response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
-                        numErrors++;
+                    // If the request entry contains a resource, then validate it now.
+                    if (resource != null) {
+                        List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
+                        if (!issues.isEmpty()) {
+                            OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
+                            setBundleEntryResource(responseEntry, oo);
+                            response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
+                            numErrors++;
+                        }
                     }
                 } catch (FHIRException e) {
                     setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e));
@@ -1227,7 +1243,7 @@ public class FHIRResource {
                 String msg = "One or more errors were encountered while validating a 'transaction' request bundle.";
                 OperationOutcomeIssue issue = buildOperationOutcomeIssue(IssueSeverityList.ERROR, IssueTypeList.EXCEPTION, msg);
                 OperationOutcome oo = FHIRUtil.buildOperationOutcome(Collections.singletonList(issue));
-                throw new FHIRRestException(null, oo, Response.Status.BAD_REQUEST);
+                throw new FHIRRestBundledRequestException(msg, oo, Response.Status.BAD_REQUEST, responseBundle);
             }
 
             return responseBundle;
