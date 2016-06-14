@@ -122,8 +122,8 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=false,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
-	public void testRiskAssessmentQuery_005() throws Exception {
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
+	public void testRiskAssessmentPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = RiskAssessment.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
@@ -135,7 +135,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		long count = context.getTotalCount();
 		int pageSize = context.getPageSize();
 		int lastPgNum = context.getLastPageNumber();
-		assertEquals(resources.size(), context.getTotalCount());
+		assertEquals(resources.size(), count);
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
@@ -144,8 +144,8 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=false, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
-	public void testRiskAssessmentQuery_006() throws Exception {
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+	public void testRiskAssessmentPagination_002() throws Exception {
 		
 		String parmName = "condition";
 		String parmValue = "Condition/stroke";
