@@ -11,7 +11,10 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -20,6 +23,8 @@ import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.PatientLink;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -536,5 +541,84 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertTrue(((Patient)resources.get(0)).getDeceasedDateTime().getValue().equals("2015-02-14T13:42:00+10:00"));
+	}
+	
+	/*
+	 * Pagination Testcases
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+	 * 
+	 */
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
+	public void testPatientPagination_001() throws Exception {
+		
+		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
+	
+	/**
+	 * Tests a query for Patients with deathdate = 'le2015-02-14T13:42:00+10:00' which should yield correct results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	public void testPatientPagination_002() throws Exception {
+		
+		String parmName = "deathdate";
+		String parmValue = "le2015-02-14T13:42:00+10:00";
+		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertTrue(((Patient)resources.get(0)).getDeceasedDateTime().getValue().equals("2015-02-14T13:42:00+10:00"));
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
+	
+	/**
+	 * Tests a query for Patients with deathdate = 'gt2015-02-14T13:42:00+10:00' which should yield no results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
+	public void testPatientPagination_003() throws Exception {
+		
+		String parmName = "deathdate";
+		String parmValue = "gt2015-02-14T13:42:00+10:00";
+		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(resources.size(), count);
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count == 0) && (lastPgNum == 0));
 	}
 }
