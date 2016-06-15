@@ -267,12 +267,12 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=false, groups = { "cloudant-broken", "jpa-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_valueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue(),185);
+		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
 	}
 	
 	/*
