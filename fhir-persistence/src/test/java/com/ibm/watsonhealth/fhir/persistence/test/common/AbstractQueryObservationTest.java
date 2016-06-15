@@ -133,7 +133,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
     // TODO - fix this test on JPA.
-	@Test(groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString1() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Systolic");
 		assertNotNull(resources);
@@ -147,7 +147,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	// TODO - fix this test on JPA.
-	@Test(groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString2() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastolic");
 		assertNotNull(resources);
