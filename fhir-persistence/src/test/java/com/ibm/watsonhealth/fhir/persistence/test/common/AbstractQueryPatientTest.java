@@ -649,7 +649,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 */
 	
 	/**
-	 * Tests a query with a resource type but without any history query parameters. This should yield correct results using pagination
+	 * Tests retrieval of update history of a Patient. This should yield correct results using pagination
 	 * 
 	 */
 	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })

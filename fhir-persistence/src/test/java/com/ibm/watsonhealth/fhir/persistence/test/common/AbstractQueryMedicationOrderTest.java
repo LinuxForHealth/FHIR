@@ -215,7 +215,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 */
 	
 	/**
-	 * Tests a query with a resource type but without any history query parameters. This should yield correct results using pagination
+	 * Tests retrieval of update history of a MedicationOrder. This should yield correct results using pagination
 	 * 
 	 */
 	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
