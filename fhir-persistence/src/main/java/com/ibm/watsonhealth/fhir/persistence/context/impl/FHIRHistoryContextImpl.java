@@ -13,7 +13,7 @@ import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 
 public class FHIRHistoryContextImpl extends FHIRPagingContextImpl implements FHIRHistoryContext {
-    private Instant since = instant("1970-01-01T00:00:00Z");
+    private Instant since = null;
     
     public FHIRHistoryContextImpl() {
     }
