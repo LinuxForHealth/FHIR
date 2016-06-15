@@ -581,6 +581,31 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(((Patient)resources.get(0)).getAddress().get(0).getUse().getValue().value().equals("home"));
 	}
 	
+	/**
+	 * Tests a query for Patients with name = 'Clanton,Mussenden' which should yield correct results
+	 * @throws Exception
+	 */
+    
+    @Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient4" })
+    public void nameOrTest() throws Exception {
+    	List<Resource> resources = runQueryTest(Patient.class, persistence, "name", "Clanton,Mussenden");
+    	assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertTrue(((Patient)resources.get(0)).getActive().isValue().toString().equals("true"));
+    }
+    
+    /**
+	 * Tests a query for Patients with name = 'Clanton1' which should yield no results
+	 * @throws Exception
+	 */
+
+    @Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient4" })
+    public void nameTestNoResult() throws Exception {
+    	List<Resource> resources = runQueryTest(Patient.class, persistence, "name", "Clanton1");
+    	assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+    }
+	
 	/*
 	 * Pagination Testcases
 	 */
