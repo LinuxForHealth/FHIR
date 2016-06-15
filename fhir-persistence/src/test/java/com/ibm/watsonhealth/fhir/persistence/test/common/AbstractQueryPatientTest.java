@@ -23,6 +23,8 @@ import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.PatientLink;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
+import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
@@ -32,6 +34,8 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *  There will be a subclass in each persistence project.
  */
 public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
+	
+	private static Patient savedPatient;
 	
     /**
      * Tests the FHIRPersistenceCloudantImpl create API for a Patient.
@@ -49,6 +53,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         assertNotNull(patient.getMeta());
         assertNotNull(patient.getMeta().getVersionId().getValue());
         assertEquals("1", patient.getMeta().getVersionId().getValue());
+        savedPatient = patient;
     }
     
     /**
@@ -637,5 +642,30 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		int lastPgNum = context.getLastPageNumber();
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count == 0) && (lastPgNum == 0));
+	}
+	
+	/*
+	 * History Pagination Testcases
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any history query parameters. This should yield correct results using pagination
+	 * 
+	 */
+	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatientHistoryPgn_001() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_page", Collections.singletonList("1"));
+		queryParms.put("_since", Collections.singletonList("2015-06-10T21:32:59.076Z"));
+		FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
+		
+		List<Resource> resources = persistence.history(Patient.class, savedPatient.getId().getValue(), context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
 }
