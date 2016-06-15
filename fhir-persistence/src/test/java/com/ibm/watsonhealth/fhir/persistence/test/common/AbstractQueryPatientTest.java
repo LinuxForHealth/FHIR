@@ -555,7 +555,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 
-	@Test(enabled=true, groups = { "cloudant-broken", "broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(enabled=true, groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_active() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "active", "true");
 		assertNotNull(resources);
