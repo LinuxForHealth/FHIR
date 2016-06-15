@@ -159,6 +159,57 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count == 0) && (lastPgNum == 0));
 	}
+	
+	/**
+	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId/xxx' which should yield no results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	public void testDevicePagination_urlNoResults() throws Exception {
+		
+		String parmName = "url";
+		String parmValue = "http://www.testdevice.ibm.com/bogusDeviceId/xxx";
+		Class<? extends Resource> resourceType = Device.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Device.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count == 0) && (lastPgNum == 0));
+	}
+	
+	/**
+	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId' which should yield correct results using pagination
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	public void testDevicePagination_url() throws Exception {
+		
+		String parmName = "url";
+		String parmValue = "http://www.testdevice.ibm.com/bogusDeviceId";
+		Class<? extends Resource> resourceType = Device.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		
+		queryParms.put(parmName, Collections.singletonList(parmValue));
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Device.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Device)resources.get(0)).getUrl().getValue(),"http://www.testdevice.ibm.com/bogusDeviceId");
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+	}
 
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest#getPersistenceImpl()
