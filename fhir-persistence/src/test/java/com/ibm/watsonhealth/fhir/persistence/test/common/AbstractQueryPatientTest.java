@@ -453,27 +453,28 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(hnList.contains(humanName("John Doe-Smith-Jones")) == false);
 	}
     
-	/**
-	 * Tests a query for Patients with address field missing using :missing modifier which should yield correct results
-	 * @throws Exception
-	 */
-	// TODO - fix this test on JPA and Cloudant.
-	@Test(enabled = true, groups = { "cloudant-broken", "jpa-broken"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
-	public void testPatientQuery_missingModifier() throws Exception {
-		List<Resource> resources = runQueryTest(Patient.class, persistence, "address:missing", "false");
-		assertNotNull(resources);
-		//System.out.println("Size = " + resources.size());
-		assertTrue(resources.size() != 0);
-	}
-	
+	//NOT SUPPORTED ONE
+//	/**
+//	 * Tests a query for Patients with address field missing using :missing modifier which should yield correct results
+//	 * @throws Exception
+//	 */
+//	// TODO - fix this test on JPA and Cloudant.
+//	@Test(enabled = true, groups = { "cloudant-broken", "jpa-broken"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
+//	public void testPatientQuery_missingModifier() throws Exception {
+//		List<Resource> resources = runQueryTest(Patient.class, persistence, "address:missing", "false");
+//		assertNotNull(resources);
+//		//System.out.println("Size = " + resources.size());
+//		assertTrue(resources.size() != 0);
+//	}
+//	
 	/**
 	 * Tests a query for Patients with address field containing partial matches using :contains modifier which should yield correct results
 	 * @throws Exception
 	 */
-	// TODO - fix this test on JPA.
-	@Test(enabled = true, groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
+
+	@Test(enabled = true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
 	public void testPatient_containsModifier() throws Exception {
-		List<Resource> resources = runQueryTest(Patient.class, persistence, "address:contains", "Amsterdam");
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "address-city:contains", "Amsterdam");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
@@ -553,13 +554,13 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with active = 'true' which should yield correct results
 	 * @throws Exception
 	 */
-	// TODO - fix this test on JPA.
-	@Test(enabled=true, groups = { "cloudant-broken", "jpa-broken" }, dependsOnMethods = { "testCreatePatient5" })
+
+	@Test(enabled=true, groups = { "cloudant-broken", "broken" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_active() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "active", "true");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertTrue(((Patient)resources.get(0)).getActive().getId().equals("true"));
+		assertTrue(((Patient)resources.get(0)).getActive().isValue().toString().equals("true"));
 	}
 	
 	/*
