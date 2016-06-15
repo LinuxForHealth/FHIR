@@ -275,6 +275,31 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
 	}
 	
+	/**
+	 * Tests a query for an Observation with category = 'vital-signs' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_categoryCode() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "category", "vital-signs");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getCategory().getCoding().get(0).getCode().getValue(),"vital-signs");
+	}
+	
+	/**
+	 * Tests a query for an Observation with category = 'http://loinc.org|vital-signs' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant-broken", "jpa-broken" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_categorySystemCode() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "category", "http://loinc.org|vital-signs");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getCategory().getCoding().get(0).getCode().getValue(),"vital-signs");
+		assertEquals(((Observation)resources.get(0)).getCategory().getCoding().get(0).getSystem().getValue(),"http://loinc.org");
+	}
+	
 	/*
 	 * Pagination Testcases
 	 */
