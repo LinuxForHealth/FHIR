@@ -122,7 +122,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	// TODO - fix this test on JPA.
-	@Test(groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_address() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
