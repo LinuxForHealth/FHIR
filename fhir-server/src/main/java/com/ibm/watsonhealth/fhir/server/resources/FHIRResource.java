@@ -103,7 +103,7 @@ public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
-    private static final String FHIR_SPEC_VERSION = "1.0.2";
+    private static final String FHIR_SPEC_VERSION = "1.0.2 - DSTU2";
     private static final String ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
     private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
     private static final String USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
@@ -957,7 +957,6 @@ public class FHIRResource {
         
         ObjectFactory of = new ObjectFactory();
         
-        // TODO - we need to fill out more of the Conformance resource.
         Conformance conformance = of.createConformance()
                 .withDate(of.createDateTime().withValue(new Date().toString()))
                 .withFormat(
@@ -969,7 +968,7 @@ public class FHIRResource {
                 .withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION))
                 .withName(of.createString().withValue(FHIR_SERVER_NAME))
                 .withDescription(of.createString().withValue(buildDescription))
-                .withCopyright(of.createString().withValue("Copyright IBM Corporation 2016"))
+                .withCopyright(of.createString().withValue("(c) Copyright IBM Corporation 2016"))
                 .withPublisher(of.createString().withValue("IBM Corporation"))
                 .withKind(of.createConformanceStatementKind().withValue(ConformanceStatementKindList.INSTANCE))
                 .withSoftware(
