@@ -142,6 +142,23 @@ CODE_REMOVED
 CODE_REMOVED
     -->
 
+
+    
+    <!-- These JNDI entries pertain to the FHIR Notification service -->
+    <jndiEntry id="enableWebSocketNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.websocket.enabled" value="true"/>
+
+    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="false"/>
+    <!-- 
+    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="true"/>
+    <jndiEntry id="kafkaTopicName" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.topicName" value="fhirNotifications"/>
+    <jndiEntry id="kafkaConnectionInfo" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo" value="localhost:9092"/>
+    -->
+    
+    <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
+    <jndiEntry id="virtualResourceTypesFeatureEnabled" jndiName="com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled" value="true"/>
+    
+    <jndiEntry id="userDefinedSchematronEnabled" jndiName="com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled" value="true"/>
+    
     <!-- FHIR Persistence Router related config -->
     <!--
         To use the FHIR persistence router, you need to perform the following steps:
@@ -163,19 +180,22 @@ CODE_REMOVED
 CODE_REMOVED
 CODE_REMOVED
     -->
-    
-    <!-- These JNDI entries pertain to the FHIR Notification service -->
-    <jndiEntry id="enableWebSocketNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.websocket.enabled" value="true"/>
-
-    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="false"/>
     <!-- 
-    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="true"/>
-    <jndiEntry id="kafkaTopicName" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.topicName" value="fhirNotifications"/>
-    <jndiEntry id="kafkaConnectionInfo" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo" value="localhost:9092"/>
+    	Enable/disable fhir-persistence-whc-lsf interceptors. The keys to enable/disable interceptors should follow the standard: 
+    	<jndiEntry id="isClassNameEnabled" jndiName="fully.qualified.class.name.enabled" value="true"/>
     -->
+    <!-- 
+	    <jndiEntry id="isGroupPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.group.GroupPersistenceInterceptor.enabled" value="false"/>
+	    <jndiEntry id="isConsentManagementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.consent.management.ConsentManagementPersistenceInterceptor.enabled" value="false"/>
+	    <jndiEntry id="isConsentEnforcementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.consent.enforcement.ConsentEnforcementPersistenceInterceptor.enabled" value="false"/>
+    -->
+    <!-- 
+     	IBM Consent Manager related config
+    -->
+    <!-- 
+CODE_REMOVED
+CODE_REMOVED
+CODE_REMOVED
+	-->
     
-    <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
-    <jndiEntry id="virtualResourceTypesFeatureEnabled" jndiName="com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled" value="true"/>
-    
-    <jndiEntry id="userDefinedSchematronEnabled" jndiName="com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled" value="true"/>
 </server>
