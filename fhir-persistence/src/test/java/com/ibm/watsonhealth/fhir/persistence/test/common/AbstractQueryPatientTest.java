@@ -148,7 +148,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with name:contains = 'so' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_nameContains() throws Exception {
         List<Resource> resources = runQueryTest(Patient.class, persistence, "name:contains", "so");
 		assertTrue(resources.size() != 0);
