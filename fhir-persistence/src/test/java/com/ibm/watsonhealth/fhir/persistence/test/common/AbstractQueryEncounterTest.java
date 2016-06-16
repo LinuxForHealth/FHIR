@@ -65,12 +65,78 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	}
 	
 	/**
+	 * Tests a query for Encounters with length = 'eq60.0' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_EQlength() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "eq60.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
 	 * Tests a query for Encounters with length = '40.5' which should yield no results
 	 * @throws Exception
 	 */
 	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_lengthNoResults() throws Exception {
 		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "40.5");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'ne40.5' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_NElength() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "ne40.5");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'le60.0' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_LElength() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "le60.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'ge60.0' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_GElength() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "ge60.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'gt59.0' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_GTlength() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "gt59.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'lt60.0' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_LTlength() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "lt60.0");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
