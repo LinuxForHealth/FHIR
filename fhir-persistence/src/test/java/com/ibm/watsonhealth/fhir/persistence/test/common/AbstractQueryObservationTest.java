@@ -279,7 +279,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'le185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_LEvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "le185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -291,7 +291,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'lt186|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_LTvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "lt186|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -303,7 +303,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'gt186|http://unitsofmeasure.org|[lb_av]' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_GTvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "gt186|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -314,7 +314,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'ge185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_GEvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "ge185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -326,7 +326,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'eq185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_EQvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "eq185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -338,7 +338,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'ne186|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant-broken", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_NEvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "ne186|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
