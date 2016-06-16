@@ -143,6 +143,18 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
 		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Doe");
 	}
+	
+	/**
+	 * Tests a query for a Patient with name:contains = 'so' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	public void testPatient_nameContains() throws Exception {
+        List<Resource> resources = runQueryTest(Patient.class, persistence, "name:contains", "so");
+		assertTrue(resources.size() != 0);
+		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
+		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Notsowell");
+	}
 
     /**
 	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
