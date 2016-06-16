@@ -201,6 +201,18 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
 		assertEquals(hnList.get(0).getText().getValue(),"Clanton Mussenden");
 	}
+	
+	/**
+	 * Tests a query for a Patient with name = 'Clanton Mussenden' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePatient4" })
+	public void testPatientByLastName() throws Exception {
+        List<Resource> resources = runQueryTest(Patient.class, persistence, "name", "Mussenden");
+		assertTrue(resources.size() != 0);
+		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
+		assertEquals(hnList.get(0).getText().getValue(),"Clanton Mussenden");
+	}
 
     /**
 	 * Tests a query for a Patient with name = 'Clantons' which should yield no results
@@ -220,6 +232,19 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
 	public void testPatient_city() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "address-city", "Amsterdam");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getCity().getValue(),"Amsterdam");
+	}
+	
+	/**
+	 * Tests a query for a Patient with address-city = 'Amsterdam' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatientAdressByCity() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "address", "Amsterdam");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
@@ -250,6 +275,21 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertEquals(addrList.get(0).getCountry().getValue(),"NLD");
 	}
 	
+	
+	/**
+	 * Tests a query for a Patient with address-country = 'NLD' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient1" })
+	public void testPatientAdressByCountry() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "address", "NLD");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getCountry().getValue(),"NLD");
+	}
+	
+	
 	/**
 	 * Tests a query for a Patient with address-country = 'Non-existent' which should yield no results
 	 * @throws Exception
@@ -274,6 +314,20 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertEquals(addrList.get(0).getState().getValue(),"UT");
 	}
 	
+	
+	/**
+	 * Tests a query for a Patient with address-state = 'UT' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	public void testPatientAddressByState() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "address", "UT");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getState().getValue(),"UT");
+	}
+	
 	/**
 	 * Tests a query for a Patient with address-state = 'Non-existent' which should yield no results
 	 * @throws Exception
@@ -292,6 +346,19 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_postalCode() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "address-postalcode", "841131103");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getPostalCode().getValue(),"841131103");
+	}
+	
+	/**
+	 * Tests a query for a Patient with address-postalcode = '841131103' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	public void testPatientAdressByPostalCode() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "address", "841131103");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
