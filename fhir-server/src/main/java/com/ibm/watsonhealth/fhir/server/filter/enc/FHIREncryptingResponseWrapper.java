@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.server.filter.enc;
 import java.io.IOException;
 
 import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,7 @@ public class FHIREncryptingResponseWrapper extends HttpServletResponseWrapper {
         
         // Create the cipher to be used to encrypt the body.
         cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", "IBMJCEFIPS");
-        cipher.init(Cipher.DECRYPT_MODE, aesKey);
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
     }
     
     public byte[] getInitializationVector() {
@@ -37,12 +38,11 @@ public class FHIREncryptingResponseWrapper extends HttpServletResponseWrapper {
     }
 
     /**
-     * Returns the original request input stream wrapped in a CipherInputStream so that
-     * the request data will be decrypted before it is returned to the user of the input stream.
+     * Returns the original request output stream wrapped in a CipherOutputStream so that
+     * the response data will be encrypted before it is returned to the client application.
      */
     @Override
     public ServletOutputStream getOutputStream() throws IOException {
-        //return new FHIRDecryptingInputStream(new CipherInputStream(super.getInputStream(), cipher));
-        return null;
+        return new FHIREncryptingOutputStream(new CipherOutputStream(super.getOutputStream(), cipher));
     }
 }
