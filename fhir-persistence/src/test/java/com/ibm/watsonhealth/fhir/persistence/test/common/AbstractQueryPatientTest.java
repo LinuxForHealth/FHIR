@@ -382,7 +382,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	// TODO - fix this test on Cloudant.
-	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_gender() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "gender", "Male");
 		assertNotNull(resources);
@@ -395,7 +395,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	// TODO - fix this test on Cloudant.
-	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_gender_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "gender", "Female");
 		assertNotNull(resources);
@@ -407,7 +407,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	// TODO - fix this test on Cloudant.
-	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_phone() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "phone", "8016626839");
 		assertNotNull(resources);
@@ -420,7 +420,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	// TODO - fix this test on Cloudant.
-	@Test(groups = { "cloudant-broken", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
 	public void testPatient_phone_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "phone", "80166268396");
 		assertNotNull(resources);
@@ -537,7 +537,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(hnList.contains(humanName("John Doe-Smith-Jones")) == false);
 	}
     
-	//NOT SUPPORTED ONE
+	//NOT SUPPORTED YET
 //	/**
 //	 * Tests a query for Patients with address field missing using :missing modifier which should yield correct results
 //	 * @throws Exception
