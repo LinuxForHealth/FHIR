@@ -127,6 +127,24 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         assertNotNull(observation.getMeta().getVersionId().getValue());
     }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for an Observation.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateObservation5() throws Exception {
+        Observation observation = readResource(Observation.class, "Observation5.json");
+
+        persistence.create(observation);
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+    }
     	
 	/**
 	 * Tests a query for an Observation with component-value-string = 'Systolic' which should yield correct results
@@ -369,6 +387,129 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getCategory().getCoding().get(0).getCode().getValue(),"vital-signs");
 		assertEquals(((Observation)resources.get(0)).getCategory().getCoding().get(0).getSystem().getValue(),"http://hl7.org/fhir/observation-category");
+	}
+	
+	/**
+	 * Tests a query for an Observation with category = 'http://hl7.org/fhir/observation-category|vital-signs1' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_categorySystemCode_noResults() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "category", "http://hl7.org/fhir/observation-category|vital-signs1");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-code = 'http://loinc.org|8453-3' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_componentCode() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-code", "http://loinc.org|8453-3");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getCode().getCoding().get(0).getCode().getValue(),"8453-3");
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getCode().getCoding().get(0).getSystem().getValue(),"http://loinc.org");
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-quantity = '93.7||mmHg' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_componentValueQuantity() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "93.7||mmHg");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getValue().getValue()+"","93.7");
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getUnit().getValue(),"mmHg");
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-quantity = 'le93.7||mmHg' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_componentValueQuantity_LE() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "le93.7||mmHg");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getValue().getValue()+"","93.7");
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getUnit().getValue(),"mmHg");
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-quantity = 'le93.6||mmHg' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_componentValueQuantity_LE_noResults() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "le93.6||mmHg");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-quantity = 'ge93.7||mmHg' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_componentValueQuantity_GE() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "ge93.7||mmHg");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getValue().getValue()+"","93.7");
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getUnit().getValue(),"mmHg");
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-quantity = 'lt93.7||mmHg' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_componentValueQuantity_LT() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "lt93.8||mmHg");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getValue().getValue().toString(),"93.7");
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getUnit().getValue(),"mmHg");
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-quantity = 'gt93.7||mmHg' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_componentValueQuantity_GT() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "gt93||mmHg");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getValue().getValue().toString(),"93.7");
+		assertEquals(((Observation)resources.get(0)).getComponent().get(1).getValueQuantity().getUnit().getValue(),"mmHg");
+	}
+	
+	/**
+	 * Tests a query for an Observation with status = 'final' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_status() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "status", "final");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getStatus().getValue().toString().toLowerCase(), "final");
+	}
+	
+	/**
+	 * Tests a query for an Observation with status = 'draft' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_status_noResults() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "status", "draft");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
 	}
 	
 	/*
