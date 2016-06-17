@@ -6,12 +6,13 @@
 
 package com.ibm.watsonhealth.fhir.server.listener;
 
+import static com.ibm.watsonhealth.fhir.server.helper.FHIRServerUtils.getJNDIValue;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.naming.InitialContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -21,7 +22,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;;
 
 @WebListener("IBM Watson Health FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -125,28 +126,6 @@ public class FHIRServletContextListener implements ServletContextListener {
 			}
 		}
 	}
-
-    /**
-     * Retrieves the specified JNDI entry and interprets it as a value of type "T".
-     * @param jndiName the name of the JNDI entry to search for
-     * @param defaultValue the defaultValue to be returned if the JNDI entry isn't found
-     */
-    @SuppressWarnings("unchecked")
-    private <T> T getJNDIValue(String jndiName, T defaultValue) {
-        T result = defaultValue;
-        try {
-            InitialContext ctx = new InitialContext();
-            T jndiValue = (T) ctx.lookup(jndiName);
-            if (jndiValue != null ) {
-                log.fine("JNDI entry " + jndiName + "=" + jndiValue);
-                result = jndiValue;
-            }
-        } catch (Throwable t) {
-            // Ignore any exceptions while looking up the JNDI entry.
-            log.fine("Caught exception while looking up JNDI entry " + jndiName + ": " + t);
-        }
-        return result;
-    }
     
     private List<String> lookupAllowableVirtualResourceTypes() {
         String s = getJNDIValue(JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES, "*");
