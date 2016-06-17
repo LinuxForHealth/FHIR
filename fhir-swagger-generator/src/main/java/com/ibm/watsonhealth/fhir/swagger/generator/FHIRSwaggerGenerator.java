@@ -72,10 +72,10 @@ public class FHIRSwaggerGenerator {
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
         info.add("description", "IBM Watson Health Cloud FHIR Server API");
-        info.add("version", "0.1");
+        info.add("version", "1.0.0");
         swagger.add("info", info);
         
-        swagger.add("basePath", "/fhir-server/api");
+        swagger.add("basePath", "/fhir-server/api/v1");
         
         JsonArrayBuilder tags = factory.createArrayBuilder();
         JsonObjectBuilder paths = factory.createObjectBuilder();

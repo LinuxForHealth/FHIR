@@ -51,7 +51,7 @@ CODE_REMOVED
     <webContainer deferServletLoad="false"/>   
 
     <!-- This is the main FHIR Server REST API war -->
-    <webApplication contextRoot="fhir-server/api" id="fhir-server" location="fhir-server.war" name="fhir-server">
+    <webApplication contextRoot="fhir-server/api/v1" id="fhir-server" location="fhir-server.war" name="fhir-server">
         <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" privateLibraryRef="configResources"/>
         <application-bnd>
             <security-role name="FHIRUsers">

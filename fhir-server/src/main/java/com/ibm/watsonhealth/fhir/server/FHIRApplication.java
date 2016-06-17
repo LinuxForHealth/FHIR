@@ -36,7 +36,7 @@ public class FHIRApplication extends Application {
         beanConfig.setTitle("FHIR REST API");
         beanConfig.setDescription("IBM Watson Health Cloud FHIR Server");
         beanConfig.setVersion("0.1");
-        beanConfig.setBasePath("/fhir-server/api");
+        beanConfig.setBasePath("/fhir-server/api/v1");
         beanConfig.setResourcePackage(FHIRResource.class.getPackage().getName());
         beanConfig.setScan(true);
         

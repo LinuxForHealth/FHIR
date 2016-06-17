@@ -23,7 +23,7 @@ public class ParameterTestMain {
 		Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
 //		queryParameters.put("subject", Collections.singletonList("1234"));
 //		queryParameters.put("subject", Collections.singletonList("Patient/1234"));
-		queryParameters.put("subject", Collections.singletonList("http://localhost:9080/fhir-server/api/Patient/1234"));
+		queryParameters.put("subject", Collections.singletonList("http://localhost:9080/fhir-server/api//v1/Patient/1234"));
 		for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters).getSearchParameters()) {
 			System.out.println(parameter);
 			System.out.println("");
