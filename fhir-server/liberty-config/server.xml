@@ -168,7 +168,7 @@ CODE_REMOVED
         You can find below an example on how to create this configuration.
     -->
     <!--
-	    <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.router.FHIRPersistenceRouterFactory"/>
+	    <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.whclsf.router.FHIRPersistenceRouterFactory"/>
 	    <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory.clinical" id="clinicalFhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory"/>
 CODE_REMOVED
 CODE_REMOVED
@@ -185,9 +185,9 @@ CODE_REMOVED
     	<jndiEntry id="isClassNameEnabled" jndiName="fully.qualified.class.name.enabled" value="true"/>
     -->
     <!-- 
-	    <jndiEntry id="isGroupPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.group.GroupPersistenceInterceptor.enabled" value="false"/>
-	    <jndiEntry id="isConsentManagementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.consent.management.ConsentManagementPersistenceInterceptor.enabled" value="false"/>
-	    <jndiEntry id="isConsentEnforcementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.consent.enforcement.ConsentEnforcementPersistenceInterceptor.enabled" value="false"/>
+	    <jndiEntry id="isGroupPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.group.GroupPersistenceInterceptor.enabled" value="false"/>
+	    <jndiEntry id="isConsentManagementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.management.ConsentManagementPersistenceInterceptor.enabled" value="false"/>
+	    <jndiEntry id="isConsentEnforcementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.enforcement.ConsentEnforcementPersistenceInterceptor.enabled" value="false"/>
     -->
     <!-- 
      	IBM Consent Manager related config
