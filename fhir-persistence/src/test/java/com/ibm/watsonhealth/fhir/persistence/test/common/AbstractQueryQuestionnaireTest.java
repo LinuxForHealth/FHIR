@@ -101,7 +101,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnairePagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Questionnaire.class;
@@ -122,7 +122,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnairePagination_002() throws Exception {
 		
 		String parmName = "date";

@@ -134,7 +134,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Contract.class;
@@ -155,7 +155,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with subject = 'Patient/example' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractPagination_002() throws Exception {
 		
 		String parmName = "subject";
@@ -181,7 +181,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with subject = 'Patient/???' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractPagination_003() throws Exception {
 		
 		String parmName = "subject";
@@ -210,7 +210,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract with a since parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractHistoryPgn_001() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));
@@ -231,7 +231,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract without a since & count parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractHistoryPgn_002() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));
@@ -251,7 +251,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract with a count parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract", "testUpdateContract", "testUpdateContractAgain" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract", "testUpdateContract", "testUpdateContractAgain" })
 	public void testContractHistoryPgn_003() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));

@@ -70,7 +70,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
 	public void testRiskAssessmentQuery_001() throws Exception {
 		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "condition", "Condition/stroke");
 		assertNotNull(resources);
@@ -82,7 +82,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_002() throws Exception {
 		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "performer", "Practitioner/f001");
 		assertNotNull(resources);
@@ -94,7 +94,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with date = "2010-11-22" which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_003() throws Exception {
 		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-11-22");
 		assertNotNull(resources);
@@ -107,7 +107,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * because the date is invalid.
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" }, expectedExceptions = FHIRSearchException.class)
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment2" }, expectedExceptions = FHIRSearchException.class)
 	public void testRiskAssessmentQuery_004() throws Exception {
 		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-00-22");
 		assertNotNull(resources);
@@ -122,7 +122,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
 	public void testRiskAssessmentPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = RiskAssessment.class;
@@ -143,7 +143,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRiskAssessment1" })
 	public void testRiskAssessmentPagination_002() throws Exception {
 		
 		String parmName = "condition";

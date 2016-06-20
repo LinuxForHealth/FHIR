@@ -90,7 +90,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Group.class;
@@ -111,7 +111,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupPagination_002() throws Exception {
 		
 		String parmName = "member";
@@ -137,7 +137,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patint/pat4' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupPagination_003() throws Exception {
 		
 		String parmName = "member";

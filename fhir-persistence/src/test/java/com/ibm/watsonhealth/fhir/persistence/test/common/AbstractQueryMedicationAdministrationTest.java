@@ -137,7 +137,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = MedicationAdministration.class;
@@ -158,7 +158,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15T14:30:00+01:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationPagination_002() throws Exception {
 		
 		String parmName = "effectivetime";
@@ -184,7 +184,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2025-01-15T14:30:00+01:00' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationPagination_003() throws Exception {
 		
 		String parmName = "effectivetime";

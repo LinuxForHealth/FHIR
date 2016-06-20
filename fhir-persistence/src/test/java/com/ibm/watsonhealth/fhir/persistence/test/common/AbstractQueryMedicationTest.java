@@ -115,7 +115,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Medication.class;
@@ -136,7 +136,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with ingredient = 'Amoxicillin' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationPagination_002() throws Exception {
 		
 		String parmName = "ingredient";
@@ -162,7 +162,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with ingredient = 'XXX' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationPagination_003() throws Exception {
 		
 		String parmName = "ingredient";

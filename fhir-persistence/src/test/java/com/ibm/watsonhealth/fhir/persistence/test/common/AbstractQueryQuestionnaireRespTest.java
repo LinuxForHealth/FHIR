@@ -156,7 +156,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1", "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1", "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponsePagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = QuestionnaireResponse.class;
@@ -177,7 +177,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2015-11-25T18:30:50+01:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponsePagination_002() throws Exception {
 		
 		String parmName = "authored";
@@ -203,7 +203,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponsePagination_003() throws Exception {
 		
 		String parmName = "authored";

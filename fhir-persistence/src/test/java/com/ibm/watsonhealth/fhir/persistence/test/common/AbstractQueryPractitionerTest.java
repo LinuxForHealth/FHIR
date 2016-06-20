@@ -183,7 +183,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1", "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1", "testCreatePractitioner2" })
 	public void testPractitionerPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Practitioner.class;
@@ -204,7 +204,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerPagination_002() throws Exception {
 		
 		String parmName = "address-city";
@@ -233,7 +233,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Mr Adam Careful' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerPagination_003() throws Exception {
 		
 		String parmName = "name";

@@ -150,7 +150,6 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-value-string = 'Systolic' which should yield correct results
 	 * @throws Exception
 	 */
-    // TODO - fix this test on JPA.
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString1() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Systolic");
@@ -164,7 +163,6 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-value-string = 'Diastolic' which should yield correct results
 	 * @throws Exception
 	 */
-	// TODO - fix this test on JPA.
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString2() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastolic");
@@ -520,7 +518,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation4" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation4" })
 	public void testObservationPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Observation.class;
@@ -541,7 +539,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with date = '2012-09-17' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationPagination_002() throws Exception {
 		
 		String parmName = "date";
@@ -567,7 +565,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with date = '2025-09-17' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationPagination_003() throws Exception {
 		
 		String parmName = "date";

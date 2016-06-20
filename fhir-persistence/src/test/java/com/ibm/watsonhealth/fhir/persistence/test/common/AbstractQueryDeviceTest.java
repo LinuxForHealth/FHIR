@@ -18,9 +18,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Device;
-import com.ibm.watsonhealth.fhir.model.Group;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
@@ -92,7 +90,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Device.class;
@@ -113,7 +111,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_002() throws Exception {
 		
 		String parmName = "udi";
@@ -139,7 +137,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with udi = '(01)00000123000017(10)(17)120415' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_003() throws Exception {
 		
 		String parmName = "udi";
@@ -164,7 +162,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId/xxx' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_urlNoResults() throws Exception {
 		
 		String parmName = "url";
@@ -189,7 +187,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_url() throws Exception {
 		
 		String parmName = "url";
@@ -210,13 +208,4 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
-
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest#getPersistenceImpl()
-     */
-    @Override
-    public FHIRPersistence getPersistenceImpl() throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

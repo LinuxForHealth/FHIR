@@ -142,7 +142,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = MedicationOrder.class;
@@ -163,7 +163,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with medication = 'Medication/MedicationExample2' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderPagination_002() throws Exception {
 		
 		String parmName = "medication";
@@ -189,7 +189,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderPagination_003() throws Exception {
 		
 		String parmName = "datewritten";
@@ -218,7 +218,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests retrieval of update history of a MedicationOrder. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderHistoryPgn_001() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));

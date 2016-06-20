@@ -87,7 +87,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with name = 'South Wing, second floor' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_name() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "name", "South Wing, second floor");
 		assertNotNull(resources);
@@ -98,7 +98,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address-country = 'USA' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_addressCountry() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "address-country", "USA");
 		assertNotNull(resources);
@@ -109,7 +109,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address-city = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_addressCity() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
@@ -121,8 +121,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	// TODO - fix this test on JPA.
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_address() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
@@ -137,7 +136,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with organization = 'Organization/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1" })
 	public void testLocationQuery_organization() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "organization", "Organization/f001");
 		assertNotNull(resources);
@@ -149,7 +148,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with partof = 'Location/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
 	public void testLocationQuery_partof() throws Exception {
 		List<Resource> resources = runQueryTest(Location.class, persistence, "partof", "Location/1");
 		assertNotNull(resources);
@@ -163,7 +162,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 */
 	
 	//enable for cloudant once query is implemented 
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithLessDistance() throws Exception {
 		//this test will return no records
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
@@ -182,7 +181,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 *  Test query for geo location without distance - Default is 5KM
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithNoDistance() throws Exception {
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		//system:code
@@ -199,7 +198,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 *  Test query for geo location without distance - Default is 5KM
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithNoNear() throws Exception {
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		//system:code
@@ -217,7 +216,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 *  Test query for geo location without distance - Default is 5KM
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithDistanceCity() throws Exception {
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		//system:code
@@ -236,7 +235,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 *  Test query for geo location without distance - Default is 5KM
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithMultipleParameter() throws Exception {
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		//system:code
@@ -257,7 +256,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * @throws Exception
 	 */
 	
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithKMDistance() throws Exception {
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		//system:code
@@ -275,7 +274,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Test query for geo location with distance in kilometers
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithKilometersDistance() throws Exception {
 		Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		//system:code
@@ -293,7 +292,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Test query for geo location with distance in miles
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
+	@Test(groups = { "jpa"}, dependsOnMethods = { "testCreateLocation3" })
 	public void testWithMilesDistance() throws Exception {
 		Map<String, List<String>> queryParms= new HashMap<String, List<String>>();
 		//system:code
@@ -315,7 +314,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(enabled=true,groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1", "testCreateLocation2", "testCreateLocation3" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation1", "testCreateLocation2", "testCreateLocation3" })
 	public void testLocationPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Location.class;
@@ -336,7 +335,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with partof = 'Location/1' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
 	public void testLocationPagination_002() throws Exception {
 		
 		String parmName = "partof";
@@ -362,7 +361,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	 * Tests a query for a Location with partof = 'Location/999' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(enabled=true, groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateLocation2" })
 	public void testLocationPagination_003() throws Exception {
 		
 		String parmName = "partof";
