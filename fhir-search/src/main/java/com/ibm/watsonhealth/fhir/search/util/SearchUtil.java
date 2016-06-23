@@ -7,14 +7,18 @@
 package com.ibm.watsonhealth.fhir.search.util;
 
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -181,6 +185,67 @@ public class SearchUtil {
         Map<String, SearchParameter> map = searchParameterMap.get(resourceType.getSimpleName());
         if (map != null) {
             return map.get(name);
+        }
+        return null;
+    }
+    
+    public static Set<Class<?>> getValueTypes(Class<? extends Resource> resourceType, String name) {
+        Set<Class<?>> valueTypes = new HashSet<Class<?>>();
+        SearchParameter searchParameter = getSearchParameter(resourceType, name);
+        if (searchParameter != null) {
+            if (searchParameter.getXpath() != null) {
+                String xpath = searchParameter.getXpath().getValue();
+                for (String path : xpath.split("\\|")) {
+                    path = path.trim();
+                    Class<?> valueType = getValueType(resourceType, path);
+                    if (valueType != null) {
+                        valueTypes.add(valueType);
+                    }
+                }
+            }
+        }
+        return valueTypes;
+    }
+    
+    private static Class<?> getValueType(Class<? extends Resource> resourceType, String path) {        
+        Class<?> currentClass = resourceType;
+        path = path.substring(path.indexOf("/") + 1);
+        for (String component : path.split("/f:")) {
+            if (component.contains("[")) {
+                component = component.substring(0, component.indexOf("["));
+            }
+            String fieldName = component.replace("f:", "");
+            if ("class".equals(fieldName)) {
+                fieldName = "clazz";
+            } else if ("package".equals(fieldName)) {
+                fieldName = "_package";
+            } else if ("abstract".equals(fieldName)) {
+                fieldName = "_abstract";
+            }
+            Field field = getField(currentClass, fieldName);
+            if (field != null) {
+                Class<?> fieldType = field.getType();
+                java.lang.reflect.Type genericType = field.getGenericType();
+                if (genericType instanceof ParameterizedType) {
+                    ParameterizedType parameterizedType = (ParameterizedType) genericType;
+                    fieldType = (Class<?>) parameterizedType.getActualTypeArguments()[0];
+                }
+                currentClass = fieldType;
+            } else {
+                return null;
+            }
+        }
+        return currentClass;
+    }
+    
+    private static Field getField(Class<?> startingClass, String name) {
+        Class<?> currentClass = startingClass;
+        while (currentClass != null) {
+            try {
+                return currentClass.getDeclaredField(name);
+            } catch (NoSuchFieldException e) {
+            }
+            currentClass = currentClass.getSuperclass();
         }
         return null;
     }

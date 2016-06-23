@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.ibm.watsonhealth</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>1.x-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
@@ -15,6 +15,11 @@
   		<groupId>${project.groupId}</groupId>
   		<artifactId>fhir-model</artifactId>
   		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<scope>test</scope>
   	</dependency>
   </dependencies>
 </project>
