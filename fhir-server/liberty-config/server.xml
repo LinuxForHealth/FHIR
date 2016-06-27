@@ -198,8 +198,8 @@ CODE_REMOVED
 CODE_REMOVED
 	-->
     <!-- 
-        AES encryption key entry
-        <jndiEntry id="encryptionKeyConfig" jndiName="com.ibm.watsonhealth.fhir.encryption.aes.config" value="config/aesKey.txt"/>
+        Encryption properties
+        <jndiEntry id="encryptionProperties" jndiName="com.ibm.watsonhealth.fhir.encryption.properties" value="config/encryption.properties"/>
     -->
     
 </server>

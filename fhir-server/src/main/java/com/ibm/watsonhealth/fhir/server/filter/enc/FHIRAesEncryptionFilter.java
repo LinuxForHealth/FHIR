@@ -8,10 +8,11 @@ package com.ibm.watsonhealth.fhir.server.filter.enc;
 
 import static com.ibm.watsonhealth.fhir.server.helper.FHIRServerUtils.getJNDIValue;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 import javax.xml.bind.DatatypeConverter;
+
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 
 //@formatter:off
 /**
@@ -74,13 +77,13 @@ public class FHIRAesEncryptionFilter implements Filter {
     private static final Logger log = Logger.getLogger(FHIRAesEncryptionFilter.class.getName());
 
     private static final String HEADERNAME_IVSTRING = "AES-Salt";
-    private static final String JNDINAME_AESCONFIG = "com.ibm.watsonhealth.fhir.encryption.aes.config";
+    private static final String JNDINAME_AESCONFIG = "com.ibm.watsonhealth.fhir.encryption.properties";
     private static final String ENCODING_ENCRYPTION_VALUE = "aescbc256";
+    private static final String PROPNAME_ENCRYPTION_KEY = "encryption.key";
 
     // This is our 256-bit AES encryption key.
-    private SecretKeySpec aesKey;
-
-    private boolean enabled = false;
+    private SecretKeySpec aesKey = null;
+    private boolean encryptionEnabled = false;
 
     /*
      * (non-Javadoc)
@@ -93,37 +96,59 @@ public class FHIRAesEncryptionFilter implements Filter {
 
         try {
             boolean active = false;
-            
+
             // For an incoming HTTP request we'll check various headers to determine
             // if we need to encrypt/decrypt the request and/or response body.
-            if (enabled && request instanceof HttpServletRequest) {
+            if (request instanceof HttpServletRequest) {
 
-                // If the request body is encrypted, then we'll wrap it with
-                // our decrypting request wrapper.
+                // If the incoming request body is encrypted...
                 if (requestIsEncrypted((HttpServletRequest) request)) {
-                    active = true;
-                    // Retrieve the IV string from the request.
-                    // The caller SHOULD have set it in the AES-Salt request header.
-                    String ivString = getInitializationVector((HttpServletRequest) request);
-                    byte[] iv = hexToBytes(ivString);
-                    if (iv.length != 16) {
-                        throw new ServletException("Initialization Vector must be 16 bytes in length.");
+
+                    // If encryption has been enabled, then we'll set things up to decrypt the request body.
+                    if (encryptionEnabled) {
+
+                        // If the request body is encrypted, then we'll wrap it with
+                        // our decrypting request wrapper.
+                        log.finer("Request is encrypted.");
+                        active = true;
+                        // Retrieve the IV string from the request.
+                        // The caller SHOULD have set it in the AES-Salt request header.
+                        String ivString = getInitializationVector((HttpServletRequest) request);
+                        byte[] iv = hexToBytes(ivString);
+                        if (iv.length != 16) {
+                            throw new ServletException("Initialization Vector must be 16 bytes in length.");
+                        }
+                        request = new FHIRDecryptingRequestWrapper((HttpServletRequest) request, aesKey, iv);
+                        log.finer("Created decrypting request wrapper...");
+                    } else {
+                        log.warning("Content-Encoding header indicates the request has been encrypted, but the server is not enabled for encryption.");
                     }
-                    request = new FHIRDecryptingRequestWrapper((HttpServletRequest) request, aesKey, iv);
                 }
 
-                // If the response should be encrypted, then we'll wrap it with
-                // our encrypting response wrapper.
+                // If the response should be encrypted...
                 if (responseEncryptionRequired((HttpServletRequest) request)) {
-                    active = true;
-                    response = new FHIREncryptingResponseWrapper((HttpServletResponse) response, aesKey);
 
-                    // We also need to retrieve the IV used by the cipher so we can set the AES-Salt response header.
-                    byte[] iv = ((FHIREncryptingResponseWrapper) response).getInitializationVector();
-                    ((HttpServletResponse) response).setHeader(HEADERNAME_IVSTRING, bytesToHex(iv));
+                    // If encryption has been enabled then we'll set things up to encrypt the response body.
+                    if (encryptionEnabled) {
+                        log.finer("Response requires encryption.");
+                        active = true;
+                        response = new FHIREncryptingResponseWrapper((HttpServletResponse) response, aesKey);
+                        log.finer("Created encrypting response wrapper.");
 
-                    // Also set the Content-Encoding response header to indicate that the response body is encrypted.
-                    ((HttpServletResponse) response).setHeader(HttpHeaders.CONTENT_ENCODING, ENCODING_ENCRYPTION_VALUE);
+                        // We also need to retrieve the IV used by the cipher so we can set the AES-Salt response
+                        // header.
+                        byte[] iv = ((FHIREncryptingResponseWrapper) response).getInitializationVector();
+                        ((HttpServletResponse) response).setHeader(HEADERNAME_IVSTRING, bytesToHex(iv));
+
+                        // Also set the Content-Encoding response header to indicate that the response body is
+                        // encrypted.
+                        ((HttpServletResponse) response).setHeader(HttpHeaders.CONTENT_ENCODING, ENCODING_ENCRYPTION_VALUE);
+                        log.finer("Set required response headers.");
+                    } else {
+                        log.warning("Accept-Encoding header indicates the response should be encrypted, but the server is not enabled for encryption.");
+                    }
+                } else {
+                    log.finer("Response was not encrypted.");
                 }
             }
 
@@ -131,15 +156,16 @@ public class FHIRAesEncryptionFilter implements Filter {
             if (active) {
                 log.fine("Calling downstream filter chain...");
             }
-            
-            // Pass the request through to the next filter in the chain.
+
             chain.doFilter(request, response);
 
             if (active) {
                 log.fine("Returned from downstream filter chain...");
             }
         } catch (Throwable t) {
-            throw new ServletException("Unexpected error occurred while processing servlet request.", t);
+            String msg = "Unexpected error occurred while processing servlet request.";
+            log.log(Level.SEVERE, msg, t);
+            throw new ServletException(msg, t);
         } finally {
             log.exiting(this.getClass().getName(), "doFilter");
         }
@@ -163,29 +189,50 @@ public class FHIRAesEncryptionFilter implements Filter {
         log.entering(this.getClass().getName(), "init");
 
         try {
-            // Read in the config file that contains the AES encryption key.
-            String aesConfig = getJNDIValue(JNDINAME_AESCONFIG, null);
-            if (aesConfig != null && !aesConfig.isEmpty()) {
-                List<String> lines = Files.readAllLines(Paths.get(aesConfig));
-                if (lines == null || lines.isEmpty()) {
-                    throw new IllegalArgumentException("The AES config file does not contain the encryption key.");
-                }
+            Properties encryptionProps = null;
 
-                // The first line is the AES 256-bit encryption key in hex format.
-                // We need to create a SecretKey from this.
-                if (lines.get(0).length() != 64) {
+            // Get the name of the properties file from the JNDI entry.
+            String propsFile = getJNDIValue(JNDINAME_AESCONFIG, null);
+            if (propsFile != null && !propsFile.isEmpty()) {
+                try {
+                    InputStream is = new FileInputStream(propsFile);
+                    encryptionProps = new Properties();
+                    encryptionProps.load(is);
+                } catch (Throwable t) {
+                    // absorb any exceptions here.
+                }
+            }
+
+            // Retrieve the encryption key and then decode it.
+            // Note: if the string is not encoded, then decode() will simply return it as is.
+            String keyString = null;
+            if (encryptionProps != null) {
+                keyString = encryptionProps.getProperty(PROPNAME_ENCRYPTION_KEY);
+            }
+
+            if (keyString != null && !keyString.isEmpty()) {
+                keyString = FHIRUtilities.decode(keyString);
+                if (keyString.length() != 64) {
                     throw new IllegalArgumentException("The 256-bit AES encryption key must be a 32 byte value in 2-digit hex format.");
                 }
-                aesKey = new SecretKeySpec(hexToBytes(lines.get(0)), "AES");
+                
+                log.fine("Encryption key: " + keyString);
 
-                // Set our flag to indicate we're enabled for encryption/decryption.
-                enabled = true;
+                // Create our secret key object from the key string.
+                aesKey = new SecretKeySpec(hexToBytes(keyString), "AES");
+            }
+
+            // If we have a valid SecretKey, then set the 'enabled' flag.
+            if (aesKey != null) {
+                encryptionEnabled = true;
                 log.fine("Encryption filter is enabled");
             } else {
-                log.fine("Encryption filter is diabled");
+                log.fine("Encryption filter is disabled");
             }
         } catch (Throwable t) {
-            throw new ServletException("Error during servlet filter initialization.", t);
+            String msg = "Error during servlet filter initialization.";
+            log.log(Level.SEVERE, msg, t);
+            throw new ServletException(msg, t);
         } finally {
             log.exiting(this.getClass().getName(), "init");
         }

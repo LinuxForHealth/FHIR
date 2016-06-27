@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.server.filter.enc;
 
 import java.io.IOException;
 import java.security.AlgorithmParameters;
+import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * @author padams
  */
 public class FHIRDecryptingRequestWrapper extends HttpServletRequestWrapper {
+    private static final Logger log = Logger.getLogger(FHIRDecryptingRequestWrapper.class.getName());
 
     private Cipher cipher;
     
@@ -37,11 +39,14 @@ public class FHIRDecryptingRequestWrapper extends HttpServletRequestWrapper {
     public FHIRDecryptingRequestWrapper(HttpServletRequest request, SecretKey aesKey, byte[] iv) throws Exception {
         super(request);
         
+        log.finer("Initializing new FHIRDecryptingRequestWrapper instance.");
+        
         // Create the cipher to be used to decrypt the body.
         AlgorithmParameters params = AlgorithmParameters.getInstance("AES", "IBMJCEFIPS");
         params.init(new IvParameterSpec(iv));
         cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", "IBMJCEFIPS");
         cipher.init(Cipher.DECRYPT_MODE, aesKey, params);
+        log.finer("Initialized Cipher for AES decryption.");
     }
 
     /**
@@ -50,6 +55,12 @@ public class FHIRDecryptingRequestWrapper extends HttpServletRequestWrapper {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        return new FHIRDecryptingInputStream(new CipherInputStream(super.getInputStream(), cipher));
+        log.entering(this.getClass().getName(), "getInputStream");
+        try {
+            log.finer("Returning instance of FHIRDecryptingInputStream.");
+            return new FHIRDecryptingInputStream(new CipherInputStream(super.getInputStream(), cipher));
+        } finally {
+            log.exiting(this.getClass().getName(), "getInputStream");
+        }
     }
 }

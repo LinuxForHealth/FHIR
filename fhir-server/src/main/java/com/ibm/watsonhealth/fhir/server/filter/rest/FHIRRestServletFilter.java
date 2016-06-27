@@ -102,13 +102,16 @@ public class FHIRRestServletFilter implements Filter {
     private void displayRequestBody(ServletRequest request) throws IOException {
         StringBuffer sb = new StringBuffer();
         InputStream requestBodyIS = request.getInputStream();
-        int b = requestBodyIS.read();
-        while (b != -1) {
-            sb.append((char) b);
-            b = requestBodyIS.read();
+        try {
+            int b = requestBodyIS.read();
+            while (b != -1) {
+                sb.append((char) b);
+                b = requestBodyIS.read();
+            }
+        } finally {
+            requestBodyIS.close();
+            log.info("Request body contents: \n<\n" + sb.toString() + "\n,> (" + sb.toString().length());
         }
-        requestBodyIS.close();
-        log.info("Request body contents: \n<" + sb.toString() + ">");
     }
 
     /**

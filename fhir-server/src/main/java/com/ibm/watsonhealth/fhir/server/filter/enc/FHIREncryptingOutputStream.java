@@ -25,7 +25,7 @@ public class FHIREncryptingOutputStream extends ServletOutputStream {
 
     private CipherOutputStream cos;
 
-    public FHIREncryptingOutputStream() {
+    protected FHIREncryptingOutputStream() {
     }
     
     public FHIREncryptingOutputStream(CipherOutputStream cos) {

@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.server.filter.enc;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.crypto.CipherInputStream;
 import javax.servlet.ReadListener;
@@ -22,10 +24,16 @@ import javax.servlet.ServletInputStream;
  * @author padams
  */
 public class FHIRDecryptingInputStream extends ServletInputStream {
+    private static final Logger log = Logger.getLogger(FHIRDecryptingInputStream.class.getName());
     
-    private CipherInputStream cis;
+    private static int EOF = -1;
 
-    public FHIRDecryptingInputStream() {
+    private CipherInputStream cis;
+    
+    // Used for tracing only
+    private ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+    protected FHIRDecryptingInputStream() {
     }
     
     public FHIRDecryptingInputStream(CipherInputStream cis) {
@@ -37,11 +45,7 @@ public class FHIRDecryptingInputStream extends ServletInputStream {
      */
     @Override
     public boolean isFinished() {
-        try {
-            return cis.available() == 0;
-        } catch (Throwable t) {
-            throw new RuntimeException("Unexpected error while calling CipherInputStream.available().", t);
-        }
+        return false;
     }
 
     /* (non-Javadoc)
@@ -65,17 +69,29 @@ public class FHIRDecryptingInputStream extends ServletInputStream {
      */
     @Override
     public int read() throws IOException {
-        return cis.read();
+        int b = cis.read();
+        if (b != EOF) {
+            baos.write(b);
+        }
+        return b;
     }
     
     @Override
     public int read(byte b[]) throws IOException {
-        return cis.read(b);
+        int n = cis.read(b);
+        if (n != EOF) {
+            baos.write(b, 0, n);
+        }
+        return n;
     }
     
     @Override
     public int read(byte b[], int off, int len) throws IOException {
-        return cis.read(b, off, len);
+        int n = cis.read(b, off, len);
+        if (n != EOF) {
+            baos.write(b, off, n);
+        }
+        return n;
     }
     
     @Override
@@ -90,7 +106,11 @@ public class FHIRDecryptingInputStream extends ServletInputStream {
     
     @Override
     public void close() throws IOException {
+        log.entering(this.getClass().getName(), "close");
+        String readBuf = baos.toString();
+        log.finer(">>> decrypted message: \n" + readBuf);
         cis.close();
+        log.exiting(this.getClass().getName(), "close");
     }
     
     @Override
