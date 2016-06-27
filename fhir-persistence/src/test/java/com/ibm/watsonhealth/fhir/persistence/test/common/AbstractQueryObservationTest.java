@@ -10,6 +10,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -517,6 +518,35 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_status_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "status", "draft");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with a value-range of 3.7, which should be within the high and low of the
+	 * Observation's valueRange.
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_valueRange() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-range", "3.7|http://loinc.org|v15074-8");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		Observation observation = (Observation) resources.get(0);
+		BigDecimal low = observation.getValueRange().getLow().getValue().getValue();
+		BigDecimal high = observation.getValueRange().getHigh().getValue().getValue();
+		assertTrue(low.compareTo(new BigDecimal(3.7)) <= 0);
+		assertTrue(high.compareTo(new BigDecimal(3.7)) >=0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with a value-range of 97.3, which should be outside of the high and low of the
+	 * Observation's valueRange.
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation5" })
+	public void testObservationQuery_valueRange_noResults() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-range", "97.3|http://loinc.org|v15074-8");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}

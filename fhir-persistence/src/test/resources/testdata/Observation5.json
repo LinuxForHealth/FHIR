@@ -13,6 +13,20 @@
         "reference":"Patient/Patient-18271",
         "display":"Geraldine Daniel Herring MD"
     },
+        "valueRange" : {
+        "low" : {
+            "system":"http://loinc.org",
+             "code":"v15074-8",
+            "value" : 3.0,
+            "unit" : "mg"
+        },
+        "high" : {
+            "value" : 7.0,
+             "system":"http://loinc.org",
+             "code":"v15074-8",
+            "unit" : "mg"
+        }
+    },
         "code" : {
             "coding" : [ {
                 "system" : "http://loinc.org",
