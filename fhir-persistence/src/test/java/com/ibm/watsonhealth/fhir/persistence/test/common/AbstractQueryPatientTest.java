@@ -781,4 +781,30 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
+	
+	/*
+	 * Performance testcases for Pagination - create 1000 records of the same resource type and retrieve count
+	 * @throws Exception
+	 */
+    @Test(groups = { "cloudant-broken", "jpa" })
+    public void testPerformanceTestPatient() throws Exception {
+   		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+
+   		for(int i=0; i<1000; i++)
+   			persistence.create(patient);
+        
+   		Class<? extends Resource> resourceType = Patient.class;
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		context.setPageNumber(1);
+		List<Resource> resources = persistence.search(Patient.class, context);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		long count = context.getTotalCount();
+		int pageSize = context.getPageSize();
+		int lastPgNum = context.getLastPageNumber();
+		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+		assertTrue(count >= 1000);
+		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
 }
