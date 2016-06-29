@@ -226,8 +226,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		List<Resource> resources = persistence.search(Location.class, context);
 		assertNotNull(resources);
-		//I know that it will not be match..
-		assertTrue(resources.size() == 0);
+		assertTrue(resources.size() != 0);
 	}
 	
 	
