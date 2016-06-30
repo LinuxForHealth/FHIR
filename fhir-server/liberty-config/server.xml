@@ -199,7 +199,10 @@ CODE_REMOVED
 	-->
     <!-- 
         Encryption properties
-        <jndiEntry id="encryptionProperties" jndiName="com.ibm.watsonhealth.fhir.encryption.properties" value="config/encryption.properties"/>
+        <jndiEntry id="encryptionEnabled" jndiName="com.ibm.watsonhealth.fhir.encryption.enabled" value="true"/>
+        <jndiEntry id="encryptionKeystoreLocation" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.location" value="resources/security/fhirkeys.jceks"/>
+CODE_REMOVED
+CODE_REMOVED
     -->
     
 </server>

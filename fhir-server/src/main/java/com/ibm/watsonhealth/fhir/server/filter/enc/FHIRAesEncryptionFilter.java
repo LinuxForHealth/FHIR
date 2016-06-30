@@ -8,10 +8,7 @@ package com.ibm.watsonhealth.fhir.server.filter.enc;
 
 import static com.ibm.watsonhealth.fhir.server.helper.FHIRServerUtils.getJNDIValue;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -76,10 +73,25 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 public class FHIRAesEncryptionFilter implements Filter {
     private static final Logger log = Logger.getLogger(FHIRAesEncryptionFilter.class.getName());
 
+    // <jndiEntry id="encryptionEnabled" jndiName="com.ibm.watsonhealth.fhir.encryption.enabled" value="true"/>
+    // <jndiEntry id="encryptionKeystoreLocation" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.location"
+    // value="resources/security/fhirkeys.jceks"/>
+    // <jndiEntry id="encryptionKeystorePassword" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.password"
+CODE_REMOVED
+    // <jndiEntry id="encryptionKeystorePassword" jndiName="com.ibm.watsonhealth.fhir.encryption.key.password"
+CODE_REMOVED
     private static final String HEADERNAME_IVSTRING = "AES-Salt";
-    private static final String JNDINAME_AESCONFIG = "com.ibm.watsonhealth.fhir.encryption.properties";
     private static final String ENCODING_ENCRYPTION_VALUE = "aescbc256";
-    private static final String PROPNAME_ENCRYPTION_KEY = "encryption.key";
+    private static final String ENCRYPTION_KEY_ALIAS = "fhirEncryptionKey";
+    private static final String ENCRYPTION_KSLOC_DEFAULT = "resources/security/fhirkeys.jceks";
+    private static final String ENCRYPTION_KEYSTORE_TYPE = "JCEKS";
+    private static final String ENCRYPTION_KEY_ALGORITHM = "AES";
+
+    // The names of our JNDI entries for configuration.
+    private static final String JNDINAME_ENCRYPTION_ENABLED = "com.ibm.watsonhealth.fhir.encryption.enabled";
+    private static final String JNDINAME_ENCRYPTION_KSLOC = "com.ibm.watsonhealth.fhir.encryption.keystore.location";
+    private static final String JNDINAME_ENCRYPTION_KSPW = "com.ibm.watsonhealth.fhir.encryption.keystore.password";
+    private static final String JNDINAME_ENCRYPTION_KEYPW = "com.ibm.watsonhealth.fhir.encryption.key.password";
 
     // This is our 256-bit AES encryption key.
     private SecretKeySpec aesKey = null;
@@ -189,47 +201,34 @@ public class FHIRAesEncryptionFilter implements Filter {
         log.entering(this.getClass().getName(), "init");
 
         try {
-            Properties encryptionProps = null;
+            // Check to see if encryption is enabled.
+            // If yes, then grab the rest of our config entries retrieve the key.
+            encryptionEnabled = getJNDIValue(JNDINAME_ENCRYPTION_ENABLED, Boolean.FALSE);
+            if (encryptionEnabled) {
+                // Keystore location.
+                String keystoreLocation = getJNDIValue(JNDINAME_ENCRYPTION_KSLOC, ENCRYPTION_KSLOC_DEFAULT);
 
-            // Get the name of the properties file from the JNDI entry.
-            String propsFile = getJNDIValue(JNDINAME_AESCONFIG, null);
-            if (propsFile != null && !propsFile.isEmpty()) {
-                try {
-                    InputStream is = new FileInputStream(propsFile);
-                    encryptionProps = new Properties();
-                    encryptionProps.load(is);
-                } catch (Throwable t) {
-                    // absorb any exceptions here.
+                // Keystore password.
+                String keystorePassword = getJNDIValue(JNDINAME_ENCRYPTION_KSPW, null);
+                if (keystorePassword == null || keystorePassword.isEmpty()) {
+                    throw new IllegalArgumentException("Missing value for JNDI entry: " + JNDINAME_ENCRYPTION_KSPW);
                 }
-            }
 
-            // Retrieve the encryption key and then decode it.
-            // Note: if the string is not encoded, then decode() will simply return it as is.
-            String keyString = null;
-            if (encryptionProps != null) {
-                keyString = encryptionProps.getProperty(PROPNAME_ENCRYPTION_KEY);
-            }
-
-            if (keyString != null && !keyString.isEmpty()) {
-                keyString = FHIRUtilities.decode(keyString);
-                if (keyString.length() != 64) {
-                    throw new IllegalArgumentException("The 256-bit AES encryption key must be a 32 byte value in 2-digit hex format.");
+                // Key password (associated with the entry containing the key).
+                String keyPassword = getJNDIValue(JNDINAME_ENCRYPTION_KEYPW, null);
+                if (keyPassword == null || keyPassword.isEmpty()) {
+                    throw new IllegalArgumentException("Missing value for JNDI entry: " + JNDINAME_ENCRYPTION_KEYPW);
                 }
-                
-                log.fine("Encryption key: " + keyString);
 
-                // Create our secret key object from the key string.
-                aesKey = new SecretKeySpec(hexToBytes(keyString), "AES");
+                // Now load up the keystore file and retrieve our encryption key.
+                aesKey = FHIRUtilities.retrieveEncryptionKeyFromKeystore(keystoreLocation, keystorePassword, ENCRYPTION_KEY_ALIAS, keyPassword, ENCRYPTION_KEYSTORE_TYPE, ENCRYPTION_KEY_ALGORITHM);
             }
 
-            // If we have a valid SecretKey, then set the 'enabled' flag.
-            if (aesKey != null) {
-                encryptionEnabled = true;
-                log.fine("Encryption filter is enabled");
-            } else {
-                log.fine("Encryption filter is disabled");
-            }
+            // Log a trace message indicate whether we're enabled or not.
+            log.fine("Encryption filter is " + (encryptionEnabled ? "enabled" : "disabled"));
+
         } catch (Throwable t) {
+            encryptionEnabled = false;
             String msg = "Error during servlet filter initialization.";
             log.log(Level.SEVERE, msg, t);
             throw new ServletException(msg, t);

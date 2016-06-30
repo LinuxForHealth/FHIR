@@ -7,15 +7,22 @@
 package com.ibm.watsonhealth.fhir.core;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.security.Key;
+import java.security.KeyStore;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.TimeZone;
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
@@ -271,5 +278,57 @@ public class FHIRUtilities {
     
     public static String formatCalendarGMT(XMLGregorianCalendar calendar) {
     	return calendarSimpleDateFormatGMT.get().format(calendar.toGregorianCalendar().getTimeInMillis());
+    }
+
+    /**
+     * Retrieves an encryption key from the specified keystore file, using the specified
+     * alias and password values.
+     * @param keystoreLocation the name of the keystore file
+     * @param keystorePassword the keystore's password
+     * @param keyAlias the alias name of the entry containing the desired key
+     * @param keyPassword the password associated with the key's entry in the keystore file
+     * @return a SecretKeySpec object containing the AES encryption key retrieved from the keystore file
+     */
+    public static SecretKeySpec retrieveEncryptionKeyFromKeystore(String keystoreLocation, String keystorePassword, String keyAlias, String keyPassword, String storeType, String keyAlgorithm) throws Exception {
+        SecretKeySpec secretKey = null;
+        
+        // First, search the classpath for the keystore file.
+        InputStream is = null;
+        URL url = Thread.currentThread().getContextClassLoader().getResource(keystoreLocation);
+        if (url != null) {
+            is = url.openStream();
+        }
+
+        // If the classpath search failed, try to open the file directly.
+        if (is == null) {
+            File f = new File(keystoreLocation);
+            if (f.exists()) {
+                is = new FileInputStream(f);
+            }
+        }
+        
+        // If we couldn't open the file, throw an exception now.
+        if (is == null) {
+            throw new FileNotFoundException("Keystore file '" + keystoreLocation + "' was not found.");
+        }
+        
+        // Load up the keystore.
+        KeyStore keystore = KeyStore.getInstance(storeType);
+        keystore.load(is, keystorePassword.toCharArray());
+        
+        // Retrieve the key entry using the keyAlias
+        if (keystore.containsAlias(keyAlias)) {
+            Key keyEntry = keystore.getKey(keyAlias, keyPassword.toCharArray());
+            if (keyEntry == null) {
+                throw new IllegalStateException("Could not retrieve encryption key for alias: "+ keyAlias);
+            }
+            byte[] key = keyEntry.getEncoded();
+        
+            // Create our secret key object from the key's byte array stored in the keystore file.
+            secretKey = new SecretKeySpec(key, keyAlgorithm);
+        } else {
+            throw new IllegalArgumentException("Keystore file does not contain the required key alias: " + keyAlias);
+        }
+        return secretKey;
     }
 }

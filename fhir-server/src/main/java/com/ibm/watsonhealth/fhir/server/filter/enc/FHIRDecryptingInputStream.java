@@ -24,7 +24,6 @@ import javax.servlet.ServletInputStream;
  * @author padams
  */
 public class FHIRDecryptingInputStream extends ServletInputStream {
-    private static final Logger log = Logger.getLogger(FHIRDecryptingInputStream.class.getName());
     
     private static int EOF = -1;
 
@@ -106,11 +105,8 @@ public class FHIRDecryptingInputStream extends ServletInputStream {
     
     @Override
     public void close() throws IOException {
-        log.entering(this.getClass().getName(), "close");
-        String readBuf = baos.toString();
-        log.finer(">>> decrypted message: \n" + readBuf);
+        // String readBuf = baos.toString();
         cis.close();
-        log.exiting(this.getClass().getName(), "close");
     }
     
     @Override

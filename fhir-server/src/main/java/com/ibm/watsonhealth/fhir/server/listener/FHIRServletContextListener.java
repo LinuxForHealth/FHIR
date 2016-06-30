@@ -8,13 +8,17 @@ package com.ibm.watsonhealth.fhir.server.listener;
 
 import static com.ibm.watsonhealth.fhir.server.helper.FHIRServerUtils.getJNDIValue;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebListener;
 import javax.websocket.server.ServerContainer;
 
@@ -24,18 +28,19 @@ import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaP
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;;
 
-@WebListener("IBM Watson Health FHIR Server Servlet Context Listener")
+@WebListener("IBM Watson Health Cloud FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
 	
 	private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
 	private static final String JNDINAME_WEBSOCKET_ENABLED = "com.ibm.watsonhealth.fhir.notification.websocket.enabled";
     private static final String JNDINAME_KAFKA_ENABLED = "com.ibm.watsonhealth.fhir.notification.kafka.enabled";
-    private static final String JNDINAME_KAFKA_TOPICNAME = "com.ibm.watsonhealth.fhir.notification.kafka.topicName";
-    private static final String JNDINAME_KAFKA_CONNINFO = "com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo";
+    // private static final String JNDINAME_KAFKA_TOPICNAME = "com.ibm.watsonhealth.fhir.notification.kafka.topicName";
+    // private static final String JNDINAME_KAFKA_CONNINFO = "com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo";
+    private static final String JNDINAME_KAFKA_PROPERTIES = "com.ibm.watsonhealth.fhir.notification.kafka.properties";
 
-    private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
-    private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
+    // private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    // private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
     
 	private static final String JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
     private static final String JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
@@ -91,15 +96,31 @@ public class FHIRServletContextListener implements ServletContextListener {
             
             // If configured, start up our Kafka notification publisher.
             if (kafkaEnabled) {
+                
+                // Read in the kafka properties file.
+                Properties kafkaProps = new Properties();
+                String propsFile = getJNDIValue(JNDINAME_KAFKA_PROPERTIES, null);
+                if (propsFile != null && !propsFile.isEmpty()) {
+                    try {
+                        InputStream is = new FileInputStream(propsFile);
+                        kafkaProps = new Properties();
+                        kafkaProps.load(is);
+                    } catch (Throwable t) {
+                        String msg = "Unexpected exception while reading Kafka properties file: ";
+                        log.log(Level.SEVERE, msg, t);
+                        throw new ServletException(msg, t);
+                    }
+                }
+                
                 log.info("Initializing Kafka notification publisher.");
-                String topicName = getJNDIValue(JNDINAME_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
-                String connectionInfo = getJNDIValue(JNDINAME_KAFKA_CONNINFO, DEFAULT_KAFKA_CONNINFO);
-                kafkaPublisher = new FHIRNotificationKafkaPublisher(topicName, connectionInfo);
+                kafkaPublisher = new FHIRNotificationKafkaPublisher(kafkaProps);
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
-		} catch (Exception e) {
-			// ignore exceptions here
+		} catch(Throwable t) {
+		    String msg = "Encountered an exception while initializing the servlet context.";
+		    log.log(Level.SEVERE, msg, t);
+		    throw new RuntimeException(msg, t);
 		} finally {
 			if (log.isLoggable(Level.FINER)) {
 				log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
