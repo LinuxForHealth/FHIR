@@ -27,21 +27,23 @@ import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationUtil;
 public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscriber {
     private static final Logger log = Logger.getLogger(FHIRNotificationKafkaPublisher.class.getName());
 
+    private static final String PROPNAME_TOPICNAME = "topic.name";
+
     private static FHIRNotificationService service = FHIRNotificationService.getInstance();
 
     private String topicName = null;
-    private String connectionInfo = null;
     private Producer<String, String> producer = null;
-    private Properties connectionProps = null;
+
+    private Properties kafkaProps = null;
 
     // "Hide" the default ctor.
     protected FHIRNotificationKafkaPublisher() {
     }
 
-    public FHIRNotificationKafkaPublisher(String topicName, String connInfo) {
-        log.entering(this.getClass().getName(), "ctor", new Object[] { topicName, connInfo });
+    public FHIRNotificationKafkaPublisher(Properties kafkaProps) {
+        log.entering(this.getClass().getName(), "ctor");
         try {
-            init(topicName, connInfo);
+            init(kafkaProps);
         } finally {
             log.exiting(this.getClass().getName(), "ctor");
         }
@@ -50,30 +52,44 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
     /**
      * Performs any required initialization to allow us to publish events to the topic.
      */
-    private void init(String topic, String connInfo) {
+    private void init(Properties kafkaProps) {
         log.entering(this.getClass().getName(), "init");
         try {
-            this.topicName = topic;
-            this.connectionInfo = connInfo;
+            this.kafkaProps = kafkaProps;
+            log.finer("Kafka publisher is configured with the following properties:\n" + this.kafkaProps.toString());
+            
+            // We'll hard-code some properties to ensure they are set correctly.
+            this.kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+            this.kafkaProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+            this.kafkaProps.put(ProducerConfig.CLIENT_ID_CONFIG, "fhir-server");
+            
+            // Next, we'll retrieve the topic name property and then remove it from the properties object
+            // as it is not an official kafka property.
+            topicName = this.kafkaProps.getProperty(PROPNAME_TOPICNAME);
+            if (topicName == null) {
+                throw new IllegalStateException("The " + PROPNAME_TOPICNAME + " property was missing from the Kafka properties.");
+            }
 
+            String bootstrapServers = this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG);
+            if (bootstrapServers == null) {
+                throw new IllegalStateException("The " + ProducerConfig.BOOTSTRAP_SERVERS_CONFIG + " property was missing from the Kafka properties.");
+            }
+            
             // Set up our properties for connecting to the kafka server.
-            connectionProps = new Properties();
-            connectionProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, connectionInfo);
-            connectionProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
-            connectionProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
-            connectionProps.put(ProducerConfig.CLIENT_ID_CONFIG, "fhir-server");
+            // connectionProps = new Properties();
+            // connectionProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, connectionInfo);
             // connectionProps.put(ProducerConfig.ACKS_CONFIG, "1");
             // connectionProps.put(ProducerConfig.RETRIES_CONFIG, "0");
             // connectionProps.put(ProducerConfig.LINGER_MS_CONFIG, "0");
             // connectionProps.put(ProducerConfig.BATCH_SIZE_CONFIG, "16384");
 
             // Create our producer object to be used for publishing.
-            producer = new KafkaProducer<String, String>(connectionProps);
+            producer = new KafkaProducer<String, String>(this.kafkaProps);
 
             // Register this Kafka implementation as a "subscriber" with our Notification Service.
             // This means that our "notify" method will be called when the server publishes an event.
             service.subscribe(this);
-            log.info("Initialized Kafka publisher for topic '" + connectionInfo + "/" + topicName + "'.");
+            log.info("Initialized Kafka publisher for topic '" + topicName + "' using bootstrap servers: " + bootstrapServers + ".");
         } catch (Throwable t) {
             log.log(Level.SEVERE, "Caught exception while initializing Kafka publisher: ", t);
         } finally {
@@ -88,7 +104,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         log.entering(this.getClass().getName(), "shutdown");
 
         try {
-            log.fine("Shutting down Kafka publisher for topic: " + connectionInfo + "/" + topicName);
+            log.fine("Shutting down Kafka publisher for topic: '" + topicName + "'.");
             if (producer != null) {
                 producer.close();
             }
@@ -106,7 +122,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
     @Override
     public void notify(FHIRNotificationEvent event) throws FHIRNotificationException {
         log.entering(this.getClass().getName(), "notify");
-        String topicId = connectionInfo + "/" + topicName;
+        String topicId = "[" + this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG) + "]/" + topicName;
         try {
             String jsonString = FHIRNotificationUtil.toJsonString(event, true);
             log.fine("Publishing kafka notification event to topic '" + topicId + "', message: " + jsonString);
