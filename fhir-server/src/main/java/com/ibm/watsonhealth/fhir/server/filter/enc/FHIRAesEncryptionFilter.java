@@ -159,8 +159,6 @@ CODE_REMOVED
                     } else {
                         log.warning("Accept-Encoding header indicates the response should be encrypted, but the server is not enabled for encryption.");
                     }
-                } else {
-                    log.finer("Response was not encrypted.");
                 }
             }
 

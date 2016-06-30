@@ -28,12 +28,11 @@ public class FHIRServerUtils {
             InitialContext ctx = new InitialContext();
             T jndiValue = (T) ctx.lookup(jndiName);
             if (jndiValue != null ) {
-                log.fine("JNDI entry " + jndiName + "=" + jndiValue);
                 result = jndiValue;
             }
         } catch (Throwable t) {
             // Ignore any exceptions while looking up the JNDI entry.
-            log.fine("Caught exception while looking up JNDI entry " + jndiName + ": " + t);
+            log.finer("Caught exception while looking up JNDI entry " + jndiName + ": " + t);
         }
         return result;
     }
