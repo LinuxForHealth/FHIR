@@ -212,7 +212,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_PatientNoResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
