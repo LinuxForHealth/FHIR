@@ -50,6 +50,11 @@
             <outputDirectory></outputDirectory>
             <fileMode>0755</fileMode>
         </file>
+        <file>
+            <source>src/main/resources/install.bat</source>
+            <outputDirectory></outputDirectory>
+            <fileMode>0755</fileMode>
+        </file>
 		<file>
 			<source>../fhir-server/target/fhir-server.war</source>
 			<outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
