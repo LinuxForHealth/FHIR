@@ -15,6 +15,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationSubscriber;
@@ -66,23 +67,28 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
             // Next, we'll retrieve the topic name property and then remove it from the properties object
             // as it is not an official kafka property.
             topicName = this.kafkaProps.getProperty(PROPNAME_TOPICNAME);
-            if (topicName == null) {
+            if (topicName != null) {
+                this.kafkaProps.remove(PROPNAME_TOPICNAME);
+            } else {
                 throw new IllegalStateException("The " + PROPNAME_TOPICNAME + " property was missing from the Kafka properties.");
             }
 
+            // Make sure that the properties file contains the bootstrap.servers property at a minimum.
             String bootstrapServers = this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG);
             if (bootstrapServers == null) {
                 throw new IllegalStateException("The " + ProducerConfig.BOOTSTRAP_SERVERS_CONFIG + " property was missing from the Kafka properties.");
             }
             
-            // Set up our properties for connecting to the kafka server.
-            // connectionProps = new Properties();
-            // connectionProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, connectionInfo);
-            // connectionProps.put(ProducerConfig.ACKS_CONFIG, "1");
-            // connectionProps.put(ProducerConfig.RETRIES_CONFIG, "0");
-            // connectionProps.put(ProducerConfig.LINGER_MS_CONFIG, "0");
-            // connectionProps.put(ProducerConfig.BATCH_SIZE_CONFIG, "16384");
-
+            // Next, let's decode any encoded property values.
+            for (String key : this.kafkaProps.stringPropertyNames()) {
+                String value = this.kafkaProps.getProperty(key);
+                if (FHIRUtilities.isEncoded(value)) {
+                    value = FHIRUtilities.decode(value);
+                    this.kafkaProps.setProperty(key, value);
+                    log.finer("Decoded kafka property: " + key);
+                }
+            }
+            
             // Create our producer object to be used for publishing.
             producer = new KafkaProducer<String, String>(this.kafkaProps);
 

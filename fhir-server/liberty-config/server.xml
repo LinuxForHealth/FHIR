@@ -147,11 +147,9 @@ CODE_REMOVED
     <!-- These JNDI entries pertain to the FHIR Notification service -->
     <jndiEntry id="enableWebSocketNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.websocket.enabled" value="true"/>
 
-    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="false"/>
     <!-- 
     <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="true"/>
-    <jndiEntry id="kafkaTopicName" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.topicName" value="fhirNotifications"/>
-    <jndiEntry id="kafkaConnectionInfo" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo" value="localhost:9092"/>
+    <jndiEntry id="kafkaProperties" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.properties" value="${server.config.dir}/config/kafka.properties"/>
     -->
     
     <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>

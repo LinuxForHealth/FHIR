@@ -35,13 +35,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 	private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
 	private static final String JNDINAME_WEBSOCKET_ENABLED = "com.ibm.watsonhealth.fhir.notification.websocket.enabled";
     private static final String JNDINAME_KAFKA_ENABLED = "com.ibm.watsonhealth.fhir.notification.kafka.enabled";
-    // private static final String JNDINAME_KAFKA_TOPICNAME = "com.ibm.watsonhealth.fhir.notification.kafka.topicName";
-    // private static final String JNDINAME_KAFKA_CONNINFO = "com.ibm.watsonhealth.fhir.notification.kafka.connectionInfo";
     private static final String JNDINAME_KAFKA_PROPERTIES = "com.ibm.watsonhealth.fhir.notification.kafka.properties";
 
-    // private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
-    // private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
-    
 	private static final String JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
     private static final String JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
     
@@ -55,6 +50,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
+		    log.fine("Current working directory: " + System.getProperty("user.dir"));
+		    
 		    log.fine("Initializing FHIRUtil...");
 		    FHIRUtil.init();
 		    
