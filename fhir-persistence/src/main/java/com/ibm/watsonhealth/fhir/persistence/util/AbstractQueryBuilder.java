@@ -74,7 +74,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 		final String METHODNAME = "buildQueryParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
-		T1 jsonQueryParm = null;
+		T1 databaseQueryParm = null;
 		Parameter.Type type;
 		
 		
@@ -82,28 +82,28 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 			type = queryParm.getType();
 				
 			switch(type) {
-			case STRING:    jsonQueryParm = this.processStringParm(queryParm);
+			case STRING:    databaseQueryParm = this.processStringParm(queryParm);
 				    break;
-			case REFERENCE: jsonQueryParm = this.processReferenceParm(queryParm);
+			case REFERENCE: databaseQueryParm = this.processReferenceParm(queryParm);
 					    break;
-			case DATE:      jsonQueryParm = this.processDateParm(queryParm);
+			case DATE:      databaseQueryParm = this.processDateParm(queryParm);
 			        break;
-			case TOKEN:     jsonQueryParm = this.processTokenParm(queryParm);
+			case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm);
 					break;
-			case NUMBER:    jsonQueryParm = this.processNumberParm(queryParm);
+			case NUMBER:    databaseQueryParm = this.processNumberParm(queryParm);
 					break;
-			case QUANTITY:  jsonQueryParm = this.processQuantityParm(resourceType, queryParm);
+			case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm);
 					break;
-			case URI:  		jsonQueryParm = this.processUriParm(queryParm);
+			case URI:  		databaseQueryParm = this.processUriParm(queryParm);
 					break;
 			
 			default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
 			}
 		}
 		finally {
-		log.exiting(CLASSNAME, METHODNAME, new Object[] {jsonQueryParm});
+		log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
 		}
-		return jsonQueryParm;
+		return databaseQueryParm;
 		}
 	
 	/**
