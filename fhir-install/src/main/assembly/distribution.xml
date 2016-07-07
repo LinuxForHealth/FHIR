@@ -89,5 +89,13 @@
                 <include>org.apache.derby:derby:*</include>
             </includes>
         </dependencySet>
+        <dependencySet>
+            <outputDirectory>fhir/server/usr/shared/resources/lib/db2</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>com.ibm.db2:db2jcc4:*</include>
+            </includes>
+        </dependencySet>
 	</dependencySets>
 </assembly>
