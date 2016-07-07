@@ -117,7 +117,7 @@ CODE_REMOVED
     -->    
      
     <!-- DB2-related configuration
-    <jndiEntry value="FHIR1" jndiName="com.ibm.watsonhealth.fhir.Schema"/>
+    <jndiEntry value="FHIRNext" jndiName="com.ibm.watsonhealth.fhir.Schema"/>
     <library id="db2Lib">
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
     </library>
