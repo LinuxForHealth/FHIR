@@ -932,17 +932,33 @@ public class FHIRResource {
 
     
     private Response exceptionResponse(FHIRRestException e) {
-        return (e.getOperationOutcome() != null ? 
-                Response.status(e.getHttpStatus()).entity(e.getOperationOutcome()).build() :
-                exceptionResponse(e, Response.Status.BAD_REQUEST));
+        Response response;
+        if (e.getOperationOutcome() != null) {
+            String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
+            log.log(Level.SEVERE, msg, e);
+            response = Response.status(e.getHttpStatus()).entity(e.getOperationOutcome()).build();
+        } else {
+            response = exceptionResponse(e, Response.Status.BAD_REQUEST);
+        }
+        
+        return response;
     }
     
     private Response exceptionResponse(FHIRRestBundledRequestException e) {
-        return (e.getResponseBundle() != null ? 
-                Response.status(e.getHttpStatus()).entity(e.getResponseBundle()).build() : exceptionResponse(e));
+        Response response;
+        if (e.getResponseBundle() != null) {
+            String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
+            log.log(Level.SEVERE, msg, e);
+            response = Response.status(e.getHttpStatus()).entity(e.getResponseBundle()).build() ;
+        } else {
+           response = exceptionResponse(e) ;
+        }
+        return response;
     }
     
     private Response exceptionResponse(Exception e, Status status) {
+        String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
+        log.log(Level.SEVERE, msg, e);
         return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e)).build();
     }
     
