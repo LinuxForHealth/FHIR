@@ -86,7 +86,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 			case STRING:    databaseQueryParm = this.processStringParm(queryParm);
 				    break;
 			case REFERENCE: databaseQueryParm = this.processReferenceParm(queryParm);
-					    break;
+					break;
 			case DATE:      databaseQueryParm = this.processDateParm(queryParm);
 			        break;
 			case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm);
