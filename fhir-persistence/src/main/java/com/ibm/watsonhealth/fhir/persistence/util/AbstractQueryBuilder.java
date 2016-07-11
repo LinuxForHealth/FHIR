@@ -16,6 +16,7 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
+import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 
 /**
  * This class defines a reusable method structure and common functionality for a FHIR peristence query builder.
@@ -167,7 +168,27 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
 	 */
-	protected abstract T1 processUriParm(Parameter queryParm);
+	protected T1 processUriParm(Parameter queryParm) {
+		final String METHODNAME = "processUriParm";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		T1 parmRoot;
+		Parameter myQueryParm;
+				
+		myQueryParm = queryParm;
+		Modifier queryParmModifier = queryParm.getModifier();
+		// A BELOW modifier has the same behavior as CONTAINS for a URI search parm type. 
+		// Make that substitution, if necessary. Then treat the URI search parm as a String search parm.
+		if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
+			 myQueryParm = new Parameter(queryParm.getType(), queryParm.getName(), Modifier.CONTAINS,
+					 			queryParm.getModifierResourceTypeName(), queryParm.getValues());
+		}
+		parmRoot = this.processStringParm(myQueryParm);
+								
+						
+		log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
+		return parmRoot;
+	}
 	
 	/**
 	 * Creates a query segment for the Range data type, which is a kind of Quantity search.
