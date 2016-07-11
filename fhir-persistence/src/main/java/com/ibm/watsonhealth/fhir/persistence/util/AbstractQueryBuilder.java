@@ -115,10 +115,10 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 		
 	/**
 	 * Map the Prefix in the passed ParameterValue to a supported query operator.
-	 * @param queryParm - A valid query ParameterValue.
+	 * @param queryParmValue - A valid query ParameterValue.
 	 * @return T2 - A supported operator.
 	 */
-	protected abstract T2 getPrefixOperator(ParameterValue queryParm);
+	protected abstract T2 getPrefixOperator(ParameterValue queryParmValue);
 	
 	/**
 	 * Creates a query segment for a String type parameter.
