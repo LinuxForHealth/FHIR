@@ -191,14 +191,6 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	}
 	
 	/**
-	 * Creates a query segment for the Range data type, which is a kind of Quantity search.
-	 * The query segment tests to see if each value associated with the query parm  is >= range-low AND <= range-high.
-	 * @param queryParm - The query parameter. 
-	 * @return T1 - An object containing a query segment. 
-	 */
-	protected abstract T1 processRange(Parameter queryParm);
-	
-	/**
 	 * Builds and returns a query segment that searches on the target date contained within a date Period.
 	 * @param queryParmName - The name of the passed Date type search parameter.
 	 * @param parmValue - A date value associated with the passed Date parameter.
