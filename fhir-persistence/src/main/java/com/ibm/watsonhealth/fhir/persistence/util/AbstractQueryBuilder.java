@@ -191,14 +191,6 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	}
 	
 	/**
-	 * Builds and returns a query segment that searches on the target date contained within a date Period.
-	 * @param queryParmName - The name of the passed Date type search parameter.
-	 * @param parmValue - A date value associated with the passed Date parameter.
-	 * @return T1 - An object containing a query segment
-	 */
-	protected abstract T1 processDatePeriod(String queryParmName, ParameterValue parmValue);
-	 
-	 /**
 		 * This method executes special logic for a Token type query that maps to a LocationPosition data type.
 		 * @param queryParameters The entire collection of query input parameters
 		 * @return JsonObject - A query segment related to a LocationPosition
