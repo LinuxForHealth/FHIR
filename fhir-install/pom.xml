@@ -26,10 +26,13 @@
             <artifactId>wlp-javaee7</artifactId>
             <type>zip</type>
         </dependency>
-        <dependency>
-            <groupId>com.ibm.db2</groupId>
-            <artifactId>db2jcc4</artifactId>
-        </dependency>
+            <dependency>
+                <groupId>com.ibm.db2</groupId>
+                <artifactId>db2jcc4</artifactId>
+                <version>4.18.60</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/../fhir-parent/src/main/resources/repo/db2/db2jcc4-4.18.60.jar</systemPath>
+            </dependency>
 	</dependencies>
 
 	<build>
