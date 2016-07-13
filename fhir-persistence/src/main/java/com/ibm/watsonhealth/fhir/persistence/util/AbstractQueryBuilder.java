@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -15,8 +16,8 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
+import com.ibm.watsonhealth.fhir.search.ParameterValue;
 
 /**
  * This class defines a reusable method structure and common functionality for a FHIR peristence query builder.
@@ -27,6 +28,14 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	
 	private static final Logger log = java.util.logging.Logger.getLogger(AbstractQueryBuilder.class.getName());
 	private static final String CLASSNAME = AbstractQueryBuilder.class.getName();
+	
+	// Constants used in token (data type LocationPosition) searches
+	public static final String LATITUDE = "-latitude";
+	public static final String LONGITUDE = "-longitude";
+	public static final String NEAR = "near";
+	public static final String NEAR_DISTANCE = "near-distance";
+	public static final double DEFAULT_DISTANCE = 5.0;
+	public static final String DEFAULT_UNIT = "km";
 
 	
 	public AbstractQueryBuilder() {
@@ -191,10 +200,67 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	}
 	
 	/**
-		 * This method executes special logic for a Token type query that maps to a LocationPosition data type.
-		 * @param queryParameters The entire collection of query input parameters
-		 * @return JsonObject - A query segment related to a LocationPosition
-		 */
-	protected abstract T1 processLocationPosition(List<Parameter> queryParameters);
+	 * This method executes special logic for a Token type query that maps to a LocationPosition data type.
+	 * @param queryParameters The entire collection of query input parameters
+	 * @return T1 - A query segment related to a LocationPosition
+	 */
+	protected T1 processLocationPosition(List<Parameter> queryParameters) {
+		final String METHODNAME = "processLocationPosition";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		double latitude = 0.0;;
+        double longitude = 0.0;
+        double distance = DEFAULT_DISTANCE;
+        String unit = DEFAULT_UNIT;
+        BoundingBox boundingBox;
+        Parameter queryParm;
+        boolean nearFound = false;
+        T1 parmRoot = null;
+        
+        // We are only interested in the near and near-distance parameters.
+        // Extract the following data elements: latitude, longitude, distance, distance unit
+        Iterator<Parameter> queryParms = queryParameters.iterator();
+        while (queryParms.hasNext()) {
+           	queryParm = queryParms.next();
+        	for (ParameterValue value : queryParm.getValues()) {
+    			if (queryParm.getName().equals(NEAR)) {
+	        		if (value.getValueSystem() != null) {
+	        			latitude = Double.parseDouble(value.getValueSystem());
+	        		}
+	        		if (value.getValueCode() != null) {
+	        			longitude = Double.parseDouble(value.getValueCode());
+	        		}
+	        		nearFound = true;
+	        		// Remove near so it won't be seen by any other parameter processing methods.
+	        		queryParms.remove();
+    			}
+    			else if (queryParm.getName().equals(NEAR_DISTANCE)) {
+	        		if (value.getValueSystem() != null) {
+	                    distance = Double.parseDouble(value.getValueSystem());
+	                }
+	                if (value.getValueCode() != null) {
+	                    unit = value.getValueCode();
+	                }
+	             // Remove near-distance so it won't be seen by any other parameter processing methods.
+	                queryParms.remove();
+    			}
+        	}
+        }
+        if (nearFound) {
+        	boundingBox = FHIRPersistenceUtil.createBoundingBox(latitude, longitude, distance, unit);
+        	parmRoot = this.buildLocationQuerySegment(NEAR,boundingBox);
+        }
+                
+        log.exiting(CLASSNAME, METHODNAME);
+		return parmRoot;
+	}
+	
+	/**
+	 * Builds a query segment for the passed parameter name using the geospatial data contained with the passed BoundingBox
+	 * @param parmName - The name of the search parameter
+	 * @param boundingBox - Container for the geospatial data needed to construct the query segment.
+	 * @return T1 - The query segment necessary for searching locations that are inside the bounding box.
+	 */
+	protected abstract T1 buildLocationQuerySegment(String parmName, BoundingBox boundingBox);
 
 }
