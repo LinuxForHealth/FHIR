@@ -205,4 +205,8 @@ CODE_REMOVED
     
     <jndiEntry id="fhirPersistenceJPAUseUUIDs" jndiName="com.ibm.watsonhealth.fhir.persistence.jpa.useUUIDs" value="true"/>
     
+    <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirKeystore.jks"/>
+CODE_REMOVED
+    
+    
 </server>
