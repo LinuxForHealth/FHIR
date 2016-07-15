@@ -1,0 +1,13 @@
+{
+    "resourceType" : "Patient",
+    "name" : [ {
+        "family" : [ "Doe" ],
+        "given" : [ "John" ]
+    } ],
+    "telecom" : [ {
+        "system" : "phone",
+        "value" : "123-555-1122",
+        "use" : "home"
+    } ],
+    "birthDate" : "1970-01-01"
+}
