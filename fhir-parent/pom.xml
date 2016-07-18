@@ -249,16 +249,18 @@
 			<url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/</url>
 		</repository>
 	</repositories>
-	
- <distributionManagement>
-    <repository>
-      <id>wh-releases</id>
-      <url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>wh-snapshots</id>
-      <url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
-  
+
+<!-- 
+	<distributionManagement>
+		<repository>
+			<id>wh-releases</id>
+			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>wh-snapshots</id>
+			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+-->
+
 </project>
