@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.ibm.watsonhealth</groupId>
+	<groupId>com.ibm.watsonhealth.fhir</groupId>
 	<artifactId>fhir-parent</artifactId>
 	<version>1.x-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -249,5 +249,16 @@
 			<url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/</url>
 		</repository>
 	</repositories>
-
+	
+ <distributionManagement>
+    <repository>
+      <id>wh-releases</id>
+      <url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>wh-snapshots</id>
+      <url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
 </project>
