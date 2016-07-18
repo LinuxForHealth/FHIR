@@ -15,10 +15,11 @@
         <feature>websocket-1.1</feature>
     </featureManager>
 
-    <!-- This template enables security. To get the full use of all the capabilities, a keystore and user registry are required. -->
-    
-    <!-- FHIR Server's keystore (used with https endpoints) -->
+    <!-- FHIR Server's keystore and truststore configuration -->
+    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
 CODE_REMOVED
+CODE_REMOVED
+    <webAppSecurity allowFailOverToBasicAuth="true" />
     
     <!-- Define a basic user registry with a few users. -->
     <basicRegistry id="basic" realm="BasicRealm"> 
@@ -34,13 +35,12 @@ CODE_REMOVED
         Note: on Linux, the server must be running with root priviledges in order to
         listen on ports <= 1024.
      -->
-    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" onError="FAIL"/>
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443" onError="FAIL"/>
 
     <!-- 
         Modify the trace string below as needed to enable/disable tracing. 
         <logging traceSpecification="*=info" traceFormat="BASIC"/>
         <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
-        <logging traceFormat="BASIC" traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer"/>
     -->
     
     <!-- Automatically expand WAR files and EAR files -->
@@ -83,6 +83,8 @@ CODE_REMOVED
     <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
     -->
     <jndiEntry id="fhirPersistenceFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory"/>
+    
+    <jndiEntry id="fhirPersistenceJPAUseUUIDs" jndiName="com.ibm.watsonhealth.fhir.persistence.jpa.useUUIDs" value="true"/>
 
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
@@ -197,13 +199,11 @@ CODE_REMOVED
 	-->
     <!-- 
         Encryption properties
+    -->
         <jndiEntry id="encryptionEnabled" jndiName="com.ibm.watsonhealth.fhir.encryption.enabled" value="true"/>
         <jndiEntry id="encryptionKeystoreLocation" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.location" value="resources/security/fhirkeys.jceks"/>
 CODE_REMOVED
 CODE_REMOVED
-    -->
-    
-    <jndiEntry id="fhirPersistenceJPAUseUUIDs" jndiName="com.ibm.watsonhealth.fhir.persistence.jpa.useUUIDs" value="true"/>
     
     <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirKeystore.jks"/>
 CODE_REMOVED
