@@ -14,8 +14,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import com.ibm.watsonhealth.fhir.model.Duration;
 import com.ibm.watsonhealth.fhir.model.Element;
 import com.ibm.watsonhealth.fhir.model.Extension;
+import com.ibm.watsonhealth.fhir.model.Quantity;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
@@ -27,7 +29,10 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 			if (isEnumerationWrapper(valueType)) {
 				value = getValue(value);
 				valueType = String.class;
-			} else if (valueType == Extension.class) {
+			} else if (valueType == Duration.class) {
+				valueType = Quantity.class;
+			}
+			else if (valueType == Extension.class) {
 				value = getValue((Extension) value);
 				valueType = value.getClass();
 			} else if (valueType.getDeclaredFields().length == 0) {
