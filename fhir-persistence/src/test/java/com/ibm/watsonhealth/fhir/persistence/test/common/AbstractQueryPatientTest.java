@@ -751,10 +751,8 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
 		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count == 0) && (lastPgNum == 0));
+		assertTrue((count == 0) && (lastPgNum == Integer.MAX_VALUE));
 	}
 	
 	/*

@@ -11,6 +11,7 @@ import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 public class FHIRPagingContextImpl implements FHIRPagingContext {
     protected static final int DEFAULT_PAGE_SIZE = 10;
     protected static final int DEFAULT_PAGE_NUMBER = 1;
+    protected static final int DEFAULT_LAST_PAGE_NUMBER = Integer.MAX_VALUE;
     
     protected int lastPageNumber;
     protected int pageNumber;
@@ -20,6 +21,7 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     public FHIRPagingContextImpl() {
         this.pageNumber = DEFAULT_PAGE_NUMBER;
         this.pageSize = DEFAULT_PAGE_SIZE;
+        this.lastPageNumber = DEFAULT_LAST_PAGE_NUMBER;
     }
     
     @Override
