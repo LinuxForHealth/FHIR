@@ -214,7 +214,7 @@ CODE_REMOVED
 CODE_REMOVED
 CODE_REMOVED
     
-    <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirKeystore.jks"/>
+    <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirTruststore.jks"/>
 CODE_REMOVED
     
     
