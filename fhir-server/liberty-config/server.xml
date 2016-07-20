@@ -163,6 +163,14 @@ CODE_REMOVED
     <jndiEntry id="kafkaProperties" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.properties" value="${server.config.dir}/config/kafka.properties"/>
     -->
     
+    <!-- 
+        'includeResourceTypes': a comma-separated list of resource types that should be included in notification event publishing.
+        a valud of "" will result in all resource types being published.
+     -->
+    <jndiEntry id="includeNotificationResourceTypes" jndiName="com.ibm.watsonhealth.fhir.notification.includeResourceTypes" 
+        value=""/>
+
+    
     <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
     <jndiEntry id="virtualResourceTypesFeatureEnabled" jndiName="com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled" value="true"/>
     
