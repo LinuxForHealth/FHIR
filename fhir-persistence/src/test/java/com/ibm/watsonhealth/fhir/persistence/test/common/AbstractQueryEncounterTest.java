@@ -65,6 +65,17 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	}
 	
 	/**
+	 * Tests a query for Encounters with length = '60.0 OR 79.0' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_length_multivalue() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "60.0,70.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
 	 * Tests a query for Encounters with length = 'eq60.0' which should yield correct results
 	 * @throws Exception
 	 */

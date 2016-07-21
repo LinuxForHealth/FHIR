@@ -413,6 +413,18 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	}
 	
 	/**
+	 * Tests a query for a Patient with phone = '8016626839' OR '3039999999' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient4" })
+	public void testPatient_phone_multivalue() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "phone", "8016626839,3039999999");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Patient)resources.get(0)).getTelecom().get(1).getValue().getValue(),"8016626839");
+	}
+	
+	/**
 	 * Tests a query for a Patient with phone = '80166268396' which should yield no results
 	 * @throws Exception
 	 */
@@ -443,6 +455,30 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient2" })
 	public void testPatient_organization() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "organization", "Organization/1");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Patient)resources.get(0)).getManagingOrganization().getReference().getValue(),"Organization/1");
+	}
+	
+	/**
+	 * Tests a query for a Patient with organization = 'Organization/1' OR 'Organization/2' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient2" })
+	public void testPatient_organization_mulitvalue() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "organization", "Organization/1,Organization/2");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Patient)resources.get(0)).getManagingOrganization().getReference().getValue(),"Organization/1");
+	}
+	
+	/**
+	 * Tests a query for a Patient with organization:Organization = '1' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient2" })
+	public void testPatient_organization1() throws Exception {
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "organization:Organization", "1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Patient)resources.get(0)).getManagingOrganization().getReference().getValue(),"Organization/1");

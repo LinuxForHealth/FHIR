@@ -268,6 +268,19 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	}
 	
 	/**
+	 * Tests a query for an Observation with date = '2012-09-17' OR '2012-11-11' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation3" })
+	public void testObservationQuery_date_multivalue() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "date", "2012-09-17,2012-11-11");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getEffectiveDateTime().getValue(),"2012-09-17");
+	}
+
+	
+	/**
 	 * Tests a query for an Observation with value-date = '2014-12-04T15:42:15-08:00' which should yield correct results
 	 * @throws Exception
 	 */
@@ -298,6 +311,19 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_valueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
+	}
+	
+	/**
+	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' OR '222|http://unitsofmeasure.org|[lb_av]'
+	 * which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	public void testObservationQuery_valueQuantity_multiValue() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av],222|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
