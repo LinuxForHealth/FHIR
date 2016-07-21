@@ -38,7 +38,7 @@
 			<dependency>
 				<groupId>com.ibm.tools.target</groupId>
 				<artifactId>was-liberty</artifactId>
-				<version>LATEST</version>
+				<version>8.5.x.6</version>
 				<type>pom</type>
 				<scope>provided</scope>
 			</dependency>
@@ -168,6 +168,13 @@
 				<artifactId>kafka-clients</artifactId>
 				<version>0.9.0.1</version>
 			</dependency>
+			<dependency>
+	    		<groupId>org.jacoco</groupId>
+	    		<artifactId>jacoco-maven-plugin</artifactId>
+	    		<version>0.7.7.201606060606</version>
+	    		<scope>test</scope>
+			</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 
@@ -233,11 +240,6 @@
 					<artifactId>liquibase-maven-plugin</artifactId>
 					<version>3.4.2</version>
 				</plugin>
-				<plugin>
-					<groupId>org.jacoco</groupId>
-	    			<artifactId>jacoco-maven-plugin</artifactId>
-	    			<version>0.7.7.201606060606</version>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -255,7 +257,6 @@
 		</repository>
 	</repositories>
 
-<!-- 
 	<distributionManagement>
 		<repository>
 			<id>wh-releases</id>
@@ -266,6 +267,5 @@
 			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
--->
 
 </project>
