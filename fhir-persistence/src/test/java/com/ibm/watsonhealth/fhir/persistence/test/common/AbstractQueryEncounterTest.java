@@ -65,7 +65,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	}
 	
 	/**
-	 * Tests a query for Encounters with length = '60.0 OR 79.0' which should yield correct results
+	 * Tests a query for Encounters with length = '60.0 OR 70.0' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateEncounter" })
