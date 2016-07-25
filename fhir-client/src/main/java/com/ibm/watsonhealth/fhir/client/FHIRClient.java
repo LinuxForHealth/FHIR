@@ -22,6 +22,12 @@ public interface FHIRClient {
     public static final String PROPNAME_BASE_URL            = "fhirclient.rest.base.url";
 
     /**
+     * Specifies the default mimetype to be used by the FHIRClient instance when invoking
+     * FHIR REST APIs.   If not specified a value of "application/json+fhir" will be used.
+     */
+    public static final String PROPNAME_DEFAULT_MIMETYPE    = "fhirclient.default.mimetype";
+    
+    /**
      * Indicates whether Basic Authentication should be used when invoking REST API requests.
      * Valid values are "true" and "false" (the default).   If enabled, then the username and password properties
      * are required as well.
@@ -111,6 +117,19 @@ public interface FHIRClient {
     WebTarget getWebTarget() throws Exception;
     
     /**
+     * Sets the default mime-type to be used by the FHIRClient interface when invoking REST API operations.
+     * @param mimeType a string containing the mime-type (e.g. "application/json+fhir")
+     * @throws Exception
+     */
+    void setDefaultMimeType(String mimeType) throws Exception;
+    
+    /**
+     * Returns a string that represents the default mime-type associated with the FHIRClient interface.
+     * @throws Exception
+     */
+    String getDefaultMimeType() throws Exception;
+    
+    /**
      * Invokes the 'metadata' FHIR REST API operation.
      * @return a FHIRResponse that contains a Conformance object which describes the 
      * FHIR Server's capabilities
@@ -169,5 +188,45 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the 'read' operation
      * @throws Exception
      */
+    
     FHIRResponse vread(String resourceType, String resourceId, String versionId) throws Exception;
+
+    /**
+     * Invokes the 'history' FHIR REST API operation.
+     * @param resourceType a string representing the name of the resource type 
+     * to be retrieved (e.g. "Patient")
+     * @param resourceId the id of the resource to be retrieved
+     * @param parameters an optional collection of request parameters for the 'history' operation; 
+     * may be specified as null if no parameters need to be passed to the 'history' operation
+     * @return a FHIRResponse that contains the results of the 'history' operation
+     * @throws Exception
+     */
+    FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters) throws Exception;
+    
+    /**
+     * Invokes the 'search' FHIR REST API operation.
+     * @param resourceType a string representing the name of the resource type to search for (e.g. "Patient")
+     * @param parameters  an optional collection of request parameters for the 'search' operation;
+     * may be specified as null if no parameters need to be passed to the 'search' operation
+     * @return a FHIRResponse that contains the results of the 'search' operation
+     * @throws Exception
+     */
+    FHIRResponse search(String resourceType, FHIRParameters parameters) throws Exception;
+    
+    /**
+     * Invokes the 'validate' FHIR REST API operation.
+     * @param resource the resource to be validated
+     * @return a FHIRResponse that contains the results of the 'validate' operation
+     * @throws Exception
+     */
+    FHIRResponse validate(Resource resource) throws Exception;
+
+    /**
+     * Invokes the 'validate' FHIR REST API operation.
+     * @param resource the resource (in the form of a JsonObject) to be validated 
+     * @return a FHIRResponse that contains the results of the 'validate' operation
+     * @throws Exception
+     */
+    FHIRResponse validate(JsonObject resource) throws Exception;
+    
 }

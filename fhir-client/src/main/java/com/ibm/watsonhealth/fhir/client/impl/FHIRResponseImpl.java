@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Resource;
 
 /**
@@ -58,8 +59,12 @@ public class FHIRResponseImpl implements FHIRResponse {
      */
     @Override
     public XMLGregorianCalendar getLastModified() throws Exception {
-        // TODO finish this!
-        return null;
+        XMLGregorianCalendar lastModified = null;
+        String s = response.getHeaderString("Last-Modified");
+        if (s != null) {
+            lastModified = FHIRUtilities.parseDateTime(s, true);
+        }
+        return lastModified;
     }
 
     /* (non-Javadoc)

@@ -16,6 +16,8 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -26,12 +28,13 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
+import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
@@ -49,6 +52,7 @@ public class FHIRClientImpl implements FHIRClient {
     private Client client = null;
     private Properties clientProperties = null;
     private String baseEndpointURL = null;
+    private String defaultMimeType = "application/json+fhir";
     
     private boolean basicAuthEnabled = false;
     private String basicAuthUsername = null;
@@ -69,7 +73,7 @@ public class FHIRClientImpl implements FHIRClient {
     private String encKeyStorePassword = null;
     private String encKeyPassword = null;
     private SecretKeySpec encryptionKey = null;
-
+    
     protected FHIRClientImpl() {
     }
 
@@ -84,7 +88,7 @@ public class FHIRClientImpl implements FHIRClient {
     @Override
     public FHIRResponse metadata() throws Exception {
         WebTarget endpoint = getWebTarget();
-        Response response = endpoint.path("metadata").request().get();
+        Response response = endpoint.path("metadata").request(getDefaultMimeType()).get();
         return new FHIRResponseImpl(response);
     }
 
@@ -95,8 +99,8 @@ public class FHIRClientImpl implements FHIRClient {
     public FHIRResponse create(Resource resource) throws Exception {
         String resourceType = resource.getClass().getSimpleName();
         WebTarget endpoint = getWebTarget();
-        Entity<Resource> entity = Entity.entity(resource, MediaType.APPLICATION_JSON_FHIR);
-        Response response = endpoint.path(resourceType).request().post(entity);
+        Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
+        Response response = endpoint.path(resourceType).request(getDefaultMimeType()).post(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -110,8 +114,8 @@ public class FHIRClientImpl implements FHIRClient {
             throw new IllegalArgumentException("Unable to retrieve the resource type resource.");
         }
         WebTarget endpoint = getWebTarget();
-        Entity<JsonObject> entity = Entity.entity(resource, MediaType.APPLICATION_JSON_FHIR);
-        Response response = endpoint.path(resourceType).request().post(entity);
+        Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
+        Response response = endpoint.path(resourceType).request(getDefaultMimeType()).post(entity);
         return new FHIRResponseImpl(response);
     }
     
@@ -127,8 +131,8 @@ public class FHIRClientImpl implements FHIRClient {
         if (resourceId == null || resourceId.isEmpty()) {
             throw new IllegalArgumentException("Unable to retrieve the id from resource.");
         }
-        Entity<Resource> entity = Entity.entity(resource, MediaType.APPLICATION_JSON_FHIR);
-        Response response = endpoint.path(resourceType).path(resourceId).request().put(entity);
+        Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
+        Response response = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType()).put(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -146,8 +150,8 @@ public class FHIRClientImpl implements FHIRClient {
             throw new IllegalArgumentException("Unable to retrieve the id from resource.");
         }
         WebTarget endpoint = getWebTarget();
-        Entity<JsonObject> entity = Entity.entity(resource, MediaType.APPLICATION_JSON_FHIR);
-        Response response = endpoint.path(resourceType).path(resourceId).request().put(entity);
+        Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
+        Response response = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType()).put(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -157,7 +161,7 @@ public class FHIRClientImpl implements FHIRClient {
     @Override
     public FHIRResponse read(String resourceType, String resourceId) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Response response = endpoint.path(resourceType).path(resourceId).request().get();
+        Response response = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType()).get();
         return new FHIRResponseImpl(response);
     }
 
@@ -167,10 +171,83 @@ public class FHIRClientImpl implements FHIRClient {
     @Override
     public FHIRResponse vread(String resourceType, String resourceId, String versionId) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Response response = endpoint.path(resourceType).path(resourceId).path("_history").path(versionId).request().get();
+        Response response = endpoint.path(resourceType).path(resourceId).path("_history").path(versionId).request(getDefaultMimeType()).get();
         return new FHIRResponseImpl(response);
     }
     
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#history(java.lang.String, java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
+     */
+    @Override
+    public FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        endpoint = endpoint.path(resourceType).path(resourceId).path("_history");
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Response response = endpoint.request(getDefaultMimeType()).get();
+        return new FHIRResponseImpl(response);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#search(java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
+     */
+    @Override
+    public FHIRResponse search(String resourceType, FHIRParameters parameters) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        endpoint = endpoint.path(resourceType);
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Response response = endpoint.request(getDefaultMimeType()).get();
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(com.ibm.watsonhealth.fhir.model.Resource)
+     */
+    @Override
+    public FHIRResponse validate(Resource resource) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
+        Response response = endpoint.path("Resource").path("$validate").request(getDefaultMimeType()).post(entity);
+        return new FHIRResponseImpl(response);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(javax.json.JsonObject)
+     */
+    @Override
+    public FHIRResponse validate(JsonObject resource) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
+        Response response = endpoint.path("Resource").path("$validate").request(getDefaultMimeType()).post(entity);
+        return new FHIRResponseImpl(response);
+    }
+    
+    /**
+     * This function adds each of the parameters contained in the FHIRParameters object 
+     * to the specified WebTarget as a query parameter.
+     * @param endpoint the WebTarget which will receive the query parameters
+     * @param parameters the FHIRParameters object that contains the query parameters to be added
+     */
+    private WebTarget addParametersToWebTarget(WebTarget endpoint, FHIRParameters parameters) {
+        if (parameters != null) {
+            MultivaluedMap<String, String> parameterMap = parameters.getParameterMap();
+            if (parameterMap != null && !parameterMap.isEmpty()) {
+                
+                // Each entry in the multivalued map represents a query parameter and its value(s).
+                // So for each entry, we'll add a query parameter to the WebTarget
+                for (Map.Entry<String, List<String>> mapEntry : parameterMap.entrySet()) {
+                    for (String value : mapEntry.getValue()) {
+                        endpoint = endpoint.queryParam(mapEntry.getKey(), value);
+                    }
+                }
+            }
+        }
+        
+        return endpoint;
+    }
+
+    /**
+     * Retrieves a jax-rs Client from the ClientBuilder object.  The Client instance is created if necessary.
+     */
     protected synchronized Client getClient() throws Exception {
         if (client == null) {
             ClientBuilder cb = ClientBuilder.newBuilder()
@@ -354,6 +431,22 @@ public class FHIRClientImpl implements FHIRClient {
 
     private void setBaseEndpointURL(String baseEndpointURL) {
         this.baseEndpointURL = baseEndpointURL;
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#setDefaultMimeType(java.lang.String)
+     */
+    @Override
+    public void setDefaultMimeType(String mimeType) throws Exception {
+        this.defaultMimeType = mimeType;
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getDefaultMimeType()
+     */
+    @Override
+    public String getDefaultMimeType() throws Exception {
+        return defaultMimeType;
     }
 
     private String getTrustStoreLocation() {
