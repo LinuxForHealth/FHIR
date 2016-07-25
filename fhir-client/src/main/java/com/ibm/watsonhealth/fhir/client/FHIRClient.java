@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.client;
 import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 
+import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.Resource;
 
 /**
@@ -229,4 +230,19 @@ public interface FHIRClient {
      */
     FHIRResponse validate(JsonObject resource) throws Exception;
     
+    /**
+     * Invokes the 'batch/transaction' FHIR REST API operation for a request bundle of type 'batch'.
+     * @param bundle the Bundle containing the individual requests
+     * @return a FHIRResponse that contains the results of the 'batch/transaction' operation
+     * @throws Exception
+     */
+    FHIRResponse batch(Bundle bundle) throws Exception;
+    
+    /**
+     * Invokes the 'batch/transaction' FHIR REST API operation for a request bundle of type 'transaction'.
+     * @param bundle the Bundle containing the individual requests
+     * @return a FHIRResponse that contains the results of the 'batch/transaction' operation
+     * @throws Exception
+     */
+    FHIRResponse transaction(Bundle bundle) throws Exception;
 }

@@ -35,6 +35,9 @@ import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
+import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.BundleType;
+import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
@@ -218,6 +221,30 @@ public class FHIRClientImpl implements FHIRClient {
         WebTarget endpoint = getWebTarget();
         Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
         Response response = endpoint.path("Resource").path("$validate").request(getDefaultMimeType()).post(entity);
+        return new FHIRResponseImpl(response);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#batch(com.ibm.watsonhealth.fhir.model.Bundle)
+     */
+    @Override
+    public FHIRResponse batch(Bundle bundle) throws Exception {
+        return bundle(bundle, BundleTypeList.BATCH);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#transaction(com.ibm.watsonhealth.fhir.model.Bundle)
+     */
+    @Override
+    public FHIRResponse transaction(Bundle bundle) throws Exception {
+        return bundle(bundle, BundleTypeList.TRANSACTION);
+    }
+    
+    private FHIRResponse bundle(Bundle bundle, BundleTypeList bundleType) throws Exception {
+        bundle.setType(new BundleType().withValue(bundleType));
+        WebTarget endpoint = getWebTarget();
+        Entity<Bundle> entity = Entity.entity(bundle, getDefaultMimeType());
+        Response response = endpoint.request(getDefaultMimeType()).post(entity);
         return new FHIRResponseImpl(response);
     }
     
