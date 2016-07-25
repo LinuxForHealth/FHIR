@@ -202,6 +202,7 @@ CODE_REMOVED
     	<jndiEntry id="isClassNameEnabled" jndiName="fully.qualified.class.name.enabled" value="true"/>
     -->
     <!-- 
+	    <jndiEntry id="isGroupPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.group.GroupPersistenceInterceptor.enabled" value="false"/>
 	    <jndiEntry id="isConsentManagementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.management.ConsentManagementPersistenceInterceptor.enabled" value="false"/>
 	    <jndiEntry id="isConsentEnforcementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.enforcement.ConsentEnforcementPersistenceInterceptor.enabled" value="false"/>
     -->
@@ -215,11 +216,11 @@ CODE_REMOVED
 	-->
     <!-- 
         Encryption properties
-    -->
         <jndiEntry id="encryptionEnabled" jndiName="com.ibm.watsonhealth.fhir.encryption.enabled" value="true"/>
         <jndiEntry id="encryptionKeystoreLocation" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.location" value="resources/security/fhirkeys.jceks"/>
 CODE_REMOVED
 CODE_REMOVED
+    -->
     
     <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirTruststore.jks"/>
 CODE_REMOVED
