@@ -168,7 +168,7 @@ public class FHIRParameters {
     }
 
     /**
-     * Adds the specified search parameter (name, modifier, values) to 'this'.
+     * Adds the specified search parameter (name, value-prefix, values) to 'this'.
      * 
      * @param name
      *            the parameter name
