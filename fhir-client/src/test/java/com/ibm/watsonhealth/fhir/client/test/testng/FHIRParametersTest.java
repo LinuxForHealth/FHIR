@@ -54,13 +54,4 @@ public class FHIRParametersTest extends FHIRClientTestBase {
         assertTrue(queryString.contains("name=eqOrtiz"));
         assertTrue(queryString.contains("favorite-color=nered"));
     }
-    
-    @Test
-    public void testParameter4() {
-        FHIRParameters p = new FHIRParameters();
-        p.searchParam("favorite-color", ValuePrefix.EQ, "(red OR green)");
-        String queryString = p.queryString();
-        assertNotNull(queryString);
-        assertTrue(queryString.contains("favorite-color=eq(red OR green)"));
-    }
 }
