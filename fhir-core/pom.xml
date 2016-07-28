@@ -16,6 +16,15 @@
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
