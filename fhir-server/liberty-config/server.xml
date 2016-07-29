@@ -165,10 +165,10 @@ CODE_REMOVED
     
     <!-- 
         'includeResourceTypes': a comma-separated list of resource types that should be included in notification event publishing.
-        a valud of "" will result in all resource types being published.
+        a value of "" will result in all resource types being published.
      -->
     <jndiEntry id="includeNotificationResourceTypes" jndiName="com.ibm.watsonhealth.fhir.notification.includeResourceTypes" 
-        value=""/>
+        value="QuestionnaireResponse, CarePlan, MedicationAdministration, Device, DeviceComponent, DeviceMetric, MedicationOrder, Observation"/>
 
     
     <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
