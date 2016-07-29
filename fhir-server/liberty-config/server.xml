@@ -167,9 +167,10 @@ CODE_REMOVED
         'includeResourceTypes': a comma-separated list of resource types that should be included in notification event publishing.
         a value of "" will result in all resource types being published.
      -->
+     <!-- 
     <jndiEntry id="includeNotificationResourceTypes" jndiName="com.ibm.watsonhealth.fhir.notification.includeResourceTypes" 
         value="QuestionnaireResponse, CarePlan, MedicationAdministration, Device, DeviceComponent, DeviceMetric, MedicationOrder, Observation"/>
-
+	 -->
     
     <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
     <jndiEntry id="virtualResourceTypesFeatureEnabled" jndiName="com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled" value="true"/>
@@ -223,13 +224,6 @@ CODE_REMOVED
     
     <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirTruststore.jks"/>
 CODE_REMOVED
-    
-     <!-- 
-     	Audit logging properties
-    -->
-    <jndiEntry id="fhirAuditLogPath" jndiName="com.ibm.watsonhealth.fhir.core.audit.logging.path" value="${server.config.dir}/logs/"/>
- 
-    
     
     <!-- Datasources from FHIR Persistence Router -->
     <!-- 
