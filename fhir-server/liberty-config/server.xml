@@ -202,8 +202,8 @@ CODE_REMOVED
     	<jndiEntry id="isClassNameEnabled" jndiName="fully.qualified.class.name.enabled" value="true"/>
     -->
     <!-- 
-	    <jndiEntry id="isConsentManagementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.management.ConsentManagementPersistenceInterceptor.enabled" value="false"/>
-	    <jndiEntry id="isConsentEnforcementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.enforcement.ConsentEnforcementPersistenceInterceptor.enabled" value="false"/>
+	    <jndiEntry id="isConsentManagementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.management.ConsentManagementPersistenceInterceptor.enabled" value="true"/>
+	    <jndiEntry id="isConsentEnforcementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.enforcement.ConsentEnforcementPersistenceInterceptor.enabled" value="true"/>
     -->
     <!-- 
      	IBM Consent Manager related config
@@ -224,5 +224,40 @@ CODE_REMOVED
     <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirTruststore.jks"/>
 CODE_REMOVED
     
+    <!-- Datasources from FHIR Persistence Router -->
+    <!-- 
+    <dataSource id="profileDataSourceJta" jndiName="jdbc/profileDataSourceJta">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+    <dataSource id="profileDataSourceNonJta" jndiName="jdbc/profileDataSourceNonJta" transactional="false">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+     <dataSource id="referenceDataSourceJta" jndiName="jdbc/referenceDataSourceJta">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+    <dataSource id="referenceDataSourceNonJta" jndiName="jdbc/referenceDataSourceNonJta" transactional="false">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+     <dataSource id="dataSource_Jta_Smoke_Test" jndiName="jdbc/dataSource_Jta_Smoke_Test">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+    <dataSource id="dataSource_nonJta_Smoke_Test" jndiName="jdbc/dataSource_nonJta_Smoke_Test" transactional="false">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+CODE_REMOVED
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+CODE_REMOVED
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
+    -->
     
 </server>
