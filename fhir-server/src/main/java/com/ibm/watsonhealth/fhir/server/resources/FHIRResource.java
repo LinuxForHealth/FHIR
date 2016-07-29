@@ -86,6 +86,7 @@ import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRRestException;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRUrlParser;
+import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
 import io.swagger.annotations.Api;
@@ -172,6 +173,10 @@ public class FHIRResource {
         @PathParam("type") String type, 
         @ApiParam(value = "The resource to be created.", required = true) 
         Resource resource) {
+    	
+    	Date startTime = new Date();
+    	Date endTime;
+    	Response.Status status = null;
 
         log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
@@ -179,15 +184,21 @@ public class FHIRResource {
             URI locationURI = doCreate(type, resource);
             
             ResponseBuilder response = Response.created(locationURI);
+            status = Response.Status.CREATED;
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	endTime = new Date();
+        	RestAuditLogger.logCreate(securityContext.getUserPrincipal(), type, resource, startTime, endTime, status);
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -210,23 +221,36 @@ public class FHIRResource {
         @ApiParam(value = "The new contents of the resource to be updated.", required = true)
         Resource resource) {
 
+    	Date startTime = new Date();
+    	Date endTime;
+    	Response.Status status = null;
+    	Resource oldResource = null;
+    	
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
+        	oldResource = this.doRead(type, resource.getId().getValue());
             URI locationURI = doUpdate(type, id, resource);
 
             ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, locationURI);
             response = addHeaders(response, resource);
+            status = Response.Status.OK;
             return response.build();
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
+        	status =  Response.Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
         } catch (FHIRException e) {
+        	status =  Response.Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	endTime = new Date();
+        	RestAuditLogger.logUpdate(securityContext.getUserPrincipal(), type, oldResource, resource, startTime, endTime, status);
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }

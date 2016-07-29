@@ -224,6 +224,13 @@ CODE_REMOVED
     <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirTruststore.jks"/>
 CODE_REMOVED
     
+     <!-- 
+     	Audit logging properties
+    -->
+    <jndiEntry id="fhirAuditLogPath" jndiName="com.ibm.watsonhealth.fhir.core.audit.logging.path" value="${server.config.dir}/logs/"/>
+ 
+    
+    
     <!-- Datasources from FHIR Persistence Router -->
     <!-- 
     <dataSource id="profileDataSourceJta" jndiName="jdbc/profileDataSourceJta">
