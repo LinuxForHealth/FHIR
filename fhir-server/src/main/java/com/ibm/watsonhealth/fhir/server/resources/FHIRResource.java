@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -125,6 +126,9 @@ public class FHIRResource {
     private ServletContext context;
     
     @Context
+    private HttpServletRequest httpServletRequest;
+    
+    @Context
     private UriInfo uriInfo;
     
     @Context
@@ -197,7 +201,7 @@ public class FHIRResource {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logCreate(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
+        	RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -247,7 +251,7 @@ public class FHIRResource {
         	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logUpdate(securityContext.getUserPrincipal(), uriInfo, oldResource, resource, startTime, new Date(), status);
+        	RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -293,7 +297,7 @@ public class FHIRResource {
         	status =  Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logRead(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
+        	RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
             }
@@ -345,7 +349,7 @@ public class FHIRResource {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logVersionRead(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
+        	RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -385,7 +389,7 @@ public class FHIRResource {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logHistory(securityContext.getUserPrincipal(), uriInfo, bundle, startTime, new Date(), status);
+        	RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -424,7 +428,7 @@ public class FHIRResource {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logSearch(securityContext.getUserPrincipal(), uriInfo, queryParameters, bundle, startTime, new Date(), status);
+        	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -449,7 +453,7 @@ public class FHIRResource {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logValidate(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
+        	RestAuditLogger.logValidate(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -486,7 +490,7 @@ public class FHIRResource {
             log.log(Level.SEVERE, "Error encountered during bundle request processing: ", e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logBundle(securityContext.getUserPrincipal(), uriInfo, bundle, startTime, new Date(), status);
+        	RestAuditLogger.logBundle(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "bundle(Bundle)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }

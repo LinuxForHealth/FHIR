@@ -7,13 +7,12 @@
 package com.ibm.watsonhealth.fhir.server.util;
 
 import java.io.StringWriter;
-import java.security.Principal;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBException;
 
 import com.google.gson.Gson;
@@ -48,19 +47,19 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for a 'create' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being created.
 	 * @param startTime - The start time of the create request execution.
 	 * @param endTime - The end time of the create request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logCreate(Principal user, UriInfo requestUrl, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+	public static void logCreate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
 		final String METHODNAME = "logCreate";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_CREATE);
-		populateAuditLogEntry(entry, user, requestUrl, resource, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("C");
 		if (Response.Status.CREATED.equals(responseStatus)) {
@@ -79,21 +78,21 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for an 'update' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param oldResource - The previous version of the Resource, before it was updated.
 	 * @param newResource - The updated version of the Resource.
 	 * @param startTime - The start time of the update request execution.
 	 * @param endTime - The end time of the update request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logUpdate(Principal user, UriInfo requestUrl, Resource oldResource, Resource updatedResource, Date startTime, Date endTime, 
+	public static void logUpdate(HttpServletRequest request, Resource oldResource, Resource updatedResource, Date startTime, Date endTime, 
 								 Response.Status responseStatus) {
 		final String METHODNAME = "logCreate";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_UPDATE);
-		populateAuditLogEntry(entry, user, requestUrl, updatedResource, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, updatedResource, startTime, endTime, responseStatus);
 		
 		entry.getContext().setAction("U");
 		if (Response.Status.OK.equals(responseStatus)) {
@@ -113,19 +112,19 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for a 'read' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being read.
 	 * @param startTime - The start time of the read request execution.
 	 * @param endTime - The end time of the read request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logRead(Principal user, UriInfo requestUrl, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+	public static void logRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
 		final String METHODNAME = "logRead";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_READ);
-		populateAuditLogEntry(entry, user, requestUrl, resource, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
 						
@@ -136,19 +135,19 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for a 'version-read' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being read.
 	 * @param startTime - The start time of the read request execution.
 	 * @param endTime - The end time of the read request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logVersionRead(Principal user, UriInfo requestUrl, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+	public static void logVersionRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
 		final String METHODNAME = "logVersionRead";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_VREAD);
-		populateAuditLogEntry(entry, user, requestUrl, resource, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
 						
@@ -159,13 +158,13 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for a 'history' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param bundle - The Bundle that is returned to the REST service caller.
 	 * @param startTime - The start time of the bundle request execution.
 	 * @param endTime - The end time of the bundle request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logHistory(Principal user, UriInfo requestUrl, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
+	public static void logHistory(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
 		final String METHODNAME = "logHistory";
 		log.entering(CLASSNAME, METHODNAME);
 		
@@ -173,7 +172,7 @@ public class RestAuditLogger {
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_HISTORY);
 			
 		
-		populateAuditLogEntry(entry, user, requestUrl, null, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
 		if (bundle != null && bundle.getEntry() != null && !bundle.getEntry().isEmpty()) {
 			entry.getContext().setBatch(new Batch().withResourcesRead(bundle.getTotal().getValue().longValue()));
 		}
@@ -186,19 +185,19 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for a 'validate' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being validated.
 	 * @param startTime - The start time of the validate request execution.
 	 * @param endTime - The end time of the validate request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logValidate(Principal user, UriInfo requestUrl, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+	public static void logValidate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
 		final String METHODNAME = "logRead";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_VALIDATE);
-		populateAuditLogEntry(entry, user, requestUrl, resource, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
 						
@@ -209,13 +208,13 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for a 'bundle' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param bundle - The Bundle that is returned to the REST service caller.
 	 * @param startTime - The start time of the bundle request execution.
 	 * @param endTime - The end time of the bundle request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logBundle(Principal user, UriInfo requestUrl, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
+	public static void logBundle(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
 		final String METHODNAME = "logBundle";
 		log.entering(CLASSNAME, METHODNAME);
 		
@@ -226,7 +225,7 @@ public class RestAuditLogger {
 		long updateCount = 0;
 		HTTPVerb requestMethod;
 					
-		populateAuditLogEntry(entry, user, requestUrl, null, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
 		if (bundle != null && bundle.getEntry() != null && !bundle.getEntry().isEmpty()) {
 			for (BundleEntry bundleEntry : bundle.getEntry()) {
 				if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
@@ -260,20 +259,20 @@ public class RestAuditLogger {
 	/**
 	 * Builds an audit log entry for a 'search' REST service invocation.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param queryParms - The query parameters passed to the search REST service.
 	 * @param bundle - The Bundle that is returned to the REST service caller.
 	 * @param startTime - The start time of the bundle request execution.
 	 * @param endTime - The end time of the bundle request execution.
 	 * @param responseStatus - The response status.
 	 */
-	public static void logSearch(Principal user, UriInfo requestUrl, MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
+	public static void logSearch(HttpServletRequest request, MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
 		final String METHODNAME = "logHistory";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_SEARCH);
-		populateAuditLogEntry(entry, user, requestUrl, null, startTime, endTime, responseStatus);
+		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
 		
 		if (queryParms != null && !queryParms.isEmpty()) {
 			entry.getContext().setQuery(queryParms.toString());
@@ -291,22 +290,33 @@ public class RestAuditLogger {
 	 * Populates the passed audit log entry, with attributes common to all REST services.
 	 * @param entry - The AuditLogEntry to be populated.
 	 * @param user - The user who initiated the request.
-	 * @param requestUrl - The request URL.
+	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object.
 	 * @param startTime - The start time of the request execution.
 	 * @param endTime - The end time of the request execution.
 	 * @param responseStatus - The response status.
 	 * @return AuditLogEntry - an initialized audit log entry.
 	 */
-	private static AuditLogEntry populateAuditLogEntry(AuditLogEntry entry, Principal user, UriInfo requestUrl, Resource resource, 
+	private static AuditLogEntry populateAuditLogEntry(AuditLogEntry entry, HttpServletRequest request, Resource resource, 
 											     Date startTime, Date endTime, Response.Status responseStatus) {
 		
 		final String METHODNAME = "populateAuditLogEntry";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		entry.setUserName(user.getName());
+		StringBuffer requestUrl;
+		
+		entry.setUserName(request.getUserPrincipal().getName());
+		entry.setLocation(new StringBuilder()
+							.append(request.getRemoteAddr())
+							.append("/")
+							.append(request.getRemoteHost()).toString());
 		entry.setContext(new Context());
-		entry.getContext().setApiParameters(new ApiParameters().withRequest(requestUrl.getAbsolutePath().toString()));
+		requestUrl = request.getRequestURL();
+		if (request.getQueryString() != null) {
+			requestUrl.append("?");
+			requestUrl.append(request.getQueryString());
+		}
+		entry.getContext().setApiParameters(new ApiParameters().withRequest(requestUrl.toString()));
 		entry.getContext().setDb(acquireDbData());
 		entry.getContext().setStatus(responseStatus.toString());
 		entry.getContext().setStartTime(FHIRUtilities.formatTimestamp(startTime));
