@@ -175,14 +175,14 @@ public class FHIRResource {
         Resource resource) {
     	
     	Date startTime = new Date();
-    	Date endTime;
     	Response.Status status = null;
 
         log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
-            URI locationURI = doCreate(type, resource);
-            
+        	
+        	URI locationURI = doCreate(type, resource);
+                       
             ResponseBuilder response = Response.created(locationURI);
             status = Response.Status.CREATED;
             response = addHeaders(response, resource);
@@ -197,8 +197,7 @@ public class FHIRResource {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	endTime = new Date();
-        	RestAuditLogger.logCreate(securityContext.getUserPrincipal(), type, resource, startTime, endTime, status);
+        	RestAuditLogger.logCreate(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -222,7 +221,6 @@ public class FHIRResource {
         Resource resource) {
 
     	Date startTime = new Date();
-    	Date endTime;
     	Response.Status status = null;
     	Resource oldResource = null;
     	
@@ -249,8 +247,7 @@ public class FHIRResource {
         	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	endTime = new Date();
-        	RestAuditLogger.logUpdate(securityContext.getUserPrincipal(), type, oldResource, resource, startTime, endTime, status);
+        	RestAuditLogger.logUpdate(securityContext.getUserPrincipal(), uriInfo, oldResource, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -272,20 +269,31 @@ public class FHIRResource {
         @ApiParam(value = "The id of the resource to be retrieved.", required = true)
         @PathParam("id") String id) throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        
+        Date startTime = new Date();
+    	Response.Status status = null;
+    	Resource resource = null;
+    	
         try {
-            Resource resource = doRead(type, id);
+            resource = doRead(type, id);
             ResponseBuilder response = Response.ok().entity(resource);
+            status = Response.Status.OK;
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
+        	status = Response.Status.NOT_FOUND;
             return exceptionResponse(e, Response.Status.NOT_FOUND);
         } catch (FHIRException e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status =  Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	RestAuditLogger.logRead(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
             }
@@ -313,21 +321,31 @@ public class FHIRResource {
         if (log.isLoggable(Level.FINE)) {
             log.entering(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
+        Date startTime = new Date();
+    	Response.Status status = null;
+    	Resource resource = null;
+    	
         try {
-            Resource resource = doVRead(type, id, vid);
+            resource = doVRead(type, id, vid);
             
             ResponseBuilder response = Response.ok().entity(resource);
+            status = Response.Status.OK;
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
+        	status = Response.Status.NOT_FOUND;
             return exceptionResponse(e, Response.Status.NOT_FOUND);
         } catch (FHIRException e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	RestAuditLogger.logVersionRead(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -348,17 +366,26 @@ public class FHIRResource {
         @ApiParam(value = "The id of the resource to be retrieved.", required = true)
         @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        
+        Date startTime = new Date();
+    	Response.Status status = null;
+    	Bundle bundle= null;
+    	
         try {
-            Bundle bundle = doHistory(type, id, uriInfo.getQueryParameters(), uriInfo.getRequestUri().toString());
-
+            bundle = doHistory(type, id, uriInfo.getQueryParameters(), uriInfo.getRequestUri().toString());
+            status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	RestAuditLogger.logHistory(securityContext.getUserPrincipal(), uriInfo, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -377,17 +404,27 @@ public class FHIRResource {
         @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
         @PathParam("type") String type) {
         log.entering(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
+        Date startTime = new Date();
+    	Response.Status status = null;
+    	MultivaluedMap<String, String> queryParameters = null;
+    	Bundle bundle = null;
+    	
         try {
-            MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
-            Bundle bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
+            queryParameters = uriInfo.getQueryParameters();
+            bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
+            status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	RestAuditLogger.logSearch(securityContext.getUserPrincipal(), uriInfo, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
@@ -417,22 +454,31 @@ public class FHIRResource {
         Bundle bundle) {
 
         log.entering(this.getClass().getName(), "bundle(Bundle)", "this=" + FHIRUtilities.getObjectHandle(this));
+        Date startTime = new Date();
+    	Response.Status status = null;
+    	Bundle responseBundle = null;
 
         try {
-            Bundle responseBundle = doBundle(bundle);
+            responseBundle = doBundle(bundle);
                 
             ResponseBuilder response = Response.ok(responseBundle);
+            status = Response.Status.OK;
             return response.build();
         } catch (FHIRRestBundledRequestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             log.log(Level.SEVERE, "Error encountered during bundle request processing: ", e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	RestAuditLogger.logBundle(securityContext.getUserPrincipal(), uriInfo, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "bundle(Bundle)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
