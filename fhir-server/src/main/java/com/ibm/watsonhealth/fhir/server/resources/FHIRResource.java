@@ -433,15 +433,23 @@ public class FHIRResource {
     @Path("Resource/$validate")
     public Response validate(Resource resource) {
         log.entering(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        Date startTime = new Date();
+    	Response.Status status = null;
+    	 
         try {
+        	status = Response.Status.OK;
             return Response.ok().entity(doValidate(resource)).build();
         } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
+        	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	RestAuditLogger.logValidate(securityContext.getUserPrincipal(), uriInfo, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }

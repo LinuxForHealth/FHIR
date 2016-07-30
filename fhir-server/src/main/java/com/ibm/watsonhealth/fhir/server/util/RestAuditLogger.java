@@ -184,6 +184,29 @@ public class RestAuditLogger {
 	}
 	
 	/**
+	 * Builds an audit log entry for a 'validate' REST service invocation.
+	 * @param user - The user who initiated the request.
+	 * @param requestUrl - The request URL.
+	 * @param resource - The Resource object being validated.
+	 * @param startTime - The start time of the validate request execution.
+	 * @param endTime - The end time of the validate request execution.
+	 * @param responseStatus - The response status.
+	 */
+	public static void logValidate(Principal user, UriInfo requestUrl, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+		final String METHODNAME = "logRead";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
+		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_VALIDATE);
+		populateAuditLogEntry(entry, user, requestUrl, resource, startTime, endTime, responseStatus);
+				
+		entry.getContext().setAction("R");
+						
+		auditLogSvc.logEntry(entry);
+		log.exiting(CLASSNAME, METHODNAME);
+	}
+	
+	/**
 	 * Builds an audit log entry for a 'bundle' REST service invocation.
 	 * @param user - The user who initiated the request.
 	 * @param requestUrl - The request URL.
