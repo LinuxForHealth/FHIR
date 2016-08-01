@@ -287,6 +287,28 @@ public class RestAuditLogger {
 	}
 	
 	/**
+	 * Builds an audit log entry for a 'metadata' REST service invocation.
+	 * @param user - The user who initiated the request.
+	 * @param request - The HttpServletRequest representation of the REST request.
+	 * @param startTime - The start time of the metadata request execution.
+	 * @param endTime - The end time of the metadata request execution.
+	 * @param responseStatus - The response status.
+	 */
+	public static void logMetadata(HttpServletRequest request, Date startTime, Date endTime, Response.Status responseStatus) {
+		final String METHODNAME = "logMetadata";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
+		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_METADATA);
+		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
+				
+		entry.getContext().setAction("R");
+						
+		auditLogSvc.logEntry(entry);
+		log.exiting(CLASSNAME, METHODNAME);
+	}
+	
+	/**
 	 * Populates the passed audit log entry, with attributes common to all REST services.
 	 * @param entry - The AuditLogEntry to be populated.
 	 * @param user - The user who initiated the request.

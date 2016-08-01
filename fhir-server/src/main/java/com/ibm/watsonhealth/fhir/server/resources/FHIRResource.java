@@ -153,11 +153,16 @@ public class FHIRResource {
     })
     public Response metadata() throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "metadata()");
+        Date startTime = new Date();
+    	Response.Status status = null;
         try {
+        	status = Response.Status.OK;
             return Response.ok().entity(buildConformanceStatement()).build();
         } catch(Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
+        	RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "metadata()");
             }
