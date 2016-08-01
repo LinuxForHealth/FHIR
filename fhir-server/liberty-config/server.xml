@@ -229,7 +229,7 @@ CODE_REMOVED
      	Audit logging properties
     -->
     <jndiEntry id="fhirAuditLogPath" jndiName="com.ibm.watsonhealth.fhir.core.audit.logging.path" value="${server.config.dir}/logs/"/>
- 
+CODE_REMOVED
     
     
     <!-- Datasources from FHIR Persistence Router -->
