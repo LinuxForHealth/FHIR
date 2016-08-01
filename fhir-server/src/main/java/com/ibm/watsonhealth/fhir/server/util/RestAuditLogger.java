@@ -27,7 +27,6 @@ import com.ibm.watsonhealth.fhir.core.audit.logging.beans.AuditLogEntry;
 import com.ibm.watsonhealth.fhir.core.audit.logging.beans.Batch;
 import com.ibm.watsonhealth.fhir.core.audit.logging.beans.Context;
 import com.ibm.watsonhealth.fhir.core.audit.logging.beans.Data;
-import com.ibm.watsonhealth.fhir.core.audit.logging.beans.Database;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.HTTPVerb;
@@ -339,7 +338,6 @@ public class RestAuditLogger {
 			requestUrl.append(request.getQueryString());
 		}
 		entry.getContext().setApiParameters(new ApiParameters().withRequest(requestUrl.toString()));
-		entry.getContext().setDb(acquireDbData());
 		entry.getContext().setStatus(responseStatus.toString());
 		entry.getContext().setStartTime(FHIRUtilities.formatTimestamp(startTime));
 		entry.getContext().setEndTime(FHIRUtilities.formatTimestamp(endTime));
@@ -354,20 +352,6 @@ public class RestAuditLogger {
 		return entry;
 	}
 	
-	/**
-	 * 
-	 * @return Database - Metadata describing the database in use by the FHIR server.
-	 */
-	private static Database acquireDbData() {
-		
-		Database db = new Database();
-		// TODO need to acquire dbname and hostname. Can get dbname via jndi lookups using FHIRServerUtils.getJNDIValue()
-		// Not sure about how to get hostname.
-		
-		return db;
-		
-	}
-
 	/**
 	 * Converts the passed FHIR Resource object to a GSON Json object
 	 * @param resource - The Resource to be converted
