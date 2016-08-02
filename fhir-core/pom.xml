@@ -10,6 +10,13 @@
 	</parent>
 
 	<artifactId>fhir-core</artifactId>
+	
+	<properties>
+
+		<!-- We don't want maven to automatically run our tests till the Jenkins JVM 
+		has been configured to use the FIPS Provider for encryption tests -->
+		<skipTests>true</skipTests>
+	</properties>
 
 	<dependencies>
 		<dependency>
