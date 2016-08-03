@@ -11,13 +11,6 @@
 
 	<artifactId>fhir-core</artifactId>
 	
-	<properties>
-
-		<!-- We don't want maven to automatically run our tests till the Jenkins JVM 
-		has been configured to use the FIPS Provider for encryption tests -->
-		<skipTests>true</skipTests>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
@@ -35,13 +28,11 @@
 		<dependency>
       		<groupId>junit</groupId>
       		<artifactId>junit</artifactId>
-      		<version>4.11</version>
       		<scope>test</scope>
     	</dependency>
     	<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
