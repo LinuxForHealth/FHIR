@@ -3,12 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ibm.watsonhealth.fhir</groupId>
 	<artifactId>fhir-parent</artifactId>
-	<version>1.x-SNAPSHOT</version>
+	<version>99-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>IBM Watson Health Cloud FHIR Server</name>
-
-	<properties>
-	</properties>
 
 	<modules>
 		<module>../fhir-core</module>
