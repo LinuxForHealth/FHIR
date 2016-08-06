@@ -44,18 +44,8 @@
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>
-            <directory>../fhir-parent/src/main/resources/repo/db2</directory>
-            <outputDirectory>fhir/server/fhir/bin/schemaddl/lib</outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
-        <fileSet>
             <directory>src/main/resources/docs</directory>
             <outputDirectory>fhir/server/fhir/docs</outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>../fhir-parent/src/main/resources/repo/db2</directory>
-            <outputDirectory>fhir/server/usr/shared/resources/lib/db2</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
 	</fileSets>
@@ -107,6 +97,22 @@
             <includes>
                 <include>org.apache.derby:derbyclient:*</include>
                 <include>org.apache.derby:derby:*</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>fhir/server/usr/shared/resources/lib/db2</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>com.ibm.db2:db2jcc4:*</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>fhir/server/fhir/bin/schemaddl/lib</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>com.ibm.db2:db2jcc4:*</include>
             </includes>
         </dependencySet>
 	</dependencySets>
