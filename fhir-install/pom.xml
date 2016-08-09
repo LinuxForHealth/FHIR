@@ -27,8 +27,21 @@
 			<type>zip</type>
 		</dependency>
 		<dependency>
+			<groupId>com.ibm.websphere.appserver.runtime</groupId>
+			<artifactId>org.eclipse.persistence.moxy</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.websphere.appserver.runtime.ifix</groupId>
+			<artifactId>IFPI59782</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.ibm.db2</groupId>
 			<artifactId>db2jcc4</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.java</groupId>
+			<artifactId>ibm-java-sdk</artifactId>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 

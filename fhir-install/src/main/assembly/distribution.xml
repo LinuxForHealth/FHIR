@@ -16,18 +16,6 @@
 			<directoryMode>0775</directoryMode>
 			<fileMode>0755</fileMode>
 		</fileSet>
-        <fileSet>
-            <directory>src/main/resources/ifixes</directory>
-            <outputDirectory>ifixes</outputDirectory>
-            <directoryMode>0775</directoryMode>
-            <fileMode>0755</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>src/main/resources/java</directory>
-            <outputDirectory>java</outputDirectory>
-            <directoryMode>0775</directoryMode>
-            <fileMode>0755</fileMode>
-        </fileSet>
 		<fileSet>
 			<directory>../fhir-server/liberty-config</directory>
 			<outputDirectory>fhir/server/usr/servers/fhir-server</outputDirectory>
@@ -117,6 +105,33 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>com.ibm.db2:db2jcc4:*</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>fhir/server/usr/shared/resources/lib/moxy</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>com.ibm.websphere.appserver.runtime:org.eclipse.persistence.moxy:*</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>java</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>com.ibm.java:ibm-java-sdk:*</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>ifixes</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>com.ibm.websphere.appserver.runtime.ifix:IFPI59782:*</include>
             </includes>
         </dependencySet>
 	</dependencySets>
