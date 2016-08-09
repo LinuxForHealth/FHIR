@@ -531,7 +531,7 @@ public class FHIRResource {
             // If there were no validation errors, then create the resource and return the location header.
 
             // First, invoke the 'beforeCreate' interceptor methods.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties());
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null));
             getInterceptorMgr().fireBeforeCreateEvent(event);
 
             getPersistenceImpl().create(resource);
@@ -582,9 +582,9 @@ public class FHIRResource {
             if (id != null & !resource.getId().getValue().equals(id)) {
                 throw new FHIRException("Input resource 'id' attribute must match 'id' parameter.");
             }
-
+            
             // First, invoke the 'beforeUpdate' interceptor methods.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties());
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, resource.getId().getValue(), null));
             getInterceptorMgr().fireBeforeUpdateEvent(event);
 
             getPersistenceImpl().update(id, resource);
@@ -593,7 +593,7 @@ public class FHIRResource {
             URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource);
             event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
 
-            // Invoke the 'afterCreate' interceptor methods.
+            // Invoke the 'afterUpdate' interceptor methods.
             getInterceptorMgr().fireAfterUpdateEvent(event);
 
             return locationURI;
@@ -625,10 +625,20 @@ public class FHIRResource {
             }
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            
+            // First, invoke the 'beforeRead' interceptor methods.
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
+            getInterceptorMgr().fireBeforeReadEvent(event);
+            
             Resource resource = getPersistenceImpl().read(resourceType, id);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
             }
+            
+            event.setFhirResource(resource);
+
+            // Invoke the 'afterRead' interceptor methods.
+            getInterceptorMgr().fireAfterReadEvent(event);
 
             return resource;
         } finally {
@@ -660,10 +670,20 @@ public class FHIRResource {
             }
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            
+            // First, invoke the 'beforeVread' interceptor methods.
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId));
+            getInterceptorMgr().fireBeforeVreadEvent(event);
+            
             Resource resource = getPersistenceImpl().vread(resourceType, id, versionId);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + versionId + " not found.");
             }
+            
+            event.setFhirResource(resource);
+
+            // Invoke the 'afterVread' interceptor methods.
+            getInterceptorMgr().fireAfterVreadEvent(event);
 
             return resource;
         } finally {
@@ -700,13 +720,23 @@ public class FHIRResource {
 
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
+            
+            // First, invoke the 'beforeHistory' interceptor methods.
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
+            getInterceptorMgr().fireBeforeHistoryEvent(event);
+
             List<Resource> resources = getPersistenceImpl().history(resourceType, id, context);
             Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, context.getTotalCount());
             addLinks(context, bundle, requestUri);
+            
+            event.setFhirResource(bundle);
+
+            // Invoke the 'afterHistory' interceptor methods.
+            getInterceptorMgr().fireAfterHistoryEvent(event);
 
             return bundle;
         } finally {
-            log.exiting(this.getClass().getName(), "enclosing_method");
+            log.exiting(this.getClass().getName(), "doHistory");
         }
     }
     
@@ -734,6 +764,11 @@ public class FHIRResource {
             }
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            
+            // First, invoke the 'beforeSearch' interceptor methods.
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, null, null));
+            getInterceptorMgr().fireBeforeSearchEvent(event);
+            
             FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             List<Parameter> searchParameters = context.getSearchParameters();
             if (implicitSearchParameter != null) {
@@ -743,6 +778,11 @@ public class FHIRResource {
             List<Resource> resources = getPersistenceImpl().search(resourceType, context);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, context.getTotalCount());
             addLinks(context, bundle, requestUri);
+            
+            event.setFhirResource(bundle);
+
+            // Invoke the 'afterSearch' interceptor methods.
+            getInterceptorMgr().fireAfterSearchEvent(event);
             
             return bundle;
         } finally {
@@ -1431,11 +1471,20 @@ public class FHIRResource {
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
      */
-    private Map<String, Object> buildPersistenceEventProperties() {
+    private Map<String, Object> buildPersistenceEventProperties(String type, String id, String version) {
         Map<String, Object> props = new HashMap<>();
         props.put(FHIRPersistenceEvent.PROPNAME_URI_INFO, uriInfo);
         props.put(FHIRPersistenceEvent.PROPNAME_HTTP_HEADERS, httpHeaders);
         props.put(FHIRPersistenceEvent.PROPNAME_SECURITY_CONTEXT, securityContext);
+        if (type != null) {
+            props.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, type);
+        }
+        if (id != null) {
+            props.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, id);
+        }
+        if (version != null) {
+            props.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, version);
+        }
         return props;
     }
 }

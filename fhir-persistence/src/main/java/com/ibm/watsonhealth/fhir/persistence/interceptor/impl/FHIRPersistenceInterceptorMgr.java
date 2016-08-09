@@ -102,4 +102,52 @@ public class FHIRPersistenceInterceptorMgr {
             interceptor.afterUpdate(event);
         }
     }
+
+    public void fireBeforeReadEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.beforeRead(event);
+        }
+    }
+
+    public void fireAfterReadEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.afterRead(event);
+        }
+    }
+
+    public void fireBeforeVreadEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.beforeVread(event);
+        }
+    }
+
+    public void fireAfterVreadEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.afterVread(event);
+        }
+    }
+
+    public void fireBeforeHistoryEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.beforeHistory(event);
+        }
+    }
+
+    public void fireAfterHistoryEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.afterHistory(event);
+        }
+    }
+
+    public void fireBeforeSearchEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.beforeSearch(event);
+        }
+    }
+
+    public void fireAfterSearchEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.afterSearch(event);
+        }
+    }
 }

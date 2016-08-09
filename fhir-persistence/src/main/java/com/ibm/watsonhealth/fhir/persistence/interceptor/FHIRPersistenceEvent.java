@@ -9,7 +9,12 @@ package com.ibm.watsonhealth.fhir.persistence.interceptor;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
+
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 /**
  * This class represents an event fired by the FHIR persistence interceptor framework.
@@ -40,6 +45,24 @@ public class FHIRPersistenceEvent {
      */
     public static final String PROPNAME_RESOURCE_LOCATION_URI = "LOCATION_URI";
     
+    /**
+     * This property is of type String and contains the resource type associated with a
+     * read, vread, history or search operation.   For other operations, this property will be null.
+     */
+    public static final String PROPNAME_RESOURCE_TYPE = "RESOURCE_TYPE";
+    
+    /**
+     * This property is of type String and contains the resource id associated with a
+     * read, vread, or history operation.   For other operations, this property will be null.
+     */
+    public static final String PROPNAME_RESOURCE_ID = "RESOURCE_ID";
+    
+    /**
+     * This property is of type String and contains the version id associated with a
+     * vread operation.   For other operations, this property will be null.
+     */
+    public static final String PROPNAME_VERSION_ID = "VERSION_ID";
+    
     Resource fhirResource;
     Map<String, Object> properties;
     
@@ -60,10 +83,79 @@ public class FHIRPersistenceEvent {
     }
 
     /**
-     * Returns the FHIR resource associated with the interceptor invocation.
+     * Returns the resource associated with the REST API request that triggered the 
+     * interceptor invocation.  This will be non-null before and after a create or update operation,
+     * and will be non-null after a read, vread, history or search operation.
      */
     public Resource getFhirResource() {
         return fhirResource;
+    }
+    
+    /**
+     * Sets the specific resource in 'this'.
+     * Interceptor implementations should *not* call this method.  This method is reserved for use by the FHIR Server.
+     */
+    public void setFhirResource(Resource resource) {
+        this.fhirResource = resource;
+    }
+    
+    /**
+     * Returns the resource type associated with the FHIR REST API request that triggered the
+     * interceptor invocation.   This will be non-null for a create, update, read, vread, history or search operation.
+     */
+    public String getFhirResourceType() {
+        return (String) getProperty(PROPNAME_RESOURCE_TYPE);
+    }
+    
+    /**
+     * Returns the resource id associated with the FHIR REST API request that triggered the
+     * interceptor invocation.   This will be non-null for an update, read, vread or history operation.
+     */
+    public String getFhirResourceId() {
+        return (String) getProperty(PROPNAME_RESOURCE_ID);
+    }
+    
+    /**
+     * Returns the version id associated with the FHIR REST API request that triggered the 
+     * interceptor invocation.  This will be non-null for a vread operation.
+     */
+    public String getFhirVersionId() {
+        return (String) getProperty(PROPNAME_VERSION_ID);
+    }
+    
+    /**
+     * Returns true if and only if the resource type value contained in the persistence event 
+     * represents a standard FHIR resource type.
+     */
+    public boolean isStandardResourceType() {
+        return (this.getFhirResourceType() != null ? FHIRUtil.isStandardResourceType(getFhirResourceType()) : false);
+    }
+    
+    /**
+     * Returns the HttpHeaders instance associated with the FHIR REST API request that triggered the
+     * interceptor invocation.
+     * Note that this HttpHeaders instance is only valid within the scope of the REST API request.
+     */
+    public HttpHeaders getHttpHeaders() {
+        return (HttpHeaders) getProperty(PROPNAME_HTTP_HEADERS);
+    }
+    
+    /**
+     * Returns the SecurityContext instance associated with the FHIR REST API request that triggered the
+     * interceptor invocation.
+     * Note that this SecurityContext instance is only valid within the scope of the REST API request.
+     */
+    public SecurityContext getSecurityContext() {
+        return (SecurityContext) getProperty(PROPNAME_SECURITY_CONTEXT);
+    }
+    
+    /**
+     * Returns the UriInfo instance associated with the FHIR REST API request that triggered the
+     * interceptor invocation.  
+     * Note that this UriInfo instance is only valid within the scope of the REST API request.
+     */
+    public UriInfo getUriInfo() {
+        return (UriInfo) getProperty(PROPNAME_URI_INFO);
     }
 
     /**
@@ -74,6 +166,10 @@ public class FHIRPersistenceEvent {
         return (properties != null ? properties.get(propertyName) : null);
     }
     
+    /**
+     * Retrieves the set of properties associated with the FHIR REST API request that triggered
+     * the interceptor invocation.
+     */
     public Map<String, Object> getProperties() {
         if (properties == null) {
             properties = new HashMap<String, Object>();
