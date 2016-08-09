@@ -48,6 +48,7 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 public class FHIRSwaggerGenerator {
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
+    private static boolean includeDeleteOperation = false;
     
     public static void main(String[] args) throws Exception {
         /*
@@ -72,7 +73,7 @@ public class FHIRSwaggerGenerator {
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
         info.add("description", "IBM Watson Health Cloud FHIR Server API");
-        info.add("version", "1.0.0");
+        info.add("version", "1.1.0");
         swagger.add("info", info);
         
         swagger.add("basePath", "/fhir-server/api/v1");
@@ -102,7 +103,10 @@ public class FHIRSwaggerGenerator {
         generateMetadataPathItem(path);
         paths.add("/metadata", path);
         
-        // TODO: FHIR batch operation
+        // FHIR batch operation
+        path = factory.createObjectBuilder();
+        generateBatchPathItem(path);
+        paths.add("/", path);
         
         // TODO: FHIR transaction operation
         
@@ -217,7 +221,7 @@ public class FHIRSwaggerGenerator {
             generateUpdatePathItem(modelClass, path);
         }
         // FHIR delete operation
-        if (filter.acceptOperation(modelClass, "delete")) {
+        if (filter.acceptOperation(modelClass, "delete") && includeDeleteOperation) {
             generateDeletePathItem(modelClass, path);
         }
         pathObject = path.build();
@@ -538,6 +542,53 @@ public class FHIRSwaggerGenerator {
         get.add("responses", responses);
         
         path.add("get", get);
+    }
+    
+    private static void generateBatchPathItem(JsonObjectBuilder path) {
+        JsonObjectBuilder post = factory.createObjectBuilder();
+        
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Other");
+        
+        post.add("tags", tags);
+        post.add("summary", "Perform a batch operation");
+        post.add("operationId", "batch");
+        
+        JsonArrayBuilder consumes = factory.createArrayBuilder();
+        consumes.add("application/json+fhir");
+        post.add("consumes", consumes);
+        
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+        JsonObjectBuilder bodyParameter = factory.createObjectBuilder();
+        
+        bodyParameter.add("name", "body");
+        bodyParameter.add("in", "body");
+        bodyParameter.add("required", true);
+        
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/definitions/Bundle");
+        bodyParameter.add("schema", schema);
+        
+        parameters.add(bodyParameter);
+        post.add("parameters", parameters);
+        
+        JsonArrayBuilder produces = factory.createArrayBuilder();
+        produces.add("application/json+fhir");
+        post.add("produces", produces);
+        
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+        
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "batch operation successful");
+        
+        schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/definitions/Bundle");
+        
+        response.add("schema", schema);
+        responses.add("200", response);
+        post.add("responses", responses);
+        
+        path.add("post", post);
     }
 
     private static void generateDefinition(Class<?> modelClass, JsonObjectBuilder definitions) throws Exception {
