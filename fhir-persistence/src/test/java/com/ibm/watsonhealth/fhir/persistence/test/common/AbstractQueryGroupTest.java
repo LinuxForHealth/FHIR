@@ -38,7 +38,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
     public void testCreateGroup() throws Exception {
     	Group group = readResource(Group.class, "group-example-member.canonical.json");
 
-    	persistence.create(group);
+    	persistence.create(getDefaultPersistenceContext(), group);
         assertNotNull(group);
         assertNotNull(group.getId());
         assertNotNull(group.getId().getValue());
@@ -97,7 +97,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Group.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -122,7 +122,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Group.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Group)resources.get(0)).getMember().get(3).getEntity().getReference().getValue(),"Patient/pat4");
@@ -148,7 +148,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Group.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();

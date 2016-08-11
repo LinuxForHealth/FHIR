@@ -72,6 +72,8 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -534,7 +536,8 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null));
             getInterceptorMgr().fireBeforeCreateEvent(event);
 
-            getPersistenceImpl().create(resource);
+            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            getPersistenceImpl().create(persistenceContext, resource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
             URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource);
@@ -587,7 +590,8 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, resource.getId().getValue(), null));
             getInterceptorMgr().fireBeforeUpdateEvent(event);
 
-            getPersistenceImpl().update(id, resource);
+            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            getPersistenceImpl().update(persistenceContext, id, resource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
             URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource);
@@ -630,7 +634,8 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeReadEvent(event);
             
-            Resource resource = getPersistenceImpl().read(resourceType, id);
+            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            Resource resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
             }
@@ -675,7 +680,8 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId));
             getInterceptorMgr().fireBeforeVreadEvent(event);
             
-            Resource resource = getPersistenceImpl().vread(resourceType, id, versionId);
+            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            Resource resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + versionId + " not found.");
             }
@@ -719,15 +725,16 @@ public class FHIRResource {
             }
 
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
-            FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
+            FHIRHistoryContext historyContext = FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
             
             // First, invoke the 'beforeHistory' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeHistoryEvent(event);
 
-            List<Resource> resources = getPersistenceImpl().history(resourceType, id, context);
-            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, context.getTotalCount());
-            addLinks(context, bundle, requestUri);
+            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, historyContext, null);
+            List<Resource> resources = getPersistenceImpl().history(persistenceContext, resourceType, id);
+            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, historyContext.getTotalCount());
+            addLinks(historyContext, bundle, requestUri);
             
             event.setFhirResource(bundle);
 
@@ -769,15 +776,16 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, null, null));
             getInterceptorMgr().fireBeforeSearchEvent(event);
             
-            FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
-            List<Parameter> searchParameters = context.getSearchParameters();
+            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+            List<Parameter> searchParameters = searchContext.getSearchParameters();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);
             }
             
-            List<Resource> resources = getPersistenceImpl().search(resourceType, context);
-            Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, context.getTotalCount());
-            addLinks(context, bundle, requestUri);
+            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, searchContext);
+            List<Resource> resources = getPersistenceImpl().search(persistenceContext, resourceType);
+            Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, searchContext.getTotalCount());
+            addLinks(searchContext, bundle, requestUri);
             
             event.setFhirResource(bundle);
 

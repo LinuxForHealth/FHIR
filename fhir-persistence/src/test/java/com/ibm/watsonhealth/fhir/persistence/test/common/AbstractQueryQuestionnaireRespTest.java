@@ -38,7 +38,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
     public void testCreateQuestionnaireResponse1() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse.json");
 
-        persistence.create(questionnaireResp);
+        persistence.create(getDefaultPersistenceContext(), questionnaireResp);
         assertNotNull(questionnaireResp);
         assertNotNull(questionnaireResp.getId());
         assertNotNull(questionnaireResp.getId().getValue());
@@ -56,7 +56,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
     public void testCreateQuestionnaireResponse2() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "questionnaireresponse-example-gcs.canonical.json");
 
-        persistence.create(questionnaireResp);
+        persistence.create(getDefaultPersistenceContext(), questionnaireResp);
         assertNotNull(questionnaireResp);
         assertNotNull(questionnaireResp.getId());
         assertNotNull(questionnaireResp.getId().getValue());
@@ -163,7 +163,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -188,7 +188,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((QuestionnaireResponse)resources.get(0)).getAuthored().getValue(),"2015-11-25T18:30:50+01:00");
@@ -214,7 +214,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(QuestionnaireResponse.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();

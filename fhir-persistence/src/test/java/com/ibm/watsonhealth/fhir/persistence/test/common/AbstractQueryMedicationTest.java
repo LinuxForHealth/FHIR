@@ -39,7 +39,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
     	 
     	Medication medication = readResource(Medication.class, "medicationexample4.canonical.json");
 
-    	persistence.create(medication);
+    	persistence.create(getDefaultPersistenceContext(), medication);
         assertNotNull(medication);
         assertNotNull(medication.getId());
         assertNotNull(medication.getId().getValue());
@@ -122,7 +122,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Medication.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Medication.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -147,7 +147,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Medication.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Medication.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Medication)resources.get(0)).getProduct().getIngredient().get(0).getItem().getReference().getValue(),"Amoxicillin");
@@ -173,7 +173,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Medication.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Medication.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();

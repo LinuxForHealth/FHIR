@@ -38,7 +38,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
     public void testCreateMedicationAdministration() throws Exception {
     	MedicationAdministration medAdmin = readResource(MedicationAdministration.class, "medicationadministrationexample1.canonical.json");
 
-    	persistence.create(medAdmin);
+    	persistence.create(getDefaultPersistenceContext(), medAdmin);
         assertNotNull(medAdmin);
         assertNotNull(medAdmin.getId());
         assertNotNull(medAdmin.getId().getValue());
@@ -144,7 +144,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), MedicationAdministration.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -169,7 +169,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), MedicationAdministration.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationAdministration)resources.get(0)).getEffectiveTimePeriod().getEnd().getValue(),"2015-01-15T14:30:00+01:00");
@@ -195,7 +195,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(MedicationAdministration.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), MedicationAdministration.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();

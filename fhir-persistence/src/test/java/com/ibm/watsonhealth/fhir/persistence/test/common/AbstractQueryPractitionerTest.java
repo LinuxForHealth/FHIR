@@ -38,7 +38,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
     public void testCreatePractitioner1() throws Exception {
     	Practitioner practitioner = readResource(Practitioner.class, "practitioner-example.canonical.json");
 
-        persistence.create(practitioner);
+        persistence.create(getDefaultPersistenceContext(), practitioner);
         assertNotNull(practitioner);
         assertNotNull(practitioner.getId());
         assertNotNull(practitioner.getId().getValue());
@@ -56,7 +56,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
     public void testCreatePractitioner2() throws Exception {
     	Practitioner practitioner = readResource(Practitioner.class, "practitioner-example-f001-evdb.canonical.json");
 
-        persistence.create(practitioner);
+        persistence.create(getDefaultPersistenceContext(), practitioner);
         assertNotNull(practitioner);
         assertNotNull(practitioner.getId());
         assertNotNull(practitioner.getId().getValue());
@@ -190,7 +190,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Practitioner.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -215,7 +215,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Practitioner.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
@@ -244,7 +244,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Practitioner.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();

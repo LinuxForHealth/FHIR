@@ -46,7 +46,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
     public void testCreatePatient1() throws Exception {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
-    	persistence.create(patient);
+    	persistence.create(getDefaultPersistenceContext(), patient);
         assertNotNull(patient);
         assertNotNull(patient.getId());
         assertNotNull(patient.getId().getValue());
@@ -65,7 +65,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
     public void testCreatePatient2() throws Exception {
    		Patient patient = readResource(Patient.class, "patient-example.canonical.json");
 
-    	persistence.create(patient);
+    	persistence.create(getDefaultPersistenceContext(), patient);
         assertNotNull(patient);
         assertNotNull(patient.getId());
         assertNotNull(patient.getId().getValue());
@@ -83,7 +83,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
     public void testCreatePatient3() throws Exception {
    		Patient patient = readResource(Patient.class, "patient-glossy-example.canonical.json");
 
-    	persistence.create(patient);
+    	persistence.create(getDefaultPersistenceContext(), patient);
         assertNotNull(patient);
         assertNotNull(patient.getId());
         assertNotNull(patient.getId().getValue());
@@ -101,7 +101,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
     @Test(groups = { "cloudant", "jpa" })
     public void testCreatePatient4() throws Exception {
         Patient patient = readResource(Patient.class, "Patient1.json");
-        persistence.create(patient);
+        persistence.create(getDefaultPersistenceContext(), patient);
         assertNotNull(patient);
         assertNotNull(patient.getId());
         assertNotNull(patient.getId().getValue());
@@ -118,7 +118,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
     @Test(groups = { "cloudant", "jpa" })
     public void testCreatePatient5() throws Exception {
         Patient patient = readResource(Patient.class, "patient-example-c.canonical.json");
-        persistence.create(patient);
+        persistence.create(getDefaultPersistenceContext(), patient);
         assertNotNull(patient);
     }
     
@@ -732,7 +732,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Patient.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -757,7 +757,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Patient.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertTrue(((Patient)resources.get(0)).getDeceasedDateTime().getValue().equals("2015-02-14T13:42:00+10:00"));
@@ -783,7 +783,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Patient.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();
@@ -806,7 +806,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		queryParms.put("_since", Collections.singletonList("2015-06-10T21:32:59.076Z"));
 		FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
 		
-		List<Resource> resources = persistence.history(Patient.class, savedPatient.getId().getValue(), context);
+		List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Patient.class, savedPatient.getId().getValue());
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -824,14 +824,15 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
     public void testPerformanceTestPatient() throws Exception {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
-   		for(int i=0; i<1000; i++)
-   			persistence.create(patient);
+   		for(int i=0; i<1000; i++) {
+   			persistence.create(getDefaultPersistenceContext(), patient);
+   		}
         
    		Class<? extends Resource> resourceType = Patient.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Patient.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();

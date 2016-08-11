@@ -44,7 +44,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     	try {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
-    	persistence.create(patient);
+    	persistence.create(getDefaultPersistenceContext(), patient);
         assertNotNull(patient);
         assertNotNull(patient.getId());
         assertNotNull(patient.getId().getValue());
@@ -66,7 +66,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     public void testCreateObservation1() throws Exception {
         Observation observation = buildObservation(savedPatient.getId().getValue(), "Observation1.json");
 
-        persistence.create(observation);
+        persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getId().getValue());
@@ -84,7 +84,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     public void testCreateObservation2() throws Exception {
         Observation observation = buildObservation("example", "observation-example.canonical.json");
 
-        persistence.create(observation);
+        persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getId().getValue());
@@ -102,7 +102,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     public void testCreateObservation3() throws Exception {
         Observation observation = buildObservation("blood-pressure", "observation-example-bloodpressure.canonical.json");
 
-        persistence.create(observation);
+        persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getId().getValue());
@@ -120,7 +120,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     public void testCreateObservation4() throws Exception {
         Observation observation = buildObservation("blood-pressure", "obs-uslab-example8.canonical.json");
 
-        persistence.create(observation);
+        persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getId().getValue());
@@ -138,7 +138,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     public void testCreateObservation5() throws Exception {
         Observation observation = readResource(Observation.class, "Observation5.json");
 
-        persistence.create(observation);
+        persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getId().getValue());
@@ -625,7 +625,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Observation.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Observation.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -650,7 +650,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Observation.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Observation.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getEffectiveDateTime().getValue(),"2012-09-17");
@@ -676,7 +676,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Observation.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Observation.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();

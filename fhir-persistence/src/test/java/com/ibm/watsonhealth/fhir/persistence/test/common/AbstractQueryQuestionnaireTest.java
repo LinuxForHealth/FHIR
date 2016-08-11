@@ -38,7 +38,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
     public void testCreateQuestionnaire() throws Exception {
     	Questionnaire questionnaire = readResource(Questionnaire.class, "Questionnaire.json");
 
-        persistence.create(questionnaire);
+        persistence.create(getDefaultPersistenceContext(), questionnaire);
         assertNotNull(questionnaire);
         assertNotNull(questionnaire.getId());
         assertNotNull(questionnaire.getId().getValue());
@@ -108,7 +108,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Questionnaire.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -133,7 +133,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Questionnaire.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");

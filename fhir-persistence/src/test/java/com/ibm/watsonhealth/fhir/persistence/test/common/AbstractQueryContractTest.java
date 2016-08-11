@@ -43,7 +43,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
     public void testCreateContract() throws Exception {
     	Contract contract = readResource(Contract.class, "contract-example.canonical.json");
 
-    	persistence.create(contract);
+    	persistence.create(getDefaultPersistenceContext(), contract);
         assertNotNull(contract);
         assertNotNull(contract.getId());
         assertNotNull(contract.getId().getValue());
@@ -97,12 +97,12 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
     public void testUpdateContract() throws Exception {
     	Contract contract = savedContract;
     	contract.setLanguage((new Code()).withValue("it"));
-        persistence.update(contract.getId().getValue(), contract);
+        persistence.update(getDefaultPersistenceContext(), contract.getId().getValue(), contract);
         assertNotNull(contract);
         assertEquals("2", contract.getMeta().getVersionId().getValue());
 
         // Now re-read the risk assessment and make sure we get back the correctly updated object
-        Contract retrievedContract = (Contract) persistence.read(Contract.class, contract.getId().getValue());
+        Contract retrievedContract = (Contract) persistence.read(getDefaultPersistenceContext(), Contract.class, contract.getId().getValue());
         assertNotNull(retrievedContract);
         assertResourceEquals(contract, retrievedContract);
     }
@@ -116,12 +116,12 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
     public void testUpdateContractAgain() throws Exception {
     	Contract contract = savedContract;
     	contract.setLanguage((new Code()).withValue("pt-BR"));
-        persistence.update(contract.getId().getValue(), contract);
+        persistence.update(getDefaultPersistenceContext(), contract.getId().getValue(), contract);
         assertNotNull(contract);
         assertEquals("3", contract.getMeta().getVersionId().getValue());
 
         // Now re-read the risk assessment and make sure we get back the correctly updated object
-        Contract retrievedContract = (Contract) persistence.read(Contract.class, contract.getId().getValue());
+        Contract retrievedContract = (Contract) persistence.read(getDefaultPersistenceContext(), Contract.class, contract.getId().getValue());
         assertNotNull(retrievedContract);
         assertResourceEquals(contract, retrievedContract);
     }
@@ -141,7 +141,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Contract.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -166,7 +166,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Contract.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Contract)resources.get(0)).getSubject().get(0).getReference().getValue(),"Patient/example");
@@ -192,7 +192,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Contract.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();
@@ -215,7 +215,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 		queryParms.put("_since", Collections.singletonList("2015-06-10T21:32:59.076Z"));
 		FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
 		
-		List<Resource> resources = persistence.history(Contract.class, savedContract.getId().getValue(), context);
+		List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue());
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -235,7 +235,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         queryParms.put("_page", Collections.singletonList("1"));
 		FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
 		
-		List<Resource> resources = persistence.history(Contract.class, savedContract.getId().getValue(), context);
+		List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue());
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -256,7 +256,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         queryParms.put("_count", Collections.singletonList("2"));
 		FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
 		
-		List<Resource> resources = persistence.history(Contract.class, savedContract.getId().getValue(), context);
+		List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue());
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();

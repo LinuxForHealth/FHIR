@@ -42,7 +42,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
     public void testCreateMedicationOrder() throws Exception {
     	MedicationOrder medOrder = readResource(MedicationOrder.class, "medicationorderexample1.canonical.json");
 
-    	persistence.create(medOrder);
+    	persistence.create(getDefaultPersistenceContext(), medOrder);
         assertNotNull(medOrder);
         assertNotNull(medOrder.getId());
         assertNotNull(medOrder.getId().getValue());
@@ -149,7 +149,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(MedicationOrder.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), MedicationOrder.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -174,7 +174,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(MedicationOrder.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), MedicationOrder.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((MedicationOrder)resources.get(0)).getMedicationReference().getReference().getValue(),"Medication/MedicationExample2");
@@ -200,7 +200,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(MedicationOrder.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), MedicationOrder.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();
@@ -223,7 +223,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 		queryParms.put("_since", Collections.singletonList("2015-06-10T21:32:59.076Z"));
 		FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
 		
-		List<Resource> resources = persistence.history(MedicationOrder.class, savedMedicationOrder.getId().getValue(), context);
+		List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), MedicationOrder.class, savedMedicationOrder.getId().getValue());
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();

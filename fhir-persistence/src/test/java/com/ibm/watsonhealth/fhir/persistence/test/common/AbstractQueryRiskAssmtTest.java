@@ -39,7 +39,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
     public void testCreateRiskAssessment1() throws Exception {
         RiskAssessment riskAssmt = readResource(RiskAssessment.class, "PrognosisRiskAssessment.json");
 
-        persistence.create(riskAssmt);
+        persistence.create(getDefaultPersistenceContext(), riskAssmt);
         assertNotNull(riskAssmt);
         assertNotNull(riskAssmt.getId());
         assertNotNull(riskAssmt.getId().getValue());
@@ -57,7 +57,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
     public void testCreateRiskAssessment2() throws Exception {
         RiskAssessment riskAssmt = readResource(RiskAssessment.class, "riskassessment-example-cardiac.canonical.json");
 
-        persistence.create(riskAssmt);
+        persistence.create(getDefaultPersistenceContext(), riskAssmt);
         assertNotNull(riskAssmt);
         assertNotNull(riskAssmt.getId());
         assertNotNull(riskAssmt.getId().getValue());
@@ -129,7 +129,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -154,7 +154,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(RiskAssessment.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");

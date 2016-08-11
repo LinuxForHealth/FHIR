@@ -33,7 +33,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
     public void testCreateEncounter() throws Exception {
     	Encounter encounter = readResource(Encounter.class, "Encounter.json");
 
-        persistence.create(encounter);
+        persistence.create(getDefaultPersistenceContext(), encounter);
         assertNotNull(encounter);
         assertNotNull(encounter.getId());
         assertNotNull(encounter.getId().getValue());

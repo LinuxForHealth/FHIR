@@ -18,6 +18,9 @@ import org.testng.annotations.BeforeClass;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
@@ -34,6 +37,19 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
     public abstract FHIRPersistence getPersistenceImpl() throws Exception;
     
+    // The following persistence context-related methods can be overridden in subclasses to
+    // provide a more specific instance of the FHIRPersistenceContext if necessary.
+    // These default versions just provide the minimum required by the FHIR Server persistence layers.
+    public FHIRPersistenceContext getDefaultPersistenceContext() throws Exception {
+        return new FHIRPersistenceContextImpl(null, null, null);
+    }
+    public FHIRPersistenceContext getPersistenceContextForSearch(FHIRSearchContext ctxt) {
+        return new FHIRPersistenceContextImpl(null, null, ctxt);
+    }
+    public FHIRPersistenceContext getPersistenceContextForHistory(FHIRHistoryContext ctxt) {
+        return new FHIRPersistenceContextImpl(null, ctxt, null);
+    }
+    
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         persistence = getPersistenceImpl();
@@ -44,8 +60,9 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-        List<Resource> resources = persistence.search(resourceType, context);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
+        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);
         return resources;
     }

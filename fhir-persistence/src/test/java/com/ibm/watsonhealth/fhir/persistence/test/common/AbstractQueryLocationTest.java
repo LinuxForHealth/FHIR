@@ -38,7 +38,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
     public void testCreateLocation1() throws Exception {
     	Location location = readResource(Location.class, "location-example.canonical.json");
 
-        persistence.create(location);
+        persistence.create(getDefaultPersistenceContext(), location);
         assertNotNull(location);
         assertNotNull(location.getId());
         assertNotNull(location.getId().getValue());
@@ -56,7 +56,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
     public void testCreateLocation2() throws Exception {
     	Location location = readResource(Location.class, "location-example-room.canonical.json");
 
-        persistence.create(location);
+        persistence.create(getDefaultPersistenceContext(), location);
         assertNotNull(location);
         assertNotNull(location.getId());
         assertNotNull(location.getId().getValue());
@@ -74,7 +74,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
     public void testCreateLocation3() throws Exception {
     	Location location = readResource(Location.class, "Location1.json");
 
-        persistence.create(location);
+        persistence.create(getDefaultPersistenceContext(), location);
         assertNotNull(location);
         assertNotNull(location.getId());
         assertNotNull(location.getId().getValue());
@@ -170,7 +170,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		queryParms.put("near-distance", Collections.singletonList("1|km"));
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 
@@ -189,7 +189,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}
@@ -206,7 +206,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 	
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -224,7 +224,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		queryParms.put("address-city", Collections.singletonList("Ann Arbor"));
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}
@@ -244,7 +244,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		//I know that it will not be match..
 		assertTrue(resources.size() == 0);
@@ -264,7 +264,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		queryParms.put("near-distance", Collections.singletonList("4|km"));
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}
@@ -282,7 +282,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		queryParms.put("near-distance", Collections.singletonList("4|kilometers"));
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}
@@ -300,7 +300,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		queryParms.put("near-distance", Collections.singletonList("4|miles"));
 		Class<? extends Resource> resourceType = Location.class;
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 	}
@@ -320,7 +320,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		long count = context.getTotalCount();
@@ -345,7 +345,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Location)resources.get(0)).getPartOf().getReference().getValue(),"Location/1");
@@ -371,7 +371,7 @@ public abstract class AbstractQueryLocationTest extends AbstractPersistenceTest 
 		queryParms.put(parmName, Collections.singletonList(parmValue));
 		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
 		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(Location.class, context);
+		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Location.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();
