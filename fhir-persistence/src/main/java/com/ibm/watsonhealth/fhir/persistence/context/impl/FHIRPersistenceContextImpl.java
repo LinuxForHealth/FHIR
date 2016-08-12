@@ -17,17 +17,19 @@ import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
  */
 public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
 
-    FHIRPersistenceEvent persistenceEvent;
-    FHIRHistoryContext historyContext;
-    FHIRSearchContext searchContext;
+    private FHIRPersistenceEvent persistenceEvent;
+    private FHIRHistoryContext historyContext;
+    private FHIRSearchContext searchContext;
     
-    // Hide the default ctor.
-    protected FHIRPersistenceContextImpl() {
+    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe) {
+        this.persistenceEvent = pe;
     }
-    
-    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc, FHIRSearchContext sc) {
+    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc) {
         this.persistenceEvent = pe;
         this.historyContext = hc;
+    }
+    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRSearchContext sc) {
+        this.persistenceEvent = pe;
         this.searchContext = sc;
     }
 

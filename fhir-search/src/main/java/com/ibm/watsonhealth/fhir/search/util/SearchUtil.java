@@ -49,7 +49,7 @@ import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.ParameterValue.Prefix;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
-import com.ibm.watsonhealth.fhir.search.context.impl.FHIRSearchContextImpl;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 public class SearchUtil {
@@ -294,7 +294,7 @@ public class SearchUtil {
 
     public static FHIRSearchContext parseQueryParameters(Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters)
         throws FHIRSearchException {
-        FHIRSearchContext context = new FHIRSearchContextImpl();
+        FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         List<Parameter> parameters = new ArrayList<Parameter>();
 
         for (String name : queryParameters.keySet()) {
@@ -425,7 +425,7 @@ public class SearchUtil {
         }
 
         context.setSearchParameters(parameters);
-        // return new FHIRSearchContextImpl(parameters);
+        // return FHIRSearchContextFactory.createSearchContext(parameters);
         return context;
     }
 

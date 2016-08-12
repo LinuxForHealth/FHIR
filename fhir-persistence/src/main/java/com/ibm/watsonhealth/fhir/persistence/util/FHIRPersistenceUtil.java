@@ -16,7 +16,7 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
-import com.ibm.watsonhealth.fhir.persistence.context.impl.FHIRHistoryContextImpl;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 public class FHIRPersistenceUtil {
@@ -27,7 +27,7 @@ public class FHIRPersistenceUtil {
     // Parse history parameters into a FHIRHistoryContext
     public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters) throws FHIRPersistenceException {
         log.entering(FHIRPersistenceUtil.class.getName(), "parseHistoryParameters");
-        FHIRHistoryContext context = new FHIRHistoryContextImpl();
+        FHIRHistoryContext context = FHIRPersistenceContextFactory.createHistoryContext();
         try {
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);

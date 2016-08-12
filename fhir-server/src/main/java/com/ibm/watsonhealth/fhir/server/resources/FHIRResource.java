@@ -73,7 +73,7 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.watsonhealth.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -536,7 +536,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null));
             getInterceptorMgr().fireBeforeCreateEvent(event);
 
-            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             getPersistenceImpl().create(persistenceContext, resource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
@@ -590,7 +590,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, resource.getId().getValue(), null));
             getInterceptorMgr().fireBeforeUpdateEvent(event);
 
-            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             getPersistenceImpl().update(persistenceContext, id, resource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
@@ -634,7 +634,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeReadEvent(event);
             
-            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             Resource resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
@@ -680,7 +680,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId));
             getInterceptorMgr().fireBeforeVreadEvent(event);
             
-            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, null);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             Resource resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + versionId + " not found.");
@@ -731,7 +731,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeHistoryEvent(event);
 
-            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, historyContext, null);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, historyContext);
             List<Resource> resources = getPersistenceImpl().history(persistenceContext, resourceType, id);
             Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, historyContext.getTotalCount());
             addLinks(historyContext, bundle, requestUri);
@@ -782,7 +782,7 @@ public class FHIRResource {
                 searchParameters.add(implicitSearchParameter);
             }
             
-            FHIRPersistenceContext persistenceContext = new FHIRPersistenceContextImpl(event, null, searchContext);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             List<Resource> resources = getPersistenceImpl().search(persistenceContext, resourceType);
             Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, searchContext.getTotalCount());
             addLinks(searchContext, bundle, requestUri);

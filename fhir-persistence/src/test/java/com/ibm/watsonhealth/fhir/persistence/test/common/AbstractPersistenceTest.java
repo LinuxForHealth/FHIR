@@ -20,7 +20,7 @@ import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.watsonhealth.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
@@ -41,13 +41,13 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     // provide a more specific instance of the FHIRPersistenceContext if necessary.
     // These default versions just provide the minimum required by the FHIR Server persistence layers.
     public FHIRPersistenceContext getDefaultPersistenceContext() throws Exception {
-        return new FHIRPersistenceContextImpl(null, null, null);
+        return FHIRPersistenceContextFactory.createPersistenceContext(null);
     }
     public FHIRPersistenceContext getPersistenceContextForSearch(FHIRSearchContext ctxt) {
-        return new FHIRPersistenceContextImpl(null, null, ctxt);
+        return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }
     public FHIRPersistenceContext getPersistenceContextForHistory(FHIRHistoryContext ctxt) {
-        return new FHIRPersistenceContextImpl(null, ctxt, null);
+        return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }
     
     @BeforeClass(alwaysRun = true)
