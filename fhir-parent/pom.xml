@@ -46,21 +46,21 @@
 				<type>zip</type>
 			</dependency>
 			<dependency>
-                <groupId>com.ibm.websphere.appserver.runtime.ifix</groupId>
-                <artifactId>IFPI59782</artifactId>
-                <version>8.5.5.9</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ibm.java</groupId>
-                <artifactId>ibm-java-sdk</artifactId>
-                <version>8.0-3.10-linux-x86_64</version>
-                <type>zip</type>
-            </dependency>
-            <dependency>
-                <groupId>com.ibm.db2</groupId>
-                <artifactId>db2jcc4</artifactId>
-                <version>4.18.60</version>
-            </dependency>
+				<groupId>com.ibm.websphere.appserver.runtime.ifix</groupId>
+				<artifactId>IFPI59782</artifactId>
+				<version>8.5.5.9</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ibm.java</groupId>
+				<artifactId>ibm-java-sdk</artifactId>
+				<version>8.0-3.10-linux-x86_64</version>
+				<type>zip</type>
+			</dependency>
+			<dependency>
+				<groupId>com.ibm.db2</groupId>
+				<artifactId>db2jcc4</artifactId>
+				<version>4.18.60</version>
+			</dependency>
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>javax.ws.rs-api</artifactId>
@@ -86,11 +86,11 @@
 				<artifactId>org.eclipse.persistence.moxy</artifactId>
 				<version>2.6.1</version>
 			</dependency>
-            <dependency>
-                <groupId>com.ibm.websphere.appserver.runtime</groupId>
-                <artifactId>org.eclipse.persistence.moxy</artifactId>
-                <version>2.6.1.WAS</version>
-            </dependency>
+			<dependency>
+				<groupId>com.ibm.websphere.appserver.runtime</groupId>
+				<artifactId>org.eclipse.persistence.moxy</artifactId>
+				<version>2.6.1.WAS</version>
+			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -191,6 +191,12 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.4</version>
 			</dependency>
+			<dependency>
+				<groupId>org.glassfish.tyrus.bundles</groupId>
+				<artifactId>tyrus-standalone-client-jdk</artifactId>
+				<version>1.12</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -251,19 +257,19 @@
 						</execution>
 					</executions>
 				</plugin>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.6</version>
-                    <executions>
-                        <execution>
-                            <id>create-archive</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.6</version>
+					<executions>
+						<execution>
+							<id>create-archive</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.liquibase</groupId>
 					<artifactId>liquibase-maven-plugin</artifactId>
@@ -279,11 +285,11 @@
 	</build>
 
 	<repositories>
-        <repository>
-            <id>Nexus</id>
-            <name>WHC Nexus Maven Repository</name>
-            <url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/groups/public/</url>
-        </repository>
+		<repository>
+			<id>Nexus</id>
+			<name>WHC Nexus Maven Repository</name>
+			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/groups/public/</url>
+		</repository>
 		<repository>
 			<id>Liberty</id>
 			<name>Liberty Maven Repository</name>

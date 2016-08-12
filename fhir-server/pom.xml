@@ -85,14 +85,17 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
         </dependency>
-		
 		<dependency>
 			<groupId>org.glassfish.tyrus.bundles</groupId>
 			<artifactId>tyrus-standalone-client-jdk</artifactId>
-			<version>1.12</version>
 			<scope>test</scope>
 		</dependency>
-
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-client</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-provider</artifactId>
