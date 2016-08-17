@@ -226,6 +226,16 @@ public interface FHIRClient {
     FHIRResponse _search(String resourceType, FHIRParameters parameters) throws Exception;
     
     /**
+     * Invokes the 'search-all' FHIR REST API operation.
+     * @param parameters  an optional collection of request parameters for the 'search-all' operation;
+     * may be specified as null if no parameters need to be passed to the 'search' operation;
+     * search parameters for this operation will go in the request body
+     * @return a FHIRResponse that contains the results of the 'search-all' operation
+     * @throws Exception
+     */
+    FHIRResponse searchAll(FHIRParameters parameters) throws Exception;
+    
+    /**
      * Invokes the 'validate' FHIR REST API operation.
      * @param resource the resource to be validated
      * @return a FHIRResponse that contains the results of the 'validate' operation

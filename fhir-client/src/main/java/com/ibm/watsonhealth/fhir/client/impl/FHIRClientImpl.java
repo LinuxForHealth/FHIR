@@ -213,6 +213,15 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
+    @Override
+    public FHIRResponse searchAll(FHIRParameters parameters) throws Exception {
+        WebTarget endpoint = getWebTarget();
+ //     endpoint = endpoint.path(resourceType);
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Response response = endpoint.request(getDefaultMimeType()).get();
+        return new FHIRResponseImpl(response);
+    }
+
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(com.ibm.watsonhealth.fhir.model.Resource)
      */
