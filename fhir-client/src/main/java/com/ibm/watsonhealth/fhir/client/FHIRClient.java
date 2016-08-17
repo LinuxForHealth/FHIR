@@ -215,6 +215,17 @@ public interface FHIRClient {
     FHIRResponse search(String resourceType, FHIRParameters parameters) throws Exception;
     
     /**
+     * Invokes the 'search' FHIR REST API operation.
+     * @param resourceType a string representing the name of the resource type to search for (e.g. "Patient")
+     * @param parameters  an optional collection of request parameters for the 'search' operation;
+     * may be specified as null if no parameters need to be passed to the 'search' operation;
+     * search parameters for this operation will go in the request body
+     * @return a FHIRResponse that contains the results of the 'search' operation
+     * @throws Exception
+     */
+    FHIRResponse _search(String resourceType, FHIRParameters parameters) throws Exception;
+    
+    /**
      * Invokes the 'validate' FHIR REST API operation.
      * @param resource the resource to be validated
      * @return a FHIRResponse that contains the results of the 'validate' operation

@@ -28,12 +28,13 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
+import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleType;
@@ -202,6 +203,16 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
     
+    @Override
+    public FHIRResponse _search(String resourceType, FHIRParameters parameters) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        endpoint = endpoint.path(resourceType).path("_search");
+        Form form = buildForm(parameters);
+        Entity<Form> entity = Entity.form(form);
+        Response response = endpoint.request(getDefaultMimeType()).post(entity);
+        return new FHIRResponseImpl(response);
+    }
+
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(com.ibm.watsonhealth.fhir.model.Resource)
      */
@@ -270,6 +281,21 @@ public class FHIRClientImpl implements FHIRClient {
         }
         
         return endpoint;
+    }
+    
+    private Form buildForm(FHIRParameters parameters) {
+        Form form = new Form();
+        if (parameters != null) {
+            MultivaluedMap<String, String> parameterMap = parameters.getParameterMap();
+            if (parameterMap != null && !parameterMap.isEmpty()) {
+                for (Map.Entry<String, List<String>> mapEntry : parameterMap.entrySet()) {
+                    for (String value : mapEntry.getValue()) {
+                        form.param(mapEntry.getKey(), value);
+                    }
+                }
+            }
+        }
+        return form;
     }
 
     /**
