@@ -414,7 +414,7 @@ public class FHIRResource {
     public Response search(
         @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
         @PathParam("type") String type) {
-        log.entering(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
+        log.entering(this.getClass().getName(), "search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
     	Response.Status status = null;
     	MultivaluedMap<String, String> queryParameters = null;
@@ -436,25 +436,15 @@ public class FHIRResource {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
         	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
+            log.exiting(this.getClass().getName(), "search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
     
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("{type}/_search")
-    @ApiOperation(value = "Performs a search to retrieve resources of the specified type.", 
-        notes = "Search criteria are specified by using the query string or form parameters.",
-        response = Bundle.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'search' operation was successful and the search results have been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'search' operation resulted in an error.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
-    public Response _search(
-        @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
-        @PathParam("type") String type) {
-        log.entering(this.getClass().getName(), "_search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
+    public Response _search(@PathParam("type") String type) {
+        log.entering(this.getClass().getName(), "_search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
         Response.Status status = null;
         MultivaluedMap<String, String> queryParameters = null;
@@ -476,7 +466,35 @@ public class FHIRResource {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "_search(String,UriInfo)", "this=" + FHIRUtilities.getObjectHandle(this));
+            log.exiting(this.getClass().getName(), "_search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+    
+    @GET
+    public Response searchAll() {
+        log.entering(this.getClass().getName(), "searchAll()", "this=" + FHIRUtilities.getObjectHandle(this));
+        Date startTime = new Date();
+        Response.Status status = null;
+        MultivaluedMap<String, String> queryParameters = null;
+        Bundle bundle = null;
+        
+        try {
+            queryParameters = uriInfo.getQueryParameters();
+            bundle = doSearch("Resource", queryParameters, uriInfo.getRequestUri().toString());
+            status = Response.Status.OK;
+            return Response.ok(bundle).build();
+        } catch (FHIRRestException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (FHIRException e) {
+            status = Response.Status.BAD_REQUEST;
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            status = Response.Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
+            log.exiting(this.getClass().getName(), "searchAll()", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
     
