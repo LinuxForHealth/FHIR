@@ -15,6 +15,13 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
+/**
+ * The ConfigurationService is used by the FHIR Server to retrieve JSON-based configuration
+ * data.
+ * 
+ * @author padams
+ *
+ */
 public class ConfigurationService {
     
     /**
