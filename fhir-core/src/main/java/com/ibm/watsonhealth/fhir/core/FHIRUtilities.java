@@ -173,7 +173,6 @@ public class FHIRUtilities {
         } else {
             decodedString = encodedString;
         }
-
         return decodedString;
     }
 
@@ -185,7 +184,7 @@ public class FHIRUtilities {
      *            the string value to check
      */
     public static boolean isEncoded(String s) {
-        return s.startsWith("{xor}");
+        return s != null && s.startsWith("{xor}");
     }
 
     public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) throws IllegalArgumentException {
