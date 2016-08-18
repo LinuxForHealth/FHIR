@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,7 +58,11 @@ import com.ibm.watsonhealth.fhir.model.BundleLink;
 import com.ibm.watsonhealth.fhir.model.BundleRequest;
 import com.ibm.watsonhealth.fhir.model.BundleResponse;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
+import com.ibm.watsonhealth.fhir.model.ConditionalDeleteStatusList;
 import com.ibm.watsonhealth.fhir.model.Conformance;
+import com.ibm.watsonhealth.fhir.model.ConformanceInteraction;
+import com.ibm.watsonhealth.fhir.model.ConformanceResource;
+import com.ibm.watsonhealth.fhir.model.ConformanceRest;
 import com.ibm.watsonhealth.fhir.model.ConformanceStatementKindList;
 import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
@@ -68,6 +73,9 @@ import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
+import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
+import com.ibm.watsonhealth.fhir.model.TransactionModeList;
+import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
@@ -112,6 +120,7 @@ public class FHIRResource {
     private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
     private static final String USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
+    private static Conformance conformance = null;
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -159,7 +168,7 @@ public class FHIRResource {
     	Response.Status status = null;
         try {
         	status = Response.Status.OK;
-            return Response.ok().entity(buildConformanceStatement()).build();
+            return Response.ok().entity(getConformanceStatement()).build();
         } catch(Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
@@ -1155,39 +1164,84 @@ public class FHIRResource {
         return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e)).build();
     }
     
+    private synchronized Conformance getConformanceStatement() {
+        if (conformance == null) {
+            conformance = buildConformanceStatement();
+        }
+        conformance.withDate(objectFactory.createDateTime().withValue(new Date().toString()));
+        return conformance;
+    }
+    
     /**
      * Builds a Conformance resource instance which describes this server.
      */
-    private Resource buildConformanceStatement() {
-        FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
+    private Conformance buildConformanceStatement() {
+        // TODO - this needs to track the new option.
+        boolean updateCreateEnabled = true;
         
+        // Build the list of interactions that are supported for each resource type.
+        List<ConformanceInteraction> interactions = new ArrayList<>();
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.CREATE));
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.UPDATE));
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.READ));
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.VREAD));
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.HISTORY_INSTANCE));
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.VALIDATE));
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.SEARCH_TYPE));
+        
+        
+        // Build the list of supported resources.
+        List<ConformanceResource> resources = new ArrayList<>();
+        List<String> resourceTypes = FHIRUtil.getResourceTypeNames();
+        for (String resourceType : resourceTypes) {
+            ConformanceResource cr = objectFactory.createConformanceResource()
+                    .withType(objectFactory.createCode().withValue(resourceType))
+                    .withProfile(objectFactory.createReference().withReference(objectFactory.createString().withValue("http://hl7.org/fhir/profiles/" + resourceType)))
+                    .withInteraction(interactions)
+                    .withConditionalCreate(objectFactory.createBoolean().withValue(false))
+                    .withConditionalUpdate(objectFactory.createBoolean().withValue(false))
+                    .withConditionalDelete(objectFactory.createConditionalDeleteStatus().withValue(ConditionalDeleteStatusList.NOT_SUPPORTED))
+                    .withUpdateCreate(objectFactory.createBoolean().withValue(updateCreateEnabled));
+            resources.add(cr);
+        }
+
+        ConformanceRest rest = objectFactory.createConformanceRest()
+                .withMode(objectFactory.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
+                .withTransactionMode(objectFactory.createTransactionMode().withValue(TransactionModeList.BOTH))
+                .withResource(resources);
+        
+        FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion()
             + " build id " + buildInfo.getBuildId() + "";
         
-        ObjectFactory of = new ObjectFactory();
-        
-        Conformance conformance = of.createConformance()
-                .withDate(of.createDateTime().withValue(new Date().toString()))
+        // Finally, create the Conformance resource itself.
+        conformance = objectFactory.createConformance()
                 .withFormat(
-                    of.createCode().withValue(MediaType.APPLICATION_JSON), 
-                    of.createCode().withValue(MediaType.APPLICATION_JSON_FHIR), 
-                    of.createCode().withValue(MediaType.APPLICATION_XML),
-                    of.createCode().withValue(MediaType.APPLICATION_XML_FHIR))
-                .withVersion(of.createString().withValue(buildInfo.getBuildVersion()))
-                .withFhirVersion(of.createId().withValue(FHIR_SPEC_VERSION))
-                .withName(of.createString().withValue(FHIR_SERVER_NAME))
-                .withDescription(of.createString().withValue(buildDescription))
-                .withCopyright(of.createString().withValue("(c) Copyright IBM Corporation 2016"))
-                .withPublisher(of.createString().withValue("IBM Corporation"))
-                .withKind(of.createConformanceStatementKind().withValue(ConformanceStatementKindList.INSTANCE))
+                    objectFactory.createCode().withValue(MediaType.APPLICATION_JSON), 
+                    objectFactory.createCode().withValue(MediaType.APPLICATION_JSON_FHIR), 
+                    objectFactory.createCode().withValue(MediaType.APPLICATION_XML),
+                    objectFactory.createCode().withValue(MediaType.APPLICATION_XML_FHIR))
+                .withVersion(objectFactory.createString().withValue(buildInfo.getBuildVersion()))
+                .withFhirVersion(objectFactory.createId().withValue(FHIR_SPEC_VERSION))
+                .withName(objectFactory.createString().withValue(FHIR_SERVER_NAME))
+                .withDescription(objectFactory.createString().withValue(buildDescription))
+                .withCopyright(objectFactory.createString().withValue("(c) Copyright IBM Corporation 2016"))
+                .withPublisher(objectFactory.createString().withValue("IBM Corporation"))
+                .withKind(objectFactory.createConformanceStatementKind().withValue(ConformanceStatementKindList.INSTANCE))
                 .withSoftware(
-                    of.createConformanceSoftware()
-                        .withName(of.createString().withValue(FHIR_SERVER_NAME))
-                        .withVersion(of.createString().withValue(buildInfo.getBuildVersion()))
+                    objectFactory.createConformanceSoftware()
+                        .withName(objectFactory.createString().withValue(FHIR_SERVER_NAME))
+                        .withVersion(objectFactory.createString().withValue(buildInfo.getBuildVersion()))
                         .withId(buildInfo.getBuildId()))
-                ;
+                .withRest(rest);
         
         return conformance;
+    }
+    
+    private ConformanceInteraction buildConformanceInteraction(TypeRestfulInteractionList value) {
+        ConformanceInteraction ci = objectFactory.createConformanceInteraction()
+                .withCode(objectFactory.createTypeRestfulInteraction().withValue(value));
+        return ci;
     }
 
     private Bundle createBundle(List<Resource> resources, BundleTypeList type, long total) throws FHIRException {

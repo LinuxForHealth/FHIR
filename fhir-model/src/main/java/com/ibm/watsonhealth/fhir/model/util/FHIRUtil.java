@@ -693,6 +693,10 @@ public class FHIRUtil {
     public static boolean isStandardResourceType(String name) {
         return resourceTypeNames.contains(name);
     }
+    
+    public static List<String> getResourceTypeNames() {
+        return resourceTypeNames;
+    }
 	
 	@SuppressWarnings("unchecked")
 	public static Class<? extends Resource> getResourceType(String name) throws FHIRException {
