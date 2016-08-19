@@ -247,7 +247,7 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
-        	oldResource = this.doRead(type, resource.getId().getValue());
+        	//oldResource = this.doRead(type, resource.getId().getValue());	//FIXME
             URI locationURI = doUpdate(type, id, resource);
 
             ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, locationURI);
@@ -267,7 +267,7 @@ public class FHIRResource {
         	status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
+        	//RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
