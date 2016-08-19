@@ -169,11 +169,14 @@ public class RestAuditLogger {
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_HISTORY);
-			
+		long totalHistory = 0;	
 		
 		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
-		if (bundle != null && bundle.getEntry() != null && !bundle.getEntry().isEmpty()) {
-			entry.getContext().setBatch(new Batch().withResourcesRead(bundle.getTotal().getValue().longValue()));
+		if (bundle != null) {
+			if (bundle.getTotal() != null) {
+				totalHistory = bundle.getTotal().getValue().longValue();
+			}
+			entry.getContext().setBatch(new Batch().withResourcesRead(totalHistory));
 		}
 		entry.getContext().setAction("R");
 						
@@ -225,7 +228,7 @@ public class RestAuditLogger {
 		HTTPVerb requestMethod;
 					
 		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
-		if (bundle != null && bundle.getEntry() != null && !bundle.getEntry().isEmpty()) {
+		if (bundle != null) {
 			for (BundleEntry bundleEntry : bundle.getEntry()) {
 				if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
 					requestMethod = bundleEntry.getRequest().getMethod();
@@ -245,11 +248,11 @@ public class RestAuditLogger {
 					}
 				}
 			}
-			entry.getContext().setBatch(new Batch()
-								.withResourcesCreated(createCount)
-								.withResourcesRead(readCount)
-								.withResourcesUpdated(updateCount));
 		}
+		entry.getContext().setBatch(new Batch()
+				.withResourcesCreated(createCount)
+				.withResourcesRead(readCount)
+				.withResourcesUpdated(updateCount));
 		
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -272,12 +275,16 @@ public class RestAuditLogger {
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_SEARCH);
 		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
+		long totalSearch = 0;
 		
 		if (queryParms != null && !queryParms.isEmpty()) {
 			entry.getContext().setQuery(queryParms.toString());
 		}
-		if (bundle != null && bundle.getEntry() != null && !bundle.getEntry().isEmpty()) {
-			entry.getContext().setBatch(new Batch().withResourcesRead(bundle.getTotal().getValue().longValue()));
+		if (bundle != null) {
+			if (bundle.getTotal() != null) {
+				totalSearch = bundle.getTotal().getValue().longValue();
+			}
+			entry.getContext().setBatch(new Batch().withResourcesRead(totalSearch));
 		}
 		entry.getContext().setAction("R");
 						
