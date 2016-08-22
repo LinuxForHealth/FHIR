@@ -120,6 +120,8 @@ public class FHIRResource {
     private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
     private static final String USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
+    private static final String UPDATE_CREATE_ENABLED = "com.ibm.watsonhealth.fhir.server.updateCreate.enabled";
+
     private static Conformance conformance = null;
 
     private PersistenceHelper persistenceHelper = null;
@@ -130,6 +132,8 @@ public class FHIRResource {
     private Boolean virtualResourceTypesFeatureEnabled = null;
     
     private Boolean userDefinedSchematronEnabled = null;
+    
+    private Boolean updateCreateEnabled = null;
     
     private Parameter basicCodeSearchParameter = null;
 
@@ -250,7 +254,7 @@ public class FHIRResource {
         	//oldResource = this.doRead(type, resource.getId().getValue());	//FIXME
             URI locationURI = doUpdate(type, id, resource);
 
-            ResponseBuilder response = Response.ok().header(HttpHeaders.LOCATION, locationURI);
+            ResponseBuilder response = Response.ok().location(locationURI);
             response = addHeaders(response, resource);
             status = Response.Status.OK;
             return response.build();
@@ -1176,9 +1180,6 @@ public class FHIRResource {
      * Builds a Conformance resource instance which describes this server.
      */
     private Conformance buildConformanceStatement() {
-        // TODO - this needs to track the new option.
-        boolean updateCreateEnabled = true;
-        
         // Build the list of interactions that are supported for each resource type.
         List<ConformanceInteraction> interactions = new ArrayList<>();
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.CREATE));
@@ -1201,7 +1202,7 @@ public class FHIRResource {
                     .withConditionalCreate(objectFactory.createBoolean().withValue(false))
                     .withConditionalUpdate(objectFactory.createBoolean().withValue(false))
                     .withConditionalDelete(objectFactory.createConditionalDeleteStatus().withValue(ConditionalDeleteStatusList.NOT_SUPPORTED))
-                    .withUpdateCreate(objectFactory.createBoolean().withValue(updateCreateEnabled));
+                    .withUpdateCreate(objectFactory.createBoolean().withValue(isUpdateCreateEnabled()));
             resources.add(cr);
         }
 
@@ -1327,6 +1328,13 @@ public class FHIRResource {
             userDefinedSchematronEnabled = (Boolean) context.getAttribute(USER_DEFINED_SCHEMATRON_ENABLED);
         }
         return userDefinedSchematronEnabled;
+    }
+    
+    private Boolean isUpdateCreateEnabled() {
+        if (updateCreateEnabled == null) {
+            updateCreateEnabled = (Boolean) context.getAttribute(UPDATE_CREATE_ENABLED);
+        }
+        return updateCreateEnabled;
     }
     
     private Parameter getBasicCodeSearchParameter() {

@@ -41,6 +41,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static final String JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
     
     private static final String JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
+    private static final String JNDINAME_UPDATE_CREATE_ENABLED = "com.ibm.watsonhealth.fhir.server.updateCreate.enabled";
     
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
 
@@ -75,6 +76,11 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean userDefinedSchematronEnabled = getJNDIValue(JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE);
             event.getServletContext().setAttribute(JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED, userDefinedSchematronEnabled);
             log.fine("Set shared user defined schematron enabled flag.");
+            
+
+            Boolean updateCreateEnabled = getJNDIValue(JNDINAME_UPDATE_CREATE_ENABLED, Boolean.TRUE);
+            event.getServletContext().setAttribute(JNDINAME_UPDATE_CREATE_ENABLED, updateCreateEnabled);
+            log.fine("Set updateCreateEnabled option on servlet context.");
             
             // Grab the "websocket.enabled" jndi value.
             Boolean websocketEnabled = getJNDIValue(JNDINAME_WEBSOCKET_ENABLED, Boolean.FALSE);
