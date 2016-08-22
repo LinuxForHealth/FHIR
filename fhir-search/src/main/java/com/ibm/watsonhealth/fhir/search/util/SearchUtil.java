@@ -43,6 +43,7 @@ import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.search.ChainedParameter;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
@@ -305,6 +306,12 @@ public class SearchUtil {
                     }
                     continue;
                 }
+                
+                if (isChainedParameter(name)) {
+                    ChainedParameter chainedParameter = parseChainedParameter(resourceType, name, queryParameters.get(name));
+                    parameters.add(chainedParameter);
+                    continue;
+                }
 
                 // parse name into parameter name
                 String parameterName = name;
@@ -459,5 +466,40 @@ public class SearchUtil {
         } catch (Exception e) {
             throw new FHIRSearchException("Unable to parse search result parameter named: '" + name + "'", e);
         }
+    }
+    
+    private static boolean isChainedParameter(String name) {
+        return name.contains(".");
+    }
+    
+    private static ChainedParameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
+        ChainedParameter chainedParameter = new ChainedParameter();
+        try {
+            for (String component : name.split(".")) {
+                Modifier modifier = null;
+                String modifierResourceTypeName = null;
+                String parameterName = component;
+                if (parameterName.contains(":")) {
+                    String mod = parameterName.substring(parameterName.indexOf(":") + 1);
+                    if (FHIRUtil.isStandardResourceType(mod)) {
+                        modifier = Modifier.TYPE;
+                        modifierResourceTypeName = mod;
+                    } else {
+                        modifier = Modifier.fromValue(mod);
+                    }
+                    parameterName = parameterName.substring(0, parameterName.indexOf(":"));
+                }
+                SearchParameter searchParameter = getSearchParameter(resourceType, parameterName);
+                Type type = Type.fromValue(searchParameter.getType().getValue());
+                Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                chainedParameter.addLast(parameter);
+            }
+            ParameterValue value = new ParameterValue();
+            value.setValueString(values.get(0));
+            chainedParameter.getLast().getValues().add(value);
+        } catch (Exception e) {
+            throw new FHIRSearchException("Unable to parse chained parameter: '" + name + "'", e);
+        }
+        return chainedParameter;
     }
 }
