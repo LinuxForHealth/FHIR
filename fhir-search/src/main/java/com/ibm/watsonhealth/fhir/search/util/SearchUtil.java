@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.search.util;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
+
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -38,6 +40,8 @@ import org.w3c.dom.NodeList;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
+import com.ibm.watsonhealth.fhir.model.Code;
+import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
@@ -474,11 +478,17 @@ public class SearchUtil {
     
     private static ChainedParameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
         ChainedParameter chainedParameter = new ChainedParameter();
+        
         try {
-            for (String component : name.split("\\.")) {
+            List<String> components = Arrays.asList(name.split("\\."));
+            int lastIndex = components.size() - 1;
+            int currentIndex = 0;
+            
+            for (String component : components) {
                 Modifier modifier = null;
                 String modifierResourceTypeName = null;
                 String parameterName = component;
+                
                 if (parameterName.contains(":")) {
                     String mod = parameterName.substring(parameterName.indexOf(":") + 1);
                     if (FHIRUtil.isStandardResourceType(mod)) {
@@ -487,19 +497,48 @@ public class SearchUtil {
                     } else {
                         modifier = Modifier.fromValue(mod);
                     }
+                    if (modifier != null && !Modifier.TYPE.equals(modifier) && currentIndex < lastIndex) {
+                        throw new FHIRSearchException("Modifier: '" + modifier + "' not allowed on chained parameter");
+                    }
                     parameterName = parameterName.substring(0, parameterName.indexOf(":"));
                 }
+                
                 SearchParameter searchParameter = getSearchParameter(resourceType, parameterName);
                 Type type = Type.fromValue(searchParameter.getType().getValue());
+                
+                if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
+                    throw new FHIRSearchException("Type: '" + type + "' not allowed on chained parameter");
+                }
+                
+                List<Code> targets = searchParameter.getTarget();
+                if (modifierResourceTypeName == null && targets.size() > 1 && currentIndex < lastIndex) {
+                    throw new FHIRSearchException("Search parameter: '" + parameterName + "' must have resource type name modifier");
+                }
+                                
+                if (modifierResourceTypeName == null && currentIndex < lastIndex) {
+                    modifierResourceTypeName = targets.get(0).getValue();
+                    modifier = Modifier.TYPE;
+                }
+                
                 Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
                 chainedParameter.addLast(parameter);
+                
+                if (currentIndex < lastIndex) {
+                    resourceType = getResourceType(modifierResourceTypeName);
+                }
+                
+                currentIndex++;
             }
+            
             ParameterValue value = new ParameterValue();
             value.setValueString(values.get(0));
             chainedParameter.getLast().getValues().add(value);
+        } catch (FHIRSearchException e) {
+            throw e;
         } catch (Exception e) {
             throw new FHIRSearchException("Unable to parse chained parameter: '" + name + "'", e);
         }
+        
         return chainedParameter;
     }
 }
