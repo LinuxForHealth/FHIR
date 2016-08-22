@@ -120,6 +120,8 @@ public class FHIRResource {
     private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
     private static final String USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
+    private static final String UPDATE_CREATE_ENABLED = "com.ibm.watsonhealth.fhir.server.updateCreate.enabled";
+
     private static Conformance conformance = null;
 
     private PersistenceHelper persistenceHelper = null;
@@ -130,6 +132,8 @@ public class FHIRResource {
     private Boolean virtualResourceTypesFeatureEnabled = null;
     
     private Boolean userDefinedSchematronEnabled = null;
+    
+    private Boolean updateCreateEnabled = null;
     
     private Parameter basicCodeSearchParameter = null;
 
@@ -247,7 +251,7 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
-        	//oldResource = doRead(type, resource.getId().getValue()); //FIXME
+        	oldResource = doRead(type, id, false);
             URI locationURI = doUpdate(type, id, resource);
 
             String locationStr = locationURI.toString();
@@ -255,10 +259,10 @@ public class FHIRResource {
             
             if(locationStr.endsWith("/1")) {
             	//updateCreate flag was enabled and a new resource was created
-            	response = Response.created(locationURI).header(HttpHeaders.LOCATION, locationURI);
+            	response = Response.created(locationURI);
             	status = Response.Status.CREATED;
             } else {
-            	response = Response.ok().header(HttpHeaders.LOCATION, locationURI);
+            	response = Response.ok().location(locationURI);
             	status = Response.Status.OK;
             }
             response = addHeaders(response, resource);
@@ -270,16 +274,16 @@ public class FHIRResource {
         	status =  Response.Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
         } catch (FHIRException e) {
-        	status =  Response.Status.METHOD_NOT_ALLOWED;
+        	status =  Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
-        	status = Response.Status.BAD_REQUEST;
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
         	if(status == Response.Status.CREATED) {
         		RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
         	} else {
-        		;//RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
+        		RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
         	}
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
@@ -308,7 +312,7 @@ public class FHIRResource {
     	Resource resource = null;
     	
         try {
-            resource = doRead(type, id);
+            resource = doRead(type, id, true);
             ResponseBuilder response = Response.ok().entity(resource);
             status = Response.Status.OK;
             response = addHeaders(response, resource);
@@ -693,7 +697,7 @@ public class FHIRResource {
      * @return the Resource
      * @throws Exception
      */
-    protected Resource doRead(String type, String id) throws Exception {
+    protected Resource doRead(String type, String id, boolean throwExcOnNull) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
         try {
             String resourceTypeName = type;
@@ -1015,7 +1019,7 @@ public class FHIRResource {
                             }
                             else if (pathTokens.length == 2) {
                                 // This is a 'read' request.
-                                resource = doRead(pathTokens[0], pathTokens[1]);
+                                resource = doRead(pathTokens[0], pathTokens[1], true);
                             } 
                             else if (pathTokens.length == 3 && pathTokens[2].equals("_history")) {
                                 // This is a 'history' request.
@@ -1189,9 +1193,6 @@ public class FHIRResource {
      * Builds a Conformance resource instance which describes this server.
      */
     private Conformance buildConformanceStatement() {
-        // TODO - this needs to track the new option.
-        boolean updateCreateEnabled = true;
-        
         // Build the list of interactions that are supported for each resource type.
         List<ConformanceInteraction> interactions = new ArrayList<>();
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.CREATE));
@@ -1214,7 +1215,7 @@ public class FHIRResource {
                     .withConditionalCreate(objectFactory.createBoolean().withValue(false))
                     .withConditionalUpdate(objectFactory.createBoolean().withValue(false))
                     .withConditionalDelete(objectFactory.createConditionalDeleteStatus().withValue(ConditionalDeleteStatusList.NOT_SUPPORTED))
-                    .withUpdateCreate(objectFactory.createBoolean().withValue(updateCreateEnabled));
+                    .withUpdateCreate(objectFactory.createBoolean().withValue(isUpdateCreateEnabled()));
             resources.add(cr);
         }
 
@@ -1340,6 +1341,13 @@ public class FHIRResource {
             userDefinedSchematronEnabled = (Boolean) context.getAttribute(USER_DEFINED_SCHEMATRON_ENABLED);
         }
         return userDefinedSchematronEnabled;
+    }
+    
+    private Boolean isUpdateCreateEnabled() {
+        if (updateCreateEnabled == null) {
+            updateCreateEnabled = (Boolean) context.getAttribute(UPDATE_CREATE_ENABLED);
+        }
+        return updateCreateEnabled;
     }
     
     private Parameter getBasicCodeSearchParameter() {
