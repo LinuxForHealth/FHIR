@@ -182,7 +182,7 @@ CODE_REMOVED
      	- set to true when a resource id specified during update is missing and we create a new resource (new behavior)
      	- set to false when a resource id specified during update is missing and we throw FHIRPersistenceResourceNotFoundException (old behavior)
     -->
-    <jndiEntry id="supportUpdateForCreateEnabled" jndiName="com.ibm.watsonhealth.fhir.server.supportUpdateForCreate.enabled" value="true"/>
+    <jndiEntry id="updateCreateEnabled" jndiName="com.ibm.watsonhealth.fhir.server.updateCreate.enabled" value="true"/>
     
     <!-- FHIR Persistence Router related config -->
     <!--
