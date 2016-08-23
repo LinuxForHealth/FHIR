@@ -41,13 +41,11 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.Code;
-import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
-import com.ibm.watsonhealth.fhir.search.ChainedParameter;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
@@ -312,7 +310,7 @@ public class SearchUtil {
                 }
                 
                 if (isChainedParameter(name)) {
-                    ChainedParameter chainedParameter = parseChainedParameter(resourceType, name, queryParameters.get(name));
+                    Parameter chainedParameter = parseChainedParameter(resourceType, name, queryParameters.get(name));
                     parameters.add(chainedParameter);
                     continue;
                 }
@@ -476,8 +474,9 @@ public class SearchUtil {
         return name.contains(".");
     }
     
-    private static ChainedParameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
-        ChainedParameter chainedParameter = new ChainedParameter(Type.REFERENCE);
+    private static Parameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
+        
+    	Parameter rootParameter = null;
         
         try {
             List<String> components = Arrays.asList(name.split("\\."));
@@ -521,8 +520,18 @@ public class SearchUtil {
                 }
                 
                 Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
-                chainedParameter.addLast(parameter);
-                
+                if (rootParameter == null) {
+                	rootParameter = parameter;
+                }
+                else {
+                	if (rootParameter.getChain() == null) {
+                		rootParameter.setNextParameter(parameter);
+                	}
+                	else {
+                		rootParameter.getChain().getLast().setNextParameter(parameter);
+                	}
+                }
+                                
                 if (currentIndex < lastIndex) {
                     resourceType = getResourceType(modifierResourceTypeName);
                 }
@@ -532,13 +541,13 @@ public class SearchUtil {
             
             ParameterValue value = new ParameterValue();
             value.setValueString(values.get(0));
-            chainedParameter.getLast().getValues().add(value);
+            rootParameter.getChain().getLast().getValues().add(value);
         } catch (FHIRSearchException e) {
             throw e;
         } catch (Exception e) {
             throw new FHIRSearchException("Unable to parse chained parameter: '" + name + "'", e);
         }
         
-        return chainedParameter;
+        return rootParameter;
     }
 }

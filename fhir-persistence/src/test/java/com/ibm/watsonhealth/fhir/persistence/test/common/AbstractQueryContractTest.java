@@ -332,7 +332,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 */
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateContract_chained" }, 
 		  expectedExceptions = FHIRSearchException.class)
-	public void testContractQuery_invalid2() throws Exception {
+	public void testContractQuery_chained_invalid2() throws Exception {
 		runQueryTest(Contract.class, persistence, "subject.name", "Jane");
 	}
 
