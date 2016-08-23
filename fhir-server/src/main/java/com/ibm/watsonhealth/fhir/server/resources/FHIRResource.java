@@ -720,7 +720,7 @@ public class FHIRResource {
             
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             Resource resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
-            if (resource == null) {
+            if (resource == null && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
             }
             
