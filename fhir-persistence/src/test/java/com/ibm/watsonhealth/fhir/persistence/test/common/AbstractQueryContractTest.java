@@ -19,10 +19,13 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.Contract;
+import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -265,4 +268,72 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 2) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
+	
+	/**
+	 * Creates a Patient and Contract using the contents of json data files, then updates the Contract
+	 * to reference the Patient.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" })
+	public void testCreateContract_chained() throws Exception {
+		
+		Patient patient = readResource(Patient.class, "Patient_JaneDoe.json");
+		persistence.create(getDefaultPersistenceContext(), patient);
+	    assertNotNull(patient);
+	    assertNotNull(patient.getId());
+	    assertNotNull(patient.getId().getValue());
+	    assertNotNull(patient.getMeta());
+	    assertNotNull(patient.getMeta().getVersionId().getValue());
+	    assertEquals("1", patient.getMeta().getVersionId().getValue());
+	    
+	    Contract contract = readResource(Contract.class, "contract-without-reference.json");
+    	persistence.create(getDefaultPersistenceContext(), contract);
+        assertNotNull(contract);
+        assertNotNull(contract.getId());
+        assertNotNull(contract.getId().getValue());
+        assertNotNull(contract.getMeta());
+        assertNotNull(contract.getMeta().getVersionId().getValue());
+        assertEquals("1", contract.getMeta().getVersionId().getValue());
+        
+        Reference patientRef = new Reference().withReference(new com.ibm.watsonhealth.fhir.model.String().withValue("Patient/" + patient.getId().getValue()));
+        contract.withSubject(patientRef);
+        persistence.update(getDefaultPersistenceContext(), contract.getId().getValue(), contract);
+        assertEquals("2", contract.getMeta().getVersionId().getValue());
+	}
+	
+	/**
+	 * Tests a valid chained parameter query that retrieves all contracts associate with a Patient with name = 'Jane'
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateContract_chained" })
+	public void testContractQuery_chained_valid() throws Exception {
+		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject:Patient.name", "Jane");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		
+	}
+	
+	/**
+	 * Tests an invalid chained parameter query that attempts to retrieve contracts associate with a Patient with name = 'bogusName'
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateContract_chained" })
+	public void testContractQuery_chained_invalid1() throws Exception {
+		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject:Patient.name", "bogusName");
+		assertNotNull(resources);
+		assertTrue(resources.isEmpty());
+		
+	}
+	
+	/**
+	 * Tests an invalid chained parameter query that does not contained the required resource type containing the 
+	 * 'name' attribute. A FHIRSearchException should be thrown.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateContract_chained" }, 
+		  expectedExceptions = FHIRSearchException.class)
+	public void testContractQuery_invalid2() throws Exception {
+		runQueryTest(Contract.class, persistence, "subject.name", "Jane");
+	}
+
 }

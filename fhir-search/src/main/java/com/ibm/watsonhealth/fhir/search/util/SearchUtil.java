@@ -477,7 +477,7 @@ public class SearchUtil {
     }
     
     private static ChainedParameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
-        ChainedParameter chainedParameter = new ChainedParameter();
+        ChainedParameter chainedParameter = new ChainedParameter(Type.REFERENCE);
         
         try {
             List<String> components = Arrays.asList(name.split("\\."));
