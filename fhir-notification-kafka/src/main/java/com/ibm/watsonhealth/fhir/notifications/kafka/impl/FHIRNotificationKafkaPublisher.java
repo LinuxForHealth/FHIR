@@ -15,7 +15,6 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationSubscriber;
@@ -28,8 +27,6 @@ import com.ibm.watsonhealth.fhir.notification.util.FHIRNotificationUtil;
 public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscriber {
     private static final Logger log = Logger.getLogger(FHIRNotificationKafkaPublisher.class.getName());
 
-    private static final String PROPNAME_TOPICNAME = "topic.name";
-
     private static FHIRNotificationService service = FHIRNotificationService.getInstance();
 
     private String topicName = null;
@@ -41,10 +38,10 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
     protected FHIRNotificationKafkaPublisher() {
     }
 
-    public FHIRNotificationKafkaPublisher(Properties kafkaProps) {
+    public FHIRNotificationKafkaPublisher(String topicName, Properties kafkaProps) {
         log.entering(this.getClass().getName(), "ctor");
         try {
-            init(kafkaProps);
+            init(topicName, kafkaProps);
         } finally {
             log.exiting(this.getClass().getName(), "ctor");
         }
@@ -53,40 +50,23 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
     /**
      * Performs any required initialization to allow us to publish events to the topic.
      */
-    private void init(Properties kafkaProps) {
+    private void init(String topicName, Properties kafkaProps) {
         log.entering(this.getClass().getName(), "init");
         try {
+            this.topicName = topicName;
             this.kafkaProps = kafkaProps;
             log.finer("Kafka publisher is configured with the following properties:\n" + this.kafkaProps.toString());
+            log.finer("Topic name: " + this.topicName);
             
             // We'll hard-code some properties to ensure they are set correctly.
             this.kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
             this.kafkaProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
             this.kafkaProps.put(ProducerConfig.CLIENT_ID_CONFIG, "fhir-server");
             
-            // Next, we'll retrieve the topic name property and then remove it from the properties object
-            // as it is not an official kafka property.
-            topicName = this.kafkaProps.getProperty(PROPNAME_TOPICNAME);
-            if (topicName != null) {
-                this.kafkaProps.remove(PROPNAME_TOPICNAME);
-            } else {
-                throw new IllegalStateException("The " + PROPNAME_TOPICNAME + " property was missing from the Kafka properties.");
-            }
-
             // Make sure that the properties file contains the bootstrap.servers property at a minimum.
             String bootstrapServers = this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG);
             if (bootstrapServers == null) {
-                throw new IllegalStateException("The " + ProducerConfig.BOOTSTRAP_SERVERS_CONFIG + " property was missing from the Kafka properties.");
-            }
-            
-            // Next, let's decode any encoded property values.
-            for (String key : this.kafkaProps.stringPropertyNames()) {
-                String value = this.kafkaProps.getProperty(key);
-                if (FHIRUtilities.isEncoded(value)) {
-                    value = FHIRUtilities.decode(value);
-                    this.kafkaProps.setProperty(key, value);
-                    log.finer("Decoded kafka property: " + key);
-                }
+                throw new IllegalStateException("The " + ProducerConfig.BOOTSTRAP_SERVERS_CONFIG + " property was missing from the Kafka connection properties.");
             }
             
             // Create our producer object to be used for publishing.

@@ -6,11 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.server.listener;
 
-import static com.ibm.watsonhealth.fhir.server.helper.FHIRServerUtils.getJNDIValue;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -18,10 +18,12 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebListener;
 import javax.websocket.server.ServerContainer;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
@@ -33,16 +35,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
 	
 	private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
-	private static final String JNDINAME_WEBSOCKET_ENABLED = "com.ibm.watsonhealth.fhir.notification.websocket.enabled";
-    private static final String JNDINAME_KAFKA_ENABLED = "com.ibm.watsonhealth.fhir.notification.kafka.enabled";
-    private static final String JNDINAME_KAFKA_PROPERTIES = "com.ibm.watsonhealth.fhir.notification.kafka.properties";
-
-	private static final String JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
-    private static final String JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
-    
-    private static final String JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
-    private static final String JNDINAME_UPDATE_CREATE_ENABLED = "com.ibm.watsonhealth.fhir.server.updateCreate.enabled";
-    
+	private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
 
 	@Override
@@ -51,6 +44,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
+		    PropertyGroup fhirConfig = FHIRConfiguration.loadConfiguration();
+		    
 		    log.fine("Current working directory: " + System.getProperty("user.dir"));
 		    
 		    log.fine("Initializing FHIRUtil...");
@@ -66,26 +61,8 @@ public class FHIRServletContextListener implements ServletContextListener {
             event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
             log.fine("Set shared persistence helper on servlet context.");
 
-            event.getServletContext().setAttribute(JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES, lookupAllowableVirtualResourceTypes());
-            log.fine("Set shared list of allowable virtual resource types.");
-            
-            Boolean virtualResourceTypesEnabled = getJNDIValue(JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED, Boolean.FALSE);
-            event.getServletContext().setAttribute(JNDINAME_VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED, virtualResourceTypesEnabled);
-            log.fine("Set shared virtual resource types enabled flag.");
-            
-            Boolean userDefinedSchematronEnabled = getJNDIValue(JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE);
-            event.getServletContext().setAttribute(JNDINAME_USER_DEFINED_SCHEMATRON_ENABLED, userDefinedSchematronEnabled);
-            log.fine("Set shared user defined schematron enabled flag.");
-            
-
-            Boolean updateCreateEnabled = getJNDIValue(JNDINAME_UPDATE_CREATE_ENABLED, Boolean.TRUE);
-            event.getServletContext().setAttribute(JNDINAME_UPDATE_CREATE_ENABLED, updateCreateEnabled);
-            log.fine("Set updateCreateEnabled option on servlet context.");
-            
-            // Grab the "websocket.enabled" jndi value.
-            Boolean websocketEnabled = getJNDIValue(JNDINAME_WEBSOCKET_ENABLED, Boolean.FALSE);
-            
-            // If configured, start up our WebSocket endpoint for notifications.
+            // If websocket notifications are enabled, then initialize the endpoint.
+            Boolean websocketEnabled = fhirConfig.getBooleanProperty(PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE);
             if (websocketEnabled) {
                 log.info("Initializing WebSocket notification publisher.");
                 ServerContainer container = (ServerContainer) event.getServletContext().getAttribute(ATTRNAME_WEBSOCKET_SERVERCONTAINER);
@@ -94,29 +71,26 @@ public class FHIRServletContextListener implements ServletContextListener {
                 log.info("Bypassing WebSocket notification init.");
             }
             
-            // Grab the "kafka.enabled" jndi value.
-            Boolean kafkaEnabled = getJNDIValue(JNDINAME_KAFKA_ENABLED, Boolean.FALSE);
-            
-            // If configured, start up our Kafka notification publisher.
+            // If Kafka notifications are enabled, start up our Kafka notification publisher.
+            Boolean kafkaEnabled = fhirConfig.getBooleanProperty(PROPERTY_KAFKA_ENABLED, Boolean.FALSE);
             if (kafkaEnabled) {
+                // Retrieve the topic name.
+                String topicName = fhirConfig.getStringProperty(PROPERTY_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
                 
-                // Read in the kafka properties file.
+                // Gather up the Kafka connection properties.
                 Properties kafkaProps = new Properties();
-                String propsFile = getJNDIValue(JNDINAME_KAFKA_PROPERTIES, null);
-                if (propsFile != null && !propsFile.isEmpty()) {
-                    try {
-                        InputStream is = new FileInputStream(propsFile);
-                        kafkaProps = new Properties();
-                        kafkaProps.load(is);
-                    } catch (Throwable t) {
-                        String msg = "Unexpected exception while reading Kafka properties file: ";
-                        log.log(Level.SEVERE, msg, t);
-                        throw new ServletException(msg, t);
+                PropertyGroup pg = fhirConfig.getPropertyGroup(PROPERTY_KAFKA_CONNECTIONPROPS);
+                if (pg != null) {
+                    List<PropertyEntry> connectionProps = pg.getProperties();
+                    if (connectionProps != null) {
+                        for (PropertyEntry entry : connectionProps) {
+                            kafkaProps.setProperty(entry.getName(), entry.getValue().toString());
+                        }
                     }
                 }
                 
                 log.info("Initializing Kafka notification publisher.");
-                kafkaPublisher = new FHIRNotificationKafkaPublisher(kafkaProps);
+                kafkaPublisher = new FHIRNotificationKafkaPublisher(topicName, kafkaProps);
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
@@ -150,9 +124,4 @@ public class FHIRServletContextListener implements ServletContextListener {
 			}
 		}
 	}
-    
-    private List<String> lookupAllowableVirtualResourceTypes() {
-        String s = getJNDIValue(JNDINAME_ALLOWABLE_VIRTUAL_RESOURCE_TYPES, "*");
-        return Arrays.asList(s.split(","));
-    }
 }

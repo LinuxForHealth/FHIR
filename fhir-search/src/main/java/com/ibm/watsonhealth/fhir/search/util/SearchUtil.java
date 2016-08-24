@@ -46,6 +46,7 @@ import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.search.ChainedParameter;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
@@ -310,7 +311,7 @@ public class SearchUtil {
                 }
                 
                 if (isChainedParameter(name)) {
-                    Parameter chainedParameter = parseChainedParameter(resourceType, name, queryParameters.get(name));
+                    ChainedParameter chainedParameter = parseChainedParameter(resourceType, name, queryParameters.get(name));
                     parameters.add(chainedParameter);
                     continue;
                 }
@@ -474,9 +475,8 @@ public class SearchUtil {
         return name.contains(".");
     }
     
-    private static Parameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
-        
-    	Parameter rootParameter = null;
+    private static ChainedParameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
+        ChainedParameter chainedParameter = new ChainedParameter();
         
         try {
             List<String> components = Arrays.asList(name.split("\\."));
@@ -520,18 +520,8 @@ public class SearchUtil {
                 }
                 
                 Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
-                if (rootParameter == null) {
-                	rootParameter = parameter;
-                }
-                else {
-                	if (rootParameter.getChain().isEmpty()) {
-                		rootParameter.setNextParameter(parameter);
-                	}
-                	else {
-                		rootParameter.getChain().getLast().setNextParameter(parameter);
-                	}
-                }
-                                
+                chainedParameter.addLast(parameter);
+                
                 if (currentIndex < lastIndex) {
                     resourceType = getResourceType(modifierResourceTypeName);
                 }
@@ -541,13 +531,13 @@ public class SearchUtil {
             
             ParameterValue value = new ParameterValue();
             value.setValueString(values.get(0));
-            rootParameter.getChain().getLast().getValues().add(value);
+            chainedParameter.getLast().getValues().add(value);
         } catch (FHIRSearchException e) {
             throw e;
         } catch (Exception e) {
             throw new FHIRSearchException("Unable to parse chained parameter: '" + name + "'", e);
         }
         
-        return rootParameter;
+        return chainedParameter;
     }
 }

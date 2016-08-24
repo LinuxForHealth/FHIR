@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.resources;
 
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.*;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
@@ -47,6 +48,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
@@ -116,11 +119,7 @@ public class FHIRResource {
     
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SPEC_VERSION = "1.0.2 - DSTU2";
-    private static final String ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.allowable.virtual.resource.types";
-    private static final String VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED = "com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled";
-    private static final String USER_DEFINED_SCHEMATRON_ENABLED = "com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
-    private static final String UPDATE_CREATE_ENABLED = "com.ibm.watsonhealth.fhir.server.updateCreate.enabled";
 
     private static Conformance conformance = null;
 
@@ -151,10 +150,23 @@ public class FHIRResource {
     
     @Context
     private SecurityContext securityContext;
+    
+    private PropertyGroup fhirConfig = null;
 
-    public FHIRResource() {
-        log.finest("In FHIRResource() ctor. handle=" + FHIRUtilities.getObjectHandle(this));
-        log.finest(FHIRUtilities.getCurrentStacktrace());
+    public FHIRResource() throws Exception {
+        log.entering(this.getClass().getName(), "FHIRResource ctor");
+        try {
+            fhirConfig = FHIRConfiguration.loadConfiguration();
+            virtualResourceTypesFeatureEnabled = fhirConfig.getBooleanProperty(PROPERTY_VIRTUAL_RESOURCES_ENABLED, Boolean.TRUE);
+            allowableVirtualResourceTypes = fhirConfig.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
+            userDefinedSchematronEnabled = fhirConfig.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.TRUE);
+            updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
+        } catch (Throwable t) {
+            log.severe("Unexpected error during initialization: " + t);
+            throw t;
+        } finally {
+            log.exiting(this.getClass().getName(), "FHIRResource ctor");
+        }
     }
 
     @GET
@@ -1308,45 +1320,24 @@ public class FHIRResource {
         return persistence;
     }
     
-    private boolean isAllowableVirtualResourceType(String virtualResourceType) {
+    private boolean isAllowableVirtualResourceType(String virtualResourceType) throws Exception {
         return getAllowableVirtualResourceTypes().contains(virtualResourceType) || 
                 getAllowableVirtualResourceTypes().contains("*");
     }
     
-    @SuppressWarnings("unchecked")
-    private List<String> getAllowableVirtualResourceTypes() {
-        if (allowableVirtualResourceTypes == null) {
-            allowableVirtualResourceTypes = (List<String>) context.getAttribute(ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
-        }
+    private List<String> getAllowableVirtualResourceTypes() throws Exception {
         return allowableVirtualResourceTypes;
     }
     
     private Boolean isVirtualResourceTypesFeatureEnabled() {
-        return getVirtualResourceTypesFeatureEnabled();
-    }
-    
-    private Boolean getVirtualResourceTypesFeatureEnabled() {
-        if (virtualResourceTypesFeatureEnabled == null) {
-            virtualResourceTypesFeatureEnabled = (Boolean) context.getAttribute(VIRTUAL_RESOURCE_TYPES_FEATURE_ENABLED);
-        }
         return virtualResourceTypesFeatureEnabled;
     }
     
     private Boolean isUserDefinedSchematronEnabled() {
-        return getUserDefinedSchematronEnabled();
-    }
-    
-    private Boolean getUserDefinedSchematronEnabled() {
-        if (userDefinedSchematronEnabled == null) {
-            userDefinedSchematronEnabled = (Boolean) context.getAttribute(USER_DEFINED_SCHEMATRON_ENABLED);
-        }
         return userDefinedSchematronEnabled;
     }
     
     private Boolean isUpdateCreateEnabled() {
-        if (updateCreateEnabled == null) {
-            updateCreateEnabled = (Boolean) context.getAttribute(UPDATE_CREATE_ENABLED);
-        }
         return updateCreateEnabled;
     }
     

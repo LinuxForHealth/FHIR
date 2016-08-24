@@ -64,7 +64,11 @@ CODE_REMOVED
                             .add("type", "insecure"))
                         .add(Json.createObjectBuilder()
                             .add("url", "https://localhost")
-                            .add("type", "secure"))))
+                            .add("type", "secure")))
+                    .add("int-array", Json.createArrayBuilder()
+                        .add(1)
+                        .add(2)
+                        .add(3)))
                 .build();
 
     }
@@ -115,11 +119,29 @@ CODE_REMOVED
         assertEquals("Patient", (String) array[0]);
         assertEquals("Observation", (String) array[1]);
     }
+    
+    @Test
+    public void testStringListProperty() throws Exception {
+        PropertyGroup pg = new PropertyGroup(jsonObj2);
+        List<String> strings = pg.getStringListProperty("fhir-server/notifications/common/includeResourceTypes");
+        assertNotNull(strings);
+        assertEquals(2, strings.size());
+        assertEquals("Patient", strings.get(0));
+        assertEquals("Observation", strings.get(1));
+        
+        pg = new PropertyGroup(jsonObj2);
+        strings = pg.getStringListProperty("fhir-server/int-array");
+        assertNotNull(strings);
+        assertEquals(3, strings.size());
+        assertEquals("1", strings.get(0));
+        assertEquals("2", strings.get(1));
+        assertEquals("3", strings.get(2));
+    }
 
     @Test
     public void testObjectArrayProperty() throws Exception {
         PropertyGroup pg = new PropertyGroup(jsonObj2);
-        Object[] array = pg.getArrayProperty("fhir-server/object-array/");
+        Object[] array = pg.getArrayProperty("fhir-server/object-array");
         assertNotNull(array);
         assertEquals(2, array.length);
         if (!(array[0] instanceof PropertyGroup)) {

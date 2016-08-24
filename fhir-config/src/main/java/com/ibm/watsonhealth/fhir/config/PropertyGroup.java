@@ -95,6 +95,25 @@ public class PropertyGroup {
         }
         return result;
     }
+    
+    /**
+     * This is a convenience function that will retrieve an array property, then convert it
+     * to a list of Strings by calling toString() on each array element.
+     * @param propertyName the name of the property to retrive
+     * @return a List<String> containing the elements from the JSON array property.
+     * @throws Exception
+     */
+    public List<String> getStringListProperty(String propertyName) throws Exception {
+        Object[] array = getArrayProperty(propertyName);
+        List<String> strings = new ArrayList<>();
+        if (array != null && array.length > 0) {
+            for (int i = 0; i < array.length; i++) {
+                strings.add((String) array[i].toString());
+            }
+        }
+        return strings;
+    }
+
 
     /**
      * Returns the value of the specified int property or null if it wasn't found.

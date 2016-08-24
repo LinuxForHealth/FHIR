@@ -35,12 +35,25 @@ public class ConfigurationService {
         return loadConfiguration(is);
     }
     
+    /**
+     * Loads the specified input stream as a JSON file and returns a PropertyGroup containing
+     * the contents of the JSON file as the root property group.
+     * @param is an InputStream to the input JSON file
+     */
     public static PropertyGroup loadConfiguration(InputStream is) {
         JsonReader reader = Json.createReader(is);
         JsonObject jsonObj = reader.readObject();
         return new PropertyGroup(jsonObj);
     }
     
+    /**
+     * Returns an InputStream for the specified filename.   This function will
+     * first try to open the file using the filename as a relative or absolute filename.
+     * If that fails, then we'll try to find the file on the classpath.
+     * @param filename the name of the file to search for
+     * @return an InputStream to the file or throws a FileNotFoundException if not found
+     * @throws FileNotFoundException
+     */
     private static InputStream resolveFile(String filename) throws FileNotFoundException {
         // First, try to use the filename as-is.
         File f = new File(filename);

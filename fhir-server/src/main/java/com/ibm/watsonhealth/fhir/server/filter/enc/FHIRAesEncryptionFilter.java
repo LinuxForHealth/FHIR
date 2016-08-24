@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.filter.enc;
 
-import static com.ibm.watsonhealth.fhir.server.helper.FHIRServerUtils.getJNDIValue;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_ENCRYPTION;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 import javax.xml.bind.DatatypeConverter;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 
 //@formatter:off
@@ -88,10 +90,10 @@ CODE_REMOVED
     private static final String ENCRYPTION_KEY_ALGORITHM = "AES";
 
     // The names of our JNDI entries for configuration.
-    private static final String JNDINAME_ENCRYPTION_ENABLED = "com.ibm.watsonhealth.fhir.encryption.enabled";
-    private static final String JNDINAME_ENCRYPTION_KSLOC = "com.ibm.watsonhealth.fhir.encryption.keystore.location";
-    private static final String JNDINAME_ENCRYPTION_KSPW = "com.ibm.watsonhealth.fhir.encryption.keystore.password";
-    private static final String JNDINAME_ENCRYPTION_KEYPW = "com.ibm.watsonhealth.fhir.encryption.key.password";
+    private static final String PROPERTY_ENCRYPTION_ENABLED = "enabled";
+    private static final String PROPERTY_ENCRYPTION_KSLOC = "keystoreLocation";
+    private static final String PROPERTY_ENCRYPTION_KSPW = "keystorePassword";
+    private static final String PROPERTY_ENCRYPTION_KEYPW = "keyPassword";
 
     // This is our 256-bit AES encryption key.
     private SecretKeySpec aesKey = null;
@@ -201,21 +203,22 @@ CODE_REMOVED
         try {
             // Check to see if encryption is enabled.
             // If yes, then grab the rest of our config entries retrieve the key.
-            encryptionEnabled = getJNDIValue(JNDINAME_ENCRYPTION_ENABLED, Boolean.FALSE);
+            PropertyGroup encryptionProps = FHIRConfiguration.loadConfiguration().getPropertyGroup(PROPERTY_ENCRYPTION);
+            encryptionEnabled = encryptionProps.getBooleanProperty(PROPERTY_ENCRYPTION_ENABLED, Boolean.FALSE);
             if (encryptionEnabled) {
                 // Keystore location.
-                String keystoreLocation = getJNDIValue(JNDINAME_ENCRYPTION_KSLOC, ENCRYPTION_KSLOC_DEFAULT);
+                String keystoreLocation = encryptionProps.getStringProperty(PROPERTY_ENCRYPTION_KSLOC, ENCRYPTION_KSLOC_DEFAULT);
 
                 // Keystore password.
-                String keystorePassword = getJNDIValue(JNDINAME_ENCRYPTION_KSPW, null);
+                String keystorePassword = encryptionProps.getStringProperty(PROPERTY_ENCRYPTION_KSPW);
                 if (keystorePassword == null || keystorePassword.isEmpty()) {
-                    throw new IllegalArgumentException("Missing value for JNDI entry: " + JNDINAME_ENCRYPTION_KSPW);
+                    throw new IllegalArgumentException("Missing value for configuration property: " + PROPERTY_ENCRYPTION_KSPW);
                 }
 
                 // Key password (associated with the entry containing the key).
-                String keyPassword = getJNDIValue(JNDINAME_ENCRYPTION_KEYPW, null);
+                String keyPassword = encryptionProps.getStringProperty(PROPERTY_ENCRYPTION_KEYPW);
                 if (keyPassword == null || keyPassword.isEmpty()) {
-                    throw new IllegalArgumentException("Missing value for JNDI entry: " + JNDINAME_ENCRYPTION_KEYPW);
+                    throw new IllegalArgumentException("Missing value for configuration property: " + PROPERTY_ENCRYPTION_KEYPW);
                 }
 
                 // Now load up the keystore file and retrieve our encryption key.

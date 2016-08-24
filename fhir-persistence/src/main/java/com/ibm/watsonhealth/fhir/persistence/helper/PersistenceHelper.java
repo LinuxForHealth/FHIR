@@ -21,6 +21,6 @@ public interface PersistenceHelper {
      * Returns an appropriate FHIRPersistance implementation according to the current configuration.
      * @throws FHIRPersistenceException 
      */
-    FHIRPersistence getFHIRPersistenceImplementation(String factoryJndiName) throws FHIRPersistenceException;
+    FHIRPersistence getFHIRPersistenceImplementation(String factoryPropertyName) throws FHIRPersistenceException;
 
 }
