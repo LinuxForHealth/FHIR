@@ -524,7 +524,7 @@ public class SearchUtil {
                 	rootParameter = parameter;
                 }
                 else {
-                	if (rootParameter.getChain() == null) {
+                	if (rootParameter.getChain().isEmpty()) {
                 		rootParameter.setNextParameter(parameter);
                 	}
                 	else {
