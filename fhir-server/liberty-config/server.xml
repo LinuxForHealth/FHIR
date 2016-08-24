@@ -76,16 +76,6 @@ CODE_REMOVED
         <fileset dir="${server.config.dir}/config" includes="*.jar"/>
     </library>
    
-    <!-- This JNDI entry specifies the name of the FHIRPersistenceFactory class to be used by the server -->
-    <!-- 
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.memory.FHIRPersistenceMemoryFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
-    <jndiEntry value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory"/>
-    -->
-    <jndiEntry id="fhirPersistenceFactory" jndiName="com.ibm.watsonhealth.fhir.persistence.factory" value="com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory"/>
-    
-    <jndiEntry id="fhirPersistenceJPAUseUUIDs" jndiName="com.ibm.watsonhealth.fhir.persistence.jpa.useUUIDs" value="true"/>
-
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
     <!-- Derby/Embedded-related configuration
@@ -119,7 +109,6 @@ CODE_REMOVED
     -->    
      
     <!-- DB2-related configuration
-    <jndiEntry value="FHIRNext" jndiName="com.ibm.watsonhealth.fhir.Schema"/>
     <library id="db2Lib">
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
     </library>
@@ -133,111 +122,6 @@ CODE_REMOVED
 CODE_REMOVED
     </dataSource>
     -->
-    
-    <!-- Cloudant-related configuration
-    This JNDI entry specifies the Cloudant DB account credentials, which are encoded using
-    the {WLP_ROOT}/wlp/bin/securityUtility . 
-    This entry is used only when the fhirPersistenceFactory entry points to the FHIRPersistenceCloudantFactory. 
-    -->
-    <!--  
-        <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.cloudant.account" id="com.ibm.watsonhealth.fhir.persistence.cloudant.account" decode="true" 
-CODE_REMOVED
-    -->
-    
-    <!-- Cloudant-related configuration
-    This JNDI entry specifies the Cloudant DB name. Ensure that the database has been created in your cloudant instance with proper indexes before you can use it for persistence. 
-    This entry is used only when the fhirPersistenceFactory entry points to the FHIRPersistenceCloudantFactory. 
-    -->
-    <!--  
-        <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.cloudant.dbname" id="com.ibm.watsonhealth.fhir.persistence.cloudant.dbname"
-           value="fhirdb"/>
-    -->
-
-
-    
-    <!-- These JNDI entries pertain to the FHIR Notification service -->
-    <jndiEntry id="enableWebSocketNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.websocket.enabled" value="true"/>
-
-    <!-- 
-    <jndiEntry id="enableKafkaNotifications" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.enabled" value="true"/>
-    <jndiEntry id="kafkaProperties" jndiName="com.ibm.watsonhealth.fhir.notification.kafka.properties" value="${server.config.dir}/config/kafka.properties"/>
-    -->
-    
-    <!-- 
-        'includeResourceTypes': a comma-separated list of resource types that should be included in notification event publishing.
-        a value of "" will result in all resource types being published.
-     -->
-     <!-- 
-    <jndiEntry id="includeNotificationResourceTypes" jndiName="com.ibm.watsonhealth.fhir.notification.includeResourceTypes" 
-        value="QuestionnaireResponse, CarePlan, MedicationAdministration, Device, DeviceComponent, DeviceMetric, MedicationOrder, Observation"/>
-	 -->
-    
-    <jndiEntry id="allowableVirtualResourceTypes" jndiName="com.ibm.watsonhealth.fhir.allowable.virtual.resource.types" value="WeatherDetail"/>
-    <jndiEntry id="virtualResourceTypesFeatureEnabled" jndiName="com.ibm.watsonhealth.fhir.virtual.resource.types.feature.enabled" value="true"/>
-    
-    <jndiEntry id="userDefinedSchematronEnabled" jndiName="com.ibm.watsonhealth.fhir.validation.user.defined.schematron.enabled" value="true"/>
-    
-    <!-- 
-     	Update configuration property 
-     	- set to true when a resource id specified during update is missing and we create a new resource (new behavior)
-     	- set to false when a resource id specified during update is missing and we throw FHIRPersistenceResourceNotFoundException (old behavior)
-    -->
-    <jndiEntry id="updateCreateEnabled" jndiName="com.ibm.watsonhealth.fhir.server.updateCreate.enabled" value="true"/>
-    
-    <!-- FHIR Persistence Router related config -->
-    <!--
-        To use the FHIR persistence router, you need to perform the following steps:
-        1. Configure the config/router-persistence-rules.json
-        2. Set the JNDI entry for the default persistence factory (jndiName="com.ibm.watsonhealth.fhir.persistence.factory"), to use the FHIRPersistenceRouterFactory class.
-        3. Create JNDI entries matching the "factoryJndiName" entries specified on config/router-persistence-rules.json.
-        You can find below an example on how to create this configuration.
-    -->
-    <!--
-	    <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory" id="fhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.whclsf.router.FHIRPersistenceRouterFactory"/>
-	    <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory.clinical" id="clinicalFhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory"/>
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-	    <jndiEntry jndiName="com.ibm.watsonhealth.fhir.persistence.factory.profile" id="profileFhirPersistenceFactory" value="com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory" />
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-    -->
-    <!-- 
-    	Enable/disable fhir-persistence-whc-lsf interceptors. The keys to enable/disable interceptors should follow the standard: 
-    	<jndiEntry id="isClassNameEnabled" jndiName="fully.qualified.class.name.enabled" value="true"/>
-    -->
-    <!-- 
-	    <jndiEntry id="isConsentManagementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.management.ConsentManagementPersistenceInterceptor.enabled" value="true"/>
-	    <jndiEntry id="isConsentEnforcementPersistenceInterceptorEnabled" jndiName="com.ibm.watsonhealth.fhir.persistence.whclsf.consent.enforcement.ConsentEnforcementPersistenceInterceptor.enabled" value="true"/>
-    -->
-    <!-- 
-     	IBM Consent Manager related config
-    -->
-    <!-- 
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-	-->
-    <!-- 
-        Encryption properties
-        <jndiEntry id="encryptionEnabled" jndiName="com.ibm.watsonhealth.fhir.encryption.enabled" value="true"/>
-        <jndiEntry id="encryptionKeystoreLocation" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.location" value="resources/security/fhirkeys.jceks"/>
-CODE_REMOVED
-CODE_REMOVED
-    -->
-    
-    <jndiEntry id="fhirTruststoreLocation" jndiName="com.ibm.watsonhealth.fhir.server.truststore.location" value="${server.config.dir}/resources/security/fhirTruststore.jks"/>
-CODE_REMOVED
-    
-     <!-- 
-     	Audit logging properties
-    -->
-    <jndiEntry id="fhirAuditLogPath" jndiName="com.ibm.watsonhealth.fhir.core.audit.logging.path" value="${server.config.dir}/logs/"/>
-CODE_REMOVED
-    
     
     <!-- Datasources from FHIR Persistence Router -->
     <!-- 
