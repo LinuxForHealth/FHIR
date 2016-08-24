@@ -388,9 +388,15 @@ public class FHIRSwaggerGenerator {
         
         JsonObjectBuilder responses = factory.createObjectBuilder();
         
-        JsonObjectBuilder response = factory.createObjectBuilder();
-        response.add("description", "Update " + modelClass.getSimpleName() + " operation successful");
-        responses.add("200", response);
+        JsonObjectBuilder response1 = factory.createObjectBuilder();
+        response1.add("description", "Update " + modelClass.getSimpleName() + " operation successful");
+        
+        JsonObjectBuilder response2 = factory.createObjectBuilder();
+        response2.add("description", "Create " + modelClass.getSimpleName() + " operation successful (requires 'updateCreateEnabled' configuration option)");
+        
+        responses.add("200", response1);
+        responses.add("201", response2);
+        
         put.add("responses", responses);
         
         path.add("put", put);
