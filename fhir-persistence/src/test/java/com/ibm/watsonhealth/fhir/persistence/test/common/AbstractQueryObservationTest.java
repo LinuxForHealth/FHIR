@@ -18,11 +18,14 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.model.Device;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -682,5 +685,91 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		long count = context.getTotalCount();
 		int lastPgNum = context.getLastPageNumber();
 		assertTrue((count == 0) && (lastPgNum == Integer.MAX_VALUE));
+	}
+	
+	/**
+	 * Creates an Observation, Device, and  Patients using the contents of json data files.
+	 * Then the Observation is chained to the Device, and the Device to the Patient, by way of FHIR references.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" })
+	public void testCreateObservation_chained() throws Exception {
+		
+		Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
+		persistence.create(getDefaultPersistenceContext(), patient);
+	    assertNotNull(patient);
+	    assertNotNull(patient.getId());
+	    assertNotNull(patient.getId().getValue());
+	    assertNotNull(patient.getMeta());
+	    assertNotNull(patient.getMeta().getVersionId().getValue());
+	    assertEquals("1", patient.getMeta().getVersionId().getValue());
+	    
+	    Device device = readResource(Device.class, "Device-without-patient.json");
+    	persistence.create(getDefaultPersistenceContext(), device);
+        assertNotNull(device);
+        assertNotNull(device.getId());
+        assertNotNull(device.getId().getValue());
+        assertNotNull(device.getMeta());
+        assertNotNull(device.getMeta().getVersionId().getValue());
+        assertEquals("1", device.getMeta().getVersionId().getValue());
+        
+        Observation observation = readResource(Observation.class, "observation-without-subject.json");
+    	persistence.create(getDefaultPersistenceContext(), observation);
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
+        
+        // "Connect" the device to the patient via a Reference
+        Reference patientRef = new Reference().withReference(new com.ibm.watsonhealth.fhir.model.String().withValue("Patient/" + patient.getId().getValue()));
+        device.setPatient(patientRef);
+        persistence.update(getDefaultPersistenceContext(), device.getId().getValue(), device);
+        assertEquals("2", device.getMeta().getVersionId().getValue());
+        
+        // "Connect" the observation to the device via a Reference
+        Reference deviceRef = new Reference().withReference(new com.ibm.watsonhealth.fhir.model.String().withValue("Device/" + device.getId().getValue()));
+        observation.setDevice(deviceRef);
+        persistence.update(getDefaultPersistenceContext(), observation.getId().getValue(), observation);
+        assertEquals("2", observation.getMeta().getVersionId().getValue());
+	}
+	
+	/**
+	 * Tests a valid chained parameter query that retrieves all Observations associated with all Devices that are
+	 * associated with a Patient with family name = 'Monella'
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_chained" })
+	public void testObservationQuery_chained_valid() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "device:Device.patient.family", "Monella");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		
+	}
+	
+	/**
+	 * Tests an invalid chained parameter query that retrieves all Observations associated with all Devices that are
+	 * associated with a Patient with family name = 'afeljagadf'
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_chained" })
+	public void testObservationQuery_chained_invalid1() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "device:Device.patient.family", "afeljagadf");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+		
+	}
+	
+	/**
+	 * Tests an invalid chained parameter query that does not contain the required resource type for the 
+	 * 'device' attribute. A FHIRSearchException should be thrown.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_chained" }, 
+			expectedExceptions = FHIRSearchException.class)
+	public void testObservationQuery_chained_invalid2() throws Exception {
+		runQueryTest(Observation.class, persistence, "device.patient.family", "Monella");
+		 
 	}
 }

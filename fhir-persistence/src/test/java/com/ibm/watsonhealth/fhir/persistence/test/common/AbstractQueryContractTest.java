@@ -326,7 +326,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	}
 	
 	/**
-	 * Tests an invalid chained parameter query that does not contained the required resource type containing the 
+	 * Tests an invalid chained parameter query that does not contain the required resource type for the 
 	 * 'name' attribute. A FHIRSearchException should be thrown.
 	 * @throws Exception
 	 */
