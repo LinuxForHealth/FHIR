@@ -23650,10 +23650,7 @@
         <description value="The subject that the observation is about (if patient)"/>
         <xpath value="f:Observation/f:subject"/>
         <xpathUsage value="normal"/>
-        <target value="Device"/>
-        <target value="Location"/>
         <target value="Patient"/>
-        <target value="Group"/>
       </SearchParameter>
     </resource>
   </entry>
