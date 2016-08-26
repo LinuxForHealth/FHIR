@@ -248,55 +248,53 @@ public class FHIRResource {
             @ApiResponse(code = SC_METHOD_NOT_ALLOWED, message = "The specified resource could not be updated because it does not yet exist.", response = OperationOutcome.class),
             @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
     })
-    public Response update(
-        @ApiParam(value = "The type of the resource to be updated.", required = true)
-        @PathParam("type") String type, 
-        @ApiParam(value = "The id of the resource to be updated.", required = true)
-        @PathParam("id") String id, 
-        @ApiParam(value = "The new contents of the resource to be updated.", required = true)
-        Resource resource) {
+    public Response update(@ApiParam(value = "The type of the resource to be updated.", required = true) @PathParam("type") String type,
+        @ApiParam(value = "The id of the resource to be updated.", required = true) @PathParam("id") String id,
+        @ApiParam(value = "The new contents of the resource to be updated.", required = true) Resource resource) {
 
-    	Date startTime = new Date();
-    	Response.Status status = null;
-    	Resource oldResource = null;
-    	
+        Date startTime = new Date();
+        Response.Status status = null;
+        Resource oldResource = null;
+
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
-        	oldResource = doRead(type, id, false);
+            // Retrieve the resource to be updated for audit logging purposes.
+            oldResource = doRead(type, id, false);
             URI locationURI = doUpdate(type, id, resource);
 
-            String locationStr = locationURI.toString();
             ResponseBuilder response = null;
-            
-            if(locationStr.endsWith("/1")) {
-            	//updateCreate flag was enabled and a new resource was created
-            	response = Response.created(locationURI);
-            	status = Response.Status.CREATED;
+
+            // Determine whether we actually did a create or an update operation in the persistence layer.
+            if (oldResource == null) {
+                // Must have been a create.
+                response = Response.created(locationURI);
+                status = Response.Status.CREATED;
             } else {
-            	response = Response.ok().location(locationURI);
-            	status = Response.Status.OK;
+                // Must have been an update.
+                response = Response.ok().location(locationURI);
+                status = Response.Status.OK;
             }
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRRestException e) {
-        	status = e.getHttpStatus();
+            status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
-        	status =  Response.Status.METHOD_NOT_ALLOWED;
+            status = Response.Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
         } catch (FHIRException e) {
-        	status =  Response.Status.BAD_REQUEST;
+            status = Response.Status.BAD_REQUEST;
             return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	if(status == Response.Status.CREATED) {
-        		RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
-        	} else {
-        		RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
-        	}
+            if (status == Response.Status.CREATED) {
+                RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
+            } else {
+                RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
+            }
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
