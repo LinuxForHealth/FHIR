@@ -17,7 +17,7 @@ RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/
 # Install IBM Java SDK
 RUN mkdir /opt/java/
 RUN yum install -y --nogpg tar
-RUN tar -xf /fhir-installer/fhir-server-dist/java-8/ibm-java-sdk-8.0-2.10-linux-x86_64.tgz -C /opt/java/
+RUN unzip /fhir-installer/fhir-server-dist/java/ibm-java-sdk-8.0-3.10-linux-x86_64-ibmjcefips.zip -d /opt/java/
 
 ENV JAVA_HOME /opt/java/ibm-java-x86_64-80/
 ENV PATH $JAVA_HOME/bin:$PATH
