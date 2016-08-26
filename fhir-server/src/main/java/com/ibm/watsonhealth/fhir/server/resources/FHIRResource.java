@@ -187,7 +187,7 @@ public class FHIRResource {
             return Response.ok().entity(getConformanceStatement()).build();
         } catch(Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
             if (log.isLoggable(Level.FINE)) {
@@ -227,11 +227,11 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
-        	status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -282,13 +282,13 @@ public class FHIRResource {
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
             status = Response.Status.METHOD_NOT_ALLOWED;
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            return exceptionResponse(e, status);
         } catch (FHIRException e) {
-            status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
             status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
             if (status == Response.Status.CREATED) {
                 RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
@@ -332,13 +332,13 @@ public class FHIRResource {
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
         	status = Response.Status.NOT_FOUND;
-            return exceptionResponse(e, Response.Status.NOT_FOUND);
+            return exceptionResponse(e, status);
         } catch (FHIRException e) {
-        	status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
         	status =  Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
             if (log.isLoggable(Level.FINE)) {
@@ -384,13 +384,13 @@ public class FHIRResource {
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
         	status = Response.Status.NOT_FOUND;
-            return exceptionResponse(e, Response.Status.NOT_FOUND);
+            return exceptionResponse(e, status);
         } catch (FHIRException e) {
-        	status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -426,11 +426,11 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
-        	status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -465,11 +465,11 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
-        	status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -495,11 +495,11 @@ public class FHIRResource {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
-            status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
             status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
             RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "_search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -523,11 +523,11 @@ public class FHIRResource {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
-            status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
             status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
             RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "searchAll()", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -548,11 +548,11 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
-        	status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logValidate(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -584,12 +584,12 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRException e) {
-        	status = Response.Status.BAD_REQUEST;
-            return exceptionResponse(e, Response.Status.BAD_REQUEST);
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch (Exception e) {
         	status = Response.Status.INTERNAL_SERVER_ERROR;
             log.log(Level.SEVERE, "Error encountered during bundle request processing: ", e);
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logBundle(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "bundle(Bundle)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -1167,7 +1167,7 @@ public class FHIRResource {
             log.log(Level.SEVERE, msg, e);
             response = Response.status(e.getHttpStatus()).entity(e.getOperationOutcome()).build();
         } else {
-            response = exceptionResponse(e, Response.Status.BAD_REQUEST);
+            response = exceptionResponse(e, e.getHttpStatus());
         }
         
         return response;
@@ -1180,9 +1180,13 @@ public class FHIRResource {
             log.log(Level.SEVERE, msg, e);
             response = Response.status(e.getHttpStatus()).entity(e.getResponseBundle()).build() ;
         } else {
-           response = exceptionResponse(e) ;
+           response = exceptionResponse(e, e.getHttpStatus()) ;
         }
         return response;
+    }
+    
+    private Response exceptionResponse(FHIRException e) {
+        return exceptionResponse(e, e.getHttpStatus());
     }
     
     private Response exceptionResponse(Exception e, Status status) {

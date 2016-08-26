@@ -13,6 +13,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.ws.rs.core.Response.Status;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -24,9 +25,8 @@ import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceIntercep
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 
 /**
- * This class tests the persistence interceptor feature.
- * The MyInterceptor class is our test interceptor implementation and is registered with
- * the interceptor framework.
+ * This class tests the persistence interceptor feature. The MyInterceptor class is our test interceptor implementation
+ * and is registered with the interceptor framework.
  */
 public class InterceptorTest extends FHIRModelTestBase {
     protected static FHIRPersistenceInterceptorMgr mgr = null;
@@ -35,16 +35,16 @@ public class InterceptorTest extends FHIRModelTestBase {
 
     public InterceptorTest() {
     }
-    
+
     @BeforeClass
     public void setUp() throws Exception {
         mgr = FHIRPersistenceInterceptorMgr.getInstance();
         assertNotNull(mgr);
-        
+
         patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
         badPatient = readResource(Patient.class, "Patient_JohnException.json");
     }
-    
+
     @Test
     public void testBeforeCreate() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
@@ -56,7 +56,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         assertTrue(event.isStandardResourceType());
         assertEquals(1, MyInterceptor.getBeforeCreateCount());
     }
-    
+
     @Test
     public void testAfterCreate() throws Exception {
         Map<String, Object> properties = new HashMap<String, Object>();
@@ -67,7 +67,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         mgr.fireAfterCreateEvent(event);
         mgr.fireAfterCreateEvent(event);
         mgr.fireAfterCreateEvent(event);
-        
+
         assertEquals(4, MyInterceptor.getAfterCreateCount());
     }
     
@@ -192,7 +192,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         
         mgr.fireBeforeUpdateEvent(event);
         mgr.fireBeforeUpdateEvent(event);
-        
+
         assertEquals(2, MyInterceptor.getBeforeUpdateCount());
     }
 
@@ -204,36 +204,56 @@ public class InterceptorTest extends FHIRModelTestBase {
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
         
         mgr.fireAfterUpdateEvent(event);
-        
+
         assertEquals(1, MyInterceptor.getAfterUpdateCount());
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class}, dependsOnMethods={"testBeforeCreate"})
     public void testBeforeCreateException() throws Exception {
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
-        
-        mgr.fireBeforeCreateEvent(event);
+
+        try {
+            mgr.fireBeforeCreateEvent(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertEquals(Status.FORBIDDEN.getStatusCode(), e.getHttpStatus().getStatusCode());
+            throw e;
+        }
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class}, dependsOnMethods={"testAfterCreate"})
     public void testAfterCreateException() throws Exception {
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
-        
-        mgr.fireAfterCreateEvent(event);
+
+        try {
+            mgr.fireAfterCreateEvent(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertEquals(Status.PAYMENT_REQUIRED.getStatusCode(), e.getHttpStatus().getStatusCode());
+            throw e;
+        }
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class}, dependsOnMethods={"testBeforeUpdate"})
     public void testBeforeUpdateException() throws Exception {
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
-        
-        mgr.fireBeforeUpdateEvent(event);
+
+        try {
+            mgr.fireBeforeUpdateEvent(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertEquals(Status.CONFLICT.getStatusCode(), e.getHttpStatus().getStatusCode());
+            throw e;
+        }
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class}, dependsOnMethods={"testAfterUpdate"})
     public void testAfterUpdateException() throws Exception {
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(badPatient, null);
-        
-        mgr.fireAfterUpdateEvent(event);
+
+        try {
+            mgr.fireAfterUpdateEvent(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertEquals(Status.BAD_REQUEST.getStatusCode(), e.getHttpStatus().getStatusCode());
+            throw e;
+        }
     }
 
     @Test(expectedExceptions = {FHIRPersistenceInterceptorException.class}, dependsOnMethods={"testBeforeRead"})

@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
+import javax.ws.rs.core.Response.Status;
+
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 
 public class FHIRPersistenceException extends FHIRException {
@@ -22,6 +24,14 @@ public class FHIRPersistenceException extends FHIRException {
 	    super(message, cause);
 	}
     
+    public FHIRPersistenceException(String message, Status httpStatus, Throwable cause) {
+        super(message, httpStatus, cause);
+    }
+    
+    
+    public FHIRPersistenceException(String message, Status httpStatus) {
+        super(message, httpStatus);
+    }
     public FHIRPersistenceException(Throwable cause) {
         super(cause);
     }

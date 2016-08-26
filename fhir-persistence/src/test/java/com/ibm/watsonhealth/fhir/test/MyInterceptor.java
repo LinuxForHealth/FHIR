@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.test;
 
+import javax.ws.rs.core.Response.Status;
+
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -37,13 +39,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null) {
             beforeCreateCount++;
         }
-        possiblyThrowException(event.getFhirResource());
+        possiblyThrowException(event.getFhirResource(), Status.FORBIDDEN);
     }
 
     @Override
     public void afterCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterCreateCount++;
-        possiblyThrowException(event.getFhirResource());
+        possiblyThrowException(event.getFhirResource(), Status.PAYMENT_REQUIRED);
     }
 
     @Override
@@ -51,13 +53,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
             beforeUpdateCount++;
         }
-        possiblyThrowException(event.getFhirResource());
+        possiblyThrowException(event.getFhirResource(), Status.CONFLICT);
     }
 
     @Override
     public void afterUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterUpdateCount++;
-        possiblyThrowException(event.getFhirResource());
+        possiblyThrowException(event.getFhirResource(), Status.BAD_REQUEST);
     }
     
     @Override
@@ -65,13 +67,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
             beforeReadCount++;
         }
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
 
     @Override
     public void afterRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterReadCount++;
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
     
     @Override
@@ -79,13 +81,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResourceType() != null && event.getFhirResourceId() != null && event.getFhirVersionId() != null) {
             beforeVreadCount++;
         }
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
 
     @Override
     public void afterVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterVreadCount++;
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
     
     @Override
@@ -93,13 +95,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
             beforeHistoryCount++;
         }
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
 
     @Override
     public void afterHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterHistoryCount++;
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
     
     @Override
@@ -107,13 +109,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResourceType() != null) {
             beforeSearchCount++;
         }
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
 
     @Override
     public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterSearchCount++;
-        possiblyThrowException(event.getFhirResourceType());
+        possiblyThrowException(event.getFhirResourceType(), null);
     }
 
     public static int getBeforeCreateCount() {
@@ -164,19 +166,19 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         return afterSearchCount;
     }
     
-    private void possiblyThrowException(Resource resource) throws FHIRPersistenceInterceptorException {
+    private void possiblyThrowException(Resource resource, Status status) throws FHIRPersistenceInterceptorException {
         if (resource instanceof Patient) {
             Patient patient = (Patient) resource;
             if (patient.getName().get(0).getFamily().get(0).getValue().equals("Exception")) {
-                throw new FHIRPersistenceInterceptorException("Detected invalid patient");
+                throw new FHIRPersistenceInterceptorException("Detected invalid patient", status);
             }
         }
         
     }
     
-    private void possiblyThrowException(String resourceType) throws FHIRPersistenceInterceptorException {
+    private void possiblyThrowException(String resourceType, Status status) throws FHIRPersistenceInterceptorException {
         if ("Exception".equals(resourceType)) {
-            throw new FHIRPersistenceInterceptorException("Detected invalid resource type");
+            throw new FHIRPersistenceInterceptorException("Detected invalid resource type", status);
         }
         
     }
