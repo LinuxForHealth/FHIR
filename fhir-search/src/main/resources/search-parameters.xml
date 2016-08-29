@@ -23651,6 +23651,7 @@
         <xpath value="f:Observation/f:subject"/>
         <xpathUsage value="normal"/>
         <target value="Patient"/>
+        <!-- LOCALMOD: removed extraneous targets to make this search compliant with the FHIR spec.  -->
       </SearchParameter>
     </resource>
   </entry>
