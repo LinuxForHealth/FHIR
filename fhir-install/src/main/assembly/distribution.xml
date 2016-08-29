@@ -11,12 +11,6 @@
 	</formats>
 	<fileSets>
 		<fileSet>
-			<directory>src/main/resources/install</directory>
-			<outputDirectory>fhir/server</outputDirectory>
-			<directoryMode>0775</directoryMode>
-			<fileMode>0755</fileMode>
-		</fileSet>
-		<fileSet>
 			<directory>../fhir-server/liberty-config</directory>
 			<outputDirectory>fhir/server/usr/servers/fhir-server</outputDirectory>
 			<fileMode>0755</fileMode>
