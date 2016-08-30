@@ -94,7 +94,12 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 			switch(type) {
 			case STRING:    databaseQueryParm = this.processStringParm(queryParm);
 				    break;
-			case REFERENCE: databaseQueryParm = this.processReferenceParm(queryParm);
+			case REFERENCE: if (queryParm.isChained()) {
+								databaseQueryParm = this.processChainedReferenceParm(queryParm);
+								}
+								else {
+									databaseQueryParm = this.processReferenceParm(queryParm);
+								}
 					break;
 			case DATE:      databaseQueryParm = this.processDateParm(queryParm);
 			        break;
@@ -143,6 +148,15 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 */
 	protected abstract T1 processReferenceParm(Parameter queryParm);
+	
+	/**
+	 * Contains special logic for handling chained reference search parameters.
+	 * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
+	 * @param queryParm - The query parameter.
+	 * @return T1 - An object containing a query segment. 
+	 * @throws FHIRPersistenceException
+	 */
+	protected abstract T1 processChainedReferenceParm(Parameter queryParm) throws FHIRPersistenceException;
 	
 	/**
 	 * Creates a query segment for a Date type parameter.
