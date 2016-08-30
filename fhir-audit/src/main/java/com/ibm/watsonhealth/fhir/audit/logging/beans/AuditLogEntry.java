@@ -22,6 +22,7 @@ public class AuditLogEntry {
 	private String description;
 	private String userName;
 	private Context context;
+	private ConfigData configData;
 
 
 	public AuditLogEntry(String componentId, String eventType, String timestamp, String componentIp, String tenantId) {
@@ -121,6 +122,16 @@ public class AuditLogEntry {
 
 	public void setContext(Context context) {
 		this.context = context;
+	}
+
+
+	public ConfigData getConfigData() {
+		return configData;
+	}
+
+
+	public void setConfigData(ConfigData configData) {
+		this.configData = configData;
 	}
 
 }

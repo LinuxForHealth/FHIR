@@ -24,6 +24,7 @@ import com.ibm.watsonhealth.fhir.audit.logging.api.AuditLogServiceFactory;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.ApiParameters;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.AuditLogEntry;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Batch;
+import com.ibm.watsonhealth.fhir.audit.logging.beans.ConfigData;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Context;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Data;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -313,6 +314,24 @@ public class RestAuditLogger {
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
 	}
+	
+	/**
+	 * Logs an Audit Log Entry for FHIR server configuration data.
+	 * @param configData - The configuration data to be saved in the audit log.
+	 */
+	public static void logConfig(String configData) {
+		final String METHODNAME = "logConfig";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
+		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_CONFIGDATA);
+		entry.setConfigData(new ConfigData().withServerStartupParms(configData));
+		auditLogSvc.logEntry(entry);
+		
+		log.exiting(METHODNAME, METHODNAME);
+		
+	}
+
 	
 	/**
 	 * Populates the passed audit log entry, with attributes common to all REST services.

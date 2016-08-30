@@ -11,6 +11,9 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -28,7 +31,8 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
-import com.ibm.watsonhealth.fhir.search.util.SearchUtil;;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 
 @WebListener("IBM Watson Health Cloud FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -94,6 +98,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
+            logConfigData();
 		} catch(Throwable t) {
 		    String msg = "Encountered an exception while initializing the servlet context.";
 		    log.log(Level.SEVERE, msg, t);
@@ -124,4 +129,33 @@ public class FHIRServletContextListener implements ServletContextListener {
 			}
 		}
 	}
+    
+    /**
+     * Logs server configuration data using the REST audit log service.
+     */
+    private void logConfigData() {
+    	if (log.isLoggable(Level.FINER)) {
+			log.entering(FHIRServletContextListener.class.getName(), "logConfigData");
+		}
+    	
+    	String configData;
+    	String configFilePath = null;
+    	    	
+    	try {
+    		// Read files containing config data from the current directory.
+    		configFilePath = "server.xml";
+			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
+			RestAuditLogger.logConfig(configData);
+			configFilePath = "fhir-server-config.json";
+			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
+			RestAuditLogger.logConfig(configData);
+		} catch (IOException e) {
+			log.severe("Failure reading server config file: " + configFilePath + "\n" + e.toString());
+		}
+    	
+    	if (log.isLoggable(Level.FINER)) {
+			log.exiting(FHIRServletContextListener.class.getName(), "logConfigData");
+		}
+    }
+
 }

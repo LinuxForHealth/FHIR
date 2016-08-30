@@ -29,7 +29,9 @@ public enum AuditLogEventType {
 	
 	FHIR_VALIDATE("fhir-validate"),
 	
-	FHIR_METADATA("fhir-metadata");
+	FHIR_METADATA("fhir-metadata"),
+	
+	FHIR_CONFIGDATA("fhir-configdata");
 		
 	
 		
