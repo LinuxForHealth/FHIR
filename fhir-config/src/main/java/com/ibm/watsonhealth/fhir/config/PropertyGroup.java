@@ -39,9 +39,17 @@ public class PropertyGroup {
     public static final String PATH_ELEMENT_SEPARATOR = "/";
 
     // This is the JsonObject which holds the property group
-    private JsonObject jsonObj;
+    protected JsonObject jsonObj;
 
     public PropertyGroup(JsonObject jsonObj) {
+        this.jsonObj = jsonObj;
+    }
+    
+    public JsonObject getJsonObj() {
+        return jsonObj;
+    }
+    
+    protected void setJsonObj(JsonObject jsonObj) {
         this.jsonObj = jsonObj;
     }
 
@@ -258,7 +266,7 @@ public class PropertyGroup {
      * @return an instance of Boolean, Integer, String, or PropertyGroup
      * @throws Exception 
      */
-    private Object convertJsonValue(JsonValue jsonValue) throws Exception {
+    protected Object convertJsonValue(JsonValue jsonValue) throws Exception {
         Object result = null;
         switch (jsonValue.getValueType()) {
         case FALSE:
@@ -293,7 +301,7 @@ public class PropertyGroup {
      * @param propertyName
      *            the possibly hierarchical property name.
      */
-    private JsonValue getJsonValue(String propertyName) {
+    protected JsonValue getJsonValue(String propertyName) {
         String[] pathElements = getPathElements(propertyName);
         JsonObject subGroup = getPropertySubGroup(pathElements);
         JsonValue result = null;
@@ -310,7 +318,7 @@ public class PropertyGroup {
      *            a hierarchical property name (e.g. "level1/level2/myProperty"
      * @return
      */
-    private String[] getPathElements(String propertyName) {
+    protected String[] getPathElements(String propertyName) {
         return propertyName.split(PATH_ELEMENT_SEPARATOR);
     }
 
@@ -336,7 +344,7 @@ public class PropertyGroup {
      *            "myProperty"})
      * @return the JsonObject sub-structure that contains the specified property.
      */
-    private JsonObject getPropertySubGroup(String[] pathElements) {
+    protected JsonObject getPropertySubGroup(String[] pathElements) {
         if (pathElements != null) {
             JsonObject cursor = this.jsonObj;
             int limit = pathElements.length - 1;

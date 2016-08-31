@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.config.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.config.ConfigurationService;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.watsonhealth.fhir.config.mock.MockPropertyGroup;
 
 public class ConfigurationServiceTest {
 
@@ -55,5 +57,25 @@ public class ConfigurationServiceTest {
         assertNotNull(notificationProps.getPropertyGroup("common"));
         assertNotNull(notificationProps.getPropertyGroup("websocket"));
         assertNotNull(notificationProps.getPropertyGroup("kafka"));
+    }
+    
+    @Test
+    public void testMockPropertyGroup1() throws Exception {
+        System.setProperty(ConfigurationService.PROPERTY_GROUP_CLASSNAME, MockPropertyGroup.class.getName());
+        PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
+        assertNotNull(pg);
+        assertTrue(pg instanceof MockPropertyGroup);
+    }
+    
+    @Test(expectedExceptions = { IllegalArgumentException.class })
+    public void testMockPropertyGroup2() throws Exception {
+        System.setProperty(ConfigurationService.PROPERTY_GROUP_CLASSNAME, "BAD_CLASS_NAME");
+        PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
+    }
+    
+    @Test(expectedExceptions = { IllegalArgumentException.class })
+    public void testMockPropertyGroup3() throws Exception {
+        System.setProperty(ConfigurationService.PROPERTY_GROUP_CLASSNAME, TestMockPropertyGroup.class.getName());
+        PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
     }
 }

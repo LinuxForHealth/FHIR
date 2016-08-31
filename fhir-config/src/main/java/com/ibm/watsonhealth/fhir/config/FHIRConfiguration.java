@@ -47,10 +47,18 @@ public class FHIRConfiguration {
      * Retrieves the FHIR Server configuration and returns it as a PropertyGroup.
      * @throws FileNotFoundException
      */
-    public static synchronized PropertyGroup loadConfiguration() throws FileNotFoundException {
+    public static synchronized PropertyGroup loadConfiguration() throws Exception {
         if (fhirConfig == null) {
             fhirConfig = ConfigurationService.loadConfiguration(FHIR_SERVER_DEFAULT_CONFIG);
         }
         return fhirConfig;
+    }
+    
+    /**
+     * Clears the single-instance configuration object.
+     * This can be used perhaps during testing when you need to clear and re-load the configuration.
+     */
+    public static synchronized void clearConfiguration() {
+        fhirConfig = null;
     }
 }
