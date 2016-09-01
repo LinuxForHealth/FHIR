@@ -34,7 +34,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
-    public static final String PROPERTY_CLOUDANT_ACCOUNT = "fhirServer/persistence/cloudant/account";
+    public static final String PROPERTY_CLOUDANT_HOSTNAME = "fhirServer/persistence/cloudant/hostname";
+    public static final String PROPERTY_CLOUDANT_USERNAME = "fhirServer/persistence/cloudant/hostname";
+    public static final String PROPERTY_CLOUDANT_PWD = "fhirServer/persistence/cloudant/pwd";
     public static final String PROPERTY_CLOUDANT_DBNAME = "fhirServer/persistence/cloudant/dbName";
     public static final String PROPERTY_WHCLSF_ROUTER = "fhirServer/persistence/whclsfRouter";
 
