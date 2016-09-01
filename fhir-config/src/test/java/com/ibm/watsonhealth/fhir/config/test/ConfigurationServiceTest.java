@@ -70,12 +70,12 @@ public class ConfigurationServiceTest {
     @Test(expectedExceptions = { IllegalArgumentException.class })
     public void testMockPropertyGroup2() throws Exception {
         System.setProperty(ConfigurationService.PROPERTY_GROUP_CLASSNAME, "BAD_CLASS_NAME");
-        PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
+        ConfigurationService.loadConfiguration("fhirConfig.json");
     }
     
     @Test(expectedExceptions = { IllegalArgumentException.class })
     public void testMockPropertyGroup3() throws Exception {
         System.setProperty(ConfigurationService.PROPERTY_GROUP_CLASSNAME, TestMockPropertyGroup.class.getName());
-        PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
+        ConfigurationService.loadConfiguration("fhirConfig.json");
     }
 }
