@@ -8,6 +8,8 @@ package com.ibm.watsonhealth.fhir.cli;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +33,12 @@ import com.ibm.watsonhealth.fhir.cli.invoker.InvocationContext;
 import com.ibm.watsonhealth.fhir.cli.invoker.MetadataInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.OperationInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.ReadInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.SearchAllInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.SearchInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.SearchPostInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.TransactionInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.UpdateInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.ValidateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.VreadInvoker;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -51,20 +56,22 @@ public class FHIRCLI {
     
     public static void main(String[] args) {
         try {
+            println(copyright);
             FHIRCLI fhircli = new FHIRCLI(args);
             fhircli.processCommand();
             System.exit(0);
         } catch (Throwable t) {
-            System.out.println("Unexpected exception: " + t);
-            t.printStackTrace();
+            println("\nUnexpected exception: " + t);
+            println(getStackTrace(t));
             System.exit(1);
         }
     }
     
-    private static final String copyright = "fhir-cli / FHIR Client CLI\n(c) Copyright IBM Corporation, 2016.\n";
+    private static final String copyright = "FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.\n";
     private static final String header = "\nProvides access to the FHIR Client API via the command line.\n\nOptions:\n";
     private static final String syntax = "fhir-cli [options]";
     private static final String CONTENT_LENGTH_HEADER = "Content-Length";
+    private static final String DEFAULT_MIMETYPE = "application/json+fhir";
     
     private String[] args;
     
@@ -73,6 +80,20 @@ public class FHIRCLI {
     public FHIRCLI(String[] args) {
         this.args = args;
         initInvokersMap();
+    }
+    
+    private static void println(String s) {
+        System.err.println(s);
+    }
+    
+    private static void print(String s) {
+        System.err.print(s);
+    }
+    
+    private static String getStackTrace(Throwable t) {
+        StringWriter sw = new StringWriter();
+        t.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
     }
 
     /**
@@ -86,8 +107,11 @@ public class FHIRCLI {
         invokers.put(Operations.METADATA, new MetadataInvoker());
         invokers.put(Operations.READ, new ReadInvoker());
         invokers.put(Operations.SEARCH, new SearchInvoker());
+        invokers.put(Operations.SEARCHALL, new SearchAllInvoker());
+        invokers.put(Operations.SEARCH_POST, new SearchPostInvoker());
         invokers.put(Operations.TRANSACTION, new TransactionInvoker());
         invokers.put(Operations.UPDATE, new UpdateInvoker());
+        invokers.put(Operations.VALIDATE, new ValidateInvoker());
         invokers.put(Operations.VREAD, new VreadInvoker());
     }
 
@@ -185,7 +209,7 @@ public class FHIRCLI {
         }
         
         collectQueryParameters(cmdline, ic);
-        collectHeaders(cmdline, ic);
+        // collectHeaders(cmdline, ic);
         
         return ic;
     }
@@ -203,17 +227,13 @@ public class FHIRCLI {
         
         long startTime = 0;
         
-        if (ic.isVerbose()) {
-            System.out.print("Invoking operation '" + ic.getOperation().getOpName() + "'...");
-            startTime = System.currentTimeMillis();
-        }
+        print("Invoking operation '" + ic.getOperation().getOpName() + "'...");
+        startTime = System.currentTimeMillis();
         
         invoker.invoke(ic);
         
-        if (ic.isVerbose()) {
-            long elapsedTime = System.currentTimeMillis() - startTime;
-            System.out.print(" done! (" + elapsedTime + "ms)\n");
-        }
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        print(" done! (" + elapsedTime + "ms)\n");
     }
 
     /**
@@ -229,43 +249,51 @@ public class FHIRCLI {
         if (response != null) {
             Response jaxrsResponse = response.getResponse();
             
-            System.out.println("Operation '" + ic.getOperation().getOpName() + "' results:");
-            System.out.println("Status code: " + response.getStatus());
+            println("Status code: " + response.getStatus());
 
             String locationURI = response.getLocation();
             if (locationURI != null) {
-                System.out.println("Location URI: " + locationURI);
+                println("Location URI: " + locationURI);
             }
 
             String etag = response.getETag();
             if (etag != null) {
-                System.out.println("ETag: " + etag);
+                println("ETag: " + etag);
             }
             
             String lastModified = (response.getLastModified() != null ? response.getLastModified().toString() : null);
             if (lastModified != null) {
-                System.out.println("Last modified: " + lastModified);
+                println("Last modified: " + lastModified);
             }
             
             // If verbose is requested, then display the headers.
             if (ic.isVerbose()) {
-                System.out.println("Response headers:");
+                println("Response headers:");
                 MultivaluedMap<String, String> headers = jaxrsResponse.getStringHeaders();
                 for (Map.Entry<String, List<String>> headerEntry : headers.entrySet()) {
                     for (String value : headerEntry.getValue()) {
-                        System.out.println("   " + headerEntry.getKey() + ": " + value);
+                        println("   " + headerEntry.getKey() + ": " + value);
                     }
                 }
-                System.out.println();
+                println("");
             }
             
             // If the response contains a resource, then display it per user-specified options.
+            // To check for the presence of a resource in the response, we can't fully trust
+            // the Content-Length response header or the JAX-RS Response.hasEntity() method.
+            // The following scenarios are possible:
+            // 1) Response.hasEntity() could return true even if Content-Length = 0
+            // 2) Content-Length might be missing
+            // Result: we'll try to read the resource if Response.hasEntity() returns true,
+            // AND the Content-Length header is not specified as "0".
+            // In other words, if Content-Length is missing or set to something other than 0 and
+            // Response.hasEntity() is true, then we'll try to read the response entity.
             String contentLengthStr = jaxrsResponse.getHeaderString(CONTENT_LENGTH_HEADER);
-            int contentLength = 0;
+            int contentLength = -1;
             if (contentLengthStr != null && !contentLengthStr.isEmpty()) {
                 contentLength = Integer.valueOf(contentLengthStr).intValue();
             }
-            if (contentLength > 0) {
+            if (jaxrsResponse.hasEntity() && contentLength != 0) {
                 Resource responseObj = response.getResource(Resource.class);
                 if (responseObj != null) {
                     Writer writer = null;
@@ -273,10 +301,10 @@ public class FHIRCLI {
                     if (outputFile != null && !outputFile.isEmpty()) {
                         FileOutputStream os = new FileOutputStream(outputFile);
                         writer = new OutputStreamWriter(os);
-                        System.out.println("Response resource written to file: " + outputFile);
+                        println("Response resource written to file: " + outputFile);
                     } else {
                         writer = new OutputStreamWriter(System.out);
-                        writer.write("Response resource:\n");
+                        println("Response resource:\n");
                     }
 
                     FHIRUtil.write(responseObj, Format.JSON, writer);
@@ -288,16 +316,16 @@ public class FHIRCLI {
     /**
      * Visits each "header" option and adds it to the InvocationContext.
      */
-    private void collectHeaders(CommandLine cmdline, InvocationContext ic) {
-        for (Option option : cmdline.getOptions()) {
-            if (option.getOpt().equals(OptionNames.HEADER.getShortName())) {
-                List<String> values = option.getValuesList();
-                if (values != null && values.size() >= 2) {
-                    ic.addHeader(values.get(0), values.get(1));
-                }
-            }
-        }
-    }
+//    private void collectHeaders(CommandLine cmdline, InvocationContext ic) {
+//        for (Option option : cmdline.getOptions()) {
+//            if (option.getOpt().equals(OptionNames.HEADER.getShortName())) {
+//                List<String> values = option.getValuesList();
+//                if (values != null && values.size() >= 2) {
+//                    ic.addHeader(values.get(0), values.get(1));
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Visits each "queryParameter" option and adds it to the InvocationContext.
@@ -317,10 +345,10 @@ public class FHIRCLI {
      * Determines the correct mimeType to use for the request, based on the command line options.
      */
     private String getMimetype(CommandLine cmdline) {
-        String mimeType = "application/json+fhir";
-        if (cmdline.hasOption(OptionNames.XML.getShortName())) {
-            mimeType = "application/xml+fhir";
-        }
+        String mimeType = DEFAULT_MIMETYPE;
+//        if (cmdline.hasOption(OptionNames.XML.getShortName())) {
+//            mimeType = "application/xml+fhir";
+//        }
         return mimeType;
     }
 
@@ -339,8 +367,7 @@ public class FHIRCLI {
             .addOption(Option.builder(OptionNames.ID.getShortName()).longOpt(OptionNames.ID.getLongName()).desc(OptionNames.ID.getDesc()).hasArg().argName(OptionNames.ID.getArgName()).build())
             .addOption(Option.builder(OptionNames.VERSIONID.getShortName()).longOpt(OptionNames.VERSIONID.getLongName()).desc(OptionNames.VERSIONID.getDesc()).hasArg().argName(OptionNames.VERSIONID.getArgName()).build())
             .addOption(Option.builder(OptionNames.OUTPUT.getShortName()).longOpt(OptionNames.OUTPUT.getLongName()).desc(OptionNames.OUTPUT.getDesc()).hasArg().argName(OptionNames.OUTPUT.getArgName()).build())
-            .addOption(Option.builder(OptionNames.QUERYPARAMETER.getShortName()).longOpt(OptionNames.QUERYPARAMETER.getLongName()).desc(OptionNames.QUERYPARAMETER.getDesc()).numberOfArgs(2).argName(OptionNames.QUERYPARAMETER.getArgName()).valueSeparator().build())
-            .addOption(Option.builder(OptionNames.HEADER.getShortName()).longOpt(OptionNames.HEADER.getLongName()).desc(OptionNames.HEADER.getDesc()).numberOfArgs(2).argName(OptionNames.HEADER.getArgName()).valueSeparator().build());
+            .addOption(Option.builder(OptionNames.QUERYPARAMETER.getShortName()).longOpt(OptionNames.QUERYPARAMETER.getLongName()).desc(OptionNames.QUERYPARAMETER.getDesc()).numberOfArgs(2).argName(OptionNames.QUERYPARAMETER.getArgName()).valueSeparator().build());
 
         return options;
     }
@@ -349,11 +376,11 @@ public class FHIRCLI {
      * Displays the help text and usage syntax on the console.
      */
     private void displayHelp(Options options) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
         HelpFormatter helpFormatter = new HelpFormatter();
-        System.out.println(copyright);
-        
-        String footer = "\nOPERATION: " + Operations.validOperations();
-        helpFormatter.printHelp(syntax, header, options, footer);
+        String footer = "\nOPERATION should be one of: " + Operations.validOperations();
+        helpFormatter.printHelp(pw, 100, syntax, header, options, 3, 3, footer);
+        println(sw.toString());
     }
-
 }

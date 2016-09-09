@@ -11,6 +11,7 @@
 
 	<artifactId>fhir-cli</artifactId>
 	<description>Command-line interface for FHIR Client API</description>
+    <packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
@@ -29,4 +30,23 @@
 			<version>1.4-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <finalName>fhir-cli</finalName>
+                    <outputDirectory>${publish.dir}</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <attach>true</attach>
+                    <descriptors>
+                        <descriptor>src/main/assembly/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

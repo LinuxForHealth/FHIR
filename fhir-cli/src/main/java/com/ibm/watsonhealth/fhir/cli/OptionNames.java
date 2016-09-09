@@ -15,18 +15,18 @@ package com.ibm.watsonhealth.fhir.cli;
 public enum OptionNames {
     
     OPERATION("operation", "op", "The operation to be invoked", "OPERATION"),
-    RESOURCE("resource", "r", "Retrieve FHIR resource from <FILE>", "FILE"),
-    RESOURCETYPE("type", "t", "Use resource type <TYPE> for the operation invocation", "TYPE"),
-    ID("id", "id", "Use identifier <ID> for the operation invocation", "ID"),
+    RESOURCE("resource", "r", "Use FHIR resource contained in <FILE> for operation invocation (e.g. patient.json)", "FILE"),
+    RESOURCETYPE("type", "t", "Use resource type <TYPE> for the operation invocation (e.g. \"Patient\")", "TYPE"),
+    ID("resourceId", "id", "Use resource identifier <ID> for the operation invocation", "ID"),
     VERSIONID("versionId", "vid", "Use version # <VID> for the operation invocation", "VID"),
-    PROPERTIES("properties", "p", "Retrieve FHIR Client properties from <FILE>", "FILE"),
-    QUERYPARAMETER("queryParameter", "qp", "Include query parameter NAME=VALUE with the operation invocation.", "NAME=VALUE"),
-    OUTPUT("output", "o", "Write output resource to <FILE>", "FILE"),
-    HELP("help", "h", "Display help text"),
-    VERBOSE("verbose", "v", "Display verbose output"),
-    JSON("json", "j", "Use JSON format for requests and responses"),
-    XML("xml", "x", "Use XML format for requests and responses"),
-    HEADER("header", "H", "Define a request header with the specified name and value", "HEADER=VALUE");
+    PROPERTIES("properties", "p", "Use FHIR Client properties contained in <FILE> (e.g. fhir-cli.properties)", "FILE"),
+    QUERYPARAMETER("queryParameter", "qp", "Include query parameter NAME=VALUE with the operation invocation (e.g. _count=100).", "NAME=VALUE"),
+    OUTPUT("output", "o", "Write output resource to <FILE> (e.g. searchresults.json)", "FILE"),
+    HELP("help", "h", "Display this help text"),
+    VERBOSE("verbose", "v", "Display detailed output");
+    // JSON("json", "j", "Use JSON format for requests and responses"),
+    // XML("xml", "x", "Use XML format for requests and responses");
+    // HEADER("header", "H", "Define a request header with the specified name and value", "HEADER=VALUE");
     
     private String longName;
     private String shortName;

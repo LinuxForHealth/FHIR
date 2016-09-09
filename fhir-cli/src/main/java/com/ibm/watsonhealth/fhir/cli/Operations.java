@@ -12,17 +12,18 @@ package com.ibm.watsonhealth.fhir.cli;
  * @author padams
  */
 public enum Operations {
-    METADATA("metadata"),
+    BATCH("batch"),
     CREATE("create"),
-    UPDATE("update"),
-    READ("read"),
-    VREAD("vread"),
     HISTORY("history"),
+    METADATA("metadata"),
+    READ("read"),
     SEARCH("search"),
     SEARCHALL("search-all"),
+    SEARCH_POST("search-post"),
+    TRANSACTION("transaction"),
+    UPDATE("update"),
     VALIDATE("validate"),
-    BATCH("batch"),
-    TRANSACTION("transaction");
+    VREAD("vread");
 
     private String opName;
 
