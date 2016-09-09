@@ -242,7 +242,7 @@ public class FHIRParameters {
     /**
      * Adds a multi-valued parameter to 'this'.
      */
-    private void addMultivaluedParameter(String name, String value) {
+    public void addMultivaluedParameter(String name, String value) {
         getParameters().add(name, value);
     }
 
@@ -252,7 +252,7 @@ public class FHIRParameters {
      * @param name
      * @param value
      */
-    private void addSinglevaluedParameter(String name, String value) {
+    public void addSinglevaluedParameter(String name, String value) {
         getParameters().putSingle(name, value);
     }
 
