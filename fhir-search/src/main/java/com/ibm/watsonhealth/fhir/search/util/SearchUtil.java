@@ -64,10 +64,69 @@ public class SearchUtil {
 
     private static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Arrays.asList("_sort", "_count", "_include", "_revinclude", "_summary", "_elements", "_contained", "_containedType", "_page");
-
+    
+    private static final List<String> COMPARTMENTS = Arrays.asList("Patient", "Encounter", "RelatedPerson", "Practitioner", "Device");
+    private static final Map<String, List<String>> EXCLUDED_COMPARTMENT_RESOURCE_TYPES = new HashMap<String, List<String>>();
+    static {
+        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Patient", Arrays.asList("Contract", "Device", "MessageHeader"));
+        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Encounter", Arrays.asList("AuditEvent", "Basic", "Contract", "DetectedIssue", "DocumentManifest", "DocumentReference", "Flag", "List", "MessageHeader", "Order", "OrderResponse", "Provenance", "RiskAssessment"));
+        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("RelatedPerson", Arrays.asList("AuditEvent", "ClinicalImpression", "Contract", "DetectedIssue", "List", "MedicationAdministration", "MessageHeader", "Order", "OrderResponse", "ProcessResponse"));
+        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Practitioner", Arrays.asList("Contract"));
+        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Device", Arrays.asList("Basic", "ClinicalImpression", "Contract", "ProcessResponse"));
+    }
+    private static final Map<String, Map<String, List<String>>> compartmentMap = buildCompartmentMap();
+    
     private SearchUtil() {
     }
 
+    private static Map<String, Map<String, List<String>>> buildCompartmentMap() {
+        try {
+            Map<String, Map<String, List<String>>> compartmentMap = new HashMap<String, Map<String, List<String>>>();
+            List<SearchParameter> searchParameters = new ArrayList<SearchParameter>();
+            for (String resourceTypeName : searchParameterMap.keySet()) {
+                Map<String, SearchParameter> map = searchParameterMap.get(resourceTypeName);
+                for (String parameterName : map.keySet()) {
+                    SearchParameter parameter = map.get(parameterName);
+                    searchParameters.add(parameter);
+                }
+            }
+            for (String compartment : COMPARTMENTS) {
+                List<String> excludedCompartmentResourceTypes = EXCLUDED_COMPARTMENT_RESOURCE_TYPES.get(compartment);
+                for (SearchParameter parameter : searchParameters) {
+                    String base = parameter.getBase().getValue();
+                    if (!excludedCompartmentResourceTypes.contains(base) && "reference".equals(parameter.getType().getValue())) {
+                        for (Code target : parameter.getTarget()) {
+                            if (target.getValue().equals(compartment)) {
+                                Map<String, List<String>> map = compartmentMap.get(compartment);
+                                if (map == null) {
+                                    map = new TreeMap<String, List<String>>();
+                                    compartmentMap.put(compartment, map);
+                                }
+                                List<String> inclusionCriteria = map.get(base);
+                                if (inclusionCriteria == null) {
+                                    inclusionCriteria = new ArrayList<String>();
+                                    map.put(base, inclusionCriteria);
+                                }
+                                inclusionCriteria.add(parameter.getName().getValue());
+                            }
+                        }
+                    }
+                }
+            }
+            return compartmentMap;
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+    
+    public static List<String> getCompartmentResourceTypes(String compartment) {
+        return Collections.unmodifiableList(new ArrayList<String>(compartmentMap.get(compartment).keySet()));
+    }
+
+    public static List<String> getCompartmentResourceTypeInclusionCriteria(String compartment, String resourceType) {
+        return Collections.unmodifiableList(compartmentMap.get(compartment).get(resourceType));
+    }
+    
     public static void init() {
         // allows us to initialize this class during startup
     }
