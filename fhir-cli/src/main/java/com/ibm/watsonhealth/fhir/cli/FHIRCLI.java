@@ -24,6 +24,17 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import com.ibm.watsonhealth.fhir.cli.invoker.BatchInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.CreateInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.HistoryInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.InvocationContext;
+import com.ibm.watsonhealth.fhir.cli.invoker.MetadataInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.OperationInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.ReadInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.SearchInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.TransactionInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.UpdateInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.VreadInvoker;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
