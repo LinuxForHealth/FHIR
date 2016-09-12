@@ -506,7 +506,7 @@ public class SearchUtil {
         return context;
     }
     
-    public static FHIRSearchContext parseQueryParameters(String compartmentName, String comparmentLogicalId, 
+    public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId, 
     								Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters)
     								throws FHIRSearchException {
     	
@@ -522,7 +522,7 @@ public class SearchUtil {
         for (String criteria : inclusionCriteria) {
         	parameter = new Parameter(Type.REFERENCE, criteria, null, null, true);
         	value = new ParameterValue();
-        	value.setValueString(criteria);
+        	value.setValueString(compartmentName + "/" + compartmentLogicalId);
         	parameter.getValues().add(value);
             if (rootParameter == null) {
             	rootParameter = parameter;
