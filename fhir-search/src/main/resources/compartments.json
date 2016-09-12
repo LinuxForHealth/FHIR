@@ -1,0 +1,934 @@
+{
+	"compartments": [{
+		"name": "Patient",
+		"resources": [{
+			"name": "Account",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "AllergyIntolerance",
+			"inclusionCriteria": ["patient",
+			"recorder",
+			"reporter"]
+		},
+		{
+			"name": "Appointment",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "AppointmentResponse",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "AuditEvent",
+			"inclusionCriteria": ["participant",
+			"patient",
+			"patient",
+			"reference"]
+		},
+		{
+			"name": "Basic",
+			"inclusionCriteria": ["author",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "BodySite",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "CarePlan",
+			"inclusionCriteria": ["participant",
+			"patient",
+			"performer",
+			"subject"]
+		},
+		{
+			"name": "Claim",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "ClinicalImpression",
+			"inclusionCriteria": ["patient",
+			"trigger"]
+		},
+		{
+			"name": "Communication",
+			"inclusionCriteria": ["patient",
+			"recipient",
+			"sender",
+			"subject"]
+		},
+		{
+			"name": "CommunicationRequest",
+			"inclusionCriteria": ["patient",
+			"recipient",
+			"requester",
+			"sender",
+			"subject"]
+		},
+		{
+			"name": "Composition",
+			"inclusionCriteria": ["attester",
+			"author",
+			"entry",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "Condition",
+			"inclusionCriteria": ["asserter",
+			"patient"]
+		},
+		{
+			"name": "DetectedIssue",
+			"inclusionCriteria": ["implicated",
+			"patient"]
+		},
+		{
+			"name": "DeviceUseRequest",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "DeviceUseStatement",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "DiagnosticOrder",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "DiagnosticReport",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "DocumentManifest",
+			"inclusionCriteria": ["author",
+			"content-ref",
+			"patient",
+			"recipient",
+			"related-ref",
+			"subject"]
+		},
+		{
+			"name": "DocumentReference",
+			"inclusionCriteria": ["author",
+			"patient",
+			"related-ref",
+			"subject"]
+		},
+		{
+			"name": "Encounter",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "EnrollmentRequest",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "EpisodeOfCare",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "FamilyMemberHistory",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "Flag",
+			"inclusionCriteria": ["author",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "Goal",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "Group",
+			"inclusionCriteria": ["member"]
+		},
+		{
+			"name": "ImagingObjectSelection",
+			"inclusionCriteria": ["author",
+			"patient"]
+		},
+		{
+			"name": "ImagingStudy",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "Immunization",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "ImmunizationRecommendation",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "List",
+			"inclusionCriteria": ["item",
+			"patient",
+			"source",
+			"subject"]
+		},
+		{
+			"name": "Media",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "MedicationAdministration",
+			"inclusionCriteria": ["patient",
+			"practitioner"]
+		},
+		{
+			"name": "MedicationDispense",
+			"inclusionCriteria": ["patient",
+			"receiver"]
+		},
+		{
+			"name": "MedicationOrder",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "MedicationStatement",
+			"inclusionCriteria": ["patient",
+			"source"]
+		},
+		{
+			"name": "NutritionOrder",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "Observation",
+			"inclusionCriteria": ["patient",
+			"performer",
+			"subject"]
+		},
+		{
+			"name": "Order",
+			"inclusionCriteria": ["detail",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "OrderResponse",
+			"inclusionCriteria": ["fulfillment"]
+		},
+		{
+			"name": "Patient",
+			"inclusionCriteria": ["link"]
+		},
+		{
+			"name": "Person",
+			"inclusionCriteria": ["link",
+			"patient",
+			"practitioner",
+			"relatedperson"]
+		},
+		{
+			"name": "Procedure",
+			"inclusionCriteria": ["patient",
+			"performer",
+			"subject"]
+		},
+		{
+			"name": "ProcedureRequest",
+			"inclusionCriteria": ["orderer",
+			"patient",
+			"performer",
+			"subject"]
+		},
+		{
+			"name": "ProcessResponse",
+			"inclusionCriteria": ["request"]
+		},
+		{
+			"name": "Provenance",
+			"inclusionCriteria": ["agent",
+			"patient",
+			"target"]
+		},
+		{
+			"name": "QuestionnaireResponse",
+			"inclusionCriteria": ["author",
+			"patient",
+			"source",
+			"subject"]
+		},
+		{
+			"name": "ReferralRequest",
+			"inclusionCriteria": ["patient",
+			"requester"]
+		},
+		{
+			"name": "RelatedPerson",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "RiskAssessment",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "Schedule",
+			"inclusionCriteria": ["actor"]
+		},
+		{
+			"name": "Specimen",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "SupplyDelivery",
+			"inclusionCriteria": ["patient"]
+		},
+		{
+			"name": "SupplyRequest",
+			"inclusionCriteria": ["patient",
+			"source"]
+		},
+		{
+			"name": "VisionPrescription",
+			"inclusionCriteria": ["patient"]
+		}]
+	},
+	{
+		"name": "Encounter",
+		"resources": [{
+			"name": "ClinicalImpression",
+			"inclusionCriteria": ["trigger"]
+		},
+		{
+			"name": "Communication",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "CommunicationRequest",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "Composition",
+			"inclusionCriteria": ["encounter",
+			"entry",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "Condition",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "DiagnosticOrder",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "DiagnosticReport",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "Encounter",
+			"inclusionCriteria": ["part-of"]
+		},
+		{
+			"name": "MedicationAdministration",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "MedicationOrder",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "NutritionOrder",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "Observation",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "Procedure",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "ProcedureRequest",
+			"inclusionCriteria": ["encounter"]
+		},
+		{
+			"name": "ProcessResponse",
+			"inclusionCriteria": ["request"]
+		},
+		{
+			"name": "QuestionnaireResponse",
+			"inclusionCriteria": ["encounter",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "VisionPrescription",
+			"inclusionCriteria": ["encounter"]
+		}]
+	},
+	{
+		"name": "RelatedPerson",
+		"resources": [{
+			"name": "AllergyIntolerance",
+			"inclusionCriteria": ["reporter"]
+		},
+		{
+			"name": "Appointment",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "AppointmentResponse",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "Basic",
+			"inclusionCriteria": ["author",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "CarePlan",
+			"inclusionCriteria": ["participant",
+			"performer"]
+		},
+		{
+			"name": "Communication",
+			"inclusionCriteria": ["recipient",
+			"sender"]
+		},
+		{
+			"name": "CommunicationRequest",
+			"inclusionCriteria": ["recipient",
+			"requester",
+			"sender"]
+		},
+		{
+			"name": "Composition",
+			"inclusionCriteria": ["author",
+			"entry",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "DocumentManifest",
+			"inclusionCriteria": ["author",
+			"content-ref",
+			"recipient",
+			"related-ref"]
+		},
+		{
+			"name": "DocumentReference",
+			"inclusionCriteria": ["author",
+			"related-ref"]
+		},
+		{
+			"name": "Encounter",
+			"inclusionCriteria": ["participant",
+			"practitioner"]
+		},
+		{
+			"name": "ImagingObjectSelection",
+			"inclusionCriteria": ["author"]
+		},
+		{
+			"name": "MedicationStatement",
+			"inclusionCriteria": ["source"]
+		},
+		{
+			"name": "Observation",
+			"inclusionCriteria": ["performer"]
+		},
+		{
+			"name": "Person",
+			"inclusionCriteria": ["link",
+			"patient",
+			"practitioner",
+			"relatedperson"]
+		},
+		{
+			"name": "Procedure",
+			"inclusionCriteria": ["performer"]
+		},
+		{
+			"name": "ProcedureRequest",
+			"inclusionCriteria": ["orderer",
+			"performer"]
+		},
+		{
+			"name": "Provenance",
+			"inclusionCriteria": ["agent",
+			"patient",
+			"target"]
+		},
+		{
+			"name": "QuestionnaireResponse",
+			"inclusionCriteria": ["author",
+			"patient",
+			"source",
+			"subject"]
+		},
+		{
+			"name": "Schedule",
+			"inclusionCriteria": ["actor"]
+		}]
+	},
+	{
+		"name": "Practitioner",
+		"resources": [{
+			"name": "Account",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "AllergyIntolerance",
+			"inclusionCriteria": ["recorder",
+			"reporter"]
+		},
+		{
+			"name": "Appointment",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "AppointmentResponse",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "AuditEvent",
+			"inclusionCriteria": ["participant",
+			"patient",
+			"patient",
+			"reference"]
+		},
+		{
+			"name": "Basic",
+			"inclusionCriteria": ["author",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "CarePlan",
+			"inclusionCriteria": ["participant",
+			"performer"]
+		},
+		{
+			"name": "Claim",
+			"inclusionCriteria": ["provider"]
+		},
+		{
+			"name": "ClinicalImpression",
+			"inclusionCriteria": ["assessor",
+			"trigger"]
+		},
+		{
+			"name": "Communication",
+			"inclusionCriteria": ["recipient",
+			"sender"]
+		},
+		{
+			"name": "CommunicationRequest",
+			"inclusionCriteria": ["recipient",
+			"requester",
+			"sender"]
+		},
+		{
+			"name": "Composition",
+			"inclusionCriteria": ["attester",
+			"author",
+			"entry",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "Condition",
+			"inclusionCriteria": ["asserter"]
+		},
+		{
+			"name": "DetectedIssue",
+			"inclusionCriteria": ["author",
+			"implicated"]
+		},
+		{
+			"name": "DiagnosticOrder",
+			"inclusionCriteria": ["actor",
+			"orderer"]
+		},
+		{
+			"name": "DiagnosticReport",
+			"inclusionCriteria": ["performer"]
+		},
+		{
+			"name": "DocumentManifest",
+			"inclusionCriteria": ["author",
+			"content-ref",
+			"patient",
+			"recipient",
+			"related-ref",
+			"subject"]
+		},
+		{
+			"name": "DocumentReference",
+			"inclusionCriteria": ["authenticator",
+			"author",
+			"patient",
+			"related-ref",
+			"subject"]
+		},
+		{
+			"name": "Encounter",
+			"inclusionCriteria": ["participant",
+			"practitioner"]
+		},
+		{
+			"name": "EpisodeOfCare",
+			"inclusionCriteria": ["care-manager",
+			"team-member"]
+		},
+		{
+			"name": "Flag",
+			"inclusionCriteria": ["author",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "Group",
+			"inclusionCriteria": ["member"]
+		},
+		{
+			"name": "ImagingObjectSelection",
+			"inclusionCriteria": ["author"]
+		},
+		{
+			"name": "Immunization",
+			"inclusionCriteria": ["performer",
+			"requester"]
+		},
+		{
+			"name": "List",
+			"inclusionCriteria": ["item",
+			"source"]
+		},
+		{
+			"name": "Media",
+			"inclusionCriteria": ["operator",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "MedicationAdministration",
+			"inclusionCriteria": ["practitioner"]
+		},
+		{
+			"name": "MedicationDispense",
+			"inclusionCriteria": ["dispenser",
+			"receiver",
+			"responsibleparty"]
+		},
+		{
+			"name": "MedicationOrder",
+			"inclusionCriteria": ["prescriber"]
+		},
+		{
+			"name": "MedicationStatement",
+			"inclusionCriteria": ["source"]
+		},
+		{
+			"name": "MessageHeader",
+			"inclusionCriteria": ["author",
+			"data",
+			"enterer",
+			"receiver",
+			"responsible"]
+		},
+		{
+			"name": "NutritionOrder",
+			"inclusionCriteria": ["provider"]
+		},
+		{
+			"name": "Observation",
+			"inclusionCriteria": ["performer"]
+		},
+		{
+			"name": "Order",
+			"inclusionCriteria": ["detail",
+			"source",
+			"target"]
+		},
+		{
+			"name": "OrderResponse",
+			"inclusionCriteria": ["fulfillment",
+			"who"]
+		},
+		{
+			"name": "Patient",
+			"inclusionCriteria": ["careprovider"]
+		},
+		{
+			"name": "Person",
+			"inclusionCriteria": ["link",
+			"patient",
+			"practitioner",
+			"relatedperson"]
+		},
+		{
+			"name": "Procedure",
+			"inclusionCriteria": ["performer"]
+		},
+		{
+			"name": "ProcedureRequest",
+			"inclusionCriteria": ["orderer",
+			"performer"]
+		},
+		{
+			"name": "ProcessRequest",
+			"inclusionCriteria": ["provider"]
+		},
+		{
+			"name": "ProcessResponse",
+			"inclusionCriteria": ["request",
+			"requestprovider"]
+		},
+		{
+			"name": "Provenance",
+			"inclusionCriteria": ["agent",
+			"patient",
+			"target"]
+		},
+		{
+			"name": "QuestionnaireResponse",
+			"inclusionCriteria": ["author",
+			"patient",
+			"source",
+			"subject"]
+		},
+		{
+			"name": "ReferralRequest",
+			"inclusionCriteria": ["recipient",
+			"requester"]
+		},
+		{
+			"name": "RiskAssessment",
+			"inclusionCriteria": ["performer"]
+		},
+		{
+			"name": "Schedule",
+			"inclusionCriteria": ["actor"]
+		},
+		{
+			"name": "Specimen",
+			"inclusionCriteria": ["collector"]
+		},
+		{
+			"name": "SupplyDelivery",
+			"inclusionCriteria": ["receiver",
+			"supplier"]
+		},
+		{
+			"name": "SupplyRequest",
+			"inclusionCriteria": ["source"]
+		},
+		{
+			"name": "VisionPrescription",
+			"inclusionCriteria": ["prescriber"]
+		}]
+	},
+	{
+		"name": "Device",
+		"resources": [{
+			"name": "Account",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "Appointment",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "AppointmentResponse",
+			"inclusionCriteria": ["actor",
+			"location",
+			"patient",
+			"practitioner"]
+		},
+		{
+			"name": "AuditEvent",
+			"inclusionCriteria": ["participant",
+			"patient",
+			"patient",
+			"reference"]
+		},
+		{
+			"name": "Communication",
+			"inclusionCriteria": ["recipient",
+			"sender"]
+		},
+		{
+			"name": "CommunicationRequest",
+			"inclusionCriteria": ["recipient",
+			"sender"]
+		},
+		{
+			"name": "Composition",
+			"inclusionCriteria": ["author",
+			"entry",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "DetectedIssue",
+			"inclusionCriteria": ["author",
+			"implicated"]
+		},
+		{
+			"name": "DeviceComponent",
+			"inclusionCriteria": ["source"]
+		},
+		{
+			"name": "DeviceMetric",
+			"inclusionCriteria": ["source"]
+		},
+		{
+			"name": "DeviceUseRequest",
+			"inclusionCriteria": ["device"]
+		},
+		{
+			"name": "DeviceUseStatement",
+			"inclusionCriteria": ["device"]
+		},
+		{
+			"name": "DiagnosticOrder",
+			"inclusionCriteria": ["actor",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "DiagnosticReport",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "DocumentManifest",
+			"inclusionCriteria": ["author",
+			"content-ref",
+			"patient",
+			"related-ref",
+			"subject"]
+		},
+		{
+			"name": "DocumentReference",
+			"inclusionCriteria": ["author",
+			"patient",
+			"related-ref",
+			"subject"]
+		},
+		{
+			"name": "Flag",
+			"inclusionCriteria": ["author"]
+		},
+		{
+			"name": "Group",
+			"inclusionCriteria": ["member"]
+		},
+		{
+			"name": "ImagingObjectSelection",
+			"inclusionCriteria": ["author"]
+		},
+		{
+			"name": "List",
+			"inclusionCriteria": ["item",
+			"patient",
+			"source",
+			"subject"]
+		},
+		{
+			"name": "Media",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		},
+		{
+			"name": "MedicationAdministration",
+			"inclusionCriteria": ["device"]
+		},
+		{
+			"name": "MessageHeader",
+			"inclusionCriteria": ["data",
+			"target"]
+		},
+		{
+			"name": "Observation",
+			"inclusionCriteria": ["device",
+			"subject"]
+		},
+		{
+			"name": "Order",
+			"inclusionCriteria": ["detail",
+			"patient",
+			"subject",
+			"target"]
+		},
+		{
+			"name": "OrderResponse",
+			"inclusionCriteria": ["fulfillment",
+			"who"]
+		},
+		{
+			"name": "ProcedureRequest",
+			"inclusionCriteria": ["orderer"]
+		},
+		{
+			"name": "Provenance",
+			"inclusionCriteria": ["agent",
+			"patient",
+			"target"]
+		},
+		{
+			"name": "QuestionnaireResponse",
+			"inclusionCriteria": ["author",
+			"patient",
+			"subject"]
+		},
+		{
+			"name": "RiskAssessment",
+			"inclusionCriteria": ["performer"]
+		},
+		{
+			"name": "Schedule",
+			"inclusionCriteria": ["actor"]
+		},
+		{
+			"name": "Specimen",
+			"inclusionCriteria": ["patient",
+			"subject"]
+		}]
+	}]
+}
