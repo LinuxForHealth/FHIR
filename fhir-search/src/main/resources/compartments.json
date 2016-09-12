@@ -3,7 +3,7 @@
 		"name": "Patient",
 		"resources": [{
 			"name": "Account",
-			"inclusionCriteria": ["patient",
+			"inclusionCriteria": [
 			"subject"]
 		},
 		{
@@ -14,30 +14,24 @@
 		},
 		{
 			"name": "Appointment",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": [
+			"actor"]
 		},
 		{
 			"name": "AppointmentResponse",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": [
+			"actor"]
 		},
 		{
 			"name": "AuditEvent",
-			"inclusionCriteria": ["participant",
-			"patient",
-			"patient",
-			"reference"]
+			"inclusionCriteria": ["patient",
+			"participant.patient",
+			"reference.patient"]
 		},
 		{
 			"name": "Basic",
 			"inclusionCriteria": ["author",
-			"patient",
-			"subject"]
+			"patient"]
 		},
 		{
 			"name": "BodySite",
@@ -47,8 +41,7 @@
 			"name": "CarePlan",
 			"inclusionCriteria": ["participant",
 			"patient",
-			"performer",
-			"subject"]
+			"performer"]
 		},
 		{
 			"name": "Claim",
@@ -56,20 +49,17 @@
 		},
 		{
 			"name": "ClinicalImpression",
-			"inclusionCriteria": ["patient",
-			"trigger"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "Communication",
-			"inclusionCriteria": ["patient",
-			"recipient",
+			"inclusionCriteria": ["recipient",
 			"sender",
 			"subject"]
 		},
 		{
 			"name": "CommunicationRequest",
-			"inclusionCriteria": ["patient",
-			"recipient",
+			"inclusionCriteria": ["recipient",
 			"requester",
 			"sender",
 			"subject"]
@@ -78,54 +68,41 @@
 			"name": "Composition",
 			"inclusionCriteria": ["attester",
 			"author",
-			"entry",
-			"patient",
 			"subject"]
 		},
 		{
 			"name": "Condition",
-			"inclusionCriteria": ["asserter",
-			"patient"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "DetectedIssue",
-			"inclusionCriteria": ["implicated",
-			"patient"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "DeviceUseRequest",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "DeviceUseStatement",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "DiagnosticOrder",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "DiagnosticReport",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "DocumentManifest",
 			"inclusionCriteria": ["author",
-			"content-ref",
-			"patient",
 			"recipient",
-			"related-ref",
 			"subject"]
 		},
 		{
 			"name": "DocumentReference",
 			"inclusionCriteria": ["author",
-			"patient",
-			"related-ref",
 			"subject"]
 		},
 		{
@@ -134,8 +111,7 @@
 		},
 		{
 			"name": "EnrollmentRequest",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "EpisodeOfCare",
@@ -147,14 +123,11 @@
 		},
 		{
 			"name": "Flag",
-			"inclusionCriteria": ["author",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "Goal",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "Group",
@@ -179,25 +152,20 @@
 		},
 		{
 			"name": "List",
-			"inclusionCriteria": ["item",
-			"patient",
-			"source",
+			"inclusionCriteria": ["source",
 			"subject"]
 		},
 		{
 			"name": "Media",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "MedicationAdministration",
-			"inclusionCriteria": ["patient",
-			"practitioner"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "MedicationDispense",
-			"inclusionCriteria": ["patient",
-			"receiver"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "MedicationOrder",
@@ -214,19 +182,16 @@
 		},
 		{
 			"name": "Observation",
-			"inclusionCriteria": ["patient",
-			"performer",
+			"inclusionCriteria": ["performer",
 			"subject"]
 		},
 		{
 			"name": "Order",
-			"inclusionCriteria": ["detail",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "OrderResponse",
-			"inclusionCriteria": ["fulfillment"]
+			"inclusionCriteria": ["request.patient"]
 		},
 		{
 			"name": "Patient",
@@ -234,39 +199,28 @@
 		},
 		{
 			"name": "Person",
-			"inclusionCriteria": ["link",
-			"patient",
-			"practitioner",
-			"relatedperson"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "Procedure",
 			"inclusionCriteria": ["patient",
-			"performer",
-			"subject"]
+			"performer"]
 		},
 		{
 			"name": "ProcedureRequest",
 			"inclusionCriteria": ["orderer",
-			"patient",
 			"performer",
 			"subject"]
 		},
 		{
-			"name": "ProcessResponse",
-			"inclusionCriteria": ["request"]
-		},
-		{
 			"name": "Provenance",
-			"inclusionCriteria": ["agent",
-			"patient",
-			"target"]
+			"inclusionCriteria": ["target.subject",
+			"target.patient",
+			"patient"]
 		},
 		{
 			"name": "QuestionnaireResponse",
 			"inclusionCriteria": ["author",
-			"patient",
-			"source",
 			"subject"]
 		},
 		{
@@ -280,8 +234,7 @@
 		},
 		{
 			"name": "RiskAssessment",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "Schedule",
@@ -289,8 +242,7 @@
 		},
 		{
 			"name": "Specimen",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "SupplyDelivery",
@@ -298,8 +250,7 @@
 		},
 		{
 			"name": "SupplyRequest",
-			"inclusionCriteria": ["patient",
-			"source"]
+			"inclusionCriteria": ["patient"]
 		},
 		{
 			"name": "VisionPrescription",
@@ -308,10 +259,7 @@
 	},
 	{
 		"name": "Encounter",
-		"resources": [{
-			"name": "ClinicalImpression",
-			"inclusionCriteria": ["trigger"]
-		},
+		"resources": [
 		{
 			"name": "Communication",
 			"inclusionCriteria": ["encounter"]
@@ -322,10 +270,7 @@
 		},
 		{
 			"name": "Composition",
-			"inclusionCriteria": ["encounter",
-			"entry",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["encounter"]
 		},
 		{
 			"name": "Condition",
@@ -338,10 +283,6 @@
 		{
 			"name": "DiagnosticReport",
 			"inclusionCriteria": ["encounter"]
-		},
-		{
-			"name": "Encounter",
-			"inclusionCriteria": ["part-of"]
 		},
 		{
 			"name": "MedicationAdministration",
@@ -368,14 +309,8 @@
 			"inclusionCriteria": ["encounter"]
 		},
 		{
-			"name": "ProcessResponse",
-			"inclusionCriteria": ["request"]
-		},
-		{
 			"name": "QuestionnaireResponse",
-			"inclusionCriteria": ["encounter",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["encounter"]
 		},
 		{
 			"name": "VisionPrescription",
@@ -390,23 +325,15 @@
 		},
 		{
 			"name": "Appointment",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": ["actor"]
 		},
 		{
 			"name": "AppointmentResponse",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": ["actor"]
 		},
 		{
 			"name": "Basic",
-			"inclusionCriteria": ["author",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "CarePlan",
@@ -426,27 +353,19 @@
 		},
 		{
 			"name": "Composition",
-			"inclusionCriteria": ["author",
-			"entry",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "DocumentManifest",
-			"inclusionCriteria": ["author",
-			"content-ref",
-			"recipient",
-			"related-ref"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "DocumentReference",
-			"inclusionCriteria": ["author",
-			"related-ref"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "Encounter",
-			"inclusionCriteria": ["participant",
-			"practitioner"]
+			"inclusionCriteria": ["participant"]
 		},
 		{
 			"name": "ImagingObjectSelection",
@@ -462,10 +381,7 @@
 		},
 		{
 			"name": "Person",
-			"inclusionCriteria": ["link",
-			"patient",
-			"practitioner",
-			"relatedperson"]
+			"inclusionCriteria": ["link"]
 		},
 		{
 			"name": "Procedure",
@@ -478,16 +394,12 @@
 		},
 		{
 			"name": "Provenance",
-			"inclusionCriteria": ["agent",
-			"patient",
-			"target"]
+			"inclusionCriteria": ["agent"]
 		},
 		{
 			"name": "QuestionnaireResponse",
 			"inclusionCriteria": ["author",
-			"patient",
-			"source",
-			"subject"]
+			"source"]
 		},
 		{
 			"name": "Schedule",
@@ -498,8 +410,7 @@
 		"name": "Practitioner",
 		"resources": [{
 			"name": "Account",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "AllergyIntolerance",
@@ -508,30 +419,19 @@
 		},
 		{
 			"name": "Appointment",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": ["actor"]
 		},
 		{
 			"name": "AppointmentResponse",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": ["actor"]
 		},
 		{
 			"name": "AuditEvent",
-			"inclusionCriteria": ["participant",
-			"patient",
-			"patient",
-			"reference"]
+			"inclusionCriteria": ["participant"]
 		},
 		{
 			"name": "Basic",
-			"inclusionCriteria": ["author",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "CarePlan",
@@ -544,8 +444,7 @@
 		},
 		{
 			"name": "ClinicalImpression",
-			"inclusionCriteria": ["assessor",
-			"trigger"]
+			"inclusionCriteria": ["assessor"]
 		},
 		{
 			"name": "Communication",
@@ -562,8 +461,6 @@
 			"name": "Composition",
 			"inclusionCriteria": ["attester",
 			"author",
-			"entry",
-			"patient",
 			"subject"]
 		},
 		{
@@ -572,8 +469,7 @@
 		},
 		{
 			"name": "DetectedIssue",
-			"inclusionCriteria": ["author",
-			"implicated"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "DiagnosticOrder",
@@ -587,18 +483,13 @@
 		{
 			"name": "DocumentManifest",
 			"inclusionCriteria": ["author",
-			"content-ref",
-			"patient",
 			"recipient",
-			"related-ref",
 			"subject"]
 		},
 		{
 			"name": "DocumentReference",
 			"inclusionCriteria": ["authenticator",
 			"author",
-			"patient",
-			"related-ref",
 			"subject"]
 		},
 		{
@@ -613,9 +504,7 @@
 		},
 		{
 			"name": "Flag",
-			"inclusionCriteria": ["author",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "Group",
@@ -632,13 +521,11 @@
 		},
 		{
 			"name": "List",
-			"inclusionCriteria": ["item",
-			"source"]
+			"inclusionCriteria": ["source"]
 		},
 		{
 			"name": "Media",
 			"inclusionCriteria": ["operator",
-			"patient",
 			"subject"]
 		},
 		{
@@ -662,7 +549,6 @@
 		{
 			"name": "MessageHeader",
 			"inclusionCriteria": ["author",
-			"data",
 			"enterer",
 			"receiver",
 			"responsible"]
@@ -677,14 +563,12 @@
 		},
 		{
 			"name": "Order",
-			"inclusionCriteria": ["detail",
-			"source",
+			"inclusionCriteria": ["source",
 			"target"]
 		},
 		{
 			"name": "OrderResponse",
-			"inclusionCriteria": ["fulfillment",
-			"who"]
+			"inclusionCriteria": ["who"]
 		},
 		{
 			"name": "Patient",
@@ -692,10 +576,7 @@
 		},
 		{
 			"name": "Person",
-			"inclusionCriteria": ["link",
-			"patient",
-			"practitioner",
-			"relatedperson"]
+			"inclusionCriteria": ["practitioner"]
 		},
 		{
 			"name": "Procedure",
@@ -712,21 +593,16 @@
 		},
 		{
 			"name": "ProcessResponse",
-			"inclusionCriteria": ["request",
-			"requestprovider"]
+			"inclusionCriteria": ["requestprovider"]
 		},
 		{
 			"name": "Provenance",
-			"inclusionCriteria": ["agent",
-			"patient",
-			"target"]
+			"inclusionCriteria": ["agent"]
 		},
 		{
 			"name": "QuestionnaireResponse",
 			"inclusionCriteria": ["author",
-			"patient",
-			"source",
-			"subject"]
+			"source"]
 		},
 		{
 			"name": "ReferralRequest",
@@ -763,29 +639,19 @@
 		"name": "Device",
 		"resources": [{
 			"name": "Account",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "Appointment",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": ["actor"]
 		},
 		{
 			"name": "AppointmentResponse",
-			"inclusionCriteria": ["actor",
-			"location",
-			"patient",
-			"practitioner"]
+			"inclusionCriteria": ["actor"]
 		},
 		{
 			"name": "AuditEvent",
-			"inclusionCriteria": ["participant",
-			"patient",
-			"patient",
-			"reference"]
+			"inclusionCriteria": ["participant"]
 		},
 		{
 			"name": "Communication",
@@ -799,15 +665,11 @@
 		},
 		{
 			"name": "Composition",
-			"inclusionCriteria": ["author",
-			"entry",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "DetectedIssue",
-			"inclusionCriteria": ["author",
-			"implicated"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "DeviceComponent",
@@ -828,28 +690,19 @@
 		{
 			"name": "DiagnosticOrder",
 			"inclusionCriteria": ["actor",
-			"patient",
 			"subject"]
 		},
 		{
 			"name": "DiagnosticReport",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "DocumentManifest",
-			"inclusionCriteria": ["author",
-			"content-ref",
-			"patient",
-			"related-ref",
-			"subject"]
+			"inclusionCriteria": ["author","subject"]
 		},
 		{
 			"name": "DocumentReference",
-			"inclusionCriteria": ["author",
-			"patient",
-			"related-ref",
-			"subject"]
+			"inclusionCriteria": ["author","subject"]
 		},
 		{
 			"name": "Flag",
@@ -865,15 +718,12 @@
 		},
 		{
 			"name": "List",
-			"inclusionCriteria": ["item",
-			"patient",
-			"source",
+			"inclusionCriteria": ["source",
 			"subject"]
 		},
 		{
 			"name": "Media",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		},
 		{
 			"name": "MedicationAdministration",
@@ -881,8 +731,7 @@
 		},
 		{
 			"name": "MessageHeader",
-			"inclusionCriteria": ["data",
-			"target"]
+			"inclusionCriteria": ["target"]
 		},
 		{
 			"name": "Observation",
@@ -891,15 +740,11 @@
 		},
 		{
 			"name": "Order",
-			"inclusionCriteria": ["detail",
-			"patient",
-			"subject",
-			"target"]
+			"inclusionCriteria": ["target"]
 		},
 		{
 			"name": "OrderResponse",
-			"inclusionCriteria": ["fulfillment",
-			"who"]
+			"inclusionCriteria": ["who"]
 		},
 		{
 			"name": "ProcedureRequest",
@@ -907,15 +752,11 @@
 		},
 		{
 			"name": "Provenance",
-			"inclusionCriteria": ["agent",
-			"patient",
-			"target"]
+			"inclusionCriteria": ["agent"]
 		},
 		{
 			"name": "QuestionnaireResponse",
-			"inclusionCriteria": ["author",
-			"patient",
-			"subject"]
+			"inclusionCriteria": ["author"]
 		},
 		{
 			"name": "RiskAssessment",
@@ -927,8 +768,7 @@
 		},
 		{
 			"name": "Specimen",
-			"inclusionCriteria": ["patient",
-			"subject"]
+			"inclusionCriteria": ["subject"]
 		}]
 	}]
 }
