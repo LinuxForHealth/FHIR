@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.cli.invoker;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
@@ -79,6 +80,8 @@ public abstract class OperationInvoker {
         File f = new File(filename);
         if (f.exists()) {
             is = new FileInputStream(f);
+        } else {
+            throw new FileNotFoundException("Properties file '" + filename + "' not found.");
         }
         
         // Load the properties.
