@@ -528,27 +528,29 @@ public class SearchUtil {
         ParameterValue value;
         Parameter rootParameter = null;
         
-        // The inclusion criteria are represented as a chain of parameters, each with a value of the compartmentLogicalId.
-        // The query parsers will OR these parameters to achieve the compartment search.
-        List<String> inclusionCriteria = getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType.getSimpleName());
-        for (String criteria : inclusionCriteria) {
-        	parameter = new Parameter(Type.REFERENCE, criteria, null, null, true);
-        	value = new ParameterValue();
-        	value.setValueString(compartmentName + "/" + compartmentLogicalId);
-        	parameter.getValues().add(value);
-            if (rootParameter == null) {
-            	rootParameter = parameter;
-            }
-            else {
-            	if (rootParameter.getChain().isEmpty()) {
-            		rootParameter.setNextParameter(parameter);
-            	}
-            	else {
-            		rootParameter.getChain().getLast().setNextParameter(parameter);
-            	}
-            }
+        if (compartmentName != null && compartmentLogicalId != null) { 
+	        // The inclusion criteria are represented as a chain of parameters, each with a value of the compartmentLogicalId.
+	        // The query parsers will OR these parameters to achieve the compartment search.
+	        List<String> inclusionCriteria = getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType.getSimpleName());
+	        for (String criteria : inclusionCriteria) {
+	        	parameter = new Parameter(Type.REFERENCE, criteria, null, null, true);
+	        	value = new ParameterValue();
+	        	value.setValueString(compartmentName + "/" + compartmentLogicalId);
+	        	parameter.getValues().add(value);
+	            if (rootParameter == null) {
+	            	rootParameter = parameter;
+	            }
+	            else {
+	            	if (rootParameter.getChain().isEmpty()) {
+	            		rootParameter.setNextParameter(parameter);
+	            	}
+	            	else {
+	            		rootParameter.getChain().getLast().setNextParameter(parameter);
+	            	}
+	            }
+	        }
+	        parameters.add(rootParameter);
         }
-        parameters.add(rootParameter);
         // Now transform the passed query parms to Parameter objects, and add them to the returned list.
         FHIRSearchContext tempContext = parseQueryParameters(resourceType, queryParameters);
         parameters.addAll(tempContext.getSearchParameters());

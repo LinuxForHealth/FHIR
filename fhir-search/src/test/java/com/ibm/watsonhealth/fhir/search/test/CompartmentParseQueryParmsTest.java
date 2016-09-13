@@ -164,6 +164,34 @@ public class CompartmentParseQueryParmsTest {
     }
     
     /**
+    * This method tests parsing null compartment related query parms together with non-compartment related query parms. 
+    * SearchUtil.parseQueryParameters() should ignore the null compartment related parms and successfully process the
+    * non-compartment parms.
+    * @throws Exception
+    */
+    @Test 
+    public void testNoComparmentWithQueryParms() throws Exception{
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<? extends Resource> resourceType = Observation.class;
+        queryParameters.put("category", Collections.singletonList("vital-signs"));
+        queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
+    	FHIRSearchContext context = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters);
+    	
+    	assertNotNull(context);
+    	assertNotNull(context.getSearchParameters());
+    	assertEquals(2, context.getSearchParameters().size());
+    	
+    	// Validate non-compartment related search parms.
+    	for (Parameter searchParm : context.getSearchParameters()) {
+    		assertTrue((searchParm.getName().equals("category") ||	
+    				    searchParm.getName().equals("value-quantity")));
+    		assertNotNull(searchParm.getValues());
+    		assertEquals(1, searchParm.getValues().size());
+    		assertNull(searchParm.getNextParameter());
+    	}
+    }
+    
+    /**
      * This method is not meant to be run as part of the normal execution of this test class.
      * It's special purpose is to print the contents of SearchUtil.compartmentMap. 
      * To execute this method, un-comment it and make method buildCompartmentMap() public.
