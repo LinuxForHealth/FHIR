@@ -8,7 +8,10 @@ package com.ibm.watsonhealth.fhir.search.util;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -23,7 +26,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 import javax.xml.bind.Binder;
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.NamespaceContext;
@@ -65,58 +74,61 @@ public class SearchUtil {
     private static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Arrays.asList("_sort", "_count", "_include", "_revinclude", "_summary", "_elements", "_contained", "_containedType", "_page");
     
-    private static final List<String> COMPARTMENTS = Arrays.asList("Patient", "Encounter", "RelatedPerson", "Practitioner", "Device");
-    private static final Map<String, List<String>> EXCLUDED_COMPARTMENT_RESOURCE_TYPES = new HashMap<String, List<String>>();
-    static {
-        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Patient", Arrays.asList("Contract", "Device", "MessageHeader"));
-        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Encounter", Arrays.asList("AuditEvent", "Basic", "Contract", "DetectedIssue", "DocumentManifest", "DocumentReference", "Flag", "List", "MessageHeader", "Order", "OrderResponse", "Provenance", "RiskAssessment"));
-        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("RelatedPerson", Arrays.asList("AuditEvent", "ClinicalImpression", "Contract", "DetectedIssue", "List", "MedicationAdministration", "MessageHeader", "Order", "OrderResponse", "ProcessResponse"));
-        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Practitioner", Arrays.asList("Contract"));
-        EXCLUDED_COMPARTMENT_RESOURCE_TYPES.put("Device", Arrays.asList("Basic", "ClinicalImpression", "Contract", "ProcessResponse"));
-    }
     private static final Map<String, Map<String, List<String>>> compartmentMap = buildCompartmentMap();
     
     private SearchUtil() {
     }
 
+    /**
+     * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
+     * FHIR searches.
+     * @return Map<String, Map<String, List<String>>>
+     */
     private static Map<String, Map<String, List<String>>> buildCompartmentMap() {
-        try {
-            Map<String, Map<String, List<String>>> compartmentMap = new HashMap<String, Map<String, List<String>>>();
-            List<SearchParameter> searchParameters = new ArrayList<SearchParameter>();
-            for (String resourceTypeName : searchParameterMap.keySet()) {
-                Map<String, SearchParameter> map = searchParameterMap.get(resourceTypeName);
-                for (String parameterName : map.keySet()) {
-                    SearchParameter parameter = map.get(parameterName);
-                    searchParameters.add(parameter);
-                }
-            }
-            for (String compartment : COMPARTMENTS) {
-                List<String> excludedCompartmentResourceTypes = EXCLUDED_COMPARTMENT_RESOURCE_TYPES.get(compartment);
-                for (SearchParameter parameter : searchParameters) {
-                    String base = parameter.getBase().getValue();
-                    if (!excludedCompartmentResourceTypes.contains(base) && "reference".equals(parameter.getType().getValue())) {
-                        for (Code target : parameter.getTarget()) {
-                            if (target.getValue().equals(compartment)) {
-                                Map<String, List<String>> map = compartmentMap.get(compartment);
-                                if (map == null) {
-                                    map = new TreeMap<String, List<String>>();
-                                    compartmentMap.put(compartment, map);
-                                }
-                                List<String> inclusionCriteria = map.get(base);
-                                if (inclusionCriteria == null) {
-                                    inclusionCriteria = new ArrayList<String>();
-                                    map.put(base, inclusionCriteria);
-                                }
-                                inclusionCriteria.add(parameter.getName().getValue());
-                            }
-                        }
-                    }
-                }
-            }
-            return compartmentMap;
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+    	
+    	Map<String, Map<String, List<String>>> compartmentMap = new HashMap<String, Map<String, List<String>>>();
+    	String jsonCompartmentString;
+    	JsonObject jsonCompartmentDataRoot;
+    	JsonArray jsonCompartments;
+    	JsonObject jsonCompartment;
+    	JsonObject jsonResource;
+    	JsonArray jsonCompartmentResources;
+    	JsonArray jsonInclusionCriteria;
+    	String jsonInclusionCriterion;  
+    	String compartmentName;
+    	String resourceName;
+    	List<String> criteriaList;
+    	    	
+    	// Read the json file containing the compartment data and turn it into a JsonObject. 
+		InputStream stream = SearchUtil.class.getClassLoader().getResourceAsStream("compartments.json");
+        jsonCompartmentString = new BufferedReader(new InputStreamReader(stream))
+				        		.lines().collect(Collectors.joining(System.getProperty("line.separator")));
+		JsonReaderFactory factory = Json.createReaderFactory(null);
+    	JsonReader jsonReader = factory.createReader(new StringReader(jsonCompartmentString));
+    	jsonCompartmentDataRoot = jsonReader.readObject();
+    	
+    	// Iterate over the comparments, resources, and includsion criteria to populate 
+    	// the compartment map.
+    	jsonCompartments = jsonCompartmentDataRoot.getJsonArray("compartments");
+    	for (int i = 0; i < jsonCompartments.size(); i++) {
+    		jsonCompartment = (JsonObject) jsonCompartments.get(i);
+    		compartmentName = jsonCompartment.getString("name");
+    		compartmentMap.put(compartmentName, new TreeMap<String, List<String>>());
+    		jsonCompartmentResources = jsonCompartment.getJsonArray("resources");
+    		for (int j = 0; j < jsonCompartmentResources.size(); j++) {
+    			jsonResource = (JsonObject)jsonCompartmentResources.get(j);
+    			resourceName = jsonResource.getString("name");
+    			jsonInclusionCriteria = jsonResource.getJsonArray("inclusionCriteria");
+    			criteriaList = new ArrayList<>();
+    			for (int k = 0; k < jsonInclusionCriteria.size(); k++) {
+    				jsonInclusionCriterion = jsonInclusionCriteria.getString(k);
+    				criteriaList.add(jsonInclusionCriterion);
+    			}
+    			compartmentMap.get(compartmentName).put(resourceName, criteriaList);
+    		}
+    	}
+    	 
+    	return compartmentMap;
     }
     
     public static List<String> getCompartmentResourceTypes(String compartment) throws FHIRSearchException {
