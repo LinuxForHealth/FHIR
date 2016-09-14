@@ -458,7 +458,52 @@ public class FHIRResource {
     	
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch(type, null, null, queryParameters, uriInfo.getRequestUri().toString());
+            status = Response.Status.OK;
+            return Response.ok(bundle).build();
+        } catch (FHIRRestException e) {
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (FHIRException e) {
+        	status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
+        } finally {
+        	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
+            log.exiting(this.getClass().getName(), "search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+    
+    @GET
+    @Path("{compartment}/{compartmentId}/{type}")
+    @ApiOperation(value = "Performs a compartment based search to retrieve resources of the specified compartment and type.", 
+        notes = "Non-compartment search parameters are specified by using the query string or form parameters.",
+        response = Bundle.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = SC_OK, message = "The 'search' operation was successful and the search results have been returned in the response body."),
+        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'search' operation resulted in an error.", response = OperationOutcome.class),
+        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
+    })
+    public Response searchCompartment(
+    	@ApiParam(value = "The compartment name that contains the target resource of the 'search' operation.", required = true)
+    	@PathParam("compartment") String compartment,
+    	@ApiParam(value = "The id of the compartment that contains the target resource of the 'search' operation.", required = true)
+    	@PathParam("compartmentId") String compartmentId,
+        @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
+        @PathParam("type") String type) {
+    	
+        log.entering(this.getClass().getName(), "search(String, String, String)", "this=" + FHIRUtilities.getObjectHandle(this));
+        Date startTime = new Date();
+    	Response.Status status = null;
+    	MultivaluedMap<String, String> queryParameters = null;
+    	Bundle bundle = null;
+    	
+        try {
+            queryParameters = uriInfo.getQueryParameters();
+            //bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch(type, compartment, compartmentId, queryParameters, uriInfo.getRequestUri().toString());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -488,7 +533,7 @@ public class FHIRResource {
         
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch(type, null, null, queryParameters, uriInfo.getRequestUri().toString());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -516,7 +561,7 @@ public class FHIRResource {
         
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch("Resource", queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch("Resource", null, null, queryParameters, uriInfo.getRequestUri().toString());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -848,7 +893,7 @@ public class FHIRResource {
      * @return a Bundle containing the search result set
      * @throws Exception
      */
-    protected Bundle doSearch(String type, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+    protected Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
         try {
             String resourceTypeName = type;
@@ -870,7 +915,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, null, null));
             getInterceptorMgr().fireBeforeSearchEvent(event);
             
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters);
             List<Parameter> searchParameters = searchContext.getSearchParameters();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);
@@ -1025,16 +1070,22 @@ public class FHIRResource {
                             // Determine the type of request from the path tokens.
                             if (pathTokens.length == 1) {
                                 // This is a 'search' request.
-                                resource = doSearch(pathTokens[0], queryParams, absoluteUri);
+                                resource = doSearch(pathTokens[0], null, null, queryParams, absoluteUri);
                             }
                             else if (pathTokens.length == 2) {
                                 // This is a 'read' request.
                                 resource = doRead(pathTokens[0], pathTokens[1], true);
                             } 
-                            else if (pathTokens.length == 3 && pathTokens[2].equals("_history")) {
-                                // This is a 'history' request.
-                                resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri);
-                            } 
+                            else if (pathTokens.length == 3) {
+                            	if (pathTokens[2].equals("_history")) {
+                            		// This is a 'history' request.
+                                    resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri);
+                            	}
+                            	else {
+                            		// This is a compartment based search
+                            		resource = doSearch(pathTokens[2], pathTokens[0], pathTokens[1], queryParams, absoluteUri);
+                            	}
+                            }
                             else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
                                 // This is a 'vread' request.
                                 resource = doVRead(pathTokens[0], pathTokens[1], pathTokens[3]);
