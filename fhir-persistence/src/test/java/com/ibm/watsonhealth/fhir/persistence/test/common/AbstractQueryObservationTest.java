@@ -772,4 +772,69 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		runQueryTest(Observation.class, persistence, "device.patient.family", "Monella");
 		 
 	}
+	
+	/**
+	 * 
+	 * Compartment search testcases
+	 * 
+	 */
+	
+	/**
+	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+    public void testSingleInclusionCriteria_valueQuantity() throws Exception{
+    	List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
+    }
+	
+	/**
+	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	public void testSingleInclusionCriteria_encounter() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "encounter", "Encounter/example");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getEncounter().getReference().getValue(),"Encounter/example");
+	}
+	
+	/**
+	 * Tests a query for an Observation with patient = 'Patient/example' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	public void testSingleInclusionCriteria_Patient() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "patient", "Patient/example");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
+	}
+	
+	/**
+	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	public void testSingleInclusionCriteria_PatientNoResults() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "patient", "Patient/exam");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with subject = 'Patient/example' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	public void testSingleInclusionCriteria_subject() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "subject", "Patient/example");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
+	}
 }
