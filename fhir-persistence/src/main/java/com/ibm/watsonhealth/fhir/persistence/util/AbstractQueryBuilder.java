@@ -96,10 +96,13 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 				    break;
 			case REFERENCE: if (queryParm.isChained()) {
 								databaseQueryParm = this.processChainedReferenceParm(queryParm);
-								}
-								else {
-									databaseQueryParm = this.processReferenceParm(queryParm);
-								}
+							}
+							else if (queryParm.isInclusionCriteria()) {
+								databaseQueryParm = this.processInclusionCriteria(queryParm);
+							}
+							else {
+								databaseQueryParm = this.processReferenceParm(queryParm);
+							}
 					break;
 			case DATE:      databaseQueryParm = this.processDateParm(queryParm);
 			        break;
@@ -157,6 +160,15 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @throws FHIRPersistenceException
 	 */
 	protected abstract T1 processChainedReferenceParm(Parameter queryParm) throws FHIRPersistenceException;
+	
+	/**
+	 * Contains special logic for handling Compartment based searches.
+	 * @see https://www.hl7.org/fhir/compartments.html
+	 * @param queryParm - The query parameter.
+	 * @return T1 - An object containing a query segment. 
+	 * @throws FHIRPersistenceException
+	 */
+	protected abstract T1 processInclusionCriteria(Parameter queryParm) throws FHIRPersistenceException;
 	
 	/**
 	 * Creates a query segment for a Date type parameter.
