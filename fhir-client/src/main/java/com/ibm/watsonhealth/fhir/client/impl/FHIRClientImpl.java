@@ -27,6 +27,8 @@ import javax.net.ssl.SSLSession;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
@@ -35,6 +37,7 @@ import javax.ws.rs.core.Response;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
+import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleType;
@@ -90,9 +93,11 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#metadata()
      */
     @Override
-    public FHIRResponse metadata() throws Exception {
+    public FHIRResponse metadata(FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Response response = endpoint.path("metadata").request(getDefaultMimeType()).get();
+        Invocation.Builder builder = endpoint.path("metadata").request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
 
@@ -100,11 +105,13 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#create(com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
-    public FHIRResponse create(Resource resource) throws Exception {
+    public FHIRResponse create(Resource resource, FHIRRequestHeader... headers) throws Exception {
         String resourceType = resource.getClass().getSimpleName();
         WebTarget endpoint = getWebTarget();
         Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
-        Response response = endpoint.path(resourceType).request(getDefaultMimeType()).post(entity);
+        Invocation.Builder builder = endpoint.path(resourceType).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -112,14 +119,16 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#create(javax.json.JsonObject, java.lang.String)
      */
     @Override
-    public FHIRResponse create(JsonObject resource) throws Exception {
+    public FHIRResponse create(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
         String resourceType = resource.getString("resourceType");
         if (resourceType == null || resourceType.isEmpty()) {
             throw new IllegalArgumentException("Unable to retrieve the resource type resource.");
         }
         WebTarget endpoint = getWebTarget();
         Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
-        Response response = endpoint.path(resourceType).request(getDefaultMimeType()).post(entity);
+        Invocation.Builder builder = endpoint.path(resourceType).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
     
@@ -128,7 +137,7 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#update(java.lang.Object, java.lang.Class, java.lang.String)
      */
     @Override
-    public FHIRResponse update(Resource resource) throws Exception {
+    public FHIRResponse update(Resource resource, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         String resourceType = resource.getClass().getSimpleName();
         String resourceId = (resource.getId() != null ? resource.getId().getValue() : null);
@@ -136,7 +145,9 @@ public class FHIRClientImpl implements FHIRClient {
             throw new IllegalArgumentException("Unable to retrieve the id from resource.");
         }
         Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
-        Response response = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType()).put(entity);
+        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.put(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -144,7 +155,7 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#update(javax.json.JsonObject, java.lang.String, java.lang.String)
      */
     @Override
-    public FHIRResponse update(JsonObject resource) throws Exception {
+    public FHIRResponse update(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
         String resourceType = resource.getString("resourceType");
         if (resourceType == null || resourceType.isEmpty()) {
             throw new IllegalArgumentException("Unable to retrieve the resource type from resource.");
@@ -155,7 +166,9 @@ public class FHIRClientImpl implements FHIRClient {
         }
         WebTarget endpoint = getWebTarget();
         Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
-        Response response = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType()).put(entity);
+        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.put(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -163,9 +176,11 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#read(java.lang.String, java.lang.String)
      */
     @Override
-    public FHIRResponse read(String resourceType, String resourceId) throws Exception {
+    public FHIRResponse read(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Response response = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType()).get();
+        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
 
@@ -173,9 +188,11 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#vread(java.lang.String, java.lang.String, int)
      */
     @Override
-    public FHIRResponse vread(String resourceType, String resourceId, String versionId) throws Exception {
+    public FHIRResponse vread(String resourceType, String resourceId, String versionId, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Response response = endpoint.path(resourceType).path(resourceId).path("_history").path(versionId).request(getDefaultMimeType()).get();
+        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).path("_history").path(versionId).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
     
@@ -183,11 +200,13 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#history(java.lang.String, java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
      */
     @Override
-    public FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters) throws Exception {
+    public FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(resourceType).path(resourceId).path("_history");
         endpoint = addParametersToWebTarget(endpoint, parameters);
-        Response response = endpoint.request(getDefaultMimeType()).get();
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
 
@@ -195,11 +214,13 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#search(java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
      */
     @Override
-    public FHIRResponse search(String resourceType, FHIRParameters parameters) throws Exception {
+    public FHIRResponse search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(resourceType);
         endpoint = addParametersToWebTarget(endpoint, parameters);
-        Response response = endpoint.request(getDefaultMimeType()).get();
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
     
@@ -226,10 +247,12 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
-    public FHIRResponse validate(Resource resource) throws Exception {
+    public FHIRResponse validate(Resource resource, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
-        Response response = endpoint.path("Resource").path("$validate").request(getDefaultMimeType()).post(entity);
+        Invocation.Builder builder = endpoint.path("Resource").path("$validate").request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -237,10 +260,12 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(javax.json.JsonObject)
      */
     @Override
-    public FHIRResponse validate(JsonObject resource) throws Exception {
+    public FHIRResponse validate(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
-        Response response = endpoint.path("Resource").path("$validate").request(getDefaultMimeType()).post(entity);
+        Invocation.Builder builder = endpoint.path("Resource").path("$validate").request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
 
@@ -248,23 +273,25 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#batch(com.ibm.watsonhealth.fhir.model.Bundle)
      */
     @Override
-    public FHIRResponse batch(Bundle bundle) throws Exception {
-        return bundle(bundle, BundleTypeList.BATCH);
+    public FHIRResponse batch(Bundle bundle, FHIRRequestHeader... headers) throws Exception {
+        return bundle(bundle, BundleTypeList.BATCH, headers);
     }
 
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#transaction(com.ibm.watsonhealth.fhir.model.Bundle)
      */
     @Override
-    public FHIRResponse transaction(Bundle bundle) throws Exception {
-        return bundle(bundle, BundleTypeList.TRANSACTION);
+    public FHIRResponse transaction(Bundle bundle, FHIRRequestHeader... headers) throws Exception {
+        return bundle(bundle, BundleTypeList.TRANSACTION, headers);
     }
     
-    private FHIRResponse bundle(Bundle bundle, BundleTypeList bundleType) throws Exception {
+    private FHIRResponse bundle(Bundle bundle, BundleTypeList bundleType, FHIRRequestHeader... headers) throws Exception {
         bundle.setType(new BundleType().withValue(bundleType));
         WebTarget endpoint = getWebTarget();
         Entity<Bundle> entity = Entity.entity(bundle, getDefaultMimeType());
-        Response response = endpoint.request(getDefaultMimeType()).post(entity);
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
     
@@ -305,6 +332,22 @@ public class FHIRClientImpl implements FHIRClient {
             }
         }
         return form;
+    }
+
+    /**
+     * This function will add each of the specified request headers to the Invocation Builder object.
+     * @param builder the Invocation.Builder used to build up the request
+     * @param headers the array of headers to be added to the request
+     */
+    private Builder addRequestHeaders(Builder builder, FHIRRequestHeader[] headers) {
+        if (headers != null) {
+            for (FHIRRequestHeader header : headers) {
+                if (header.getName() != null && header.getValue() != null) {
+                    builder = builder.header(header.getName(), header.getValue());
+                }
+            }
+        }
+        return builder;
     }
 
     /**

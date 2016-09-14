@@ -252,21 +252,20 @@ public class FHIRResource {
         @ApiParam(value = "The id of the resource to be updated.", required = true) @PathParam("id") String id,
         @ApiParam(value = "The new contents of the resource to be updated.", required = true) Resource resource) {
 
-        Date startTime = new Date();
-        Response.Status status = null;
-        Resource oldResource = null;
-
+    	Date startTime = new Date();
+    	Response.Status status = null;
+    	Resource currentResource = null;
+    	
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
-            // Retrieve the resource to be updated for audit logging purposes.
-            oldResource = doRead(type, id, false);
-            URI locationURI = doUpdate(type, id, resource);
+        	currentResource = doRead(type, resource.getId().getValue(), false);
+            URI locationURI = doUpdate(type, id, resource, currentResource);
 
             ResponseBuilder response = null;
 
             // Determine whether we actually did a create or an update operation in the persistence layer.
-            if (oldResource == null) {
+            if (currentResource == null) {
                 // Must have been a create.
                 response = Response.created(locationURI);
                 status = Response.Status.CREATED;
@@ -293,7 +292,7 @@ public class FHIRResource {
             if (status == Response.Status.CREATED) {
                 RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
             } else {
-                RestAuditLogger.logUpdate(httpServletRequest, oldResource, resource, startTime, new Date(), status);
+                RestAuditLogger.logUpdate(httpServletRequest, currentResource, resource, startTime, new Date(), status);
             }
             log.exiting(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
@@ -698,7 +697,7 @@ public class FHIRResource {
      * @return the location URI associated with the new version of the Resource
      * @throws Exception
      */
-    protected URI doUpdate(String type, String id, Resource resource) throws Exception {
+    protected URI doUpdate(String type, String id, Resource resource, Resource currentResource) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
         try {
             // Make sure the type specified in the URL string matches the resource type obtained from the resource.
@@ -725,6 +724,11 @@ public class FHIRResource {
                 throw new FHIRException("Input resource 'id' attribute must match 'id' parameter.");
             }
             
+            // Perform the "version-aware" update check.
+            if (currentResource != null) {
+                performVersionAwareUpdateCheck(currentResource);
+            }
+
             // First, invoke the 'beforeUpdate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, resource.getId().getValue(), null));
             getInterceptorMgr().fireBeforeUpdateEvent(event);
@@ -744,6 +748,7 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "doUpdate");
         }
     }
+
 
     /**
      * Performs a 'read' operation to retrieve a Resource.
@@ -978,6 +983,64 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "doBundle");
         }
     }
+    
+    /**
+     * This function will perform the version-aware update check by making sure that
+     * the If-Match request header value (if present) specifies a version # equal to
+     * the current latest version of the resource.
+     * If the check fails, then a FHIRRestException will be thrown.
+     * If the check succeeds then nothing occurs and processing continues.
+     * 
+     * @param currentResource the current latest version of the resource
+     */
+    private void performVersionAwareUpdateCheck(Resource currentResource) throws FHIRRestException {
+        String ifMatchValue = httpHeaders.getHeaderString(HttpHeaders.IF_MATCH);
+        if (ifMatchValue != null) {
+            log.fine("Found If-Match request header: " + ifMatchValue);
+            String ifMatchVersion = getVersionIdFromETagValue(ifMatchValue);
+            
+            // Make sure that we got a version # from the request header.
+            // If not, then return a 412 Pre-condition Failed status code.
+            if (ifMatchVersion == null || ifMatchVersion.isEmpty()) {
+                throw new FHIRRestException("Invalid '" + HttpHeaders.IF_MATCH + "' header value specified in request: " + ifMatchValue, null, Status.BAD_REQUEST);
+            }
+            
+            log.fine("Version id from If-Match header: " + ifMatchVersion);
+            
+            // Retrieve the version #'s from the current and updated resources.
+            String currentVersion = null;
+            if (currentResource.getMeta() != null && currentResource.getMeta().getVersionId() != null) {
+                currentVersion = currentResource.getMeta().getVersionId().getValue();
+            }
+            
+            // Next, make sure that the If-Match version matches the version # found
+            // in the current latest version of the resource.
+            // If they don't match we'll return a 409 Conflict status code.
+            if (!ifMatchVersion.equals(currentVersion)) {
+                throw new FHIRRestException("If-Match version '" + ifMatchVersion + "' does not match current latest version of resource: " + currentVersion, null, Status.CONFLICT);
+            }
+        }
+    }
+
+    /**
+     * Retrieves the version id value from an ETag header value.
+     * The ETag header value will be of the form: W/"<version-id>".
+     * @param ifMatchValue the value of the If-Match request header.
+     */
+    private String getVersionIdFromETagValue(String ifMatchValue) {
+        String result = null;
+        if (ifMatchValue != null) {
+            if (ifMatchValue.startsWith("W/")) {
+                String s = ifMatchValue.substring(2);
+                // If the part after "W/" starts and ends with a ",
+                // then extract the part between the " characters and we're done.
+                if (s.charAt(0) == '\"' && s.charAt(s.length()-1) == '\"') {
+                    result = s.substring(1, s.length() - 1);
+                }
+            }
+        }
+        return result;
+    }
    
     /**
      * This function will process each request contained in the specified request bundle,
@@ -1120,7 +1183,8 @@ public class FHIRResource {
                                 throw new FHIRException("Request URL for bundled PUT request should have path part with exactly two tokens (<resourceType>/<id>).");
                             }
                             Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
-                            URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource);
+                            Resource currentResource = doRead(pathTokens[0], pathTokens[1], false);
+                            URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource);
                             setBundleResponseFields(responseEntry, resource, locationURI, SC_OK);
                         }
                         break;
