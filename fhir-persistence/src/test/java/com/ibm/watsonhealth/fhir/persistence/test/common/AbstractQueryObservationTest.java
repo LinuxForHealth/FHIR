@@ -149,6 +149,24 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         assertNotNull(observation.getMeta().getVersionId().getValue());
     }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for an Observation.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateObservation_with_device() throws Exception {
+        Observation observation = readResource(Observation.class, "Observation_with_device.json");
+
+        persistence.create(getDefaultPersistenceContext(), observation);
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+    }
     	
 	/**
 	 * Tests a query for an Observation with component-value-string = 'Systolic' which should yield correct results
@@ -908,4 +926,27 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
     }*/
+	
+	/**
+	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_device" })
+	public void test1InclusionCriteria_code_Device_Compmt() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "code", "9269-2");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getCode().getCoding().get(0).getCode().getValue(),"9269-2");
+	}
+	
+	/**
+	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_device" })
+	public void test1InclusionCriteria_PatientNoResults_Device_Compmt() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "patient", "Patient/exam");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
 }
