@@ -66,6 +66,24 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
     }
     
     /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a QuestionnaireResponse.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateQuestionnaireResponse_with_encounter() throws Exception {
+    	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse_with_encounter.json");
+
+        persistence.create(getDefaultPersistenceContext(), questionnaireResp);
+        assertNotNull(questionnaireResp);
+        assertNotNull(questionnaireResp.getId());
+        assertNotNull(questionnaireResp.getId().getValue());
+        assertNotNull(questionnaireResp.getMeta());
+        assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
+        assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+    }
+    
+    /**
 	 * Tests a query for a QuestionnaireResponse with author = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
@@ -220,5 +238,45 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		long count = context.getTotalCount();
 		int lastPgNum = context.getLastPageNumber();
 		assertTrue((count == 0) && (lastPgNum == Integer.MAX_VALUE));
+	}
+	
+	/*
+	 * 
+	 * Compartment search testcases
+	 * 
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	public void testQuestionnaireResponseQuery_noParams_EncCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "f002", QuestionnaireResponse.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with author = 'Practitioner/f201' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	public void testQuestionnaireResponseQuery_author_EncCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "f002", QuestionnaireResponse.class, persistence, "author", "Practitioner/f201");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((QuestionnaireResponse)resources.get(0)).getAuthor().getReference().getValue(),"Practitioner/f201");
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	public void testQuestionnaireResponseQuery_authored_noResults_EncCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "f002", QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
 	}
 }
