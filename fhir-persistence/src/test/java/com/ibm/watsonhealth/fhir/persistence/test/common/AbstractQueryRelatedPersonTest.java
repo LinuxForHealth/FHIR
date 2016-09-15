@@ -14,6 +14,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.model.Address;
+import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.RelatedPerson;
 import com.ibm.watsonhealth.fhir.model.Resource;
 
@@ -52,5 +54,65 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with incorrect name which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_name_noResults() throws Exception {
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "None");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with gender = 'Female' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_gender() throws Exception {
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "gender", "Female");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RelatedPerson)resources.get(0)).getGender().getValue(),"Female");
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with relationship = 'Bénédicte' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_relationship() throws Exception {
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "Bénédicte");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with address-city = 'Paris' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_address_city() throws Exception {
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "address-city", "Paris");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((RelatedPerson)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getCity().getValue(),"Paris");
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with phone = '+33 (237) 998327' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_phone() throws Exception {
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "phone", "+33 (237) 998327");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RelatedPerson)resources.get(0)).getTelecom().get(0).getValue().getValue(),"+33 (237) 998327");
 	}
 }
