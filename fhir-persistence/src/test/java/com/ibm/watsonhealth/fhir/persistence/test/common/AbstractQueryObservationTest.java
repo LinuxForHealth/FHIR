@@ -837,4 +837,39 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
 	}
+	
+	/**
+	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	public void testSingleInclusionCriteria_encounterCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "encounter", "Encounter/example");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getEncounter().getReference().getValue(),"Encounter/example");
+	}
+	
+	/**
+	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	public void testSingleInclusionCriteria_PatientNoResultsCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "patient", "Patient/exam");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+    public void testSingleInclusionCriteria_valueQuantityCompmt() throws Exception{
+    	List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
+    }
 }
