@@ -195,12 +195,12 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	}
 	
 	/**
-	 * Tests a query for an Observation with value-string = 'Diastolic' which should yield no results
+	 * Tests a query for an Observation with value-string = 'Distolic' which should yield no results
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_valueString_noResults() throws Exception {
-		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-string", "Diastolic");
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-string", "Distolic");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -915,17 +915,16 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	}
 	
 	/**
-	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
+	 * Tests a query for an Observation with value-date = '2014-12-04T15:42:15-08:00' which should yield correct results
 	 * @throws Exception
 	 */
-	//TODO: Enable once the issue has been fixed
-	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation4" })
     public void test1InclusionCriteria_valueQuantity_Pract_Compmt() throws Exception{
-    	List<Resource> resources = runQueryTest("Practitioner", "pract-uslab-example1", Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
+    	List<Resource> resources = runQueryTest("Practitioner", "pract-uslab-example1", Observation.class, persistence, "value-date", "2014-12-04T15:42:15-08:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Observation)resources.get(0)).getValueQuantity().getValue().getValue().toString(),"185");
-    }*/
+		assertEquals(((Observation)resources.get(0)).getValueDateTime().getValue().toString(),"2014-12-04T15:42:15-08:00");
+    }
 	
 	/**
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
