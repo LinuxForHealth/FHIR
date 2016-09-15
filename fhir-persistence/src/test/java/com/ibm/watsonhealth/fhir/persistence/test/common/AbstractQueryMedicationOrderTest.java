@@ -232,4 +232,44 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
 	}
+	
+	/*
+	 * 
+	 * Compartment search testcases
+	 * 
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	public void testMedicationOrderQuery_noParams_EncCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "f002", MedicationOrder.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for a MedicationOrder with datewritten = '2015-01-15' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	public void testMedicationOrderQuery_datewritten_EncCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "f002", MedicationOrder.class, persistence, "datewritten", "2015-01-15");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((MedicationOrder)resources.get(0)).getDateWritten().getValue(),"2015-01-15");
+	}
+	
+	/**
+	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	public void testMedicationOrderQuery_datewritten_noResults_EncCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Encounter", "f002", MedicationOrder.class, persistence, "datewritten", "2025-01-15");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
 }
