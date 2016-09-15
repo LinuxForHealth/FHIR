@@ -842,4 +842,170 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(count >= 1000);
 		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
     }
+    
+	/**
+	 * 
+	 * Compartment search testcases
+	 * 
+	 */
+	
+    /**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_noparams() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, null, null);
+		assertTrue(resources.size() != 0);
+	}	
+	
+	/**
+	 * Tests a query for a Patient with family name = 'Doe' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_family() throws Exception {
+        List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family", "Doe");
+		assertTrue(resources.size() != 0);
+		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
+		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Doe");
+	}    
+	
+	/**
+	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_family_noResults() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family", "Non-existent");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for a Patient with address-city = 'Amsterdam' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_city() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-city", "Amsterdam");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getCity().getValue(),"Amsterdam");
+	}
+	
+	/**
+	 * Tests a query for a Patient with address-city = 'Amsterdam' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_adressByCity() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address", "Amsterdam");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getCity().getValue(),"Amsterdam");
+	}
+	
+	/**
+	 * Tests a query for a Patient with address-city = 'Non-existent' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_city_noResults() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-city", "Non-existent");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for a Patient with address-country = 'NLD' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_country() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-country", "NLD");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getCountry().getValue(),"NLD");
+	}
+	
+	
+	/**
+	 * Tests a query for a Patient with address-country = 'NLD' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatientAdressByCountry() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address", "NLD");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<Address> addrList = ((Patient)resources.get(0)).getAddress();
+		assertEquals(addrList.get(0).getCountry().getValue(),"NLD");
+	}
+	
+	/**
+	 * Tests a query for a Patient with address-country = 'Non-existent' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_country_noResults() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-country", "Non-existent");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for a Patient with link = 'Patient/pat2' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_link() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "link", "Patient/pat2");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<PatientLink> linkList = ((Patient)resources.get(0)).getLink();
+		assertEquals(linkList.get(0).getOther().getReference().getValue(),"Patient/pat2");
+	}
+	
+	/**
+	 * Tests a query for a Patient with family name = 'Doe' using :exact modifier which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_exactModifier() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family:exact", "Doe");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
+		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Doe");
+	}
+	
+	/**
+	 * Tests a query for Patients with family name != 'Doe' using :not modifier which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_notModifier() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family:not", "Doe");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
+		assertTrue(hnList.contains(humanName("John Doe-Smith-Jones")) == false);
+	}
+	
+	/**
+	 * Tests a query for Patients with address-use = 'home' which should yield correct results
+	 * @throws Exception
+	 */
+
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void testSingleInclusionCriteriaPatient_addressUse() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-use", "home");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertTrue(((Patient)resources.get(0)).getAddress().get(0).getUse().getValue().value().equals("home"));
+	}
 }
