@@ -125,7 +125,7 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 * Tests a query for a RelatedPerson with name = 'Bénédicte' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "Bénédicte");
 		assertNotNull(resources);
@@ -137,7 +137,7 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 * Tests a query for a RelatedPerson with incorrect name which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name_noResults_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "None");
 		assertNotNull(resources);
@@ -148,7 +148,7 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 * Tests a query for a RelatedPerson with gender = 'Female' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_gender_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "gender", "female");
 		assertNotNull(resources);
@@ -160,7 +160,7 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 * Tests a query for a RelatedPerson with relationship = 'Bénédicte' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_relationship_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "Bénédicte");
 		assertNotNull(resources);
