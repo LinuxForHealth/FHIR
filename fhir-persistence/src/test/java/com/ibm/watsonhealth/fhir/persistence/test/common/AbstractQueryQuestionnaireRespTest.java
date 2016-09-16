@@ -279,4 +279,38 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	public void testQuestionnaireResponseQuery_noParams_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with subject = 'Patient/example' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	public void testQuestionnaireResponseQuery_author_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "subject", "Patient/example");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((QuestionnaireResponse)resources.get(0)).getSubject().getReference().getValue(),"Patient/example");
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	public void testQuestionnaireResponseQuery_authored_noResults_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
 }
