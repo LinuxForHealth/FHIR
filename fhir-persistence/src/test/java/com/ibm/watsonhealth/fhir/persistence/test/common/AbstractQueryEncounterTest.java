@@ -201,4 +201,48 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounterQuery_noParams_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = '60.0' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_length_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, "length", "60.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'gt59.0' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_GTlength_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, "length", "gt59.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'lt60.0' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter" })
+	public void testEncounter_LTlength_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, "length", "lt60.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
 }
