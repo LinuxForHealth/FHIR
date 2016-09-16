@@ -15,7 +15,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Address;
-import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.RelatedPerson;
 import com.ibm.watsonhealth.fhir.model.Resource;
 
@@ -68,15 +67,15 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	}
 	
 	/**
-	 * Tests a query for a RelatedPerson with gender = 'Female' which should yield correct results
+	 * Tests a query for a RelatedPerson with gender = 'female' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_gender() throws Exception {
-		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "gender", "Female");
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "gender", "female");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((RelatedPerson)resources.get(0)).getGender().getValue(),"Female");
+		assertEquals(((RelatedPerson)resources.get(0)).getGender().getValue(),"female");
 	}
 	
 	/**
@@ -114,5 +113,58 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((RelatedPerson)resources.get(0)).getTelecom().get(0).getValue().getValue(),"+33 (237) 998327");
+	}
+	
+	/*
+	 * 
+	 * Compartment search testcases
+	 * 
+	 */
+	
+	/**
+	 * Tests a query for a RelatedPerson with name = 'Bénédicte' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_name_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "Bénédicte");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with incorrect name which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_name_noResults_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "None");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with gender = 'Female' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_gender_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "gender", "female");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RelatedPerson)resources.get(0)).getGender().getValue(),"female");
+	}
+	
+	/**
+	 * Tests a query for a RelatedPerson with relationship = 'Bénédicte' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	public void testRelatedPersonQuery_relationship_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "Bénédicte");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
 	}
 }
