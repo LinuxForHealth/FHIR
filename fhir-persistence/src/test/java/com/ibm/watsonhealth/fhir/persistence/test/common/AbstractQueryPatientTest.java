@@ -1008,4 +1008,49 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(resources.size() != 0);
 		assertTrue(((Patient)resources.get(0)).getAddress().get(0).getUse().getValue().value().equals("home"));
 	}
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void test1InclusionCriteriaPatient_noparams_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, null, null);
+		assertTrue(resources.size() != 0);
+	}*/	
+	
+	/**
+	 * Tests a query for a Patient with family name = 'Levin' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void test1InclusionCriteriaPatient_family_PractCompmt() throws Exception {
+        List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, "family", "Levin");
+		assertTrue(resources.size() != 0);
+		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
+		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Levin");
+	}*/   
+	
+	/**
+	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	public void test1InclusionCriteriaPatient_family_noResults_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, "family", "Non-existent");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for Patients with birthdate = '1932-09-24' which should yield correct results
+	 * @throws Exception
+	 */
+	
+    /*@Test(groups = { "jpa" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testPatient_birthdate_PractCompmt() throws Exception {
+        List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, "birthdate", "eq1932-09-24");
+        assertTrue(resources.size() > 0);
+		assertEquals(((Patient)resources.get(0)).getBirthDate().getValue(),"1932-09-24");
+    }*/
 }
