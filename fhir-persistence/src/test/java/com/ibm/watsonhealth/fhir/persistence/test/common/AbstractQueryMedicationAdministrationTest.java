@@ -45,7 +45,25 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
         assertNotNull(medAdmin.getMeta());
         assertNotNull(medAdmin.getMeta().getVersionId().getValue());
         assertEquals("1", medAdmin.getMeta().getVersionId().getValue());
-    } 
+    }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a MedicationAdministration.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateMedicationAdministration_with_device() throws Exception {
+    	MedicationAdministration medAdmin = readResource(MedicationAdministration.class, "medicationadministration_with_device.json");
+
+    	persistence.create(getDefaultPersistenceContext(), medAdmin);
+        assertNotNull(medAdmin);
+        assertNotNull(medAdmin.getId());
+        assertNotNull(medAdmin.getId().getValue());
+        assertNotNull(medAdmin.getMeta());
+        assertNotNull(medAdmin.getMeta().getVersionId().getValue());
+        assertEquals("1", medAdmin.getMeta().getVersionId().getValue());
+    }
 	
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
@@ -239,6 +257,40 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_effectivetime_noResults_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "example", MedicationAdministration.class, persistence, "effectivetime", "2025-01-15T14:30:00+01:00");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	public void testMedicationAdministrationQuery_noParams_DevCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "devID", MedicationAdministration.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}	
+	
+	/**
+	 * Tests a query for a MedicationAdministration with patient = 'Patient/example' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	public void testMedicationAdministrationQuery_patient_DevCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "devID", MedicationAdministration.class, persistence, "patient", "Patient/example");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((MedicationAdministration)resources.get(0)).getPatient().getReference().getValue(),"Patient/example");
+	}
+	
+	/**
+	 * Tests a query for a MedicationAdministration with effectivetime = '2025-01-15T14:30:00+01:00' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	public void testMedicationAdministrationQuery_effectivetime_noResults_DevCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "devID", MedicationAdministration.class, persistence, "effectivetime", "2025-01-15T14:30:00+01:00");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
