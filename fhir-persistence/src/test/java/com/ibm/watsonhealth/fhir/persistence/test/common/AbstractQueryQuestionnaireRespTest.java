@@ -10,6 +10,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +92,24 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
     @Test(groups = { "cloudant", "jpa" })
     public void testCreateQuestionnaireResponse_with_relatedPerson() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse-with-RelatedPerson.json");
+
+        persistence.create(getDefaultPersistenceContext(), questionnaireResp);
+        assertNotNull(questionnaireResp);
+        assertNotNull(questionnaireResp.getId());
+        assertNotNull(questionnaireResp.getId().getValue());
+        assertNotNull(questionnaireResp.getMeta());
+        assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
+        assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+    }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a QuestionnaireResponse.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateQuestionnaireResponse_with_relatedPerson2() throws Exception {
+    	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse-with-RelatedPerson2.json");
 
         persistence.create(getDefaultPersistenceContext(), questionnaireResp);
         assertNotNull(questionnaireResp);
@@ -283,6 +302,11 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 */
 	
 	/**
+	 * Tests for Single Inclusion criteria
+	 */
+	
+	
+	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
@@ -473,4 +497,56 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * Tests for Multiple Inclusion criteria
+	 */
+	
+	/**
+	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
+	public void testMutiInc_QRQuery_noParams_RelatedPersonCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((QuestionnaireResponse)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("gcs");
+		expectedIdList.add("gcs_1");
+				
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with source = 'RelatedPerson/Benedicte' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
+	public void testMutiInc_QRQuery_source_RelatedPersonCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "source", "RelatedPerson/Benedicte");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((QuestionnaireResponse)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("gcs");
+		expectedIdList.add("gcs_1");
+		
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}*/
 }
