@@ -232,7 +232,7 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the '_search' operation
      * @throws Exception
      */
-    FHIRResponse _search(String resourceType, FHIRParameters parameters) throws Exception;
+    FHIRResponse _search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'search-all' FHIR REST API operation.
@@ -242,7 +242,7 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the 'search-all' operation
      * @throws Exception
      */
-    FHIRResponse searchAll(FHIRParameters parameters) throws Exception;
+    FHIRResponse searchAll(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'validate' FHIR REST API operation.

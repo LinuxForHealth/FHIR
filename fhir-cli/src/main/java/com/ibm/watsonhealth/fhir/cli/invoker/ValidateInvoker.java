@@ -24,9 +24,9 @@ public class ValidateInvoker extends OperationInvoker {
     public void doInvoke(InvocationContext ic) throws Exception {
         Object resource = ic.getRequestResourceWithExcp();
         if (resource instanceof Resource) {
-            response = client.validate((Resource)resource);
+            response = client.validate((Resource)resource, requestHeaders);
         } else {
-            response = client.validate((JsonObject)resource);
+            response = client.validate((JsonObject)resource, requestHeaders);
         }
     }
 }

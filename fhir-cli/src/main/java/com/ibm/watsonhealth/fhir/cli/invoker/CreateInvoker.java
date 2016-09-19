@@ -24,9 +24,9 @@ public class CreateInvoker extends OperationInvoker {
     public void doInvoke(InvocationContext ic) throws Exception {
         Object resource = ic.getRequestResourceWithExcp();
         if (resource instanceof Resource) {
-            response = client.create((Resource)resource);
+            response = client.create((Resource)resource, requestHeaders);
         } else {
-            response = client.create((JsonObject)resource);
+            response = client.create((JsonObject)resource, requestHeaders);
         }
     }
 }

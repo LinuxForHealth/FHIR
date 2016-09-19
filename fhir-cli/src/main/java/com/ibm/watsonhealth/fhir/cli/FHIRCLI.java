@@ -209,7 +209,7 @@ public class FHIRCLI {
         }
         
         collectQueryParameters(cmdline, ic);
-        // collectHeaders(cmdline, ic);
+        collectHeaders(cmdline, ic);
         
         return ic;
     }
@@ -316,16 +316,16 @@ public class FHIRCLI {
     /**
      * Visits each "header" option and adds it to the InvocationContext.
      */
-//    private void collectHeaders(CommandLine cmdline, InvocationContext ic) {
-//        for (Option option : cmdline.getOptions()) {
-//            if (option.getOpt().equals(OptionNames.HEADER.getShortName())) {
-//                List<String> values = option.getValuesList();
-//                if (values != null && values.size() >= 2) {
-//                    ic.addHeader(values.get(0), values.get(1));
-//                }
-//            }
-//        }
-//    }
+    private void collectHeaders(CommandLine cmdline, InvocationContext ic) {
+        for (Option option : cmdline.getOptions()) {
+            if (option.getOpt().equals(OptionNames.HEADER.getShortName())) {
+                List<String> values = option.getValuesList();
+                if (values != null && values.size() >= 2) {
+                    ic.addHeader(values.get(0), values.get(1));
+                }
+            }
+        }
+    }
 
     /**
      * Visits each "queryParameter" option and adds it to the InvocationContext.
@@ -367,8 +367,9 @@ public class FHIRCLI {
             .addOption(Option.builder(OptionNames.ID.getShortName()).longOpt(OptionNames.ID.getLongName()).desc(OptionNames.ID.getDesc()).hasArg().argName(OptionNames.ID.getArgName()).build())
             .addOption(Option.builder(OptionNames.VERSIONID.getShortName()).longOpt(OptionNames.VERSIONID.getLongName()).desc(OptionNames.VERSIONID.getDesc()).hasArg().argName(OptionNames.VERSIONID.getArgName()).build())
             .addOption(Option.builder(OptionNames.OUTPUT.getShortName()).longOpt(OptionNames.OUTPUT.getLongName()).desc(OptionNames.OUTPUT.getDesc()).hasArg().argName(OptionNames.OUTPUT.getArgName()).build())
-            .addOption(Option.builder(OptionNames.QUERYPARAMETER.getShortName()).longOpt(OptionNames.QUERYPARAMETER.getLongName()).desc(OptionNames.QUERYPARAMETER.getDesc()).numberOfArgs(2).argName(OptionNames.QUERYPARAMETER.getArgName()).valueSeparator().build());
-
+            .addOption(Option.builder(OptionNames.QUERYPARAMETER.getShortName()).longOpt(OptionNames.QUERYPARAMETER.getLongName()).desc(OptionNames.QUERYPARAMETER.getDesc()).numberOfArgs(2).argName(OptionNames.QUERYPARAMETER.getArgName()).valueSeparator().build())
+            .addOption(Option.builder(OptionNames.HEADER.getShortName()).longOpt(OptionNames.HEADER.getLongName()).desc(OptionNames.HEADER.getDesc()).numberOfArgs(2).argName(OptionNames.HEADER.getArgName()).valueSeparator().build());
+        
         return options;
     }
 

@@ -22,7 +22,7 @@ public class TransactionInvoker extends OperationInvoker {
     public void doInvoke(InvocationContext ic) throws Exception {
         Object resource = ic.getRequestResourceWithExcp();
         if (resource instanceof Bundle) {
-            response = client.transaction((Bundle)resource);
+            response = client.transaction((Bundle)resource, requestHeaders);
         } else {
             throw new IllegalArgumentException("Input resource must be a Bundle.");
         }

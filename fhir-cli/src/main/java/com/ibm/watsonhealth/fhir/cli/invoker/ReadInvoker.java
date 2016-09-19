@@ -21,6 +21,6 @@ public class ReadInvoker extends OperationInvoker {
         String resourceType = ic.getResourceTypeWithExcp();
         String resourceId = ic.getResourceIdWithExcp();
         
-        response = client.read(resourceType, resourceId);
+        response = client.read(resourceType, resourceId, requestHeaders);
     }
 }

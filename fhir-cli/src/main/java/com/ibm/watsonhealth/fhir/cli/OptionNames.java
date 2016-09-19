@@ -21,6 +21,7 @@ public enum OptionNames {
     VERSIONID("versionId", "vid", "Use version # <VID> for the operation invocation", "VID"),
     PROPERTIES("properties", "p", "Use FHIR Client properties contained in <FILE> (e.g. fhir-cli.properties)", "FILE"),
     QUERYPARAMETER("queryParameter", "qp", "Include query parameter NAME=VALUE with the operation invocation (e.g. _count=100).", "NAME=VALUE"),
+    HEADER("header", "H", "Include the specified request header NAME=VALUE with the operation invocation (e.g. If-Match=W/\"3\").", "NAME=VALUE"),
     OUTPUT("output", "o", "Write output resource to <FILE> (e.g. searchresults.json)", "FILE"),
     HELP("help", "h", "Display this help text"),
     VERBOSE("verbose", "v", "Display detailed output");

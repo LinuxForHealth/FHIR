@@ -18,6 +18,6 @@ public class MetadataInvoker extends OperationInvoker {
      */
     @Override
     public void doInvoke(InvocationContext ic) throws Exception {
-        response = client.metadata();
+        response = client.metadata(requestHeaders);
     }
 }

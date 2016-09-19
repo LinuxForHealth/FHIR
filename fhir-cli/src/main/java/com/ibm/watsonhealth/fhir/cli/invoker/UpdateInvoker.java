@@ -24,9 +24,9 @@ public class UpdateInvoker extends OperationInvoker {
     public void doInvoke(InvocationContext ic) throws Exception {
         Object resource = ic.getRequestResourceWithExcp();
         if (resource instanceof Resource) {
-            response = client.update((Resource)resource);
+            response = client.update((Resource)resource, requestHeaders);
         } else {
-            response = client.update((JsonObject)resource);
+            response = client.update((JsonObject)resource, requestHeaders);
         }
     }
 }

@@ -20,6 +20,6 @@ public class SearchPostInvoker extends OperationInvoker {
     public void doInvoke(InvocationContext ic) throws Exception {
         String resourceType = ic.getResourceTypeWithExcp();
         
-        response = client._search(resourceType, queryParameters);
+        response = client._search(resourceType, queryParameters, requestHeaders);
     }
 }

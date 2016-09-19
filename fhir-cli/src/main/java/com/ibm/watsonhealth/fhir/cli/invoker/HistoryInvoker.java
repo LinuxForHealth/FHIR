@@ -21,6 +21,6 @@ public class HistoryInvoker extends OperationInvoker {
         String resourceType = ic.getResourceTypeWithExcp();
         String resourceId = ic.getResourceIdWithExcp();
         
-        response = client.history(resourceType, resourceId, queryParameters);
+        response = client.history(resourceType, resourceId, queryParameters, requestHeaders);
     }
 }

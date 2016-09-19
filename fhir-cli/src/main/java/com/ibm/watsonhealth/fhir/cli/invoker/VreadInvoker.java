@@ -22,6 +22,6 @@ public class VreadInvoker extends OperationInvoker {
         String resourceId = ic.getResourceIdWithExcp();
         String versionId = ic.getVersionIdWithExcp();
         
-        response = client.vread(resourceType, resourceId, versionId);
+        response = client.vread(resourceType, resourceId, versionId, requestHeaders);
     }
 }

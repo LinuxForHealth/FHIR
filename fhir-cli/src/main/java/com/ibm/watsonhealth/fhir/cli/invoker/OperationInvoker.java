@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -17,6 +18,7 @@ import com.ibm.watsonhealth.fhir.cli.invoker.InvocationContext.NameValuePair;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
+import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 
 /**
@@ -28,6 +30,7 @@ public abstract class OperationInvoker {
     protected FHIRClient client;
     protected FHIRResponse response;
     protected FHIRParameters queryParameters;
+    protected FHIRRequestHeader[] requestHeaders;
     
     public void invoke(InvocationContext ic) throws Exception {
         preInvoke(ic);
@@ -51,6 +54,15 @@ public abstract class OperationInvoker {
             queryParameters = new FHIRParameters();
             for (NameValuePair param : params) {
                 queryParameters.addMultivaluedParameter(param.getName(), param.getValue());
+            }
+        }
+        
+        List<NameValuePair> headers = ic.getHeaders();
+        if (headers != null && !headers.isEmpty()) {
+            requestHeaders = new FHIRRequestHeader[headers.size()];
+            for (int i = 0; i < headers.size(); i++) {
+                NameValuePair header = headers.get(i);
+                requestHeaders[i] = new FHIRRequestHeader(header.getName(), header.getValue());
             }
         }
     }
