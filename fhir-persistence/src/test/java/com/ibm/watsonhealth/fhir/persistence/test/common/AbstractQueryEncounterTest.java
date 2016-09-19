@@ -15,7 +15,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Encounter;
-import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.Resource;
 
 /**
@@ -289,7 +288,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	}
 	
 	/**
-	 * Tests a query with a RelatedPerson resource type and patient = '11112' which should yield correct results.
+	 * Tests a query with a RelatedPerson resource type and patient = '11112' which should yield n results.
 	 * @throws Exception
 	 */
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
