@@ -85,6 +85,24 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
     }
     
     /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a RiskAssessment.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateRiskAssessment_with_device() throws Exception {
+        RiskAssessment riskAssmt = readResource(RiskAssessment.class, "RiskAssessment_with_Device.json");
+
+        persistence.create(getDefaultPersistenceContext(), riskAssmt);
+        assertNotNull(riskAssmt);
+        assertNotNull(riskAssmt.getId());
+        assertNotNull(riskAssmt.getId().getValue());
+        assertNotNull(riskAssmt.getMeta());
+        assertNotNull(riskAssmt.getMeta().getVersionId().getValue());
+        assertEquals("1", riskAssmt.getMeta().getVersionId().getValue());
+    }
+    
+    /**
 	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results
 	 * @throws Exception
 	 */
@@ -231,6 +249,29 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRiskAssessment3" })
 	public void testRiskAssessmentQuery_PractCompmt_2() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "date", "0010-11-22");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
+	public void testRiskAssessmentQuery_DevCompmt_1() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "performer", "Device/d001");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Device/d001");
+	}
+	
+	/**
+	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
+	public void testRiskAssessmentQuery_DevCompmt_2() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "date", "0010-11-22");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
