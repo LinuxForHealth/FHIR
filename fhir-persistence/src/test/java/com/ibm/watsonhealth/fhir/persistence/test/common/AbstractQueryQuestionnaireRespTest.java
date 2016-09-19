@@ -333,7 +333,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	}
 	
 	/**
-	 * Tests a query with RelatedPerson resource type but without any query parameters. This should yield all the resources created so far.
+	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
@@ -362,6 +362,51 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
 	public void testQuestionnaireResponseQuery_sourceNoResults_RelatedPerson_compartment() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "source", "RelatedPerson/None");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	public void testQuestionnaireResponseQuery_noParams_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f201' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	public void testQuestionnaireResponseQuery_source_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "source", "Practitioner/f201");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((QuestionnaireResponse)resources.get(0)).getSource().getReference().getValue(),"Practitioner/f201");
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f2001' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	public void testQuestionnaireResponseQuery_sourceNoResults_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "source", "Practitioner/f2001");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f201', but an incorrect compartment id = f2001 which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	public void testQuestionnaireResponseQuery_badCompmtIdNoResults_PractCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f2001", QuestionnaireResponse.class, persistence, "source", "Practitioner/f2001");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}

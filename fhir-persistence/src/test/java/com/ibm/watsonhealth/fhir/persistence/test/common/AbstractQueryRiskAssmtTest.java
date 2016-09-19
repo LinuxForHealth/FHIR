@@ -211,4 +211,27 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+	public void testRiskAssessmentQuery_PractCompmt_1() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "performer", "Practitioner/f001");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
+	}
+	
+	/**
+	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+	public void testRiskAssessmentQuery_PractCompmt_2() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "date", "0010-11-22");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
 }

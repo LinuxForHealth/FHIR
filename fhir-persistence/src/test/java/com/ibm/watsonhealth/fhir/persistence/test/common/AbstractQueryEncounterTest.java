@@ -288,7 +288,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	}
 	
 	/**
-	 * Tests a query with a RelatedPerson resource type and patient = '11112' which should yield n results.
+	 * Tests a query with a RelatedPerson resource type and patient = '11112' which should yield no results.
 	 * @throws Exception
 	 */
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
