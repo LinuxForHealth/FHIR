@@ -84,6 +84,24 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
     }
     
     /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a QuestionnaireResponse.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateQuestionnaireResponse_with_relatedPerson() throws Exception {
+    	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse-with-RelatedPerson.json");
+
+        persistence.create(getDefaultPersistenceContext(), questionnaireResp);
+        assertNotNull(questionnaireResp);
+        assertNotNull(questionnaireResp.getId());
+        assertNotNull(questionnaireResp.getId().getValue());
+        assertNotNull(questionnaireResp.getMeta());
+        assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
+        assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+    }
+    
+    /**
 	 * Tests a query for a QuestionnaireResponse with author = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
@@ -310,6 +328,40 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponseQuery_authored_noResults_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query with RelatedPerson resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
+	public void testQuestionnaireResponseQuery_noParams_RelatedPerson_compartment() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with source = 'RelatedPerson/Benedicte' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
+	public void testQuestionnaireResponseQuery_source_RelatedPerson_compartment() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "source", "RelatedPerson/Benedicte");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((QuestionnaireResponse)resources.get(0)).getSource().getReference().getValue(),"RelatedPerson/Benedicte");
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with source = 'RelatedPerson/None' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
+	public void testQuestionnaireResponseQuery_sourceNoResults_RelatedPerson_compartment() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "source", "RelatedPerson/None");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}

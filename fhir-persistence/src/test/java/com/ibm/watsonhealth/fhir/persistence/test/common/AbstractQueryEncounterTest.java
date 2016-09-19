@@ -15,6 +15,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Encounter;
+import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.Resource;
 
 /**
@@ -32,6 +33,24 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
     @Test(groups = { "cloudant", "jpa" })
     public void testCreateEncounter() throws Exception {
     	Encounter encounter = readResource(Encounter.class, "Encounter.json");
+
+        persistence.create(getDefaultPersistenceContext(), encounter);
+        assertNotNull(encounter);
+        assertNotNull(encounter.getId());
+        assertNotNull(encounter.getId().getValue());
+        assertNotNull(encounter.getMeta());
+        assertNotNull(encounter.getMeta().getVersionId().getValue());
+        assertEquals("1", encounter.getMeta().getVersionId().getValue());
+    } 
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for an Encounter.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateEncounter_with_relatedPerson() throws Exception {
+    	Encounter encounter = readResource(Encounter.class, "Encounter-with-RelatedPerson.json");
 
         persistence.create(getDefaultPersistenceContext(), encounter);
         assertNotNull(encounter);
@@ -242,6 +261,40 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_LTlength_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, "length", "lt60.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query with RelatedPerson resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
+	public void testEncounterQuery_noParams_RelatedPersonCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", Encounter.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query with a RelatedPerson resource and patient = '11111' which should yield correct results.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
+	public void testEncounterQuery_patient_RelatedPersonCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", Encounter.class, persistence, "patient", "Patient/11111");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Encounter)resources.get(0)).getPatient().getReference().getValue(), "Patient/11111");
+	}
+	
+	/**
+	 * Tests a query with a RelatedPerson resource type and patient = '11112' which should yield correct results.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
+	public void testEncounterQuery_patientNoResults_RelatedPersonCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", Encounter.class, persistence, "patient", "Patient/11112");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}

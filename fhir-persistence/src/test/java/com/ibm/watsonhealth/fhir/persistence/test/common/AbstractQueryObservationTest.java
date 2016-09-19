@@ -167,6 +167,24 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         assertNotNull(observation.getMeta().getVersionId().getValue());
     }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for an Observation.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateObservation_with_relatedPerson() throws Exception {
+        Observation observation = readResource(Observation.class, "Observation_with_RelatedPerson.json");
+
+        persistence.create(getDefaultPersistenceContext(), observation);
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+    }
     	
 	/**
 	 * Tests a query for an Observation with component-value-string = 'Systolic' which should yield correct results
@@ -945,6 +963,40 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_device" })
 	public void test1InclusionCriteria_PatientNoResults_Device_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "patient", "Patient/exam");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with RelatedPerson = 'benedicte' but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	public void test1InclusionCriteria_noParams_RelatedPerson_Compmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "benedicte", Observation.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);	
+	}
+	
+	/**
+	 * Tests a query for an Observation with code = '55284-4' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	public void test1InclusionCriteria_code_RelatedPerson_Compmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "benedicte", Observation.class, persistence, "code", "55284-4");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((Observation)resources.get(0)).getCode().getCoding().get(0).getCode().getValue(), "55284-4");
+	}
+	
+	/**
+	 * Tests a query for an Observation with RelatedPerson = 'ben' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	public void test1InclusionCriteria_performerNoResults_RelatedPerson_Compmt() throws Exception {
+		List<Resource> resources = runQueryTest("RelatedPerson", "ben", Observation.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
