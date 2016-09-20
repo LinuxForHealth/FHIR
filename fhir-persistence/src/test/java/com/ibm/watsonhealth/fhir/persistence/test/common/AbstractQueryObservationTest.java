@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -158,6 +159,24 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     @Test(groups = { "cloudant", "jpa" })
     public void testCreateObservation_with_device() throws Exception {
         Observation observation = readResource(Observation.class, "Observation_with_device.json");
+
+        persistence.create(getDefaultPersistenceContext(), observation);
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+    }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for an Observation.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateObservation_with_device_1() throws Exception {
+        Observation observation = readResource(Observation.class, "Observation_with_device_1.json");
 
         persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
@@ -816,6 +835,10 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 */
 	
 	/**
+	 * Tests for Single Inclusion criteria
+	 */
+	
+	/**
 	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
@@ -999,5 +1022,57 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		List<Resource> resources = runQueryTest("RelatedPerson", "ben", Observation.class, persistence, null, null);
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests for Multiple Inclusion criteria
+	 */
+	
+	/**
+	 * Tests a query for Observation resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
+	public void testMutiInc_ObservationQuery_noParams_DeviceCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((Observation)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("glasgow");
+		expectedIdList.add("glasgow_1");
+				
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+	
+	/**
+	 * Tests a query for a Observation with subject = 'Device/devID' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
+	public void testMutiInc_ObservationQuery_source_DeviceCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "date", "2014-12-11T04:44:16Z");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((Observation)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("glasgow");
+		expectedIdList.add("glasgow_1");
+		
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
 	}
 }

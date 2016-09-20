@@ -90,6 +90,24 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * @throws Exception
      */
     @Test(groups = { "cloudant", "jpa" })
+    public void testCreateQuestionnaireResponse_with_encounter_1() throws Exception {
+    	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse_with_encounter_1.json");
+
+        persistence.create(getDefaultPersistenceContext(), questionnaireResp);
+        assertNotNull(questionnaireResp);
+        assertNotNull(questionnaireResp.getId());
+        assertNotNull(questionnaireResp.getId().getValue());
+        assertNotNull(questionnaireResp.getMeta());
+        assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
+        assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+    }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a QuestionnaireResponse.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateQuestionnaireResponse_with_relatedPerson() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse-with-RelatedPerson.json");
 
@@ -527,12 +545,12 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	}
 	
 	/**
-	 * Tests a query for a QuestionnaireResponse with source = 'RelatedPerson/Benedicte' which should yield correct results
+	 * Tests a query for a QuestionnaireResponse with authored = '2014-12-11T04:44:16Z' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
 	public void testMutiInc_QRQuery_source_RelatedPersonCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "source", "RelatedPerson/Benedicte");
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -548,5 +566,53 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
-	}*/
+	}
+	
+	/**
+	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
+	public void testMutiInc_QRQuery_noParams_PractitionerCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((QuestionnaireResponse)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("f201");
+		expectedIdList.add("f202");
+				
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse with authored = '2014-12-11T04:44:16Z' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
+	public void testMutiInc_QRQuery_source_PractitionerCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "authored", "2013-06-18T00:00:00+01:00");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((QuestionnaireResponse)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("f201");
+		expectedIdList.add("f202");
+		
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
 }
