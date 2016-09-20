@@ -485,15 +485,15 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	}
 	
 	/**
-	 * Tests a query for a Patient with careprovider = 'Organization/2' which should yield correct results
+	 * Tests a query for a Patient with careprovider = 'Practitioner/practID' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa"}, dependsOnMethods = { "testCreatePatient3" })
 	public void testPatient_careProvider() throws Exception {
-		List<Resource> resources = runQueryTest(Patient.class, persistence, "careprovider", "Organization/2");
+		List<Resource> resources = runQueryTest(Patient.class, persistence, "careprovider", "Practitioner/practID");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Patient)resources.get(0)).getCareProvider().get(0).getReference().getValue(),"Organization/2");
+		assertEquals(((Patient)resources.get(0)).getCareProvider().get(0).getReference().getValue(),"Practitioner/practID");
 	}
 	
 	/**
@@ -1013,23 +1013,23 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient3" })
 	public void test1InclusionCriteriaPatient_noparams_PractCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, null, null);
+		List<Resource> resources = runQueryTest("Practitioner", "practID", Patient.class, persistence, null, null);
 		assertTrue(resources.size() != 0);
-	}*/	
+	}	
 	
 	/**
 	 * Tests a query for a Patient with family name = 'Levin' which should yield correct results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreatePatient3" })
 	public void test1InclusionCriteriaPatient_family_PractCompmt() throws Exception {
-        List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, "family", "Levin");
+        List<Resource> resources = runQueryTest("Practitioner", "practID", Patient.class, persistence, "family", "Levin");
 		assertTrue(resources.size() != 0);
 		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
 		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Levin");
-	}*/   
+	}   
 	
 	/**
 	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
@@ -1047,10 +1047,10 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	
-    /*@Test(groups = { "jpa" }, dependsOnMethods = {"testCreatePatient1"})
+    @Test(groups = { "jpa" }, dependsOnMethods = {"testCreatePatient3"})
     public void testPatient_birthdate_PractCompmt() throws Exception {
-        List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, "birthdate", "eq1932-09-24");
+        List<Resource> resources = runQueryTest("Practitioner", "practID", Patient.class, persistence, "birthdate", "eq1932-09-24");
         assertTrue(resources.size() > 0);
 		assertEquals(((Patient)resources.get(0)).getBirthDate().getValue(),"1932-09-24");
-    }*/
+    }
 }
