@@ -647,7 +647,6 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		List<String> resultSetIds = new ArrayList<String>();
 		for(Resource temp : resources) {
 			String id = ((QuestionnaireResponse)temp).getId().getValue();
-			System.out.println(id);
 			resultSetIds.add(id);
 		}
 		//Create a list of expected ids

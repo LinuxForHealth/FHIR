@@ -23,7 +23,6 @@ import com.ibm.watsonhealth.fhir.model.Device;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.QuestionnaireResponse;
 import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -1108,7 +1107,6 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		List<String> resultSetIds = new ArrayList<String>();
 		for(Resource temp : resources) {
 			String id = ((Observation)temp).getId().getValue();
-			//System.out.println(id);
 			resultSetIds.add(id);
 		}
 		//Create a list of expected ids
