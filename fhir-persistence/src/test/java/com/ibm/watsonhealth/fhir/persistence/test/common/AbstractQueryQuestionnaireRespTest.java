@@ -72,6 +72,24 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * @throws Exception
      */
     @Test(groups = { "cloudant", "jpa" })
+    public void testCreateQuestionnaireResponse_with_patient() throws Exception {
+    	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "questionnaireresponse-example-gcs.canonical2.json");
+
+        persistence.create(getDefaultPersistenceContext(), questionnaireResp);
+        assertNotNull(questionnaireResp);
+        assertNotNull(questionnaireResp.getId());
+        assertNotNull(questionnaireResp.getId().getValue());
+        assertNotNull(questionnaireResp.getMeta());
+        assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
+        assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+    }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a QuestionnaireResponse.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
     public void testCreateQuestionnaireResponse_with_encounter() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse_with_encounter.json");
 
@@ -593,7 +611,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	}
 	
 	/**
-	 * Tests a query for a QuestionnaireResponse with authored = '2014-12-11T04:44:16Z' which should yield correct results
+	 * Tests a query for a QuestionnaireResponse with authored = '2013-06-18T00:00:00+01:00' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
@@ -611,6 +629,55 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		List<String> expectedIdList = new ArrayList<String>();
 		expectedIdList.add("f201");
 		expectedIdList.add("f202");
+		
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
+	public void testMutiInc_QRQuery_noParams_PatientCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((QuestionnaireResponse)temp).getId().getValue();
+			System.out.println(id);
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("gcs_2");
+		expectedIdList.add("gcs");
+		
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse resource type with authored = '2014-12-11T04:44:16Z' which should yield correct results.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
+	public void testMutiInc_QRQuery_authored_PatientCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((QuestionnaireResponse)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("gcs_2");
+		expectedIdList.add("gcs");
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));

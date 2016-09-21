@@ -23,6 +23,7 @@ import com.ibm.watsonhealth.fhir.model.Device;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.QuestionnaireResponse;
 import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -177,6 +178,24 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     @Test(groups = { "cloudant", "jpa" })
     public void testCreateObservation_with_device_1() throws Exception {
         Observation observation = readResource(Observation.class, "Observation_with_device_1.json");
+
+        persistence.create(getDefaultPersistenceContext(), observation);
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+    }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for an Observation.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateObservation_with_patient_1() throws Exception {
+        Observation observation = readResource(Observation.class, "observation-example.canonical2.json");
 
         persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
@@ -1071,6 +1090,55 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		List<String> expectedIdList = new ArrayList<String>();
 		expectedIdList.add("glasgow");
 		expectedIdList.add("glasgow_1");
+		
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+	
+	/**
+	 * Tests a query for a Observation resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
+	public void testMutiInc_QRQuery_noParams_PatientCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((Observation)temp).getId().getValue();
+			//System.out.println(id);
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("example1");
+		expectedIdList.add("example");
+		
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+	
+	/**
+	 * Tests a query for a QuestionnaireResponse resource type with status = 'final' which should yield correct results.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
+	public void testMutiInc_QRQuery_authored_PatientCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "status", "final");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((Observation)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("example1");
+		expectedIdList.add("example");
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
