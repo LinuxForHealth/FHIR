@@ -59,6 +59,24 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
         assertNotNull(auditEvt.getMeta().getVersionId().getValue());
         assertEquals("1", auditEvt.getMeta().getVersionId().getValue());
     }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a AuditEvent.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateAuditEvent_participant_patient() throws Exception {
+    	AuditEvent auditEvt = readResource(AuditEvent.class, "AuditEvent_participant_patient.json");
+
+    	persistence.create(getDefaultPersistenceContext(), auditEvt);
+        assertNotNull(auditEvt);
+        assertNotNull(auditEvt.getId());
+        assertNotNull(auditEvt.getId().getValue());
+        assertNotNull(auditEvt.getMeta());
+        assertNotNull(auditEvt.getMeta().getVersionId().getValue());
+        assertEquals("1", auditEvt.getMeta().getVersionId().getValue());
+    }
 	
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
@@ -143,12 +161,50 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
 	}
 	
 	/**
+	 * Tests for Chained Inclusion criteria
+	 */
+	
+	/**
 	 * Inclusion Criteria: reference.patient - To be added...
 	 */
 	
 
 	
 	/**
-	 * Inclusion Criteria: participant.patient - To be added...
+	 * Inclusion Criteria: participant.patient
 	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_participant_patient" })
+	public void testAEQuery_noParams_participant_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}*/
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'R' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_participant_patient" })
+	public void testAuditEventQuery_action_participant_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, "action", "R");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((AuditEvent)resources.get(0)).getEvent().getAction().getValue().toString(),"R");
+	}*/
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'Error!!!' which should yield no results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_participant_patient" })
+	public void testAuditEventQuery_action_noResults_participant_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, "action", "Error!!!");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}*/
 }
