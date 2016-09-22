@@ -165,10 +165,42 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
 	 */
 	
 	/**
-	 * Inclusion Criteria: reference.patient - To be added...
+	 * Inclusion Criteria: reference.patient
 	 */
 	
-
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent" })
+	public void testAEQuery_noParams_reference_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}*/
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'R' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent" })
+	public void testAuditEventQuery_action_reference_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, "action", "R");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((AuditEvent)resources.get(0)).getEvent().getAction().getValue().toString(),"R");
+	}*/
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'Error!!!' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent" })
+	public void testAuditEventQuery_action_noResults_reference_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, "action", "Error!!!");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
 	
 	/**
 	 * Inclusion Criteria: participant.patient
@@ -201,10 +233,10 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
 	 * Tests a query for an AuditEvent with action = 'Error!!!' which should yield no results
 	 * @throws Exception
 	 */
-	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_participant_patient" })
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_participant_patient" })
 	public void testAuditEventQuery_action_noResults_participant_patient_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, "action", "Error!!!");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
-	}*/
+	}
 }
