@@ -1493,10 +1493,14 @@ public class FHIRResource {
                     .replace("&_count=" + context.getPageSize(), "")
                     .replace("_count=" + context.getPageSize() + "&", "")
                     .replace("_count=" + context.getPageSize(), "");
-                        
-            if (!nextLinkUrl.endsWith("?")) {
-                // there are other parameters in the query string
-                nextLinkUrl += "&";
+            
+            if (nextLinkUrl.contains("?")) {
+                if (!nextLinkUrl.endsWith("?")) {
+                    // there are other parameters in the query string
+                    nextLinkUrl += "&";
+                }
+            } else {
+                nextLinkUrl += "?";
             }
             
             // add new _page and _count parameters to the query string
@@ -1523,9 +1527,13 @@ public class FHIRResource {
                     .replace("_count=" + context.getPageSize() + "&", "")
                     .replace("_count=" + context.getPageSize(), "");
             
-            if (!prevLinkUrl.endsWith("?")) {
-                // there are other parameters in the query string
-                prevLinkUrl += "&";
+            if (prevLinkUrl.contains("?")) {
+                if (!prevLinkUrl.endsWith("?")) {
+                    // there are other parameters in the query string
+                    prevLinkUrl += "&";
+                }
+            } else {
+                prevLinkUrl += "?";
             }
             
             // add new _page and _count parameters to the query string

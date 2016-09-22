@@ -756,8 +756,8 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 		long count = context.getTotalCount();
-		int lastPgNum = context.getLastPageNumber();
-		assertTrue((count == 0) && (lastPgNum == Integer.MAX_VALUE));
+//		int lastPgNum = context.getLastPageNumber();
+		assertTrue((count == 0)/* && (lastPgNum == Integer.MAX_VALUE)*/);
 	}
 	
 	/**

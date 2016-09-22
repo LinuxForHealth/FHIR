@@ -138,7 +138,7 @@ public class CompartmentParseQueryParmsTest {
     	assertEquals(3, context.getSearchParameters().size());
     	
     	// Validate compartment related search parms.
-    	Parameter searchParm = context.getSearchParameters().get(0);
+    	Parameter searchParm = context.getSearchParameters().get(2);
     	int parmCount = 0;
     	while (searchParm != null) {
     		parmCount++;
@@ -154,7 +154,7 @@ public class CompartmentParseQueryParmsTest {
     	assertEquals(2, parmCount);
     	
     	// Validate non-compartment related search parms.
-    	for (int i = 1; i < 3; i++) {
+    	for (int i = 0; i < 2; i++) {
     		searchParm = context.getSearchParameters().get(i);
     		assertTrue((searchParm.getName().equals("category") ||	
     				    searchParm.getName().equals("value-quantity")));

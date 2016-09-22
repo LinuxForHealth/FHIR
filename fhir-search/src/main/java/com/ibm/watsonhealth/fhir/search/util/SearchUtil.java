@@ -521,8 +521,6 @@ public class SearchUtil {
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId, 
     								Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters)
     								throws FHIRSearchException {
-    	
-    	FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         List<Parameter> parameters = new ArrayList<Parameter>();
         Parameter parameter;
         ParameterValue value;
@@ -551,13 +549,11 @@ public class SearchUtil {
 	        }
 	        parameters.add(rootParameter);
         }
-        // Now transform the passed query parms to Parameter objects, and add them to the returned list.
-        FHIRSearchContext tempContext = parseQueryParameters(resourceType, queryParameters);
-        parameters.addAll(tempContext.getSearchParameters());
-                
-        context.setSearchParameters(parameters);
+        
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters);
+        context.getSearchParameters().addAll(parameters);
+        
         return context;
-    	
     }
 
     private static Prefix getPrefix(String s) {
