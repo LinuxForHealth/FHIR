@@ -239,4 +239,73 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * Tests for Multiple Inclusion criteria
+	 */
+	
+	/**
+	 * Inclusion Criteria: patient or participant.patient or reference.patient
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent", "testCreateAuditEvent_patient", "testCreateAuditEvent_participant_patient" })
+	public void testMutiInc_AEQuery_noParams_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((AuditEvent)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("example-disclosure");
+		expectedIdList.add("example-disclosure-1");
+		expectedIdList.add("example-disclosure-2");
+				
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}*/
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'R' which should yield correct results
+	 * @throws Exception
+	 */
+	/*@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent", "testCreateAuditEvent_patient", "testCreateAuditEvent_participant_patient" })
+	public void testAuditEventQuery_action_participant_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, "action", "R");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		//Get all the ids returned from search results
+		List<String> resultSetIds = new ArrayList<String>();
+		for(Resource temp : resources) {
+			String id = ((AuditEvent)temp).getId().getValue();
+			resultSetIds.add(id);
+		}
+		//Create a list of expected ids
+		List<String> expectedIdList = new ArrayList<String>();
+		expectedIdList.add("example-disclosure");
+		expectedIdList.add("example-disclosure-1");
+		expectedIdList.add("example-disclosure-2");
+				
+		//Ensure that all the expected ids were returned correctly in search results
+		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}*/
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'Error!!!' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent", "testCreateAuditEvent_patient", "testCreateAuditEvent_participant_patient" })
+	public void testMutiInc_AEQuery_action_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "1", AuditEvent.class, persistence, "action", "Error!!!");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
 }
