@@ -1,8 +1,9 @@
 {
 	"resourceType": "Device",
 	"patient": {
-		"reference": "Patient/1"
+		"reference": "Patient/patientID"
 	},
+	"id": "devWithPatientID",
 	"identifier": [{
 		"system": "http://goodcare.org/devices/id",
 		"value": "345675"
