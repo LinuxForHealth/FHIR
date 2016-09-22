@@ -72,6 +72,14 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 		return referenceValue;
 	}
 	
+	public static boolean isAbsoluteURL(String s) {
+	    try {
+	        new URL(s);
+	        return true;
+	    } catch (MalformedURLException e) {}
+	    return false;
+	}
+	
 	/**
 	 * Builds a query segment for the passed query parameter.
 	 * @param resourceType - A valid FHIR Resource type

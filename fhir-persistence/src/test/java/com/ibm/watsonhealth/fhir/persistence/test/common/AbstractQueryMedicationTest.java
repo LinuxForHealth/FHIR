@@ -89,10 +89,10 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationQuery_content() throws Exception {
-		List<Resource> resources = runQueryTest(Medication.class, persistence, "content", "MedicationExample14");
+		List<Resource> resources = runQueryTest(Medication.class, persistence, "content", "Medication/MedicationExample14");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Medication)resources.get(0)).getPackage().getContent().get(0).getItem().getReference().getValue(),"MedicationExample14");
+		assertEquals(((Medication)resources.get(0)).getPackage().getContent().get(0).getItem().getReference().getValue(),"Medication/MedicationExample14");
 	}	
 		
 	/**
