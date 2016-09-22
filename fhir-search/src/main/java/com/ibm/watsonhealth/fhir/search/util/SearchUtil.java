@@ -672,4 +672,40 @@ public class SearchUtil {
         
         return rootParameter;
     }
+    
+    /**
+     * Transforms the passed Parameter representing chained inclusion criteria, into an actual chain of Parameter objects.
+     * This method consumes Parameters with names of this form: "{attribute1}.{attribute2}:{resourceType}"
+     * For specific examples of chained inclusion criteria, see the FHIR spec for the Patient compartment here:
+     * @see https://www.hl7.org/fhir/compartment-patient.html
+     * @param inclusionCriteriaParm
+     * @return Parameter - The root of a parameter chain for chained inclusion criteria.
+     */
+    public static Parameter parseChainedInclusionCriteria(Parameter inclusionCriteriaParm) {
+    	
+    	Parameter rootParameter = null;
+		Parameter chainedInclusionCriteria = null;
+		String[] qualifiedInclusionCriteria;
+		String[] parmNames = inclusionCriteriaParm.getName().split("\\.");
+		String resourceType = inclusionCriteriaParm.getName().split(":")[1];
+		for (int i = 0; i < parmNames.length; i++) {
+			if (parmNames[i].contains(":")) {
+				qualifiedInclusionCriteria = parmNames[i].split(":");
+				chainedInclusionCriteria = new Parameter(Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType, inclusionCriteriaParm.getValues());
+			}
+			else {
+				chainedInclusionCriteria = new Parameter(Type.REFERENCE, parmNames[i], null, resourceType);
+			}
+			if (rootParameter == null) {
+				rootParameter = chainedInclusionCriteria;
+			}
+			else if (rootParameter.getNextParameter() == null) {
+				rootParameter.setNextParameter(chainedInclusionCriteria);
+			}
+			else {
+				rootParameter.getChain().getLast().setNextParameter(chainedInclusionCriteria);
+			}
+		}
+		return rootParameter;
+    }
 }
