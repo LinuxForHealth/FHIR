@@ -43,7 +43,14 @@ public class FHIRResponseImpl implements FHIRResponse {
      */
     @Override
     public URI getLocationURI() throws Exception {
-        return response.getLocation();
+        URI location = response.getLocation();
+        if (location == null) {
+            String s = response.getHeaderString("Content-Location");
+            if (s != null && !s.isEmpty()) {
+                location = new URI(s);
+            }
+        }
+        return location;
     }
 
     /* (non-Javadoc)
@@ -51,7 +58,8 @@ public class FHIRResponseImpl implements FHIRResponse {
      */
     @Override
     public String getLocation() throws Exception {
-        return (response.getLocation() != null ? response.getLocation().toString() : null);
+        URI location = response.getLocation();
+        return (location != null ? location.toString() : null);
     }
 
     /* (non-Javadoc)
@@ -93,5 +101,38 @@ public class FHIRResponseImpl implements FHIRResponse {
     @Override
     public Response getResponse() throws Exception {
         return response;
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRResponse#parseLocation()
+     */
+    @Override
+    public String[] parseLocation(String location) throws Exception {
+        String[] result = null;
+        if (location == null) {
+            throw new NullPointerException("The 'location' parameter was specified as null.");
+        }
+        
+        String[] tokens = location.split("/");
+        // Check if we should expect 4 tokens or only 2.
+        if (location.contains("_history")) {
+            if (tokens.length >= 4) {
+                result = new String[3];
+                result[0] = tokens[tokens.length - 4];
+                result[1] = tokens[tokens.length - 3];
+                result[2] = tokens[tokens.length - 1];
+            } else {
+                throw new IllegalArgumentException("Incorrect location value specified: " + location);
+            }
+        } else {
+            if (tokens.length >= 2) {
+                result = new String[2];
+                result[0] = tokens[tokens.length - 2];
+                result[1] = tokens[tokens.length - 1];
+            } else {
+                throw new IllegalArgumentException("Incorrect location value specified: " + location);
+            }
+        }
+        return result;
     }
 }

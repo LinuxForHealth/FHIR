@@ -66,4 +66,43 @@ public interface FHIRResponse {
      * @throws Exception
      */
     Response getResponse() throws Exception;
+    
+    /**
+     * This function will parse the specified location value into its constituent parts and return
+     * a String array containing the individual parts.
+     * The resulting String array returned by this function will contain the following values:
+     * <ul>
+     * <li>Index 0 - the resource type
+     * <li>Index 1 - the resource id
+     * <li>Index 2 - the version id (optional)
+     * </ul>
+     * 
+     * Examples:
+     * <ol>
+     * <li>If you call <code>parseLocation</code> with the value 
+     * "http://localhost:9080/fhir-server/api/v1/Patient/23/_history/2", then you should
+     * receive this String array:
+     * <ul>
+     * <li>[0] - "Patient"
+     * <li>[1] - "23"
+     * <li>[2] - "2"
+     * </ul>
+     * 
+     * <li>If you call <code>parseLocation</code> with the value 
+     * "http://localhost:9080/fhir-server/api/v1/Observation/38", then you should
+     * receive this String array:
+     * <ul>
+     * <li>[0] - "Observation"
+     * <li>[1] - "38"
+     * </ul>
+     * 
+     * @param locationString a resource's location URI as a string; this will typically be the
+     * value returned by the getLocation() method.
+     * 
+     * @return a String array containing the individual parts of the location string or null 
+     * if the specified location value could not be parsed or was passed in as null.
+     * 
+     * @throws Exception
+     */
+    String[] parseLocation(String locationString) throws Exception;
 }
