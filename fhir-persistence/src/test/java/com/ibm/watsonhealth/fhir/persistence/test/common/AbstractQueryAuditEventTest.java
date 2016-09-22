@@ -41,6 +41,24 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
         assertNotNull(auditEvt.getMeta().getVersionId().getValue());
         assertEquals("1", auditEvt.getMeta().getVersionId().getValue());
     }
+    
+    /**
+     * Tests the FHIRPersistenceCloudantImpl create API for a AuditEvent.
+     * 
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa" })
+    public void testCreateAuditEvent_patient() throws Exception {
+    	AuditEvent auditEvt = readResource(AuditEvent.class, "AuditEvent_patient.json");
+
+    	persistence.create(getDefaultPersistenceContext(), auditEvt);
+        assertNotNull(auditEvt);
+        assertNotNull(auditEvt.getId());
+        assertNotNull(auditEvt.getId().getValue());
+        assertNotNull(auditEvt.getMeta());
+        assertNotNull(auditEvt.getMeta().getVersionId().getValue());
+        assertEquals("1", auditEvt.getMeta().getVersionId().getValue());
+    }
 	
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
@@ -54,7 +72,7 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
 	}
 	
 	/**
-	 * Tests a query for a AuditEvent with action = 'R' which should yield correct results
+	 * Tests a query for an AuditEvent with action = 'R' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateAuditEvent" })
@@ -66,7 +84,7 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
 	}
 	
 	/**
-	 * Tests a query for a AuditEvent with action = 'Error!!!' which should yield no results
+	 * Tests a query for an AuditEvent with action = 'Error!!!' which should yield no results
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateAuditEvent" })
@@ -75,4 +93,62 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
+	
+	/**
+	 * 
+	 * Compartment search testcases
+	 * 
+	 */
+	
+	/**
+	 * Tests for Single Inclusion criteria
+	 */
+	
+	/**
+	 * Inclusion Criteria: patient
+	 */
+	
+	/**
+	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_patient" })
+	public void testAEQuery_noParams_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", AuditEvent.class, persistence, null, null);
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+	}
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'R' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_patient" })
+	public void testAuditEventQuery_action_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", AuditEvent.class, persistence, "action", "R");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		assertEquals(((AuditEvent)resources.get(0)).getEvent().getAction().getValue().toString(),"R");
+	}
+	
+	/**
+	 * Tests a query for an AuditEvent with action = 'Error!!!' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateAuditEvent_patient" })
+	public void testAuditEventQuery_action_noResults_patient_PatCompmt() throws Exception {
+		List<Resource> resources = runQueryTest("Patient", "example", AuditEvent.class, persistence, "action", "Error!!!");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Inclusion Criteria: reference.patient - To be added...
+	 */
+	
+
+	
+	/**
+	 * Inclusion Criteria: participant.patient - To be added...
+	 */
 }
