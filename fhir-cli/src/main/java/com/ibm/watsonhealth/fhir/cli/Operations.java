@@ -12,23 +12,25 @@ package com.ibm.watsonhealth.fhir.cli;
  * @author padams
  */
 public enum Operations {
-    BATCH("batch"),
-    CREATE("create"),
-    HISTORY("history"),
+    BATCH("batch", OptionNames.RESOURCE),
+    CREATE("create", OptionNames.RESOURCE),
+    HISTORY("history", OptionNames.RESOURCETYPE, OptionNames.ID),
     METADATA("metadata"),
-    READ("read"),
-    SEARCH("search"),
+    READ("read", OptionNames.RESOURCETYPE, OptionNames.ID),
+    SEARCH("search", OptionNames.RESOURCETYPE),
     SEARCHALL("search-all"),
-    SEARCH_POST("search-post"),
-    TRANSACTION("transaction"),
-    UPDATE("update"),
-    VALIDATE("validate"),
-    VREAD("vread");
+    SEARCH_POST("search-post", OptionNames.RESOURCETYPE),
+    TRANSACTION("transaction", OptionNames.RESOURCE),
+    UPDATE("update", OptionNames.RESOURCE),
+    VALIDATE("validate", OptionNames.RESOURCE),
+    VREAD("vread", OptionNames.RESOURCETYPE, OptionNames.ID, OptionNames.VERSIONID);
 
     private String opName;
+    private OptionNames[] requiredOptions;
 
-    private Operations(String opName) {
+    private Operations(String opName, OptionNames... requiredOptions) {
         this.opName = opName;
+        this.requiredOptions = requiredOptions;
     }
 
     public String getOpName() {
@@ -56,5 +58,32 @@ public enum Operations {
         }
         return sb.toString();
     }
+    
+    public static String operationsAndRequiredOptions() {
+        StringBuilder sb = new StringBuilder();
+        for (Operations op : Operations.values()) {
+            sb.append("    ");
+            sb.append(op.getOpName() + ":  ");
+            OptionNames [] reqOptions = op.getRequiredOptions();
+            if (reqOptions != null && reqOptions.length != 0) {
+                boolean needSep = false;
+                for (OptionNames option : reqOptions) {
+                    if (needSep) {
+                        sb.append(", ");
+                    }
+                    needSep = true;
+                    sb.append("--" + option.getLongName());
+                }
+                
+            } else {
+                sb.append("No options required");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 
+    public OptionNames[] getRequiredOptions() {
+        return requiredOptions;
+    }
 }
