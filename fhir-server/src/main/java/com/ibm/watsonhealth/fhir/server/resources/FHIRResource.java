@@ -80,6 +80,8 @@ import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
 import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.operation.FHIROperation;
+import com.ibm.watsonhealth.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
@@ -575,6 +577,23 @@ public class FHIRResource {
         } finally {
             RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "searchAll()", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+    
+    @POST
+    @Path("${operationName}")
+    public Response invoke(@PathParam("operationName") String operationName, Resource resource) {
+        log.entering(this.getClass().getName(), "invoke(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationName);
+            Resource result = operation.invoke(resource, getPersistenceImpl());
+            return Response.ok().entity(result).build();
+        } catch (FHIRException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "invoke(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
     
