@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
+import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
+import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationNotFoundException;
 
 public class FHIROperationRegistry {
     private static final FHIROperationRegistry INSTANCE = new FHIROperationRegistry();
@@ -29,7 +31,11 @@ public class FHIROperationRegistry {
         return INSTANCE;
     }
     
-    public FHIROperation getOperation(String name) {
-        return operationMap.get(name);
+    public FHIROperation getOperation(String name) throws FHIROperationException {
+        FHIROperation operation = operationMap.get(name);
+        if (operation == null) {
+            throw new FHIROperationNotFoundException("Operation with name: '" + name + "' was not found");
+        }
+        return operation;
     }
 }

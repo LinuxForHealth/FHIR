@@ -14,5 +14,8 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 public interface FHIROperation {
     String getName();
     Resource invoke(Resource resource, FHIRPersistence persistence) throws FHIROperationException;
+    Resource invoke(Class<? extends Resource> resourceType, Resource resource, FHIRPersistence persistence) throws FHIROperationException;
+    Resource invoke(Class<? extends Resource> resourceType, String logicalId, Resource resource, FHIRPersistence persistence) throws FHIROperationException;
+    Resource invoke(Class<? extends Resource> resourceType, String logicalId, String versionId, Resource resource, FHIRPersistence persistence) throws FHIROperationException;
     OperationDefinition getDefinition();
 }

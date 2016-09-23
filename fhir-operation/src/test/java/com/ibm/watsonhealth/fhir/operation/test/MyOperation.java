@@ -13,11 +13,11 @@ import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.operation.FHIROperation;
+import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 
-public class MyOperation implements FHIROperation {
+public class MyOperation extends AbstractOperation {
     @Override
     public String getName() {
         return "hello";
@@ -43,7 +43,6 @@ public class MyOperation implements FHIROperation {
 
     @Override
     public OperationDefinition getDefinition() {
-        // TODO Auto-generated method stub
         return null;
     }
 }
