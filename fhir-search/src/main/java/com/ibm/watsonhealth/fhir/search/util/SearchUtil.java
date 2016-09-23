@@ -257,7 +257,11 @@ public class SearchUtil {
     }
 
     public static List<SearchParameter> getSearchParameters(Class<? extends Resource> resourceType) {
-        Map<String, SearchParameter> map = searchParameterMap.get(resourceType.getSimpleName());
+        return getSearchParameters(resourceType.getSimpleName());
+    }
+
+    public static List<SearchParameter> getSearchParameters(String resourceType) {
+        Map<String, SearchParameter> map = searchParameterMap.get(resourceType);
         if (map != null) {
             return new ArrayList<SearchParameter>(map.values());
         }

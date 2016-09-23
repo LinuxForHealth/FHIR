@@ -6,7 +6,10 @@
 
 package com.ibm.watsonhealth.fhir.server.resources;
 
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.*;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_VIRTUAL_RESOURCES_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
@@ -66,6 +69,7 @@ import com.ibm.watsonhealth.fhir.model.Conformance;
 import com.ibm.watsonhealth.fhir.model.ConformanceInteraction;
 import com.ibm.watsonhealth.fhir.model.ConformanceResource;
 import com.ibm.watsonhealth.fhir.model.ConformanceRest;
+import com.ibm.watsonhealth.fhir.model.ConformanceSearchParam;
 import com.ibm.watsonhealth.fhir.model.ConformanceStatementKindList;
 import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
@@ -77,6 +81,7 @@ import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
+import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
@@ -1410,6 +1415,27 @@ public class FHIRResource {
         List<ConformanceResource> resources = new ArrayList<>();
         List<String> resourceTypes = FHIRUtil.getResourceTypeNames();
         for (String resourceType : resourceTypes) {
+            
+            // Build the set of ConformanceSearchParams for this resource type.
+            List<ConformanceSearchParam> conformanceSearchParams = new ArrayList<>();
+            List<SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceType);
+            if (searchParameters != null) {
+                for (SearchParameter searchParameter : searchParameters) {
+                    ConformanceSearchParam conformanceSearchParam = objectFactory.createConformanceSearchParam();
+                    conformanceSearchParam.setName(searchParameter.getName());
+                    if (searchParameter.getDescription() != null) {
+                        conformanceSearchParam.setDocumentation(searchParameter.getDescription());
+                    }
+                    conformanceSearchParam.setType(searchParameter.getType());
+                    if (searchParameter.getType().getValue().equals("reference")) {
+                        conformanceSearchParam.getTarget().addAll(searchParameter.getTarget());
+                    }
+                    
+                    conformanceSearchParams.add(conformanceSearchParam);
+                }
+            }
+            
+            // Build the ConformanceResource for this resource type.
             ConformanceResource cr = objectFactory.createConformanceResource()
                     .withType(objectFactory.createCode().withValue(resourceType))
                     .withProfile(objectFactory.createReference().withReference(objectFactory.createString().withValue("http://hl7.org/fhir/profiles/" + resourceType)))
@@ -1417,7 +1443,9 @@ public class FHIRResource {
                     .withConditionalCreate(objectFactory.createBoolean().withValue(false))
                     .withConditionalUpdate(objectFactory.createBoolean().withValue(false))
                     .withConditionalDelete(objectFactory.createConditionalDeleteStatus().withValue(ConditionalDeleteStatusList.NOT_SUPPORTED))
-                    .withUpdateCreate(objectFactory.createBoolean().withValue(isUpdateCreateEnabled()));
+                    .withUpdateCreate(objectFactory.createBoolean().withValue(isUpdateCreateEnabled()))
+                    .withSearchParam(conformanceSearchParams);
+            
             resources.add(cr);
         }
 
