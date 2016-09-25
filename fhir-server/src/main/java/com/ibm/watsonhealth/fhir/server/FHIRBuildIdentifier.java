@@ -48,7 +48,11 @@ public class FHIRBuildIdentifier {
     }
     
     public String getBuildVersion() {
-        return buildProperties.getProperty(BUILD_PROP_VERSION, "unknown");
+        String version = buildProperties.getProperty(BUILD_PROP_VERSION, "unknown");
+        if (version.endsWith("-SNAPSHOT")) {
+            version = version.replace("-SNAPSHOT", "");
+        }
+        return version;
     }
     
     public String getBuildId() {
