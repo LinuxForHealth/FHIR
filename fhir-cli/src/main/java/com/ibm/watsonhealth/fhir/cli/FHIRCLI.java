@@ -381,7 +381,7 @@ public class FHIRCLI {
         PrintWriter pw = new PrintWriter(sw);
         HelpFormatter helpFormatter = new HelpFormatter();
         String footer = "\nOPERATION should be one of: " + Operations.validOperations() 
-            + "\n\nEach supported opteration requires the following command-line options:\n" + Operations.operationsAndRequiredOptions();
+            + "\n\nEach supported operation requires the following command-line options:\n" + Operations.operationsAndRequiredOptions();
         helpFormatter.printHelp(pw, 100, syntax, header, options, 3, 3, footer);
         println(sw.toString());
     }
