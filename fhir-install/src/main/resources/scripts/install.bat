@@ -12,27 +12,28 @@
 @REM SPDX-License-Identifier: Apache-2.0
 @REM ----------------------------------------------------------------------------
 
-@echo off
-@REM ----------------------------------------------------------------------------
-@REM IBM Watson Health Cloud FHIR Server installation script
-@REM
-@REM Copyright IBM Corp. 2016
-@REM The source code for this program is not published or other-
-@REM wise divested of its trade secrets, irrespective of what has
-@REM been deposited with the U.S. Copyright Office.
-@REM 
-@REM ----------------------------------------------------------------------------
+SETLOCAL ENABLEDELAYEDEXPANSION
 
 echo Executing %0 to deploy the fhir-server web application...
 
 @REM Make sure that JAVA_HOME is set
-if -%JAVA_HOME%-==-- (
+if "-%JAVA_HOME%-"=="--" (
     echo Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 8 JVM and then re-try.
     set rc=1
     goto :exit
 ) else (
-    set JAVA_CMD=%JAVA_HOME%\bin\java
+    set JAVA_CMD="%JAVA_HOME%\bin\java.exe"
+    if not exist !JAVA_CMD! (
+        echo Error: Incorrect JAVA_HOME value: %JAVA_HOME%
+    set rc=1
+    goto :exit
+    )
 )
+
+@REM echo JAVA_HOME: %JAVA_HOME%
+@REM echo JAVA_CMD: %JAVA_CMD%
+@REM set rc=1
+@REM goto :exit
 
 @REM Determine the location of this script.
 set BASEDIR=%~dp0
@@ -46,21 +47,19 @@ set UNZIP_LOC=%CD%
 set WLP_INSTALL_DIR=%UNZIP_LOC%\liberty-runtime
 
 @REM Allow user to override default install location
-if not -%1-==-- set WLP_INSTALL_DIR=%1
+if not "-%1-"=="--" set WLP_INSTALL_DIR=%1
 
 @REM Add a trailing \ to WLP_INSTALL_DIR if needed
-if not %WLP_INSTALL_DIR:~-1%==\ set WLP_INSTALL_DIR=%WLP_INSTALL_DIR%\
-
-set ERRORLEVEL=0
+if not "%WLP_INSTALL_DIR:~-1%"=="\" set WLP_INSTALL_DIR=%WLP_INSTALL_DIR%\
 
 echo Deploying fhir-server in location: %WLP_INSTALL_DIR%
 
 @REM If the liberty install directory doesnt exist, then create it.
 if not exist %WLP_INSTALL_DIR% (
     echo The Websphere Liberty installation directory does not exist; will attempt to create it.
-    md  %WLP_INSTALL_DIR%
-    set rc=%ERRORLEVEL%
-    if %rc% neq 0 (
+    mkdir %WLP_INSTALL_DIR%
+    if errorlevel 1 (
+        set rc=%ERRORLEVEL%
         echo Error creating installation directory: %rc%
         goto :exit
     )
@@ -79,9 +78,9 @@ set WLP_ROOT=%WLP_INSTALL_DIR%wlp
 
 @REM Install any required ifixes
 echo Applying service to Websphere Liberty runtime located at: %WLP_ROOT%
-%JAVA_CMD% -jar %BASEDIR%\ifixes\IFPI59782-8.5.5.9.jar --installLocation %WLP_ROOT% --suppressInfo
-set rc=%ERRORLEVEL%
-if %rc% neq 0 (
+%COMSPEC% /c %JAVA_CMD% -jar %BASEDIR%\ifixes\IFPI59782-8.5.5.9.jar --installLocation %WLP_ROOT% --suppressInfo
+if errorlevel 1 (
+    set rc=%ERRORLEVEL%
     echo Error installing ifixes: %rc%
     goto :exit
 )
@@ -89,9 +88,8 @@ if %rc% neq 0 (
 @REM Create our server
 echo Creating Websphere Liberty server definition for fhir-server.
 %COMSPEC% /c %WLP_ROOT%\bin\server.bat create fhir-server
-echo Returned from server.bat!
-set rc=%ERRORLEVEL%
-if %rc% neq 0 (
+if errorlevel 1 (
+    set rc=%ERRORLEVEL%
     echo Error creating server definition: %rc%
     goto :exit
 )
@@ -99,8 +97,8 @@ if %rc% neq 0 (
 @REM Copy our server assets
 echo Deploying fhir-server assets to server runtime environment.
 xcopy /S /Y /Q %BASEDIR%\fhir\server\* %WLP_ROOT%
-set rc=%ERRORLEVEL%
-if %rc% neq 0 (
+if errorlevel 1 (
+    set rc=%ERRORLEVEL%
     echo Error deploying fhir-server assets to server runtime environment: %rc%
     goto :exit
 )
