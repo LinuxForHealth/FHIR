@@ -14,6 +14,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService;
 import com.ibm.watsonhealth.fhir.audit.logging.impl.LoggerAuditLogService;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 
@@ -38,41 +39,49 @@ public class AuditLogServiceFactory {
 	 */
 	public static AuditLogService getService() {
 		
-		return getLoggerAuditLogService();
+		String auditLogPath;
+		
+		if (serviceInstance == null) {
+			auditLogPath = buildAuditLogPath();
+			if (!auditLogPath.isEmpty()) {
+				serviceInstance = getLoggerAuditLogService(auditLogPath);
+			}
+			else {
+				serviceInstance = new DisabledAuditLogService();
+			}
+		}
+		return serviceInstance;
+
 	}
 	
 	/**
 	 * Creates an audit log service that uses the java.util.logging package to record audit log entries.
 	 * @return AuditLogService - An audit log service that delegates to java.util.logging.
 	 */
-	private static AuditLogService getLoggerAuditLogService() {
+	private static AuditLogService getLoggerAuditLogService(String auditLogFilePath) {
 		final String METHODNAME = "getLoggerAuditLogService";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		
 		Logger javaLogger = null;
 		FileHandler auditLogFileHandler = null;
-		String auditLogFilePath;
-		
-		if (serviceInstance == null) {
-			try {
-				// Create a unique Logger instance for audit logging, using a custom FileHandler and Formatter.
-				javaLogger = Logger.getLogger(AuditLogService.class.getName());
-				javaLogger.setLevel(Level.INFO);
-				javaLogger.setUseParentHandlers(false);
-				auditLogFilePath = buildAuditLogPath();
-				auditLogFileHandler = new FileHandler(auditLogFilePath,true);
-				auditLogFileHandler.setFormatter(new LoggerAuditLogService.LoggerFormatter());
-				javaLogger.addHandler(auditLogFileHandler);
 				 
-				serviceInstance = new LoggerAuditLogService(javaLogger);
-				log.info("Initialized Audit logging to file: " + auditLogFilePath);
-			}
-			catch (Throwable e) {
-				log.severe("Failure creating LoggerAuditLog: " + e.getMessage());
-				serviceInstance = new LoggerAuditLogService();
-			}  
-	    }
+		try {
+			// Create a unique Logger instance for audit logging, using a custom FileHandler and Formatter.
+			javaLogger = Logger.getLogger(AuditLogService.class.getName());
+			javaLogger.setLevel(Level.INFO);
+			javaLogger.setUseParentHandlers(false);
+			auditLogFileHandler = new FileHandler(auditLogFilePath,true);
+			auditLogFileHandler.setFormatter(new LoggerAuditLogService.LoggerFormatter());
+			javaLogger.addHandler(auditLogFileHandler);
+			 
+			serviceInstance = new LoggerAuditLogService(javaLogger);
+			log.info("Initialized Audit logging to file: " + auditLogFilePath);
+		}
+		catch (Throwable e) {
+			log.severe("Failure creating LoggerAuditLog: " + e.getMessage());
+			serviceInstance = new LoggerAuditLogService();
+		}  
+	     
 		log.exiting(CLASSNAME, METHODNAME);
 		return serviceInstance;
 	}
@@ -86,7 +95,7 @@ public class AuditLogServiceFactory {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		String currentDateTime;
-		String auditLogDir;
+		String auditLogDir = null;
 		StringBuilder auditLogPath = new StringBuilder();
 		SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("YYYYMMddHHmmssSSS");
 		currentDateTime = dateTimeFormatter.format(new Date(System.currentTimeMillis()));
@@ -97,18 +106,19 @@ public class AuditLogServiceFactory {
 		}
 		catch(Throwable t) {
 			// Use the JVM default temp directory. This should only end up being used when running in junit or testNg mode.
-			log.fine("Could not obtain audit log path via configuration. Generating default path.");
-			auditLogDir = System.getProperty("java.io.tmpdir");
+			log.fine("Could not obtain audit log path via configuration.");
 		}
 		
-		if (!auditLogDir.endsWith(fileSeparator)) {
-			auditLogDir = auditLogDir + fileSeparator;
+		if (auditLogDir != null && !auditLogDir.isEmpty()) {
+			if (!auditLogDir.endsWith(fileSeparator)) {
+				auditLogDir = auditLogDir + fileSeparator;
+			}
+			// Construct the full path name.
+			auditLogPath.append(auditLogDir)
+						.append(AUDIT_LOG_FILENAME_PREFIX)
+						.append(currentDateTime)
+						.append(AUDIT_LOG_FILENAME_SUFFIX);
 		}
-		// Construct the full path name.
-		auditLogPath.append(auditLogDir)
-					.append(AUDIT_LOG_FILENAME_PREFIX)
-					.append(currentDateTime)
-					.append(AUDIT_LOG_FILENAME_SUFFIX);
 		 
 		log.exiting(CLASSNAME, METHODNAME);
 		return auditLogPath.toString();

@@ -34,4 +34,9 @@ public interface AuditLogService {
 	 * @return String - An encrypted json string representation of the AuditLogEntry.
 	 */
 	String convertLogEntry(AuditLogEntry logEntry);
+	
+	/**
+	 * @return true if the audit log service is enabled; false if not enabled.
+	 */
+	boolean isEnabled();
 }
