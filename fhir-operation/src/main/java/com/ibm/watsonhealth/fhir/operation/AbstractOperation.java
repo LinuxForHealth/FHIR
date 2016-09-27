@@ -6,7 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.operation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
+import com.ibm.watsonhealth.fhir.model.Parameters;
+import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationNotSupportedException;
@@ -40,4 +45,12 @@ public abstract class AbstractOperation implements FHIROperation {
 
     @Override
     public abstract OperationDefinition getDefinition();
+    
+    protected Map<String, ParametersParameter> buildParameterMap(Parameters parameters) {
+        Map<String, ParametersParameter> parameterMap = new HashMap<String, ParametersParameter>();
+        for (ParametersParameter parameter : parameters.getParameter()) {
+            parameterMap.put(parameter.getName().getValue(), parameter);
+        }
+        return parameterMap;
+    }
 }

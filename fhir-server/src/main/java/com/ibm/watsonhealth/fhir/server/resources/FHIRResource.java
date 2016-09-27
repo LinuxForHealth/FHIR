@@ -78,6 +78,7 @@ import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
@@ -87,6 +88,7 @@ import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
 import com.ibm.watsonhealth.fhir.operation.registry.FHIROperationRegistry;
+import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
@@ -585,6 +587,24 @@ public class FHIRResource {
         }
     }
     
+    @GET
+    @Path("${operationName}")
+    public Response invoke(@PathParam("operationName") String operationName) {
+        log.entering(this.getClass().getName(), "invoke(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationName);
+            Parameters parameters = FHIROperationUtil.getParameters(operation.getDefinition(), uriInfo.getQueryParameters());
+            Resource result = operation.invoke(parameters, getPersistenceImpl());
+            return Response.ok().entity(result).build();
+        } catch (FHIRException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "invoke(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+
     @POST
     @Path("${operationName}")
     public Response invoke(@PathParam("operationName") String operationName, Resource resource) {
@@ -602,6 +622,25 @@ public class FHIRResource {
         }
     }
     
+    @GET
+    @Path("{resourceTypeName}/${operationName}")
+    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("operationName") String operationName) {
+        log.entering(this.getClass().getName(), "invoke(String,String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationName);
+            Parameters parameters = FHIROperationUtil.getParameters(operation.getDefinition(), uriInfo.getQueryParameters());
+            Resource result = operation.invoke(resourceType, parameters, getPersistenceImpl());
+            return Response.ok().entity(result).build();
+        } catch (FHIRException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "invoke(String,String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+
     @POST
     @Path("{resourceTypeName}/${operationName}")
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("operationName") String operationName, Resource resource) {
@@ -620,6 +659,25 @@ public class FHIRResource {
         }
     }
     
+    @GET
+    @Path("{resourceTypeName}/{logicalId}/${operationName}")
+    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName) {
+        log.entering(this.getClass().getName(), "invoke(String,String,String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationName);
+            Parameters parameters = FHIROperationUtil.getParameters(operation.getDefinition(), uriInfo.getQueryParameters());
+            Resource result = operation.invoke(resourceType, logicalId, parameters, getPersistenceImpl());
+            return Response.ok().entity(result).build();
+        } catch (FHIRException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "invoke(String,String,String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+
     @POST
     @Path("{resourceTypeName}/{logicalId}/${operationName}")
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName, Resource resource) {
@@ -638,6 +696,25 @@ public class FHIRResource {
         }
     }
     
+    @GET
+    @Path("{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}")
+    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName) {
+        log.entering(this.getClass().getName(), "invoke(String,String,String,String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        try {
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationName);
+            Parameters parameters = FHIROperationUtil.getParameters(operation.getDefinition(), uriInfo.getQueryParameters());
+            Resource result = operation.invoke(resourceType, logicalId, versionId, parameters, getPersistenceImpl());
+            return Response.ok().entity(result).build();
+        } catch (FHIRException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "invoke(String,String,String,String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
+        }
+    }
+
     @POST
     @Path("{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}")
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName, Resource resource) {

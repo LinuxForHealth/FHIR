@@ -6,9 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.operation.registry;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.TreeMap;
 
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
@@ -20,11 +23,15 @@ public class FHIROperationRegistry {
     private Map<String, FHIROperation> operationMap = null;
     
     private FHIROperationRegistry() {
-        operationMap = new HashMap<String, FHIROperation>();
+        operationMap = new TreeMap<String, FHIROperation>();
         ServiceLoader<FHIROperation> operations = ServiceLoader.load(FHIROperation.class);
         for (FHIROperation operation : operations) {
             operationMap.put(operation.getName(), operation);
         }
+    }
+    
+    public List<String> getOperationNames() {
+        return Collections.unmodifiableList(new ArrayList<String>(operationMap.keySet()));
     }
 
     public static FHIROperationRegistry getInstance() {
