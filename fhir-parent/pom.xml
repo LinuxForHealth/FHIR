@@ -6,6 +6,10 @@
 	<version>99-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>IBM Watson Health Cloud FHIR Server</name>
+	
+	<properties>
+	   <was.liberty.version>16.0.0.3</was.liberty.version>
+	</properties>
 
 	<modules>
 		<module>../fhir-core</module>
@@ -19,7 +23,6 @@
 		<module>../fhir-persistence-whc-lsf</module>
 		<module>../fhir-provider</module>
 		<module>../fhir-operation</module>
-		<module>../fhir-operation-validate</module>
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
@@ -38,23 +41,23 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.ibm.tools.target</groupId>
-				<artifactId>was-liberty</artifactId>
-				<version>8.5.x.6</version>
+				<groupId>net.wasdev.maven.tools.targets</groupId>
+				<artifactId>liberty-target</artifactId>
+				<version>${was.liberty.version}</version>
 				<type>pom</type>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.ibm.websphere.appserver.runtime</groupId>
-				<artifactId>wlp-javaee7</artifactId>
-				<version>8.5.5.9</version>
+				<artifactId>wlp-base-embeddable</artifactId>
+				<version>${was.liberty.version}</version>
 				<type>zip</type>
 			</dependency>
-			<dependency>
-				<groupId>com.ibm.websphere.appserver.runtime.ifix</groupId>
-				<artifactId>IFPI59782</artifactId>
-				<version>8.5.5.9</version>
-			</dependency>
+            <dependency>
+                <groupId>com.ibm.websphere.appserver.runtime</groupId>
+                <artifactId>org.eclipse.persistence.moxy</artifactId>
+                <version>${was.liberty.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>com.ibm.java</groupId>
 				<artifactId>ibm-java-sdk</artifactId>
@@ -90,11 +93,6 @@
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>org.eclipse.persistence.moxy</artifactId>
 				<version>2.6.1</version>
-			</dependency>
-			<dependency>
-				<groupId>com.ibm.websphere.appserver.runtime</groupId>
-				<artifactId>org.eclipse.persistence.moxy</artifactId>
-				<version>2.6.1.WAS</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.websocket</groupId>

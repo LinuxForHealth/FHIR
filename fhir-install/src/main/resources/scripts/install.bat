@@ -67,7 +67,7 @@ if not exist %WLP_INSTALL_DIR% (
 
 @REM Unzip liberty runtime zip
 echo Extracting WebSphere Liberty runtime.
-call :UnZip  %BASEDIR%\server-runtime\wlp-javaee7-8.5.5.9.zip\  %WLP_INSTALL_DIR%
+call :UnZip  %BASEDIR%\server-runtime\wlp-base-embeddable-16.0.0.3.zip\  %WLP_INSTALL_DIR%
 if %rc% neq 0 (
     echo Error extracting liberty runtime: %rc%
     goto :exit
@@ -75,15 +75,6 @@ if %rc% neq 0 (
 
 @REM Save the liberty home directory.
 set WLP_ROOT=%WLP_INSTALL_DIR%wlp
-
-@REM Install any required ifixes
-echo Applying service to Websphere Liberty runtime located at: %WLP_ROOT%
-%COMSPEC% /c %JAVA_CMD% -jar %BASEDIR%\ifixes\IFPI59782-8.5.5.9.jar --installLocation %WLP_ROOT% --suppressInfo
-if errorlevel 1 (
-    set rc=%ERRORLEVEL%
-    echo Error installing ifixes: %rc%
-    goto :exit
-)
 
 @REM Create our server
 echo Creating Websphere Liberty server definition for fhir-server.

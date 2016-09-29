@@ -23,16 +23,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.websphere.appserver.runtime</groupId>
-			<artifactId>wlp-javaee7</artifactId>
+			<artifactId>wlp-base-embeddable</artifactId>
 			<type>zip</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.websphere.appserver.runtime</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.ibm.websphere.appserver.runtime.ifix</groupId>
-			<artifactId>IFPI59782</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.db2</groupId>

@@ -70,7 +70,7 @@
 			<directoryMode>0755</directoryMode>
 			<fileMode>0755</fileMode>
 			<includes>
-                <include>com.ibm.websphere.appserver.runtime:wlp-javaee7:*</include>
+                <include>com.ibm.websphere.appserver.runtime:wlp-base-embeddable:*</include>
 			</includes>
 		</dependencySet>
         <dependencySet>
@@ -117,15 +117,6 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>com.ibm.java:ibm-java-sdk:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>ifixes</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.websphere.appserver.runtime.ifix:IFPI59782:*</include>
             </includes>
         </dependencySet>
 	</dependencySets>
