@@ -179,17 +179,17 @@ public abstract class AbstractOperation implements FHIROperation {
                 List<ParametersParameter> inputParameters = getParameters(name, parameters);
                 for (ParametersParameter inputParameter : inputParameters) {
                     String parameterValueTypeName = getParameterValueTypeName(inputParameter);
+                    String parameterDefinitionTypeName = parameterDefinition.getType().getValue();
+                    parameterDefinitionTypeName = parameterDefinitionTypeName.substring(0, 1).toUpperCase() + parameterDefinitionTypeName.substring(1);
                     try {
                         Class<?> parameterValueType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterValueTypeName);
-                        Class<?> parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterDefinition.getType().getValue());
-                    
+                        Class<?> parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterDefinitionTypeName);
                         if (!parameterDefinitionType.isAssignableFrom(parameterValueType)) {
                             throw new FHIROperationException("Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'");
                         }
                     } catch (Exception e) {
-                        
+                        throw new FHIROperationException("An error occurred during type checking", e);
                     }
-                    
                     /*
                     if (!parameterValueTypeName.equalsIgnoreCase(parameterDefinition.getType().getValue())) {
                         throw new FHIROperationException("Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'");
