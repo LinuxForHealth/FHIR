@@ -7,60 +7,18 @@
 package com.ibm.watsonhealth.fhir.operation;
 
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
+import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 
-/**
- * @author johntimm
- *
- */
 public interface FHIROperation {
-    /**
-     * @return
-     */
+    public static enum Context { SYSTEM, RESOURCE_TYPE, INSTANCE };
+    
     String getName();
+
+    Parameters invoke(Context context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
+        throws FHIROperationException;
     
-    /**
-     * @param resource
-     * @param persistence
-     * @return
-     * @throws FHIROperationException
-     */
-    Resource invoke(Resource resource, FHIRPersistence persistence) throws FHIROperationException;
-    
-    /**
-     * @param resourceType
-     * @param resource
-     * @param persistence
-     * @return
-     * @throws FHIROperationException
-     */
-    Resource invoke(Class<? extends Resource> resourceType, Resource resource, FHIRPersistence persistence) throws FHIROperationException;
-    
-    /**
-     * @param resourceType
-     * @param logicalId
-     * @param resource
-     * @param persistence
-     * @return
-     * @throws FHIROperationException
-     */
-    Resource invoke(Class<? extends Resource> resourceType, String logicalId, Resource resource, FHIRPersistence persistence) throws FHIROperationException;
-    
-    /**
-     * @param resourceType
-     * @param logicalId
-     * @param versionId
-     * @param resource
-     * @param persistence
-     * @return
-     * @throws FHIROperationException
-     */
-    Resource invoke(Class<? extends Resource> resourceType, String logicalId, String versionId, Resource resource, FHIRPersistence persistence) throws FHIROperationException;
-    
-    /**
-     * @return
-     */
     OperationDefinition getDefinition();
 }
