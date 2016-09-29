@@ -73,7 +73,7 @@ public class FHIROperationUtil {
         for (OperationDefinitionParameter parameterDefinition : definition.getParameter()) {
             String parameterTypeName = parameterDefinition.getType().getValue();
             String resourceTypeName = resource.getClass().getSimpleName();
-            if (resourceTypeName.equals(parameterTypeName) && OperationParameterUseList.IN.equals(parameterDefinition.getUse().getValue())) {
+            if ((resourceTypeName.equals(parameterTypeName) || "Resource".equals(parameterTypeName)) && OperationParameterUseList.IN.equals(parameterDefinition.getUse().getValue())) {
                 ParametersParameter parameter = factory.createParametersParameter();
                 parameter.setName(string(parameterDefinition.getName().getValue()));
                 ResourceContainer container = factory.createResourceContainer();

@@ -31,8 +31,6 @@ public abstract class AbstractOperation implements FHIROperation {
         definition = buildOperationDefinition();
     }
     
-    protected abstract OperationDefinition buildOperationDefinition();
-
     @Override
     public OperationDefinition getDefinition() {
         return definition;
@@ -40,20 +38,27 @@ public abstract class AbstractOperation implements FHIROperation {
 
     @Override
     public String getName() {
-        return definition.getName().getValue();
+        return definition.getCode().getValue();
     }
 
     @Override
-    public final Parameters invoke(FHIROperation.Context context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence) throws FHIROperationException {
-        validateInputParameters(context, resourceType, logicalId, versionId, parameters);
-        Parameters result = invoke(resourceType, logicalId, versionId, parameters, persistence);
+    public final Parameters invoke(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
+        Parameters parameters, FHIRPersistence persistence) throws FHIROperationException {
+        validateOperationContext(operationContext, resourceType);
+        validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
+        Parameters result = doInvoke(null, resourceType, logicalId, versionId, parameters, persistence);
         validateOutputParameters(result);
         return result;
     }
 
+    protected abstract OperationDefinition buildOperationDefinition();
+
     protected int countParameters(String name, Parameters parameters) {
         return getParameters(name, parameters).size();
     }
+
+    protected abstract Parameters doInvoke(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
+        Parameters parameters, FHIRPersistence persistence) throws FHIROperationException;
 
     protected ParametersParameter getParameter(String name, Parameters parameters) {
         for (ParametersParameter parameter : parameters.getParameter()) {
@@ -108,11 +113,22 @@ public abstract class AbstractOperation implements FHIROperation {
         throw new FHIROperationException("No parameter value found for parameter: '" + parameter.getName().getValue() + "'");
     }
     
-    protected abstract Parameters invoke(Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence) throws FHIROperationException;
-    
-    protected void validateInputParameters(FHIROperation.Context context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters) throws FHIROperationException {
+    protected List<String> getResourceTypeNames() {
+        List<String> resourceTypeNames = new ArrayList<String>();
         OperationDefinition definition = getDefinition();
-        switch (context) {
+        for (Code type : definition.getType()) {
+            resourceTypeNames.add(type.getValue());
+        }
+        return resourceTypeNames;
+    }
+    
+    protected void validateInputParameters(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters) throws FHIROperationException {
+        validateParameters(parameters, OperationParameterUseList.IN);
+    }
+
+    protected void validateOperationContext(Context operationContext, Class<? extends Resource> resourceType) throws FHIROperationException {
+        OperationDefinition definition = getDefinition();
+        switch (operationContext) {
         case INSTANCE:
             if (definition.getInstance().isValue() == false) {
                 throw new FHIROperationException("Invocation context INSTANCE is not allowed for operation: '" + getName() + "'");
@@ -123,7 +139,8 @@ public abstract class AbstractOperation implements FHIROperation {
                 throw new FHIROperationException("Invocation context RESOURCE_TYPE is not allowed for operation: '" + getName() + "'");
             } else {
                 String resourceTypeName = resourceType.getSimpleName();
-                if (!getResourceTypeNames().contains(resourceTypeName)) {
+                List<String> resourceTypeNames = getResourceTypeNames();
+                if (!resourceTypeNames.contains(resourceTypeName) && !resourceTypeNames.contains("Resource")) {
                     throw new FHIROperationException("Resource type: '" + resourceTypeName + "' is not allowed for operation: '" + getName() + "'");
                 }
             }
@@ -135,20 +152,9 @@ public abstract class AbstractOperation implements FHIROperation {
             break;
         default:
             break;
-        
         }
-        validateParameters(parameters, OperationParameterUseList.IN);
     }
-    
-    protected List<String> getResourceTypeNames() {
-        List<String> resourceTypeNames = new ArrayList<String>();
-        OperationDefinition definition = getDefinition();
-        for (Code type : definition.getType()) {
-            resourceTypeNames.add(type.getValue());
-        }
-        return resourceTypeNames;
-    }
-    
+
     protected void validateOutputParameters(Parameters result) throws FHIROperationException {
         validateParameters(result, OperationParameterUseList.OUT);
     }
@@ -173,9 +179,22 @@ public abstract class AbstractOperation implements FHIROperation {
                 List<ParametersParameter> inputParameters = getParameters(name, parameters);
                 for (ParametersParameter inputParameter : inputParameters) {
                     String parameterValueTypeName = getParameterValueTypeName(inputParameter);
+                    try {
+                        Class<?> parameterValueType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterValueTypeName);
+                        Class<?> parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterDefinition.getType().getValue());
+                    
+                        if (!parameterDefinitionType.isAssignableFrom(parameterValueType)) {
+                            throw new FHIROperationException("Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'");
+                        }
+                    } catch (Exception e) {
+                        
+                    }
+                    
+                    /*
                     if (!parameterValueTypeName.equalsIgnoreCase(parameterDefinition.getType().getValue())) {
                         throw new FHIROperationException("Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'");
                     }
+                    */
                 }
             }
         }

@@ -17,7 +17,7 @@ public interface FHIROperation {
     
     String getName();
 
-    Parameters invoke(Context context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
+    Parameters invoke(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
         throws FHIROperationException;
     
     OperationDefinition getDefinition();

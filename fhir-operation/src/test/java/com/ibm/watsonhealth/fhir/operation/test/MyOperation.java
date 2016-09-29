@@ -26,7 +26,7 @@ public class MyOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         OperationDefinition definition = factory.createOperationDefinition();
-        definition.setName(string("hello"));
+        definition.setCode(code("hello"));
         definition.setSystem(bool(true));
         
         OperationDefinitionParameter inputParameter = factory.createOperationDefinitionParameter();
@@ -49,7 +49,7 @@ public class MyOperation extends AbstractOperation {
     }
 
     @Override
-    protected Parameters invoke(Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
+    protected Parameters doInvoke(Context context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
         throws FHIROperationException {
         try {
             ParametersParameter inputParameter = parameters.getParameter().get(0);

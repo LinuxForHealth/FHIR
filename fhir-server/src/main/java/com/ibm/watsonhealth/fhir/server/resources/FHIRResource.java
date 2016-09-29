@@ -87,6 +87,7 @@ import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
+import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -594,6 +595,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.SYSTEM, null, null, null, operationName, null);
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -610,6 +613,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.SYSTEM, null, null, null, operationName, resource);
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -626,6 +631,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.RESOURCE_TYPE, resourceTypeName, null, null, operationName, null); 
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -642,6 +649,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.RESOURCE_TYPE, resourceTypeName, null, null, operationName, resource);
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -658,6 +667,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, null, operationName, null);
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -674,6 +685,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, null, operationName, resource);
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -690,6 +703,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, versionId, operationName, null);
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -706,6 +721,8 @@ public class FHIRResource {
         try {
             Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, versionId, operationName, resource);
             return Response.ok().entity(result).build();
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
@@ -714,7 +731,7 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "invoke(String,String,String,String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
-    
+    /*
     @POST
     @Path("Resource/$validate")
     public Response validate(Resource resource) {
@@ -739,7 +756,7 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "validate(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
     }
-    
+    */
     @POST
     @ApiOperation(value = "Performs a collection of operations as either a batch or transaction interaction.", 
     notes = "A Bundle resource containing the operations should be passed in the request body.")
@@ -1443,6 +1460,19 @@ public class FHIRResource {
 
     
     private Response exceptionResponse(FHIRRestException e) {
+        Response response;
+        if (e.getOperationOutcome() != null) {
+            String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
+            log.log(Level.SEVERE, msg, e);
+            response = Response.status(e.getHttpStatus()).entity(e.getOperationOutcome()).build();
+        } else {
+            response = exceptionResponse(e, e.getHttpStatus());
+        }
+        
+        return response;
+    }
+    
+    private Response exceptionResponse(FHIROperationException e) {
         Response response;
         if (e.getOperationOutcome() != null) {
             String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
