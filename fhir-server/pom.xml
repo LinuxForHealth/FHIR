@@ -77,9 +77,16 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-notification</artifactId>
+			<artifactId>fhir-operation-validate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-notification</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-notification-websocket</artifactId>
