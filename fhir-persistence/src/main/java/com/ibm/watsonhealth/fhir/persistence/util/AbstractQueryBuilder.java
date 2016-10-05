@@ -138,6 +138,16 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T2 - A supported operator.
 	 */
 	protected abstract T2 getOperator(Parameter queryParm);
+	
+	/**
+	 * Map the Modifier in the passed Parameter to a supported query operator. 
+	 * If the mapping results in the default operator, override the default operator with the passed operator 
+	 * if the passed operator is not null.
+	 * @param queryParm - A valid query Parameter.
+	 * @param defaultOverride - An operator that should override the default operator.
+	 * @return T2 - A supported operator.
+	 */
+	protected abstract T2 getOperator(Parameter queryParm, T2 defaultOverride);
 		
 	/**
 	 * Map the Prefix in the passed ParameterValue to a supported query operator.
