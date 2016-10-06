@@ -54,13 +54,13 @@ public abstract class AbstractOperation implements FHIROperation {
     protected abstract OperationDefinition buildOperationDefinition();
 
     protected int countParameters(String name, Parameters parameters) {
-        return getParameters(name, parameters).size();
+        return getParameters(parameters, name).size();
     }
 
     protected abstract Parameters doInvoke(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRPersistence persistence) throws FHIROperationException;
 
-    protected ParametersParameter getParameter(String name, Parameters parameters) {
+    protected ParametersParameter getParameter(Parameters parameters, String name) {
         for (ParametersParameter parameter : parameters.getParameter()) {
             if (name.equals(parameter.getName().getValue())) {
                 return parameter;
@@ -80,7 +80,7 @@ public abstract class AbstractOperation implements FHIROperation {
         return parameterDefinitions;
     }
 
-    protected List<ParametersParameter> getParameters(String name, Parameters parameters) {
+    protected List<ParametersParameter> getParameters(Parameters parameters, String name) {
         List<ParametersParameter> result = new ArrayList<ParametersParameter>();
         for (ParametersParameter parameter : parameters.getParameter()) {
             if (name.equals(parameter.getName().getValue())) {
@@ -131,12 +131,12 @@ public abstract class AbstractOperation implements FHIROperation {
         switch (operationContext) {
         case INSTANCE:
             if (definition.getInstance().isValue() == false) {
-                throw new FHIROperationException("Invocation context INSTANCE is not allowed for operation: '" + getName() + "'");
+                throw new FHIROperationException("Operation context INSTANCE is not allowed for operation: '" + getName() + "'");
             }
             break;
         case RESOURCE_TYPE:
             if (definition.getType().isEmpty()) {
-                throw new FHIROperationException("Invocation context RESOURCE_TYPE is not allowed for operation: '" + getName() + "'");
+                throw new FHIROperationException("Operation context RESOURCE_TYPE is not allowed for operation: '" + getName() + "'");
             } else {
                 String resourceTypeName = resourceType.getSimpleName();
                 List<String> resourceTypeNames = getResourceTypeNames();
@@ -147,7 +147,7 @@ public abstract class AbstractOperation implements FHIROperation {
             break;
         case SYSTEM:
             if (definition.getSystem().isValue() == false) {
-                throw new FHIROperationException("Invocation context SYSTEM is not allowed for operation: '" + getName() + "'");
+                throw new FHIROperationException("Operation context SYSTEM is not allowed for operation: '" + getName() + "'");
             }
             break;
         default:
@@ -176,7 +176,7 @@ public abstract class AbstractOperation implements FHIROperation {
                 }
             }
             if (count > 0) {
-                List<ParametersParameter> inputParameters = getParameters(name, parameters);
+                List<ParametersParameter> inputParameters = getParameters(parameters, name);
                 for (ParametersParameter inputParameter : inputParameters) {
                     String parameterValueTypeName = getParameterValueTypeName(inputParameter);
                     String parameterDefinitionTypeName = parameterDefinition.getType().getValue();
