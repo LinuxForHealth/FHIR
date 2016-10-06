@@ -61,7 +61,7 @@ public class ValidateOperation extends AbstractOperation {
     protected Parameters doInvoke(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters,
         FHIRPersistence persistence) throws FHIROperationException {
         try {
-            ResourceContainer container = getParameter("resource", parameters).getResource();
+            ResourceContainer container = getParameter(parameters, "resource").getResource();
             Resource resource = FHIRUtil.getResourceContainerResource(container);
             List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
