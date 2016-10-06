@@ -172,7 +172,7 @@ public abstract class AbstractOperation implements FHIROperation {
             if (!"*".equals(max)) {
                 int maxValue = Integer.parseInt(max);                
                 if (count > maxValue) {
-                    throw new FHIROperationException("Number of occurences of " + direction + " parameter: '" + name + "' greater than allowed maximum: " + maxValue);
+                    throw new FHIROperationException("Number of occurrences of " + direction + " parameter: '" + name + "' greater than allowed maximum: " + maxValue);
                 }
             }
             if (count > 0) {
