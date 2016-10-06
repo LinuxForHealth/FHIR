@@ -46,7 +46,7 @@ public abstract class AbstractOperation implements FHIROperation {
         Parameters parameters, FHIRPersistence persistence) throws FHIROperationException {
         validateOperationContext(operationContext, resourceType);
         validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
-        Parameters result = doInvoke(null, resourceType, logicalId, versionId, parameters, persistence);
+        Parameters result = doInvoke(operationContext, resourceType, logicalId, versionId, parameters, persistence);
         validateOutputParameters(result);
         return result;
     }
