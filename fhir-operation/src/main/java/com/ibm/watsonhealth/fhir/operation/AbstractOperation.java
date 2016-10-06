@@ -53,7 +53,7 @@ public abstract class AbstractOperation implements FHIROperation {
 
     protected abstract OperationDefinition buildOperationDefinition();
 
-    protected int countParameters(String name, Parameters parameters) {
+    protected int countParameters(Parameters parameters, String name) {
         return getParameters(parameters, name).size();
     }
 
@@ -165,7 +165,7 @@ public abstract class AbstractOperation implements FHIROperation {
             String name = parameterDefinition.getName().getValue();
             int min = parameterDefinition.getMin().getValue();
             String max = parameterDefinition.getMax().getValue();
-            int count = countParameters(name, parameters);
+            int count = countParameters(parameters, name);
             if (count < min) {
                 throw new FHIROperationException("Missing required " + direction + " parameter: '" + name + "'");
             }
