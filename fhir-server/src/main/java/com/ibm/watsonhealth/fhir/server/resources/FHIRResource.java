@@ -1369,7 +1369,7 @@ public class FHIRResource {
                             Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
                             Resource currentResource = doRead(pathTokens[0], pathTokens[1], false);
                             URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource);
-                            setBundleResponseFields(responseEntry, resource, locationURI, SC_OK);
+                            setBundleResponseFields(responseEntry, resource, locationURI, (currentResource == null ? SC_CREATED : SC_OK));
                         }
                         break;
 
@@ -1567,10 +1567,18 @@ public class FHIRResource {
             
             resources.add(cr);
         }
+        
+        // Determine if transactions are supported for this FHIR Server configuration.
+        TransactionModeList transactionMode = TransactionModeList.NOT_SUPPORTED;
+        try {
+            boolean txnSupported = getPersistenceImpl().isTransactional();
+            transactionMode = (txnSupported ? TransactionModeList.BOTH : TransactionModeList.BATCH);
+        } catch (Throwable t) {
+        }
 
         ConformanceRest rest = objectFactory.createConformanceRest()
                 .withMode(objectFactory.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
-                .withTransactionMode(objectFactory.createTransactionMode().withValue(TransactionModeList.BOTH))
+                .withTransactionMode(objectFactory.createTransactionMode().withValue(transactionMode))
                 .withResource(resources);
         
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
