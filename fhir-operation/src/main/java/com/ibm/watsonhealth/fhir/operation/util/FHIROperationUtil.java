@@ -85,7 +85,6 @@ public class FHIROperationUtil {
         return parameters;
     }
     
-    
     public static Parameters getOutputParameters(Resource resource) throws Exception {
         Parameters parameters = factory.createParameters();        
         ParametersParameter parameter = factory.createParametersParameter();
