@@ -239,6 +239,7 @@ public class FHIRClientImpl implements FHIRClient {
     @Override
     public FHIRResponse searchAll(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
+        endpoint = endpoint.path("_search");
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);

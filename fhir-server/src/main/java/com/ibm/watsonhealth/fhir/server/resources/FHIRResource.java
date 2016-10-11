@@ -561,6 +561,7 @@ public class FHIRResource {
     }
     
     @GET
+    @Path("_search")
     public Response searchAll() {
         log.entering(this.getClass().getName(), "searchAll()", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
