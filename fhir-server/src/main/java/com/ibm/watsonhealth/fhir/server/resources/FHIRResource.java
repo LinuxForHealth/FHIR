@@ -10,6 +10,7 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_ALLOWA
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_VIRTUAL_RESOURCES_ENABLED;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.bool;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
@@ -24,6 +25,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,6 +73,7 @@ import com.ibm.watsonhealth.fhir.model.ConformanceResource;
 import com.ibm.watsonhealth.fhir.model.ConformanceRest;
 import com.ibm.watsonhealth.fhir.model.ConformanceSearchParam;
 import com.ibm.watsonhealth.fhir.model.ConformanceStatementKindList;
+import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
@@ -129,6 +132,7 @@ public class FHIRResource {
     
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
     private static final String FHIR_SPEC_VERSION = "1.0.2 - DSTU2";
+    private static final String EXTENSION_URL = "http://ibm.com/watsonhealth/fhir/extension";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 
     private static Conformance conformance = null;
@@ -1607,9 +1611,79 @@ public class FHIRResource {
                         .withId(buildInfo.getBuildId()))
                 .withRest(rest);
         
+        try {
+            addExtensionElements(conformance);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "An error occurred while adding extension elements to the conformance statement", e);
+        }
+        
         return conformance;
     }
     
+    private void addExtensionElements(Conformance conformance) throws Exception {
+        Extension extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/encryptionEnabled");
+        extension.setValueBoolean(bool(fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_ENCRYPTION).getBooleanProperty("enabled", Boolean.FALSE)));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/userDefinedSchematronEnabled");
+        extension.setValueBoolean(bool(isUserDefinedSchematronEnabled()));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/virtualResourcesEnabled");
+        extension.setValueBoolean(bool(isVirtualResourceTypesFeatureEnabled()));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/allowableVirtualResourceTypes");
+        extension.setValueString(string(getAllowableVirtualResourceTypes().toString().replace("[", "").replace("]", "").replace(" ", "")));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/websocketNotificationsEnabled");
+        extension.setValueBoolean(bool(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE)));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/kafkaNotificationsEnabled");
+        extension.setValueBoolean(bool(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE)));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/notificationResourceTypes");
+        
+        String notificationResourceTypes = getNotificationResourceTypes();
+        if ("".equals(notificationResourceTypes)) {
+            notificationResourceTypes = "<not specified - all resource types>";
+        }
+        extension.setValueString(string(notificationResourceTypes));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/auditLogPath");
+        String auditLogPath = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_LOGPATH, "");
+        if ("".equals(auditLogPath)) {
+            auditLogPath = "<not specified>";
+        }
+        extension.setValueString(string(auditLogPath));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/persistenceType");
+        extension.setValueString(string(getPersistenceImpl().getClass().getSimpleName()));
+        conformance.getExtension().add(extension);
+    }
+
+    private String getNotificationResourceTypes() throws Exception {
+        Object[] notificationResourceTypes = fhirConfig.getArrayProperty(FHIRConfiguration.PROPERTY_NOTIFICATION_RESOURCE_TYPES);
+        if (notificationResourceTypes == null) {
+            notificationResourceTypes = new Object[0];
+        }
+        return Arrays.asList(notificationResourceTypes).toString().replace("[", "").replace("]", "").replace(" ", "");
+    }
+
     private ConformanceInteraction buildConformanceInteraction(TypeRestfulInteractionList value) {
         ConformanceInteraction ci = objectFactory.createConformanceInteraction()
                 .withCode(objectFactory.createTypeRestfulInteraction().withValue(value));
