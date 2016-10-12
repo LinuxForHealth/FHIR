@@ -273,6 +273,11 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
         try {
+        	// Make sure the resource has an 'id' attribute.
+            if (resource.getId() == null) {
+                throw new FHIRException("Input resource must contain an 'id' attribute.");
+            }
+        	
         	currentResource = doRead(type, resource.getId().getValue(), false);
             URI locationURI = doUpdate(type, id, resource, currentResource);
 
