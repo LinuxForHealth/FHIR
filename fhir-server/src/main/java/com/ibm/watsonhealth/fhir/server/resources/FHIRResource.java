@@ -279,7 +279,7 @@ public class FHIRResource {
             }
         	
         	currentResource = doRead(type, resource.getId().getValue(), false);
-            URI locationURI = doUpdate(type, id, resource, currentResource);
+            URI locationURI = doUpdate(type, id, resource, currentResource, null);
 
             ResponseBuilder response = null;
 
@@ -861,7 +861,7 @@ public class FHIRResource {
      * @return the location URI associated with the new version of the Resource
      * @throws Exception
      */
-    protected URI doUpdate(String type, String id, Resource resource, Resource currentResource) throws Exception {
+    protected URI doUpdate(String type, String id, Resource resource, Resource currentResource, String ifMatchBundleValue) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
         try {
             // Make sure the type specified in the URL string matches the resource type obtained from the resource.
@@ -890,7 +890,7 @@ public class FHIRResource {
             
             // Perform the "version-aware" update check.
             if (currentResource != null) {
-                performVersionAwareUpdateCheck(currentResource);
+                performVersionAwareUpdateCheck(currentResource, ifMatchBundleValue);
             }
 
             // First, invoke the 'beforeUpdate' interceptor methods.
@@ -1187,19 +1187,28 @@ public class FHIRResource {
      * 
      * @param currentResource the current latest version of the resource
      */
-    private void performVersionAwareUpdateCheck(Resource currentResource) throws FHIRRestException {
-        String ifMatchValue = httpHeaders.getHeaderString(HttpHeaders.IF_MATCH);
+    private void performVersionAwareUpdateCheck(Resource currentResource, String ifMatchBundleValue) throws FHIRRestException {
+        String ifMatchValue = (ifMatchBundleValue == null) ? httpHeaders.getHeaderString(HttpHeaders.IF_MATCH) : ifMatchBundleValue;
         if (ifMatchValue != null) {
-            log.fine("Found If-Match request header: " + ifMatchValue);
+        	if(ifMatchBundleValue == null)
+        		log.fine("Found If-Match request header: " + ifMatchValue);
+        	else
+        		log.fine("ifMatch field was set in request to a value of " +  ifMatchBundleValue);
             String ifMatchVersion = getVersionIdFromETagValue(ifMatchValue);
             
             // Make sure that we got a version # from the request header.
-            // If not, then return a 412 Pre-condition Failed status code.
+            // If not, then return a 400 Bad Request status code.
             if (ifMatchVersion == null || ifMatchVersion.isEmpty()) {
-                throw new FHIRRestException("Invalid '" + HttpHeaders.IF_MATCH + "' header value specified in request: " + ifMatchValue, null, Status.BAD_REQUEST);
+            	if(ifMatchBundleValue == null)
+            		throw new FHIRRestException("Invalid '" + HttpHeaders.IF_MATCH + "' header value specified in request: " + ifMatchValue, null, Status.BAD_REQUEST);
+            	else
+            		throw new FHIRRestException("Invalid 'ifMatch' value specified in request: " + ifMatchValue, null, Status.BAD_REQUEST);
             }
             
-            log.fine("Version id from If-Match header: " + ifMatchVersion);
+            if(ifMatchBundleValue == null)
+            	log.fine("Version id from If-Match header: " + ifMatchVersion);
+            else
+            	log.fine("Version id from ifMatch field in request: " + ifMatchVersion);
             
             // Retrieve the version #'s from the current and updated resources.
             String currentVersion = null;
@@ -1378,7 +1387,10 @@ public class FHIRResource {
                             }
                             Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
                             Resource currentResource = doRead(pathTokens[0], pathTokens[1], false);
-                            URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource);
+                            String ifMatchBundleValue = null;
+                            if(request.getIfMatch() != null)
+                            	ifMatchBundleValue = request.getIfMatch().getValue();
+                            URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource, ifMatchBundleValue);
                             setBundleResponseFields(responseEntry, resource, locationURI, (currentResource == null ? SC_CREATED : SC_OK));
                         }
                         break;
@@ -1389,7 +1401,7 @@ public class FHIRResource {
                         }
                     } catch (FHIRRestException e) {
                         setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
-                        setBundleEntryResource(responseEntry, e.getOperationOutcome());
+                        setBundleEntryResource(responseEntry, (e.getOperationOutcome() == null)? FHIRUtil.buildOperationOutcome(e): e.getOperationOutcome());
                         if (failFast) {
                             throw new FHIRRestBundledRequestException(null, e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
                         }
