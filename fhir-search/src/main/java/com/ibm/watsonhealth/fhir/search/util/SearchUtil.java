@@ -218,7 +218,7 @@ public class SearchUtil {
         for (BundleEntry entry : bundle.getEntry()) {
             ResourceContainer container = entry.getResource();
             SearchParameter parameter = container.getSearchParameter();
-            if (parameter != null) {
+            if (parameter != null && parameter.getXpath() != null) {
                 if (!FHIRUtil.isStandardResourceType(parameter.getBase().getValue())) {
                     transformParameter(parameter);
                 }
