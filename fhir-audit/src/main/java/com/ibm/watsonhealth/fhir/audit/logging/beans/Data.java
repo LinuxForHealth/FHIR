@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * This class defines the Data section of the FHIR server AuditLogEntry.
  * @author markd
@@ -14,6 +16,8 @@ package com.ibm.watsonhealth.fhir.audit.logging.beans;
 public class Data {
 	
 	private String id;
+	
+	@SerializedName("version_id")
 	private String versionId;
 
 	public Data() {

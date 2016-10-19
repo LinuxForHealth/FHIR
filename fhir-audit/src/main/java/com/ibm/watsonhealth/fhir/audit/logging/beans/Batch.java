@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * This class defines the Batch parameters section of the FHIR server AuditLogEntry.
  * @author markd
@@ -14,8 +16,14 @@ package com.ibm.watsonhealth.fhir.audit.logging.beans;
 public class Batch {
 	
 	private String status;
+	
+	@SerializedName("resources_read")
 	private Long resourcesRead;
+	
+	@SerializedName("resources_created")
 	private Long resourcesCreated;
+	
+	@SerializedName("resources_updated")
 	private Long resourcesUpdated;
 	
 	public Batch() {

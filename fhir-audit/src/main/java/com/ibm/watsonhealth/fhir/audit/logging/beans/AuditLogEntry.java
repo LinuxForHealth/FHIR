@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * This class encapsulates the data for a FHIR server audit log entry.
  * @author markd
@@ -13,15 +15,30 @@ package com.ibm.watsonhealth.fhir.audit.logging.beans;
  */
 public class AuditLogEntry {
 	
+	@SerializedName("component_id")
 	private String componentId;
+	
+	@SerializedName("component_ip")
 	private String componentIp;
+	
+	@SerializedName("tenant_id")
 	private String tenantId;
+	
 	private String location;
+	
+	@SerializedName("event_type")
 	private String eventType;
+	
 	private String timestamp;
+	
 	private String description;
+	
+	@SerializedName("user_name")
 	private String userName;
+	
 	private Context context;
+	
+	@SerializedName("config_data")
 	private ConfigData configData;
 
 

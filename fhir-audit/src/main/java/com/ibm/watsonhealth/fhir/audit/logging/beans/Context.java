@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 
 
@@ -18,15 +19,31 @@ import com.google.gson.JsonObject;
 public class Context {
 	
 	private Data data;
+	
 	private String action;
+	
 	private String query;
+	
+	@SerializedName("value_old")
 	private JsonObject valueOld;
+	
+	@SerializedName("value_new")
 	private JsonObject valueNew;
+	
+	@SerializedName("reason_of_action")
 	private String reasonOfAction;
+	
 	private String status;
+	
+	@SerializedName("start_time")
 	private String startTime;
+	
+	@SerializedName("end_time")
 	private String endTime;
+	
+	@SerializedName("api_parameters")
 	private ApiParameters apiParameters;
+	
 	private Batch batch;
 
 
