@@ -123,8 +123,9 @@ CODE_REMOVED
 
                         // If the request body is encrypted, then we'll wrap it with
                         // our decrypting request wrapper.
-                        log.finer("Request is encrypted.");
+                        log.finer("Request is encrypted: " + request.toString());
                         active = true;
+                        
                         // Retrieve the IV string from the request.
                         // The caller SHOULD have set it in the AES-Salt request header.
                         String ivString = getInitializationVector((HttpServletRequest) request);
