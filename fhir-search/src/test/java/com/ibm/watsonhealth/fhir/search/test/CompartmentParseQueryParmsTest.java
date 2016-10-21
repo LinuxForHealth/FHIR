@@ -44,7 +44,7 @@ public class CompartmentParseQueryParmsTest {
     @Test(expected = FHIRSearchException.class) 
     public void testInvalidComparmentName() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	SearchUtil.parseQueryParameters("bogusCompartmentName", "1", Observation.class, queryParameters);
+    	SearchUtil.parseQueryParameters("bogusCompartmentName", "1", Observation.class, queryParameters, null);
     }
     
     /**
@@ -54,7 +54,7 @@ public class CompartmentParseQueryParmsTest {
     @Test(expected = FHIRSearchException.class) 
     public void testInvalidResource() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	SearchUtil.parseQueryParameters("Patient", "1", Device.class, queryParameters);
+    	SearchUtil.parseQueryParameters("Patient", "1", Device.class, queryParameters, null);
     }
     
     /**
@@ -69,7 +69,7 @@ public class CompartmentParseQueryParmsTest {
         String compartmentName = "Patient";
         String compartmentLogicalId = "11";
         Class<? extends Resource> resourceType = Condition.class;
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
+    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
     	
     	assertNotNull(context);
     	assertNotNull(context.getSearchParameters());
@@ -94,7 +94,7 @@ public class CompartmentParseQueryParmsTest {
         String compartmentName = "RelatedPerson";
         String compartmentLogicalId = "22";
         Class<? extends Resource> resourceType = CommunicationRequest.class;
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
+    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
     	
     	assertNotNull(context);
     	assertNotNull(context.getSearchParameters());
@@ -131,7 +131,7 @@ public class CompartmentParseQueryParmsTest {
         Class<? extends Resource> resourceType = Observation.class;
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
+    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
     	
     	assertNotNull(context);
     	assertNotNull(context.getSearchParameters());
@@ -175,7 +175,7 @@ public class CompartmentParseQueryParmsTest {
         Class<? extends Resource> resourceType = Observation.class;
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters);
+    	FHIRSearchContext context = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, null);
     	
     	assertNotNull(context);
     	assertNotNull(context.getSearchParameters());

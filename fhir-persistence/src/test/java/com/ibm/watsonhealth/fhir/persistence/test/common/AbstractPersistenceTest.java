@@ -60,7 +60,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);
@@ -72,7 +72,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms, null);
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);

@@ -163,7 +163,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 		
 		Class<? extends Resource> resourceType = RiskAssessment.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
 		assertNotNull(resources);
@@ -188,7 +188,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
 		assertNotNull(resources);

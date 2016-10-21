@@ -1084,7 +1084,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, null, null));
             getInterceptorMgr().fireBeforeSearchEvent(event);
             
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters);
+            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString());
             List<Parameter> searchParameters = searchContext.getSearchParameters();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);

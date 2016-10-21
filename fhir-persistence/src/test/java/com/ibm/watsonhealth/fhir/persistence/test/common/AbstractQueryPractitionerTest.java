@@ -188,7 +188,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		
 		Class<? extends Resource> resourceType = Practitioner.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
 		assertNotNull(resources);
@@ -213,7 +213,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
 		assertNotNull(resources);
@@ -242,7 +242,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
 		assertNotNull(resources);

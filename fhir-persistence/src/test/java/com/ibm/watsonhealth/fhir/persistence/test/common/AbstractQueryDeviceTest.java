@@ -95,7 +95,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 		
 		Class<? extends Resource> resourceType = Device.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
 		assertNotNull(resources);
@@ -120,7 +120,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
 		assertNotNull(resources);
@@ -146,7 +146,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
 		assertNotNull(resources);
@@ -169,7 +169,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
 		assertNotNull(resources);
@@ -192,7 +192,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
 		assertNotNull(resources);

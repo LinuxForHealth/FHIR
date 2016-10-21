@@ -699,7 +699,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		
 		Class<? extends Resource> resourceType = Observation.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Observation.class);
 		assertNotNull(resources);
@@ -724,7 +724,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Observation.class);
 		assertNotNull(resources);
@@ -750,7 +750,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
 		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms);
+		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
 		context.setPageNumber(1);
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Observation.class);
 		assertNotNull(resources);

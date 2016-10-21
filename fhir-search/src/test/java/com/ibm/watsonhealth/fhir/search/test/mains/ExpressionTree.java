@@ -101,7 +101,7 @@ public class ExpressionTree {
     public static void main(String[] args) throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("language", Arrays.asList("FR,NL", "EN"));
-        List<Parameter> parameters = SearchUtil.parseQueryParameters(Patient.class, queryParameters).getSearchParameters();
+        List<Parameter> parameters = SearchUtil.parseQueryParameters(Patient.class, queryParameters, null).getSearchParameters();
         
         Expression left = null, right = null;
         

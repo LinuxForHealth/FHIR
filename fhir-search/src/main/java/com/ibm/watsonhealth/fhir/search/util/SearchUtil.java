@@ -60,6 +60,8 @@ import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.ParameterValue.Prefix;
+import com.ibm.watsonhealth.fhir.search.SortParameter;
+import com.ibm.watsonhealth.fhir.search.SortParameter.SortDirection;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
@@ -72,7 +74,7 @@ public class SearchUtil {
     private static final Map<String, XPathExpression> expressionMap = new HashMap<String, XPathExpression>();
 
     private static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
-            Arrays.asList("_sort", "_count", "_include", "_revinclude", "_summary", "_elements", "_contained", "_containedType", "_page");
+            Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_include", "_revinclude", "_summary", "_elements", "_contained", "_containedType", "_page");
     
     private static final Map<String, Map<String, List<String>>> compartmentMap = buildCompartmentMap();
     
@@ -379,7 +381,7 @@ public class SearchUtil {
         return result;
     }
 
-    public static FHIRSearchContext parseQueryParameters(Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters)
+    public static FHIRSearchContext parseQueryParameters(Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters, String queryString)
         throws FHIRSearchException {
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         List<Parameter> parameters = new ArrayList<Parameter>();
@@ -388,7 +390,7 @@ public class SearchUtil {
             try {
                 if (isFormatParameter(name) || isSearchResultParameter(name)) {
                     if (isSearchResultParameter(name)) {
-                        parseSearchResultParameter(context, name, queryParameters.get(name));
+                        parseSearchResultParameter(resourceType, context, name, queryParameters.get(name), queryString);
                     }
                     continue;
                 }
@@ -518,12 +520,13 @@ public class SearchUtil {
         }
 
         context.setSearchParameters(parameters);
-        // return FHIRSearchContextFactory.createSearchContext(parameters);
+        Collections.sort(context.getSortParameters());
+         
         return context;
     }
     
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId, 
-    								Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters)
+    								Class<? extends Resource> resourceType, Map<String, List<String>> queryParameters, String queryString)
     								throws FHIRSearchException {
         List<Parameter> parameters = new ArrayList<Parameter>();
         Parameter parameter;
@@ -554,7 +557,7 @@ public class SearchUtil {
 	        parameters.add(rootParameter);
         }
         
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, queryString);
         context.getSearchParameters().addAll(parameters);
         
         return context;
@@ -577,21 +580,72 @@ public class SearchUtil {
         return SEARCH_RESULT_PARAMETER_NAMES.contains(name);
     }
 
-    private static void parseSearchResultParameter(FHIRSearchContext context, String name, List<String> values) throws FHIRSearchException {
-        try {
-            String first = values.get(0);
-            if ("_count".equals(name)) {
-                int pageSize = Integer.parseInt(first);
-                context.setPageSize(pageSize);
-            } else if ("_page".equals(name)) {
-                int pageNumber = Integer.parseInt(first);
-                context.setPageNumber(pageNumber);
-            }
-        } catch (Exception e) {
-            throw new FHIRSearchException("Unable to parse search result parameter named: '" + name + "'", e);
-        }
+    private static void parseSearchResultParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, 
+			String name, List<String> values, String queryString) throws FHIRSearchException {
+		try {
+			String first = values.get(0);
+			if ("_count".equals(name)) {
+				int pageSize = Integer.parseInt(first);
+				context.setPageSize(pageSize);
+			} else if ("_page".equals(name)) {
+				int pageNumber = Integer.parseInt(first);
+				context.setPageNumber(pageNumber);
+			} else if (name.startsWith("_sort")) {
+				parseSortParameter(resourceType, context, name, values, queryString);
+			}
+		} catch (FHIRSearchException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new FHIRSearchException("Unable to parse search result parameter named: '" + name + "'", e);
+		}
     }
     
+    private static void parseSortParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, 
+			String sortKeyword, List<String> sortParmNames, String queryString) throws FHIRSearchException   {
+
+		SortDirection sortDirection;
+		String sortDirectionString;
+		Type sortParmType;
+		SearchParameter sortParmProxy;
+		SortParameter sortParm;
+		int qualifierDelimiterPosition;
+		int queryStringIndex;
+		String sortSubstring;
+				
+		if (queryString == null) {
+			throw new FHIRSearchException("Sort parameters cannot be processed with null queryString.");
+		}
+		// Extract the sort direction, i.e. 'asc' or 'desc'
+		qualifierDelimiterPosition = sortKeyword.indexOf(":");
+		if (qualifierDelimiterPosition > -1) {
+			sortDirectionString = sortKeyword.substring(qualifierDelimiterPosition+1);
+			sortDirection = SortDirection.fromValue(sortDirectionString);
+		}
+		else {
+			sortDirection = SortDirection.ASCENDING;
+		}
+		
+		for (String sortParmName : sortParmNames) {
+			// Determine the position of the sort parameter in the query string.
+			// This allows the sort parameter itself to be sorted later.
+			sortSubstring = sortKeyword + "=" + sortParmName;
+			queryStringIndex = queryString.indexOf(sortSubstring);
+			if (queryStringIndex < 0) {
+				throw new FHIRSearchException("Sort parameter not found in query string: " + sortSubstring);
+			}
+			// Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
+			// type of search parameter.
+			sortParmProxy = getSearchParameter(resourceType, sortParmName);
+			if (sortParmProxy == null) {
+				throw new FHIRSearchException("Undefined sort parameter. resourceType=" + resourceType + " sortParmName=" + sortParmName);
+			}
+			sortParmType = Type.fromValue(sortParmProxy.getType().getValue());
+			sortParm = new SortParameter(sortParmName, sortParmType, sortDirection, queryStringIndex);
+			context.getSortParameters().add(sortParm);
+		}
+}
+
+   
     private static boolean isChainedParameter(String name) {
         return name.contains(".");
     }
