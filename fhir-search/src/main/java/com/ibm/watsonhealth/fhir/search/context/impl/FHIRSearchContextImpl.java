@@ -45,6 +45,9 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
 
 	@Override
 	public boolean hasSortParameters() {
-		return this.sortParameters != null && !this.sortParameters.isEmpty();
+		
+		//TODO Temporarily return false until implementation in FHIRPersistenceJPAImpl is complete
+		//return this.sortParameters != null && !this.sortParameters.isEmpty();
+		return false;
 	}
 }

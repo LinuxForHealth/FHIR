@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -97,37 +98,42 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 		
 		
 		try {
-			type = queryParm.getType();
+			// NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is
+			// found in method processLocationPosition(). This method will not handle those.
+			if (! (Location.class.equals(resourceType) && 
+				(queryParm.getName().equals(NEAR) || queryParm.getName().equals(NEAR_DISTANCE)))) {
 				
-			switch(type) {
-			case STRING:    databaseQueryParm = this.processStringParm(queryParm);
-				    break;
-			case REFERENCE: if (queryParm.isChained()) {
-								databaseQueryParm = this.processChainedReferenceParm(queryParm);
-							}
-							else if (queryParm.isInclusionCriteria()) {
-								databaseQueryParm = this.processInclusionCriteria(queryParm);
-							}
-							else {
-								databaseQueryParm = this.processReferenceParm(queryParm);
-							}
-					break;
-			case DATE:      databaseQueryParm = this.processDateParm(queryParm);
-			        break;
-			case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm);
-					break;
-			case NUMBER:    databaseQueryParm = this.processNumberParm(queryParm);
-					break;
-			case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm);
-					break;
-			case URI:  		databaseQueryParm = this.processUriParm(queryParm);
-					break;
-			
-			default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
+				type = queryParm.getType();
+				switch(type) {
+				case STRING:    databaseQueryParm = this.processStringParm(queryParm);
+					    break;
+				case REFERENCE: if (queryParm.isChained()) {
+									databaseQueryParm = this.processChainedReferenceParm(queryParm);
+								}
+								else if (queryParm.isInclusionCriteria()) {
+									databaseQueryParm = this.processInclusionCriteria(queryParm);
+								}
+								else {
+									databaseQueryParm = this.processReferenceParm(queryParm);
+								}
+						break;
+				case DATE:      databaseQueryParm = this.processDateParm(queryParm);
+				        break;
+				case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm);
+						break;
+				case NUMBER:    databaseQueryParm = this.processNumberParm(queryParm);
+						break;
+				case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm);
+						break;
+				case URI:  		databaseQueryParm = this.processUriParm(queryParm);
+						break;
+				
+				default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
+				}
 			}
 		}
 		finally {
-		log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
+			log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
 		}
 		return databaseQueryParm;
 		}
@@ -275,9 +281,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	        			longitude = Double.parseDouble(value.getValueCode());
 	        		}
 	        		nearFound = true;
-	        		// Remove near so it won't be seen by any other parameter processing methods.
-	        		queryParms.remove();
-    			}
+	        	}
     			else if (queryParm.getName().equals(NEAR_DISTANCE)) {
 	        		if (value.getValueSystem() != null) {
 	                    distance = Double.parseDouble(value.getValueSystem());
@@ -285,9 +289,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	                if (value.getValueCode() != null) {
 	                    unit = value.getValueCode();
 	                }
-	             // Remove near-distance so it won't be seen by any other parameter processing methods.
-	                queryParms.remove();
-    			}
+	            }
         	}
         }
         if (nearFound) {
