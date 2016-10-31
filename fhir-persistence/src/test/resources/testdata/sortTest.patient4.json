@@ -1,0 +1,81 @@
+{
+	"_birthDate": {
+		"extension": [{
+			"url": "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
+			"valueDateTime": "1974-12-25T14:35:45-05:00"
+		}]
+	},
+	"active": true,
+	"address": [{
+		"city": "Bronx",
+		"postalCode": "99999",
+		"state": "New York",
+		"type": "both",
+		"use": "home"
+	}],
+	"birthDate": "1974-12-25",
+	"contact": [{
+		"gender": "female",
+		"name": {
+			"_family": [{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier",
+					"valueCode": "VV"
+				}]
+			},
+			null],
+			"family": ["Bonasera"],
+			"given": ["Amerigo"]
+		},
+		"period": {
+			"start": "2012"
+		},
+		"relationship": [{
+			"coding": [{
+				"code": "partner",
+				"system": "http://hl7.org/fhir/patient-contact-relationship"
+			}]
+		}],
+		"telecom": [{
+			"system": "phone",
+			"value": "+33 (237) 998327"
+		}]
+	}],
+	"deceasedBoolean": false,
+	"gender": "male",
+	"identifier": [{
+		"assigner": {
+			"display": "Acme Healthcare"
+		},
+		"period": {
+			"start": "2001-05-06"
+		},
+		"system": "urn:oid:1.2.36.146.595.217.0.1",
+		"type": {
+			"coding": [{
+				"code": "MR",
+				"system": "http://hl7.org/fhir/v2/0203"
+			}]
+		},
+		"use": "usual",
+		"value": "12345"
+	}],
+	"managingOrganization": {
+		"reference": "Organization/1"
+	},
+	"name": [{
+		"family": ["Clemenza"],
+		"given": ["Pete"],
+		"use": "official"
+	}],
+	"resourceType": "Patient",
+	"telecom": [{
+		"system": "phone",
+		"use": "work",
+		"value": "333-333-3333"
+	}],
+	"text": {
+		"div": "<div>\n      \n      <table>\n        \n        <tbody>\n          \n          <tr>\n            \n            <td>Name</td>\n            \n            <td>Peter James \n              <b>Chalmers</b> (&quot;Jim&quot;)\n            </td>\n          \n          </tr>\n          \n          <tr>\n            \n            <td>Address</td>\n            \n            <td>534 Erewhon, Pleasantville, Vic, 3999</td>\n          \n          </tr>\n          \n          <tr>\n            \n            <td>Contacts</td>\n            \n            <td>Home: unknown. Work: (03) 5555 6473</td>\n          \n          </tr>\n          \n          <tr>\n            \n            <td>Id</td>\n            \n            <td>MRN: 12345 (Acme Healthcare)</td>\n          \n          </tr>\n        \n        </tbody>\n      \n      </table>    \n    \n    </div>",
+		"status": "generated"
+	}
+}
