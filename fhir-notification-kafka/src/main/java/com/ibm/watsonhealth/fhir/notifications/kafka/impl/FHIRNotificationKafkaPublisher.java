@@ -111,9 +111,9 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         String topicId = "[" + this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG) + "]/" + topicName;
         try {
             String jsonString = FHIRNotificationUtil.toJsonString(event, true);
-            log.fine("Publishing kafka notification event to topic '" + topicId + "', message: " + jsonString);
+            log.fine("Publishing kafka notification event to topic '" + topicId + "',\nmessage: " + jsonString);
             producer.send(new ProducerRecord<String, String>(topicName, jsonString));
-            log.fine("message sent...");
+            log.info("Successfully published kafka notification event for resource: " + event.getLocation());
         } catch (Throwable e) {
             String msg = "Error publishing kafka notification event to topic '" + topicId;
             log.log(Level.SEVERE, msg, e);
