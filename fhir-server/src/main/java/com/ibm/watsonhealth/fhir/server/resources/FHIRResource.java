@@ -134,6 +134,10 @@ public class FHIRResource {
     private static final String FHIR_SPEC_VERSION = "1.0.2 - DSTU2";
     private static final String EXTENSION_URL = "http://ibm.com/watsonhealth/fhir/extension";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
+    
+    private static final String OAUTH2_TOKEN_URL = "https://<host>:<port>/oauth2/endpoint/FHIRServerOAuthProvider/token";
+    private static final String OAUTH2_AUTHORIZE_URL = "https://<host>:<port>/oauth2/endpoint/FHIRServerOAuthProvider/authorize";
+    private static final String OAUTH2_REGISTER_URL = "https://<host>:<port>/oidc/endpoint/FHIRServerOidcProvider/registration";
 
     private static Conformance conformance = null;
 
@@ -1593,6 +1597,21 @@ public class FHIRResource {
         ConformanceRest rest = objectFactory.createConformanceRest()
                 .withMode(objectFactory.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
                 .withTransactionMode(objectFactory.createTransactionMode().withValue(transactionMode))
+                .withSecurity(objectFactory.createConformanceSecurity()
+                		.withService(objectFactory.createCodeableConcept().withCoding(objectFactory.createCoding()
+                												.withCode(objectFactory.createCode().withValue("SMART-on-FHIR"))
+                												.withSystem(objectFactory.createUri().withValue("http://hl7.org/fhir/restful-security-service")))
+                											.withText(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+                		.withExtension(objectFactory.createExtension().withUrl("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
+                									.withExtension(objectFactory.createExtension().withUrl("token")
+                														.withValueUri(objectFactory.createUri()
+                																.withValue(OAUTH2_TOKEN_URL)),
+                													objectFactory.createExtension().withUrl("authorize")
+                														.withValueUri(objectFactory.createUri()
+                																.withValue(OAUTH2_AUTHORIZE_URL)),
+                													objectFactory.createExtension().withUrl("register")
+                														.withValueUri(objectFactory.createUri()
+                																.withValue(OAUTH2_REGISTER_URL))))))
                 .withResource(resources);
         
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
