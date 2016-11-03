@@ -5,6 +5,7 @@
         <feature>localConnector-1.0</feature>
         <feature>jaxrs-2.0</feature>
         <feature>jpa-2.1</feature>
+        <feature>openidConnectServer-1.0</feature>
         <feature>appSecurity-2.0</feature>
         <feature>ssl-1.0</feature>
         <feature>cdi-1.2</feature>
@@ -28,7 +29,27 @@ CODE_REMOVED
         <group name="FHIRUsers">
             <member name="fhiruser"/>
         </group>
+        <group name="clientAdministrator">
+        	<member name="fhiruser"/>
+        </group>
     </basicRegistry>
+    
+    <openidConnectProvider id="FHIRServerOidcProvider" oauthProviderRef="FHIRServerOAuthProvider"/> 
+    
+    <oauth-roles>
+        <authenticated>
+            <special-subject type="ALL_AUTHENTICATED_USERS"/>  
+        </authenticated>
+        <clientManager>
+			<group name="clientAdministrator" />
+			<user name="fhiruser" />
+		</clientManager>
+    </oauth-roles>
+	
+	<oauthProvider id="FHIRServerOAuthProvider" oauthOnly="false">
+		<grantType>authorization_code</grantType>
+		<databaseStore dataSourceRef="OAuthDerbyDataSource" />
+	</oauthProvider>
     
     <!-- This entry defines the ports that the server will listen on.
         Modify the port #'s as needed to satisfy your config requirements.
@@ -83,6 +104,11 @@ CODE_REMOVED
     <library id="derbyLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
+    
+    <dataSource id="OAuthDerbyDataSource" jndiName="jdbc/oAuthDB">
+        <jdbcDriver libraryRef="derbyLib"/>
+        <properties.derby.embedded createDatabase="create" databaseName="derby/oAuthDB"/>
+    </dataSource>
 
     <dataSource id="derbyEmbedded" jndiName="jdbc/fhirDB">
         <jdbcDriver libraryRef="derbyLib"/>
