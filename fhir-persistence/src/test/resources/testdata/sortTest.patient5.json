@@ -61,7 +61,10 @@
 		"value": "12345"
 	}],
 	"managingOrganization": {
-		"reference": "Organization/1"
+		"reference": "Organization/5"
+	},
+	"careProvider": {
+		"reference": "Organization/TheCommission"
 	},
 	"name": [{
 		"family": ["Brasi"],

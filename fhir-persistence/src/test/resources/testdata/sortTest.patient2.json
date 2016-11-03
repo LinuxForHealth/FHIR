@@ -63,6 +63,9 @@
 	"managingOrganization": {
 		"reference": "Organization/2"
 	},
+	"careProvider": {
+		"reference": "Organization/TheCommission"
+	},
 	"name": [{
 		"family": ["Tessio"],
 		"given": ["Sal"],

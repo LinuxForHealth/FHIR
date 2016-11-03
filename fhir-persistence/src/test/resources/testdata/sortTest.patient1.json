@@ -63,6 +63,9 @@
 	"managingOrganization": {
 		"reference": "Organization/1"
 	},
+	"careProvider": {
+		"reference": "Organization/TheCommission"
+	},
 	"name": [{
 		"family": ["Greene"],
 		"given": ["Moe"],
@@ -72,7 +75,7 @@
 	"telecom": [{
 		"system": "phone",
 		"use": "work",
-		"value": "999-111-2222"
+		"value": "999-999-9999"
 	}],
 	"text": {
 		"div": "<div>\n      \n      <table>\n        \n        <tbody>\n          \n          <tr>\n            \n            <td>Name</td>\n            \n            <td>Peter James \n              <b>Chalmers</b> (&quot;Jim&quot;)\n            </td>\n          \n          </tr>\n          \n          <tr>\n            \n            <td>Address</td>\n            \n            <td>534 Erewhon, Pleasantville, Vic, 3999</td>\n          \n          </tr>\n          \n          <tr>\n            \n            <td>Contacts</td>\n            \n            <td>Home: unknown. Work: (03) 5555 6473</td>\n          \n          </tr>\n          \n          <tr>\n            \n            <td>Id</td>\n            \n            <td>MRN: 12345 (Acme Healthcare)</td>\n          \n          </tr>\n        \n        </tbody>\n      \n      </table>    \n    \n    </div>",

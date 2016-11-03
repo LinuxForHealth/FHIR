@@ -85,12 +85,10 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         	assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
         	currentFamilyName = patient.getName().get(0).getFamily().get(0).getValue();
         	assertNotNull(currentFamilyName);
-        	if (previousFamilyName == null) {
-        		previousFamilyName = currentFamilyName;
-        	}
-        	else {
+        	if (previousFamilyName != null) {
         		assertTrue(currentFamilyName.compareTo(previousFamilyName) >= 0);
         	}
+        	previousFamilyName = currentFamilyName;
         }
 	}
     
@@ -127,12 +125,10 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         	assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
         	currentFamilyName = patient.getName().get(0).getFamily().get(0).getValue();
         	assertNotNull(currentFamilyName);
-        	if (previousFamilyName == null) {
-        		previousFamilyName = currentFamilyName;
-        	}
-        	else {
+        	if (previousFamilyName != null) {
         		assertTrue(currentFamilyName.compareTo(previousFamilyName) <= 0);
         	}
+        	previousFamilyName = currentFamilyName;
         }
 	}
     
@@ -154,10 +150,11 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
 		String currentPhoneNumber;
 		String previousPhoneNumber;
 			
-		queryString = "&deceased=false&_sort:asc=organization&_sort:desc=telecom";
+		queryString = "&deceased=false&careprovider=Organization/TheCommission&_sort:asc=organization&_sort:desc=telecom";
 		queryParameters.put("deceased", Collections.singletonList("false"));
+		queryParameters.put("careprovider", Collections.singletonList("Organization/TheCommission"));
 		queryParameters.put("_sort:asc", Collections.singletonList("organization"));
-		queryParameters.put("_sort:desc", Arrays.asList(new String[] {"telecom"}));
+		queryParameters.put("_sort:desc", Collections.singletonList("telecom"));
 				
 		searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
 		searchContext.setPageSize(100);
@@ -173,20 +170,16 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         	assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
         	currentOrg = patient.getManagingOrganization().getReference().getValue();
         	assertNotNull(currentOrg);
-        	if (previousOrg == null) {
-        		previousOrg = currentOrg;
-        	}
-        	else {
+        	if (previousOrg != null) {
         		assertTrue(currentOrg.compareTo(previousOrg) >= 0);
         	}
-        	currentPhoneNumber = patient.getTelecom().get(0).getValue().getValue();
+           	currentPhoneNumber = patient.getTelecom().get(0).getValue().getValue();
         	assertNotNull(currentPhoneNumber);
-        	if (previousPhoneNumber == null) {
-        		previousPhoneNumber = currentPhoneNumber;
-        	}
-        	else {
+        	if (previousPhoneNumber != null && currentOrg.equals(previousOrg)) {
         		assertTrue(currentPhoneNumber.compareTo(previousPhoneNumber) <= 0);
         	}
+        	previousOrg = currentOrg;
+        	previousPhoneNumber = currentPhoneNumber;
         }
 	}
 }
