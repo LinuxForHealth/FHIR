@@ -69,6 +69,10 @@ import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 public class SearchUtil {
     private static final Logger log = Logger.getLogger(SearchUtil.class.getName());
 
+    // This constant represents the maximum _count parameter value.
+    // If the user specifies a value greater than this, we'll just use this value instead.
+    // In the future, we might want to make this value configurable.
+    private static final int MAX_PAGE_SIZE = 1000;
     private static final Map<String, Map<String, SearchParameter>> searchParameterMap = buildSearchParameterMap();
     private static final XPath xpath = createXPath();
     private static final Map<String, XPathExpression> expressionMap = new HashMap<String, XPathExpression>();
@@ -586,6 +590,11 @@ public class SearchUtil {
 			String first = values.get(0);
 			if ("_count".equals(name)) {
 				int pageSize = Integer.parseInt(first);
+                
+                // If the user specified a value > max, then use the max.
+                if (pageSize > MAX_PAGE_SIZE) {
+                    pageSize = MAX_PAGE_SIZE;
+                }
 				context.setPageSize(pageSize);
 			} else if ("_page".equals(name)) {
 				int pageNumber = Integer.parseInt(first);
