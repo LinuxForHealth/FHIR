@@ -33,12 +33,12 @@ public interface FHIRClient {
      * Valid values are "true" and "false" (the default).   If enabled, then the authorizeURL, tokenURL and grantType properties
      * are required as well.
      */
-    public static final String PROPNAME_OAUTH2_ENABLED    = "fhirclient.oauth2.enabled";
+    public static final String PROPNAME_OAUTH2_ENABLED    = "fhirclient.oAuth2.enabled";
     
     /**
      * The accessToken to use with OAuth 2.0 Authorization.
      */
-    public static final String PROPNAME_OAUTH2_TOKEN      = "fhirclient.oauth2.accessToken";
+    public static final String PROPNAME_OAUTH2_TOKEN      = "fhirclient.oAuth2.accessToken";
     
     /**
      * Indicates whether Basic Authentication should be used when invoking REST API requests.
