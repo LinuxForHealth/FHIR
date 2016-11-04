@@ -72,6 +72,9 @@ public class FHIRClientImpl implements FHIRClient {
     private String keyStorePassword = null;
     private String keyStoreKeyPassword = null;
     
+    private boolean oAuth2Enabled = false;
+    private String accessToken = null;
+    
     private KeyStore trustStore = null;
     private KeyStore keyStore = null;
     
@@ -368,13 +371,18 @@ public class FHIRClientImpl implements FHIRClient {
                 cb = cb.register(new FHIRBasicAuthenticator(getBasicAuthUsername(), getBasicAuthPassword()));
             }
             
-            // If using clientauth, then we need to attach our Keystore.
-            if (isClientAuthEnabled()) {
+         // Add support for OAuth 2.0 if enabled.
+            if (isOAuth2Enabled()) {
+                cb = cb.register(new FHIROAuth2Authenticator(getAccessToken()));
+            }
+            
+            // If using oAuth 2.0 or clientauth, then we need to attach our Keystore.
+            if (isOAuth2Enabled() || isClientAuthEnabled()) {
                 cb = cb.keyStore(getKeyStore(), getKeyStoreKeyPassword());
             }
             
-            // If using clientauth or an https endpoint, then we need to attach our Truststore.
-            if (isClientAuthEnabled() || usingSSLTransport()) {
+            // If using oAuth 2.0 or clientauth or an https endpoint, then we need to attach our Truststore.
+            if (isOAuth2Enabled() || isClientAuthEnabled() || usingSSLTransport()) {
                 cb = cb.trustStore(getTrustStore());
             }
             
@@ -437,16 +445,22 @@ public class FHIRClientImpl implements FHIRClient {
                 setBasicAuthPassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_CLIENT_PASSWORD)));
             }
             
+            // Process the OAuth 2.0 properties
+            setOAuth2Enabled(Boolean.parseBoolean(getProperty(PROPNAME_OAUTH2_ENABLED, "false")));
+            if (isOAuth2Enabled()) {
+            	setAccessToken(FHIRUtilities.decode(getRequiredProperty(PROPNAME_OAUTH2_TOKEN)));
+            }
+            
             // If necessary, load the truststore-related properties.
             setClientAuthEnabled(Boolean.parseBoolean(getProperty(PROPNAME_CLIENT_AUTH_ENABLED, "false")));
-            if (isClientAuthEnabled() || usingSSLTransport()) {
+            if (isOAuth2Enabled() || isClientAuthEnabled() || usingSSLTransport()) {
                 setTrustStoreLocation(getRequiredProperty(PROPNAME_TRUSTSTORE_LOCATION));
                 setTrustStorePassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_TRUSTSTORE_PASSWORD)));
                 setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE_JKS));
             }
             
             // If necessary, load the keystore-related properties.
-            if (isClientAuthEnabled()) {
+            if (isOAuth2Enabled() || isClientAuthEnabled()) {
                 setKeyStoreLocation(getRequiredProperty(PROPNAME_KEYSTORE_LOCATION));
                 setKeyStorePassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_KEYSTORE_PASSWORD)));
                 setKeyStoreKeyPassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_KEYSTORE_KEY_PASSWORD)));
@@ -589,7 +603,23 @@ public class FHIRClientImpl implements FHIRClient {
     private void setEncryptionEnabled(boolean encryptionEnabled) {
         this.encryptionEnabled = encryptionEnabled;
     }
+    
+    private boolean isOAuth2Enabled() {
+    	return oAuth2Enabled;
+    }
+    
+    private void setOAuth2Enabled(boolean oAuth2Enabled) {
+    	this.oAuth2Enabled = oAuth2Enabled;
+    }
+    
+    private String getAccessToken() {
+        return accessToken;
+    }
 
+    private void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+    
     private boolean isBasicAuthEnabled() {
         return basicAuthEnabled;
     }

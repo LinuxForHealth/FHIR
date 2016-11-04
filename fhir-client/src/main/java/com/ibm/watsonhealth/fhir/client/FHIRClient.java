@@ -29,6 +29,18 @@ public interface FHIRClient {
     public static final String PROPNAME_DEFAULT_MIMETYPE    = "fhirclient.default.mimetype";
     
     /**
+     * Indicates whether OAuth 2.0 should be used when invoking REST API requests.
+     * Valid values are "true" and "false" (the default).   If enabled, then the authorizeURL, tokenURL and grantType properties
+     * are required as well.
+     */
+    public static final String PROPNAME_OAUTH2_ENABLED    = "fhirclient.oauth2.enabled";
+    
+    /**
+     * The accessToken to use with OAuth 2.0 Authorization.
+     */
+    public static final String PROPNAME_OAUTH2_TOKEN      = "fhirclient.oauth2.accessToken";
+    
+    /**
      * Indicates whether Basic Authentication should be used when invoking REST API requests.
      * Valid values are "true" and "false" (the default).   If enabled, then the username and password properties
      * are required as well.

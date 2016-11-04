@@ -34,7 +34,7 @@ CODE_REMOVED
         </group>
     </basicRegistry>
     
-    <openidConnectProvider id="FHIRServerOidcProvider" oauthProviderRef="FHIRServerOAuthProvider"/> 
+    <openidConnectProvider id="oidc-provider" oauthProviderRef="oauth2-provider"/> 
     
     <oauth-roles>
         <authenticated>
@@ -46,7 +46,7 @@ CODE_REMOVED
 		</clientManager>
     </oauth-roles>
 	
-	<oauthProvider id="FHIRServerOAuthProvider" oauthOnly="false">
+	<oauthProvider id="oauth2-provider" oauthOnly="false">
 		<grantType>authorization_code</grantType>
 		<databaseStore dataSourceRef="OAuthDerbyDataSource" />
 	</oauthProvider>
