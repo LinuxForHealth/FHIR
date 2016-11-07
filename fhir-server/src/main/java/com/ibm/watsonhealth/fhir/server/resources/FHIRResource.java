@@ -1593,6 +1593,18 @@ public class FHIRResource {
             transactionMode = (txnSupported ? TransactionModeList.BOTH : TransactionModeList.BATCH);
         } catch (Throwable t) {
         }
+        
+        String actualHost = uriInfo.getBaseUri().getHost();
+        String actualPort = String.valueOf(uriInfo.getBaseUri().getPort());
+        		
+        String tokenURLWithActualHost = OAUTH2_TOKEN_URL.replaceAll("<host>", actualHost);
+        String tokenURL = tokenURLWithActualHost.replaceAll("<port>", actualPort);
+        
+        String authURLWithActualHost = OAUTH2_AUTHORIZE_URL.replaceAll("<host>", actualHost);
+        String authURL = authURLWithActualHost.replaceAll("<port>", actualPort);
+        
+        String regURLWithActualHost = OAUTH2_REGISTER_URL.replaceAll("<host>", actualHost);
+        String regURL = regURLWithActualHost.replaceAll("<port>", actualPort);
 
         ConformanceRest rest = objectFactory.createConformanceRest()
                 .withMode(objectFactory.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
@@ -1605,13 +1617,13 @@ public class FHIRResource {
                 		.withExtension(objectFactory.createExtension().withUrl("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
                 									.withExtension(objectFactory.createExtension().withUrl("token")
                 														.withValueUri(objectFactory.createUri()
-                																.withValue(OAUTH2_TOKEN_URL)),
+                																.withValue(tokenURL)),
                 													objectFactory.createExtension().withUrl("authorize")
                 														.withValueUri(objectFactory.createUri()
-                																.withValue(OAUTH2_AUTHORIZE_URL)),
+                																.withValue(authURL)),
                 													objectFactory.createExtension().withUrl("register")
                 														.withValueUri(objectFactory.createUri()
-                																.withValue(OAUTH2_REGISTER_URL))))))
+                																.withValue(regURL))))))
                 .withResource(resources);
         
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
