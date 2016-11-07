@@ -135,9 +135,9 @@ public class FHIRResource {
     private static final String EXTENSION_URL = "http://ibm.com/watsonhealth/fhir/extension";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
     
-    private static final String OAUTH2_TOKEN_URL = "https://<host>:<port>/oauth2/endpoint/FHIRServerOAuthProvider/token";
-    private static final String OAUTH2_AUTHORIZE_URL = "https://<host>:<port>/oauth2/endpoint/FHIRServerOAuthProvider/authorize";
-    private static final String OAUTH2_REGISTER_URL = "https://<host>:<port>/oidc/endpoint/FHIRServerOidcProvider/registration";
+    private static final String OAUTH2_TOKEN_URL = "https://<host>:<port>/oauth2/endpoint/oauth2-provider/token";
+    private static final String OAUTH2_AUTHORIZE_URL = "https://<host>:<port>/oauth2/endpoint/oauth2-provider/authorize";
+    private static final String OAUTH2_REGISTER_URL = "https://<host>:<port>/oidc/endpoint/oidc-provider/registration";
 
     private static Conformance conformance = null;
 
