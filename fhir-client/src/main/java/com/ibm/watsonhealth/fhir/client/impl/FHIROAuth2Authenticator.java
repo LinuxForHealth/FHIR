@@ -37,6 +37,7 @@ public class FHIROAuth2Authenticator implements ClientRequestFilter {
         return oAuth2EndpointURL;
     }
     
+    //getters and setters for OpenID Connect Registration URL
     public void setOidcRegURL(String oidcRegURL) {
         this.oidcRegURL = oidcRegURL;
     }

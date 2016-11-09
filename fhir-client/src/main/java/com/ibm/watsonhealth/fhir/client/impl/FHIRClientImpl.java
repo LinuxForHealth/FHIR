@@ -647,6 +647,7 @@ public class FHIRClientImpl implements FHIRClient {
     	this.oAuth2Enabled = oAuth2Enabled;
     }
     
+    //getters and setters for OpenID Connect Registration URL
     private String getOidcRegURL() {
         return oidcRegURL;
     }
