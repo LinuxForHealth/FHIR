@@ -16,15 +16,33 @@ import javax.ws.rs.core.MultivaluedMap;
  * This class is responsible for adding the Authorization header to outbound REST API requests.
  */
 public class FHIROAuth2Authenticator implements ClientRequestFilter {
-    private String accessToken;
+    private String oAuth2EndpointURL;
+    private String oidcRegURL;
+	private String accessToken;
     
     // Prevent use of the default ctor.
     protected FHIROAuth2Authenticator() {
     }
     
     
-    public FHIROAuth2Authenticator(String accessToken) {
+    public FHIROAuth2Authenticator(String oAuth2EndpointURL, String oidcRegURL, String accessToken) {
         setAccessToken(accessToken);
+    }
+    
+    public void setOAuth2EndpointURL(String oAuth2EndpointURL) {
+        this.oAuth2EndpointURL = oAuth2EndpointURL;
+    }
+
+    public String getOAuth2EndpointURL() {
+        return oAuth2EndpointURL;
+    }
+    
+    public void setOidcRegURL(String oidcRegURL) {
+        this.oidcRegURL = oidcRegURL;
+    }
+
+    public String getOidcRegURL() {
+        return oidcRegURL;
     }
 
     public void setAccessToken(String accessToken) {
@@ -39,7 +57,7 @@ public class FHIROAuth2Authenticator implements ClientRequestFilter {
      * @see javax.ws.rs.client.ClientRequestFilter#filter(javax.ws.rs.client.ClientRequestContext)
      * 
      * This method is called by the JAX-RS client runtime and will add an Authorization header to the
-     * outbound REST API request to supply the necessary basic auth security token.
+     * outbound REST API request to supply the necessary oauth 2.0 access token.
      */
     @Override
     public void filter(ClientRequestContext ctxt) throws IOException {

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.client;
 
 import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -29,11 +30,31 @@ public interface FHIRClient {
     public static final String PROPNAME_DEFAULT_MIMETYPE    = "fhirclient.default.mimetype";
     
     /**
+     * OpenID Connect Provider registration URL (e.g. https://localhost:9443/oidc/endpoint/oidc-provider/registration).
+     */
+    public static final String PROPNAME_OIDC_REG_URL            = "fhirclient.oidc.reg.url";
+    
+    /**
+     * OAuth 2.0 REST API endpoint base URL (e.g. https://localhost:9443/oauth2/endpoint/oauth2-provider).
+     */
+    public static final String PROPNAME_OAUTH2_BASE_URL            = "fhirclient.oAuth2.base.url";
+    
+    /**
      * Indicates whether OAuth 2.0 should be used when invoking REST API requests.
      * Valid values are "true" and "false" (the default).   If enabled, then the authorizeURL, tokenURL and grantType properties
      * are required as well.
      */
     public static final String PROPNAME_OAUTH2_ENABLED    = "fhirclient.oAuth2.enabled";
+    
+    /**
+     * The client admin username to use with OIDC Client Registration.
+     */
+    public static final String PROPNAME_CLIENT_ADMIN      = "fhirclient.oAuth2.clientAdmin";
+    
+    /**
+     * The client admin pwd to use with OIDC Client Registration.
+     */
+    public static final String PROPNAME_CLIENTADM_PWD      = "fhirclient.oAuth2.clientAdminPwd";
     
     /**
      * The accessToken to use with OAuth 2.0 Authorization.
@@ -130,6 +151,13 @@ public interface FHIRClient {
     WebTarget getWebTarget() throws Exception;
     
     /**
+     * Returns a JAX-RS 2.0 WebTarget object associated with a given REST API endpoint.
+     * @return a WebTarget instance that can be used to invoke REST APIs.
+     * @throws Exception
+     */
+    WebTarget getWebTarget(String baseURL) throws Exception;
+    
+    /**
      * Sets the default mime-type to be used by the FHIRClient interface when invoking REST API operations.
      * @param mimeType a string containing the mime-type (e.g. "application/json+fhir")
      * @throws Exception
@@ -141,6 +169,15 @@ public interface FHIRClient {
      * @throws Exception
      */
     String getDefaultMimeType() throws Exception;
+    
+    /**
+     * Invokes the 'registration' OIDC REST API operation. Works only with basic authentication.
+     * @param clientConstraints the security constraints specified by the client (in the form of a JsonObject) to be registered
+     * @param headers an optional list of request headers to be added to the request
+     * @return a Response that contains a Client JSON object which contains the assigned client ID and secret
+     * @throws Exception
+     */
+    Response register(JsonObject clientConstraints, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'metadata' FHIR REST API operation.

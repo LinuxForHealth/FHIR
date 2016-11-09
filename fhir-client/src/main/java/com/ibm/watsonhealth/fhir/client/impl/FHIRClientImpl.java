@@ -72,8 +72,12 @@ public class FHIRClientImpl implements FHIRClient {
     private String keyStorePassword = null;
     private String keyStoreKeyPassword = null;
     
+    private String oAuth2EndpointURL = null;
+    private String oidcRegURL = null;
     private boolean oAuth2Enabled = false;
     private String accessToken = null;
+    private String clientAdmin = null;
+    private String clientAdminPwd = null;
     
     private KeyStore trustStore = null;
     private KeyStore keyStore = null;
@@ -91,6 +95,18 @@ public class FHIRClientImpl implements FHIRClient {
         initProperties(props);
     }
 
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#register()
+     */
+    @Override
+    public Response register(JsonObject clientConstraints, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget(getOidcRegURL());
+        Entity<JsonObject> entity = Entity.entity(clientConstraints, "application/json");
+        Invocation.Builder builder = endpoint.request("application/json");
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
+        return response;
+    }
 
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#metadata()
@@ -373,7 +389,7 @@ public class FHIRClientImpl implements FHIRClient {
             
          // Add support for OAuth 2.0 if enabled.
             if (isOAuth2Enabled()) {
-                cb = cb.register(new FHIROAuth2Authenticator(getAccessToken()));
+                cb = cb.register(new FHIROAuth2Authenticator(getOAuth2EndpointURL(), getOidcRegURL(), getAccessToken()));
             }
             
             // If using oAuth 2.0 or clientauth, then we need to attach our Keystore.
@@ -410,7 +426,6 @@ public class FHIRClientImpl implements FHIRClient {
         }
         return client;
     }
-
     
     /*
      * (non-Javadoc)
@@ -420,6 +435,22 @@ public class FHIRClientImpl implements FHIRClient {
     public WebTarget getWebTarget() throws Exception {
         
         return getClient().target(getBaseEndpointURL());
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getWebTarget()
+     */
+    @Override
+    public WebTarget getWebTarget(String baseURL) throws Exception {
+        Client client = ClientBuilder.newBuilder()
+                .register(new FHIRProvider())
+                .register(new FHIRJsonProvider())
+        		.register(new FHIRBasicAuthenticator(getClientAdmin(), getClientAdminPwd()))
+        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword())
+        	    .trustStore(getTrustStore())
+        	    .build();
+        return client.target(baseURL);
     }
 
     /**
@@ -448,6 +479,10 @@ public class FHIRClientImpl implements FHIRClient {
             // Process the OAuth 2.0 properties
             setOAuth2Enabled(Boolean.parseBoolean(getProperty(PROPNAME_OAUTH2_ENABLED, "false")));
             if (isOAuth2Enabled()) {
+            	setOAuth2EndpointURL(getRequiredProperty(PROPNAME_OAUTH2_BASE_URL));
+            	setOidcRegURL(getRequiredProperty(PROPNAME_OIDC_REG_URL));
+            	setClientAdmin(getRequiredProperty(PROPNAME_CLIENT_ADMIN));
+            	setClientAdminPwd(FHIRUtilities.decode(getRequiredProperty(PROPNAME_CLIENTADM_PWD)));
             	setAccessToken(FHIRUtilities.decode(getRequiredProperty(PROPNAME_OAUTH2_TOKEN)));
             }
             
@@ -610,6 +645,38 @@ public class FHIRClientImpl implements FHIRClient {
     
     private void setOAuth2Enabled(boolean oAuth2Enabled) {
     	this.oAuth2Enabled = oAuth2Enabled;
+    }
+    
+    private String getOidcRegURL() {
+        return oidcRegURL;
+    }
+
+    private void setOidcRegURL(String oidcRegURL) {
+        this.oidcRegURL = oidcRegURL;
+    }
+    
+    private String getOAuth2EndpointURL() {
+        return oAuth2EndpointURL;
+    }
+
+    private void setOAuth2EndpointURL(String oAuth2EndpointURL) {
+        this.oAuth2EndpointURL = oAuth2EndpointURL;
+    }
+    
+    private String getClientAdmin() {
+        return clientAdmin;
+    }
+
+    private void setClientAdmin(String clientAdmin) {
+        this.clientAdmin = clientAdmin;
+    }
+    
+    private String getClientAdminPwd() {
+        return clientAdminPwd;
+    }
+
+    private void setClientAdminPwd(String clientAdminPwd) {
+        this.clientAdminPwd = clientAdminPwd;
     }
     
     private String getAccessToken() {
