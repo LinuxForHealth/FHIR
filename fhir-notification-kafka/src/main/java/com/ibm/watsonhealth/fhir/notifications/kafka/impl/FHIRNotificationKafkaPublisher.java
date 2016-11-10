@@ -77,7 +77,9 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
             service.subscribe(this);
             log.info("Initialized Kafka publisher for topic '" + topicName + "' using bootstrap servers: " + bootstrapServers + ".");
         } catch (Throwable t) {
-            log.log(Level.SEVERE, "Caught exception while initializing Kafka publisher: ", t);
+            String msg = "Caught exception while initializing Kafka publisher.";
+            log.log(Level.SEVERE, msg, t);
+            throw new IllegalStateException(msg, t);
         } finally {
             log.exiting(this.getClass().getName(), "init");
         }
