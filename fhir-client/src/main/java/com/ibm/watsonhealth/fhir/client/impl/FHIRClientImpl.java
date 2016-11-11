@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -105,6 +106,51 @@ public class FHIRClientImpl implements FHIRClient {
         Invocation.Builder builder = endpoint.request("application/json");
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
+        return response;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#authorize()
+     */
+    @Override
+    public Response authorize(String clientID, String redirectURI, String scope, String state, FHIRRequestHeader... headers) throws Exception {
+    	StringBuffer authReqURL = new StringBuffer(getOAuth2EndpointURL());
+    	authReqURL.append("/authorize");
+    	authReqURL.append("?response_type=code");
+    	authReqURL.append("&client_id=" + URLEncoder.encode(clientID, "utf-8"));
+    	authReqURL.append("&redirect_uri=" + URLEncoder.encode(redirectURI, "utf-8"));
+    	if(scope != null) {
+    		authReqURL.append("&scope=" + URLEncoder.encode(scope, "utf-8"));
+        }
+        if(state != null) {
+        	authReqURL.append("&state=" + URLEncoder.encode(state, "utf-8"));
+        }
+        WebTarget endpoint = getWebTarget(authReqURL.toString());
+        Invocation.Builder builder = endpoint.request("application/json");
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
+        
+        return response;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#authorize()
+     */
+    @Override
+    public Response token(String clientID, String clientSecret, String code, String redirectURI, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget(getOAuth2EndpointURL() + "/token");
+        Form form = new Form();
+        form.param("grant_type", "authorization_code")
+        	.param("client_id", clientID)
+        	.param("client_secret", clientSecret)
+        	.param("code", code)
+        	.param("redirect_uri", URLEncoder.encode(redirectURI, "utf-8"));
+        
+        Entity<Form> entity = Entity.form(form);
+        Invocation.Builder builder = endpoint.request("application/json");
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
+        
         return response;
     }
 

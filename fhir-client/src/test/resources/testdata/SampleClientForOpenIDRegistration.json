@@ -25,6 +25,7 @@
       "https://server.example.com:9000/trusted/"
    ],
    "redirect_uris":[
+   	  "https://localhost:9443",
       "https://server.example.com:443/resource/redirect1",
       "https://server.example.com:9000/resource/redirect2",
       "https://www.getpostman.com/oauth2/callback"
