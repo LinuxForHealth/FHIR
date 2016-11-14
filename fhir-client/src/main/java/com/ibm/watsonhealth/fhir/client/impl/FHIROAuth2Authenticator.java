@@ -16,8 +16,6 @@ import javax.ws.rs.core.MultivaluedMap;
  * This class is responsible for adding the Authorization header to outbound REST API requests.
  */
 public class FHIROAuth2Authenticator implements ClientRequestFilter {
-    private String oAuth2EndpointURL;
-    private String oidcRegURL;
 	private String accessToken;
     
     // Prevent use of the default ctor.
@@ -25,25 +23,8 @@ public class FHIROAuth2Authenticator implements ClientRequestFilter {
     }
     
     
-    public FHIROAuth2Authenticator(String oAuth2EndpointURL, String oidcRegURL, String accessToken) {
+    public FHIROAuth2Authenticator(String accessToken) {
         setAccessToken(accessToken);
-    }
-    
-    public void setOAuth2EndpointURL(String oAuth2EndpointURL) {
-        this.oAuth2EndpointURL = oAuth2EndpointURL;
-    }
-
-    public String getOAuth2EndpointURL() {
-        return oAuth2EndpointURL;
-    }
-    
-    //getters and setters for OpenID Connect Registration URL
-    public void setOidcRegURL(String oidcRegURL) {
-        this.oidcRegURL = oidcRegURL;
-    }
-
-    public String getOidcRegURL() {
-        return oidcRegURL;
     }
 
     public void setAccessToken(String accessToken) {

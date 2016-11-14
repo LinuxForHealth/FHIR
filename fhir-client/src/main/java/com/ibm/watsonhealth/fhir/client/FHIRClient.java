@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.client;
 
 import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -151,13 +150,6 @@ public interface FHIRClient {
     WebTarget getWebTarget() throws Exception;
     
     /**
-     * Returns a JAX-RS 2.0 WebTarget object associated with a given REST API endpoint.
-     * @return a WebTarget instance that can be used to invoke REST APIs.
-     * @throws Exception
-     */
-    WebTarget getWebTarget(String baseURL) throws Exception;
-    
-    /**
      * Sets the default mime-type to be used by the FHIRClient interface when invoking REST API operations.
      * @param mimeType a string containing the mime-type (e.g. "application/json+fhir")
      * @throws Exception
@@ -171,37 +163,17 @@ public interface FHIRClient {
     String getDefaultMimeType() throws Exception;
     
     /**
-     * Invokes the 'registration' Open ID Connect REST API operation. Works only with basic authentication.
-     * @param clientConstraints the security constraints specified by the client (in the form of a JsonObject) to be registered
-     * @param headers an optional list of request headers to be added to the request
-     * @return a Response that contains a Client JSON object which contains the assigned client ID and secret
+     * Sets the OAuth 2.0 access token to be used by the FHIRClient interface for authorization when invoking REST API operations.
+     * @param accessToken a string containing the OAuth 2.0 access token
      * @throws Exception
      */
-    Response register(JsonObject clientConstraints, FHIRRequestHeader... headers) throws Exception;
+    void setOAuth2AccessToken(String accessToken) throws Exception;
     
     /**
-     * Invokes the 'authorize' OAuth 2.0 REST API operation.
-     * @param clientID is the ID assigned to the client on registration with Open ID Connect Provider
-     * @param redirectURI is the redirect URL registered by the client
-     * @param scope is an optional parameter. It is the possible scope of the request.
-     * @param state is an optional parameter. It is any client state that needs to be passed on with the request URI.
-     * @param headers an optional list of request headers to be added to the request
-     * @return a Response that contains the authorization code needed to obtain an access token and optionally, the state value if sent by the client
+     * Returns a string that represents the OAuth 2.0 access token to be used by the FHIRClient interface for authorization requests.
      * @throws Exception
      */
-    Response authorize(String clientID, String redirectURI, String scope, String state, FHIRRequestHeader... headers) throws Exception;
-    
-    /**
-     * Invokes the 'token' OAuth 2.0 REST API operation.
-     * @param clientID is the ID assigned to the client on registration with Open ID Connect Provider
-     * @param clientSecret is the secret or password assigned to the client on registration
-     * @param code is the authorization code obtained on authorization grant
-     * @param redirectURI is the redirect URL registered by the client
-     * @param headers an optional list of request headers to be added to the request
-     * @return a Response that contains a Client JSON object which contains the assigned client ID and secret
-     * @throws Exception
-     */
-    Response token(String clientID, String clientSecret, String code, String redirectURI, FHIRRequestHeader... headers) throws Exception;
+    String getOAuth2AccessToken() throws Exception;
     
     /**
      * Invokes the 'metadata' FHIR REST API operation.

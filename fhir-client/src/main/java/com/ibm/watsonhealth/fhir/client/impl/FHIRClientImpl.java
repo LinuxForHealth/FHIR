@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -73,12 +72,8 @@ public class FHIRClientImpl implements FHIRClient {
     private String keyStorePassword = null;
     private String keyStoreKeyPassword = null;
     
-    private String oAuth2EndpointURL = null;
-    private String oidcRegURL = null;
     private boolean oAuth2Enabled = false;
     private String accessToken = null;
-    private String clientAdmin = null;
-    private String clientAdminPwd = null;
     
     private KeyStore trustStore = null;
     private KeyStore keyStore = null;
@@ -94,62 +89,6 @@ public class FHIRClientImpl implements FHIRClient {
 
     public FHIRClientImpl(Properties props) throws Exception {
         initProperties(props);
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#register()
-     */
-    @Override
-    public Response register(JsonObject clientConstraints, FHIRRequestHeader... headers) throws Exception {
-        WebTarget endpoint = getWebTarget(getOidcRegURL());
-        Entity<JsonObject> entity = Entity.entity(clientConstraints, "application/json");
-        Invocation.Builder builder = endpoint.request("application/json");
-        builder = addRequestHeaders(builder, headers);
-        Response response = builder.post(entity);
-        return response;
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#authorize()
-     */
-    @Override
-    public Response authorize(String clientID, String redirectURI, String scope, String state, FHIRRequestHeader... headers) throws Exception {
-    	StringBuffer authReqURL = new StringBuffer(getOAuth2EndpointURL());
-    	authReqURL.append("/authorize");
-    	authReqURL.append("?response_type=code");
-    	authReqURL.append("&client_id=" + URLEncoder.encode(clientID, "utf-8"));
-    	authReqURL.append("&redirect_uri=" + URLEncoder.encode(redirectURI, "utf-8"));
-    	authReqURL.append("&state=" + URLEncoder.encode(state, "utf-8"));
-    	if(scope != null) {
-    		authReqURL.append("&scope=" + URLEncoder.encode(scope, "utf-8"));
-        }
-        WebTarget endpoint = getWebTarget(authReqURL.toString());
-        Invocation.Builder builder = endpoint.request("application/json");
-        builder = addRequestHeaders(builder, headers);
-        Response response = builder.get();
-        
-        return response;
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#authorize()
-     */
-    @Override
-    public Response token(String clientID, String clientSecret, String code, String redirectURI, FHIRRequestHeader... headers) throws Exception {
-        WebTarget endpoint = getWebTarget(getOAuth2EndpointURL() + "/token");
-        Form form = new Form();
-        form.param("grant_type", "authorization_code")
-        	.param("client_id", clientID)
-        	.param("client_secret", clientSecret)
-        	.param("code", code)
-        	.param("redirect_uri", URLEncoder.encode(redirectURI, "utf-8"));
-        
-        Entity<Form> entity = Entity.form(form);
-        Invocation.Builder builder = endpoint.request("application/json");
-        builder = addRequestHeaders(builder, headers);
-        Response response = builder.post(entity);
-        
-        return response;
     }
 
     /* (non-Javadoc)
@@ -433,7 +372,7 @@ public class FHIRClientImpl implements FHIRClient {
             
          // Add support for OAuth 2.0 if enabled.
             if (isOAuth2Enabled()) {
-                cb = cb.register(new FHIROAuth2Authenticator(getOAuth2EndpointURL(), getOidcRegURL(), getAccessToken()));
+                cb = cb.register(new FHIROAuth2Authenticator(getOAuth2AccessToken()));
             }
             
             // If using oAuth 2.0 or clientauth, then we need to attach our Keystore.
@@ -480,22 +419,6 @@ public class FHIRClientImpl implements FHIRClient {
         
         return getClient().target(getBaseEndpointURL());
     }
-    
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getWebTarget()
-     */
-    @Override
-    public WebTarget getWebTarget(String baseURL) throws Exception {
-        Client client = ClientBuilder.newBuilder()
-                .register(new FHIRProvider())
-                .register(new FHIRJsonProvider())
-        		.register(new FHIRBasicAuthenticator(getClientAdmin(), getClientAdminPwd()))
-        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword())
-        	    .trustStore(getTrustStore())
-        	    .build();
-        return client.target(baseURL);
-    }
 
     /**
      * Process all the required properties found in the Properties object.
@@ -523,11 +446,7 @@ public class FHIRClientImpl implements FHIRClient {
             // Process the OAuth 2.0 properties
             setOAuth2Enabled(Boolean.parseBoolean(getProperty(PROPNAME_OAUTH2_ENABLED, "false")));
             if (isOAuth2Enabled()) {
-            	setOAuth2EndpointURL(getRequiredProperty(PROPNAME_OAUTH2_BASE_URL));
-            	setOidcRegURL(getRequiredProperty(PROPNAME_OIDC_REG_URL));
-            	setClientAdmin(getRequiredProperty(PROPNAME_CLIENT_ADMIN));
-            	setClientAdminPwd(FHIRUtilities.decode(getRequiredProperty(PROPNAME_CLIENTADM_PWD)));
-            	setAccessToken(FHIRUtilities.decode(getRequiredProperty(PROPNAME_OAUTH2_TOKEN)));
+            	setOAuth2AccessToken(FHIRUtilities.decode(getRequiredProperty(PROPNAME_OAUTH2_TOKEN)));
             }
             
             // If necessary, load the truststore-related properties.
@@ -650,6 +569,22 @@ public class FHIRClientImpl implements FHIRClient {
     public String getDefaultMimeType() throws Exception {
         return defaultMimeType;
     }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#setOAuth2AccessToken(java.lang.String)
+     */
+    @Override
+    public void setOAuth2AccessToken(String accessToken) throws Exception {
+        this.accessToken = accessToken;
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getOAuth2AccessToken()
+     */
+    @Override
+    public String getOAuth2AccessToken() throws Exception {
+        return accessToken;
+    }
 
     private String getTrustStoreLocation() {
         return trustStoreLocation;
@@ -689,47 +624,6 @@ public class FHIRClientImpl implements FHIRClient {
     
     private void setOAuth2Enabled(boolean oAuth2Enabled) {
     	this.oAuth2Enabled = oAuth2Enabled;
-    }
-    
-    //getters and setters for OpenID Connect Registration URL
-    private String getOidcRegURL() {
-        return oidcRegURL;
-    }
-
-    private void setOidcRegURL(String oidcRegURL) {
-        this.oidcRegURL = oidcRegURL;
-    }
-    
-    private String getOAuth2EndpointURL() {
-        return oAuth2EndpointURL;
-    }
-
-    private void setOAuth2EndpointURL(String oAuth2EndpointURL) {
-        this.oAuth2EndpointURL = oAuth2EndpointURL;
-    }
-    
-    private String getClientAdmin() {
-        return clientAdmin;
-    }
-
-    private void setClientAdmin(String clientAdmin) {
-        this.clientAdmin = clientAdmin;
-    }
-    
-    private String getClientAdminPwd() {
-        return clientAdminPwd;
-    }
-
-    private void setClientAdminPwd(String clientAdminPwd) {
-        this.clientAdminPwd = clientAdminPwd;
-    }
-    
-    private String getAccessToken() {
-        return accessToken;
-    }
-
-    private void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
     }
     
     private boolean isBasicAuthEnabled() {
