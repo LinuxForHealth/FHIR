@@ -119,11 +119,9 @@ public class FHIRClientImpl implements FHIRClient {
     	authReqURL.append("?response_type=code");
     	authReqURL.append("&client_id=" + URLEncoder.encode(clientID, "utf-8"));
     	authReqURL.append("&redirect_uri=" + URLEncoder.encode(redirectURI, "utf-8"));
+    	authReqURL.append("&state=" + URLEncoder.encode(state, "utf-8"));
     	if(scope != null) {
     		authReqURL.append("&scope=" + URLEncoder.encode(scope, "utf-8"));
-        }
-        if(state != null) {
-        	authReqURL.append("&state=" + URLEncoder.encode(state, "utf-8"));
         }
         WebTarget endpoint = getWebTarget(authReqURL.toString());
         Invocation.Builder builder = endpoint.request("application/json");
