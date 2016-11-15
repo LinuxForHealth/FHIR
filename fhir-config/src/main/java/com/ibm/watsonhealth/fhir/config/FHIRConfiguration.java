@@ -22,6 +22,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED = "fhirServer/core/userDefinedSchematronEnabled";
     public static final String PROPERTY_TRUSTSTORE_LOCATION = "fhirServer/core/truststoreLocation";
     public static final String PROPERTY_TRUSTSTORE_PASSWORD = "fhirServer/core/truststorePassword";
+    public static final String PROPERTY_OAUTH_REGURL = "fhirServer/oauth/regUrl";
+    public static final String PROPERTY_OAUTH_AUTHURL = "fhirServer/oauth/authUrl";
+    public static final String PROPERTY_OAUTH_TOKENURL = "fhirServer/oauth/tokenUrl";
     public static final String PROPERTY_AUDIT_LOGPATH = "fhirServer/audit/logPath";
     public static final String PROPERTY_AUDIT_TENANTID = "fhirServer/audit/tenantId";
     public static final String PROPERTY_ENCRYPTION = "fhirServer/encryption";

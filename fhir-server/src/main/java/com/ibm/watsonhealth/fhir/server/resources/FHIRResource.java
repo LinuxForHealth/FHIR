@@ -10,6 +10,9 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_ALLOWA
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_VIRTUAL_RESOURCES_ENABLED;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.bool;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
@@ -134,10 +137,6 @@ public class FHIRResource {
     private static final String FHIR_SPEC_VERSION = "1.0.2 - DSTU2";
     private static final String EXTENSION_URL = "http://ibm.com/watsonhealth/fhir/extension";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
-    
-    private static final String OAUTH2_TOKEN_URL = "https://<host>:<port>/oauth2/endpoint/oauth2-provider/token";
-    private static final String OAUTH2_AUTHORIZE_URL = "https://<host>:<port>/oauth2/endpoint/oauth2-provider/authorize";
-    private static final String OAUTH2_REGISTER_URL = "https://<host>:<port>/oidc/endpoint/oidc-provider/registration";
 
     private static Conformance conformance = null;
 
@@ -1596,14 +1595,24 @@ public class FHIRResource {
         
         String actualHost = uriInfo.getBaseUri().getHost();
         String actualPort = String.valueOf(uriInfo.getBaseUri().getPort());
-        		
-        String tokenURLWithActualHost = OAUTH2_TOKEN_URL.replaceAll("<host>", actualHost);
+        
+        String regURLTemplate = null;
+        String authURLTemplate = null;
+        String tokenURLTemplate = null;
+        try {
+        	regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL);
+        	authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL);
+			tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL);
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
+		}
+        String tokenURLWithActualHost = tokenURLTemplate.replaceAll("<host>", actualHost);
         String tokenURL = tokenURLWithActualHost.replaceAll("<port>", actualPort);
         
-        String authURLWithActualHost = OAUTH2_AUTHORIZE_URL.replaceAll("<host>", actualHost);
+        String authURLWithActualHost = authURLTemplate.replaceAll("<host>", actualHost);
         String authURL = authURLWithActualHost.replaceAll("<port>", actualPort);
         
-        String regURLWithActualHost = OAUTH2_REGISTER_URL.replaceAll("<host>", actualHost);
+        String regURLWithActualHost = regURLTemplate.replaceAll("<host>", actualHost);
         String regURL = regURLWithActualHost.replaceAll("<port>", actualPort);
 
         ConformanceRest rest = objectFactory.createConformanceRest()
