@@ -105,9 +105,9 @@ CODE_REMOVED
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
     
-    <dataSource id="OAuthDerbyDataSource" jndiName="jdbc/oAuthDB">
+    <dataSource id="OAuthDerbyDataSource" jndiName="jdbc/oAuthConfigDB">
         <jdbcDriver libraryRef="derbyLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/oAuthDB"/>
+        <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
     </dataSource>
 
     <dataSource id="derbyEmbedded" jndiName="jdbc/fhirDB">
@@ -139,6 +139,10 @@ CODE_REMOVED
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
     </library>
     
+    <dataSource id="oAuthdb2DB" jndiName="jdbc/oAuthConfigDB">
+        <jdbcDriver libraryRef="db2Lib"/>
+CODE_REMOVED
+    </dataSource>
     <dataSource id="db2DB" jndiName="jdbc/fhirDB">
         <jdbcDriver libraryRef="db2Lib"/>
 CODE_REMOVED
