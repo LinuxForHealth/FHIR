@@ -250,6 +250,70 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	}
 	
 	/**
+	 * Tests a query for an Observation with component-value-string = 'Diastol' and no modifier.
+	 * This should match Observations where Observation.component.valueString = 'Diastolic'
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_componentValueString3() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastol");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<ObservationComponent> compList = ((Observation)resources.get(0)).getComponent();
+		assertEquals(compList.get(1).getValueString().getValue(),"Diastolic");
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-string = 'iastol' and no modifier.
+	 * This should NOT match any Observations Observation.component.valueString. 
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_componentValueString4() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "iastol");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-string = 'iastol' and modifier = continas.
+	 * This should match Observations where Observation.component.valueString = 'Diastolic'
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_componentValueString5() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string:contains", "iastol");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		List<ObservationComponent> compList = ((Observation)resources.get(0)).getComponent();
+		assertEquals(compList.get(1).getValueString().getValue(),"Diastolic");
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-string = 'Diastol%' and no modifier.
+	 * This should NOT match any Observations Observation.component.valueString. 
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_componentValueString6() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastol%");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for an Observation with component-value-string = 'Diastol_' and no modifier.
+	 * This should NOT match any Observations Observation.component.valueString. 
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_componentValueString7() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastol_");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
 	 * Tests a query for an Observation with value-string = 'Distolic' which should yield no results
 	 * @throws Exception
 	 */

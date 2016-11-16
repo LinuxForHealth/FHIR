@@ -236,10 +236,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 				
 		myQueryParm = queryParm;
 		Modifier queryParmModifier = queryParm.getModifier();
-		// A BELOW modifier has the same behavior as CONTAINS for a URI search parm type. 
-		// Make that substitution, if necessary. Then treat the URI search parm as a String search parm.
+		// A BELOW modifier has the same behavior as a "starts with" String search parm. 
 		if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
-			 myQueryParm = new Parameter(queryParm.getType(), queryParm.getName(), Modifier.CONTAINS,
+			 myQueryParm = new Parameter(queryParm.getType(), queryParm.getName(), null,
 					 			queryParm.getModifierResourceTypeName(), queryParm.getValues());
 		}
 		parmRoot = this.processStringParm(myQueryParm);
