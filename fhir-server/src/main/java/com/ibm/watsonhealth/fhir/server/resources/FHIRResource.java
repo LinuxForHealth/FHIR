@@ -1600,9 +1600,9 @@ public class FHIRResource {
         String authURLTemplate = null;
         String tokenURLTemplate = null;
         try {
-        	regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL);
-        	authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL);
-			tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL);
+        	regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL, "");
+        	authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL, "");
+			tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL, "");
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
 		}
