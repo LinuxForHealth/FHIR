@@ -1594,7 +1594,6 @@ public class FHIRResource {
         }
         
         String actualHost = uriInfo.getBaseUri().getHost();
-        String actualPort = String.valueOf(uriInfo.getBaseUri().getPort());
         
         String regURLTemplate = null;
         String authURLTemplate = null;
@@ -1606,14 +1605,11 @@ public class FHIRResource {
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
 		}
-        String tokenURLWithActualHost = tokenURLTemplate.replaceAll("<host>", actualHost);
-        String tokenURL = tokenURLWithActualHost.replaceAll("<port>", actualPort);
+        String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
+       
+        String authURL = authURLTemplate.replaceAll("<host>", actualHost);
         
-        String authURLWithActualHost = authURLTemplate.replaceAll("<host>", actualHost);
-        String authURL = authURLWithActualHost.replaceAll("<port>", actualPort);
-        
-        String regURLWithActualHost = regURLTemplate.replaceAll("<host>", actualHost);
-        String regURL = regURLWithActualHost.replaceAll("<port>", actualPort);
+        String regURL = regURLTemplate.replaceAll("<host>", actualHost);
 
         ConformanceRest rest = objectFactory.createConformanceRest()
                 .withMode(objectFactory.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
