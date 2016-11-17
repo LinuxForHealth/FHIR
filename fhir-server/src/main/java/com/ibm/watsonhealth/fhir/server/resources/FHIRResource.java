@@ -1618,7 +1618,7 @@ public class FHIRResource {
                 		.withService(objectFactory.createCodeableConcept().withCoding(objectFactory.createCoding()
                 												.withCode(objectFactory.createCode().withValue("SMART-on-FHIR"))
                 												.withSystem(objectFactory.createUri().withValue("http://hl7.org/fhir/restful-security-service")))
-                											.withText(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+                											.withText(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")))
                 		.withExtension(objectFactory.createExtension().withUrl("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
                 									.withExtension(objectFactory.createExtension().withUrl("token")
                 														.withValueUri(objectFactory.createUri()
@@ -1628,7 +1628,7 @@ public class FHIRResource {
                 																.withValue(authURL)),
                 													objectFactory.createExtension().withUrl("register")
                 														.withValueUri(objectFactory.createUri()
-                																.withValue(regURL))))))
+                																.withValue(regURL)))))
                 .withResource(resources);
         
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
