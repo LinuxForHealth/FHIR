@@ -18,8 +18,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -65,9 +67,15 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         log.entering(this.getClass().getName(), "readFrom");
         try {
             return FHIRUtil.read(type, getFormat(mediaType), entityStream);
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
-        } finally {
+        } 
+        catch (Exception e) {
+        	OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(e);
+        	throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR)
+                .entity(operationOutcome)
+                .build());
+        } 
+        finally {
             log.exiting(this.getClass().getName(), "readFrom");
         }
     }
@@ -88,10 +96,16 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
-            FHIRUtil.write(t, getFormat(mediaType), entityStream);
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
-        } finally {
+        	FHIRUtil.write(t, getFormat(mediaType), entityStream);
+        } 
+        catch (Exception e) {
+        	OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(e);
+        	throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR)
+                .entity(operationOutcome)
+                .build());
+        } 
+        finally {
             log.exiting(this.getClass().getName(), "writeTo");
         }
     }

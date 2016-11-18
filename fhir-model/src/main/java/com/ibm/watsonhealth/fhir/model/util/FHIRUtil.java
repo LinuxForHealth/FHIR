@@ -33,6 +33,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.ValidationEvent;
+import javax.xml.bind.ValidationEventHandler;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -227,8 +229,13 @@ public class FHIRUtil {
 		return unmarshaller;
 	}
 	
-	private static void configureUnmarshaller(Unmarshaller unmarshaller, Format format) throws PropertyException {
-		// TODO: add format specific configuration here
+	private static void configureUnmarshaller(Unmarshaller unmarshaller, Format format) throws JAXBException {
+		unmarshaller.setEventHandler(new ValidationEventHandler() {
+			@Override
+			public boolean handleEvent(ValidationEvent event) {
+				return (event.getSeverity() == ValidationEvent.WARNING);
+			}
+		});
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -302,10 +309,23 @@ public class FHIRUtil {
 		return objectFactory.createConditionVerificationStatus().withValue(ConditionVerificationStatusList.fromValue("confirmed"));
 	}
 	
-	private static void configureMarshaller(Marshaller marshaller, Format format) throws PropertyException {
+	private static void configureMarshaller(Marshaller marshaller, Format format) throws PropertyException   {
 		// common configuration
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		marshaller.setProperty(MarshallerProperties.INDENT_STRING, "    ");
+		// Defect 211140  - This event handler was tries in conjunction with 
+		// with the unmarshalling event handler, but the following event handler
+		// caused the OperationOutcome built in the readFrom() method to fail
+		// serialization. It is commented out here for documentation purposes.
+		/* marshaller.setEventHandler(new ValidationEventHandler() {
+			@Override
+			public boolean handleEvent(ValidationEvent event) {
+				return (event.getSeverity() == ValidationEvent.WARNING ||
+						event.getSeverity() == ValidationEvent.ERROR);
+				//return true;
+			}
+		}); */
+		
 		if (Format.XML.equals(format)) {
 			// XML-specific configuration
 			Map<String, String> namespacePrefixMap = new HashMap<String, String>();
