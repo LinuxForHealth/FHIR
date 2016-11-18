@@ -1,6 +1,6 @@
 {
    "token_endpoint_auth_method":"client_secret_basic",
-   "scope":"openid profile email general",
+   "scope":"openid profile email general user/*.* patient/*.read launch",
    "grant_types":[
       "authorization_code",
       "client_credentials",
@@ -25,9 +25,10 @@
       "https://server.example.com:9000/trusted/"
    ],
    "redirect_uris":[
-   	  "https://localhost:9443",
+   	  "https://localhost:9443/FHIRJSClient_Analytics/index.html",
+   	  "https://localhost:9443/SMARTonFHIR/index.html",
+   	  "https://www.getpostman.com/oauth2/callback",
       "https://server.example.com:443/resource/redirect1",
-      "https://server.example.com:9000/resource/redirect2",
-      "https://www.getpostman.com/oauth2/callback"
+      "https://server.example.com:9000/resource/redirect2"
    ]
 }

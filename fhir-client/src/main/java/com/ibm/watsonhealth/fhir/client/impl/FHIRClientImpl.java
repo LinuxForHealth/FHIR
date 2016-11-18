@@ -419,6 +419,37 @@ public class FHIRClientImpl implements FHIRClient {
         
         return getClient().target(getBaseEndpointURL());
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getWebTarget()
+     */
+    @Override
+    public WebTarget getWebTarget(String baseURL) throws Exception {
+        Client client = ClientBuilder.newBuilder()
+                .register(new FHIRProvider())
+                .register(new FHIRJsonProvider())
+        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword())
+        	    .trustStore(getTrustStore())
+        	    .build();
+        return client.target(baseURL);
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getWebTargetUsingBasicAuth()
+     */
+    @Override
+    public WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception {
+        Client client = ClientBuilder.newBuilder()
+                .register(new FHIRProvider())
+                .register(new FHIRJsonProvider())
+        		.register(new FHIRBasicAuthenticator(username, pwd))
+        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword())
+        	    .trustStore(getTrustStore())
+        	    .build();
+        return client.target(baseURL);
+    }
 
     /**
      * Process all the required properties found in the Properties object.

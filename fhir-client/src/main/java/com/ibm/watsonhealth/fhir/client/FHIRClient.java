@@ -29,31 +29,11 @@ public interface FHIRClient {
     public static final String PROPNAME_DEFAULT_MIMETYPE    = "fhirclient.default.mimetype";
     
     /**
-     * OpenID Connect Provider registration URL (e.g. https://localhost:9443/oidc/endpoint/oidc-provider/registration).
-     */
-    public static final String PROPNAME_OIDC_REG_URL            = "fhirclient.oidc.reg.url";
-    
-    /**
-     * OAuth 2.0 REST API endpoint base URL (e.g. https://localhost:9443/oauth2/endpoint/oauth2-provider).
-     */
-    public static final String PROPNAME_OAUTH2_BASE_URL            = "fhirclient.oAuth2.base.url";
-    
-    /**
      * Indicates whether OAuth 2.0 should be used when invoking REST API requests.
      * Valid values are "true" and "false" (the default).   If enabled, then the authorizeURL, tokenURL and grantType properties
      * are required as well.
      */
     public static final String PROPNAME_OAUTH2_ENABLED    = "fhirclient.oAuth2.enabled";
-    
-    /**
-     * The client admin username to use with OIDC Client Registration.
-     */
-    public static final String PROPNAME_CLIENT_ADMIN      = "fhirclient.oAuth2.clientAdmin";
-    
-    /**
-     * The client admin pwd to use with OIDC Client Registration.
-     */
-    public static final String PROPNAME_CLIENTADM_PWD      = "fhirclient.oAuth2.clientAdminPwd";
     
     /**
      * The accessToken to use with OAuth 2.0 Authorization.
@@ -148,6 +128,20 @@ public interface FHIRClient {
      * @throws Exception
      */
     WebTarget getWebTarget() throws Exception;
+    
+    /**
+     * Returns a JAX-RS 2.0 WebTarget object associated with a given REST API endpoint.
+     * @return a WebTarget instance that can be used to invoke REST APIs.
+     * @throws Exception
+     */
+    WebTarget getWebTarget(String baseURL) throws Exception;
+    
+    /**
+     * Returns a JAX-RS 2.0 WebTarget object associated with a given REST API endpoint.
+     * @return a WebTarget instance that can be used to invoke REST APIs.
+     * @throws Exception
+     */
+    WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception;
     
     /**
      * Sets the default mime-type to be used by the FHIRClient interface when invoking REST API operations.

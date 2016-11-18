@@ -47,7 +47,8 @@ CODE_REMOVED
     </oauth-roles>
 	
 	<oauthProvider id="oauth2-provider" oauthOnly="false">
-		<grantType>authorization_code</grantType>
+		<!-- <grantType>authorization_code</grantType> -->
+		<grantType>client_credentials</grantType>
 		<databaseStore dataSourceRef="OAuthDerbyDataSource" />
 	</oauthProvider>
     
