@@ -5,6 +5,7 @@
         <feature>localConnector-1.0</feature>
         <feature>jaxrs-2.0</feature>
         <feature>jpa-2.1</feature>
+        <!-- <feature>openidConnectClient-1.0</feature> -->
         <feature>openidConnectServer-1.0</feature>
         <feature>appSecurity-2.0</feature>
         <feature>ssl-1.0</feature>
@@ -51,6 +52,15 @@ CODE_REMOVED
 		<grantType>client_credentials</grantType>
 		<databaseStore dataSourceRef="OAuthDerbyDataSource" />
 	</oauthProvider>
+	
+	<!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
+		 Update fhir-server-config.json to publish the remote provider OAuth URLs. -->
+	<!-- <openidConnectClient authorizationEndpointUrl="https://authorize-dstu2.smarthealthit.org/authorize" 
+					clientId="c6c17d9e-8633-440f-a220-4d077acce0d1" 
+					clientSecret="{xor}HhQLGx0vBW84aQYmaGgqKWooKW8+JgwtMhBpZmYUHiUOMRkcaxhtajcaPSw3MQw2LzErNzkeMTBvDy9uJwkwJToabw5nHWwNJm8dbR1qNwoLNzQ6Ey0S" 
+					id="client01" 
+					tokenEndpointUrl="https://authorize-dstu2.smarthealthit.org/token"> 	
+	</openidConnectClient> -->
     
     <!-- This entry defines the ports that the server will listen on.
         Modify the port #'s as needed to satisfy your config requirements.
