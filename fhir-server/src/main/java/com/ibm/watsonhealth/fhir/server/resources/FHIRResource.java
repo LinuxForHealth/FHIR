@@ -198,13 +198,12 @@ public class FHIRResource {
     public Response metadata() throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "metadata()");
         Date startTime = new Date();
-    	Response.Status status = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
         try {
         	status = Response.Status.OK;
             return Response.ok().entity(getConformanceStatement()).build();
         } catch(Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
+        	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
             if (log.isLoggable(Level.FINE)) {
@@ -228,7 +227,7 @@ public class FHIRResource {
         Resource resource) {
     	
     	Date startTime = new Date();
-    	Response.Status status = null;
+    	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
 
         log.entering(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
 
@@ -247,8 +246,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
+        	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "create(Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -270,7 +268,7 @@ public class FHIRResource {
         @ApiParam(value = "The new contents of the resource to be updated.", required = true) Resource resource) {
 
     	Date startTime = new Date();
-    	Response.Status status = null;
+    	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	Resource currentResource = null;
     	
         log.entering(this.getClass().getName(), "update(String,Resource)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -308,7 +306,6 @@ public class FHIRResource {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-            status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, status);
         } finally {
             if (status == Response.Status.CREATED) {
@@ -339,7 +336,7 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "read(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         
         Date startTime = new Date();
-    	Response.Status status = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	Resource resource = null;
     	
         try {
@@ -358,8 +355,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status =  Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
+        	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
             if (log.isLoggable(Level.FINE)) {
@@ -390,7 +386,7 @@ public class FHIRResource {
             log.entering(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         }
         Date startTime = new Date();
-    	Response.Status status = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	Resource resource = null;
     	
         try {
@@ -410,8 +406,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
+        	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "vread(String,String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -436,7 +431,7 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
         
         Date startTime = new Date();
-    	Response.Status status = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	Bundle bundle= null;
     	
         try {
@@ -450,8 +445,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
+        	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "history(String,String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -473,7 +467,7 @@ public class FHIRResource {
         @PathParam("type") String type) {
         log.entering(this.getClass().getName(), "search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
-    	Response.Status status = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	MultivaluedMap<String, String> queryParameters = null;
     	Bundle bundle = null;
     	
@@ -489,8 +483,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
+        	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -517,7 +510,7 @@ public class FHIRResource {
     	
         log.entering(this.getClass().getName(), "search(String, String, String)", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
-    	Response.Status status = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	MultivaluedMap<String, String> queryParameters = null;
     	Bundle bundle = null;
     	
@@ -534,8 +527,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
+        	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
@@ -548,7 +540,7 @@ public class FHIRResource {
     public Response _search(@PathParam("type") String type) {
         log.entering(this.getClass().getName(), "_search(String)", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
-        Response.Status status = null;
+        Response.Status  status = Response.Status.INTERNAL_SERVER_ERROR;
         MultivaluedMap<String, String> queryParameters = null;
         Bundle bundle = null;
         
@@ -564,7 +556,6 @@ public class FHIRResource {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-            status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, status);
         } finally {
             RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
@@ -577,7 +568,7 @@ public class FHIRResource {
     public Response searchAll() {
         log.entering(this.getClass().getName(), "searchAll()", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
-        Response.Status status = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
         MultivaluedMap<String, String> queryParameters = null;
         Bundle bundle = null;
         
@@ -593,7 +584,6 @@ public class FHIRResource {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-            status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, status);
         } finally {
             RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
@@ -779,7 +769,7 @@ public class FHIRResource {
 
         log.entering(this.getClass().getName(), "bundle(Bundle)", "this=" + FHIRUtilities.getObjectHandle(this));
         Date startTime = new Date();
-    	Response.Status status = null;
+    	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	Bundle responseBundle = null;
 
         try {
@@ -798,8 +788,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            log.log(Level.SEVERE, "Error encountered during bundle request processing: ", e);
+        	log.log(Level.SEVERE, "Error encountered during bundle request processing: ", e);
             return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logBundle(httpServletRequest, bundle, startTime, new Date(), status);
