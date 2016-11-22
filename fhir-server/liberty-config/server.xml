@@ -50,7 +50,7 @@ CODE_REMOVED
 	<oauthProvider id="oauth2-provider" oauthOnly="false">
 		<!-- <grantType>authorization_code</grantType> -->
 		<grantType>client_credentials</grantType>
-		<databaseStore dataSourceRef="OAuthDerbyDataSource" />
+		<databaseStore dataSourceRef="OAuthDataSource" />
 	</oauthProvider>
 	
 	<!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
@@ -116,7 +116,7 @@ CODE_REMOVED
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
     
-    <dataSource id="OAuthDerbyDataSource" jndiName="jdbc/oAuthConfigDB">
+    <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
         <jdbcDriver libraryRef="derbyLib"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
     </dataSource>
@@ -150,7 +150,7 @@ CODE_REMOVED
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
     </library>
     
-    <dataSource id="oAuthdb2DB" jndiName="jdbc/oAuthConfigDB">
+    <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
         <jdbcDriver libraryRef="db2Lib"/>
 CODE_REMOVED
     </dataSource>
