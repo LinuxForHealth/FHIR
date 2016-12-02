@@ -57,7 +57,7 @@ CODE_REMOVED
 	<cors allowCredentials="true" 
 	allowedMethods="GET, PUT, POST" 
 	allowedHeaders="Content-Type, Authorization"  
-	allowedOrigins="*" domain="/fhir-server/api/v1/Patient" maxAge="3600"/>
+	allowedOrigins="*" domain="/fhir-server/api/v1" maxAge="3600"/>
 	
 	<!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
 		 Update fhir-server-config.json to publish the remote provider OAuth URLs. -->
