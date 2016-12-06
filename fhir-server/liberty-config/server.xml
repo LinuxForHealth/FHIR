@@ -53,7 +53,7 @@ CODE_REMOVED
 		<databaseStore dataSourceRef="OAuthDataSource" />
 	</oauthProvider>
 	
-	<!-- Enable CORS (Cross Origin Request Sharing) -->
+	<!-- Enable CORS (Cross Origin Resource Sharing) -->
 	<cors allowCredentials="true" 
 	allowedMethods="GET, PUT, POST" 
 	allowedHeaders="Content-Type, Authorization"  
