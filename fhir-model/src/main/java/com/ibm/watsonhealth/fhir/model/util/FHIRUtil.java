@@ -26,6 +26,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import javax.xml.XMLConstants;
 import javax.xml.bind.Binder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -145,7 +146,8 @@ public class FHIRUtil {
 	private static DocumentBuilder createDocumentBuilder() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setNamespaceAware(true);			
+			factory.setNamespaceAware(true);
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 			return factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
 			throw new Error(e);

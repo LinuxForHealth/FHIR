@@ -16,6 +16,11 @@
         <feature>servlet-3.1</feature>
         <feature>websocket-1.1</feature>
     </featureManager>
+    
+    <!-- Disable welcome page so that internal server info won't be revealed in responses
+	     to requests with an invalid context root.
+    -->
+	<httpDispatcher enableWelcomePage="false" />
 
     <!-- FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
