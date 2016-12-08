@@ -6,13 +6,10 @@
 
 package com.ibm.watsonhealth.fhir.core;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.security.Key;
 import java.security.KeyStore;
@@ -20,6 +17,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 import java.util.TimeZone;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -33,7 +31,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
  */
 public class FHIRUtilities {
-    protected static final String NL = System.getProperty("line.separator");
+	private static final String VALID_CHARACTERS_FOR_DATETIME = "^([\\-\\:\\.TZ0123456789\\+]+)$";
     private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
     private static final ThreadLocal<SimpleDateFormat> timestampSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
@@ -88,27 +86,6 @@ public class FHIRUtilities {
         return sb.toString();
     }
 
-    /**
-     * Read data for a resource from a control document (JSON/XML file)
-     */
-    public static String readFromFile(String filePath) {
-        try {
-            StringBuffer buffer = new StringBuffer();
-            BufferedReader in = new BufferedReader(new InputStreamReader(FHIRUtilities.class.getClassLoader().getResourceAsStream(filePath)));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                buffer.append(line);
-                buffer.append(NL);
-            }
-            in.close();
-            return buffer.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * This function will remove any whitspace characters which appear in a '<div>...</div>' section within the
@@ -188,12 +165,19 @@ public class FHIRUtilities {
     }
 
     public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) throws IllegalArgumentException {
-        
-            XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
-            if (defaults) {
-                setDefaults(calendar);
-            }
-            return calendar;
+    	validateInputCharacters(lexicalRepresentation);
+        XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
+        if (defaults) {
+            setDefaults(calendar);
+        }
+        return calendar;
+    }
+    
+    private static void validateInputCharacters(String lexicalRepresentation) {
+    	String input = Optional.of(lexicalRepresentation).orElse("");
+        if (!input.matches(VALID_CHARACTERS_FOR_DATETIME)) {
+            throw new IllegalArgumentException("Illegal input identified: '" + input + "'.");
+        }
     }
     
     public static Timestamp convertToTimestamp(XMLGregorianCalendar calendar) {

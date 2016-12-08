@@ -6,12 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.core.test.mains;
 
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.createDuration;
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.formatTimestamp;
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.isDateTime;
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.isPartialDate;
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.setDefaults;
-import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.parseDateTime;
+import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.*;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -21,6 +17,10 @@ import java.util.List;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.junit.Test;
+
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 
 public class DateTestMain {
     public static void main(String[] args) throws Exception {
@@ -61,5 +61,26 @@ public class DateTestMain {
         calendar.setTimeInMillis(System.currentTimeMillis());
         XMLGregorianCalendar xcal = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
         System.out.println(xcal.toXMLFormat());
+    }
+    
+    @Test
+    public void testParseDateTime() {
+        testInput("2016-10-27", false);
+        testInput("asd872947238", true);
+        testInput("!@#$!&@(#-10-27", true);
+        testInput("2008-08-30T01:45:36.123Z", false);
+    }
+
+    private void testInput(String dateTimeString, boolean expectsException) {
+        try {
+            FHIRUtilities.parseDateTime(dateTimeString, true);
+            if (expectsException) {
+                fail("Didn't throw expected exception.");
+            }
+        } catch (IllegalArgumentException e) {
+            if (!expectsException) {
+                throw e;
+            }
+        }
     }
 }
