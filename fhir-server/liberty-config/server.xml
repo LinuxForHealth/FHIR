@@ -61,7 +61,7 @@ CODE_REMOVED
 	<!-- Enable CORS (Cross Origin Resource Sharing) -->
 	<cors allowCredentials="true" 
 	allowedMethods="GET, PUT, POST" 
-	allowedHeaders="Content-Type, Authorization"  
+	allowedHeaders="Content-Type, Authorization, Accept, Origin"  
 	allowedOrigins="*" domain="/fhir-server/api/v1" maxAge="3600"/>
 	
 	<!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
