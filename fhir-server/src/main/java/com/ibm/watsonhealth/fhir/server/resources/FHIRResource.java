@@ -783,6 +783,7 @@ public class FHIRResource {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+            status = Response.Status.INTERNAL_SERVER_ERROR;
         	log.log(Level.SEVERE, "Error encountered during bundle request processing: ", e);
             return exceptionResponse(e, status);
         } finally {
