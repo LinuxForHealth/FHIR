@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -48,7 +49,9 @@ public class FHIRPersistenceInterceptorMgr {
             log.fine("Discovered the following persistence interceptors:");
             while (iter.hasNext()) {
                 FHIRPersistenceInterceptor interceptor = iter.next();
-                log.fine(">>> " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine(">>> " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
+                }
                 interceptors.add(interceptor);
             }
         } else {
@@ -62,7 +65,9 @@ public class FHIRPersistenceInterceptorMgr {
      * @param interceptor persistence interceptor to be registered
      */
     public void addInterceptor(FHIRPersistenceInterceptor interceptor) {
-        log.fine("Registering persistence interceptor: " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Registering persistence interceptor: " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
+        }
         interceptors.add(interceptor);
     }
     
@@ -72,7 +77,9 @@ public class FHIRPersistenceInterceptorMgr {
      * @param interceptor persistence interceptor to be registered
      */
     public void addPrioritizedInterceptor(FHIRPersistenceInterceptor interceptor) {
-        log.fine("Registering persistence interceptor: " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Registering persistence interceptor: " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
+        }
         interceptors.add(0, interceptor);
     }
     

@@ -123,7 +123,9 @@ CODE_REMOVED
 
                         // If the request body is encrypted, then we'll wrap it with
                         // our decrypting request wrapper.
-                        log.finer("Request is encrypted: " + request.toString());
+                        if (log.isLoggable(Level.FINER)) {   
+                            log.finer("Request is encrypted: " + request.toString());
+                        }
                         active = true;
                         
                         // Retrieve the IV string from the request.
@@ -227,8 +229,9 @@ CODE_REMOVED
             }
 
             // Log a trace message indicate whether we're enabled or not.
-            log.fine("Encryption filter is " + (encryptionEnabled ? "enabled" : "disabled"));
-
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Encryption filter is " + (encryptionEnabled ? "enabled" : "disabled"));
+            }
         } catch (Throwable t) {
             encryptionEnabled = false;
             String msg = "Error during servlet filter initialization.";

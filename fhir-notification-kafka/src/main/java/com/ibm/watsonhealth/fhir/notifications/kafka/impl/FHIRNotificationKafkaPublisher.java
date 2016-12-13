@@ -55,8 +55,10 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         try {
             this.topicName = topicName;
             this.kafkaProps = kafkaProps;
-            log.finer("Kafka publisher is configured with the following properties:\n" + this.kafkaProps.toString());
-            log.finer("Topic name: " + this.topicName);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Kafka publisher is configured with the following properties:\n" + this.kafkaProps.toString());
+                log.finer("Topic name: " + this.topicName);
+            }
             
             // We'll hard-code some properties to ensure they are set correctly.
             this.kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
@@ -92,7 +94,9 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         log.entering(this.getClass().getName(), "shutdown");
 
         try {
-            log.fine("Shutting down Kafka publisher for topic: '" + topicName + "'.");
+            if (log.isLoggable(Level.FINE)) {   
+                log.fine("Shutting down Kafka publisher for topic: '" + topicName + "'.");
+            }
             if (producer != null) {
                 producer.close();
             }
@@ -113,7 +117,11 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         String topicId = "[" + this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG) + "]/" + topicName;
         try {
             String jsonString = FHIRNotificationUtil.toJsonString(event, true);
-            log.fine("Publishing kafka notification event to topic '" + topicId + "',\nmessage: " + jsonString);
+
+            if (log.isLoggable(Level.FINE)) { 
+                log.fine("Publishing kafka notification event to topic '" + topicId + "',\nmessage: " + jsonString);
+            }
+            
             producer.send(new ProducerRecord<String, String>(topicName, jsonString));
             log.info("Successfully published kafka notification event for resource: " + event.getLocation());
         } catch (Throwable e) {

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -72,7 +73,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         super(req);
         delegate = req;
 
-        log.fine("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " + req.toString());
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " + req.toString());
+        }
 
         // Extra query parameters that can override HTTP headers.
         initQueryParameterValues(req);
@@ -83,7 +86,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         // If parameters are contained in a form, then be sure to pull them out and add them to our
         // set of query parameters.
         if (contentType != null && contentType.contains(MediaType.APPLICATION_FORM_URLENCODED)) {
-            log.finer("Detected " + MediaType.APPLICATION_FORM_URLENCODED);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Detected " + MediaType.APPLICATION_FORM_URLENCODED);
+            }
             formParameters(req);
         }
     }
@@ -119,7 +124,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         queryParameters.put("x-method-override", req.getParameter("x-method-override"));
         queryParameters.put("x-http-method-override", req.getParameter("x-http-method-override"));
 
-        log.finer("Retrieved these query parameters from the request URI: " + queryParameters.toString());
+        if (log.isLoggable(Level.FINER)) { 
+            log.finer("Retrieved these query parameters from the request URI: " + queryParameters.toString());
+        }
     }
 
     /**
@@ -495,7 +502,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         String override = this.getHeader(HEADER_X_METHOD_OVERRIDE);
         if (override != null) {
             override = override.trim();
-            log.finer("The HTTP method is overridden by the " + HEADER_X_METHOD_OVERRIDE + " header.  The value is (" + override + ")");
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("The HTTP method is overridden by the " + HEADER_X_METHOD_OVERRIDE + " header.  The value is (" + override + ")");
+            }
             return override;
         }
         return delegate.getMethod();

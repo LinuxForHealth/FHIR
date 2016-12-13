@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.helper;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_PERSISTENCE_FACTORY;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -49,7 +50,9 @@ public class FHIRPersistenceHelper implements PersistenceHelper {
             if (factoryClassName == null) {
                 throw new FHIRPersistenceException("Unable to find configuration property: " + factoryPropertyName);
             } else {
-                log.fine("Retrieved persistence factory property '" + factoryPropertyName + "': " + factoryClassName);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Retrieved persistence factory property '" + factoryPropertyName + "': " + factoryClassName);
+                }
             }
             return factoryClassName;
         } catch (Throwable t) {

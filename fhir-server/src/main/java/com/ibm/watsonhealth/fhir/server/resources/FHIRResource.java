@@ -205,9 +205,7 @@ public class FHIRResource {
         	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
-            if (log.isLoggable(Level.FINE)) {
-                log.exiting(this.getClass().getName(), "metadata()");
-            }
+        	log.exiting(this.getClass().getName(), "metadata()");
         }
     }
 
@@ -357,9 +355,7 @@ public class FHIRResource {
         	return exceptionResponse(e, status);
         } finally {
         	RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
-            if (log.isLoggable(Level.FINE)) {
-                log.exiting(this.getClass().getName(), "read(String,String)");
-            }
+        	log.exiting(this.getClass().getName(), "read(String,String)");
         }
     }
 
@@ -381,9 +377,9 @@ public class FHIRResource {
         @PathParam("id") String id, 
         @ApiParam(value = "The version of the resource to be retrieved.", required = true)
         @PathParam("vid") String vid) {
-        if (log.isLoggable(Level.FINE)) {
-            log.entering(this.getClass().getName(), "vread(String,String,String)");
-        }
+      
+        log.entering(this.getClass().getName(), "vread(String,String,String)");
+        
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	Resource resource = null;
@@ -1297,10 +1293,12 @@ public class FHIRResource {
                         
                         String path = requestURL.getPath();
                         String query = requestURL.getQuery();
-                        log.finer("Processing bundle request; method=" + request.getMethod().getValue().value()
-                            + ", url=" + request.getUrl().getValue());
-                        log.finer("--> path: " + path);
-                        log.finer("--> query: " + query);
+                        if (log.isLoggable(Level.FINER)) {  
+                            log.finer("Processing bundle request; method=" + request.getMethod().getValue().value()
+                                + ", url=" + request.getUrl().getValue());
+                            log.finer("--> path: " + path);
+                            log.finer("--> query: " + query);
+                        }
                         String[] pathTokens = requestURL.getPathTokens();
                         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
                         
@@ -1760,7 +1758,9 @@ public class FHIRResource {
     private synchronized PersistenceHelper getPersistenceHelper() {
         if (persistenceHelper == null) {
             persistenceHelper = (PersistenceHelper) context.getAttribute(FHIRPersistenceHelper.class.getName());
-            log.fine("Retrieved FHIRPersistenceHelper instance from servlet context: " + persistenceHelper);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Retrieved FHIRPersistenceHelper instance from servlet context: " + persistenceHelper);
+            }
         }
         return persistenceHelper;
     }
@@ -1768,7 +1768,9 @@ public class FHIRResource {
     private synchronized FHIRPersistence getPersistenceImpl() throws FHIRPersistenceException {
         if (persistence == null) {
             persistence = getPersistenceHelper().getFHIRPersistenceImplementation();
-            log.fine("Obtained new  FHIRPersistence instance: " + persistence);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Obtained new  FHIRPersistence instance: " + persistence);
+            }
         }
         return persistence;
     }

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.util;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -75,7 +76,9 @@ public class FHIRPersistenceUtil {
      */
     public static BoundingBox createBoundingBox(double latitude, double longitude, double distance, String unit) {
         log.entering(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
-        log.fine("distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude + ":longitude:" + longitude);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude + ":longitude:" + longitude);
+        }
         try {
             if (!"km".equalsIgnoreCase(unit) && !"kilometers".equalsIgnoreCase(unit) && !"mi".equalsIgnoreCase(unit) && !"miles".equalsIgnoreCase(unit)) {
                 throw new IllegalArgumentException("Invalid unit: '" + unit + "'. Must be one of: ['km', 'kilometers', 'mi', 'miles']");
@@ -86,7 +89,9 @@ public class FHIRPersistenceUtil {
                 unit = "kilometers";
             }
             
-            log.fine("distance: " + distance + ", unit: " + unit);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("distance: " + distance + ", unit: " + unit);
+            }
 
             // build bounding box points
             double minLatitude = latitude - (distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI);
@@ -96,7 +101,9 @@ public class FHIRPersistenceUtil {
             
             BoundingBox boundingBox = new BoundingBox(minLatitude, maxLatitude, minLongitude, maxLongitude);
             
-            log.fine("bounding box: " + boundingBox);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("bounding box: " + boundingBox);
+            }
             
             return boundingBox;
         } finally {

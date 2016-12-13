@@ -298,6 +298,7 @@ public class FHIRUtilities {
         // Load up the keystore.
         KeyStore keystore = KeyStore.getInstance(storeType);
         keystore.load(is, keystorePassword.toCharArray());
+        is.close();
         
         // Retrieve the key entry using the keyAlias
         if (keystore.containsAlias(keyAlias)) {

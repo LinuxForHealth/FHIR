@@ -28,7 +28,7 @@ public class FHIRApplication extends Application {
     private Set<Class<?>> classes = null;
 
     public FHIRApplication() {
-        log.finest("In FHIRApplication ctor.");
+        log.entering(this.getClass().getName(), "ctor");
         
         // Configure Swagger's scanner so that it can scan our resource classes,
         // and build the required swagger definition.
@@ -42,6 +42,8 @@ public class FHIRApplication extends Application {
         
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         log.info("FHIR Server version " + buildInfo.getBuildVersion() + " build id '" + buildInfo.getBuildId() + "' starting.");
+        
+        log.exiting(this.getClass().getName(), "ctor");
     }
 
     @Override
