@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.api;
 
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_AUDIT_LOGPATH;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +30,7 @@ public class AuditLogServiceFactory {
 	
 	private static final String AUDIT_LOG_FILENAME_PREFIX = "fhiraudit.";
 	private static final String AUDIT_LOG_FILENAME_SUFFIX = ".log";
+	private static final long AUDIT_LOG_MAX_SIZE_DEFAULT = 20;
 	private static AuditLogService serviceInstance = null;
 
 	
@@ -39,49 +40,79 @@ public class AuditLogServiceFactory {
 	 */
 	public static AuditLogService getService() {
 		
-		String auditLogPath;
-		
 		if (serviceInstance == null) {
-			auditLogPath = buildAuditLogPath();
-			if (!auditLogPath.isEmpty()) {
-				serviceInstance = getLoggerAuditLogService(auditLogPath);
-			}
-			else {
-				serviceInstance = new DisabledAuditLogService();
-			}
+			buildLoggerAuditLogService();
 		}
 		return serviceInstance;
-
+	}
+	
+	/**
+	 * Nulls out the singleton instance of the audit logger service object that is cached by this factory class, 
+	 * then creates, caches, and returns a new service object instance.
+	 * @return AuditLogService - The newly cached audit log service object.
+	 */
+	public static AuditLogService resetService() {
+		final String METHODNAME = "resetService";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		serviceInstance = null;
+		AuditLogService newService = getService();
+		log.exiting(CLASSNAME, METHODNAME);
+		return newService;
 	}
 	
 	/**
 	 * Creates an audit log service that uses the java.util.logging package to record audit log entries.
 	 * @return AuditLogService - An audit log service that delegates to java.util.logging.
 	 */
-	private static AuditLogService getLoggerAuditLogService(String auditLogFilePath) {
+	private static AuditLogService getLoggerAuditLogService(String auditLogFilePath, long maxAuditLogSize) {
 		final String METHODNAME = "getLoggerAuditLogService";
 		log.entering(CLASSNAME, METHODNAME);
-		
+				
 		Logger javaLogger = null;
 		FileHandler auditLogFileHandler = null;
-				 
+					 
 		try {
 			// Create a unique Logger instance for audit logging, using a custom FileHandler and Formatter.
-			javaLogger = Logger.getLogger(AuditLogService.class.getName());
+			javaLogger = Logger.getLogger(auditLogFilePath);
 			javaLogger.setLevel(Level.INFO);
 			javaLogger.setUseParentHandlers(false);
 			auditLogFileHandler = new FileHandler(auditLogFilePath,true);
 			auditLogFileHandler.setFormatter(new LoggerAuditLogService.LoggerFormatter());
 			javaLogger.addHandler(auditLogFileHandler);
 			 
-			serviceInstance = new LoggerAuditLogService(javaLogger);
+			serviceInstance = new LoggerAuditLogService(javaLogger, maxAuditLogSize);
 			log.info("Initialized Audit logging to file: " + auditLogFilePath);
 		}
 		catch (Throwable e) {
 			log.severe("Failure creating LoggerAuditLog: " + e.getMessage());
 			serviceInstance = new LoggerAuditLogService();
 		}  
-	     
+		 		    
+		log.exiting(CLASSNAME, METHODNAME);
+		return serviceInstance;
+	}
+	
+	/**
+	 * Builds and returns a singleton LoggerAuditLogService implementation object that will be cached by this factory class.
+	 * @return AuditLogService - A LoggerAuditLogService implementation.
+	 */
+	private static synchronized AuditLogService buildLoggerAuditLogService() {
+		final String METHODNAME = "buildLoggerAuditLogService";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		String auditLogPath;
+		long maxAuditLogSize;
+		if (serviceInstance == null) {
+			auditLogPath = buildAuditLogPath();
+			maxAuditLogSize = acquireMaxAuditLogSize();
+			if (!auditLogPath.isEmpty()) {
+				serviceInstance = getLoggerAuditLogService(auditLogPath, maxAuditLogSize);
+			}
+			else {
+				serviceInstance = new DisabledAuditLogService();
+			}
+		}
 		log.exiting(CLASSNAME, METHODNAME);
 		return serviceInstance;
 	}
@@ -122,6 +153,32 @@ public class AuditLogServiceFactory {
 		 
 		log.exiting(CLASSNAME, METHODNAME);
 		return auditLogPath.toString();
+	}
+	
+	/**
+	 * Acquire the maximum audit log size via a JNDI lookup. If the max log size is not specified or is not a valid
+	 * integer, return a default value.
+	 * @return long - The maximum audit log size, in bytes.
+	 */
+	private static long acquireMaxAuditLogSize() {
+		final String METHODNAME = "acquireMaxAuditLogSize";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		final long MB = 1024 * 1024;
+		long maxAuditLogSize = AUDIT_LOG_MAX_SIZE_DEFAULT * MB;
+		int maxAuditLogMB;
+		
+		try {
+			maxAuditLogMB = FHIRConfiguration.loadConfiguration().getIntProperty(PROPERTY_AUDIT_LOG_MAXSIZE);
+			maxAuditLogSize = maxAuditLogMB * MB;
+		}
+		catch(Throwable t) {
+			log.fine("Could not obtain audit log max file size via configuration.");
+		}
+		
+		
+		log.exiting(CLASSNAME, METHODNAME, maxAuditLogSize);
+		return maxAuditLogSize;
 	}
 
 }

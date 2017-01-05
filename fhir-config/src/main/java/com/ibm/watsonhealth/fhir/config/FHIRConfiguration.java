@@ -27,6 +27,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_OAUTH_TOKENURL = "fhirServer/oauth/tokenUrl";
     public static final String PROPERTY_AUDIT_LOGPATH = "fhirServer/audit/logPath";
     public static final String PROPERTY_AUDIT_TENANTID = "fhirServer/audit/tenantId";
+    public static final String PROPERTY_AUDIT_LOG_MAXSIZE = "fhirServer/audit/logMaxSize";
     public static final String PROPERTY_ENCRYPTION = "fhirServer/encryption";
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
     public static final String PROPERTY_USE_UUIDS = "fhirServer/persistence/jpa/useUUIDs";
