@@ -78,7 +78,7 @@ public class SearchUtil {
     private static final Map<String, XPathExpression> expressionMap = new HashMap<String, XPathExpression>();
 
     private static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
-            Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_include", "_revinclude", "_summary", "_elements", "_contained", "_containedType", "_page");
+            Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_page");
     
     private static final Map<String, Map<String, List<String>>> compartmentMap = buildCompartmentMap();
     
