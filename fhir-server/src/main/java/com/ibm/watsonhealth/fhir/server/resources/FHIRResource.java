@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -231,6 +232,7 @@ public class FHIRResource {
         try {
         	
         	URI locationURI = doCreate(type, resource);
+        	locationURI = buildAbsoluteLocationUri(uriInfo.getBaseUri(), locationURI);
                        
             ResponseBuilder response = Response.created(locationURI);
             status = Response.Status.CREATED;
@@ -278,7 +280,8 @@ public class FHIRResource {
         	
         	currentResource = doRead(type, resource.getId().getValue(), false);
             URI locationURI = doUpdate(type, id, resource, currentResource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH));
-
+            locationURI = buildAbsoluteLocationUri(uriInfo.getBaseUri(), locationURI);
+            
             ResponseBuilder response = null;
 
             // Determine whether we actually did a create or an update operation in the persistence layer.
@@ -430,7 +433,7 @@ public class FHIRResource {
     	Bundle bundle= null;
     	
         try {
-            bundle = doHistory(type, id, uriInfo.getQueryParameters(), uriInfo.getRequestUri().toString());
+            bundle = doHistory(type, id, uriInfo.getQueryParameters(), replaceServerAndPortOnUri(uriInfo.getRequestUri()));
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -468,7 +471,7 @@ public class FHIRResource {
     	
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch(type, null, null, queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch(type, null, null, queryParameters, replaceServerAndPortOnUri(uriInfo.getRequestUri()));
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -1305,7 +1308,7 @@ public class FHIRResource {
                         
                         // Construct the absolute requestUri to be used for any response bundles associated 
                         // with history and search requests.
-                        String absoluteUri = getAbsoluteUri(uriInfo.getRequestUri().toString(), request.getUrl().getValue());
+                        String absoluteUri = getAbsoluteUri(replaceServerAndPortOnUri(uriInfo.getRequestUri()), request.getUrl().getValue());
                         
                         switch (request.getMethod().getValue()) {
                         case GET:
@@ -2082,5 +2085,57 @@ public class FHIRResource {
             props.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, version);
         }
         return props;
+    }
+    
+    /**      
+     * Workaround due to Apache CXF bugs. This code can be removed after these defects are fixed.      
+     * - https://issues.apache.org/jira/browse/CXF-4109      
+     * - https://issues.apache.org/jira/browse/CXF-5737       
+     * @param uri URI that will be changed.       
+     * @return Modified URI as String.      
+     * @throws Exception 
+     **/     
+    private String replaceServerAndPortOnUri(URI uri) throws Exception {
+    	String newUri = uri.toString();                 
+    	String serverHost = Optional.ofNullable(getConfiguredServerHost()).orElse(uri.getHost());         
+    	newUri = newUri.replace(uri.getHost(), serverHost);                 
+    	Integer serverPort = getConfiguredServerPort();       
+    	
+    	boolean isServerPortConfigured = Optional.ofNullable(serverPort).isPresent();         
+    	if (!isServerPortConfigured) {
+    		return newUri;         
+    	} 
+    	
+    	boolean uriContainsPort = newUri.contains(serverHost + ":");         
+    	if (uriContainsPort) {             
+    			newUri = newUri.replace(String.valueOf(uri.getPort()), serverPort.toString());         
+    	} 
+    	else {
+    		newUri = newUri.replace(serverHost, serverHost + ":" + serverPort);         
+    	}                 
+    	return newUri;     
+    }
+    
+    /**
+     * Workaround due to Apache CXF bugs. This code can be removed after these defects are fixed.
+     *   - https://issues.apache.org/jira/browse/CXF-4109
+     *   - https://issues.apache.org/jira/browse/CXF-5737
+     * @param baseUri URI requested.
+     * @param relativeLocationUri Relative URI of the created/updated resource.
+     * @return The absolute URI.
+     * @throws Exception 
+     */
+    private URI buildAbsoluteLocationUri(URI baseUri, URI relativeLocationUri) throws Exception {
+        String baseUriString = replaceServerAndPortOnUri(baseUri);
+        return URI.create(baseUriString.concat(relativeLocationUri.toString()));
+    }
+    
+    private String getConfiguredServerHost() throws Exception {
+        return fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_HOST);
+    }
+    
+    private Integer getConfiguredServerPort() throws Exception {
+    	return fhirConfig.getIntProperty(FHIRConfiguration.PROPERTY_PORT);
+       
     }
 }
