@@ -336,6 +336,9 @@ public class FHIRUtil {
 			marshaller.setProperty(MarshallerProperties.NAMESPACE_PREFIX_MAPPER, namespacePrefixMap);
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
 		}
+		else { 			
+			marshaller.setProperty(MarshallerProperties.JSON_MARSHAL_EMPTY_COLLECTIONS, false);
+		}
 	}
 	
 	public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws JAXBException {
