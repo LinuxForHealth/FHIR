@@ -27,6 +27,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -56,6 +57,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
@@ -433,7 +436,7 @@ public class FHIRResource {
     	Bundle bundle= null;
     	
         try {
-            bundle = doHistory(type, id, uriInfo.getQueryParameters(), replaceServerAndPortOnUri(uriInfo.getRequestUri()));
+            bundle = doHistory(type, id, uriInfo.getQueryParameters(), replaceServerAndPortOnUri(this.getRequestUri()));
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -471,7 +474,7 @@ public class FHIRResource {
     	
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch(type, null, null, queryParameters, replaceServerAndPortOnUri(uriInfo.getRequestUri()));
+            bundle = doSearch(type, null, null, queryParameters, replaceServerAndPortOnUri(this.getRequestUri()));
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -515,7 +518,7 @@ public class FHIRResource {
         try {
             queryParameters = uriInfo.getQueryParameters();
             //bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
-            bundle = doSearch(type, compartment, compartmentId, queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch(type, compartment, compartmentId, queryParameters, this.getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -544,7 +547,7 @@ public class FHIRResource {
         
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch(type, null, null, queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch(type, null, null, queryParameters, this.getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -572,7 +575,7 @@ public class FHIRResource {
         
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch("Resource", null, null, queryParameters, uriInfo.getRequestUri().toString());
+            bundle = doSearch("Resource", null, null, queryParameters, this.getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -1308,7 +1311,7 @@ public class FHIRResource {
                         
                         // Construct the absolute requestUri to be used for any response bundles associated 
                         // with history and search requests.
-                        String absoluteUri = getAbsoluteUri(replaceServerAndPortOnUri(uriInfo.getRequestUri()), request.getUrl().getValue());
+                        String absoluteUri = getAbsoluteUri(replaceServerAndPortOnUri(this.getRequestUri()), request.getUrl().getValue());
                         
                         switch (request.getMethod().getValue()) {
                         case GET:
@@ -2116,6 +2119,40 @@ public class FHIRResource {
     	return newUri;     
     }
     
+    /**      
+     * Workaround due to Apache CXF bugs. This code can be removed after these defects are fixed.      
+     * - https://issues.apache.org/jira/browse/CXF-4109      
+     * - https://issues.apache.org/jira/browse/CXF-5737       
+     * @param uri URI that will be changed.       
+     * @return Modified URI as String.      
+     * @throws Exception 
+     **/     
+    private String replaceServerAndPortOnUri(String uri) throws Exception {
+    	String newUri = uri; 
+    	URL url = new URL(uri);
+    	String uriHost = url.getHost();
+    	int uriPort = url.getPort();
+    	 
+    	String serverHost = Optional.ofNullable(getConfiguredServerHost()).orElse(uriHost);
+    	
+    	newUri = newUri.replace(uriHost, serverHost);                 
+    	Integer serverPort = getConfiguredServerPort();       
+    	
+    	boolean isServerPortConfigured = Optional.ofNullable(serverPort).isPresent();         
+    	if (!isServerPortConfigured) {
+    		return newUri;         
+    	} 
+    	
+    	boolean uriContainsPort = (uriPort > -1); 
+    	if (uriContainsPort) {             
+    			newUri = newUri.replace(Integer.toString(uriPort), serverPort.toString());         
+    	} 
+    	else {
+    		newUri = newUri.replace(serverHost, serverHost + ":" + serverPort);         
+    	}                 
+    	return newUri;     
+    }
+    
     /**
      * Workaround due to Apache CXF bugs. This code can be removed after these defects are fixed.
      *   - https://issues.apache.org/jira/browse/CXF-4109
@@ -2137,5 +2174,26 @@ public class FHIRResource {
     private Integer getConfiguredServerPort() throws Exception {
     	return fhirConfig.getIntProperty(FHIRConfiguration.PROPERTY_PORT);
        
+    }
+    
+    
+    /**
+     * This method returns the equivalent of: uriInfo.getRequestUri().toString()
+     * This method is necessary to provide a workaround to a bug in uriInfo.getRequestUri() where an IllegalArgumentException is thrown by
+     * getRequestUri() when the query string portion contains a vertical bar | character. The vertical bar is one known case of a special
+     * character causing the exception. There could be others.
+     * @return String The complete request URI
+     */
+    private String getRequestUri() {
+    	
+    	String queryString = null;
+    	StringBuilder requestUri = new StringBuilder();
+    	
+    	requestUri.append(httpServletRequest.getRequestURL());
+    	queryString = httpServletRequest.getQueryString();
+    	if (!StringUtils.isEmpty(queryString)) {
+    		requestUri.append("?").append(queryString);
+    	}
+    	return requestUri.toString();
     }
 }
