@@ -889,7 +889,12 @@ public class FHIRResource {
 
             // First, invoke the 'beforeUpdate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, resource.getId().getValue(), null));
-            getInterceptorMgr().fireBeforeUpdateEvent(event);
+            boolean updateCreate = (currentResource == null); 
+            if (updateCreate) {
+            	getInterceptorMgr().fireBeforeCreateEvent(event);
+            } else {
+            	getInterceptorMgr().fireBeforeUpdateEvent(event);
+            }
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             getPersistenceImpl().update(persistenceContext, id, resource);
@@ -899,7 +904,11 @@ public class FHIRResource {
             event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
 
             // Invoke the 'afterUpdate' interceptor methods.
-            getInterceptorMgr().fireAfterUpdateEvent(event);
+            if (updateCreate) {
+            	getInterceptorMgr().fireAfterCreateEvent(event);
+            } else {
+            	getInterceptorMgr().fireAfterUpdateEvent(event);
+            }
 
             return locationURI;
         } finally {
