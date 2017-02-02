@@ -235,7 +235,7 @@ public class FHIRUtil {
 		unmarshaller.setEventHandler(new ValidationEventHandler() {
 			@Override
 			public boolean handleEvent(ValidationEvent event) {
-				return (event.getSeverity() == ValidationEvent.WARNING);
+				return false;
 			}
 		});
 	}

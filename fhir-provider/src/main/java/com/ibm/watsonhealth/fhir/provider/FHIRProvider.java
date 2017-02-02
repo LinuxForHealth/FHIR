@@ -26,7 +26,12 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
+import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
+import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
@@ -41,6 +46,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     @Context
     private UriInfo uriInfo;
     private RuntimeType runtimeType = null;
+    private ObjectFactory objectFactory = new ObjectFactory();
 
     public FHIRProvider() {
         // default to client runtime type
@@ -69,11 +75,13 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             return FHIRUtil.read(type, getFormat(mediaType), entityStream);
         } 
         catch (Exception e) {
-        	OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(e);
-        	throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR)
-                .entity(operationOutcome)
-                .build());
+        	Response response = buildResponse(
+        			buildOperationOutcome(
+        					createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource deserialization")
+        			)
+        	);
+        	//          throw new WebApplicationException(e);
+        	throw new WebApplicationException(response);
         } 
         finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -99,11 +107,13 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         	FHIRUtil.write(t, getFormat(mediaType), entityStream);
         } 
         catch (Exception e) {
-        	OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(e);
-        	throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR)
-                .entity(operationOutcome)
-                .build());
+        	Response response = buildResponse(
+        							buildOperationOutcome(
+        								createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource serialization")
+        							)
+        						);
+        	//          throw new WebApplicationException(e);
+        	throw new WebApplicationException(response);
         } 
         finally {
             log.exiting(this.getClass().getName(), "writeTo");
@@ -126,5 +136,30 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             }
         }
         return null;
+    }
+    
+    private Response buildResponse(OperationOutcome operationOutcome) {
+        Response response = Response.status(Response.Status.BAD_REQUEST)
+                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR)
+                .entity(operationOutcome)
+                .build();
+        return response;
+    }
+    
+    private OperationOutcome buildOperationOutcome(OperationOutcomeIssue... issues) {
+        OperationOutcome outcome = objectFactory.createOperationOutcome()
+                .withId(objectFactory.createId().withValue("providerfail"))
+                .withText(objectFactory.createNarrative()
+                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
+                .withIssue(issues);
+        return outcome;
+    }
+    
+    private OperationOutcomeIssue createIssue(IssueSeverityList severity, IssueTypeList code, String diagnostics) {
+        OperationOutcomeIssue issue = objectFactory.createOperationOutcomeIssue()
+            .withSeverity(objectFactory.createIssueSeverity().withValue(severity))
+            .withCode(objectFactory.createIssueType().withValue(code))
+            .withDiagnostics(objectFactory.createString().withValue(diagnostics));
+        return issue;
     }
 }
