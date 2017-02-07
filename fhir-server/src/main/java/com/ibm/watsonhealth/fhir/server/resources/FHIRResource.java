@@ -154,7 +154,7 @@ public class FHIRResource {
     
     private Boolean updateCreateEnabled = null;
     
-    private Parameter basicCodeSearchParameter = null;
+//  private Parameter basicCodeSearchParameter = null;
 
     @Context
     private ServletContext context;
@@ -1078,7 +1078,7 @@ public class FHIRResource {
                     throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type + "' is not allowed. Allowable virtual resource types for this server are: " + getAllowableVirtualResourceTypes().toString());
                 }
                 resourceTypeName = "Basic";
-                implicitSearchParameter = getBasicCodeSearchParameter();
+                implicitSearchParameter = createBasicCodeSearchParameter(type);
             }
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
@@ -1812,14 +1812,12 @@ public class FHIRResource {
         return updateCreateEnabled;
     }
     
-    private Parameter getBasicCodeSearchParameter() {
-        if (basicCodeSearchParameter == null) {
-            basicCodeSearchParameter = new Parameter(Parameter.Type.TOKEN, "code", null, null);
-            ParameterValue value = new ParameterValue();
-            value.setValueCode(uriInfo.getPathParameters().getFirst("type"));
-            value.setValueSystem(BASIC_RESOURCE_TYPE_URL);
-            basicCodeSearchParameter.getValues().add(value);
-        }
+    private Parameter createBasicCodeSearchParameter(String type) {
+        Parameter basicCodeSearchParameter = new Parameter(Parameter.Type.TOKEN, "code", null, null);
+        ParameterValue value = new ParameterValue();
+        value.setValueCode(type);
+        value.setValueSystem(BASIC_RESOURCE_TYPE_URL);
+        basicCodeSearchParameter.getValues().add(value);
         return basicCodeSearchParameter;
     }
     
