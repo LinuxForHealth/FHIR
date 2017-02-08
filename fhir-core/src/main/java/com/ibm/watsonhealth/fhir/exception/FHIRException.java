@@ -59,12 +59,12 @@ public class FHIRException extends Exception {
 	public String getMessage() {
 		String superMsg = super.getMessage();
 		StringBuilder myMsg = new StringBuilder();
-		if(superMsg != null && !superMsg.isEmpty()) {
-			myMsg.append(super.getMessage()).append("  FHIRException.uniqueId=").append(this.getUniqueId());
-		}
-		else {
-			myMsg.append("FHIRException.uniqueId=").append(this.getUniqueId());
-		}
+				
+		if (superMsg != null && !superMsg.isEmpty()) {
+	 		 myMsg.append(super.getMessage()).append("  ");
+	    }
+	 	myMsg.append("[probeId=").append(this.getUniqueId()).append("]");
+		
 		return myMsg.toString();
 	}
 }
