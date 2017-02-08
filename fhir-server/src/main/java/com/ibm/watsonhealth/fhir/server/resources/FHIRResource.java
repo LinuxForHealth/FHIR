@@ -27,7 +27,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.math.BigInteger;
 import java.net.URI;
-import java.net.URL;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,7 +35,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -154,8 +153,6 @@ public class FHIRResource {
     
     private Boolean updateCreateEnabled = null;
     
-//  private Parameter basicCodeSearchParameter = null;
-
     @Context
     private ServletContext context;
     
@@ -233,11 +230,9 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "create(Resource)");
 
         try {
-        	
         	URI locationURI = doCreate(type, resource);
-        	locationURI = buildAbsoluteLocationUri(uriInfo.getBaseUri(), locationURI);
                        
-            ResponseBuilder response = Response.created(locationURI);
+            ResponseBuilder response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString())));
             status = Response.Status.CREATED;
             response = addHeaders(response, resource);
             return response.build();
@@ -283,18 +278,17 @@ public class FHIRResource {
         	
         	currentResource = doRead(type, resource.getId().getValue(), false);
             URI locationURI = doUpdate(type, id, resource, currentResource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH));
-            locationURI = buildAbsoluteLocationUri(uriInfo.getBaseUri(), locationURI);
             
             ResponseBuilder response = null;
 
             // Determine whether we actually did a create or an update operation in the persistence layer.
             if (currentResource == null) {
                 // Must have been a create.
-                response = Response.created(locationURI);
+                response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString())));
                 status = Response.Status.CREATED;
             } else {
                 // Must have been an update.
-                response = Response.ok().location(locationURI);
+                response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString())));
                 status = Response.Status.OK;
             }
             response = addHeaders(response, resource);
@@ -436,7 +430,7 @@ public class FHIRResource {
     	Bundle bundle= null;
     	
         try {
-            bundle = doHistory(type, id, uriInfo.getQueryParameters(), replaceServerAndPortOnUri(this.getRequestUri()));
+            bundle = doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -474,7 +468,7 @@ public class FHIRResource {
     	
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch(type, null, null, queryParameters, replaceServerAndPortOnUri(this.getRequestUri()));
+            bundle = doSearch(type, null, null, queryParameters, getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -517,8 +511,7 @@ public class FHIRResource {
     	
         try {
             queryParameters = uriInfo.getQueryParameters();
-            //bundle = doSearch(type, queryParameters, uriInfo.getRequestUri().toString());
-            bundle = doSearch(type, compartment, compartmentId, queryParameters, this.getRequestUri());
+            bundle = doSearch(type, compartment, compartmentId, queryParameters, getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -547,7 +540,7 @@ public class FHIRResource {
         
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch(type, null, null, queryParameters, this.getRequestUri());
+            bundle = doSearch(type, null, null, queryParameters, getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -575,7 +568,7 @@ public class FHIRResource {
         
         try {
             queryParameters = uriInfo.getQueryParameters();
-            bundle = doSearch("Resource", null, null, queryParameters, this.getRequestUri());
+            bundle = doSearch("Resource", null, null, queryParameters, getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRRestException e) {
@@ -1320,7 +1313,7 @@ public class FHIRResource {
                         
                         // Construct the absolute requestUri to be used for any response bundles associated 
                         // with history and search requests.
-                        String absoluteUri = getAbsoluteUri(replaceServerAndPortOnUri(this.getRequestUri()), request.getUrl().getValue());
+                        String absoluteUri = getAbsoluteUri(getRequestUri(), request.getUrl().getValue());
                         
                         switch (request.getMethod().getValue()) {
                         case GET:
@@ -2102,93 +2095,6 @@ public class FHIRResource {
         return props;
     }
     
-    /**      
-     * Workaround due to Apache CXF bugs. This code can be removed after these defects are fixed.      
-     * - https://issues.apache.org/jira/browse/CXF-4109      
-     * - https://issues.apache.org/jira/browse/CXF-5737       
-     * @param uri URI that will be changed.       
-     * @return Modified URI as String.      
-     * @throws Exception 
-     **/     
-    private String replaceServerAndPortOnUri(URI uri) throws Exception {
-    	String newUri = uri.toString();                 
-    	String serverHost = Optional.ofNullable(getConfiguredServerHost()).orElse(uri.getHost());         
-    	newUri = newUri.replace(uri.getHost(), serverHost);                 
-    	Integer serverPort = getConfiguredServerPort();       
-    	
-    	boolean isServerPortConfigured = Optional.ofNullable(serverPort).isPresent();         
-    	if (!isServerPortConfigured) {
-    		return newUri;         
-    	} 
-    	
-    	boolean uriContainsPort = newUri.contains(serverHost + ":");         
-    	if (uriContainsPort) {             
-    			newUri = newUri.replace(String.valueOf(uri.getPort()), serverPort.toString());         
-    	} 
-    	else {
-    		newUri = newUri.replace(serverHost, serverHost + ":" + serverPort);         
-    	}                 
-    	return newUri;     
-    }
-    
-    /**      
-     * Workaround due to Apache CXF bugs. This code can be removed after these defects are fixed.      
-     * - https://issues.apache.org/jira/browse/CXF-4109      
-     * - https://issues.apache.org/jira/browse/CXF-5737       
-     * @param uri URI that will be changed.       
-     * @return Modified URI as String.      
-     * @throws Exception 
-     **/     
-    private String replaceServerAndPortOnUri(String uri) throws Exception {
-    	String newUri = uri; 
-    	URL url = new URL(uri);
-    	String uriHost = url.getHost();
-    	int uriPort = url.getPort();
-    	 
-    	String serverHost = Optional.ofNullable(getConfiguredServerHost()).orElse(uriHost);
-    	
-    	newUri = newUri.replace(uriHost, serverHost);                 
-    	Integer serverPort = getConfiguredServerPort();       
-    	
-    	boolean isServerPortConfigured = Optional.ofNullable(serverPort).isPresent();         
-    	if (!isServerPortConfigured) {
-    		return newUri;         
-    	} 
-    	
-    	boolean uriContainsPort = (uriPort > -1); 
-    	if (uriContainsPort) {             
-    			newUri = newUri.replace(Integer.toString(uriPort), serverPort.toString());         
-    	} 
-    	else {
-    		newUri = newUri.replace(serverHost, serverHost + ":" + serverPort);         
-    	}                 
-    	return newUri;     
-    }
-    
-    /**
-     * Workaround due to Apache CXF bugs. This code can be removed after these defects are fixed.
-     *   - https://issues.apache.org/jira/browse/CXF-4109
-     *   - https://issues.apache.org/jira/browse/CXF-5737
-     * @param baseUri URI requested.
-     * @param relativeLocationUri Relative URI of the created/updated resource.
-     * @return The absolute URI.
-     * @throws Exception 
-     */
-    private URI buildAbsoluteLocationUri(URI baseUri, URI relativeLocationUri) throws Exception {
-        String baseUriString = replaceServerAndPortOnUri(baseUri);
-        return URI.create(baseUriString.concat(relativeLocationUri.toString()));
-    }
-    
-    private String getConfiguredServerHost() throws Exception {
-        return fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_HOST);
-    }
-    
-    private Integer getConfiguredServerPort() throws Exception {
-    	return fhirConfig.getIntProperty(FHIRConfiguration.PROPERTY_PORT);
-       
-    }
-    
-    
     /**
      * This method returns the equivalent of: uriInfo.getRequestUri().toString()
      * This method is necessary to provide a workaround to a bug in uriInfo.getRequestUri() where an IllegalArgumentException is thrown by
@@ -2207,5 +2113,36 @@ public class FHIRResource {
     		requestUri.append("?").append(queryString);
     	}
     	return requestUri.toString();
+    }
+    
+    /** 
+     * This method returns the "base URI" associated with the current request.
+     * For example, if a client invoked POST https://myhost:9443/fhir-server/api/v1/Patient to create a Patient resource,
+     * this method would return "https://myhost:9443/fhir-server/api/v1".
+     * @return The base endpoint URI associated with the current request.
+     */
+    private String getRequestBaseUri() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(httpServletRequest.getScheme())
+            .append("://")
+            .append(httpServletRequest.getServerName())
+            .append(":")
+            .append(httpServletRequest.getServerPort())
+            .append(httpServletRequest.getContextPath());
+        String servletPath = httpServletRequest.getServletPath();
+        if (!StringUtils.isEmpty(servletPath)) {
+            sb.append(servletPath);
+        }
+        
+        return sb.toString();
+    }
+    
+    /**
+     * This method simply returns a URI object containing the specified URI string.
+     * @param uriString the URI string for which the URI object will be created
+     * @throws URISyntaxException
+     */
+    private URI toUri(String uriString) throws URISyntaxException {
+        return new URI(uriString);
     }
 }
