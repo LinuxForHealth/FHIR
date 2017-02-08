@@ -1520,11 +1520,16 @@ public class FHIRResource {
         return exceptionResponse(e, e.getHttpStatus());
     }
     
-    private Response exceptionResponse(Exception e, Status status) {
+    private Response exceptionResponse(FHIRException e, Status status) {
         String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
         log.log(Level.SEVERE, msg, e);
         return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e)).build();
     }
+    
+    private Response exceptionResponse(Exception e, Status status) {
+        return this.exceptionResponse(new FHIRException(e), status);
+    }
+
     
     private synchronized Conformance getConformanceStatement() {
         if (conformance == null) {

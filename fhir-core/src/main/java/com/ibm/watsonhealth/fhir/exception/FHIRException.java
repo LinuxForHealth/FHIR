@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.exception;
 
+import java.util.UUID;
+
 import javax.ws.rs.core.Response.Status;
 
 /**
@@ -13,8 +15,9 @@ import javax.ws.rs.core.Response.Status;
  */
 public class FHIRException extends Exception {
     private static final long serialVersionUID = 1L;
-
+    
     private Status httpStatus = null;
+    private String uniqueId = null;
     
     public FHIRException() {
         super();
@@ -44,4 +47,24 @@ public class FHIRException extends Exception {
     public Status getHttpStatus() {
         return (httpStatus != null ? httpStatus : Status.BAD_REQUEST);
     }
+
+	public String getUniqueId() {
+		if (this.uniqueId == null) {
+			this.uniqueId = UUID.randomUUID().toString();
+		}
+		return uniqueId;
+	}
+	
+	@Override
+	public String getMessage() {
+		String superMsg = super.getMessage();
+		StringBuilder myMsg = new StringBuilder();
+		if(superMsg != null && !superMsg.isEmpty()) {
+			myMsg.append(super.getMessage()).append("  FHIRException.uniqueId=").append(this.getUniqueId());
+		}
+		else {
+			myMsg.append("FHIRException.uniqueId=").append(this.getUniqueId());
+		}
+		return myMsg.toString();
+	}
 }
