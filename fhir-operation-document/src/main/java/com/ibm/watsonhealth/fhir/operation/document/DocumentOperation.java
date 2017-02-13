@@ -9,10 +9,8 @@ package com.ibm.watsonhealth.fhir.operation.document;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
@@ -97,55 +95,50 @@ public class DocumentOperation extends AbstractOperation {
         
         bundle.getEntry().add(entry);
         
-        Set<CompositionSection> visited = new HashSet<CompositionSection>();
         Map<String, Resource> resourceMap = new HashMap<String, Resource>();
-        buildDocument(bundle, composition.getSection(), persistence, visited, resourceMap);
+        buildDocument(bundle, composition.getSection(), persistence, resourceMap);
         
         return bundle;
     }
 
-    private void buildDocument(Bundle bundle, List<CompositionSection> sections, FHIRPersistence persistence, Set<CompositionSection> visited, Map<String, Resource> resourceMap) throws Exception {
-        for (CompositionSection section : sections) {
-            if (!visited.contains(section)) {
-                visited.add(section);
+    private void buildDocument(Bundle bundle, List<CompositionSection> sections, FHIRPersistence persistence, Map<String, Resource> resourceMap) throws Exception {
+        for (CompositionSection section : sections) {                
+            // visit section - process entry references
+            for (Reference entry : section.getEntry()) {
+                com.ibm.watsonhealth.fhir.model.String reference = entry.getReference();
                 
-                // visit section - process entry references
-                for (Reference entry : section.getEntry()) {
-                    com.ibm.watsonhealth.fhir.model.String reference = entry.getReference();
+                if (reference != null) {
+                    String referenceValue = reference.getValue();
                     
-                    if (reference != null) {
-                        String referenceValue = reference.getValue();
+                    Resource resource = resourceMap.get(referenceValue);
+                    if (resource == null) {
+                        // Assumption: references will be relative {resourceTypeName}/{logicalId}
+                        String[] tokens = referenceValue.split("/");
                         
-                        Resource resource = resourceMap.get(referenceValue);
-                        if (resource == null) {
-                            // Assumption: references will be relative {resourceTypeName}/{logicalId}
-                            String[] tokens = referenceValue.split("/");
+                        if (tokens.length == 2) {
+                            String resourceTypeName = tokens[0];
+                            String logicalId = tokens[1];
                             
-                            if (tokens.length == 2) {
-                                String resourceTypeName = tokens[0];
-                                String logicalId = tokens[1];
-                                
-                                FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-                                resource = persistence.read(context, FHIRUtil.getResourceType(resourceTypeName), logicalId);
-                                resourceMap.put(referenceValue, resource);
-                                
-                                BundleEntry bundleEntry = factory.createBundleEntry();
-                                ResourceContainer container = factory.createResourceContainer();
-                                
-                                FHIRUtil.setResourceContainerResource(container, resource);
-                                
-                                bundleEntry.setResource(container);
-                                bundle.getEntry().add(bundleEntry);
-                            } else {
-                                throw new FHIROperationException("Unable to parse entry reference: " + referenceValue);
-                            }
+                            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
+                            resource = persistence.read(context, FHIRUtil.getResourceType(resourceTypeName), logicalId);
+                            resourceMap.put(referenceValue, resource);
+                            
+                            BundleEntry bundleEntry = factory.createBundleEntry();
+                            ResourceContainer container = factory.createResourceContainer();
+                            
+                            FHIRUtil.setResourceContainerResource(container, resource);
+                            
+                            bundleEntry.setResource(container);
+                            bundle.getEntry().add(bundleEntry);
+                        } else {
+                            throw new FHIROperationException("Unable to parse entry reference: " + referenceValue);
                         }
                     }
                 }
-                
-                // visit subsections
-                buildDocument(bundle, section.getSection(), persistence, visited, resourceMap);
             }
+            
+            // visit subsections
+            buildDocument(bundle, section.getSection(), persistence, resourceMap);
         }        
     }
 }
