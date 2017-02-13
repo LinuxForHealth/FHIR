@@ -63,9 +63,11 @@ public class DocumentOperation extends AbstractOperation {
                 
                 if (persistParameterValue != null) {
                     boolean persist = false;
+                    
                     if (persistParameterValue != null) {
                         persist = persistParameterValue.isValue();
                     }
+                    
                     if (persist) {
                         persistence.create(context, bundle);
                         URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(bundle), bundle);
@@ -90,9 +92,9 @@ public class DocumentOperation extends AbstractOperation {
         BundleEntry entry = factory.createBundleEntry();
         ResourceContainer container = factory.createResourceContainer();
         
-        FHIRUtil.setResourceContainerResource(container, composition);
-        entry.setResource(container);
+        container.setComposition(composition);
         
+        entry.setResource(container);
         bundle.getEntry().add(entry);
         
         Map<String, Resource> resourceMap = new HashMap<String, Resource>();
@@ -103,7 +105,7 @@ public class DocumentOperation extends AbstractOperation {
 
     private void buildDocument(Bundle bundle, List<CompositionSection> sections, FHIRPersistence persistence, Map<String, Resource> resourceMap) throws Exception {
         for (CompositionSection section : sections) {                
-            // visit section - process entry references
+            // process entries for this section
             for (Reference entry : section.getEntry()) {
                 com.ibm.watsonhealth.fhir.model.String reference = entry.getReference();
                 
@@ -137,8 +139,8 @@ public class DocumentOperation extends AbstractOperation {
                 }
             }
             
-            // visit subsections
+            // process subsections
             buildDocument(bundle, section.getSection(), persistence, resourceMap);
-        }        
+        }
     }
 }
