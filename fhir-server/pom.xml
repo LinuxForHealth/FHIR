@@ -81,6 +81,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-operation-document</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification</artifactId>

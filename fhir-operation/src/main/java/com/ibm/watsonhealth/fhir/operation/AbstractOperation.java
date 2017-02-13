@@ -19,6 +19,7 @@ import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 
@@ -42,7 +43,7 @@ public abstract class AbstractOperation implements FHIROperation {
     }
 
     @Override
-    public final Parameters invoke(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
+    public final Parameters invoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRPersistence persistence) throws FHIROperationException {
         validateOperationContext(operationContext, resourceType);
         validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
@@ -57,7 +58,7 @@ public abstract class AbstractOperation implements FHIROperation {
         return getParameters(parameters, name).size();
     }
 
-    protected abstract Parameters doInvoke(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
+    protected abstract Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRPersistence persistence) throws FHIROperationException;
 
     protected ParametersParameter getParameter(Parameters parameters, String name) {
@@ -122,13 +123,13 @@ public abstract class AbstractOperation implements FHIROperation {
         return resourceTypeNames;
     }
     
-    protected void validateInputParameters(Context operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters) throws FHIROperationException {
+    protected void validateInputParameters(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters) throws FHIROperationException {
         validateParameters(parameters, OperationParameterUseList.IN);
     }
 
-    protected void validateOperationContext(Context operationContext, Class<? extends Resource> resourceType) throws FHIROperationException {
+    protected void validateOperationContext(FHIROperationContext operationContext, Class<? extends Resource> resourceType) throws FHIROperationException {
         OperationDefinition definition = getDefinition();
-        switch (operationContext) {
+        switch (operationContext.getType()) {
         case INSTANCE:
             if (definition.getInstance().isValue() == false) {
                 throw new FHIROperationException("Operation context INSTANCE is not allowed for operation: '" + getName() + "'");

@@ -19,6 +19,7 @@ import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
+import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 
@@ -49,7 +50,7 @@ public class MyOperation extends AbstractOperation {
     }
 
     @Override
-    protected Parameters doInvoke(Context context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
+    protected Parameters doInvoke(FHIROperationContext context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
         throws FHIROperationException {
         try {
             ParametersParameter inputParameter = parameters.getParameter().get(0);

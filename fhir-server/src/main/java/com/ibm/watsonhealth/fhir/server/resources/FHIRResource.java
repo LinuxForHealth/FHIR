@@ -95,6 +95,7 @@ import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
+import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
@@ -590,8 +591,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.SYSTEM, null, null, null, operationName, null);
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
+            Resource result = doInvoke(operationContext, null, null, null, operationName, null);
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -608,8 +610,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,Resource)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.SYSTEM, null, null, null, operationName, resource);
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
+            Resource result = doInvoke(operationContext, null, null, null, operationName, resource);
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -626,8 +629,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.RESOURCE_TYPE, resourceTypeName, null, null, operationName, null); 
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
+            Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, null); 
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -644,8 +648,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,Resource)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.RESOURCE_TYPE, resourceTypeName, null, null, operationName, resource);
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
+            Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, resource);
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -662,8 +667,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, null, operationName, null);
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, null);
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -680,8 +686,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,Resource)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, null, operationName, resource);
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, resource);
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -698,8 +705,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, versionId, operationName, null);
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, null);
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -716,8 +724,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String,Resource)");
         try {
-            Resource result = doInvoke(FHIROperation.Context.INSTANCE, resourceTypeName, logicalId, versionId, operationName, resource);
-            return Response.ok().entity(result).build();
+            FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, resource);
+            return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
@@ -1102,7 +1111,7 @@ public class FHIRResource {
         }
     }
     
-    protected Resource doInvoke(FHIROperation.Context context, String resourceTypeName, String logicalId, String versionId, String operationName, Resource resource) throws Exception {
+    protected Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName, Resource resource) throws Exception {
         Class<? extends Resource> resourceType = null;
         if (resourceTypeName != null) {
             resourceType = getResourceType(resourceTypeName);
@@ -1122,7 +1131,7 @@ public class FHIRResource {
             }
         }
         
-        Parameters result = operation.invoke(context, resourceType, logicalId, versionId, parameters, getPersistenceImpl());
+        Parameters result = operation.invoke(operationContext, resourceType, logicalId, versionId, parameters, getPersistenceImpl());
         
         // if single resource output parameter, return the resource
         if (FHIROperationUtil.hasSingleResourceOutputParameter(result)) {
@@ -2144,5 +2153,13 @@ public class FHIRResource {
      */
     private URI toUri(String uriString) throws URISyntaxException {
         return new URI(uriString);
+    }
+    
+    private Response buildResponse(FHIROperationContext operationContext, Resource resource) throws URISyntaxException {
+        URI locationURI = (URI) operationContext.getProperty(FHIROperationContext.PROPNAME_LOCATION_URI);
+        if (locationURI != null) {
+            return Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString()))).entity(resource).build();
+        }
+        return Response.ok().entity(resource).build();
     }
 }
