@@ -139,7 +139,7 @@ public class DocumentOperation extends AbstractOperation {
                             
                             String requestBaseURI = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
                             if (requestBaseURI != null) {
-                                bundleEntry.setFullUrl(uri(requestBaseURI));
+                                bundleEntry.setFullUrl(uri(requestBaseURI + "/" + referenceValue));
                             }
                             
                             bundleEntry.setResource(container);
