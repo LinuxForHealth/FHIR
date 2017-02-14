@@ -26,17 +26,22 @@
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources/docs</directory>
-            <outputDirectory>fhir/server/fhir/docs</outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
-        <fileSet>
             <directory>src/main/resources/scripts</directory>
             <outputDirectory></outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
 	</fileSets>
 	<files>
+		<file>
+            <source>src/main/resources/docs/FHIRServerUsersGuide.pdf</source>
+            <outputDirectory>fhir/server/fhir/docs</outputDirectory>
+            <fileMode>0755</fileMode>
+        </file>
+        <file>
+            <source>src/main/resources/docs/FHIRServerUsersGuide.html</source>
+            <outputDirectory>fhir/server/fhir/docs</outputDirectory>
+            <fileMode>0755</fileMode>
+        </file>
 		<file>
 			<source>../fhir-server/target/fhir-server.war</source>
 			<outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
