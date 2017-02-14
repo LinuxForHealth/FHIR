@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.operation.document;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
+
 import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
@@ -55,7 +57,7 @@ public class DocumentOperation extends AbstractOperation {
                 throw new FHIROperationException("Could not find composition with id: " + logicalId);
             }
             
-            Bundle bundle = buildDocument(composition, persistence);            
+            Bundle bundle = buildDocument(operationContext, composition, persistence);            
             ParametersParameter persistParameter = getParameter(parameters, "persist");
             
             if (persistParameter != null) {
@@ -64,7 +66,7 @@ public class DocumentOperation extends AbstractOperation {
                 if (persistParameterValue != null) {
                     boolean persist = false;
                     
-                    if (persistParameterValue != null) {
+                    if (persistParameterValue.isValue() != null) {
                         persist = persistParameterValue.isValue();
                     }
                     
@@ -84,7 +86,7 @@ public class DocumentOperation extends AbstractOperation {
         }
     }
     
-    private Bundle buildDocument(Composition composition, FHIRPersistence persistence) throws Exception {
+    private Bundle buildDocument(FHIROperationContext operationContext, Composition composition, FHIRPersistence persistence) throws Exception {
         Bundle bundle = factory.createBundle();
         
         bundle.setType(factory.createBundleType().withValue(BundleTypeList.DOCUMENT));
@@ -97,13 +99,13 @@ public class DocumentOperation extends AbstractOperation {
         entry.setResource(container);
         bundle.getEntry().add(entry);
         
-        Map<String, Resource> resourceMap = new HashMap<String, Resource>();
-        buildDocument(bundle, composition.getSection(), persistence, resourceMap);
+        Map<String, Resource> resources = new HashMap<String, Resource>();
+        buildDocument(operationContext, bundle, composition.getSection(), persistence, resources);
         
         return bundle;
     }
 
-    private void buildDocument(Bundle bundle, List<CompositionSection> sections, FHIRPersistence persistence, Map<String, Resource> resourceMap) throws Exception {
+    private void buildDocument(FHIROperationContext operationContext, Bundle bundle, List<CompositionSection> sections, FHIRPersistence persistence, Map<String, Resource> resources) throws Exception {
         for (CompositionSection section : sections) {                
             // process entries for this section
             for (Reference entry : section.getEntry()) {
@@ -112,7 +114,7 @@ public class DocumentOperation extends AbstractOperation {
                 if (reference != null) {
                     String referenceValue = reference.getValue();
                     
-                    Resource resource = resourceMap.get(referenceValue);
+                    Resource resource = resources.get(referenceValue);
                     if (resource == null) {
                         // Assumption: references will be relative {resourceTypeName}/{logicalId}
                         String[] tokens = referenceValue.split("/");
@@ -123,12 +125,22 @@ public class DocumentOperation extends AbstractOperation {
                             
                             FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
                             resource = persistence.read(context, FHIRUtil.getResourceType(resourceTypeName), logicalId);
-                            resourceMap.put(referenceValue, resource);
+                            
+                            if (resource == null) {
+                                throw new FHIROperationException("Could not find resource for entry reference: " + referenceValue);
+                            }
+                            
+                            resources.put(referenceValue, resource);
                             
                             BundleEntry bundleEntry = factory.createBundleEntry();
                             ResourceContainer container = factory.createResourceContainer();
                             
                             FHIRUtil.setResourceContainerResource(container, resource);
+                            
+                            String requestBaseURI = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
+                            if (requestBaseURI != null) {
+                                bundleEntry.setFullUrl(uri(requestBaseURI));
+                            }
                             
                             bundleEntry.setResource(container);
                             bundle.getEntry().add(bundleEntry);
@@ -140,7 +152,7 @@ public class DocumentOperation extends AbstractOperation {
             }
             
             // process subsections
-            buildDocument(bundle, section.getSection(), persistence, resourceMap);
+            buildDocument(operationContext, bundle, section.getSection(), persistence, resources);
         }
     }
 }

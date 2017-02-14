@@ -1131,6 +1131,9 @@ public class FHIRResource {
             }
         }
         
+        // pass the request base URI to the FHIR operation through the operation context
+        operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri());
+        
         Parameters result = operation.invoke(operationContext, resourceType, logicalId, versionId, parameters, getPersistenceImpl());
         
         // if single resource output parameter, return the resource

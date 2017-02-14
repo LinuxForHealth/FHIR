@@ -12,6 +12,7 @@ import java.util.Map;
 public class FHIROperationContext {
     public static enum Type { SYSTEM, RESOURCE_TYPE, INSTANCE }
 
+    public static final String PROPNAME_REQUEST_BASE_URI = "REQUEST_BASE_URI";
     public static final String PROPNAME_LOCATION_URI = "LOCATION_URI";
 
     private Type type = null;
