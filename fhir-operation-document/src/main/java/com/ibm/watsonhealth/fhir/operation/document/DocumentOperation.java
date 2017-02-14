@@ -18,6 +18,8 @@ import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Composition;
+import com.ibm.watsonhealth.fhir.model.CompositionAttester;
+import com.ibm.watsonhealth.fhir.model.CompositionEvent;
 import com.ibm.watsonhealth.fhir.model.CompositionSection;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.Parameters;
@@ -87,72 +89,119 @@ public class DocumentOperation extends AbstractOperation {
     }
     
     private Bundle buildDocument(FHIROperationContext operationContext, Composition composition, FHIRPersistence persistence) throws Exception {
-        Bundle bundle = factory.createBundle();
+        Bundle document = factory.createBundle();
+        document.setType(factory.createBundleType().withValue(BundleTypeList.DOCUMENT));
         
-        bundle.setType(factory.createBundleType().withValue(BundleTypeList.DOCUMENT));
-        
-        BundleEntry entry = factory.createBundleEntry();
+        // the composition is the first bundle entry in the document
+        BundleEntry bundleEntry = factory.createBundleEntry();
         ResourceContainer container = factory.createResourceContainer();
         
         container.setComposition(composition);
         
-        entry.setResource(container);
-        bundle.getEntry().add(entry);
+        bundleEntry.setResource(container);
+        setFullUrl(operationContext, bundleEntry, "Composition/" + composition.getId().getValue());
+        
+        document.getEntry().add(bundleEntry);
         
         Map<String, Resource> resources = new HashMap<String, Resource>();
-        buildDocument(operationContext, bundle, composition.getSection(), persistence, resources);
         
-        return bundle;
+        // Composition.subject
+        addBundleEntry(operationContext, document, composition.getSubject(), persistence, resources);
+        
+        // Composition.author
+        for (Reference author : composition.getAuthor()) {
+            addBundleEntry(operationContext, document, author, persistence, resources);
+        }
+        
+        // Composition.attester.party
+        for (CompositionAttester attester : composition.getAttester()) {
+            addBundleEntry(operationContext, document, attester.getParty(), persistence, resources);
+        }
+        
+        // Composition.custodian
+        addBundleEntry(operationContext, document, composition.getCustodian(), persistence, resources);
+        
+        // Composition.event.detail
+        for (CompositionEvent event : composition.getEvent()) {
+            for (Reference detail : event.getDetail()) {
+                addBundleEntry(operationContext, document, detail, persistence, resources);
+            }
+        }
+        
+        // Composition.encounter
+        addBundleEntry(operationContext, document, composition.getEncounter(), persistence, resources);
+        
+        // Composition.section.entry
+        addBundleEntries(operationContext, document, composition.getSection(), persistence, resources);
+        
+        return document;
     }
 
-    private void buildDocument(FHIROperationContext operationContext, Bundle bundle, List<CompositionSection> sections, FHIRPersistence persistence, Map<String, Resource> resources) throws Exception {
+    private void addBundleEntry(FHIROperationContext operationContext, Bundle document, Reference reference, FHIRPersistence persistence, Map<String, Resource> resources) throws Exception {;
+        if (reference == null) {
+            return;
+        }
+        
+        if (reference.getReference() == null) {
+            throw new FHIROperationException("Empty reference object is not allowed");
+        }
+    
+        String referenceValue = reference.getReference().getValue();
+        if (referenceValue == null) {
+            throw new FHIROperationException("Empty reference value is not allowed");
+        }
+        
+        Resource resource = resources.get(referenceValue);
+        
+        if (resource == null) {
+            String[] referenceTokens = referenceValue.split("/");
+            
+            // assumption: references will be relative {resourceTypeName}/{logicalId}
+            if (referenceTokens.length != 2) {
+                throw new FHIROperationException("Could not parse reference value: " + referenceValue);
+            }
+            
+            String resourceTypeName = referenceTokens[0];
+            String logicalId = referenceTokens[1];
+            
+            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
+            resource = persistence.read(context, FHIRUtil.getResourceType(resourceTypeName), logicalId);
+            
+            if (resource == null) {
+                throw new FHIROperationException("Could not find resource for reference value: " + referenceValue);
+            }
+            
+            resources.put(referenceValue, resource);
+            
+            // create a bundle entry for the resource
+            BundleEntry bundleEntry = factory.createBundleEntry();
+            ResourceContainer container = factory.createResourceContainer();
+            
+            FHIRUtil.setResourceContainerResource(container, resource);
+            
+            bundleEntry.setResource(container);
+            setFullUrl(operationContext, bundleEntry, referenceValue);
+            
+            document.getEntry().add(bundleEntry);
+        }
+    }
+
+    private void addBundleEntries(FHIROperationContext operationContext, Bundle document, List<CompositionSection> sections, FHIRPersistence persistence, Map<String, Resource> resources) throws Exception {
         for (CompositionSection section : sections) {                
             // process entries for this section
             for (Reference entry : section.getEntry()) {
-                com.ibm.watsonhealth.fhir.model.String reference = entry.getReference();
-                
-                if (reference != null) {
-                    String referenceValue = reference.getValue();
-                    
-                    Resource resource = resources.get(referenceValue);
-                    if (resource == null) {
-                        // Assumption: references will be relative {resourceTypeName}/{logicalId}
-                        String[] tokens = referenceValue.split("/");
-                        
-                        if (tokens.length == 2) {
-                            String resourceTypeName = tokens[0];
-                            String logicalId = tokens[1];
-                            
-                            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-                            resource = persistence.read(context, FHIRUtil.getResourceType(resourceTypeName), logicalId);
-                            
-                            if (resource == null) {
-                                throw new FHIROperationException("Could not find resource for entry reference: " + referenceValue);
-                            }
-                            
-                            resources.put(referenceValue, resource);
-                            
-                            BundleEntry bundleEntry = factory.createBundleEntry();
-                            ResourceContainer container = factory.createResourceContainer();
-                            
-                            FHIRUtil.setResourceContainerResource(container, resource);
-                            
-                            String requestBaseURI = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
-                            if (requestBaseURI != null) {
-                                bundleEntry.setFullUrl(uri(requestBaseURI + "/" + referenceValue));
-                            }
-                            
-                            bundleEntry.setResource(container);
-                            bundle.getEntry().add(bundleEntry);
-                        } else {
-                            throw new FHIROperationException("Unable to parse entry reference: " + referenceValue);
-                        }
-                    }
-                }
+                addBundleEntry(operationContext, document, entry, persistence, resources);
             }
             
             // process subsections
-            buildDocument(operationContext, bundle, section.getSection(), persistence, resources);
+            addBundleEntries(operationContext, document, section.getSection(), persistence, resources);
+        }
+    }
+    
+    private void setFullUrl(FHIROperationContext operationContext, BundleEntry bundleEntry, String referenceValue) {
+        String requestBaseURI = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
+        if (requestBaseURI != null) {
+            bundleEntry.setFullUrl(uri(requestBaseURI + "/" + referenceValue));
         }
     }
 }
