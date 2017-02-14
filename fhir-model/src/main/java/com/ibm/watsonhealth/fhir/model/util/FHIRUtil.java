@@ -57,12 +57,16 @@ import com.ibm.watsonhealth.fhir.model.AddressUse;
 import com.ibm.watsonhealth.fhir.model.AddressUseList;
 import com.ibm.watsonhealth.fhir.model.Attachment;
 import com.ibm.watsonhealth.fhir.model.Basic;
+import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.CarePlanParticipant;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatus;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatusList;
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.Coding;
+import com.ibm.watsonhealth.fhir.model.Composition;
+import com.ibm.watsonhealth.fhir.model.CompositionSection;
 import com.ibm.watsonhealth.fhir.model.ConditionVerificationStatus;
 import com.ibm.watsonhealth.fhir.model.ConditionVerificationStatusList;
 import com.ibm.watsonhealth.fhir.model.ContactPoint;
@@ -191,6 +195,7 @@ public class FHIRUtil {
 	
 	public static <T extends Resource> Binder<Node> createBinder(T resource) {
 		// FIXME: Workaround for bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=455133
+	    /*
 		Narrative text = null;
 		DomainResource domainResource = null;
 		if (resource instanceof DomainResource) {
@@ -200,15 +205,21 @@ public class FHIRUtil {
 				domainResource.setText(null);
 			}
 		}
+		*/
 		Binder<Node> binder = getContext(Format.XML).createBinder();
 		try {
+		    Map<Object, Narrative> saved = new HashMap<Object, Narrative>();
+		    save(resource, saved);
 			binder.marshal(wrap(resource), documentBuilder.newDocument());
-		} catch (JAXBException e) {
+			restore(saved);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		/*
 		if (text != null) {
 			domainResource.setText(text);
 		}
+		*/
 		return binder;
 	}
 	
@@ -957,5 +968,67 @@ public class FHIRUtil {
         }
         return URI.create(resourceTypeName + "/" + resource.getId().getValue() 
             + "/_history/" + resource.getMeta().getVersionId().getValue());
+    }
+    
+    private static void save(Resource resource, Map<Object, Narrative> saved) throws Exception {
+        if (resource instanceof Bundle) {
+            processBundle((Bundle) resource, saved);
+        } else if (resource instanceof Composition) {
+            processComposition((Composition) resource, saved);
+        } else if (resource instanceof DomainResource) {
+            processDomainResource((DomainResource) resource, saved);
+        }
+    }
+
+    private static void processBundle(Bundle bundle, Map<Object, Narrative> saved) throws Exception {
+        for (BundleEntry entry : bundle.getEntry()) {
+            ResourceContainer container = entry.getResource();
+            Resource resource = FHIRUtil.getResourceContainerResource(container);
+            if (resource != null) {
+                save(resource, saved);
+            }
+        }
+    }
+
+    private static void processComposition(Composition composition, Map<Object, Narrative> saved) {
+        processCompositionSections(composition.getSection(), saved);
+    }
+
+    private static void processCompositionSections(List<CompositionSection> sections, Map<Object, Narrative> saved) {
+        for (CompositionSection section : sections) {
+            if (section.getText() != null) {
+                Narrative text = section.getText();
+                section.setText(null);
+                saved.put(section, text);
+            }
+            processCompositionSections(section.getSection(), saved);
+        }
+    }
+
+    private static void processDomainResource(DomainResource domainResource, Map<Object, Narrative> saved) throws Exception {
+        if (domainResource.getText() != null) {
+            Narrative text = domainResource.getText();
+            domainResource.setText(null);
+            saved.put(domainResource, text);       
+        }
+        for (ResourceContainer container : domainResource.getContained()) {
+            Resource resource = FHIRUtil.getResourceContainerResource(container);
+            if (resource != null) {
+                save(resource, saved);
+            }
+        }
+    }
+
+    private static void restore(Map<Object, Narrative> saved) {
+        for (Object resource : saved.keySet()) {
+            Narrative text = saved.get(resource);
+            if (resource instanceof DomainResource) {
+                DomainResource domainResource = (DomainResource) resource;
+                domainResource.setText(text);
+            } else if (resource instanceof CompositionSection) {
+                CompositionSection section = (CompositionSection) resource;
+                section.setText(text);
+            }
+        }
     }
 }
