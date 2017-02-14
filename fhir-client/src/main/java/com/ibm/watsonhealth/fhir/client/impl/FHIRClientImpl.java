@@ -42,6 +42,7 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleType;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
+import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
@@ -289,6 +290,106 @@ public class FHIRClientImpl implements FHIRClient {
     @Override
     public FHIRResponse transaction(Bundle bundle, FHIRRequestHeader... headers) throws Exception {
         return bundle(bundle, BundleTypeList.TRANSACTION, headers);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String)
+     */
+    @Override
+    public FHIRResponse invoke(String operationName, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Invocation.Builder builder = endpoint.path(operationName).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, com.ibm.watsonhealth.fhir.model.Resource)
+     */
+    @Override
+    public FHIRResponse invoke(String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
+        Invocation.Builder builder = endpoint.path(operationName).request();
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String)
+     */
+    @Override
+    public FHIRResponse invoke(String resourceTypeName, String operationName, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Invocation.Builder builder = endpoint.path(resourceTypeName).path(operationName).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, com.ibm.watsonhealth.fhir.model.Resource)
+     */
+    @Override
+    public FHIRResponse invoke(String resourceTypeName, String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
+        Invocation.Builder builder = endpoint.path(resourceTypeName).path(operationName).request();
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String)
+     */
+    @Override
+    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path(operationName).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, com.ibm.watsonhealth.fhir.model.Resource)
+     */
+    @Override
+    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
+        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path(operationName).request();
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String)
+     */
+    @Override
+    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path("_history").path(versionId).path(operationName).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
+        return new FHIRResponseImpl(response);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String, com.ibm.watsonhealth.fhir.model.Resource)
+     */
+    @Override
+    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
+        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path("_history").path(versionId).path(operationName).request();
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.post(entity);
+        return new FHIRResponseImpl(response);
     }
     
     private FHIRResponse bundle(Bundle bundle, BundleTypeList bundleType, FHIRRequestHeader... headers) throws Exception {
