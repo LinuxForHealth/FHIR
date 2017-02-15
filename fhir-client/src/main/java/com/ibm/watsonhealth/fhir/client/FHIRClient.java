@@ -326,7 +326,7 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
      */
-    FHIRResponse invoke(String operationName, FHIRRequestHeader... headers) throws Exception;
+    FHIRResponse invoke(String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'invoke' FHIR REST API operation.
@@ -346,7 +346,7 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
      */
-    FHIRResponse invoke(String resourceTypeName, String operationName, FHIRRequestHeader... headers) throws Exception;
+    FHIRResponse invoke(String resourceTypeName, String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'invoke' FHIR REST API operation.
@@ -368,7 +368,7 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
      */
-    FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, FHIRRequestHeader... headers) throws Exception;
+    FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'invoke' FHIR REST API operation.
@@ -392,7 +392,7 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
      */
-    FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, FHIRRequestHeader... headers) throws Exception;
+    FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'invoke' FHIR REST API operation.

@@ -293,12 +293,14 @@ public class FHIRClientImpl implements FHIRClient {
     }
     
     /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
      */
     @Override
-    public FHIRResponse invoke(String operationName, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Invocation.Builder builder = endpoint.path(operationName).request(getDefaultMimeType());
+        endpoint = endpoint.path(operationName);
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.get();
         return new FHIRResponseImpl(response);
@@ -321,9 +323,11 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceTypeName, String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Invocation.Builder builder = endpoint.path(resourceTypeName).path(operationName).request(getDefaultMimeType());
+        endpoint = endpoint.path(resourceTypeName).path(operationName);
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.get();
         return new FHIRResponseImpl(response);
@@ -346,9 +350,11 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path(operationName).request(getDefaultMimeType());
+        endpoint = endpoint.path(resourceTypeName).path(logicalId).path(operationName);
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.get();
         return new FHIRResponseImpl(response);
@@ -371,9 +377,11 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path("_history").path(versionId).path(operationName).request(getDefaultMimeType());
+        endpoint = endpoint.path(resourceTypeName).path(logicalId).path("_history").path(versionId).path(operationName);
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.get();
         return new FHIRResponseImpl(response);
