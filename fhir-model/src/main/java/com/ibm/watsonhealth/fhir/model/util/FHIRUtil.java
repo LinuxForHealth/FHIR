@@ -57,16 +57,12 @@ import com.ibm.watsonhealth.fhir.model.AddressUse;
 import com.ibm.watsonhealth.fhir.model.AddressUseList;
 import com.ibm.watsonhealth.fhir.model.Attachment;
 import com.ibm.watsonhealth.fhir.model.Basic;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.CarePlanParticipant;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatus;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatusList;
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.Coding;
-import com.ibm.watsonhealth.fhir.model.Composition;
-import com.ibm.watsonhealth.fhir.model.CompositionSection;
 import com.ibm.watsonhealth.fhir.model.ConditionVerificationStatus;
 import com.ibm.watsonhealth.fhir.model.ConditionVerificationStatusList;
 import com.ibm.watsonhealth.fhir.model.ContactPoint;
@@ -75,7 +71,6 @@ import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
 import com.ibm.watsonhealth.fhir.model.Date;
 import com.ibm.watsonhealth.fhir.model.DateTime;
 import com.ibm.watsonhealth.fhir.model.Decimal;
-import com.ibm.watsonhealth.fhir.model.DomainResource;
 import com.ibm.watsonhealth.fhir.model.Element;
 import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.GoalStatus;
@@ -92,7 +87,6 @@ import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.Meta;
 import com.ibm.watsonhealth.fhir.model.NameUse;
 import com.ibm.watsonhealth.fhir.model.NameUseList;
-import com.ibm.watsonhealth.fhir.model.Narrative;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
@@ -118,7 +112,6 @@ import com.ibm.watsonhealth.fhir.model.UnitsOfTime;
 import com.ibm.watsonhealth.fhir.model.UnitsOfTimeList;
 import com.ibm.watsonhealth.fhir.model.Uri;
 import com.ibm.watsonhealth.fhir.model.adapters.DivAdapter;
-import com.ibm.watsonhealth.fhir.model.xhtml.Div;
 
 public class FHIRUtil {
 	private static final String HL7_FHIR_NS_URI = "http://hl7.org/fhir";	
@@ -194,32 +187,12 @@ public class FHIRUtil {
 	}
 	
 	public static <T extends Resource> Binder<Node> createBinder(T resource) {
-		// FIXME: Workaround for bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=455133
-	    /*
-		Narrative text = null;
-		DomainResource domainResource = null;
-		if (resource instanceof DomainResource) {
-			domainResource = (DomainResource) resource;
-			if (domainResource.getText() != null) {
-				text = domainResource.getText();
-				domainResource.setText(null);
-			}
-		}
-		*/
 		Binder<Node> binder = getContext(Format.XML).createBinder();
 		try {
-		    Map<Object, Narrative> saved = new HashMap<Object, Narrative>();
-		    save(resource, saved);
 			binder.marshal(wrap(resource), documentBuilder.newDocument());
-			restore(saved);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		/*
-		if (text != null) {
-			domainResource.setText(text);
-		}
-		*/
 		return binder;
 	}
 	
@@ -311,10 +284,10 @@ public class FHIRUtil {
         return jaxbElement.getValue();
     }
 
-    private static Marshaller createMarshaller(Format format) throws JAXBException {
+    private static Marshaller createMarshaller(Format format, boolean formatted) throws JAXBException {
 		JAXBContext context = getContext(format);
 		Marshaller marshaller = context.createMarshaller();
-		configureMarshaller(marshaller, format);
+		configureMarshaller(marshaller, format, formatted);
 		return marshaller;
 	}
 	
@@ -322,10 +295,12 @@ public class FHIRUtil {
 		return objectFactory.createConditionVerificationStatus().withValue(ConditionVerificationStatusList.fromValue("confirmed"));
 	}
 	
-	private static void configureMarshaller(Marshaller marshaller, Format format) throws PropertyException   {
+	private static void configureMarshaller(Marshaller marshaller, Format format, boolean formatted) throws PropertyException   {
 		// common configuration
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		marshaller.setProperty(MarshallerProperties.INDENT_STRING, "    ");
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatted);
+		if (formatted) {
+		    marshaller.setProperty(MarshallerProperties.INDENT_STRING, "    ");
+		}
 		// Defect 211140  - This event handler was tries in conjunction with 
 		// with the unmarshalling event handler, but the following event handler
 		// caused the OperationOutcome built in the readFrom() method to fail
@@ -346,26 +321,50 @@ public class FHIRUtil {
 			namespacePrefixMap.put(XHTML_NS_URI, XHTML_NS_PREFIX);
 			marshaller.setProperty(MarshallerProperties.NAMESPACE_PREFIX_MAPPER, namespacePrefixMap);
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
-		}
-		else { 			
+		} else {
+		    // JSON-specific configuration
 			marshaller.setProperty(MarshallerProperties.JSON_MARSHAL_EMPTY_COLLECTIONS, false);
 		}
 	}
 	
 	public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws JAXBException {
-		Marshaller marshaller = createMarshaller(format);
+		/*
+	    Marshaller marshaller = createMarshaller(format);
 		marshaller.marshal(resource, stream);
+		*/
+		write(resource, format, stream, true);
 	}
+	
+    public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws JAXBException {
+        Marshaller marshaller = createMarshaller(format, formatted);
+        marshaller.marshal(resource, stream);
+    }
 	
 	public static <T extends Resource> void write(T resource, Format format, Writer writer) throws JAXBException {
-		Marshaller marshaller = createMarshaller(format);
+		/*
+	    Marshaller marshaller = createMarshaller(format);
 		marshaller.marshal(resource, writer);
+		*/
+		write(resource, format, writer, true);
 	}
 	
+    public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws JAXBException {
+        Marshaller marshaller = createMarshaller(format, formatted);
+        marshaller.marshal(resource, writer);
+    }
+	
 	public static <T extends Resource> void write(T resource, Node node) throws JAXBException {
+	    /*
 		Marshaller marshaller = createMarshaller(Format.XML);
 		marshaller.marshal(resource, node);
+		*/
+		write(resource, node, true);
 	}
+	
+    public static <T extends Resource> void write(T resource, Node node, boolean formatted) throws JAXBException {
+        Marshaller marshaller = createMarshaller(Format.XML, formatted);
+        marshaller.marshal(resource, node);
+    }
 	
     public static JsonObject toJsonObject(Resource resource) throws JAXBException {
         // write Resource to String
@@ -384,7 +383,7 @@ public class FHIRUtil {
     public static <T extends Element> JsonObject toJsonObject(Class<T> elementType, T element) throws JAXBException {
         // write Element to String
         StringWriter writer = new StringWriter();
-        Marshaller marshaller = createMarshaller(Format.JSON);
+        Marshaller marshaller = createMarshaller(Format.JSON, false);
         
         // wrap "element" in a JAXBElement to omit "type" field from output
         JAXBElement<T> jaxbElement = new JAXBElement<T>(new QName(""), elementType, element);
@@ -511,7 +510,7 @@ public class FHIRUtil {
         return objectFactory.createDecimal().withValue(new BigDecimal(value.toString()));
     }
 
-    public static Div div(String s) {
+    public static org.w3c.dom.Element div(String s) {
         try {
             return new DivAdapter().unmarshal(s);
         } catch (Exception e) {
@@ -968,67 +967,5 @@ public class FHIRUtil {
         }
         return URI.create(resourceTypeName + "/" + resource.getId().getValue() 
             + "/_history/" + resource.getMeta().getVersionId().getValue());
-    }
-    
-    private static void save(Resource resource, Map<Object, Narrative> saved) throws Exception {
-        if (resource instanceof Bundle) {
-            processBundle((Bundle) resource, saved);
-        } else if (resource instanceof Composition) {
-            processComposition((Composition) resource, saved);
-        } else if (resource instanceof DomainResource) {
-            processDomainResource((DomainResource) resource, saved);
-        }
-    }
-
-    private static void processBundle(Bundle bundle, Map<Object, Narrative> saved) throws Exception {
-        for (BundleEntry entry : bundle.getEntry()) {
-            ResourceContainer container = entry.getResource();
-            Resource resource = FHIRUtil.getResourceContainerResource(container);
-            if (resource != null) {
-                save(resource, saved);
-            }
-        }
-    }
-
-    private static void processComposition(Composition composition, Map<Object, Narrative> saved) {
-        processCompositionSections(composition.getSection(), saved);
-    }
-
-    private static void processCompositionSections(List<CompositionSection> sections, Map<Object, Narrative> saved) {
-        for (CompositionSection section : sections) {
-            if (section.getText() != null) {
-                Narrative text = section.getText();
-                section.setText(null);
-                saved.put(section, text);
-            }
-            processCompositionSections(section.getSection(), saved);
-        }
-    }
-
-    private static void processDomainResource(DomainResource domainResource, Map<Object, Narrative> saved) throws Exception {
-        if (domainResource.getText() != null) {
-            Narrative text = domainResource.getText();
-            domainResource.setText(null);
-            saved.put(domainResource, text);       
-        }
-        for (ResourceContainer container : domainResource.getContained()) {
-            Resource resource = FHIRUtil.getResourceContainerResource(container);
-            if (resource != null) {
-                save(resource, saved);
-            }
-        }
-    }
-
-    private static void restore(Map<Object, Narrative> saved) {
-        for (Object resource : saved.keySet()) {
-            Narrative text = saved.get(resource);
-            if (resource instanceof DomainResource) {
-                DomainResource domainResource = (DomainResource) resource;
-                domainResource.setText(text);
-            } else if (resource instanceof CompositionSection) {
-                CompositionSection section = (CompositionSection) resource;
-                section.setText(text);
-            }
-        }
     }
 }
