@@ -118,7 +118,7 @@ public class FHIRUtilities {
             int endIndex = str.indexOf("</div>", startIndex);
             if (endIndex != -1) {
                 String divContent = str.substring(startIndex + 5, endIndex);
-                String divWithoutNewLine = divContent.replace("\\n", "").replaceAll(">\\s*<", "><");
+                String divWithoutNewLine = divContent.replace("\\r","").replace("\\n", "").replaceAll(">\\s*<", "><");
                 String strNewLineStrippedInDiv = str.replace(divContent, divWithoutNewLine);
                 //String divWithoutNewLineWhiteSpace = divWithoutNewLine.replace(" ", "");
                 return strNewLineStrippedInDiv;//.replace(divWithoutNewLine, divWithoutNewLineWhiteSpace);
