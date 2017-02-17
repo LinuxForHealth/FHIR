@@ -2,6 +2,15 @@
 
 <suite name="JDBCUnitTestsSuite">
 
-  
-  
+	<test name="JDBCTests">
+	  	<groups>
+	  		<run>
+	  			<include name="jdbc"></include>
+	  		</run>
+	  	</groups>
+       <classes>
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.FHIRDBDAOTest" /> 
+	   </classes>
+    </test>
+ 
 </suite>

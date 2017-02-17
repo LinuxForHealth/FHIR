@@ -47,6 +47,11 @@
 			<artifactId>derby</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>db2jcc4</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
