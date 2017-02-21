@@ -74,9 +74,18 @@ public class SearchUtil {
     // In the future, we might want to make this value configurable.
     private static final int MAX_PAGE_SIZE = 1000;
     private static final Map<String, Map<String, SearchParameter>> searchParameterMap = buildSearchParameterMap();
-    private static final XPath xpath = createXPath();
-    private static final Map<String, XPathExpression> expressionMap = new HashMap<String, XPathExpression>();
 
+    static {
+        System.setProperty("com.sun.org.apache.xml.internal.dtm.DTMManager", "com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault");
+    }
+
+    private static final ThreadLocal<XPathFactory> threadLocalXPathFactory = new ThreadLocal<XPathFactory>() {
+        @Override
+        protected XPathFactory initialValue() {
+            return XPathFactory.newInstance();
+        }
+    };    
+    
     private static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_page");
     
@@ -159,8 +168,7 @@ public class SearchUtil {
     }
 
     private static XPath createXPath() {
-        XPathFactory xf = XPathFactory.newInstance();
-        XPath xp = xf.newXPath();
+        XPath xp = threadLocalXPathFactory.get().newXPath();
         xp.setNamespaceContext(new NamespaceContext() {
             @Override
             public String getNamespaceURI(String prefix) {
@@ -184,21 +192,6 @@ public class SearchUtil {
             }
         });
         return xp;
-    }
-
-    private static XPathExpression getExpression(String expr) throws XPathExpressionException {
-        XPathExpression expression = expressionMap.get(expr);
-        if (expression == null) {
-            // double-checked locking pattern
-            synchronized (expressionMap) {
-                expression = expressionMap.get(expr);
-                if (expression == null) {
-                    expression = xpath.compile(expr);
-                    expressionMap.put(expr, expression);
-                }
-            }
-        }
-        return expression;
     }
 
     private static Map<String, Map<String, SearchParameter>> buildSearchParameterMap() {
@@ -365,18 +358,16 @@ public class SearchUtil {
                 if (xpath.startsWith("f:Resource")) {
                     xpath = xpath.replaceFirst("f:Resource", "f:" + resource.getClass().getSimpleName());
                 }
-                for (String s : xpath.split("\\|")) {
-                    XPathExpression expr = getExpression(s.trim());
-                    NodeList nodeList = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
-                    if (nodeList.getLength() > 0) {
-                        List<Object> values = result.get(parameter);
-                        if (values == null) {
-                            values = new ArrayList<Object>();
-                            result.put(parameter, values);
-                        }
-                        for (int i = 0; i < nodeList.getLength(); i++) {
-                            values.add(binder.getJAXBNode(nodeList.item(i)));
-                        }
+                XPathExpression expr = createXPath().compile(xpath);
+                NodeList nodeList = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
+                if (nodeList.getLength() > 0) {
+                    List<Object> values = result.get(parameter);
+                    if (values == null) {
+                        values = new ArrayList<Object>();
+                        result.put(parameter, values);
+                    }
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        values.add(binder.getJAXBNode(nodeList.item(i)));
                     }
                 }
             }
