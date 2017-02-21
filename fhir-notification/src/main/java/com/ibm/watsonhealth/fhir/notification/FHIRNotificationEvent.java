@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.notification;
 
+import javax.ws.rs.core.HttpHeaders;
+
 import com.ibm.watsonhealth.fhir.model.Resource;
 
 public class FHIRNotificationEvent {
@@ -14,10 +16,11 @@ public class FHIRNotificationEvent {
 	private String operationType = null;
 	private String resourceId = null;
 	private Resource resource = null;
+	private HttpHeaders httpHeaders = null;
 
 	public FHIRNotificationEvent() {
 	}
-	
+
 	public String getResourceId() {
 		return resourceId;
 	}
@@ -49,15 +52,16 @@ public class FHIRNotificationEvent {
 	public void setOperationType(String operationType) {
 		this.operationType = operationType;
 	}
-	
+
 	@Override
 	public String toString() {
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("FHIRNotificationEvent["
-	            + "operation=" + getOperationType() 
+	            + "operation=" + getOperationType()
 	            + ", resourceId=" + getResourceId()
-	            + ", location=" + getLocation() 
+	            + ", location=" + getLocation()
 	            + ", lastUpdated=" + getLastUpdated()
+	            + ", httpHeaders=" + getHttpHeaders()
 	            + "]");
 	    return sb.toString();
 	}
@@ -68,5 +72,13 @@ public class FHIRNotificationEvent {
 
     public void setResource(Resource resource) {
         this.resource = resource;
+    }
+
+    public HttpHeaders getHttpHeaders() {
+        return this.httpHeaders;
+    }
+
+    public void setHttpHeaders(HttpHeaders httpHeaders) {
+        this.httpHeaders = httpHeaders;
     }
 }

@@ -6,15 +6,16 @@
 
 package com.ibm.watsonhealth.fhir.notification;
 
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_NOTIFICATION_RESOURCE_TYPES;
-
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.config.PropertyGroup;
+import javax.naming.InitialContext;
+
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.notification.exception.FHIRNotificationException;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -27,30 +28,47 @@ import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInt
  */
 public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRNotificationService.class.getName());
-
+    private static final String JNDINAME_INCLUDED_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.notification.includeResourceTypes";
     private List<FHIRNotificationSubscriber> subscribers = new CopyOnWriteArrayList<FHIRNotificationSubscriber>();
-
     private static final FHIRNotificationService INSTANCE = new FHIRNotificationService();
-
-    private List<String> includedResourceTypes = null;
+    private Set<String> includedResourceTypes = Collections.synchronizedSortedSet(new TreeSet<String>());
 
     private FHIRNotificationService() {
-        log.entering(this.getClass().getName(), "FHIRNotificationService ctor");
+        log.entering(this.getClass().getName(), "FHIRNotificationService");
+
+        // Register the notification service as an interceptor so we can rely on the
+        // interceptor methods to trigger the 'publish' of the notification events.
+        FHIRPersistenceInterceptorMgr.getInstance().addPrioritizedInterceptor(this);
+        initResourceTypes();
+        log.exiting(this.getClass().getName(), "FHIRNotificationService");
+    }
+
+    /**
+     * Retrieve the JNDI entry containing included resource types and initialize our set appropriately.
+     */
+    private void initResourceTypes() {
+        String jndiValue = null;
         try {
-            // Register the notification service as an interceptor so we can rely on the
-            // interceptor methods to trigger the 'publish' of the notification events.
-            FHIRPersistenceInterceptorMgr.getInstance().addPrioritizedInterceptor(this);
-            
-            // Retrieve the list of resource types subject to notifications.
-            PropertyGroup fhirConfig = FHIRConfiguration.loadConfiguration();
-            includedResourceTypes = fhirConfig.getStringListProperty(PROPERTY_NOTIFICATION_RESOURCE_TYPES);
-            log.finer("Notification service will publish events for these resource types: "
-                    + (includedResourceTypes.isEmpty() ? "ALL" : "\n" + includedResourceTypes.toString()));
+            InitialContext ctx = new InitialContext();
+            jndiValue = (String) ctx.lookup(JNDINAME_INCLUDED_RESOURCE_TYPES);
         } catch (Throwable t) {
-            throw new IllegalStateException("Unexpected error during initialization.", t);
-        } finally {
-            log.exiting(this.getClass().getName(), "FHIRNotificationService ctor");
+            // Ignore any exceptions while looking up the JNDI entry.
         }
+
+        // If we retrieved a valid non-empty jndi value, then parse it apart and store the resource type
+        // names in our set, which will be used to determine if notification events should be published or not.
+        if (jndiValue != null && !jndiValue.isEmpty()) {
+            includedResourceTypes.clear();
+            String[] list = jndiValue.split(",");
+            if (list.length > 0) {
+                for (int i = 0; i < list.length; i++) {
+                    includedResourceTypes.add(list[i].trim());
+                }
+            }
+        }
+
+        log.finer("Notification service will publish events for these resource types: "
+                + (includedResourceTypes.isEmpty() ? "ALL" : "\n" + includedResourceTypes.toString()));
     }
 
     public static FHIRNotificationService getInstance() {
@@ -59,7 +77,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
 
     /**
      * Method for broadcasting message to each subscriber.
-     * 
+     *
      * @param event
      */
     public void publish(FHIRNotificationEvent event) {
@@ -77,7 +95,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
 
     /**
      * Method to subscribe the target notification implementation
-     * 
+     *
      * @param subscriber
      */
     public void subscribe(FHIRNotificationSubscriber subscriber) {
@@ -93,7 +111,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
 
     /**
      * Method to unsubscribe the target notification implementation
-     * 
+     *
      * @param subscriber
      */
     public void unsubscribe(FHIRNotificationSubscriber subscriber) {
@@ -109,7 +127,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
 
     /**
      * Check if this subscriber has subscribed to this service
-     * 
+     *
      * @param subscriber
      * @return
      */
@@ -181,6 +199,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
      */
     private boolean shouldPublish(FHIRPersistenceEvent pEvent) {
         log.entering(this.getClass().getName(), "shouldPublish");
+
         try {
             // If our resource type filter is empty, then we should publish all notification events.
             if (includedResourceTypes == null || includedResourceTypes.isEmpty()) {
@@ -201,7 +220,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
 
             return (resourceType != null ? includedResourceTypes.contains(resourceType) : false);
         } catch (Throwable t) {
-            throw new IllegalStateException("Unexpected exception while checking notification resource type filter.", t);
+            throw new IllegalStateException("Unexpected exception while checking notification resource type inclusion.", t);
         } finally {
             log.exiting(this.getClass().getName(), "shouldPublish");
         }
@@ -219,6 +238,8 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             event.setLocation((String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI));
             event.setResourceId(resource.getId().getValue());
             event.setResource(resource);
+            event.setHttpHeaders(pEvent.getHttpHeaders());
+
             return event;
         } catch (Exception e) {
             log.log(Level.SEVERE, this.getClass().getName() + ": unable to build notification event", e);
