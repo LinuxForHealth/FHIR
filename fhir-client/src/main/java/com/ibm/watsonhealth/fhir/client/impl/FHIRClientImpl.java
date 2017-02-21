@@ -592,8 +592,13 @@ public class FHIRClientImpl implements FHIRClient {
             // If necessary, load the truststore-related properties.
             setClientAuthEnabled(Boolean.parseBoolean(getProperty(PROPNAME_CLIENT_AUTH_ENABLED, "false")));
             if (isOAuth2Enabled() || isClientAuthEnabled() || usingSSLTransport()) {
-                setTrustStoreLocation(getRequiredProperty(PROPNAME_TRUSTSTORE_LOCATION));
-                setTrustStorePassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_TRUSTSTORE_PASSWORD)));
+            	try {
+            		setTrustStoreLocation(getRequiredProperty(PROPNAME_TRUSTSTORE_LOCATION));
+            		setTrustStorePassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_TRUSTSTORE_PASSWORD)));
+            	} catch(Exception e) {
+            		setTrustStoreLocation(DEFAULT_TRUSTSTORE_LOCATION);
+            		setTrustStorePassword(FHIRUtilities.decode(DEFAULT_TRUSTSTORE_ENCODED_PASSWORD));
+            	}
                 setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE_JKS));
             }
             
