@@ -490,8 +490,9 @@ public class FHIRClientImpl implements FHIRClient {
             }
             
             // If using oAuth 2.0 or clientauth or an https endpoint, then we need to attach our Truststore.
-            if (isOAuth2Enabled() || isClientAuthEnabled() || usingSSLTransport()) {
-                cb = cb.trustStore(getTrustStore());
+            KeyStore ks = getTrustStore();
+            if (ks != null) {
+            	cb = cb.trustStore(ks);
             }
             
             // Add support for encryption/decryption if enabled.
@@ -535,12 +536,17 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public WebTarget getWebTarget(String baseURL) throws Exception {
-        Client client = ClientBuilder.newBuilder()
+    	ClientBuilder cb = ClientBuilder.newBuilder()
                 .register(new FHIRProvider())
                 .register(new FHIRJsonProvider())
-        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword())
-        	    .trustStore(getTrustStore())
-        	    .build();
+        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword());
+    	
+    	KeyStore ts = getTrustStore();
+    	
+    	if(ts != null) {
+    		cb = cb.trustStore(ts);
+    	}
+        Client client = cb.build();
         return client.target(baseURL);
     }
     
@@ -592,14 +598,13 @@ public class FHIRClientImpl implements FHIRClient {
             // If necessary, load the truststore-related properties.
             setClientAuthEnabled(Boolean.parseBoolean(getProperty(PROPNAME_CLIENT_AUTH_ENABLED, "false")));
             if (isOAuth2Enabled() || isClientAuthEnabled() || usingSSLTransport()) {
-            	try {
-            		setTrustStoreLocation(getRequiredProperty(PROPNAME_TRUSTSTORE_LOCATION));
-            		setTrustStorePassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_TRUSTSTORE_PASSWORD)));
-            	} catch(Exception e) {
-            		setTrustStoreLocation(DEFAULT_TRUSTSTORE_LOCATION);
-            		setTrustStorePassword(FHIRUtilities.decode(DEFAULT_TRUSTSTORE_ENCODED_PASSWORD));
+            	String trustStoreLoc = getProperty(PROPNAME_TRUSTSTORE_LOCATION, null);
+            	String trustStoreEncodedPwd = getProperty(PROPNAME_TRUSTSTORE_PASSWORD, null);
+            	if(trustStoreLoc != null && trustStoreEncodedPwd != null) {
+            		setTrustStoreLocation(trustStoreLoc);
+                	setTrustStorePassword(FHIRUtilities.decode(trustStoreEncodedPwd));
+                	setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE_JKS));
             	}
-                setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE_JKS));
             }
             
             // If necessary, load the keystore-related properties.

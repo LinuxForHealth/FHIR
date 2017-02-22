@@ -77,16 +77,6 @@ public interface FHIRClient {
     public static final String PROPNAME_TRUSTSTORE_PASSWORD   = "fhirclient.truststore.password";
     
     /**
-     * The client truststore's default filename.
-     */
-    public static final String DEFAULT_TRUSTSTORE_LOCATION   = "fhirClientTruststore.jks";
-    
-    /**
-     * The client truststore's default password.
-     */
-CODE_REMOVED
-    
-    /**
      * The client keystore's filename.
      * The client keystore is used to store the client's private/public key pair certificates.
      * When using client certificate-based authentication, this is now the client supplies its identity 
