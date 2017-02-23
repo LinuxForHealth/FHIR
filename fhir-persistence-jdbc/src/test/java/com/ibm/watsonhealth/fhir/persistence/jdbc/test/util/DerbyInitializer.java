@@ -35,6 +35,7 @@ public class DerbyInitializer {
 	private static final String LIQUIBASE_CHANGE_LOG_PATH = "../fhir-schemaddl/src/test/resources/liquibase/derby/ddl/changelog.xml";
 	
 	private boolean newDbCreated = false;
+	private Properties dbProps;
 	
 	/**
 	 * Main method to facilitate standalone testing of this class.
@@ -51,8 +52,22 @@ public class DerbyInitializer {
 		}
 	}
 
+	/**
+	 * Constructs a new DerbyInitializer using default database properties.
+	 */
 	public DerbyInitializer() {
 		super();
+		this.dbProps = new Properties();
+		this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
+		this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb");
+	}
+	
+	/**
+	 * Constructs a new DerbyInitializer using the passed database properties.
+	 */
+	public DerbyInitializer(Properties props) {
+		super();
+		this.dbProps = props;
 	}
 	
 	/**
@@ -80,11 +95,8 @@ public class DerbyInitializer {
 		
 		Connection connection = null;
 		SQLException sqlEx;
-		Properties props = new Properties();
 		
-		props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
-		props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb");
-		FHIRDbDAO dao = new FHIRDbDAO(props);
+		FHIRDbDAO dao = new FHIRDbDAO(this.dbProps);
 		
 		try {
 			connection = dao.getConnection();
@@ -94,8 +106,8 @@ public class DerbyInitializer {
 				sqlEx = (SQLException) e.getCause();
 				// XJ004 means database not found
 				if("XJ004".equals(sqlEx.getSQLState())) {
-					props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
-					dao = new FHIRDbDAO(props);
+					this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
+					dao = new FHIRDbDAO(this.dbProps);
 					connection = dao.getConnection();
 					this.setNewDbCreated(true);
 				}
