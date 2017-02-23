@@ -127,6 +127,12 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         Contract retrievedContract = (Contract) persistence.read(getDefaultPersistenceContext(), Contract.class, contract.getId().getValue());
         assertNotNull(retrievedContract);
         assertResourceEquals(contract, retrievedContract);
+        
+        // Finally, read the 3rd version of the updated Contract to make sure we get back the right one.
+        retrievedContract = (Contract) persistence.vread(getDefaultPersistenceContext(), Contract.class, 
+        								contract.getId().getValue(), contract.getMeta().getVersionId().getValue());
+        assertNotNull(retrievedContract);
+        assertResourceEquals(contract, retrievedContract);
     }
 	
 	/*

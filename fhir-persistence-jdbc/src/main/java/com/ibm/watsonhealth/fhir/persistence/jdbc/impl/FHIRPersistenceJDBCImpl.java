@@ -10,8 +10,10 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -37,6 +39,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -268,19 +271,66 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 */
 	@Override
 	public Resource read(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId)
-			throws FHIRPersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+							throws FHIRPersistenceException {
+		final String METHODNAME = "read";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		Resource resource = null;
+		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
+		
+		try {
+			resourceDTO = this.resourceDao.read(logicalId, resourceType.getSimpleName());
+			resource = this.convertResourceDTO(resourceDTO, resourceType);
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a read operation.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		
+		return resource;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#vread(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Resource vread(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId,
-			String versionId) throws FHIRPersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+	public Resource vread(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId, String versionId) 
+						throws FHIRPersistenceException {
+		final String METHODNAME = "vread";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		Resource resource = null;
+		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
+		int version;
+				
+		try {
+			version = Integer.parseInt(versionId);
+			resourceDTO = this.resourceDao.versionRead(logicalId, resourceType.getSimpleName(), version);
+			resource = this.convertResourceDTO(resourceDTO, resourceType);
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch (NumberFormatException e) {
+            throw new FHIRPersistenceException("Invalid version id specified for vread operation: " + versionId);
+        }
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a version read operation.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		
+		return resource;
 	}
 
 	/* (non-Javadoc)
@@ -389,8 +439,49 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	@Override
 	public List<Resource> history(FHIRPersistenceContext context, Class<? extends Resource> resourceType,
 			String logicalId) throws FHIRPersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		final String METHODNAME = "history";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		List<Resource> resources = new ArrayList<>();
+		List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
+		FHIRHistoryContext historyContext;
+		int resourceCount;
+		Instant since;
+		Timestamp fromDateTime = null;
+		int pageSize;
+		int lastPageNumber;
+		
+		try {
+			historyContext = context.getHistoryContext();
+			since = historyContext.getSince();
+			if (since != null) {
+				fromDateTime = FHIRUtilities.convertToTimestamp(since.getValue());
+			}
+			
+			resourceCount = this.resourceDao.historyCount(logicalId, fromDateTime);
+			historyContext.setTotalCount(resourceCount);
+			pageSize = historyContext.getPageSize();
+	        lastPageNumber = (int) ((resourceCount + pageSize - 1) / pageSize);
+	        historyContext.setLastPageNumber(lastPageNumber);            
+	        
+	        if (resourceCount > 0) {
+	        	resourceDTOList = this.resourceDao.history(logicalId, fromDateTime);
+	        	resources = this.convertResourceDTO(resourceDTOList, resourceType);
+	        }
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a history operation.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		
+		return resources;
 	}
 
 	/* (non-Javadoc)
@@ -408,8 +499,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 */
 	@Override
 	public boolean isTransactional() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -417,8 +507,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 */
 	@Override
 	public FHIRPersistenceTransaction getTransaction() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 	
 	/**
@@ -437,6 +526,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return txn;
     }
     
+    /**
+     * Extracts and stores search parameters for the passed FHIR Resource to the FHIR DB Parameter table.
+     * @param fhirResource - Some FHIR Resource
+     * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
+     * @throws JAXBException
+     * @throws XPathExpressionException
+     * @throws FHIRPersistenceProcessorException
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
     private void storeSearchParameters(Resource fhirResource, com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO) 
     			 throws JAXBException, XPathExpressionException, FHIRPersistenceProcessorException, 
     			        FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
@@ -472,6 +571,68 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	finally {
     		log.exiting(CLASSNAME, METHODNAME);
     	}
+    }
+    
+    /**
+     * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
+     * @param resourceDTOList
+     * @param resourceType
+     * @return
+     * @throws JAXBException
+     */
+    private List<Resource> convertResourceDTO(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
+			throws JAXBException {
+    	final String METHODNAME = "convertResourceDTO List";
+    	log.entering(CLASSNAME, METHODNAME);
+    	
+    	List<Resource> resources = new ArrayList<>();
+    	try {
+    		for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
+    			resources.add(this.convertResourceDTO(resourceDTO, resourceType));
+    		}
+    	}
+    	finally {
+    		log.exiting(CLASSNAME, METHODNAME);
+    	}
+    	return resources;
+    		
+    	
+    	
+    }
+    /**
+     * Converts the passed Resource Data Transfer Object to a FHIR Resource object.
+     * @param resourceDTO - A valid Resource DTO
+     * @param resourceType - The FHIR type of resource to be converted.
+     * @return Resource - A FHIR Resource object representation of the data portion of the passed Resource DTO.
+     * @throws JAXBException
+     */
+    private Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType) 
+    									throws JAXBException {
+    	final String METHODNAME = "convertResourceDTO";
+    	log.entering(CLASSNAME, METHODNAME);
+    	
+    	Resource resource = null;
+    	
+    	try {
+	    	if (resourceDTO != null) {
+				resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceDTO.getData()));
+	            resource.setId(id(resourceDTO.getLogicalId()));
+	            Meta meta = resource.getMeta();
+	            if (meta == null) {
+	                meta = objectFactory.createMeta();
+	            }
+	            meta.setVersionId(id(Integer.toString(resourceDTO.getVersionId())));
+	            Timestamp lastUpdated = resourceDTO.getLastUpdated();
+	            meta.setLastUpdated(objectFactory.createInstant().withValue(FHIRUtilities.convertToCalendar(lastUpdated)));
+	            resource.setMeta(meta);
+			}
+    	}
+    	finally {
+    		log.exiting(CLASSNAME, METHODNAME);
+    	}
+    	    	
+    	return resource;
+    	
     }
 
 }
