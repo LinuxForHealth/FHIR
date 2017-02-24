@@ -87,6 +87,7 @@ import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Parameters;
+import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
@@ -94,6 +95,7 @@ import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.util.ReferenceFinder;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
@@ -140,6 +142,8 @@ public class FHIRResource {
     private static final String FHIR_SPEC_VERSION = "1.0.2 - DSTU2";
     private static final String EXTENSION_URL = "http://ibm.com/watsonhealth/fhir/extension";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
+
+    private static final String LOCAL_REF_PREFIX = "urn:";
 
     private static Conformance conformance = null;
 
@@ -1263,10 +1267,12 @@ public class FHIRResource {
                 log.fine("Started new transaction for bundled 'transaction' request.");
             }
             
+            Map<String, String> localRefMap = new HashMap<>();
+            
             // Next, process entries in the correct order.
-            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.POST, txn != null);
-            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.PUT, txn != null);
-            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.GET, txn != null);
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.POST, txn != null, localRefMap);
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.PUT, txn != null, localRefMap);
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.GET, txn != null, localRefMap);
             
             if (txn != null) {
                 log.fine("Committing transaction for bundled request.");
@@ -1290,7 +1296,7 @@ public class FHIRResource {
      * @param httpMethod the HTTP method (GET, POST, PUT, etc.) to be processed
      */
     private void processEntriesForMethod(Bundle requestBundle, Bundle responseBundle, 
-        HTTPVerbList httpMethod, boolean failFast) throws Exception {
+        HTTPVerbList httpMethod, boolean failFast, Map<String, String> localRefMap) throws Exception {
         log.entering(this.getClass().getName(), "processEntriesForMethod");
         try {
             for (int i = 0; i < requestBundle.getEntry().size(); i++) {
@@ -1374,9 +1380,24 @@ public class FHIRResource {
                             if (pathTokens.length != 1) {
                                 throw new FHIRException("Request URL for bundled POST request should have path part with exactly one token (<resourceType>).");
                             }
+                            
+                            // Retrieve the local identifier from the request entry (if present).
+                            String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
+                            
+                            // Retrieve the resource from the request entry.
                             Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
+                            
+                            // Convert any local references found within the resource to their
+                            // corresponding external reference.
+                            processLocalReferences(resource, localRefMap);
+                            
+                            // Perform the 'create' operation.
                             URI locationURI = doCreate(pathTokens[0], resource);
                             setBundleResponseFields(responseEntry, resource, locationURI, SC_CREATED);
+                            
+                            // Next, if a local identifier was present, we'll need to map this to the 
+                            // correct external identifier (e.g. Patient/12345).
+                            addLocalRefMapping(localRefMap, localIdentifier, responseEntry, resource);
                         }
                         break;
 
@@ -1386,7 +1407,18 @@ public class FHIRResource {
                             if (pathTokens.length != 2) {
                                 throw new FHIRException("Request URL for bundled PUT request should have path part with exactly two tokens (<resourceType>/<id>).");
                             }
+                            
+                            // Retrieve the local identifier from the request entry (if present).
+                            String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
+
+                            // Retrieve the resource from the request entry.
                             Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
+                            
+                            // Convert any local references found within the resource to their
+                            // corresponding external reference.
+                            processLocalReferences(resource, localRefMap);
+                            
+                            // Perform the 'update' operation.
                             Resource currentResource = doRead(pathTokens[0], pathTokens[1], false);
                             String ifMatchBundleValue = null;
                             if(request.getIfMatch() != null) {
@@ -1394,6 +1426,10 @@ public class FHIRResource {
                             }
                             URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource, ifMatchBundleValue);
                             setBundleResponseFields(responseEntry, resource, locationURI, (currentResource == null ? SC_CREATED : SC_OK));
+                            
+                            // Next, if a local identifier was present, we'll need to map this to the 
+                            // correct external identifier (e.g. Patient/12345).
+                            addLocalRefMapping(localRefMap, localIdentifier, responseEntry, resource);
                         }
                         break;
 
@@ -1424,6 +1460,70 @@ public class FHIRResource {
             }
         } finally {
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
+        }
+    }
+
+    /**
+     * This method will add a mapping to the local-to-external identifier map if 
+     * the specified localIdentifier is non-null.
+     * @param localRefMap the map containing the local-to-external identifier mappings
+     * @param localIdentifier the localIdentifier previously obtained for the resource
+     * @param responseEntry the bundle response entry containing the resource's id
+     * @param resource the resource for which an external identifier will be built
+     */
+    private void addLocalRefMapping(Map<String, String> localRefMap, String localIdentifier, BundleEntry responseEntry, Resource resource) {
+        if (localIdentifier != null) {
+            String externalIdentifier = FHIRUtil.getResourceTypeName(resource) + "/" + resource.getId().getValue();
+            localRefMap.put(localIdentifier, externalIdentifier);
+            log.finer("Added local/ext identifier mapping: " 
+                    + localIdentifier + " --> " + externalIdentifier);
+        }
+    }
+
+    /**
+     * This method will retrieve the local identifier associated with the specified bundle request entry,
+     * or return null if the fullUrl field is not specified or doesn't contain a local identifier.
+     * @param requestEntry the bundle request entry
+     * @param localRefMap the Map containing the local-to-external reference mappings
+     * @return
+     */
+    private String retrieveLocalIdentifier(BundleEntry requestEntry, Map<String, String> localRefMap) throws Exception {
+        String localIdentifier = null;
+        if (requestEntry.getFullUrl() != null) {
+            String fullUrl = requestEntry.getFullUrl().getValue();
+            if (fullUrl != null && fullUrl.startsWith(LOCAL_REF_PREFIX)) {
+                localIdentifier = fullUrl;
+                log.finer("Request entry contains local identifier: " + localIdentifier);
+                if (localRefMap.get(localIdentifier) != null) {
+                    throw new FHIRException("Duplicate local identifier encountered in bundled request entry: " + localIdentifier);
+                }
+            }
+        }
+        return localIdentifier;
+    }
+
+    /**
+     * This method will look for all fields of type Reference within the specfied resource,
+     * and for each one that it finds it will check to see if it holds a local reference.
+     * If so, the appropriate external reference will be substituted for it.
+     * @param resource the resource whose local references will be updated
+     * @param localRefMap the Map containing the local-to-external identifier mappings
+     */
+    private void processLocalReferences(Resource resource, Map<String, String> localRefMap) throws Exception {
+        
+        // Retrieve all fields of type Reference from the specified resource.
+        List<Reference> references = ReferenceFinder.getReferences(resource);
+        
+        for (Reference ref : references) {
+            String refValue = ref.getReference().getValue();
+            if (refValue.startsWith(LOCAL_REF_PREFIX)) {
+                String externalRef = localRefMap.get(refValue);
+                if (externalRef == null) {
+                    throw new FHIRException("Local reference '" + refValue + "' is undefined in the request bundle.");
+                }
+                ref.setReference(objectFactory.createString().withValue(externalRef));
+                log.finer("Convert local ref '" + refValue + "' to external ref '" + externalRef + "'.");
+            }
         }
     }
 
