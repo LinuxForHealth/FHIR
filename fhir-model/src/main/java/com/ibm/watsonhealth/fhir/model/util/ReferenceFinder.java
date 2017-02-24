@@ -76,7 +76,7 @@ public class ReferenceFinder {
     /**
      * Returns a threadlocal copy of the XPathExpression needed to find the reference fields.
      */
-    private static synchronized XPathExpression getReferenceExpression() throws Exception {
+    private static XPathExpression getReferenceExpression() throws Exception {
         return referenceExpressions.get();
     }
     
