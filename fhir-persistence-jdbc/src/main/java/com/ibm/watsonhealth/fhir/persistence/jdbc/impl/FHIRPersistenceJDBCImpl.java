@@ -51,7 +51,10 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
+import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -206,6 +209,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		
 		boolean txnStarted = false;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		String logicalId;
 		
 		try {
 	        FHIRUtil.write(resource, Format.XML, stream, false);
@@ -218,10 +222,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	
 	        // Default version is 1 for a brand new FHIR Resource.
 	        int newVersionNumber = 1;
+	        logicalId = (resource.getId() != null ? resource.getId().getValue() : UUID.randomUUID().toString());
 	        log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
 	        // Create the new Resource DTO instance.
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
-	        resourceDTO.setLogicalId(UUID.randomUUID().toString());
+	        resourceDTO.setLogicalId(logicalId);
 	        resourceDTO.setVersionId(newVersionNumber);
 	        resourceDTO.setData(stream.toByteArray());
 	        Instant lastUpdated = instant(System.currentTimeMillis());
@@ -450,6 +455,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		Timestamp fromDateTime = null;
 		int pageSize;
 		int lastPageNumber;
+		int offset;
 		
 		try {
 			historyContext = context.getHistoryContext();
@@ -465,9 +471,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        historyContext.setLastPageNumber(lastPageNumber);            
 	        
 	        if (resourceCount > 0) {
-	        	resourceDTOList = this.resourceDao.history(logicalId, fromDateTime);
+	        	offset = (historyContext.getPageNumber() - 1) * pageSize;
+	        	resourceDTOList = this.resourceDao.history(logicalId, fromDateTime, offset, pageSize);
 	        	resources = this.convertResourceDTO(resourceDTOList, resourceType);
-	        }
+	        } 
 		}
 		catch(FHIRPersistenceException e) {
 			throw e;
@@ -490,8 +497,65 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	@Override
 	public List<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
 			throws FHIRPersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		final String METHODNAME = "search";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		List<Resource> resources = new ArrayList<Resource>();
+        FHIRSearchContext searchContext = context.getSearchContext();
+        JDBCQueryBuilder queryBuilder;
+        List<Object[]> sortedResultsList;
+        List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
+        int searchResultCount = 0;
+        int pageSize;
+        int lastPageNumber;
+        String queryString;
+        
+        try {
+	        if (searchContext.hasSortParameters()) {
+	        	queryBuilder = new JDBCSortQueryBuilder();
+	        }
+	        else {
+	        	queryBuilder = new JDBCQueryBuilder();
+	        }
+	        
+	        String countQueryString = queryBuilder.buildCountQuery(resourceType, searchContext);
+	        if (countQueryString != null) {
+	        	searchResultCount = this.resourceDao.searchCount(countQueryString);
+	        	log.fine("searchResultCount = " + searchResultCount);
+	        	searchContext.setTotalCount(searchResultCount);
+	            pageSize = searchContext.getPageSize();
+	            lastPageNumber = (int) ((searchResultCount + pageSize - 1) / pageSize);
+	            searchContext.setLastPageNumber(lastPageNumber);
+	            
+	             
+	            if (searchResultCount > 0) {
+	            	queryString = queryBuilder.buildQuery(resourceType, searchContext);
+	            	
+	                if (searchContext.hasSortParameters()) {
+	                	//TODO need to implement sorting
+	                	//sortedResultsList = query.getResultList();
+	                	//resources = this.buildSortedFhirResources(context, resourceType, sortedResultsList);
+	                }
+	                else {
+	                	unsortedResultsList = this.resourceDao.search(queryString);
+	                	resources = this.convertResourceDTO(unsortedResultsList, resourceType);
+	                }  
+	            }
+	        }
+        }
+        catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a search operation.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+        
+		return resources;
 	}
 
 	/* (non-Javadoc)
