@@ -163,15 +163,35 @@ CODE_REMOVED
     
     <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
         <jdbcDriver libraryRef="db2Lib"/>
+        <properties.db2.jcc 
+            serverName="dbserver1.mycompany.com" 
+            portNumber="50000" 
+            user="db2inst1" 
 CODE_REMOVED
+            databaseName="FHIRDB" 
+            currentSchema="OAUTHDBSCHEMA" 
+            driverType="4"/>
     </dataSource>
     <dataSource id="db2DB" jndiName="jdbc/fhirDB">
         <jdbcDriver libraryRef="db2Lib"/>
+        <properties.db2.jcc 
+            serverName="dbserver1.mycompany.com" 
+            portNumber="50000" 
+            user="db2inst1" 
 CODE_REMOVED
+            databaseName="FHIRDB" 
+            currentSchema="FHIR1" 
+            driverType="4"/>
     </dataSource>
     <dataSource id="db2DBNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
         <jdbcDriver libraryRef="db2Lib"/>
+        <properties.db2.jcc 
+            serverName="dbserver1.mycompany.com" 
+            portNumber="50000" 
+            user="db2inst1" 
 CODE_REMOVED
+            databaseName="FHIRDB" 
+            currentSchema="FHIR1"/>
     </dataSource>
     -->
     
