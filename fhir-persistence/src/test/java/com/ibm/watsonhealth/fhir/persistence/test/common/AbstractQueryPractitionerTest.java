@@ -34,7 +34,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa" })
+    @Test(groups = { "cloudant", "jpa", "jdbc" })
     public void testCreatePractitioner1() throws Exception {
     	Practitioner practitioner = readResource(Practitioner.class, "practitioner-example.canonical.json");
 
@@ -52,7 +52,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa" })
+    @Test(groups = { "cloudant", "jpa", "jdbc" })
     public void testCreatePractitioner2() throws Exception {
     	Practitioner practitioner = readResource(Practitioner.class, "practitioner-example-f001-evdb.canonical.json");
 
@@ -69,7 +69,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with given = 'Adam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_given() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "given", "Adam");
 		assertNotNull(resources);
@@ -81,7 +81,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Dr Adam Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Dr Adam Careful");
 		assertNotNull(resources);
@@ -96,7 +96,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Mr Adam Careful' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Mr Adam Careful");
 		assertNotNull(resources);
@@ -107,7 +107,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with phonetic = 'Dr Adam Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_phonetic() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "phonetic", "Dr Adam Careful");
 		assertNotNull(resources);
@@ -122,7 +122,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address-city = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_addressCity() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
@@ -134,7 +134,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_address() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Den Burg");
 		assertNotNull(resources);
@@ -149,7 +149,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Careful' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name_last() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Dr Adam Careful");
 		assertNotNull(resources);
@@ -164,7 +164,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Adam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerQuery_name_first() throws Exception {
 		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "name", "Dr Adam");
 		assertNotNull(resources);
@@ -183,7 +183,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1", "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1", "testCreatePractitioner2" })
 	public void testPractitionerPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Practitioner.class;
@@ -204,7 +204,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerPagination_002() throws Exception {
 		
 		String parmName = "address-city";
@@ -233,7 +233,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with name = 'Mr Adam Careful' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreatePractitioner1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePractitioner1" })
 	public void testPractitionerPagination_003() throws Exception {
 		
 		String parmName = "name";

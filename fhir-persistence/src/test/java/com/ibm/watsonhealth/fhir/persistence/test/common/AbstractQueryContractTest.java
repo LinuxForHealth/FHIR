@@ -42,7 +42,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa" })
+    @Test(groups = { "cloudant", "jpa", "jdbc" })
     public void testCreateContract() throws Exception {
     	Contract contract = readResource(Contract.class, "contract-example.canonical.json");
 
@@ -60,7 +60,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_noParams() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, null, null);
 		assertNotNull(resources);
@@ -71,7 +71,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_patient() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
@@ -83,7 +83,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with subject = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractQuery_subject() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
@@ -96,7 +96,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
     public void testUpdateContract() throws Exception {
     	Contract contract = savedContract;
     	contract.setLanguage((new Code()).withValue("it"));
@@ -115,7 +115,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract", "testUpdateContract" })
+    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract", "testUpdateContract" })
     public void testUpdateContractAgain() throws Exception {
     	Contract contract = savedContract;
     	contract.setLanguage((new Code()).withValue("pt-BR"));
@@ -143,7 +143,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Contract.class;
@@ -164,7 +164,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with subject = 'Patient/example' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractPagination_002() throws Exception {
 		
 		String parmName = "subject";
@@ -190,7 +190,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a query for a Contract with subject = 'Patient/???' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractPagination_003() throws Exception {
 		
 		String parmName = "subject";
@@ -217,7 +217,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract with a since parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractHistoryPgn_001() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));
@@ -238,7 +238,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract without a since & count parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractHistoryPgn_002() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));
@@ -258,7 +258,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract with a count parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateContract", "testUpdateContract", "testUpdateContractAgain" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract", "testUpdateContract", "testUpdateContractAgain" })
 	public void testContractHistoryPgn_003() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));
@@ -280,7 +280,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * to reference the Patient.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa" })
+	@Test(groups = { "jpa", "jdbc" })
 	public void testCreateContract_chained() throws Exception {
 		
 		Patient patient = readResource(Patient.class, "Patient_JaneDoe.json");
@@ -311,7 +311,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a valid chained parameter query that retrieves all contracts associate with a Patient with name = 'Jane'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateContract_chained" })
+	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract_chained" })
 	public void testContractQuery_chained_valid() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject:Patient.name", "Jane");
 		assertNotNull(resources);
@@ -323,7 +323,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests an invalid chained parameter query that attempts to retrieve contracts associate with a Patient with name = 'bogusName'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateContract_chained" })
+	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract_chained" })
 	public void testContractQuery_chained_invalid1() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject:Patient.name", "bogusName");
 		assertNotNull(resources);
@@ -336,7 +336,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * 'name' attribute. A FHIRSearchException should be thrown.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa" }, dependsOnMethods = { "testCreateContract_chained" }, 
+	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateContract_chained" }, 
 		  expectedExceptions = FHIRSearchException.class)
 	public void testContractQuery_chained_invalid2() throws Exception {
 		runQueryTest(Contract.class, persistence, "subject.name", "Jane");

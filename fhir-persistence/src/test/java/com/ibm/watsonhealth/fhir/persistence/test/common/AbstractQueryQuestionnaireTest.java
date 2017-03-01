@@ -34,7 +34,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa" })
+    @Test(groups = { "cloudant", "jpa", "jdbc" })
     public void testCreateQuestionnaire() throws Exception {
     	Questionnaire questionnaire = readResource(Questionnaire.class, "Questionnaire.json");
 
@@ -51,7 +51,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with publisher = 'Team Voltron' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_publisher() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "publisher", "Team Voltron");
 		assertNotNull(resources);
@@ -63,7 +63,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with version = '10.0' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_version() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "version", "10.0");
 		assertNotNull(resources);
@@ -74,7 +74,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with title = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_title() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "title", "Non-existent");
 		assertNotNull(resources);
@@ -85,7 +85,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_date() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "date", "1969-12-31T19:00:02+00:00");
 		assertNotNull(resources);
@@ -101,7 +101,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnairePagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Questionnaire.class;
@@ -122,7 +122,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnairePagination_002() throws Exception {
 		
 		String parmName = "date";

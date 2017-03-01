@@ -34,7 +34,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa" })
+    @Test(groups = { "cloudant", "jpa", "jdbc" })
     public void testCreateDevice() throws Exception {
         Device device = readResource(Device.class, "Device.json");
 
@@ -51,7 +51,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with manufacturer = 'Acme Devices, Inc' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_manufacturer() throws Exception {
 		List<Resource> resources = runQueryTest(Device.class, persistence, "manufacturer", "Acme Devices, Inc");
 		assertNotNull(resources);
@@ -63,7 +63,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with model = 'AB45-J' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_model() throws Exception {
 		List<Resource> resources = runQueryTest(Device.class, persistence, "model", "AB45-J");
 		assertNotNull(resources);
@@ -74,7 +74,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDeviceQuery_udi() throws Exception {
 		List<Resource> resources = runQueryTest(Device.class, persistence, "udi", "(01)00000123000017(10)ABC123(17)120415");
 		assertNotNull(resources);
@@ -90,7 +90,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Device.class;
@@ -111,7 +111,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_002() throws Exception {
 		
 		String parmName = "udi";
@@ -137,7 +137,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with udi = '(01)00000123000017(10)(17)120415' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_003() throws Exception {
 		
 		String parmName = "udi";
@@ -160,7 +160,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId/xxx' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_urlNoResults() throws Exception {
 		
 		String parmName = "url";
@@ -183,7 +183,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
 	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa" }, dependsOnMethods = { "testCreateDevice" })
+	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateDevice" })
 	public void testDevicePagination_url() throws Exception {
 		
 		String parmName = "url";
