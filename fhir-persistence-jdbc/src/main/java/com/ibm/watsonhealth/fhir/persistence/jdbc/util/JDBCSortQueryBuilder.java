@@ -61,7 +61,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 		sqlQueryString = super.buildQuery(resourceType, searchContext);
 		if (sqlQueryString != null) {
 			sqlQueryString = this.removeDefaultOrderBy(sqlQueryString);
-			sqlQueryString = sqlQueryString.replace("SELECT r", "SELECT COUNT(r)");
+			sqlQueryString = sqlQueryString.replace(SELECT_ROOT, SELECT_COUNT_ROOT);
 		}
 				
 		log.exiting(CLASSNAME, METHODNAME, sqlQueryString);
@@ -75,9 +75,9 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 	 * SQL restriction that BLOB type attributes cannot by included in GROUP BY or ORDER BY clauses.
 	 * Here is an example of SQL returned for a Patient search, sorted by family name and gender:
 	 * SELECT r.id,MIN(s1.valueString),MAX(s2.valueSystem),MAX(s2.valueCode) FROM Resource r 
-	 * JOIN r.parameters p1 
-	 * LEFT OUTER JOIN Parameter s1 ON (s1.name='family' AND s1.resource=r) 
-	 * LEFT OUTER JOIN Parameter s2 ON (s2.name='gender' AND s2.resource=r) 
+	 * JOIN Parameter p1 ON p1.resource_id=r.id
+	 * LEFT OUTER JOIN Parameter s1 ON (s1.name='family' AND s1.resource_id=r.id) 
+	 * LEFT OUTER JOIN Parameter s2 ON (s2.name='gender' AND s2.resource_id=r.id) 
 	 * WHERE r.resourceType = 'Patient' 
 	 *       AND r.versionId = (SELECT MAX(r2.versionId) FROM Resource r2 WHERE r2.logicalId = r.logicalId) 
 	 *       AND (p1.name = 'telecom' AND ((p1.valueCode = '555-1234' AND p1.valueSystem = 'phone'))) 
@@ -117,6 +117,9 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 		
 		// Build ORDER BY clause
 		this.buildOrderByClause(baseQueryString, sortParms, sqlSortQuery);
+		
+		// Add in clauses to support pagination
+		this.addPaginationClauses(sqlSortQuery, searchContext);
 		
 		sqlSortQueryString = sqlSortQuery.length() > 0 ? sqlSortQuery.toString() : null;
 		log.exiting(CLASSNAME, METHODNAME,sqlSortQueryString);
@@ -186,7 +189,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 			queryBuffer.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT).append(NAME)
 					   .append(EQUALS).append(QUOTE).append(sortParm.getName()).append(QUOTE)
 					   .append(AND)
-					   .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT).append("resource").append(EQUALS).append("r");
+					   .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT).append("resource_id").append(EQUALS).append("r.id");
 			queryBuffer.append(RIGHT_PAREN);
 					
 			sortParmIndex++;

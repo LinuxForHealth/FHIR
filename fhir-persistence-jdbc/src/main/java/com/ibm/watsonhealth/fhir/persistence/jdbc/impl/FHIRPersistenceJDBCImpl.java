@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -473,7 +474,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        if (resourceCount > 0) {
 	        	offset = (historyContext.getPageNumber() - 1) * pageSize;
 	        	resourceDTOList = this.resourceDao.history(logicalId, fromDateTime, offset, pageSize);
-	        	resources = this.convertResourceDTO(resourceDTOList, resourceType);
+	        	resources = this.convertResourceDTOList(resourceDTOList, resourceType);
 	        } 
 		}
 		catch(FHIRPersistenceException e) {
@@ -503,7 +504,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		List<Resource> resources = new ArrayList<Resource>();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
-        List<Object[]> sortedResultsList;
+        List<Long> sortedIdList;
         List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
         int searchResultCount = 0;
         int pageSize;
@@ -532,13 +533,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            	queryString = queryBuilder.buildQuery(resourceType, searchContext);
 	            	
 	                if (searchContext.hasSortParameters()) {
-	                	//TODO need to implement sorting
-	                	//sortedResultsList = query.getResultList();
-	                	//resources = this.buildSortedFhirResources(context, resourceType, sortedResultsList);
+	                	sortedIdList = this.resourceDao.searchForIds(queryString);
+	                	resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
 	                }
 	                else {
 	                	unsortedResultsList = this.resourceDao.search(queryString);
-	                	resources = this.convertResourceDTO(unsortedResultsList, resourceType);
+	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
 	                }  
 	            }
 	        }
@@ -644,7 +644,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @return
      * @throws JAXBException
      */
-    private List<Resource> convertResourceDTO(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
+    private List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
 			throws JAXBException {
     	final String METHODNAME = "convertResourceDTO List";
     	log.entering(CLASSNAME, METHODNAME);
@@ -698,5 +698,54 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	return resource;
     	
     }
+
+	/**
+	 * This method takes the passed list of sorted Resource ids, acquires the Resource corresponding to each id, and returns those Resources in a List,
+	 * sorted according to the input sorted ids.
+	 * @param context - The FHIR persistence context for the current request.
+	 * @param resourceType - The type of Resource that each id in the passed list represents.
+	 * @param sortedIdList - A list of Resource ids representing the proper sort order for the list of Resources to be returned.
+	 * @return List<Resource> - A list of Resources of the passed resourceType, sorted according the order of ids in the passed sortedIdList.
+	 * @throws FHIRPersistenceException
+	 * @throws JAXBException 
+	 */
+	private List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList) throws FHIRPersistenceException, JAXBException {
+		final String METHOD_NAME = "buildFhirResource";
+		log.entering(this.getClass().getName(), METHOD_NAME);
+		
+		long resourceId;
+		Resource[] sortedFhirResources = new Resource[sortedIdList.size()];
+		Resource fhirResource;
+		int sortIndex;
+		List<Resource> sortedResourceList = new ArrayList<>();
+		List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
+		Map<Long,Integer> idPositionMap = new HashMap<>();
+				
+		// This loop builds a Map where key=resourceId, and value=its proper position in the returned sorted collection.
+		for(int i = 0; i < sortedIdList.size(); i++) {
+			resourceId = sortedIdList.get(i);
+			idPositionMap.put(new Long(resourceId), new Integer(i));
+		}
+				
+		resourceDTOList = this.resourceDao.searchByIds(sortedIdList);
+		
+		// Convert the returned JPA Resources to FHIR Resources, and store each FHIRResource in its proper position
+		// in the returned sorted resource list.
+		for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
+			fhirResource = this.convertResourceDTO(resourceDTO, resourceType);
+			if (fhirResource != null) {
+				sortIndex = idPositionMap.get(resourceDTO.getId());
+				sortedFhirResources[sortIndex] = fhirResource;
+			}
+		}
+		
+		for (int i = 0; i <sortedFhirResources.length; i++) {
+			if (sortedFhirResources[i] != null) {
+				sortedResourceList.add(sortedFhirResources[i]);
+			}
+		}
+		log.exiting(this.getClass().getName(), METHOD_NAME);
+		return sortedResourceList;
+	}
 
 }

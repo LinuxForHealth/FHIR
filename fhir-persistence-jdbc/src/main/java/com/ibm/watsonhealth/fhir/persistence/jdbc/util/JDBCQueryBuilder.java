@@ -71,10 +71,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	protected static final String VALUE_DATE_END = "value_date_end";
 	protected static final String VALUE_LONGITUDE = "value_longitude";
 	protected static final String VALUE_LATITUDE = "value_latitude";
-	private static final String RESOURCE_TYPE = "resource_type";
-	private static final String SELECT_ROOT = "SELECT r.id, r.data, r.last_updated, r.logical_id, r.resource_type, r.version_id FROM Resource r";
-	private static final String SELECT_COUNT_ROOT = "SELECT COUNT(*) FROM Resource r";
-	private static final String JOIN_CLAUSE_ROOT = " JOIN Parameter p%d ON p%d.resource_id=r.id";
+	protected static final String RESOURCE_TYPE = "resource_type";
+	protected static final String SELECT_ROOT = "SELECT r.id, r.data, r.last_updated, r.logical_id, r.resource_type, r.version_id FROM Resource r";
+	protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(*) FROM Resource r";
+	protected static final String JOIN_CLAUSE_ROOT = " JOIN Parameter p%d ON p%d.resource_id=r.id";
 	
 	/**
 	 * An enumeration of SQL query operators.
@@ -989,7 +989,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @param sqlQuery - A buffer containing complete SQL query (without the pagination clauses).
 	 * @param searchContext - The search context.
 	 */
-	private void addPaginationClauses(StringBuilder sqlQuery, FHIRSearchContext searchContext) {
+	protected void addPaginationClauses(StringBuilder sqlQuery, FHIRSearchContext searchContext) {
 		final String METHODNAME = "addPaginationClauses";
 		log.entering(CLASSNAME, METHODNAME);
 		
