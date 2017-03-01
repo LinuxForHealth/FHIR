@@ -9,8 +9,25 @@
 	  		</run>
 	  	</groups>
        <classes>
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.FHIRDBDAOTest" /> 
-	   </classes>
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryAuditEventTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryContractTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryDeviceTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryEncounterTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryGroupTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryLocationTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationAdministrationTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationOrderTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryObservationTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPatientTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPractitionerTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryQuestionnaireRespTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryQuestionnaireTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRelatedPersonTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRiskAssmtTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQuerySortTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCSearchAllTest" />
+       </classes>
     </test>
  
 </suite>

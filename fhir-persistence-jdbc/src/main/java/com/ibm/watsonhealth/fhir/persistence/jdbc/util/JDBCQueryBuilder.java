@@ -62,7 +62,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	protected static final String NAME = "name";
 	protected static final String VALUE_STRING = "value_string";
 	protected static final String VALUE_NUMBER = "value_number";
-	protected static final String VALUE_NUMBER_LOW = "value_mumber_low";
+	protected static final String VALUE_NUMBER_LOW = "value_number_low";
 	protected static final String VALUE_NUMBER_HIGH = "value_number_high";
 	protected static final String VALUE_SYSTEM = "value_system";
 	protected static final String VALUE_CODE = "value_code";
