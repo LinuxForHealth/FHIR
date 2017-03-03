@@ -43,6 +43,10 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.transform.Source;
+import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamSource;
 
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
@@ -122,7 +126,8 @@ public class FHIRUtil {
 	private static final String JSON_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/json-fhir-metadata.xml";
     private static final String NL = System.getProperty("line.separator");
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
-	
+	private static final String P_MAX_ATTRIBUTE_SIZE = "com.ctc.wstx.maxAttributeSize";
+    
 	public static enum Format {
 		XML,
 		JSON
@@ -133,6 +138,7 @@ public class FHIRUtil {
 	private static final ObjectFactory objectFactory = new ObjectFactory();
 	private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
 	private static final DocumentBuilder documentBuilder = createDocumentBuilder();
+	private static final XMLInputFactory inputFactory = createInputFactory();
 	
 	private FHIRUtil() { }
 	
@@ -157,6 +163,20 @@ public class FHIRUtil {
 		} catch (DatatypeConfigurationException e) {
 			throw new Error(e);
 		}
+	}
+	
+	private static XMLInputFactory createInputFactory() {
+	    try {
+	        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+	        inputFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+	        inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+	        if (inputFactory.isPropertySupported(P_MAX_ATTRIBUTE_SIZE)) {
+	            inputFactory.setProperty(P_MAX_ATTRIBUTE_SIZE, "10000000");
+	        }
+	        return inputFactory;
+	    } catch (Exception e) {
+	        throw new Error(e);
+	    }
 	}
 
 	private static JAXBContext createContext(Format format) {
@@ -227,24 +247,48 @@ public class FHIRUtil {
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(format);
-		if (Format.XML.equals(format)) {
-			return (T) unmarshaller.unmarshal(stream);
+		if (Format.XML.equals(format)) {    
+//			return (T) unmarshaller.unmarshal(stream);
+	        try {
+	            Source source = createSource(stream);
+                return (T) unmarshaller.unmarshal(source);
+	        } catch (JAXBException e) {
+	            throw e;
+            } catch (Exception e) {
+                throw new JAXBException(e);
+            }
 		} else {
 			JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(stream), resourceType);
 			return element.getValue();
 		}
 	}
 	
+	private static Source createSource(InputStream stream) throws XMLStreamException {
+	    return new StAXSource(inputFactory.createXMLStreamReader(stream));
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(format);
 		if (Format.XML.equals(format)) {
-			return (T) unmarshaller.unmarshal(reader);
+//			return (T) unmarshaller.unmarshal(reader);
+		    try {
+		        Source source = createSource(reader);
+                return (T) unmarshaller.unmarshal(source);
+		    } catch (JAXBException e) {
+		        throw e;
+            } catch (Exception e) {
+                throw new JAXBException(e);
+            }
 		} else {
 			JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(reader), resourceType);
 			return element.getValue();
 		}
 	}
+	
+    private static Source createSource(Reader reader) throws XMLStreamException {
+        return new StAXSource(inputFactory.createXMLStreamReader(reader));
+    }
 	
 	/*
 	public static <T extends Resource> T read(Class<T> resourceType, Node node) throws JAXBException {
