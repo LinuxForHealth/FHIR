@@ -44,9 +44,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.transform.Source;
-import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamSource;
 
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
@@ -195,7 +192,6 @@ public class FHIRUtil {
 			}
 			// common configuration
 			properties.put(JAXBContextProperties.OXM_METADATA_SOURCE, metadataSource);
-//			return JAXBContext.newInstance(new Class[] { Resource.class }, properties);
 			return JAXBContext.newInstance("com.ibm.watsonhealth.fhir.model", ObjectFactory.class.getClassLoader(), properties);
 		} catch (JAXBException e) {
 			throw new Error(e);
@@ -249,10 +245,8 @@ public class FHIRUtil {
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(format);
 		if (Format.XML.equals(format)) {    
-//			return (T) unmarshaller.unmarshal(stream);
 	        try {
-	            Source source = createSource(stream);
-                return (T) unmarshaller.unmarshal(source);
+                return (T) unmarshaller.unmarshal(inputFactory.createXMLStreamReader(stream));
 	        } catch (JAXBException e) {
 	            throw e;
             } catch (Exception e) {
@@ -264,18 +258,12 @@ public class FHIRUtil {
 		}
 	}
 	
-	private static Source createSource(InputStream stream) throws XMLStreamException {
-	    return new StAXSource(inputFactory.createXMLStreamReader(stream));
-	}
-	
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(format);
 		if (Format.XML.equals(format)) {
-//			return (T) unmarshaller.unmarshal(reader);
 		    try {
-		        Source source = createSource(reader);
-                return (T) unmarshaller.unmarshal(source);
+                return (T) unmarshaller.unmarshal(inputFactory.createXMLStreamReader(reader));
 		    } catch (JAXBException e) {
 		        throw e;
             } catch (Exception e) {
@@ -286,18 +274,6 @@ public class FHIRUtil {
 			return element.getValue();
 		}
 	}
-	
-    private static Source createSource(Reader reader) throws XMLStreamException {
-        return new StAXSource(inputFactory.createXMLStreamReader(reader));
-    }
-	
-	/*
-	public static <T extends Resource> T read(Class<T> resourceType, Node node) throws JAXBException {
-		Unmarshaller unmarshaller = createUnmarshaller(Format.XML);
-		JAXBElement<T> element = unmarshaller.unmarshal(new DOMSource(node), resourceType);
-		return element.getValue();
-	}
-	*/
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Node node) throws JAXBException {
@@ -346,19 +322,6 @@ public class FHIRUtil {
 		if (formatted) {
 		    marshaller.setProperty(MarshallerProperties.INDENT_STRING, "    ");
 		}
-		// Defect 211140  - This event handler was tries in conjunction with 
-		// with the unmarshalling event handler, but the following event handler
-		// caused the OperationOutcome built in the readFrom() method to fail
-		// serialization. It is commented out here for documentation purposes.
-		/* marshaller.setEventHandler(new ValidationEventHandler() {
-			@Override
-			public boolean handleEvent(ValidationEvent event) {
-				return (event.getSeverity() == ValidationEvent.WARNING ||
-						event.getSeverity() == ValidationEvent.ERROR);
-				//return true;
-			}
-		}); */
-		
 		if (Format.XML.equals(format)) {
 			// XML-specific configuration
 			Map<String, String> namespacePrefixMap = new HashMap<String, String>();
@@ -373,10 +336,6 @@ public class FHIRUtil {
 	}
 	
 	public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws JAXBException {
-		/*
-	    Marshaller marshaller = createMarshaller(format);
-		marshaller.marshal(resource, stream);
-		*/
 		write(resource, format, stream, true);
 	}
 	
@@ -386,10 +345,6 @@ public class FHIRUtil {
     }
 	
 	public static <T extends Resource> void write(T resource, Format format, Writer writer) throws JAXBException {
-		/*
-	    Marshaller marshaller = createMarshaller(format);
-		marshaller.marshal(resource, writer);
-		*/
 		write(resource, format, writer, true);
 	}
 	
@@ -399,10 +354,6 @@ public class FHIRUtil {
     }
 	
 	public static <T extends Resource> void write(T resource, Node node) throws JAXBException {
-	    /*
-		Marshaller marshaller = createMarshaller(Format.XML);
-		marshaller.marshal(resource, node);
-		*/
 		write(resource, node, true);
 	}
 	
