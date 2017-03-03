@@ -16,9 +16,11 @@
 		<module>../fhir-config</module>
         <module>../fhir-audit</module>
 		<module>../fhir-model</module>
+		<module>../fhir-schemaddl</module>
 		<module>../fhir-persistence</module>
 		<module>../fhir-persistence-memory</module>
 		<module>../fhir-persistence-jpa</module>
+		<module>../fhir-persistence-jdbc</module>
 		<module>../fhir-persistence-cloudant</module>
 		<module>../fhir-persistence-whc-lsf</module>
 		<module>../fhir-provider</module>
@@ -233,8 +235,7 @@
     			<groupId>org.liquibase</groupId>
     			<artifactId>liquibase-core</artifactId>
     			<version>3.4.2</version>
-    			<scope>test</scope>
-			</dependency>
+    		</dependency>
 		</dependencies>
 	</dependencyManagement>
 

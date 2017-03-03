@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.listener;
 
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
@@ -14,14 +15,17 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOC
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.naming.InitialContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -33,6 +37,13 @@ import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaP
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
+
+import liquibase.Contexts;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 @WebListener("IBM Watson Health Cloud FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -98,6 +109,12 @@ public class FHIRServletContextListener implements ServletContextListener {
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
+            
+            Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
+            if (performDbBootstrap) {
+            	bootstrapDb();
+            }
+            
             logConfigData();
 		} catch(Throwable t) {
 		    String msg = "Encountered an exception while initializing the servlet context.";
@@ -156,6 +173,48 @@ public class FHIRServletContextListener implements ServletContextListener {
     	if (log.isLoggable(Level.FINER)) {
 			log.exiting(FHIRServletContextListener.class.getName(), "logConfigData");
 		}
+    }
+    
+    /**
+     * Bootstraps the FHIR database.
+     * A DB connection is acquired. Then, a Liquibase changelog is run against the database to define tables.
+     * Note: this is only done for Derby databases.
+     */
+    private void bootstrapDb()  {
+    	if (log.isLoggable(Level.FINER)) {
+			log.entering(FHIRServletContextListener.class.getName(), "bootstrapDb");
+		}
+    	
+    	InitialContext ctxt; 
+    	DataSource fhirDb;
+    	Connection connection;
+    	String dbDriverName;
+    	Database database;
+		Liquibase liquibase;
+    	    	
+    	try {
+	    	ctxt = new InitialContext();
+			fhirDb = (DataSource) ctxt.lookup("jdbc/fhirDB");
+			connection = fhirDb.getConnection();
+			dbDriverName = connection.getMetaData().getDriverName();
+						
+			if (dbDriverName != null && dbDriverName.contains("Derby")) {
+				database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+				liquibase = new Liquibase("liquibase/derby/ddl/changelog.xml", new ClassLoaderResourceAccessor(), database);
+				liquibase.update((Contexts)null);
+			}
+    	}
+    	catch(Throwable e) {
+    		String msg = "Encountered an exception while bootstrapping the FHIR database";
+		    log.log(Level.SEVERE, msg, e);
+    	}
+    	finally {
+    		if (log.isLoggable(Level.FINER)) {
+    			log.exiting(FHIRServletContextListener.class.getName(), "bootstrapDb");
+    		}
+    	}
+				
+		
     }
 
 }

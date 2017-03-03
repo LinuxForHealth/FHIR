@@ -32,7 +32,7 @@ import liquibase.resource.FileSystemResourceAccessor;
  */
 public class DerbyInitializer {
 	
-	private static final String LIQUIBASE_CHANGE_LOG_PATH = "../fhir-schemaddl/src/test/resources/liquibase/derby/ddl/changelog.xml";
+	private static final String LIQUIBASE_CHANGE_LOG_PATH = "../fhir-schemaddl/src/main/resources/liquibase/derby/ddl/changelog.xml";
 	
 	private boolean newDbCreated = false;
 	private Properties dbProps;
