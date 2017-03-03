@@ -137,7 +137,7 @@ public class FHIRUtil {
 	private static final JAXBContext jsonContext = createContext(Format.JSON);
 	private static final ObjectFactory objectFactory = new ObjectFactory();
 	private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
-	private static final DocumentBuilder documentBuilder = createDocumentBuilder();
+	private static final DocumentBuilderFactory documentBuilderFactory = createDocumentBuilderFactory();
 	private static final XMLInputFactory inputFactory = createInputFactory();
 	
 	private FHIRUtil() { }
@@ -146,12 +146,12 @@ public class FHIRUtil {
 	    // allows us to initialize this class during startup
 	}
 	
-	private static DocumentBuilder createDocumentBuilder() {
+	private static DocumentBuilderFactory createDocumentBuilderFactory() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-			return factory.newDocumentBuilder();
+			return factory;
 		} catch (ParserConfigurationException e) {
 			throw new Error(e);
 		}
@@ -209,6 +209,7 @@ public class FHIRUtil {
 	public static <T extends Resource> Binder<Node> createBinder(T resource) {
 		Binder<Node> binder = getContext(Format.XML).createBinder();
 		try {
+		    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			binder.marshal(wrap(resource), documentBuilder.newDocument());
 		} catch (Exception e) {
 			e.printStackTrace();
