@@ -6,9 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.core;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.Key;
@@ -17,8 +20,11 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -26,6 +32,8 @@ import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
@@ -315,4 +323,55 @@ public class FHIRUtilities {
         }
         return secretKey;
     }
+    
+	/**
+	 * Determines whether or not the passed byte array was previously gzip compressed.
+	 * @param inputBytes - A byte array
+	 * @return boolean - true if the input stream is gzip compressed; false otherwise.
+	 */
+	public static boolean isGzipCompressed(byte[] inputBytes) {
+		int head = ((int) inputBytes[0] & 0xff) | ((inputBytes[1] << 8) & 0xff00);
+	    return (GZIPInputStream.GZIP_MAGIC == head);
+	}
+	
+	/**
+	 * Performs a gzip compression of the passed byte array.
+	 * @param input - Any byte array
+	 * @return byte[] - A gzip'd byte array representation of the input byte array.
+	 * @throws IOException 
+	 * 
+	 */
+	public static byte[] gzipCompress(byte[] input) throws IOException {
+		
+		Objects.requireNonNull(input, "input cannot be null");
+				
+		ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+		GZIPOutputStream gzip;
+		 
+		gzip = new GZIPOutputStream(byteOutputStream);
+		gzip.write(input);
+		gzip.close();
+				
+		return byteOutputStream.toByteArray();
+	}
+	
+	/**
+	 * Decompresses a previously gzip'd compressed byte array.
+	 * @param compressedInput - A byte array previously created by a gzip compression.
+	 * @return byte[] - The decompressed bytes.
+	 * @throws IOException 
+	 * 
+	 */
+	public static byte[] gzipDecompress(byte[] compressedInput) throws IOException {
+		
+		GZIPInputStream gzip;
+		byte[] output;
+				
+		Objects.requireNonNull(compressedInput, "compressedInput cannot be null");
+				
+		gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput));
+		output = IOUtils.toByteArray(gzip);
+						
+		return output;
+	}
 }

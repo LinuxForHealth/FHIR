@@ -12,6 +12,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,7 +230,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
 	        resourceDTO.setLogicalId(logicalId);
 	        resourceDTO.setVersionId(newVersionNumber);
-	        resourceDTO.setData(stream.toByteArray());
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
 	        Instant lastUpdated = instant(System.currentTimeMillis());
 	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 	        resourceDTO.setLastUpdated(timestamp);
@@ -387,7 +388,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
 	        resourceDTO.setLogicalId(logicalId);
 	        resourceDTO.setVersionId(newVersionNumber);
-	        resourceDTO.setData(stream.toByteArray());
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
 	        Instant lastUpdated = instant(System.currentTimeMillis());
 	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 	        resourceDTO.setLastUpdated(timestamp);
@@ -643,9 +644,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceType
      * @return
      * @throws JAXBException
+     * @throws IOException 
      */
     private List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
-			throws JAXBException {
+								throws JAXBException, IOException {
     	final String METHODNAME = "convertResourceDTO List";
     	log.entering(CLASSNAME, METHODNAME);
     	
@@ -669,17 +671,23 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceType - The FHIR type of resource to be converted.
      * @return Resource - A FHIR Resource object representation of the data portion of the passed Resource DTO.
      * @throws JAXBException
+     * @throws IOException 
      */
     private Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType) 
-    									throws JAXBException {
+    									throws JAXBException, IOException {
     	final String METHODNAME = "convertResourceDTO";
     	log.entering(CLASSNAME, METHODNAME);
     	
     	Resource resource = null;
+    	byte[] resourceBytes;
     	
     	try {
 	    	if (resourceDTO != null) {
-				resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceDTO.getData()));
+	    		resourceBytes = resourceDTO.getData();
+	    		if (FHIRUtilities.isGzipCompressed(resourceDTO.getData())) {
+	    			resourceBytes = FHIRUtilities.gzipDecompress(resourceBytes);
+	    		}
+				resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceBytes));
 	            resource.setId(id(resourceDTO.getLogicalId()));
 	            Meta meta = resource.getMeta();
 	            if (meta == null) {
@@ -708,8 +716,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 * @return List<Resource> - A list of Resources of the passed resourceType, sorted according the order of ids in the passed sortedIdList.
 	 * @throws FHIRPersistenceException
 	 * @throws JAXBException 
+	 * @throws IOException 
 	 */
-	private List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList) throws FHIRPersistenceException, JAXBException {
+	private List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList) 
+							throws FHIRPersistenceException, JAXBException, IOException {
 		final String METHOD_NAME = "buildFhirResource";
 		log.entering(this.getClass().getName(), METHOD_NAME);
 		
