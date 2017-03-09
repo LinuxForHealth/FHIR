@@ -210,7 +210,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 		final String METHODNAME = "buildWhereClause";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		int whereBegin = baseQueryString.indexOf(" WHERE");
+		int whereBegin = baseQueryString.indexOf(WHERE);
 		if (whereBegin > -1) {
 			queryBuffer.append(baseQueryString.substring(whereBegin));
 		}

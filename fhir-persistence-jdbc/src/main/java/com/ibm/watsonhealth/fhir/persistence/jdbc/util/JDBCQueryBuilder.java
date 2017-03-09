@@ -51,6 +51,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	protected static final String COMMA = ",";
 	protected static final String DOT = ".";
 	protected static final String EQUALS = "=";
+	protected static final String WHERE = " WHERE ";
 	private static final String PERCENT_WILDCARD = "%";
 	private static final String UNDERSCORE_WILDCARD = "_";
 	private static final String ESCAPE_CHAR = "+";
@@ -232,10 +233,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 					whereClauseParm = queryParms.get(i);
 					indexedTableAlias = "p" + (i+1) + ".";
 					whereClauseParm = whereClauseParm.replaceAll(PARAMETERS_TABLE_ALIAS, indexedTableAlias);
-					sqlQuery.append(JDBCOperator.AND.value())
-						.append(LEFT_PAREN)
-						.append(whereClauseParm) 
-						.append(RIGHT_PAREN);
+					// Only tack on an 'AND' to the end of the query buffer if it does not end in 'WHERE'
+					if (! (sqlQuery.lastIndexOf(WHERE) == sqlQuery.length() - WHERE.length())) {
+						sqlQuery.append(JDBCOperator.AND.value());
+					}
+					sqlQuery.append(LEFT_PAREN).append(whereClauseParm).append(RIGHT_PAREN);
 				}
 			}
 			else {
@@ -547,7 +549,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 				// Build this piece: FROM Resource CRx JOIN Parameter CPx ON CPx.resource_id=CRx.id WHERE
 				whereClauseSegment.append(" FROM Resource ").append(chainedResourceVar).append(" JOIN Parameter ")
 							      .append(chainedParmVar).append(" ON ").append(chainedParmVar).append(DOT).append("resource_id=")
-							      .append(chainedResourceVar).append(DOT).append("id").append(" WHERE ");
+							      .append(chainedResourceVar).append(DOT).append("id").append(WHERE);
 								  
 				// Build this piece: CRx.resource_type='resource-type-name' AND
 				// Note that if the resource type is a wildcard, we omit this piece of the where clause so that we do not
@@ -970,14 +972,15 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		log.entering(CLASSNAME, METHODNAME);
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append(" WHERE");
+		builder.append(WHERE);
 		
 		if (!Resource.class.equals(resourceType) && queryParms.isEmpty()) {
 		    builder.append(" r.resource_type = '");
 		    builder.append(resourceType.getSimpleName());
 		    builder.append("' AND");
+		    builder.append(" r.version_id = (SELECT MAX(r2.version_id) FROM Resource r2 WHERE r2.logical_id = r.logical_id)");
 		}
-		builder.append(" r.version_id = (SELECT MAX(r2.version_id) FROM Resource r2 WHERE r2.logical_id = r.logical_id)");
+		
 		 
 		log.exiting(CLASSNAME, METHODNAME);
 		return builder.toString();
