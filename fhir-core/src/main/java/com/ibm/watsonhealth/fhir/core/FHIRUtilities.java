@@ -357,6 +357,7 @@ public class FHIRUtilities {
 	
 	/**
 	 * Decompresses a previously gzip'd compressed byte array.
+	 * If the input byte array is not gzip compressed, the input byte array is returned.
 	 * @param compressedInput - A byte array previously created by a gzip compression.
 	 * @return byte[] - The decompressed bytes.
 	 * @throws IOException 
@@ -365,13 +366,15 @@ public class FHIRUtilities {
 	public static byte[] gzipDecompress(byte[] compressedInput) throws IOException {
 		
 		GZIPInputStream gzip;
-		byte[] output;
+		byte[] output = compressedInput;
 				
 		Objects.requireNonNull(compressedInput, "compressedInput cannot be null");
-				
-		gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput));
-		output = IOUtils.toByteArray(gzip);
-						
+		
+		if (isGzipCompressed(compressedInput)) {
+			gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput));
+			output = IOUtils.toByteArray(gzip);
+		}
+								
 		return output;
 	}
 }

@@ -684,10 +684,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	try {
 	    	if (resourceDTO != null) {
 	    		resourceBytes = resourceDTO.getData();
-	    		if (FHIRUtilities.isGzipCompressed(resourceDTO.getData())) {
-	    			resourceBytes = FHIRUtilities.gzipDecompress(resourceBytes);
-	    		}
-				resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceBytes));
+	    		resourceBytes = FHIRUtilities.gzipDecompress(resourceBytes);
+	    		resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceBytes));
 	            resource.setId(id(resourceDTO.getLogicalId()));
 	            Meta meta = resource.getMeta();
 	            if (meta == null) {
