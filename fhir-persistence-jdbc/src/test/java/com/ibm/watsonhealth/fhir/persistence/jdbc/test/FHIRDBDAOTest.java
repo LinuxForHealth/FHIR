@@ -13,7 +13,8 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
 
 /**
  * This class tests the basic functions of the FHIR DB Data Access Object class.
@@ -32,12 +33,13 @@ public class FHIRDBDAOTest {
 	 * @throws Exception
 	 */
 	@Test(groups = {"jdbc"})
+	@SuppressWarnings("rawtypes")
 	public void testGetDerbyConnection() throws Exception {
 		
 		Properties props = new Properties();
 		props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
 		props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
-		FHIRDbDAO dao = new FHIRDbDAO(props);
+		FHIRDbDAO dao = new FHIRDbDAOBasicImpl(props);
 		Connection connection = dao.getConnection();
 		assertNotNull(connection);
 	}
@@ -49,6 +51,7 @@ public class FHIRDBDAOTest {
 	 * @throws Exception
 	 */
 	//@Test(groups = {"jdbc"})
+	@SuppressWarnings("rawtypes")
 	public void testGetDB2Connection() throws Exception {
 		
 		Properties props = new Properties();
@@ -56,7 +59,8 @@ public class FHIRDBDAOTest {
 		props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:db2://localhost:50000/fhirdb");
 		props.setProperty(FHIRDbDAO.PROPERTY_DB2_USER, "user");
 		props.setProperty(FHIRDbDAO.PROPERTY_DB2_PSWD, "password");
-		FHIRDbDAO dao = new FHIRDbDAO(props);
+		
+		FHIRDbDAO dao = new FHIRDbDAOBasicImpl(props);
 		Connection connection = dao.getConnection();
 		assertNotNull(connection);
 	}

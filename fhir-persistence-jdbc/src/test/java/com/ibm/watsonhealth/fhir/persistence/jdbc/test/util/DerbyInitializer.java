@@ -10,7 +10,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 
 import liquibase.Contexts;
@@ -96,7 +97,7 @@ public class DerbyInitializer {
 		Connection connection = null;
 		SQLException sqlEx;
 		
-		FHIRDbDAO dao = new FHIRDbDAO(this.dbProps);
+		FHIRDbDAO dao = new FHIRDbDAOBasicImpl(this.dbProps);
 		
 		try {
 			connection = dao.getConnection();
@@ -107,7 +108,7 @@ public class DerbyInitializer {
 				// XJ004 means database not found
 				if("XJ004".equals(sqlEx.getSQLState())) {
 					this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
-					dao = new FHIRDbDAO(this.dbProps);
+					dao = new FHIRDbDAOBasicImpl(this.dbProps);
 					connection = dao.getConnection();
 					this.setNewDbCreated(true);
 				}
