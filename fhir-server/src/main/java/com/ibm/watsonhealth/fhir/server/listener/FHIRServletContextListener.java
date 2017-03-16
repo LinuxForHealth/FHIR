@@ -200,7 +200,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 						
 			if (dbDriverName != null && dbDriverName.contains("Derby")) {
 				database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-				liquibase = new Liquibase("liquibase/derby/ddl/changelog.xml", new ClassLoaderResourceAccessor(), database);
+				liquibase = new Liquibase("liquibase/ddl/derby/basic-schema/fhirserver.derby.basic.xml", new ClassLoaderResourceAccessor(), database);
 				liquibase.update((Contexts)null);
 			}
     	}
