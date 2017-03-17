@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api;
 
+import java.util.List;
+
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -18,14 +20,12 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 public interface ParameterDAO extends FHIRDbDAO {
 
 	/**
-	 * Inserts the passed Parameter DTO to the FHIR Parameter table. 
-	 * After insert, the generated primary key is acquired and set in the Parameter object.
-	 * @param parameter
-	 * @return Parameter
+	 * Performs a batch insert of the passed Parameter objects into the FHIR database.
+	 * @param parameters - A List of search parameters associated with a FHIR Resource.
 	 * @throws FHIRPersistenceDataAccessException
 	 * @throws FHIRPersistenceDBConnectException
 	 */
-	Parameter insert(Parameter parameter) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+	void insert(List<Parameter> parameters) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
 	/**
 	 * Deletes from the Parameter table all rows associated with the passed resource id.

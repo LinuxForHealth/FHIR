@@ -611,6 +611,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	
     	Map<SearchParameter, List<Object>> map;
     	String name, type, xpath;
+    	List<Parameter> allParameters = new ArrayList<>();
     	Processor<List<Parameter>> processor = new JDBCParameterBuilder();
     	
     	try {
@@ -629,11 +630,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	                for (Parameter p : parameters) {
 	                    p.setResourceId(resourceDTO.getId());
 	                    p.setResourceType(fhirResource.getClass().getSimpleName());
-	                    this.paramaterDao.insert(p);
+	                    allParameters.add(p);
 	                    log.fine("Added Parameter '" + p.getName() + "' to Resource.");
 	                }
 	            }
 	        }
+	        this.paramaterDao.insert(allParameters);
     	}
     	finally {
     		log.exiting(CLASSNAME, METHODNAME);

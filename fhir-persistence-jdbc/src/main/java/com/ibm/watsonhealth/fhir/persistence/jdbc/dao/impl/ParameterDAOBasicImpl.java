@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -51,60 +52,54 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
 		super(dbProperties);
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAO#insert(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter)
-	 */
 	@Override
-	public Parameter insert(Parameter parameter) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-		final String METHODNAME = "insert";
+	public void insert(List<Parameter> parameters) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		final String METHODNAME = "insert(List<Parameter>)";
 		log.entering(CLASSNAME, METHODNAME);
-		
+				
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 				
 		try {
 			connection = this.getConnection();
-			stmt = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, parameter.getName());
-			stmt.setString(2, parameter.getResourceType());
-			stmt.setString(3, parameter.getValueCode());
-			stmt.setTimestamp(4, parameter.getValueDate());
-			stmt.setTimestamp(5,  parameter.getValueDateEnd());
-			stmt.setTimestamp(6, parameter.getValueDateStart());
-			stmt.setObject(7, parameter.getValueLatitude(), Types.DOUBLE);
-			stmt.setObject(8, parameter.getValueLongitude(), Types.DOUBLE);
-			stmt.setObject(9, parameter.getValueNumber(), Types.DOUBLE);
-			stmt.setObject(10, parameter.getValueNumberHigh(), Types.DOUBLE);
-			stmt.setObject(11, parameter.getValueNumberLow(), Types.DOUBLE);
-			stmt.setString(12, parameter.getValueString());
-			stmt.setString(13, parameter.getValueSystem());
-			stmt.setLong(14, parameter.getResourceId());
-					
-			stmt.executeUpdate();
-			resultSet = stmt.getGeneratedKeys();
-			if (resultSet.next()) {
-				parameter.setId(resultSet.getLong(1));
-				log.fine("Succesfully inserted Parameter. id=" + parameter.getId());
+			stmt = connection.prepareStatement(SQL_INSERT);
+			
+			for (Parameter parameter: parameters) {
+				stmt.setString(1, parameter.getName());
+				stmt.setString(2, parameter.getResourceType());
+				stmt.setString(3, parameter.getValueCode());
+				stmt.setTimestamp(4, parameter.getValueDate());
+				stmt.setTimestamp(5,  parameter.getValueDateEnd());
+				stmt.setTimestamp(6, parameter.getValueDateStart());
+				stmt.setObject(7, parameter.getValueLatitude(), Types.DOUBLE);
+				stmt.setObject(8, parameter.getValueLongitude(), Types.DOUBLE);
+				stmt.setObject(9, parameter.getValueNumber(), Types.DOUBLE);
+				stmt.setObject(10, parameter.getValueNumberHigh(), Types.DOUBLE);
+				stmt.setObject(11, parameter.getValueNumberLow(), Types.DOUBLE);
+				stmt.setString(12, parameter.getValueString());
+				stmt.setString(13, parameter.getValueSystem());
+				stmt.setLong(14, parameter.getResourceId());
+				stmt.addBatch();
 			}
-			else
-			{
-				throw new FHIRPersistenceDataAccessException("Generated key not returned after new Parameter inserted.");
-			}
+			
+			stmt.executeBatch();
+			
 		}
-		catch(FHIRPersistenceDataAccessException | FHIRPersistenceDBConnectException e) {
+		catch(FHIRPersistenceDBConnectException e) {
 			throw e;
 		}
 		catch(Throwable e) {
-			throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
+			throw new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.", e);
 		}
 		finally {
 			this.cleanup(resultSet, stmt, connection);
 			log.exiting(CLASSNAME, METHODNAME);
 		}
-		
-		return parameter;
 	}
+
+ 
+
 	
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAO#deleteByResource(long)
