@@ -133,7 +133,7 @@ public class AuditLogServiceFactory {
 		String fileSeparator = System.getProperty("file.separator");
 		
 		try {
-		    auditLogDir = FHIRConfiguration.loadConfiguration().getStringProperty(PROPERTY_AUDIT_LOGPATH);
+		    auditLogDir = FHIRConfiguration.getInstance().loadConfiguration().getStringProperty(PROPERTY_AUDIT_LOGPATH);
 		}
 		catch(Throwable t) {
 			// Use the JVM default temp directory. This should only end up being used when running in junit or testNg mode.
@@ -169,7 +169,7 @@ public class AuditLogServiceFactory {
 		int maxAuditLogMB;
 		
 		try {
-			maxAuditLogMB = FHIRConfiguration.loadConfiguration().getIntProperty(PROPERTY_AUDIT_LOG_MAXSIZE);
+			maxAuditLogMB = FHIRConfiguration.getInstance().loadConfiguration().getIntProperty(PROPERTY_AUDIT_LOG_MAXSIZE);
 			maxAuditLogSize = maxAuditLogMB * MB;
 		}
 		catch(Throwable t) {

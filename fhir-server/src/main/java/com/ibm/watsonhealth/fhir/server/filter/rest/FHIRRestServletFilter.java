@@ -21,27 +21,34 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+
 /**
- * This class is a servlet filter which is registered with the REST API's servlet.
- * The main purpose of the class is to log entry/exit information and elapsed time
- * for each REST API request processed by the server.
+ * This class is a servlet filter which is registered with the REST API's servlet. The main purpose of the class is to
+ * log entry/exit information and elapsed time for each REST API request processed by the server.
  * 
  * @author padams
  */
 public class FHIRRestServletFilter implements Filter {
     private static final Logger log = Logger.getLogger(FHIRRestServletFilter.class.getName());
 
-    /* (non-Javadoc)
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-     * This method will intercept incoming HTTP requests and log entry/exit messages.
+    private static String tenantIdHeaderName = null;
+
+    /*
+     * (non-Javadoc)
+     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse,
+     * javax.servlet.FilterChain) This method will intercept incoming HTTP requests and log entry/exit messages.
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (log.isLoggable(Level.FINE)) {
             log.entering(this.getClass().getName(), "doFilter");
         }
-        
+
         try {
+            String tenantId = FHIRConfiguration.DEFAULT_TENANT_ID;
+            
             // Wrap the incoming servlet request with our own implementation.
             if (request instanceof HttpServletRequest) {
                 FHIRHttpServletRequestWrapper requestWrapper = new FHIRHttpServletRequestWrapper((HttpServletRequest) request);
@@ -49,54 +56,65 @@ public class FHIRRestServletFilter implements Filter {
                 if (log.isLoggable(Level.FINEST)) {
                     log.finest("Wrapped HttpServletRequest object...");
                 }
+                
+                String t = ((HttpServletRequest) request).getHeader(tenantIdHeaderName);
+                if (t != null) {
+                    tenantId = t;
+                }
             }
-            
+
             // Log a "request received" message.
             StringBuffer requestDescription = new StringBuffer();
-            requestDescription.append("user: ");
+            requestDescription.append("tenantId: ");
+            requestDescription.append(tenantId);
+            requestDescription.append(" user: ");
             requestDescription.append(getRequestUserPrincipal(request));
             requestDescription.append(" method: ");
             requestDescription.append(getRequestMethod(request));
             requestDescription.append(" uri: ");
             requestDescription.append(getRequestURL(request));
-            
+
             log.info("Received request: " + requestDescription.toString());
-            
+
             long initialTime = System.currentTimeMillis();
-            
+
             // Display the contents of the HTTP request body
             // Uncomment this ONLY for debugging when all else fails!
             // displayRequestBody(request);
             
+            // Create a new FHIRRequestContext and set it on the current thread.
+            FHIRRequestContext context = new FHIRRequestContext(tenantId);
+            FHIRRequestContext.set(context);
+
             // Pass the request through to the next filter in the chain.
             chain.doFilter(request, response);
-            
+
             // If possible, include the status code in the "completed" message.
             StringBuffer statusMsg = new StringBuffer();
             if (response instanceof HttpServletResponse) {
-                int status = ((HttpServletResponse)response).getStatus();
+                int status = ((HttpServletResponse) response).getStatus();
                 statusMsg.append(" status: " + status);
             } else {
-                statusMsg.append(" status: unknown (non-HTTP request)");  
+                statusMsg.append(" status: unknown (non-HTTP request)");
             }
-            
+
             double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
-            log.info("Completed request["+ elapsedSecs + " secs]: " + requestDescription.toString() + statusMsg.toString());
-        }
-        finally {
+            log.info("Completed request[" + elapsedSecs + " secs]: " + requestDescription.toString() + statusMsg.toString());
+        } finally {
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "doFilter");
             }
+            
+            // Remove the FHIRRequestContext from the current thread.
+            FHIRRequestContext.remove();
         }
     }
 
     /**
-     * Displays the contents of the servlet request body.
-     * Note that this consumes the content so that downstream errors will occur.
-     * But this function is still useful in certain debug situations.
-     * TODO: If necessary, we could wrap the incoming servlet request object with our own
-     * implementation that could serve up the body contents to downstream filters/servlets
-     * to avoid this issue.
+     * Displays the contents of the servlet request body. Note that this consumes the content so that downstream errors
+     * will occur. But this function is still useful in certain debug situations. TODO: If necessary, we could wrap the
+     * incoming servlet request object with our own implementation that could serve up the body contents to downstream
+     * filters/servlets to avoid this issue.
      */
     @SuppressWarnings("unused")
     private void displayRequestBody(ServletRequest request) throws IOException {
@@ -119,7 +137,7 @@ public class FHIRRestServletFilter implements Filter {
      */
     private String getRequestUserPrincipal(ServletRequest request) {
         String user = null;
-        
+
         if (request instanceof HttpServletRequest) {
             Principal principal = ((HttpServletRequest) request).getUserPrincipal();
             if (principal != null) {
@@ -134,7 +152,7 @@ public class FHIRRestServletFilter implements Filter {
      */
     private String getRequestMethod(ServletRequest request) {
         String method = null;
-        
+
         if (request instanceof HttpServletRequest) {
             method = ((HttpServletRequest) request).getMethod();
         }
@@ -142,12 +160,11 @@ public class FHIRRestServletFilter implements Filter {
     }
 
     /**
-     * Returns the full request URL (i.e. http://host:port/a/path?queryString)
-     * associated with the specified request.
+     * Returns the full request URL (i.e. http://host:port/a/path?queryString) associated with the specified request.
      */
     private String getRequestURL(ServletRequest request) {
         String url = null;
-        
+
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             StringBuffer sb = httpRequest.getRequestURL();
@@ -161,7 +178,8 @@ public class FHIRRestServletFilter implements Filter {
         return (url != null ? url : "<unknown>");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see javax.servlet.Filter#destroy()
      */
     @Override
@@ -169,11 +187,20 @@ public class FHIRRestServletFilter implements Filter {
         // Nothing to do here...
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
      */
     @Override
     public void init(FilterConfig config) throws ServletException {
-        // Nothing to do here...
+        try {
+            tenantIdHeaderName = 
+                    FHIRConfiguration.getInstance().loadConfiguration()
+                    .getStringProperty(FHIRConfiguration.PROPERTY_TENANT_ID_HEADER_NAME, FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME);
+
+            log.info("Configured tenant-id header name is: " +  tenantIdHeaderName);
+        } catch (Exception e) {
+            throw new ServletException("Servlet filter initialization error.", e);
+        }
     }
 }

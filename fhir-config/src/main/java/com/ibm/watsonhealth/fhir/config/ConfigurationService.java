@@ -53,6 +53,7 @@ public class ConfigurationService {
     public static PropertyGroup loadConfiguration(InputStream is) throws Exception {
         JsonReader reader = Json.createReader(is);
         JsonObject jsonObj = reader.readObject();
+        reader.close();
         return instantiatePropertyGroup(jsonObj);
     }
 

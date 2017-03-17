@@ -47,10 +47,8 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAOBasicImpl;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAOBasicImpl;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -89,9 +87,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		final String METHODNAME = "FHIRPersistenceJDBCImpl()";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		this.resourceDao = new ResourceDAOBasicImpl();
-		this.paramaterDao = new ParameterDAOBasicImpl();
-		PropertyGroup fhirConfig = FHIRConfiguration.loadConfiguration();
+		this.resourceDao = new ResourceDAO();
+		this.paramaterDao = new ParameterDAO();
+		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 				
@@ -108,8 +106,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		this.resourceDao = new ResourceDAOBasicImpl(configProps);
-		this.paramaterDao = new ParameterDAOBasicImpl(configProps);
+		this.resourceDao = new ResourceDAO(configProps);
+		this.paramaterDao = new ParameterDAO(configProps);
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 						
 		log.exiting(CLASSNAME, METHODNAME);
@@ -611,7 +609,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	
     	Map<SearchParameter, List<Object>> map;
     	String name, type, xpath;
-    	List<Parameter> allParameters = new ArrayList<>();
     	Processor<List<Parameter>> processor = new JDBCParameterBuilder();
     	
     	try {
@@ -630,12 +627,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	                for (Parameter p : parameters) {
 	                    p.setResourceId(resourceDTO.getId());
 	                    p.setResourceType(fhirResource.getClass().getSimpleName());
-	                    allParameters.add(p);
+	                    this.paramaterDao.insert(p);
 	                    log.fine("Added Parameter '" + p.getName() + "' to Resource.");
 	                }
 	            }
 	        }
-	        this.paramaterDao.insert(allParameters);
     	}
     	finally {
     		log.exiting(CLASSNAME, METHODNAME);

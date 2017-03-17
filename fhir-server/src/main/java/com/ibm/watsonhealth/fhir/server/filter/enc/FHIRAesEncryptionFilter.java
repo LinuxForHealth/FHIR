@@ -206,7 +206,7 @@ CODE_REMOVED
         try {
             // Check to see if encryption is enabled.
             // If yes, then grab the rest of our config entries retrieve the key.
-            PropertyGroup encryptionProps = FHIRConfiguration.loadConfiguration().getPropertyGroup(PROPERTY_ENCRYPTION);
+            PropertyGroup encryptionProps = FHIRConfiguration.getInstance().loadConfiguration().getPropertyGroup(PROPERTY_ENCRYPTION);
             encryptionEnabled = encryptionProps.getBooleanProperty(PROPERTY_ENCRYPTION_ENABLED, Boolean.FALSE);
             if (encryptionEnabled) {
                 // Keystore location.

@@ -29,7 +29,7 @@ public class FHIRPersistenceHelper implements PersistenceHelper {
     public FHIRPersistenceHelper() {
         log.entering(this.getClass().getName(), "FHIRPersistenceHelper ctor");
         try {
-            fhirConfig = FHIRConfiguration.loadConfiguration();
+            fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         } catch (Throwable t) {
             String msg = "Unexpected error while retrieving configuration.";
             log.severe(msg + " " + t);

@@ -1,0 +1,13 @@
+{
+	"collection": {
+		"tenant": "tenant1",
+		"groupA": {
+			"stringProp1": "tenant1Value1"
+		},
+		"groupB": {
+			"boolProp1": true,
+			"stringList1": ["token3",
+			"token4"]
+		}
+	}
+}

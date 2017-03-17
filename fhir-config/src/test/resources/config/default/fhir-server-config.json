@@ -1,0 +1,15 @@
+{
+	"collection": {
+		"tenant": "default",
+		"groupA": {
+			"stringProp1": "defaultValue1",
+			"stringProp2": "defaultValue2"
+		},
+		"groupB": {
+			"boolProp1": false,
+			"boolProp2": false,
+			"stringList1": ["token1",
+			"token2"]
+		}
+	}
+}

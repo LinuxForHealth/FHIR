@@ -15,8 +15,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
-import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.config.PropertyGroup;
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
@@ -36,16 +35,9 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
 public class ValidateOperation extends AbstractOperation {
-    private Boolean userDefinedSchematronEnabled = null;
     
     public ValidateOperation() {
         super();
-        try {
-            PropertyGroup fhirConfig = FHIRConfiguration.loadConfiguration();
-            userDefinedSchematronEnabled = fhirConfig.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.TRUE);
-        } catch (Exception e) {
-            throw new Error(e);
-        }
     }
 
     @Override
@@ -78,7 +70,7 @@ public class ValidateOperation extends AbstractOperation {
     }
     
     private boolean isUserDefinedSchematronEnabled() {
-        return userDefinedSchematronEnabled;
+        return FHIRConfigHelper.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE).booleanValue();
     }
 
     private OperationOutcome buildResourceValidOperationOutcome() {

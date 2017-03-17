@@ -6,16 +6,22 @@
 
 package com.ibm.watsonhealth.fhir.config;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class FHIRConfiguration {
+    private static final Logger log = Logger.getLogger(FHIRConfiguration.class.getName());
 
     /**
-     * This class serves up a singleton instance of ConfigurationService containing
-     * the FHIR Server's configuration.
+     * This class serves up a singleton instance of ConfigurationService containing the FHIR Server's configuration.
      */
-    public static final String FHIR_SERVER_DEFAULT_CONFIG = "fhir-server-config.json";
-    
+    public static final String CONFIG_LOCATION = "config";
+    public static final String CONFIG_FILE_BASENAME = "fhir-server-config.json";
+    public static final String DEFAULT_TENANT_ID = "default";
+
     // Configuration properties used by various FHIR Server components.
     public static final String PROPERTY_VIRTUAL_RESOURCES_ENABLED = "fhirServer/virtualResources/enabled";
     public static final String PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "fhirServer/virtualResources/allowableResourceTypes";
@@ -44,28 +50,155 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CLOUDANT_DBNAME = "fhirServer/persistence/cloudant/dbName";
     public static final String PROPERTY_WHCLSF_ROUTER = "fhirServer/persistence/whclsfRouter";
     public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";
+    public static final String PROPERTY_TENANT_ID_HEADER_NAME = "fhirServer/core/tenantIdHeaderName";
+    
+    public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
+
+    public static final String FHIR_SERVER_DEFAULT_CONFIG = "config/default/fhir-server-config.json";
+    
+    // Optional "home directory" for config files.  Defaults to current directory.
+    private static String configHome = "";
+
+    private static FHIRConfiguration _instance = new FHIRConfiguration();
+
+    public static FHIRConfiguration getInstance() {
+        return _instance;
+    }
 
     /**
-     * This is our single-instance config object.
+     * This Map contains the cache of PropertyGroupHolder objects keyed by tenant-id.
      */
-    private static PropertyGroup fhirConfig = null;
+    private Map<String, PropertyGroupHolder> configCache = new HashMap<String, PropertyGroupHolder>();
     
-    /**
-     * Retrieves the FHIR Server configuration and returns it as a PropertyGroup.
-     * @throws FileNotFoundException
-     */
-    public static synchronized PropertyGroup loadConfiguration() throws Exception {
-        if (fhirConfig == null) {
-            fhirConfig = ConfigurationService.loadConfiguration(FHIR_SERVER_DEFAULT_CONFIG);
-        }
-        return fhirConfig;
+    private String getConfigFileName(String tenantId) {
+        return configHome + CONFIG_LOCATION + File.separator + tenantId + File.separator + CONFIG_FILE_BASENAME;
     }
     
     /**
-     * Clears the single-instance configuration object.
-     * This can be used perhaps during testing when you need to clear and re-load the configuration.
+     * This method is used to configure an explicit top-level directory where all the config files
+     * are expected to reside.   For example, by calling this method with value "/mydir", then we'd expect
+     * to find config files whose names are of the form:  "/mydir/config/<tenant-id>/fhir-server-config.json".
+     * The default location for config files is the current working directory.
+     * @param s
      */
-    public static synchronized void clearConfiguration() {
-        fhirConfig = null;
+    public static void setConfigHome(String s) {
+        if (s == null) {
+            s = "";
+        }
+        if (!s.isEmpty() && !s.endsWith("/")) {
+            s += "/";
+        }
+        
+        configHome = s;
+    }
+
+    /**
+     * Retrieves the FHIR Server configuration and returns it as a PropertyGroup.
+     * 
+     * @throws FileNotFoundException
+     */
+    public PropertyGroup loadConfiguration() throws Exception {
+        return loadConfigurationForTenant(DEFAULT_TENANT_ID);
+    }
+
+    /**
+     * Loads the configuration for the specified tenant id.
+     * 
+     * @param tenantId
+     *            a shortname representing the tenant whose configuration will be loaded
+     * @return the top-level property group representing this tenant's configuration
+     * @throws Exception
+     */
+    public PropertyGroup loadConfigurationForTenant(String tenantId) throws Exception {
+        log.entering(this.getClass().getName(), "loadConfigurationForTenant", tenantId);
+
+        try {
+            synchronized (configCache) {
+
+                // Check to see if this tenant already has a configuration in the cache.
+                PropertyGroupHolder pgh = configCache.get(tenantId);
+
+                // Next, check to see if the property group is stale.
+                // If so, just throw it away and re-load below.
+                if (pgh != null && pgh.isStale()) {
+                    log.finer("Cached configuration for tenant-id '" + tenantId + "' is stale, discarding...");
+                    pgh = null;
+                }
+
+                // If we have no "current" configuration for this tenant in the cache,
+                // then load it and add it to cache.
+                if (pgh == null) {
+                    String fileName = getConfigFileName(tenantId);
+                    PropertyGroup pg = ConfigurationService.loadConfiguration(fileName);
+                    pgh = new PropertyGroupHolder(fileName, pg);
+                    configCache.put(tenantId, pgh);
+                    log.fine("Loaded configuration for tenant-id '" + tenantId + "' and added it to the cache.");
+                }
+
+                return pgh.getPropertyGroup();
+            }
+        } finally {
+            log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
+        }
+    }
+
+    /**
+     * Clears the entire cache of configuration objects. This can be used perhaps during testing when you need to clear
+     * and re-load the configuration.
+     */
+    public void clearConfiguration() {
+        synchronized (configCache) {
+            configCache.clear();
+        }
+    }
+
+    /**
+     * PropertyGroupHolder is simply a class used to hold a PropertyGroup together with its filename and last
+     * modification time.
+     */
+    public static class PropertyGroupHolder {
+        private String fileName;
+        private long lastModified;
+        private PropertyGroup propertyGroup;
+
+        public PropertyGroupHolder(String fileName, PropertyGroup propertyGroup) {
+            setFileName(fileName);
+            setPropertyGroup(propertyGroup);
+            File f = new File(fileName);
+            setLastModified(f.lastModified());
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public long getLastModified() {
+            return lastModified;
+        }
+
+        public void setLastModified(long lastModified) {
+            this.lastModified = lastModified;
+        }
+
+        public PropertyGroup getPropertyGroup() {
+            return propertyGroup;
+        }
+
+        public void setPropertyGroup(PropertyGroup propertyGroup) {
+            this.propertyGroup = propertyGroup;
+        }
+
+        /**
+         * @return true iff the file from which the PropertyGroup was initially loaded has been modified since it was
+         *         loaded.
+         */
+        public boolean isStale() {
+            File f = new File(getFileName());
+            return f.lastModified() > getLastModified();
+        }
     }
 }

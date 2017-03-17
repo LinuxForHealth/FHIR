@@ -59,7 +59,9 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
@@ -151,13 +153,6 @@ public class FHIRResource {
     private FHIRPersistence persistence = null;
     private ObjectFactory objectFactory = new ObjectFactory();
     
-    private List<String> allowableVirtualResourceTypes = null;
-    private Boolean virtualResourceTypesFeatureEnabled = null;
-    
-    private Boolean userDefinedSchematronEnabled = null;
-    
-    private Boolean updateCreateEnabled = null;
-    
     @Context
     private ServletContext context;
     
@@ -178,11 +173,7 @@ public class FHIRResource {
     public FHIRResource() throws Exception {
         log.entering(this.getClass().getName(), "FHIRResource ctor");
         try {
-            fhirConfig = FHIRConfiguration.loadConfiguration();
-            virtualResourceTypesFeatureEnabled = fhirConfig.getBooleanProperty(PROPERTY_VIRTUAL_RESOURCES_ENABLED, Boolean.TRUE);
-            allowableVirtualResourceTypes = fhirConfig.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
-            userDefinedSchematronEnabled = fhirConfig.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.TRUE);
-            updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
+            fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         } catch (Throwable t) {
             log.severe("Unexpected error during initialization: " + t);
             throw t;
@@ -334,8 +325,18 @@ public class FHIRResource {
         @ApiParam(value = "The resource type to be retrieved.", required = true)
         @PathParam("type") String type, 
         @ApiParam(value = "The id of the resource to be retrieved.", required = true)
-        @PathParam("id") String id) throws ClassNotFoundException {
+        @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "read(String,String)");
+        
+        // begin: DEBUG CODE
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        log.fine("Tenant id on this thread: " + tenantId);
+        
+        List<String> allowableVirtualResourceTypes = FHIRConfigHelper.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
+        Boolean virtualResourceTypesFeatureEnabled = FHIRConfigHelper.getBooleanProperty(PROPERTY_VIRTUAL_RESOURCES_ENABLED, Boolean.TRUE);
+        log.fine("Virtual resources enabled: " + virtualResourceTypesFeatureEnabled);
+        log.fine("Allowable virtual resource types: " + allowableVirtualResourceTypes);
+        // end: DEBUG CODE
         
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
@@ -1907,19 +1908,19 @@ public class FHIRResource {
     }
     
     private List<String> getAllowableVirtualResourceTypes() throws Exception {
-        return allowableVirtualResourceTypes;
+        return FHIRConfigHelper.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
     }
     
     private Boolean isVirtualResourceTypesFeatureEnabled() {
-        return virtualResourceTypesFeatureEnabled;
+        return FHIRConfigHelper.getBooleanProperty(PROPERTY_VIRTUAL_RESOURCES_ENABLED, Boolean.FALSE);
     }
     
     private Boolean isUserDefinedSchematronEnabled() {
-        return userDefinedSchematronEnabled;
+        return FHIRConfigHelper.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE);
     }
     
     private Boolean isUpdateCreateEnabled() {
-        return updateCreateEnabled;
+        return fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
     }
     
     private Parameter createBasicCodeSearchParameter(String type) {

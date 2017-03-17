@@ -59,7 +59,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
-		    PropertyGroup fhirConfig = FHIRConfiguration.loadConfiguration();
+		    PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
 		    
 		    log.fine("Current working directory: " + System.getProperty("user.dir"));
 		    
@@ -163,7 +163,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     		configFilePath = "server.xml";
 			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
 			RestAuditLogger.logConfig(configData);
-			configFilePath = "fhir-server-config.json";
+			configFilePath = FHIRConfiguration.FHIR_SERVER_DEFAULT_CONFIG;
 			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
 			RestAuditLogger.logConfig(configData);
 		} catch (IOException e) {
@@ -200,7 +200,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 						
 			if (dbDriverName != null && dbDriverName.contains("Derby")) {
 				database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-				liquibase = new Liquibase("liquibase/ddl/derby/basic-schema/fhirserver.derby.basic.xml", new ClassLoaderResourceAccessor(), database);
+				liquibase = new Liquibase("liquibase/derby/ddl/changelog.xml", new ClassLoaderResourceAccessor(), database);
 				liquibase.update((Contexts)null);
 			}
     	}
