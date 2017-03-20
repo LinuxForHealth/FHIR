@@ -61,7 +61,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
@@ -123,6 +122,7 @@ import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRRestException;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRUrlParser;
+import com.ibm.watsonhealth.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
@@ -170,6 +170,17 @@ public class FHIRResource {
     
     private PropertyGroup fhirConfig = null;
 
+    /**
+     * This method will do a quick check of the "initCompleted" flag in the servlet context.
+     * If the flag is FALSE, then we'll throw an error to short-circuit the current in-progress REST API invocation.
+     */
+    private void checkInitComplete() throws FHIRRestException {
+        Boolean fhirServerInitComplete = (Boolean) context.getAttribute(FHIRServletContextListener.FHIR_SERVER_INIT_COMPLETE);
+        if (Boolean.FALSE.equals(fhirServerInitComplete)) {
+            throw new FHIRRestException("The FHIR Server web application cannot process requests because it did not initialize correctly", null, Status.INTERNAL_SERVER_ERROR );
+        }
+    }
+    
     public FHIRResource() throws Exception {
         log.entering(this.getClass().getName(), "FHIRResource ctor");
         try {
@@ -196,8 +207,13 @@ public class FHIRResource {
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
         try {
-        	status = Response.Status.OK;
+            checkInitComplete();
+
+            status = Response.Status.OK;
             return Response.ok().entity(getConformanceStatement()).build();
+        } catch (FHIRRestException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
         } catch(Exception e) {
         	return exceptionResponse(e, status);
         } finally {
@@ -226,6 +242,8 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "create(Resource)");
 
         try {
+            checkInitComplete();
+
         	URI locationURI = doCreate(type, resource);
                        
             ResponseBuilder response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString())));
@@ -267,6 +285,8 @@ public class FHIRResource {
         log.entering(this.getClass().getName(), "update(String,Resource)");
 
         try {
+            checkInitComplete();
+
         	// Make sure the resource has an 'id' attribute.
             if (resource.getId() == null) {
                 throw new FHIRException("Input resource must contain an 'id' attribute.");
@@ -328,21 +348,13 @@ public class FHIRResource {
         @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "read(String,String)");
         
-        // begin: DEBUG CODE
-        String tenantId = FHIRRequestContext.get().getTenantId();
-        log.fine("Tenant id on this thread: " + tenantId);
-        
-        List<String> allowableVirtualResourceTypes = FHIRConfigHelper.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
-        Boolean virtualResourceTypesFeatureEnabled = FHIRConfigHelper.getBooleanProperty(PROPERTY_VIRTUAL_RESOURCES_ENABLED, Boolean.TRUE);
-        log.fine("Virtual resources enabled: " + virtualResourceTypesFeatureEnabled);
-        log.fine("Allowable virtual resource types: " + allowableVirtualResourceTypes);
-        // end: DEBUG CODE
-        
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	Resource resource = null;
     	
         try {
+            checkInitComplete();
+
             resource = doRead(type, id, true);
             ResponseBuilder response = Response.ok().entity(resource);
             status = Response.Status.OK;
@@ -391,6 +403,8 @@ public class FHIRResource {
     	Resource resource = null;
     	
         try {
+            checkInitComplete();
+
             resource = doVRead(type, id, vid);
             
             ResponseBuilder response = Response.ok().entity(resource);
@@ -436,6 +450,8 @@ public class FHIRResource {
     	Bundle bundle= null;
     	
         try {
+            checkInitComplete();
+
             bundle = doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri());
             status = Response.Status.OK;
             return Response.ok(bundle).build();
@@ -473,6 +489,8 @@ public class FHIRResource {
     	Bundle bundle = null;
     	
         try {
+            checkInitComplete();
+
             queryParameters = uriInfo.getQueryParameters();
             bundle = doSearch(type, null, null, queryParameters, getRequestUri());
             status = Response.Status.OK;
@@ -516,6 +534,8 @@ public class FHIRResource {
     	Bundle bundle = null;
     	
         try {
+            checkInitComplete();
+
             queryParameters = uriInfo.getQueryParameters();
             bundle = doSearch(type, compartment, compartmentId, queryParameters, getRequestUri());
             status = Response.Status.OK;
@@ -545,6 +565,8 @@ public class FHIRResource {
         Bundle bundle = null;
         
         try {
+            checkInitComplete();
+
             queryParameters = uriInfo.getQueryParameters();
             bundle = doSearch(type, null, null, queryParameters, getRequestUri());
             status = Response.Status.OK;
@@ -573,6 +595,8 @@ public class FHIRResource {
         Bundle bundle = null;
         
         try {
+            checkInitComplete();
+
             queryParameters = uriInfo.getQueryParameters();
             bundle = doSearch("Resource", null, null, queryParameters, getRequestUri());
             status = Response.Status.OK;
@@ -596,10 +620,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
             Resource result = doInvoke(operationContext, null, null, null, operationName, null);
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -615,10 +643,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,Resource)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
             Resource result = doInvoke(operationContext, null, null, null, operationName, resource);
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -634,10 +666,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
             Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, null); 
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -653,10 +689,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,Resource)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
             Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, resource);
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -672,10 +712,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
             Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, null);
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -691,10 +735,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,Resource)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
             Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, resource);
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -710,10 +758,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
             Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, null);
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -729,10 +781,14 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String,Resource)");
         try {
+            checkInitComplete();
+
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
             Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, resource);
             return buildResponse(operationContext, result);
         } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (FHIRRestException e) {
             return exceptionResponse(e);
         } catch (FHIRException e) {
             return exceptionResponse(e);
@@ -742,32 +798,7 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "invoke(String,String,String,String,Resource)");
         }
     }
-    /*
-    @POST
-    @Path("Resource/$validate")
-    public Response validate(Resource resource) {
-        log.entering(this.getClass().getName(), "validate(Resource)");
-        Date startTime = new Date();
-    	Response.Status status = null;
-    	 
-        try {
-        	status = Response.Status.OK;
-            return Response.ok().entity(doValidate(resource)).build();
-        } catch (FHIRRestException e) {
-        	status = e.getHttpStatus();
-            return exceptionResponse(e);
-        } catch (FHIRException e) {
-        	status = e.getHttpStatus();
-            return exceptionResponse(e);
-        } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-            return exceptionResponse(e, status);
-        } finally {
-        	RestAuditLogger.logValidate(httpServletRequest, resource, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "validate(Resource)");
-        }
-    }
-    */
+
     @POST
     @ApiOperation(value = "Performs a collection of operations as either a batch or transaction interaction.", 
     notes = "A Bundle resource containing the operations should be passed in the request body.")
@@ -781,6 +812,8 @@ public class FHIRResource {
     	Bundle responseBundle = null;
 
         try {
+            checkInitComplete();
+
             responseBundle = doBundle(bundle);
                 
             ResponseBuilder response = Response.ok(responseBundle);

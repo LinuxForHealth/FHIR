@@ -51,6 +51,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 	
 	private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
 	private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.watsonhealth.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
 
 	@Override
@@ -59,6 +60,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
 		}
 		try {
+            // Initialize our "initComplete" flag to false.
+            event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
+            
 		    PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
 		    
 		    log.fine("Current working directory: " + System.getProperty("user.dir"));
@@ -116,6 +120,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             }
             
             logConfigData();
+            
+            // Finally, set our "initComplete" flag to true.
+            event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
 		} catch(Throwable t) {
 		    String msg = "Encountered an exception while initializing the servlet context.";
 		    log.log(Level.SEVERE, msg, t);
@@ -128,24 +135,26 @@ public class FHIRServletContextListener implements ServletContextListener {
 	}
 
     @Override
-	public void contextDestroyed(ServletContextEvent event) {
-		if (log.isLoggable(Level.FINER)) {
-			log.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
-		}
-		try {
-		    
-		    // If we previously intialized the Kafka publisher, then shut it down now.
-		    if (kafkaPublisher != null) {
-		        kafkaPublisher.shutdown();
-		        kafkaPublisher = null;
-		    }
-		} catch (Exception e) {
-		} finally {
-			if (log.isLoggable(Level.FINER)) {
-				log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
-			}
-		}
-	}
+    public void contextDestroyed(ServletContextEvent event) {
+        if (log.isLoggable(Level.FINER)) {
+            log.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
+        }
+        try {
+            // Set our "initComplete" flag back to false.
+            event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
+
+            // If we previously intialized the Kafka publisher, then shut it down now.
+            if (kafkaPublisher != null) {
+                kafkaPublisher.shutdown();
+                kafkaPublisher = null;
+            }
+        } catch (Exception e) {
+        } finally {
+            if (log.isLoggable(Level.FINER)) {
+                log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
+            }
+        }
+    }
     
     /**
      * Logs server configuration data using the REST audit log service.
