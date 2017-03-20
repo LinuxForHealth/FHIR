@@ -10,10 +10,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationEvent;
 import com.ibm.watsonhealth.fhir.notification.FHIRNotificationService;
@@ -115,21 +117,69 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
     public void notify(FHIRNotificationEvent event) throws FHIRNotificationException {
         log.entering(this.getClass().getName(), "notify");
         String topicId = "[" + this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG) + "]/" + topicName;
+        String jsonString = null;
         try {
-            String jsonString = FHIRNotificationUtil.toJsonString(event, true);
+            jsonString = FHIRNotificationUtil.toJsonString(event, true);
 
             if (log.isLoggable(Level.FINE)) { 
                 log.fine("Publishing kafka notification event to topic '" + topicId + "',\nmessage: " + jsonString);
             }
             
-            producer.send(new ProducerRecord<String, String>(topicName, jsonString));
-            log.info("Successfully published kafka notification event for resource: " + event.getLocation());
+            producer.send(new ProducerRecord<String, String>(topicName, jsonString), new KafkaPublisherCallback(event, jsonString, topicId));
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Returned from async kafka send...");
+            }
         } catch (Throwable e) {
-            String msg = "Error publishing kafka notification event to topic '" + topicId;
-            log.log(Level.SEVERE, msg, e);
+            String msg = buildNotificationErrorMessage(topicId, (jsonString == null ? "<null>" : jsonString));
+            log.log(Level.SEVERE, msg , e);
             throw new FHIRNotificationException(msg, e);
         } finally {
             log.exiting(this.getClass().getName(), "notify");
         }
+    }
+    
+    public class KafkaPublisherCallback implements Callback {
+        private FHIRNotificationEvent event;
+        private String notificationEvent;
+        private String topicId;
+
+        public KafkaPublisherCallback(FHIRNotificationEvent event, String notificationEvent, String topicId) {
+            super();
+            this.event = event;
+            this.notificationEvent = notificationEvent;
+            this.topicId = topicId;
+        }
+
+        /**
+         * This method is called by the KafkaProducer API after a successful *or* unsuccessful send.
+         */
+        @Override
+        public void onCompletion(RecordMetadata recordMetadata, Exception exception) {
+            log.entering(this.getClass().getName(), "onCompletion");
+
+            try {
+                // No exception implies that the send operation succeeded, so log an info message.
+                if (exception == null) {
+                    log.info("Successfully published kafka notification event for resource: " + event.getLocation());
+                } 
+                
+                // If we detected a 'send' failure, then log an error message that includes the notification message
+                // that we tried to send.
+                else {
+                    String msg = buildNotificationErrorMessage(topicId, notificationEvent);
+                    log.log(Level.SEVERE, msg, exception);
+                }
+            } finally {
+                log.exiting(this.getClass().getName(), "onCompletion");
+            }
+        }
+    }
+    
+    /**
+     * Builds a formatted error message to indicate a notification publication failure.
+     */
+    private String buildNotificationErrorMessage(String topicId, String notificationEvent) {
+        return String.format("Kafka publication failure; topic '%s'\nNotification event: %s\n.", topicId, notificationEvent);
     }
 }

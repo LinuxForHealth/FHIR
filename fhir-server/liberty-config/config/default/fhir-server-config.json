@@ -53,7 +53,12 @@ CODE_REMOVED
 CODE_REMOVED
 CODE_REMOVED
                     "ssl.truststore.type":"JKS",
-                    "ssl.keystore.type":"JKS"
+                    "ssl.keystore.type":"JKS",
+                    "acks": "all",
+                    "retries": "60",
+                    "request.timeout.ms": "10000",
+                    "max.block.ms": "60000",
+                    "max.in.flight.requests.per.connection": "5"
                 }
             }
         },
