@@ -83,7 +83,6 @@ import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
@@ -1183,26 +1182,6 @@ public class FHIRResource {
     }
 
     /**
-     * Performs a validation of the specified Resource
-     * @param resource the Resource to be validated
-     * @return an OperationOutcome with the validation results
-     * @throws Exception
-     */
-    protected OperationOutcome doValidate(Resource resource) throws Exception {
-        log.entering(this.getClass().getName(), "doValidate");
-        try {
-            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
-            if (!issues.isEmpty()) {
-                OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
-                throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
-            }
-            return buildResourceValidOperationOutcome();
-        } finally {
-            log.exiting(this.getClass().getName(), "doValidate");
-        }
-    }
-
-    /**
      * Processes a bundled request.
      * 
      * @param bundle
@@ -1589,19 +1568,6 @@ public class FHIRResource {
 
     private void setBundleResponseStatus(BundleResponse response, int httpStatus) {
         response.setStatus(objectFactory.createString().withValue(Integer.toString(httpStatus)));
-    }
-
-    private OperationOutcome buildResourceValidOperationOutcome() {
-        OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
-                .withId(id("allok"))
-                .withText(objectFactory.createNarrative()
-                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.ADDITIONAL))
-                    .withDiv(FHIRUtil.div("<div><p>All OK</p></div>")))
-                .withIssue(objectFactory.createOperationOutcomeIssue()
-                    .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.INFORMATION))
-                    .withCode(objectFactory.createIssueType().withValue(IssueTypeList.INFORMATIONAL))
-                    .withDetails(objectFactory.createCodeableConcept().withText(string("All OK"))));
-        return operationOutcome;
     }
     
     /**

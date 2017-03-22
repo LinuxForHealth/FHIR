@@ -198,7 +198,7 @@ public class FHIRConfiguration {
          */
         public boolean isStale() {
             File f = new File(getFileName());
-            return f.lastModified() > getLastModified();
+            return !f.exists() || f.lastModified() > getLastModified();
         }
     }
 }

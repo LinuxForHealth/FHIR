@@ -56,6 +56,7 @@ public class FHIRRequestContextTest {
     
     @Test
     public void testDefault1() throws Exception {
+        FHIRRequestContext.remove();
         FHIRRequestContext ctxt = FHIRRequestContext.get();
         assertNotNull(ctxt);
         assertEquals("default", ctxt.getTenantId());

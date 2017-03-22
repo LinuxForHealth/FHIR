@@ -12,6 +12,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.config.ConfigurationService;
@@ -20,6 +21,11 @@ import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.watsonhealth.fhir.config.mock.MockPropertyGroup;
 
 public class ConfigurationServiceTest {
+    
+    @AfterMethod
+    public void cleanUp() {
+        System.setProperty(ConfigurationService.PROPERTY_GROUP_CLASSNAME, "");
+    }
 
     @Test
     public void testLoadConfiguration() throws Exception {

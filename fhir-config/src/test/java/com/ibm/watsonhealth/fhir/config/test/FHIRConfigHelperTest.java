@@ -13,7 +13,9 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
@@ -36,7 +38,13 @@ public class FHIRConfigHelperTest {
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
     }
-
+    
+    @BeforeMethod
+    @AfterMethod
+    public void clearThreadLocal() {
+        FHIRRequestContext.remove();
+    }
+    
     @Test
     public void testDefaultConfig1() throws Exception {
         String tenant = FHIRConfigHelper.getStringProperty("collection/tenant", null);
