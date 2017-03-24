@@ -75,11 +75,12 @@ public class FHIRConfiguration {
     }
     
     /**
-     * This method is used to configure an explicit top-level directory where all the config files
-     * are expected to reside.   For example, by calling this method with value "/mydir", then we'd expect
+     * This method is used to configure an explicit top-level directory where FHIR Server configuration
+     * information is expected to reside.
+     * For example, by calling this method with value "/mydir", then we'd expect
      * to find config files whose names are of the form:  "/mydir/config/<tenant-id>/fhir-server-config.json".
-     * The default location for config files is the current working directory.
-     * @param s
+     * The default location for config files is the current working directory (i.e. "" - the empty string).
+     * @param s the new config home directory name 
      */
     public static void setConfigHome(String s) {
         if (s == null) {
@@ -90,6 +91,16 @@ public class FHIRConfiguration {
         }
         
         configHome = s;
+    }
+    
+    /**
+     * Returns the "home" directory for FHIR Server configuration information (this directory will contain
+     * the "config" directory, etc.).   
+     * The default value of this property is "" which is interpretted to mean the current working directory
+     * (which for a running FHIR Server will be $WLP_HOME/wlp/usr/servers/fhir-server).
+     */
+    public static String getConfigHome() {
+        return configHome;
     }
 
     /**
@@ -122,6 +133,7 @@ public class FHIRConfiguration {
                 // If so, just throw it away and re-load below.
                 if (pgh != null && pgh.isStale()) {
                     log.finer("Cached configuration for tenant-id '" + tenantId + "' is stale, discarding...");
+                    configCache.remove(tenantId);
                     pgh = null;
                 }
 
