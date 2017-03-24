@@ -58,6 +58,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
+import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
@@ -91,7 +92,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		
 		this.resourceDao = new ResourceDAOBasicImpl();
 		this.paramaterDao = new ParameterDAOBasicImpl();
-        PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 				
@@ -628,6 +629,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            for (Object value : values) {
 	                List<Parameter> parameters = processor.process(parameter, value);
 	                for (Parameter p : parameters) {
+	                	p.setType(Type.fromValue(type));
 	                    p.setResourceId(resourceDTO.getId());
 	                    p.setResourceType(fhirResource.getClass().getSimpleName());
 	                    allParameters.add(p);

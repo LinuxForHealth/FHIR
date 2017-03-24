@@ -29,7 +29,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implements ResourceDAO {
 	
 	private static final Logger log = Logger.getLogger(ResourceDAOBasicImpl.class.getName());
-	private static final String CLASSNAME = FHIRDbDAOBasicImpl.class.getName(); 
+	private static final String CLASSNAME = ResourceDAOBasicImpl.class.getName(); 
 	
 	private static final String SQL_INSERT = "INSERT INTO RESOURCE (DATA, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID)" +
 											" VALUES(?,?,?,?,?)";
@@ -39,14 +39,18 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 	
 	private static final String SQL_VERSION_READ = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.RESOURCE_TYPE = ? AND R.VERSION_ID = ?";
 	
-	private static final String SQL_HISTORY = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? "
-															+ "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-	private static final String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ?";
-	private static final String SQL_HISTORY_FROM_DATETIME = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?" + 
-															 " ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-	private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?";
-	
 	private static final String SQL_SEARCH_BY_ID = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.ID IN ";
+	
+	private static final  String SQL_HISTORY = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? "
+															+ "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+	
+	private static final  String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ?";
+	
+	private static final  String SQL_HISTORY_FROM_DATETIME = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?" + 
+															 " ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+	private static final  String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?";
+	
+	
 	
 	
 	/**
@@ -326,10 +330,10 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 				
 		try {
 			if (fromDateTime != null) {
-				resources = this.runQuery(SQL_HISTORY_FROM_DATETIME, logicalId, fromDateTime, offset, maxResults);
+				resources = this.runQuery(this.getSqlHistoryFromDateTime(), logicalId, fromDateTime, offset, maxResults);
 			}
 			else {
-				resources = this.runQuery(SQL_HISTORY, logicalId, offset, maxResults);
+				resources = this.runQuery(this.getSqlHistory(), logicalId, offset, maxResults);
 			}
 		}
 		finally {
@@ -350,10 +354,10 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 				
 		try {
 			if (fromDateTime != null) {
-				count = this.runCountQuery(SQL_HISTORY_FROM_DATETIME_COUNT, logicalId, fromDateTime);
+				count = this.runCountQuery(this.getSqlHistoryFromDateTimeCount(), logicalId, fromDateTime);
 			}
 			else {
-				count = this.runCountQuery(SQL_HISTORY_COUNT, logicalId);
+				count = this.runCountQuery(this.getSqlHistoryCount(), logicalId);
 			}
 		}
 		finally {
@@ -362,4 +366,19 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 		return count;
 	}
 
+	protected String getSqlHistoryCount() {
+		return SQL_HISTORY_COUNT;
+	}
+	
+	protected String getSqlHistoryFromDateTimeCount() {
+		return SQL_HISTORY_FROM_DATETIME_COUNT;
+	}
+	
+	protected String getSqlHistory() {
+		return SQL_HISTORY;
+	}
+	
+	protected String getSqlHistoryFromDateTime() {
+		return SQL_HISTORY_FROM_DATETIME;
+	}
 }

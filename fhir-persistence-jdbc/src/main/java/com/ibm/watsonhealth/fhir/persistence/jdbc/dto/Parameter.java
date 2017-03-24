@@ -8,6 +8,8 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.dto;
 
 import java.sql.Timestamp;
 
+import com.ibm.watsonhealth.fhir.search.Parameter.Type;
+
 /**
  * This class defines the Data Transfer Object representing a row in the FHIR Parameter table.
  * @author markd
@@ -17,6 +19,7 @@ public class Parameter {
     
     private long id;
     private long resourceId;
+    private Type type;
     private String resourceType;
     private String name;
     private String valueString;
@@ -153,5 +156,13 @@ public class Parameter {
 
 	public void setResourceId(long resourceId) {
 		this.resourceId = resourceId;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 }

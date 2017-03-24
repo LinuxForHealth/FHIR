@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.List;
 import java.util.Properties;
@@ -27,7 +26,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> implements ParameterDAO {
 	
 	private static final Logger log = Logger.getLogger(ParameterDAOBasicImpl.class.getName());
-	private static final String CLASSNAME = FHIRDbDAOBasicImpl.class.getName(); 
+	private static final String CLASSNAME = ParameterDAOBasicImpl.class.getName(); 
 	
 	private static final String SQL_INSERT = "INSERT INTO PARAMETER (NAME, RESOURCE_TYPE, VALUE_CODE, VALUE_DATE, VALUE_DATE_END, VALUE_DATE_START, " +
 												"VALUE_LATITUDE, VALUE_LONGITUDE, VALUE_NUMBER, VALUE_NUMBER_HIGH, VALUE_NUMBER_LOW, " +
@@ -59,8 +58,7 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
 				
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-				
+						
 		try {
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(SQL_INSERT);
@@ -93,7 +91,7 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
 			throw new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.", e);
 		}
 		finally {
-			this.cleanup(resultSet, stmt, connection);
+			this.cleanup(stmt, connection);
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
