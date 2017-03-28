@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.fhir.core.CachedObjectHolder;
+
 public class FHIRConfiguration {
     private static final Logger log = Logger.getLogger(FHIRConfiguration.class.getName());
 
@@ -68,7 +70,7 @@ public class FHIRConfiguration {
     /**
      * This Map contains the cache of PropertyGroupHolder objects keyed by tenant-id.
      */
-    private Map<String, PropertyGroupHolder> configCache = new HashMap<String, PropertyGroupHolder>();
+    private Map<String, CachedObjectHolder<PropertyGroup>> configCache = new HashMap<>();
     
     private String getConfigFileName(String tenantId) {
         return configHome + CONFIG_LOCATION + File.separator + tenantId + File.separator + CONFIG_FILE_BASENAME;
@@ -127,7 +129,7 @@ public class FHIRConfiguration {
             synchronized (configCache) {
 
                 // Check to see if this tenant already has a configuration in the cache.
-                PropertyGroupHolder pgh = configCache.get(tenantId);
+                CachedObjectHolder<PropertyGroup> pgh = configCache.get(tenantId);
 
                 // Next, check to see if the property group is stale.
                 // If so, just throw it away and re-load below.
@@ -142,12 +144,12 @@ public class FHIRConfiguration {
                 if (pgh == null) {
                     String fileName = getConfigFileName(tenantId);
                     PropertyGroup pg = ConfigurationService.loadConfiguration(fileName);
-                    pgh = new PropertyGroupHolder(fileName, pg);
+                    pgh = new CachedObjectHolder<PropertyGroup>(fileName, pg);
                     configCache.put(tenantId, pgh);
                     log.fine("Loaded configuration for tenant-id '" + tenantId + "' and added it to the cache.");
                 }
 
-                return pgh.getPropertyGroup();
+                return pgh.getCachedObject();
             }
         } finally {
             log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
@@ -161,56 +163,6 @@ public class FHIRConfiguration {
     public void clearConfiguration() {
         synchronized (configCache) {
             configCache.clear();
-        }
-    }
-
-    /**
-     * PropertyGroupHolder is simply a class used to hold a PropertyGroup together with its filename and last
-     * modification time.
-     */
-    public static class PropertyGroupHolder {
-        private String fileName;
-        private long lastModified;
-        private PropertyGroup propertyGroup;
-
-        public PropertyGroupHolder(String fileName, PropertyGroup propertyGroup) {
-            setFileName(fileName);
-            setPropertyGroup(propertyGroup);
-            File f = new File(fileName);
-            setLastModified(f.lastModified());
-        }
-
-        public String getFileName() {
-            return fileName;
-        }
-
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-        }
-
-        public long getLastModified() {
-            return lastModified;
-        }
-
-        public void setLastModified(long lastModified) {
-            this.lastModified = lastModified;
-        }
-
-        public PropertyGroup getPropertyGroup() {
-            return propertyGroup;
-        }
-
-        public void setPropertyGroup(PropertyGroup propertyGroup) {
-            this.propertyGroup = propertyGroup;
-        }
-
-        /**
-         * @return true iff the file from which the PropertyGroup was initially loaded has been modified since it was
-         *         loaded.
-         */
-        public boolean isStale() {
-            File f = new File(getFileName());
-            return !f.exists() || f.lastModified() > getLastModified();
         }
     }
 }
