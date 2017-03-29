@@ -76,38 +76,6 @@ public class FHIRConfigHelperTest {
     }
     
     @Test
-    public void testDefaultConfig2() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
-        
-        String tenant = FHIRConfigHelper.getStringProperty("collection/tenant", null);
-        assertNotNull(tenant);
-        assertEquals("default", tenant);
-        
-        List<String> l;
-        String s;
-        Boolean b;
-        s = FHIRConfigHelper.getStringProperty("collection/groupA/stringProp1", null);
-        assertNotNull(s);
-        assertEquals("defaultValue1", s);
-        
-        s = FHIRConfigHelper.getStringProperty("collection/groupA/stringProp2", null);
-        assertNotNull(s);
-        assertEquals("defaultValue2", s);
-        
-        b = FHIRConfigHelper.getBooleanProperty("collection/groupB/boolProp1", null);
-        assertNotNull(b);
-        assertEquals(Boolean.FALSE, b);
-        
-        b = FHIRConfigHelper.getBooleanProperty("collection/groupB/boolProp2", null);
-        assertNotNull(b);
-        assertEquals(Boolean.FALSE, b);
-        
-        l = FHIRConfigHelper.getStringListProperty("collection/groupB/stringList1");
-        assertNotNull(l);
-        assertEquals(expectedList1, l);
-    }
-    
-    @Test
     public void testTenant1() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
         
@@ -209,5 +177,39 @@ public class FHIRConfigHelperTest {
         s = FHIRConfigHelper.getStringProperty("fhirServer/property2", null);
         assertNotNull(s);
         assertEquals("property2Value2", s);
+    }
+    
+    @Test
+    public void testTenant4() throws Exception {
+        // "tenant4" does not have a fhir-server-config.json in place, so we SHOULD
+        // end up retrieving the property values from the "default" tenant's config file.
+        FHIRRequestContext.set(new FHIRRequestContext("tenant4"));
+        
+        String tenant = FHIRConfigHelper.getStringProperty("collection/tenant", null);
+        assertNotNull(tenant);
+        assertEquals("default", tenant);
+        
+        List<String> l;
+        String s;
+        Boolean b;
+        s = FHIRConfigHelper.getStringProperty("collection/groupA/stringProp1", null);
+        assertNotNull(s);
+        assertEquals("defaultValue1", s);
+        
+        s = FHIRConfigHelper.getStringProperty("collection/groupA/stringProp2", null);
+        assertNotNull(s);
+        assertEquals("defaultValue2", s);
+        
+        b = FHIRConfigHelper.getBooleanProperty("collection/groupB/boolProp1", null);
+        assertNotNull(b);
+        assertEquals(Boolean.FALSE, b);
+        
+        b = FHIRConfigHelper.getBooleanProperty("collection/groupB/boolProp2", null);
+        assertNotNull(b);
+        assertEquals(Boolean.FALSE, b);
+        
+        l = FHIRConfigHelper.getStringListProperty("collection/groupB/stringList1");
+        assertNotNull(l);
+        assertEquals(expectedList1, l);
     }
 }

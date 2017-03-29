@@ -129,27 +129,32 @@ public class FHIRConfiguration {
             synchronized (configCache) {
 
                 // Check to see if this tenant already has a configuration in the cache.
-                CachedObjectHolder<PropertyGroup> pgh = configCache.get(tenantId);
+                CachedObjectHolder<PropertyGroup> pgHolder = configCache.get(tenantId);
 
                 // Next, check to see if the property group is stale.
                 // If so, just throw it away and re-load below.
-                if (pgh != null && pgh.isStale()) {
+                if (pgHolder != null && pgHolder.isStale()) {
                     log.finer("Cached configuration for tenant-id '" + tenantId + "' is stale, discarding...");
                     configCache.remove(tenantId);
-                    pgh = null;
+                    pgHolder = null;
                 }
 
                 // If we have no "current" configuration for this tenant in the cache,
                 // then load it and add it to cache.
-                if (pgh == null) {
+                if (pgHolder == null) {
                     String fileName = getConfigFileName(tenantId);
-                    PropertyGroup pg = ConfigurationService.loadConfiguration(fileName);
-                    pgh = new CachedObjectHolder<PropertyGroup>(fileName, pg);
-                    configCache.put(tenantId, pgh);
-                    log.fine("Loaded configuration for tenant-id '" + tenantId + "' and added it to the cache.");
+                    File f = new File(fileName);
+                    if (f.exists()) {
+                        PropertyGroup pg = ConfigurationService.loadConfiguration(fileName);
+                        pgHolder = new CachedObjectHolder<PropertyGroup>(fileName, pg);
+                        configCache.put(tenantId, pgHolder);
+                        log.fine("Loaded configuration for tenant-id '" + tenantId + "' and added it to the cache.");
+                    } else {
+                        log.fine("Tenant-specific configuration file for tenant '" + tenantId + "' not present.");
+                    }
                 }
 
-                return pgh.getCachedObject();
+                return (pgHolder != null ? pgHolder.getCachedObject() : null);
             }
         } finally {
             log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
