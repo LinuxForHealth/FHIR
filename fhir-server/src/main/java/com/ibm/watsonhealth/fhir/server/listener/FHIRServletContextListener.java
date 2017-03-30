@@ -12,9 +12,6 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
@@ -36,7 +33,6 @@ import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationSer
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
-import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 
 import liquibase.Contexts;
 import liquibase.Liquibase;
@@ -119,8 +115,6 @@ public class FHIRServletContextListener implements ServletContextListener {
             	bootstrapDb();
             }
             
-            logConfigData();
-            
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
 		} catch(Throwable t) {
@@ -154,34 +148,6 @@ public class FHIRServletContextListener implements ServletContextListener {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
             }
         }
-    }
-    
-    /**
-     * Logs server configuration data using the REST audit log service.
-     */
-    private void logConfigData() {
-    	if (log.isLoggable(Level.FINER)) {
-			log.entering(FHIRServletContextListener.class.getName(), "logConfigData");
-		}
-    	
-    	String configData;
-    	String configFilePath = null;
-    	    	
-    	try {
-    		// Read files containing config data from the current directory.
-    		configFilePath = "server.xml";
-			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
-			RestAuditLogger.logConfig(configData);
-			configFilePath = FHIRConfiguration.FHIR_SERVER_DEFAULT_CONFIG;
-			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
-			RestAuditLogger.logConfig(configData);
-		} catch (IOException e) {
-			log.severe("Failure reading server config file: " + configFilePath + "\n" + e.toString());
-		}
-    	
-    	if (log.isLoggable(Level.FINER)) {
-			log.exiting(FHIRServletContextListener.class.getName(), "logConfigData");
-		}
     }
     
     /**
@@ -222,8 +188,5 @@ public class FHIRServletContextListener implements ServletContextListener {
     			log.exiting(FHIRServletContextListener.class.getName(), "bootstrapDb");
     		}
     	}
-				
-		
     }
-
 }
