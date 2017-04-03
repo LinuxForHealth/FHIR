@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -59,6 +60,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     public void setUp() throws Exception {
     	bootstrapDatabase();
         persistence = getPersistenceImpl();
+        FHIRConfiguration.setConfigHome("target/test-classes");
     }
     
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws FHIRSearchException, FHIRPersistenceException {
