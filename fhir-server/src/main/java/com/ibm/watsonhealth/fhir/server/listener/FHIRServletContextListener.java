@@ -7,11 +7,15 @@
 package com.ibm.watsonhealth.fhir.server.listener;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_SCHEMA_TYPE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
@@ -32,7 +36,9 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 
 import liquibase.Contexts;
 import liquibase.Liquibase;
@@ -112,8 +118,11 @@ public class FHIRServletContextListener implements ServletContextListener {
             
             Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
             if (performDbBootstrap) {
-            	bootstrapDb();
+            	SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
+            	bootstrapDb(schemaType);
             }
+            
+            logConfigData();
             
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
@@ -151,11 +160,40 @@ public class FHIRServletContextListener implements ServletContextListener {
     }
     
     /**
+     * Logs server configuration data using the REST audit log service.
+     */
+    private void logConfigData() {
+    	if (log.isLoggable(Level.FINER)) {
+			log.entering(FHIRServletContextListener.class.getName(), "logConfigData");
+		}
+    	
+    	String configData;
+    	String configFilePath = null;
+    	    	
+    	try {
+    		// Read files containing config data from the current directory.
+    		configFilePath = "server.xml";
+			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
+			RestAuditLogger.logConfig(configData);
+			configFilePath = FHIRConfiguration.FHIR_SERVER_DEFAULT_CONFIG;
+			configData = new String(Files.readAllBytes(Paths.get(configFilePath)));
+			RestAuditLogger.logConfig(configData);
+		} catch (IOException e) {
+			log.severe("Failure reading server config file: " + configFilePath + "\n" + e.toString());
+		}
+    	
+    	if (log.isLoggable(Level.FINER)) {
+			log.exiting(FHIRServletContextListener.class.getName(), "logConfigData");
+		}
+    }
+    
+    /**
      * Bootstraps the FHIR database.
      * A DB connection is acquired. Then, a Liquibase changelog is run against the database to define tables.
      * Note: this is only done for Derby databases.
+     * @param schemaType - An enumerated value indicating the schema type to be used when bootstrapping the database.
      */
-    private void bootstrapDb()  {
+    private void bootstrapDb(SchemaType schemaType)  {
     	if (log.isLoggable(Level.FINER)) {
 			log.entering(FHIRServletContextListener.class.getName(), "bootstrapDb");
 		}
@@ -166,6 +204,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     	String dbDriverName;
     	Database database;
 		Liquibase liquibase;
+		String changeLogPath = null;
     	    	
     	try {
 	    	ctxt = new InitialContext();
@@ -174,8 +213,14 @@ public class FHIRServletContextListener implements ServletContextListener {
 			dbDriverName = connection.getMetaData().getDriverName();
 						
 			if (dbDriverName != null && dbDriverName.contains("Derby")) {
+				switch (schemaType) {
+				case BASIC: 	 changeLogPath = "liquibase/ddl/derby/basic-schema/fhirserver.derby.basic.xml";
+								 break;
+				case NORMALIZED: changeLogPath = "liquibase/ddl/derby/normalized-schema/fhirserver.derby.normalized.xml";
+								 break;
+				}
 				database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-				liquibase = new Liquibase("liquibase/ddl/derby/basic-schema/fhirserver.derby.basic.xml", new ClassLoaderResourceAccessor(), database);
+				liquibase = new Liquibase(changeLogPath, new ClassLoaderResourceAccessor(), database);
 				liquibase.update((Contexts)null);
 			}
     	}
@@ -188,5 +233,8 @@ public class FHIRServletContextListener implements ServletContextListener {
     			log.exiting(FHIRServletContextListener.class.getName(), "bootstrapDb");
     		}
     	}
+				
+		
     }
+
 }

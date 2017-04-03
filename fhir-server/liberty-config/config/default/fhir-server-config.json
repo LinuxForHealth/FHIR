@@ -65,7 +65,7 @@ CODE_REMOVED
         "audit":{
             "logPath":"logs/",
             "logMaxSize": 20,
-            "tenantId":"fhir-server"
+CODE_REMOVED
         },
         "persistence":{
             "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory",
@@ -79,7 +79,9 @@ CODE_REMOVED
             },
             "jdbc":{
                 "__comment":"Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb":false
+                "bootstrapDb":false,
+                "__comment1":"schemaType allowed values are: basic or normalized",
+                "schemaType":"basic"
             },
             "cloudant":{
                 "__comment":"Configuration properties for the Cloudant persistence implementation",

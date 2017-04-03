@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_SCHEMA_TYPE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
@@ -27,6 +28,7 @@ import javax.naming.InitialContext;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import javax.xml.bind.JAXBException;
+import javax.xml.xpath.XPathExpressionException;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
@@ -44,15 +46,22 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAOBasicImpl;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAOBasicImpl;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ReferenceDataCache;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -75,6 +84,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	private UserTransaction userTransaction = null;
 	private Boolean updateCreateEnabled = null;
 	private ObjectFactory objectFactory = new ObjectFactory();
+	
+
 
 	
 	/**
@@ -86,14 +97,24 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		final String METHODNAME = "FHIRPersistenceJDBCImpl()";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		this.resourceDao = new ResourceDAOBasicImpl();
-		this.paramaterDao = new ParameterDAOBasicImpl();
 		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
-				
+		SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
+		switch (schemaType) {
+		case BASIC: 		this.resourceDao = new ResourceDAOBasicImpl();
+							this.paramaterDao = new ParameterDAOBasicImpl();
+							break;
+					
+		case NORMALIZED: 	ResourceDAONormalizedImpl resourceDAOImpl = new ResourceDAONormalizedImpl();
+							ParameterDAONormalizedImpl parameterDAOImpl = new ParameterDAONormalizedImpl();
+							this.resourceDao = resourceDAOImpl;
+							this.paramaterDao = parameterDAOImpl;
+							ReferenceDataCache.initCache(resourceDAOImpl, parameterDAOImpl);
+							break;
+		}
+						
 		log.exiting(CLASSNAME, METHODNAME);
-		
 	}
 	
 	/**
@@ -105,14 +126,24 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		this.resourceDao = new ResourceDAOBasicImpl(configProps);
-		this.paramaterDao = new ParameterDAOBasicImpl(configProps);
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
+		SchemaType schemaType = SchemaType.fromValue(configProps.getProperty("schemaType"));
+		switch (schemaType) {
+		case BASIC: 		this.resourceDao = new ResourceDAOBasicImpl(configProps);
+							this.paramaterDao = new ParameterDAOBasicImpl(configProps);
+							break;
+					
+		case NORMALIZED: 	ResourceDAONormalizedImpl resourceDAOImpl = new ResourceDAONormalizedImpl(configProps);
+							ParameterDAONormalizedImpl parameterDAOImpl = new ParameterDAONormalizedImpl(configProps);
+							this.resourceDao = resourceDAOImpl;
+							this.paramaterDao = parameterDAOImpl;
+							ReferenceDataCache.initCache(resourceDAOImpl, parameterDAOImpl);
+							break;
+		}
 						
 		log.exiting(CLASSNAME, METHODNAME);
-		
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#isActive()
 	 */
@@ -594,10 +625,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Extracts and stores search parameters for the passed FHIR Resource to the FHIR DB Parameter table.
      * @param fhirResource - Some FHIR Resource
      * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
-     * @throws Exception 
+     * @throws JAXBException
+     * @throws XPathExpressionException
+     * @throws FHIRPersistenceProcessorException
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
      */
     private void storeSearchParameters(Resource fhirResource, com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO) 
-    			 throws Exception {
+    			 throws JAXBException, XPathExpressionException, FHIRPersistenceProcessorException, 
+    			        FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
     	final String METHODNAME = "storeSearchParameters";
     	log.entering(CLASSNAME, METHODNAME);
     	
