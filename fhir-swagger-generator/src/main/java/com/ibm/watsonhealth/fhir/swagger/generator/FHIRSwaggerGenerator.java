@@ -153,7 +153,7 @@ public class FHIRSwaggerGenerator {
         }
     }
 
-    private static void generateParameters(JsonObjectBuilder parameters, Filter filter) {
+    private static void generateParameters(JsonObjectBuilder parameters, Filter filter) throws Exception {
         if (filter.acceptOperation("read") || filter.acceptOperation("vread") || filter.acceptOperation("update") || filter.acceptOperation("delete") || filter.acceptOperation("history")) {
             JsonObjectBuilder id = factory.createObjectBuilder();
             id.add("name", "id");
@@ -186,7 +186,7 @@ public class FHIRSwaggerGenerator {
         }
     }
     
-    private static void generatePaths(Class<?> modelClass, JsonObjectBuilder paths, Filter filter) {
+    private static void generatePaths(Class<?> modelClass, JsonObjectBuilder paths, Filter filter) throws Exception {
         JsonObjectBuilder path = factory.createObjectBuilder();       
         // FHIR create operation
         if (filter.acceptOperation(modelClass, "create")) {
@@ -430,7 +430,7 @@ public class FHIRSwaggerGenerator {
         path.add("delete", delete);
     }
 
-    private static void generateSearchPathItem(Class<?> modelClass, JsonObjectBuilder path) {
+    private static void generateSearchPathItem(Class<?> modelClass, JsonObjectBuilder path) throws Exception {
         JsonObjectBuilder get = factory.createObjectBuilder();
         
         JsonArrayBuilder tags = factory.createArrayBuilder();
@@ -466,7 +466,7 @@ public class FHIRSwaggerGenerator {
     }
 
     @SuppressWarnings("unchecked")
-    private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) {
+    private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(SearchUtil.getSearchParameters(Resource.class));
         searchParameters.addAll(SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
         for (SearchParameter searchParameter : searchParameters) {

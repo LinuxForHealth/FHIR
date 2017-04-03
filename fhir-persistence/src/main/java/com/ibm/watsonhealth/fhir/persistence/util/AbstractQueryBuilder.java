@@ -86,10 +86,10 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @param resourceType - A valid FHIR Resource type
 	 * @param queryParm - A Parameter object describing the name, value and type of search parm.
 	 * @return T1 - An object representing the selector query segment for the passed search parm.
-	 * @throws FHIRPersistenceException
+	 * @throws Exception 
 	 */
 	protected T1 buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm) 
-			throws FHIRPersistenceException {
+			throws Exception {
 		final String METHODNAME = "buildQueryParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -173,8 +173,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * Creates a query segment for a Reference type parameter.
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
+	 * @throws Exception 
 	 */
-	protected abstract T1 processReferenceParm(Parameter queryParm);
+	protected abstract T1 processReferenceParm(Parameter queryParm) throws Exception;
 	
 	/**
 	 * Contains special logic for handling chained reference search parameters.
@@ -219,8 +220,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * Creates a query segment for a Quantity type parameter.
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
+	 * @throws Exception 
 	 */
-	protected abstract T1 processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm);
+	protected abstract T1 processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
 	
 	/**
 	 * Creates a query segment for a URI type parameter.

@@ -1636,7 +1636,7 @@ public class FHIRResource {
     }
 
     
-    private synchronized Conformance getConformanceStatement() {
+    private synchronized Conformance getConformanceStatement() throws Exception {
         if (conformance == null) {
             conformance = buildConformanceStatement();
         }
@@ -1646,8 +1646,9 @@ public class FHIRResource {
     
     /**
      * Builds a Conformance resource instance which describes this server.
+     * @throws Exception 
      */
-    private Conformance buildConformanceStatement() {
+    private Conformance buildConformanceStatement() throws Exception {
         // Build the list of interactions that are supported for each resource type.
         List<ConformanceInteraction> interactions = new ArrayList<>();
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.CREATE));

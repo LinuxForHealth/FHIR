@@ -47,10 +47,10 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 	 * @param resourceType - The type of resource being searched for.
 	 * @param searchContext - The search context containing the search parameters.
 	 * @return String - A count query SQL string
-	 * @throws FHIRPersistenceException
+	 * @throws Exception 
 	 */
 	public String buildCountQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
-			throws FHIRPersistenceException {
+			throws Exception {
 		final String METHODNAME = "buildCountQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
@@ -83,10 +83,11 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 	 *       AND (p1.name = 'telecom' AND ((p1.valueCode = '555-1234' AND p1.valueSystem = 'phone'))) 
      * GROUP BY r.id  
      * ORDER BY MIN(s1.valueString) asc NULLS LAST,MAX(s2.valueSystem) desc NULLS LAST,MAX(s2.valueCode) desc NULLS LAST
+	 * @throws Exception 
 	  */
 	@Override
 	public String buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
-			throws FHIRPersistenceException {
+			throws Exception {
 		final String METHODNAME = "buildQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		

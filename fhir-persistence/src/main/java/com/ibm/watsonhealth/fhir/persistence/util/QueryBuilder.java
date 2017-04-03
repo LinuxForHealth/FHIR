@@ -22,6 +22,7 @@ public interface QueryBuilder<T> {
 	 * @param searchParameters - A search context that contains a List of search parameters to be used for constructing the query.
 	 * @return T - An instance of <T> representing the constructed query.
 	 * @throws FHIRPersistenceException - Thrown for any non-recoverable failure that occurs during query construction.
+	 * @throws Exception 
 	 */
-    T buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws FHIRPersistenceException;
+    T buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws FHIRPersistenceException, Exception;
 }

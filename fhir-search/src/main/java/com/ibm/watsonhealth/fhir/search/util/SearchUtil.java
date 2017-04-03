@@ -9,6 +9,9 @@ package com.ibm.watsonhealth.fhir.search.util;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -39,13 +42,15 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.core.CachedObjectHolder;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
@@ -67,16 +72,42 @@ import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 public class SearchUtil {
-    private static final Logger log = Logger.getLogger(SearchUtil.class.getName());
+    private static final String CLASSNAME = SearchUtil.class.getName();
+    private static final Logger log = Logger.getLogger(CLASSNAME);
 
     // This constant represents the maximum _count parameter value.
     // If the user specifies a value greater than this, we'll just use this value instead.
     // In the future, we might want to make this value configurable.
     private static final int MAX_PAGE_SIZE = 1000;
-    private static final Map<String, Map<String, SearchParameter>> searchParameterMap = buildSearchParameterMap();
-
+    
+    private static final String BUILTIN_TENANT_ID = "built-in";
+    private static final String SP_FILE_BASENAME = "extension-search-parameters.xml";
+    
+    /*
+     * This is our in-memory cache of SearchParameter objects.  The cache is organized at the top level
+     * by tenant-id, with the built-in (FHIR spec-defined) SearchParameters stored under the "built-in"
+     * pseudo-tenant-id.  SearchParameters contained in the default tenant's 
+     * extension-search-parameters.xml file are stored under the "default" tenant-id, and other tenants'
+     * SearchParameters (defined in their tenant-specific extension-search-parameters.xml files) will be
+     * stored under their respective tenant-ids as well.
+     * 
+     * The objects stored in our cache are of type CachedObjectHolder, with each one containing a
+     * Map<String, Map<String, SearchParameter>>.  This map is keyed by resource type (simple name, 
+     * e.g. "Patient").  Each object stored in this map contains the SearchParameters for that resource type, keyed by
+     * SearchParameter name (e.g. "_lastUpdated").
+     * 
+     * When getSearchParameter(resourceType, name) is called, we'll need to first search in the current
+     * tenant's map, then if not found, look in the "built-in" tenant's map.
+     * Also, when getSearchParameters(resourceType) is called, we'll need to return a List that contains 
+     * SearchParameters from the current tenant's map (if present) plus those contained in the "built-in"
+     * tenant's map as well.
+     */
+    private static Map<String, CachedObjectHolder<Map<String, Map<String, SearchParameter>>>> 
+        searchParameterCache = null;
+    
     static {
         System.setProperty("com.sun.org.apache.xml.internal.dtm.DTMManager", "com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault");
+        initializeSearchParameterMap();
     }
 
     private static final ThreadLocal<XPathFactory> threadLocalXPathFactory = new ThreadLocal<XPathFactory>() {
@@ -92,6 +123,21 @@ public class SearchUtil {
     private static final Map<String, Map<String, List<String>>> compartmentMap = buildCompartmentMap();
     
     private SearchUtil() {
+    }
+    
+    
+    private static void initializeSearchParameterMap() {
+        try {
+            // Create our Search Parameter cache and then load up the spec-defined (builtin) 
+            // SearchParameters and cache them under the "built-in" pseudo tenant.
+            searchParameterCache = new HashMap<>();
+            Map<String, Map<String, SearchParameter>> builtInSearchParameters = populateSearchParameterMapFromResource("search-parameters.xml");
+            CachedObjectHolder<Map<String, Map<String, SearchParameter>>> cachedObject = new CachedObjectHolder<>(builtInSearchParameters);
+            searchParameterCache.put(BUILTIN_TENANT_ID, cachedObject);
+        } catch (Throwable t) {
+            throw new Error(t);
+        }
+
     }
 
     /**
@@ -194,25 +240,55 @@ public class SearchUtil {
         return xp;
     }
 
-    private static Map<String, Map<String, SearchParameter>> buildSearchParameterMap() {
-        Map<String, Map<String, SearchParameter>> searchParameterMap = new HashMap<String, Map<String, SearchParameter>>();
-        try {
-            populateSearchParameterMap(searchParameterMap, "search-parameters.xml");
-        } catch (JAXBException e) {
-            throw new Error(e);
-        }
-        try {
-            populateSearchParameterMap(searchParameterMap, "extension-search-parameters.xml");
-        } catch (Exception e) {
-            log.fine("Unable to load extension search parameters from location: ${server.config.dir}/config/extension-search-parameters.xml");
-            log.fine(e.getMessage());
-        }
-        return searchParameterMap;
+//    private static Map<String, Map<String, SearchParameter>> buildSearchParameterMap() {
+//        Map<String, Map<String, SearchParameter>> searchParameterMap = new HashMap<String, Map<String, SearchParameter>>();
+//        try {
+//            populateSearchParameterMap(searchParameterMap, "search-parameters.xml");
+//        } catch (JAXBException e) {
+//            throw new Error(e);
+//        }
+//        try {
+//            populateSearchParameterMap(searchParameterMap, "extension-search-parameters.xml");
+//        } catch (Exception e) {
+//            log.fine("Unable to load extension search parameters from location: ${server.config.dir}/config/extension-search-parameters.xml");
+//            log.fine(e.getMessage());
+//        }
+//        return searchParameterMap;
+//    }
+    
+    /**
+     * Returns a Map containing the SearchParameters loaded from the specified File object.
+     * @param file a File object which represents the file from which the SearchParameters are to be loaded
+     * @return the Map containing the SearchParameters
+     * @throws JAXBException
+     * @throws FileNotFoundException
+     */
+    private static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromFile(File file) throws JAXBException, FileNotFoundException {
+        FileInputStream stream = new FileInputStream(file);
+        return populateSearchParameterMapFromStream(stream);
+    }
+    
+    
+    /**
+     * Returns a Map containing the SearchParameters loaded from the specified classpath resource.
+     * @param resourceName the name of a resource available on the current classpath from which 
+     * the SearchParameters are to be loaded
+     * @return the Map containing the SearchParameters
+     * @throws JAXBException
+     */
+    private static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromResource(String resourceName) throws JAXBException {
+        InputStream stream = SearchUtil.class.getClassLoader().getResourceAsStream(resourceName);
+        return populateSearchParameterMapFromStream(stream);
     }
 
-    private static void populateSearchParameterMap(Map<String, Map<String, SearchParameter>> searchParameterMap, String searchParameterFile)
-        throws JAXBException {
-        InputStream stream = SearchUtil.class.getClassLoader().getResourceAsStream(searchParameterFile);
+    /**
+     * Loads SearchParameters using the specified InputStream and returns a Map containing them.
+     * @param stream the InputStream from which to load the SearchParameters
+     * @return
+     * @throws JAXBException
+     */
+    private static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromStream(InputStream stream) throws JAXBException {
+        Map<String, Map<String, SearchParameter>> searchParameterMap = new HashMap<>();
         Bundle bundle = FHIRUtil.read(Bundle.class, Format.XML, stream);
         for (BundleEntry entry : bundle.getEntry()) {
             ResourceContainer container = entry.getResource();
@@ -231,6 +307,8 @@ public class SearchUtil {
                 map.put(name, parameter);
             }
         }
+        
+        return searchParameterMap;
     }
 
     private static void transformParameter(SearchParameter parameter) {
@@ -255,27 +333,160 @@ public class SearchUtil {
         return result.toString();
     }
 
-    public static List<SearchParameter> getSearchParameters(Class<? extends Resource> resourceType) {
+    /**
+     * Returns the list of search parameters for the specified resource type and the current tenant.
+     * @param resourceType a Class representing the resource type associated with the search parameters to be returned.
+     * @throws Exception
+     */
+    public static List<SearchParameter> getSearchParameters(Class<? extends Resource> resourceType) throws Exception {
         return getSearchParameters(resourceType.getSimpleName());
     }
 
-    public static List<SearchParameter> getSearchParameters(String resourceType) {
-        Map<String, SearchParameter> map = searchParameterMap.get(resourceType);
-        if (map != null) {
-            return new ArrayList<SearchParameter>(map.values());
-        }
-        return Collections.emptyList();
-    }
-
-    public static SearchParameter getSearchParameter(Class<? extends Resource> resourceType, String name) {
-        Map<String, SearchParameter> map = searchParameterMap.get(resourceType.getSimpleName());
-        if (map != null) {
-            return map.get(name);
-        }
-        return null;
+    /**
+     * Returns the list of search parameters for the specified resource type and the current tenant.
+     * @param resourceType the resource type associated with the search parameters to be returned.
+     * @return
+     * @throws Exception
+     */
+    public static List<SearchParameter> getSearchParameters(String resourceType) throws Exception {
+        return getSearchParameters(FHIRRequestContext.get().getTenantId(), resourceType);
     }
     
-    public static Set<Class<?>> getValueTypes(Class<? extends Resource> resourceType, String name) {
+    /**
+     * This function will return a list of all SearchParameters associated with the
+     * specified tenant and resource type.
+     * The result will include both built-in and tenant-specific SearchParameters for the specified 
+     * resource type.
+     * @param tenantId the tenant id whose search parameters should be returned
+     * @param resourceType the resource type associated with the search parameters to be returned
+     * @return the list of built-in and tenant-specific search parameters associated with the 
+     * specified resource type
+     * @throws Exception
+     */
+    public static List<SearchParameter> getSearchParameters(String tenantId, String resourceType) throws Exception {
+        List<SearchParameter> result = new ArrayList<>();
+        
+        // First retrieve built-in search parameters for this resource type and add them to the result
+        Map<String, Map<String, SearchParameter>> spMapTenant = getBuiltInSearchParameterMap();
+        Map<String, SearchParameter> spMapResourceType = spMapTenant.get(resourceType);
+        if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
+            result.addAll(spMapResourceType.values());
+        }
+        
+        // Next, retrieve the specified tenant's search parameters for this resource type and add those
+        // to the result as well.
+        spMapTenant = getTenantSPMap(tenantId);
+        if (spMapTenant != null) {
+            spMapResourceType = spMapTenant.get(resourceType);
+            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
+                result.addAll(spMapResourceType.values());
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * This is a convenience function that simply returns the built-in (spec-defined)
+     * SearchParameters as a map keyed by resource type.
+     */
+    private static Map<String, Map<String, SearchParameter>> getBuiltInSearchParameterMap() {
+        CachedObjectHolder<Map<String, Map<String, SearchParameter>>> mapHolder = 
+                searchParameterCache.get(BUILTIN_TENANT_ID);
+        if (mapHolder == null) {
+            throw new Error("Internal error: cannot retrieve built-in search parameters.");
+        }
+        return mapHolder.getCachedObject();
+    }
+    
+    /**
+     * Returns the SearchParameter map (keyed by resource type) for the specified tenant-id,
+     * or null if there are no SearchParameters for the tenant.
+     * 
+     * @param tenantId the tenant-id whose SearchParameters should be returned.
+     * @throws JAXBException 
+     * @throws FileNotFoundException 
+     */
+    private static Map<String, Map<String, SearchParameter>> getTenantSPMap(String tenantId) throws FileNotFoundException, JAXBException {
+        log.entering(CLASSNAME, "getTenantSPMap");
+        try {
+            CachedObjectHolder<Map<String, Map<String, SearchParameter>>> tenantMapHolder = null;
+            synchronized (searchParameterCache) {
+                tenantMapHolder = searchParameterCache.get(tenantId);
+
+                // If we found the tenant map, then let's determine if it is stale and should be discarded.
+                if (tenantMapHolder != null) {
+                    log.finer("Cached search parameter map for tenant-id '" + tenantId + "' is stale, discarding...");
+                    searchParameterCache.remove(tenantId);
+                    tenantMapHolder = null;
+                }
+
+                // If we have no "current" search parameter map for this tenant in the cache,
+                // then load it and add it to our cache.
+                if (tenantMapHolder == null) {
+                    String fileName = getSPFileName(tenantId);
+                    File f = new File(fileName);
+                    if (f.exists()) {
+                        Map<String, Map<String, SearchParameter>> spMap = populateSearchParameterMapFromFile(f);
+
+                        tenantMapHolder = new CachedObjectHolder<Map<String, Map<String, SearchParameter>>>(fileName, spMap);
+                        searchParameterCache.put(tenantId, tenantMapHolder);
+                        log.fine("Loaded search parameter map for tenant-id '" + tenantId + "' and added it to the cache.");
+                    }
+                }
+            }
+            
+            return (tenantMapHolder != null ? tenantMapHolder.getCachedObject() : null);
+        } finally {
+            log.exiting(CLASSNAME, "getTenantSPMap");
+        }
+    }
+
+    /**
+     * Returns the full (relative or absolute depending on result of getConfigHome()) filename where
+     * we'd expect to find the specified tenant's search parameter definitions.
+     * @param tenantId the tenant-id associated with the tenant whose search parameters we want to load.
+     */
+    private static String getSPFileName(String tenantId) {
+        return FHIRConfiguration.getConfigHome() + FHIRConfiguration.CONFIG_LOCATION + File.separator + tenantId + File.separator + SP_FILE_BASENAME;
+    }
+
+
+    public static SearchParameter getSearchParameter(Class<? extends Resource> resourceType, String name) throws Exception {
+        return getSearchParameter(FHIRRequestContext.get().getTenantId(), resourceType.getSimpleName(), name);
+    }
+    
+    public static SearchParameter getSearchParameter(String tenantId, String resourceType, String name) throws Exception {
+        // First try to find the search parameter within the specified tenant's map.
+        SearchParameter result = getSearchParameterInternal(getTenantSPMap(tenantId), resourceType, name);
+        
+        // If we didn't find it within the tenant's map, then look within the built-in map.
+        if (result == null) {
+            result = getSearchParameterInternal(getBuiltInSearchParameterMap(), resourceType, name);
+        }
+        return result;
+    }
+    
+    /**
+     * Given a Map of SearchParameters
+     * @param tenantMap
+     * @param resourceType
+     * @param name
+     * @return
+     */
+    private static SearchParameter getSearchParameterInternal(Map<String, Map<String, SearchParameter>> tenantMap, String resourceType, String name) {
+        SearchParameter result = null;
+        if (tenantMap != null) {
+            Map<String, SearchParameter> resourceTypeMap = tenantMap.get(resourceType);
+            if (resourceTypeMap != null) {
+                result = resourceTypeMap.get(name);
+            }
+        }
+        
+        return result;
+    }
+    
+    public static Set<Class<?>> getValueTypes(Class<? extends Resource> resourceType, String name) throws Exception {
         Set<Class<?>> valueTypes = new HashSet<Class<?>>();
         SearchParameter searchParameter = getSearchParameter(resourceType, name);
         if (searchParameter != null) {
@@ -336,7 +547,7 @@ public class SearchUtil {
         return null;
     }
 
-    public static <T extends Resource> Map<SearchParameter, List<Object>> extractParameterValues(T resource) throws JAXBException, XPathExpressionException {
+    public static <T extends Resource> Map<SearchParameter, List<Object>> extractParameterValues(T resource) throws Exception {
         Map<SearchParameter, List<Object>> result = new TreeMap<SearchParameter, List<Object>>(new Comparator<SearchParameter>() {
             @Override
             public int compare(SearchParameter first, SearchParameter second) {
@@ -601,7 +812,7 @@ public class SearchUtil {
     }
     
     private static void parseSortParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, 
-			String sortKeyword, List<String> sortParmNames, String queryString) throws FHIRSearchException   {
+			String sortKeyword, List<String> sortParmNames, String queryString) throws Exception   {
 
 		SortDirection sortDirection;
 		String sortDirectionString;

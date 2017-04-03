@@ -151,10 +151,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @param resourceType - The type of resource being searched for.
 	 * @param searchContext - The search context containing the search parameters.
 	 * @return String - A count query SQL string
-	 * @throws FHIRPersistenceException
+	 * @throws Exception 
 	 */
 	public String buildCountQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
-			throws FHIRPersistenceException {
+			throws Exception {
 		final String METHODNAME = "buildCountQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
@@ -176,7 +176,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 */
 	@Override
 	public String buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
-			throws FHIRPersistenceException {
+			throws Exception {
 		final String METHODNAME = "buildQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
@@ -260,11 +260,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @param resourceType - A valid FHIR Resource type
 	 * @param queryParm - A Parameter object describing the name, value and type of search parm.
 	 * @return String - An object representing the selector query segment for the passed search parm.
-	 * @throws FHIRPersistenceException
+	 * @throws Exception 
 	 */
 	@Override
 	protected String buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm) 
-			throws FHIRPersistenceException {
+			throws Exception {
 		final String METHODNAME = "buildQueryParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -428,7 +428,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processReferenceParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processReferenceParm(Parameter queryParm) {
+	protected String processReferenceParm(Parameter queryParm) throws Exception {
 		final String METHODNAME = "processReferenceParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -818,7 +818,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processQuantityParm(java.lang.Class, com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) {
+	protected String processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
 		final String METHODNAME = "processQuantityParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
