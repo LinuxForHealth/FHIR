@@ -28,7 +28,6 @@ import javax.naming.InitialContext;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import javax.xml.bind.JAXBException;
-import javax.xml.xpath.XPathExpressionException;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
@@ -46,7 +45,6 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -56,8 +54,6 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalize
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
@@ -625,15 +621,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Extracts and stores search parameters for the passed FHIR Resource to the FHIR DB Parameter table.
      * @param fhirResource - Some FHIR Resource
      * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
-     * @throws JAXBException
-     * @throws XPathExpressionException
-     * @throws FHIRPersistenceProcessorException
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
+     * @throws Exception 
      */
     private void storeSearchParameters(Resource fhirResource, com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO) 
-    			 throws JAXBException, XPathExpressionException, FHIRPersistenceProcessorException, 
-    			        FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    			 throws Exception {
     	final String METHODNAME = "storeSearchParameters";
     	log.entering(CLASSNAME, METHODNAME);
     	
