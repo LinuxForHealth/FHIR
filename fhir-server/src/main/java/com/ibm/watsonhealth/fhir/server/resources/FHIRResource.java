@@ -146,7 +146,7 @@ public class FHIRResource {
 
     private static final String LOCAL_REF_PREFIX = "urn:";
 
-    private static Conformance conformance = null;
+    // private static Conformance conformance = null;
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -1637,9 +1637,7 @@ public class FHIRResource {
 
     
     private synchronized Conformance getConformanceStatement() throws Exception {
-        if (conformance == null) {
-            conformance = buildConformanceStatement();
-        }
+        Conformance conformance = buildConformanceStatement();
         conformance.withDate(objectFactory.createDateTime().withValue(new Date().toString()));
         return conformance;
     }
@@ -1749,7 +1747,7 @@ public class FHIRResource {
             + " build id " + buildInfo.getBuildId() + "";
         
         // Finally, create the Conformance resource itself.
-        conformance = objectFactory.createConformance()
+        Conformance conformance = objectFactory.createConformance()
                 .withFormat(
                     objectFactory.createCode().withValue(MediaType.APPLICATION_JSON), 
                     objectFactory.createCode().withValue(MediaType.APPLICATION_JSON_FHIR), 

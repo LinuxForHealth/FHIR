@@ -364,26 +364,31 @@ public class SearchUtil {
      * @throws Exception
      */
     public static List<SearchParameter> getSearchParameters(String tenantId, String resourceType) throws Exception {
-        List<SearchParameter> result = new ArrayList<>();
-        
-        // First retrieve built-in search parameters for this resource type and add them to the result
-        Map<String, Map<String, SearchParameter>> spMapTenant = getBuiltInSearchParameterMap();
-        Map<String, SearchParameter> spMapResourceType = spMapTenant.get(resourceType);
-        if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
-            result.addAll(spMapResourceType.values());
-        }
-        
-        // Next, retrieve the specified tenant's search parameters for this resource type and add those
-        // to the result as well.
-        spMapTenant = getTenantSPMap(tenantId);
-        if (spMapTenant != null) {
-            spMapResourceType = spMapTenant.get(resourceType);
+        log.entering(CLASSNAME, "getSearchParameters(String, String)", new Object[] { tenantId, resourceType });
+        try {
+            List<SearchParameter> result = new ArrayList<>();
+
+            // First retrieve built-in search parameters for this resource type and add them to the result
+            Map<String, Map<String, SearchParameter>> spMapTenant = getBuiltInSearchParameterMap();
+            Map<String, SearchParameter> spMapResourceType = spMapTenant.get(resourceType);
             if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
                 result.addAll(spMapResourceType.values());
             }
+
+            // Next, retrieve the specified tenant's search parameters for this resource type and add those
+            // to the result as well.
+            spMapTenant = getTenantSPMap(tenantId);
+            if (spMapTenant != null) {
+                spMapResourceType = spMapTenant.get(resourceType);
+                if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
+                    result.addAll(spMapResourceType.values());
+                }
+            }
+
+            return result;
+        } finally {
+            log.exiting(CLASSNAME, "getSearchparameters(String, String)");
         }
-        
-        return result;
     }
     
     /**
@@ -408,14 +413,14 @@ public class SearchUtil {
      * @throws FileNotFoundException 
      */
     private static Map<String, Map<String, SearchParameter>> getTenantSPMap(String tenantId) throws FileNotFoundException, JAXBException {
-        log.entering(CLASSNAME, "getTenantSPMap");
+        log.entering(CLASSNAME, "getTenantSPMap", new Object[]{ tenantId });
         try {
             CachedObjectHolder<Map<String, Map<String, SearchParameter>>> tenantMapHolder = null;
             synchronized (searchParameterCache) {
                 tenantMapHolder = searchParameterCache.get(tenantId);
 
                 // If we found the tenant map, then let's determine if it is stale and should be discarded.
-                if (tenantMapHolder != null) {
+                if (tenantMapHolder != null && tenantMapHolder.isStale()) {
                     log.finer("Cached search parameter map for tenant-id '" + tenantId + "' is stale, discarding...");
                     searchParameterCache.remove(tenantId);
                     tenantMapHolder = null;
