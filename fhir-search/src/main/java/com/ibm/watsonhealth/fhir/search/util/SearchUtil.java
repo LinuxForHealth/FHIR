@@ -415,28 +415,36 @@ public class SearchUtil {
     private static Map<String, Map<String, SearchParameter>> getTenantSPMap(String tenantId) throws FileNotFoundException, JAXBException {
         log.entering(CLASSNAME, "getTenantSPMap", new Object[]{ tenantId });
         try {
-            CachedObjectHolder<Map<String, Map<String, SearchParameter>>> tenantMapHolder = null;
-            synchronized (searchParameterCache) {
-                tenantMapHolder = searchParameterCache.get(tenantId);
+            // Try to retrieve the tenant's map from the cache.
+            CachedObjectHolder<Map<String, Map<String, SearchParameter>>> tenantMapHolder = searchParameterCache.get(tenantId);
+            
+            // If we didn't find the tenant's map or we need to discard it and re-load,
+            // then we'll need to lock the cache itself.
+            if (tenantMapHolder == null || tenantMapHolder.isStale()) {
+                synchronized (searchParameterCache) {
+                    
+                    // Re-try our get from the cache.
+                    tenantMapHolder = searchParameterCache.get(tenantId);
 
-                // If we found the tenant map, then let's determine if it is stale and should be discarded.
-                if (tenantMapHolder != null && tenantMapHolder.isStale()) {
-                    log.finer("Cached search parameter map for tenant-id '" + tenantId + "' is stale, discarding...");
-                    searchParameterCache.remove(tenantId);
-                    tenantMapHolder = null;
-                }
+                    // If we found the tenant map, then let's determine if it is stale and should be discarded.
+                    if (tenantMapHolder != null && tenantMapHolder.isStale()) {
+                        log.finer("Cached search parameter map for tenant-id '" + tenantId + "' is stale, discarding...");
+                        searchParameterCache.remove(tenantId);
+                        tenantMapHolder = null;
+                    }
 
-                // If we have no "current" search parameter map for this tenant in the cache,
-                // then load it and add it to our cache.
-                if (tenantMapHolder == null) {
-                    String fileName = getSPFileName(tenantId);
-                    File f = new File(fileName);
-                    if (f.exists()) {
-                        Map<String, Map<String, SearchParameter>> spMap = populateSearchParameterMapFromFile(f);
+                    // If we have no "current" search parameter map for this tenant in the cache,
+                    // then load it and add it to our cache.
+                    if (tenantMapHolder == null) {
+                        String fileName = getSPFileName(tenantId);
+                        File f = new File(fileName);
+                        if (f.exists()) {
+                            Map<String, Map<String, SearchParameter>> spMap = populateSearchParameterMapFromFile(f);
 
-                        tenantMapHolder = new CachedObjectHolder<Map<String, Map<String, SearchParameter>>>(fileName, spMap);
-                        searchParameterCache.put(tenantId, tenantMapHolder);
-                        log.fine("Loaded search parameter map for tenant-id '" + tenantId + "' and added it to the cache.");
+                            tenantMapHolder = new CachedObjectHolder<Map<String, Map<String, SearchParameter>>>(fileName, spMap);
+                            searchParameterCache.put(tenantId, tenantMapHolder);
+                            log.fine("Loaded search parameter map for tenant-id '" + tenantId + "' and added it to the cache.");
+                        }
                     }
                 }
             }

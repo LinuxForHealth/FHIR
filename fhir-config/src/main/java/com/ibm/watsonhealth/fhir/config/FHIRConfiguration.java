@@ -127,36 +127,43 @@ public class FHIRConfiguration {
         log.entering(this.getClass().getName(), "loadConfigurationForTenant", tenantId);
 
         try {
-            synchronized (configCache) {
+            // Try to retrieve tenant's property group from the cache.
+            CachedObjectHolder<PropertyGroup> pgHolder = configCache.get(tenantId);
 
-                // Check to see if this tenant already has a configuration in the cache.
-                CachedObjectHolder<PropertyGroup> pgHolder = configCache.get(tenantId);
+            // If we didn't find the tenant's property group or it was stale,
+            // then we'll need to lock the cache itself.
+            if (pgHolder == null || pgHolder.isStale()) {
+                synchronized (configCache) {
 
-                // Next, check to see if the property group is stale.
-                // If so, just throw it away and re-load below.
-                if (pgHolder != null && pgHolder.isStale()) {
-                    log.finer("Cached configuration for tenant-id '" + tenantId + "' is stale, discarding...");
-                    configCache.remove(tenantId);
-                    pgHolder = null;
-                }
+                    // Check again to see if this tenant already has a configuration in the cache.
+                    pgHolder = configCache.get(tenantId);
 
-                // If we have no "current" configuration for this tenant in the cache,
-                // then load it and add it to cache.
-                if (pgHolder == null) {
-                    String fileName = getConfigFileName(tenantId);
-                    File f = new File(fileName);
-                    if (f.exists()) {
-                        PropertyGroup pg = ConfigurationService.loadConfiguration(fileName);
-                        pgHolder = new CachedObjectHolder<PropertyGroup>(fileName, pg);
-                        configCache.put(tenantId, pgHolder);
-                        log.fine("Loaded configuration for tenant-id '" + tenantId + "' and added it to the cache.");
-                    } else {
-                        log.fine("Tenant-specific configuration file for tenant '" + tenantId + "' not present.");
+                    // Next, check to see if the property group is stale.
+                    // If so, just throw it away and re-load below.
+                    if (pgHolder != null && pgHolder.isStale()) {
+                        log.finer("Cached configuration for tenant-id '" + tenantId + "' is stale, discarding...");
+                        configCache.remove(tenantId);
+                        pgHolder = null;
+                    }
+
+                    // If we have no "current" configuration for this tenant in the cache,
+                    // then load it and add it to cache.
+                    if (pgHolder == null) {
+                        String fileName = getConfigFileName(tenantId);
+                        File f = new File(fileName);
+                        if (f.exists()) {
+                            PropertyGroup pg = ConfigurationService.loadConfiguration(fileName);
+                            pgHolder = new CachedObjectHolder<PropertyGroup>(fileName, pg);
+                            configCache.put(tenantId, pgHolder);
+                            log.fine("Loaded configuration for tenant-id '" + tenantId + "' and added it to the cache.");
+                        } else {
+                            log.fine("Tenant-specific configuration file for tenant '" + tenantId + "' not present.");
+                        }
                     }
                 }
-
-                return (pgHolder != null ? pgHolder.getCachedObject() : null);
             }
+
+            return (pgHolder != null ? pgHolder.getCachedObject() : null);
         } finally {
             log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
         }
