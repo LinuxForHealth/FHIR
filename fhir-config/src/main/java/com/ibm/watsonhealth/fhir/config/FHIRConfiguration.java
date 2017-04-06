@@ -6,13 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.config;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
-
-import com.ibm.watsonhealth.fhir.core.CachedObjectHolder;
 
 public class FHIRConfiguration {
     private static final Logger log = Logger.getLogger(FHIRConfiguration.class.getName());
@@ -69,13 +64,9 @@ public class FHIRConfiguration {
     }
 
     /**
-     * This Map contains the cache of PropertyGroupHolder objects keyed by tenant-id.
+     * This is our in-memory cache of PropertyGroup's keyed by tenant-id.
      */
-    private Map<String, CachedObjectHolder<PropertyGroup>> configCache = new HashMap<>();
-    
-    private String getConfigFileName(String tenantId) {
-        return configHome + CONFIG_LOCATION + File.separator + tenantId + File.separator + CONFIG_FILE_BASENAME;
-    }
+    private TenantSpecificPropertyGroupCache configCache = new TenantSpecificPropertyGroupCache();
     
     /**
      * This method is used to configure an explicit top-level directory where FHIR Server configuration
@@ -125,45 +116,8 @@ public class FHIRConfiguration {
      */
     public PropertyGroup loadConfigurationForTenant(String tenantId) throws Exception {
         log.entering(this.getClass().getName(), "loadConfigurationForTenant", tenantId);
-
         try {
-            // Try to retrieve tenant's property group from the cache.
-            CachedObjectHolder<PropertyGroup> pgHolder = configCache.get(tenantId);
-
-            // If we didn't find the tenant's property group or it was stale,
-            // then we'll need to lock the cache itself.
-            if (pgHolder == null || pgHolder.isStale()) {
-                synchronized (configCache) {
-
-                    // Check again to see if this tenant already has a configuration in the cache.
-                    pgHolder = configCache.get(tenantId);
-
-                    // Next, check to see if the property group is stale.
-                    // If so, just throw it away and re-load below.
-                    if (pgHolder != null && pgHolder.isStale()) {
-                        log.finer("Cached configuration for tenant-id '" + tenantId + "' is stale, discarding...");
-                        configCache.remove(tenantId);
-                        pgHolder = null;
-                    }
-
-                    // If we have no "current" configuration for this tenant in the cache,
-                    // then load it and add it to cache.
-                    if (pgHolder == null) {
-                        String fileName = getConfigFileName(tenantId);
-                        File f = new File(fileName);
-                        if (f.exists()) {
-                            PropertyGroup pg = ConfigurationService.loadConfiguration(fileName);
-                            pgHolder = new CachedObjectHolder<PropertyGroup>(fileName, pg);
-                            configCache.put(tenantId, pgHolder);
-                            log.fine("Loaded configuration for tenant-id '" + tenantId + "' and added it to the cache.");
-                        } else {
-                            log.fine("Tenant-specific configuration file for tenant '" + tenantId + "' not present.");
-                        }
-                    }
-                }
-            }
-
-            return (pgHolder != null ? pgHolder.getCachedObject() : null);
+            return configCache.getCachedObjectForTenant(tenantId);
         } finally {
             log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
         }
@@ -175,7 +129,7 @@ public class FHIRConfiguration {
      */
     public void clearConfiguration() {
         synchronized (configCache) {
-            configCache.clear();
+            configCache.clearCache();
         }
     }
 }
