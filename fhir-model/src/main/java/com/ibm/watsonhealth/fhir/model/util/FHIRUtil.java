@@ -920,7 +920,7 @@ public class FHIRUtil {
     /**
      * Build an OperationOutcome for the specified exception.
      */
-    public static OperationOutcome buildOperationOutcome(Exception exception) {
+    public static OperationOutcome buildOperationOutcome(Exception exception, boolean includeCausedByClauses) {
         // First, build a set of exception messages to be included in the OperationOutcome.
         // We'll include the exception message from each exception in the hierarchy, 
         // following the "causedBy" exceptions.
@@ -931,6 +931,11 @@ public class FHIRUtil {
             msgs.append(causedBy + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "<null message>"));
             e = e.getCause();
             causedBy = NL + "Caused by: ";
+            
+            // Force an exit from the loop if the caller doesn't want the caused-by clauses added.
+            if (!includeCausedByClauses) {
+                e = null;
+            }
         }
         
         // Build an OperationOutcomeIssue that contains the exception messages.
@@ -947,6 +952,7 @@ public class FHIRUtil {
                 .withIssue(ooi);
         return oo;
     }
+    
     
     /**
      * Builds a relative "Location" header value for the specified resource. This will be a string of the form

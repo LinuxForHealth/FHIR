@@ -1452,21 +1452,21 @@ public class FHIRResource {
                         }
                     } catch (FHIRRestException e) {
                         setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
-                        setBundleEntryResource(responseEntry, (e.getOperationOutcome() == null)? FHIRUtil.buildOperationOutcome(e): e.getOperationOutcome());
+                        setBundleEntryResource(responseEntry, (e.getOperationOutcome() == null)? FHIRUtil.buildOperationOutcome(e, false): e.getOperationOutcome());
                         if (failFast) {
                             throw new FHIRRestBundledRequestException(null, e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
                         }
                     } catch (FHIRPersistenceResourceNotFoundException e) {
                         setBundleResponseStatus(response, SC_NOT_FOUND);
-                        setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e));
+                        setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                         if (failFast) {
-                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e), Response.Status.NOT_FOUND, responseBundle, e);
+                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e, false), Response.Status.NOT_FOUND, responseBundle, e);
                         }
                     } catch (FHIRException e) {
                         setBundleResponseStatus(response, SC_BAD_REQUEST);
-                        setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e));
+                        setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                         if (failFast) {
-                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e), Response.Status.BAD_REQUEST, responseBundle, e);
+                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e, false), Response.Status.BAD_REQUEST, responseBundle, e);
                         }
                     }
                 }
@@ -1628,7 +1628,7 @@ public class FHIRResource {
     private Response exceptionResponse(FHIRException e, Status status) {
         String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
         log.log(Level.SEVERE, msg, e);
-        return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e)).build();
+        return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e, false)).build();
     }
     
     private Response exceptionResponse(Exception e, Status status) {
@@ -1637,9 +1637,15 @@ public class FHIRResource {
 
     
     private synchronized Conformance getConformanceStatement() throws Exception {
-        Conformance conformance = buildConformanceStatement();
-        conformance.withDate(objectFactory.createDateTime().withValue(new Date().toString()));
-        return conformance;
+        try {
+            Conformance conformance = buildConformanceStatement();
+            conformance.withDate(objectFactory.createDateTime().withValue(new Date().toString()));
+            return conformance;
+        } catch (Throwable t) {
+            String msg = "An error occurred while constructing the Conformance statement.";
+            log.log(Level.SEVERE, msg, t);
+            throw new FHIRRestException(msg, null, Status.INTERNAL_SERVER_ERROR);
+        }
     }
     
     /**
@@ -2110,7 +2116,7 @@ public class FHIRResource {
                         }
                     }
                 } catch (FHIRException e) {
-                    setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e));
+                    setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                     response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
                     numErrors++;
                 }

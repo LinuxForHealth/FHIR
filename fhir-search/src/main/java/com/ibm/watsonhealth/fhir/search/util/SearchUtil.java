@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -229,21 +230,6 @@ public class SearchUtil {
         return xp;
     }
 
-//    private static Map<String, Map<String, SearchParameter>> buildSearchParameterMap() {
-//        Map<String, Map<String, SearchParameter>> searchParameterMap = new HashMap<String, Map<String, SearchParameter>>();
-//        try {
-//            populateSearchParameterMap(searchParameterMap, "search-parameters.xml");
-//        } catch (JAXBException e) {
-//            throw new Error(e);
-//        }
-//        try {
-//            populateSearchParameterMap(searchParameterMap, "extension-search-parameters.xml");
-//        } catch (Exception e) {
-//            log.fine("Unable to load extension search parameters from location: ${server.config.dir}/config/extension-search-parameters.xml");
-//            log.fine(e.getMessage());
-//        }
-//        return searchParameterMap;
-//    }
     
     /**
      * Returns a Map containing the SearchParameters loaded from the specified File object.
@@ -265,8 +251,11 @@ public class SearchUtil {
      * @return the Map containing the SearchParameters
      * @throws JAXBException
      */
-    private static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromResource(String resourceName) throws JAXBException {
+    private static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromResource(String resourceName) throws Exception {
         InputStream stream = SearchUtil.class.getClassLoader().getResourceAsStream(resourceName);
+        if (stream == null) {
+            throw new FileNotFoundException("Search parameter configuration file '" + resourceName + "' not found on classpath.");
+        }
         return populateSearchParameterMapFromStream(stream);
     }
 
@@ -397,11 +386,15 @@ public class SearchUtil {
      * @throws FileNotFoundException 
      */
     private static Map<String, Map<String, SearchParameter>> getTenantSPMap(String tenantId) throws Exception {
-        log.entering(CLASSNAME, "getTenantSPMap", new Object[]{ tenantId });
+        if (log.isLoggable(Level.FINEST)) {
+            log.entering(CLASSNAME, "getTenantSPMap", new Object[]{ tenantId });
+        }
         try {
             return searchParameterCache.getCachedObjectForTenant(tenantId);
         } finally {
-            log.exiting(CLASSNAME, "getTenantSPMap");
+            if (log.isLoggable(Level.FINEST)) {
+                log.exiting(CLASSNAME, "getTenantSPMap");
+            }
         }
     }
 
@@ -674,8 +667,9 @@ public class SearchUtil {
             } catch (FHIRSearchException e) {
                 throw e;
             } catch (Exception e) {
-                log.fine("Unable to parse query parameter named: " + name);
-                throw new FHIRSearchException("Unable to parse query parameter named: '" + name + "'", e);
+                String msg = "An error occurred while parsing search parameter '" + name + "'.";
+                log.log(Level.SEVERE, msg, e);
+                throw new FHIRSearchException(msg);
             }
         }
 

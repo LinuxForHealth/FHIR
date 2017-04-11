@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.core;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -49,7 +50,9 @@ public abstract class TenantSpecificFileBasedCache<T> {
     public abstract T createCachedObject(File file) throws Exception;
     
     public T getCachedObjectForTenant(String tenantId) throws Exception {
-        log.entering(this.getClass().getName(), "getCachedObjectForTenant");
+        if (log.isLoggable(Level.FINEST)) {
+            log.entering(this.getClass().getName(), "getCachedObjectForTenant");
+        }
         try {
             // Try to retrieve tenant's cached object from the cache.
             CachedObjectHolder<T> holder = cache.get(tenantId);
@@ -93,7 +96,9 @@ public abstract class TenantSpecificFileBasedCache<T> {
 
             return (holder != null ? holder.getCachedObject() : null);
         } finally {
-            log.exiting(this.getClass().getName(), "getCachedObjectForTenant");
+            if (log.isLoggable(Level.FINEST)) {
+                log.exiting(this.getClass().getName(), "getCachedObjectForTenant");
+            }
         }
     }
 }
