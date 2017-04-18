@@ -101,7 +101,7 @@ CODE_REMOVED
                 "bootstrapDb":true,
                 "__comment1":"schemaType allowed values are: basic or normalized",
                 "schemaType":"basic",
-                "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource."
+                "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirDB"
             },
             "jpa":{
