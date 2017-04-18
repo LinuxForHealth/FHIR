@@ -18,8 +18,6 @@
             <fileMode>0755</fileMode>
             <excludes>
                 <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
-                <exclude>com.ibm.db2:db2jcc4:*</exclude>
-                <exclude>org.apache.derby:derby:*</exclude>
             </excludes>
         </dependencySet>
     </dependencySets>
