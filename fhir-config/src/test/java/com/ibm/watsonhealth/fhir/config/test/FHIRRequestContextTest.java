@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.config.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.Test;
@@ -36,21 +35,27 @@ public class FHIRRequestContextTest {
         }
         
         public void run() {
-            // If we've been given a tenant id to test with, then explicitly
-            // set the request context on this thread using that id.
-            // Otherwise, do not set it and simply rely on the ThreadLocal's initial value.
-            if (tenantId != null) {
-                FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
+            try {
+                // If we've been given a tenant id to test with, then explicitly
+                // set the request context on this thread using that id.
+                // Otherwise, do not set it and simply rely on the ThreadLocal's initial value.
+                if (tenantId != null) {
+                    FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
+                }
+
+                String expectedTenantId = (tenantId != null ? tenantId : "default");
+                String expectedDsId = (dsId != null ? dsId : "default");
+
+                // Retrieve the request context and validate.
+                FHIRRequestContext ctxt = FHIRRequestContext.get();
+                assertNotNull(ctxt);
+                assertEquals(expectedTenantId, ctxt.getTenantId());
+                assertEquals(expectedDsId, ctxt.getDataStoreId());
+                testPassed = true;
+            } catch (Throwable t) {
+                t.printStackTrace();
+                throw t;
             }
-            
-            String expectedTenantId = (tenantId != null ? tenantId : "default");
-            
-            // Retrieve the request context and validate.
-            FHIRRequestContext ctxt = FHIRRequestContext.get();
-            assertNotNull(ctxt);
-            assertEquals(expectedTenantId, ctxt.getTenantId());
-            assertEquals(dsId, ctxt.getDataStoreId());
-            testPassed = true;
         }
     }
     
@@ -60,7 +65,7 @@ public class FHIRRequestContextTest {
         FHIRRequestContext ctxt = FHIRRequestContext.get();
         assertNotNull(ctxt);
         assertEquals("default", ctxt.getTenantId());
-        assertNull(ctxt.getDataStoreId());
+        assertEquals("default", ctxt.getDataStoreId());
     }
     
     @Test

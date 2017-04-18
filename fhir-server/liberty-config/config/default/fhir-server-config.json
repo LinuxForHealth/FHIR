@@ -5,7 +5,8 @@
             "truststoreLocation":"resources/security/fhirTruststore.jks",
 CODE_REMOVED
             "userDefinedSchematronEnabled":false,
-            "tenantIdHeaderName":"X-FHIR-TENANT-ID"
+            "tenantIdHeaderName":"X-FHIR-TENANT-ID",
+            "datastoreIdHeaderName": "X-FHIR-DSID"
         },
         "oauth":{
         	"regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
@@ -68,20 +69,44 @@ CODE_REMOVED
             "tenantId":"fhir-server"
         },
         "persistence":{
-            "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory",
+            "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "common":{
                 "__comment":"Configuration properties common to all persistence layer implementations",
                 "updateCreateEnabled":true
             },
-            "jpa":{
-                "__comment":"Configuration properties for the JPA persistence implementation",
-                "useUUIDs":true
+            "datasources": {
+                "__comment1": "Datasources defined to the JDBC persistence layer",
+                "__comment2": "Modify the field names according to which datastore (derby, db2) you want to use",
+                "default": {
+                    "type": "derby",
+                    "connectionProperties": {
+                        "databaseName": "derby/fhirDB"
+                    }
+                },
+                "_db2_default": {
+                    "type": "db2",
+                    "connectionProperties": {
+                        "serverName": "localhost",
+                        "portNumber": 50000,
+                        "user": "db2inst1",
+                        "password": "********",
+                        "databaseName": "FHIRDB",
+                        "currentSchema": "FHIR1",
+                        "driverType": 4
+                    }
+                }
             },
             "jdbc":{
                 "__comment":"Configuration properties for the JDBC persistence implementation",
                 "bootstrapDb":false,
                 "__comment1":"schemaType allowed values are: basic or normalized",
-                "schemaType":"basic"
+                "schemaType":"basic",
+                "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource."
+                "dataSourceJndiName": "jdbc/fhirDB"
+            },
+            "jpa":{
+                "__comment":"Configuration properties for the JPA persistence implementation",
+                "useUUIDs":true
             },
             "cloudant":{
                 "__comment":"Configuration properties for the Cloudant persistence implementation",

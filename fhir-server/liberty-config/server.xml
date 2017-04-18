@@ -121,6 +121,19 @@ CODE_REMOVED
    
     <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
+    <!-- Definitions related to jdbc proxy datasource -->
+    <library id="fhirSharedLib">
+        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
+        <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
+        <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
+    </library>
+    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource"
+        type="javax.sql.XADataSource">
+        <jdbcDriver libraryRef="fhirSharedLib"
+            javax.sql.XADataSource="com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource" />
+        <connectionManager agedTimeout="0" />
+    </dataSource>
+
     <!-- Derby/Embedded-related configuration
     -->    
     <library id="derbyLib">

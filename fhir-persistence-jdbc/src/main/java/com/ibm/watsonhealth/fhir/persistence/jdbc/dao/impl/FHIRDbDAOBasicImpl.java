@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
@@ -36,6 +37,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	private static final Logger log = Logger.getLogger(FHIRDbDAOBasicImpl.class.getName());
 	private static final String CLASSNAME = FHIRDbDAOBasicImpl.class.getName(); 
 	
+	private String datasourceJndiName = null;
 	private Properties dbProps = null;
 	private DataSource fhirDb = null;
 	private static boolean dbDriverLoaded = false;
@@ -61,71 +63,87 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAO#getConnection()
 	 */
 	@Override
-	public Connection getConnection() throws FHIRPersistenceDBConnectException {
-		final String METHODNAME = "getConnection";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		Connection connection = null;
-		String dbDriverName = null;
-		String dbUrl;
-		
-		if (this.getDbProps() == null) {
-			try {
-				connection = this.getFhirDatasource().getConnection();
-			} 
-			catch (Throwable e) {
-				throw new FHIRPersistenceDBConnectException("Failure acquiring Connection for " + FHIRDB_JNDI_NAME, e);
-			}
-		}
-		else {
-			if (!dbDriverLoaded) {
-				try {
-					dbDriverName = this.getDbProps().getProperty(PROPERTY_DB_DRIVER);
-					Class.forName(dbDriverName);
-					dbDriverLoaded = true;
-				} 
-				catch (ClassNotFoundException e) {
-					throw new FHIRPersistenceDBConnectException("Failed to load driver: " + dbDriverName, e);
-				} 
-			}
-			
-			dbUrl = this.getDbProps().getProperty(PROPERTY_DB_URL);
-			try {
-				connection = DriverManager.getConnection(dbUrl, this.getDbProps());
-			} 
-			catch (Throwable e) {
-				throw new FHIRPersistenceDBConnectException("Failed to acquire DB connection. dbUrl=" + dbUrl, e);
-			}
-		}
-		log.exiting(CLASSNAME, METHODNAME);
-		return connection;
-		
+    public Connection getConnection() throws FHIRPersistenceDBConnectException {
+        final String METHODNAME = "getConnection";
+        log.entering(CLASSNAME, METHODNAME);
+        try {
+            Connection connection = null;
+            String dbDriverName = null;
+            String dbUrl;
+
+            if (this.getDbProps() == null) {
+                try {
+                    connection = this.getFhirDatasource().getConnection();
+                } catch (Throwable e) {
+                    throw new FHIRPersistenceDBConnectException("Failure acquiring Connection for datasource: " + getDataSourceJndiName(), e);
+                }
+            } else {
+                if (!dbDriverLoaded) {
+                    try {
+                        dbDriverName = this.getDbProps().getProperty(PROPERTY_DB_DRIVER);
+                        Class.forName(dbDriverName);
+                        dbDriverLoaded = true;
+                    } catch (ClassNotFoundException e) {
+                        throw new FHIRPersistenceDBConnectException("Failed to load driver: " + dbDriverName, e);
+                    }
+                }
+
+                dbUrl = this.getDbProps().getProperty(PROPERTY_DB_URL);
+                try {
+                    connection = DriverManager.getConnection(dbUrl, this.getDbProps());
+                } catch (Throwable e) {
+                    throw new FHIRPersistenceDBConnectException("Failed to acquire DB connection. dbUrl=" + dbUrl, e);
+                }
+            }
+            return connection;
+        } catch (FHIRPersistenceDBConnectException e) {
+            throw e;
+        } catch (Throwable t) {
+            throw new FHIRPersistenceDBConnectException("An unexpected error occurred while connecting to the database.", t);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+
+        }
+    }
+	
+	/**
+	 * Retrieves the datasource JNDI name to be used from the fhir server configuration.
+	 * @return the datasource JNDI name
+	 * @throws Exception
+	 */
+	private String getDataSourceJndiName() throws Exception {
+	    if (datasourceJndiName == null) {
+	        datasourceJndiName = FHIRConfiguration.getInstance().loadConfiguration()
+	                .getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbDAO.FHIRDB_JNDI_NAME_DEFAULT);
+	        log.fine("Using datasource JNDI name: " + datasourceJndiName);
+	    }
+	    return datasourceJndiName;
 	}
 
 	/**
 	 * Looks up and returns a Datasource JDBC object representing the FHIR database via JNDI.
 	 * @return
-	 * @throws FHIRPersistenceDBConnectException
+	 * @throws Exception 
 	 */
-	private DataSource getFhirDatasource() throws FHIRPersistenceDBConnectException {
-		final String METHODNAME = "getFhirDb";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		InitialContext ctxt;
-				
-		if (this.fhirDb == null) {
-			try {
-				ctxt = new InitialContext();
-				this.fhirDb = (DataSource) ctxt.lookup(FHIRDB_JNDI_NAME);
-			}
-			catch(Throwable e) {
-				throw new FHIRPersistenceDBConnectException("Failure acquiring Datasource for " + FHIRDB_JNDI_NAME, e);
-			}
-		}
-		
-		log.exiting(CLASSNAME, METHODNAME);
-		return this.fhirDb;
-	}
+    private DataSource getFhirDatasource() throws Exception {
+        final String METHODNAME = "getFhirDb";
+        log.entering(CLASSNAME, METHODNAME);
+        try {
+            InitialContext ctxt;
+
+            if (this.fhirDb == null) {
+                try {
+                    ctxt = new InitialContext();
+                    this.fhirDb = (DataSource) ctxt.lookup(getDataSourceJndiName());
+                } catch (Throwable e) {
+                    throw new FHIRPersistenceDBConnectException("Failure acquiring Datasource for " + getDataSourceJndiName(), e);
+                }
+            }
+            return this.fhirDb;
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
 	
 	/**
 	 * Closes the passed PreparedStatement and Connection objects.

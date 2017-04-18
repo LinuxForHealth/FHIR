@@ -17,7 +17,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCon
  */
 public interface FHIRDbDAO {
 
-	String FHIRDB_JNDI_NAME = "jdbc/fhirDB";
+	String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirDB";
 	String PROPERTY_DB_DRIVER = "dbDriverName";
 	String PROPERTY_DB_URL = "dbUrl";
 	String PROPERTY_DB2_USER = "user";

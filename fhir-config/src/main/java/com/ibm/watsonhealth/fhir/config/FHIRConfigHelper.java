@@ -124,4 +124,37 @@ public class FHIRConfigHelper {
         
         return result;
     }
+    
+    public static PropertyGroup getPropertyGroup(String propertyName) {
+        PropertyGroup result = null;
+        
+        PropertyGroup pg = null;
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        
+        // First, try to retrieve the configuration (property group) associated with the 
+        // current thread's tenant-id.
+        try {
+            pg = FHIRConfiguration.getInstance().loadConfigurationForTenant(tenantId);
+            if (pg != null) {
+                result = pg.getPropertyGroup(propertyName);
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error loading configuration for tenant-id '" + tenantId + "': " + e.getMessage());
+        }
+        
+        // If we didn't find the property in the tenant-specific config, then 
+        // let's try to find it in the default config.
+        if (result == null && !tenantId.equals(FHIRConfiguration.DEFAULT_TENANT_ID)) {
+            try {
+                pg = FHIRConfiguration.getInstance().loadConfiguration();
+                if (pg != null) {
+                    result = pg.getPropertyGroup(propertyName);
+                }
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Error loading default configuration: " + e.getMessage());
+            }
+        }
+        
+        return result;
+    }
 }

@@ -18,6 +18,7 @@ public class FHIRConfiguration {
     public static final String CONFIG_LOCATION = "config";
     public static final String CONFIG_FILE_BASENAME = "fhir-server-config.json";
     public static final String DEFAULT_TENANT_ID = "default";
+    public static final String DEFAULT_DATASTORE_ID = "default";
 
     // Configuration properties used by various FHIR Server components.
     public static final String PROPERTY_VIRTUAL_RESOURCES_ENABLED = "fhirServer/virtualResources/enabled";
@@ -48,9 +49,13 @@ public class FHIRConfiguration {
     public static final String PROPERTY_WHCLSF_ROUTER = "fhirServer/persistence/whclsfRouter";
     public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";
     public static final String PROPERTY_JDBC_SCHEMA_TYPE = "fhirServer/persistence/jdbc/schemaType";
+    public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
     public static final String PROPERTY_TENANT_ID_HEADER_NAME = "fhirServer/core/tenantIdHeaderName";
+    public static final String PROPERTY_DATASTORE_ID_HEADER_NAME = "fhirServer/core/datastoreIdHeaderName";
+    public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
+    public static final String DEFAULT_DATASTORE_ID_HEADER_NAME = "X-FHIR-DSID";
 
     public static final String FHIR_SERVER_DEFAULT_CONFIG = "config/default/fhir-server-config.json";
     

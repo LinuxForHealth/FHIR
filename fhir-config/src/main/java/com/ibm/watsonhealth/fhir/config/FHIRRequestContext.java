@@ -23,7 +23,7 @@ public class FHIRRequestContext {
     private static ThreadLocal<FHIRRequestContext> contexts = new ThreadLocal<FHIRRequestContext>() {
         @Override
         public FHIRRequestContext initialValue() {
-            return new FHIRRequestContext(FHIRConfiguration.DEFAULT_TENANT_ID);
+            return new FHIRRequestContext(FHIRConfiguration.DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_DATASTORE_ID);
         }
     };
     

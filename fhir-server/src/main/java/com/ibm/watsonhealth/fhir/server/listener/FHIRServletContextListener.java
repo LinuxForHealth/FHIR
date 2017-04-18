@@ -115,7 +115,8 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
             if (performDbBootstrap) {
             	SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
-            	bootstrapDb(schemaType);
+            	String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
+            	bootstrapDb(datasourceJndiName, schemaType);
             }
             
             // Finally, set our "initComplete" flag to true.
@@ -159,7 +160,7 @@ public class FHIRServletContextListener implements ServletContextListener {
      * Note: this is only done for Derby databases.
      * @param schemaType - An enumerated value indicating the schema type to be used when bootstrapping the database.
      */
-    private void bootstrapDb(SchemaType schemaType)  {
+    private void bootstrapDb(String datasourceJndiName, SchemaType schemaType)  {
     	if (log.isLoggable(Level.FINER)) {
 			log.entering(FHIRServletContextListener.class.getName(), "bootstrapDb");
 		}
@@ -173,8 +174,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 		String changeLogPath = null;
     	    	
     	try {
+    	    log.fine("Attempting to bootstrap database using datasource: " + datasourceJndiName);
 	    	ctxt = new InitialContext();
-			fhirDb = (DataSource) ctxt.lookup("jdbc/fhirDB");
+			fhirDb = (DataSource) ctxt.lookup(datasourceJndiName);
 			connection = fhirDb.getConnection();
 			dbDriverName = connection.getMetaData().getDriverName();
 						

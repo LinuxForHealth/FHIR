@@ -9,44 +9,42 @@ package com.ibm.watsonhealth.fhir.persistence.proxy;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.XAConnection;
 import javax.sql.XADataSource;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
 
 /**
  * This class serves as a proxy for creating XA connections to databases according to a properties-based configuration.
+ * 
+ * @author padams
  */
 public class FHIRProxyXADataSource implements XADataSource {
     private static final Logger log = Logger.getLogger(FHIRProxyXADataSource.class.getName());
 
-    public FHIRProxyXADataSource() {
-        log.entering(this.getClass().getName(), "FHIRProxyXADataSource");
-        log.exiting(this.getClass().getName(), "FHIRProxyXADataSource");
+    // This Map is a cache of XADataSource instances, keyed first by tenant-id, then by datastore-id.
+    private static Map<String, Map<String, XADataSource>> datasourceCache = new HashMap<>();
+
+    // This Map provides a mapping of database type to XADataSource classname for our supported database types.
+    private static Map<String, String> datasourceTypeMapping = null;
+    static {
+        datasourceTypeMapping = new HashMap<>();
+        datasourceTypeMapping.put("db2", "com.ibm.db2.jcc.DB2XADataSource");
+        datasourceTypeMapping.put("derby", "org.apache.derby.jdbc.EmbeddedXADataSource");
     }
 
-    /**
-     * This function will return an XADataSource instance that is configured according to the 
-     * connection properties associated with the FHIRRequestContext info found on thread-local.
-     */
-    private XADataSource getDelegate() {
-        log.entering(this.getClass().getName(), "getDelegate");
-        try {
-            FHIRRequestContext context = FHIRRequestContext.get();
-            log.finer("FHIRRequestContext contains tenant-id '" + context.getTenantId() 
-                + "', datastore-id '" + context.getDataStoreId() + "'.");
-
-            // Stub for now...
-            // EmbeddedXADataSource derbyDS = new EmbeddedXADataSource();
-            
-            
-            
-            return null;
-        } finally {
-            log.exiting(this.getClass().getName(), "getDelegate");
-        }
+    public FHIRProxyXADataSource() {
     }
 
     /*
@@ -91,7 +89,11 @@ public class FHIRProxyXADataSource implements XADataSource {
      */
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return getDelegate().getParentLogger();
+        try {
+            return getDelegate().getParentLogger();
+        } catch (Throwable t) {
+            throw new SQLFeatureNotSupportedException("Unexpected error encountered.", t);
+        }
     }
 
     /*
@@ -100,7 +102,12 @@ public class FHIRProxyXADataSource implements XADataSource {
      */
     @Override
     public XAConnection getXAConnection() throws SQLException {
-        return getDelegate().getXAConnection();
+        log.entering(this.getClass().getName(), "getXAConnection");
+        try {
+            return getDelegate().getXAConnection();
+        } finally {
+            log.exiting(this.getClass().getName(), "getXAConnection");
+        }
     }
 
     /*
@@ -109,6 +116,159 @@ public class FHIRProxyXADataSource implements XADataSource {
      */
     @Override
     public XAConnection getXAConnection(String user, String password) throws SQLException {
-        return getDelegate().getXAConnection(user, password);
+        log.entering(this.getClass().getName(), "getXAConnection(String,String)");
+        try {
+            return getDelegate().getXAConnection(user, password);
+        } finally {
+            log.exiting(this.getClass().getName(), "getXAConnection");
+        }
+    }
+
+    /**
+     * This function will return an XADataSource instance that is configured according to the connection properties
+     * associated with the FHIRRequestContext info found on thread-local. Note: this function is declared as public for
+     * testing purposes. Normally, this function is only called internally.
+     * 
+     * @throws SQLException
+     */
+    public XADataSource getDelegate() throws SQLException {
+        log.entering(this.getClass().getName(), "getDelegate");
+        try {
+
+            // Grab the context info (tenant-id, datastore-id) from thread-local.
+            FHIRRequestContext context = FHIRRequestContext.get();
+            log.finer("FHIRRequestContext contains tenant-id '" + context.getTenantId() + "', datastore-id '" + context.getDataStoreId() + "'.");
+
+            // Next, retrieve from cache or create the tenant's datasource map.
+            Map<String, XADataSource> tenantMap = datasourceCache.get(context.getTenantId());
+            if (tenantMap == null) {
+                synchronized (datasourceCache) {
+                    tenantMap = datasourceCache.get(context.getTenantId());
+                    if (tenantMap == null) {
+                        log.finer("Tenant datasource cache was not found, creating new cache for tenant-id '" + context.getTenantId() + "'.");
+                        tenantMap = new HashMap<String, XADataSource>();
+                        datasourceCache.put(context.getTenantId(), tenantMap);
+                    }
+                }
+            }
+
+            // Next, retrieve the data source based on the datastore-id value,
+            // or create a new one if necessary.
+            XADataSource datasource = tenantMap.get(context.getDataStoreId());
+            if (datasource == null) {
+                synchronized (tenantMap) {
+                    datasource = tenantMap.get(context.getDataStoreId());
+                    if (datasource == null) {
+                        log.finer("Datasource '" + context.getDataStoreId() + "' was not found, creating a new datasource and adding to the cache.");
+                        datasource = createDataSource(context.getDataStoreId());
+                        tenantMap.put(context.getDataStoreId(), datasource);
+                    }
+                }
+            }
+
+            return datasource;
+        } catch (Throwable t) {
+            throw new SQLException();
+        } finally {
+            log.exiting(this.getClass().getName(), "getDelegate");
+        }
+    }
+
+    /**
+     * Creates an appropriate datasource according to the properties associated with the specified datastore-id
+     */
+    private XADataSource createDataSource(String dsId) throws Exception {
+        log.entering(this.getClass().getName(), "createDataSource");
+        try {
+            XADataSource datasource = null;
+
+            // Retrieve the property group containing all of the datasource definitions for the current tenant.
+            PropertyGroup datasourcesPG = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);
+            if (datasourcesPG == null) {
+                throw new IllegalStateException("Could not locate property group '" + FHIRConfiguration.PROPERTY_DATASOURCES);
+            }
+
+            // Next, retrieve the property group pertaining to the datastore-id.
+            PropertyGroup dsPG = datasourcesPG.getPropertyGroup(dsId);
+            if (dsPG == null) {
+                throw new IllegalStateException("Could not locate properties for datastore-id '" + dsId + "'.");
+            }
+
+            // Get the datasource type (Derby, DB2, etc.).
+            String type = dsPG.getStringProperty("type", null);
+            if (type == null) {
+                throw new IllegalStateException("Could not locate 'type' property within datasource property group '" + dsId + "'.");
+            }
+
+            // Get the connection properties
+            PropertyGroup connectionProps = dsPG.getPropertyGroup("connectionProperties");
+            if (connectionProps == null) {
+                throw new IllegalStateException("Could not locate 'connectionProperties' property within datasource property group '" + dsId + "'.");
+            }
+
+            // Fold the type to lowercase to "normalize" it.
+            String typeLC = type.toLowerCase();
+
+            String datasourceClassname = datasourceTypeMapping.get(typeLC);
+            if (datasourceClassname == null) {
+                throw new IllegalArgumentException("Datasource type '" + type + "' not supported.");
+            }
+            log.finer("Mapped database type '" + type + "' to XADataSource implementation class '" + datasourceClassname + "'.");
+
+            // Next, create an instance of the appropriate datasource class.
+            Class<?> datasourceClass = null;
+            try {
+                datasourceClass = Class.forName(datasourceClassname);
+            } catch (Throwable t) {
+                throw new IllegalStateException("Error attempting to instantiate XADataSource class '" + datasourceClassname + "'.", t);
+            }
+
+            // Instantiate the appropriate XADataSource class
+            Object dsObj = datasourceClass.newInstance();
+            if (!(dsObj instanceof XADataSource)) {
+                throw new IllegalStateException("Class '" + datasourceClass.getName() + "' is not a subclass of XADataSource.");
+            }
+
+            datasource = (XADataSource) dsObj;
+            log.finer("Instantiated XADataSource implementation class.");
+
+            // Finally, set the properties found in the "connectionProperties" property group
+            // on the XADataSource instance.
+            // Note: this requires the "connectionProperties" property group to contain ONLY
+            // properties that map to valid field names within the vendor-specific XADataSource impl class.
+            setConnectionProperties(datasource, connectionProps);
+
+            return datasource;
+        } finally {
+            log.exiting(this.getClass().getName(), "createDataSource");
+        }
+    }
+
+    /**
+     * This function will use reflection to set each of the properties found in "connectionProps" on the specified
+     * datasource instance using the appropriate setter methods.
+     * 
+     * @param datasource
+     *            the datasource instance to set the properties on
+     * @param connectionProps
+     *            a PropertyGroup containing the properties to be set on the datasource
+     */
+    private void setConnectionProperties(XADataSource datasource, PropertyGroup connectionProps) throws Exception {
+        // Configure the datasource according to the connection properties.
+        // We'll do this by visiting each of the individual properties found in the
+        // "connectionProperties" property group, and set each one on the datasource.
+        log.finer("Setting connection properties on '" + datasource.getClass().getName() + "' instance.");
+        for (PropertyEntry property : connectionProps.getProperties()) {
+            String propertyName = property.getName();
+            Object propertyValue = property.getValue();
+            log.finer("Found property '" + propertyName + "' = '" + propertyValue.toString() + "'.");
+            try {
+                PropertyUtils.setSimpleProperty(datasource, propertyName, propertyValue);
+            } catch (Throwable t) {
+                String msg = "Error setting property '" + propertyName + "' on instance of class '" + datasource.getClass().getName() + ".";
+                log.log(Level.SEVERE, msg, t);
+                throw new IllegalStateException(msg, t);
+            }
+        }
     }
 }

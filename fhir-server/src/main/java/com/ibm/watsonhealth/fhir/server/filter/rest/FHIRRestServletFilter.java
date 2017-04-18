@@ -34,6 +34,7 @@ public class FHIRRestServletFilter implements Filter {
     private static final Logger log = Logger.getLogger(FHIRRestServletFilter.class.getName());
 
     private static String tenantIdHeaderName = null;
+    private static String datastoreIdHeaderName = null;
 
     /*
      * (non-Javadoc)
@@ -48,6 +49,7 @@ public class FHIRRestServletFilter implements Filter {
 
         try {
             String tenantId = FHIRConfiguration.DEFAULT_TENANT_ID;
+            String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
             
             // Wrap the incoming servlet request with our own implementation.
             if (request instanceof HttpServletRequest) {
@@ -83,7 +85,7 @@ public class FHIRRestServletFilter implements Filter {
             // displayRequestBody(request);
             
             // Create a new FHIRRequestContext and set it on the current thread.
-            FHIRRequestContext context = new FHIRRequestContext(tenantId);
+            FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
             FHIRRequestContext.set(context);
 
             // Pass the request through to the next filter in the chain.
@@ -199,6 +201,12 @@ public class FHIRRestServletFilter implements Filter {
                     .getStringProperty(FHIRConfiguration.PROPERTY_TENANT_ID_HEADER_NAME, FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME);
 
             log.info("Configured tenant-id header name is: " +  tenantIdHeaderName);
+
+            datastoreIdHeaderName = 
+                    FHIRConfiguration.getInstance().loadConfiguration()
+                    .getStringProperty(FHIRConfiguration.PROPERTY_DATASTORE_ID_HEADER_NAME, FHIRConfiguration.DEFAULT_DATASTORE_ID_HEADER_NAME);
+
+            log.info("Configured datastore-id header name is: " +  datastoreIdHeaderName);
         } catch (Exception e) {
             throw new ServletException("Servlet filter initialization error.", e);
         }

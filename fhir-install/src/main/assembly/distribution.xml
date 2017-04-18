@@ -15,114 +15,119 @@
 			<outputDirectory>fhir/server/usr/servers/fhir-server</outputDirectory>
 			<fileMode>0755</fileMode>
 		</fileSet>
-        <fileSet>
-            <directory>../fhir-schemaddl/scripts</directory>
-            <outputDirectory>fhir/server/fhir/bin</outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>../fhir-schemaddl/src/main/resources/liquibase</directory>
-            <outputDirectory>fhir/server/fhir/bin/schemaddl</outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>src/main/resources/scripts</directory>
-            <outputDirectory></outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
+		<fileSet>
+			<directory>../fhir-schemaddl/scripts</directory>
+			<outputDirectory>fhir/server/fhir/bin</outputDirectory>
+			<fileMode>0755</fileMode>
+		</fileSet>
+		<fileSet>
+			<directory>../fhir-schemaddl/src/main/resources/liquibase</directory>
+			<outputDirectory>fhir/server/fhir/bin/schemaddl</outputDirectory>
+			<fileMode>0755</fileMode>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/scripts</directory>
+			<outputDirectory></outputDirectory>
+			<fileMode>0755</fileMode>
+		</fileSet>
 	</fileSets>
 	<files>
 		<file>
-            <source>src/main/resources/docs/FHIRServerUsersGuide.pdf</source>
-            <outputDirectory>fhir/server/fhir/docs</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <source>src/main/resources/docs/FHIRServerUsersGuide.html</source>
-            <outputDirectory>fhir/server/fhir/docs</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
+			<source>src/main/resources/docs/FHIRServerUsersGuide.pdf</source>
+			<outputDirectory>fhir/server/fhir/docs</outputDirectory>
+			<fileMode>0755</fileMode>
+		</file>
+		<file>
+			<source>src/main/resources/docs/FHIRServerUsersGuide.html</source>
+			<outputDirectory>fhir/server/fhir/docs</outputDirectory>
+			<fileMode>0755</fileMode>
+		</file>
 		<file>
 			<source>../fhir-server/target/fhir-server.war</source>
 			<outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
 			<fileMode>0755</fileMode>
 		</file>
         <file>
-            <source>../fhir-swagger-ui/target/fhir-swagger-ui.war</source>
-            <outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
+            <source>../fhir-persistence-proxy/target/fhir-persistence-proxy-distribution.zip</source>
+            <outputDirectory>fhir/zips</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
-        <file>
-            <source>../fhir-server/src/test/resources/fhirClientTruststore.jks</source>
-            <outputDirectory>fhir/server/fhir/client</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <source>../fhir-server/src/test/resources/fhirClientKeystore.jks</source>
-            <outputDirectory>fhir/server/fhir/client</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <source>../fhir-cli/target/fhir-cli.zip</source>
-            <outputDirectory>fhir/server/fhir/client</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
+		<file>
+			<source>../fhir-swagger-ui/target/fhir-swagger-ui.war</source>
+			<outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
+			<fileMode>0755</fileMode>
+		</file>
+		<file>
+			<source>../fhir-server/src/test/resources/fhirClientTruststore.jks</source>
+			<outputDirectory>fhir/server/fhir/client</outputDirectory>
+			<fileMode>0755</fileMode>
+		</file>
+		<file>
+			<source>../fhir-server/src/test/resources/fhirClientKeystore.jks</source>
+			<outputDirectory>fhir/server/fhir/client</outputDirectory>
+			<fileMode>0755</fileMode>
+		</file>
+		<file>
+			<source>../fhir-cli/target/fhir-cli.zip</source>
+			<outputDirectory>fhir/server/fhir/client</outputDirectory>
+			<fileMode>0755</fileMode>
+		</file>
 	</files>
 	<dependencySets>
 		<dependencySet>
-		    <useProjectArtifact>false</useProjectArtifact>
+			<useProjectArtifact>false</useProjectArtifact>
 			<outputDirectory>server-runtime</outputDirectory>
 			<directoryMode>0755</directoryMode>
 			<fileMode>0755</fileMode>
 			<includes>
-                <include>com.ibm.websphere.appserver.runtime:wlp-base-embeddable:*</include>
+				<include>com.ibm.websphere.appserver.runtime:wlp-base-embeddable:*</include>
 			</includes>
 		</dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>fhir/server/usr/shared/resources/lib/derby</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>org.apache.derby:derbyclient:*</include>
-                <include>org.apache.derby:derby:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>fhir/server/usr/shared/resources/lib/db2</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.db2:db2jcc4:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>fhir/server/fhir/bin/schemaddl/lib</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.db2:db2jcc4:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>fhir/server/usr/shared/resources/lib/moxy</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.websphere.appserver.runtime:org.eclipse.persistence.moxy:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>java</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.java:ibm-java-sdk:*</include>
-            </includes>
-        </dependencySet>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>fhir/server/usr/shared/resources/lib/derby</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>org.apache.derby:derbyclient:*</include>
+				<include>org.apache.derby:derby:*</include>
+			</includes>
+		</dependencySet>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>fhir/server/usr/shared/resources/lib/db2</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>com.ibm.db2:db2jcc4:*</include>
+			</includes>
+		</dependencySet>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>fhir/server/fhir/bin/schemaddl/lib</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>com.ibm.db2:db2jcc4:*</include>
+			</includes>
+		</dependencySet>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>fhir/server/usr/shared/resources/lib/moxy</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>com.ibm.websphere.appserver.runtime:org.eclipse.persistence.moxy:*</include>
+			</includes>
+		</dependencySet>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>java</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>com.ibm.java:ibm-java-sdk:*</include>
+			</includes>
+		</dependencySet>
 	</dependencySets>
 </assembly>
