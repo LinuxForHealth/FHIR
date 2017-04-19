@@ -95,7 +95,8 @@ CODE_REMOVED
 
     <!-- This is the main FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v1" id="fhir-server" location="fhir-server.war" name="fhir-server">
-        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" privateLibraryRef="configResources"/>
+        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" 
+            privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role name="FHIRUsers">
                 <group name="FHIRUsers"/>
@@ -118,21 +119,35 @@ CODE_REMOVED
         <folder dir="${server.config.dir}/config"/>
         <fileset dir="${server.config.dir}/config" includes="*.jar"/>
     </library>
+    
+    <!-- 
+        This sharedlib can contain user-contributed jars that are intended to augment
+        the FHIR Server installation (persistence interceptors, persistence layer impl's,
+        custom operation impl's, etc.)
+     -->
+    <library id="fhirUserLib">
+        <fileset dir="${server.config.dir}/userlib" includes="*.jar"/>
+    </library>
    
-    <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
-
-    <!-- Definitions related to jdbc proxy datasource -->
+    <!-- Definitions related to the JDBC proxy datasource -->
     <library id="fhirSharedLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
+    
     <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource"
         type="javax.sql.XADataSource">
         <jdbcDriver libraryRef="fhirSharedLib"
             javax.sql.XADataSource="com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource" />
         <connectionManager agedTimeout="0" />
     </dataSource>
+    
+    
+
+
+    <!-- Definitions related to the JPA persistence layer implementation -->
+    <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
     <!-- Derby/Embedded-related configuration
     -->    
@@ -207,41 +222,4 @@ CODE_REMOVED
             currentSchema="FHIR1"/>
     </dataSource>
     -->
-    
-    <!-- Datasources from FHIR Persistence Router -->
-    <!-- 
-    <dataSource id="profileDataSourceJta" jndiName="jdbc/profileDataSourceJta">
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-    <dataSource id="profileDataSourceNonJta" jndiName="jdbc/profileDataSourceNonJta" transactional="false">
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-     <dataSource id="referenceDataSourceJta" jndiName="jdbc/referenceDataSourceJta">
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-    <dataSource id="referenceDataSourceNonJta" jndiName="jdbc/referenceDataSourceNonJta" transactional="false">
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-     <dataSource id="dataSource_Jta_Smoke_Test" jndiName="jdbc/dataSource_Jta_Smoke_Test">
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-    <dataSource id="dataSource_nonJta_Smoke_Test" jndiName="jdbc/dataSource_nonJta_Smoke_Test" transactional="false">
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-CODE_REMOVED
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-CODE_REMOVED
-        <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
-    </dataSource>
-    -->
-    
 </server>
