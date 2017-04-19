@@ -220,7 +220,7 @@ public class FHIRProxyXADataSource implements XADataSource {
             try {
                 datasourceClass = Class.forName(datasourceClassname);
             } catch (Throwable t) {
-                throw new IllegalStateException("Error attempting to instantiate XADataSource class '" + datasourceClassname + "'.", t);
+                throw new IllegalStateException("Error attempting to load XADataSource class '" + datasourceClassname + "'.", t);
             }
 
             // Instantiate the appropriate XADataSource class
@@ -230,7 +230,9 @@ public class FHIRProxyXADataSource implements XADataSource {
             }
 
             datasource = (XADataSource) dsObj;
-            log.finer("Instantiated XADataSource implementation class.");
+            String msg = "Created new instance of datasource for tenant-id '" + FHIRRequestContext.get().getTenantId()
+                    + "' and datastore-id '" + dsId + "': " + dsObj.getClass().getSimpleName();
+            log.info(msg);
 
             // Finally, set the properties found in the "connectionProperties" property group
             // on the XADataSource instance.

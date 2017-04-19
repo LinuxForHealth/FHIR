@@ -75,8 +75,6 @@ CODE_REMOVED
                 "updateCreateEnabled":true
             },
             "datasources": {
-                "__comment1": "Datasources defined to the JDBC persistence layer",
-                "__comment2": "Modify the field names according to which datastore (derby, db2) you want to use",
                 "default": {
                     "type": "derby",
                     "connectionProperties": {
@@ -102,7 +100,7 @@ CODE_REMOVED
                 "__comment1":"schemaType allowed values are: basic or normalized",
                 "schemaType":"basic",
                 "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
-                "dataSourceJndiName": "jdbc/fhirDB"
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource"
             },
             "jpa":{
                 "__comment":"Configuration properties for the JPA persistence implementation",
