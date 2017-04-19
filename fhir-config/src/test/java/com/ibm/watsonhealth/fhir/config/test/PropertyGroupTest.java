@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.config.test;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import java.util.List;
@@ -25,6 +26,8 @@ import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
 public class PropertyGroupTest {
     private JsonObject jsonObj1 = null;
     private JsonObject jsonObj2 = null;
+    
+    private boolean debug = false;
 
     @BeforeClass
     public void setup() {
@@ -70,7 +73,11 @@ CODE_REMOVED
                         .add(2)
                         .add(3)))
                 .build();
-
+        
+        if (debug) {
+            System.out.println("\njsonObj1 contents:\n" + jsonObj1.toString());
+            System.out.println("\njsonObj2 contents:\n" + jsonObj2.toString());
+        }
     }
 
     @Test
@@ -195,7 +202,7 @@ CODE_REMOVED
     }
     
     @Test
-    public void testGetProperties() throws Exception {
+    public void testGetProperties1() throws Exception {
         PropertyGroup pg = new PropertyGroup(jsonObj2);
         PropertyGroup connectionProps = pg.getPropertyGroup("fhir-server/notifications/kafka/connectionProperties");
         assertNotNull(connectionProps);
@@ -218,5 +225,65 @@ CODE_REMOVED
         assertNotNull(propEntry);
         assertEquals("password", propEntry.getName());
         assertEquals("password", (String) propEntry.getValue());
+    }
+    
+    @Test
+    public void testGetProperties2() throws Exception {
+        PropertyGroup rootPG = new PropertyGroup(jsonObj2);
+        PropertyGroup fhirServerPG = rootPG.getPropertyGroup("fhir-server");
+        assertNotNull(fhirServerPG);
+        
+        List<PropertyEntry> properties = fhirServerPG.getProperties();
+        assertNotNull(properties);
+        assertEquals(4, properties.size());
+        
+        PropertyEntry propEntry = properties.get(0);
+        assertNotNull(propEntry);
+        assertEquals("server-core", propEntry.getName());
+        assertTrue(propEntry.getValue() instanceof PropertyGroup);
+        
+        propEntry = properties.get(1);
+        assertNotNull(propEntry);
+        assertEquals("notifications", propEntry.getName());
+        assertTrue(propEntry.getValue() instanceof PropertyGroup);
+        
+        propEntry = properties.get(2);
+        assertNotNull(propEntry);
+        assertEquals("object-array", propEntry.getName());
+        assertTrue(propEntry.getValue() instanceof List);
+        for (Object obj : (List<?>) propEntry.getValue()) {
+            assertNotNull(obj);
+            assertTrue(obj instanceof PropertyGroup);
+        }
+        
+        propEntry = properties.get(3);
+        assertNotNull(propEntry);
+        assertEquals("int-array", propEntry.getName());
+        assertTrue(propEntry.getValue() instanceof List);
+        for (Object obj : (List<?>) propEntry.getValue()) {
+            assertNotNull(obj);
+            assertTrue(obj instanceof Integer);
+        }
+    }
+
+    @Test
+    public void testGetProperties3() throws Exception {
+        PropertyGroup rootPG = new PropertyGroup(jsonObj2);
+        PropertyGroup pg = rootPG.getPropertyGroup("fhir-server/notifications/common");
+        assertNotNull(pg);
+        
+        List<PropertyEntry> properties = pg.getProperties();
+        assertNotNull(properties);
+        assertEquals(1, properties.size());
+        
+        PropertyEntry propEntry = properties.get(0);
+        assertNotNull(propEntry);
+        assertEquals("includeResourceTypes", propEntry.getName());
+        assertTrue(propEntry.getValue() instanceof List);
+        assertEquals(2, ((List<?>)propEntry.getValue()).size());
+        for (Object obj : (List<?>) propEntry.getValue()) {
+            assertNotNull(obj);
+            assertTrue(obj instanceof String);
+        }
     }
 }

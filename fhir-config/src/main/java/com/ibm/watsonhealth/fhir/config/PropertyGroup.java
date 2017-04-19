@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -223,11 +224,7 @@ public class PropertyGroup {
         JsonValue jsonValue = getJsonValue(propertyName);
         if (jsonValue != null) {
             if (jsonValue instanceof JsonArray) {
-                JsonArray jsonArray = (JsonArray) jsonValue;
-                result = new Object[jsonArray.size()];
-                for (int i = 0; i < jsonArray.size(); i++) {
-                    result[i] = convertJsonValue(jsonArray.get(i));
-                }
+                result = convertJsonArray((JsonArray) jsonValue);
             } else {
                 throw new IllegalArgumentException("Property '" + propertyName + "' must be an array");
             }
@@ -261,16 +258,23 @@ public class PropertyGroup {
     }
 
     /**
-     * converts the specified JsonValue into the appropriate java.lang.* type.
+     * Converts the specified JsonValue into the appropriate java.lang.* type.
      * @param jsonValue the JsonValue instance to be converted
-     * @return an instance of Boolean, Integer, String, or PropertyGroup
+     * @return an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
      * @throws Exception 
      */
     protected Object convertJsonValue(JsonValue jsonValue) throws Exception {
         Object result = null;
         switch (jsonValue.getValueType()) {
-        case FALSE:
-            result = Boolean.FALSE;
+        case ARRAY:
+            Object[] objArray = convertJsonArray((JsonArray)jsonValue);
+            result = Arrays.asList(objArray);
+            break;
+        case OBJECT:
+            result = new PropertyGroup((JsonObject) jsonValue);
+            break;
+        case STRING:
+            result = FHIRUtilities.decode(((JsonString) jsonValue).getString());
             break;
         case NUMBER:
             JsonNumber jsonNumber = (JsonNumber) jsonValue;
@@ -280,14 +284,11 @@ public class PropertyGroup {
                 result = Double.valueOf(jsonNumber.doubleValue());
             }
             break;
-        case OBJECT:
-            result = new PropertyGroup((JsonObject) jsonValue);
-            break;
-        case STRING:
-            result = FHIRUtilities.decode(((JsonString)jsonValue).getString());
-            break;
         case TRUE:
             result = Boolean.TRUE;
+            break;
+        case FALSE:
+            result = Boolean.FALSE;
             break;
         default:
             throw new IllegalStateException("Unexpected JSON value type: " + jsonValue.getValueType().name());
@@ -295,6 +296,19 @@ public class PropertyGroup {
         return result;
     }
 
+    /**
+     * Converts the specified JsonArray into an Object[]
+     * @param jsonArray the JsonArray to be converted
+     * @return an Object[] containing the converted values found in the JsonArray
+     * @throws Exception
+     */
+    private Object[] convertJsonArray(JsonArray jsonArray) throws Exception {
+        Object[] result = new Object[jsonArray.size()];
+        for (int i = 0; i < jsonArray.size(); i++) {
+            result[i] = convertJsonValue(jsonArray.get(i));
+        }
+        return result;
+    }
     /**
      * Finds the specified property and returns it as a generic JsonValue.
      * 
