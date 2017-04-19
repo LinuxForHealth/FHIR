@@ -244,7 +244,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	
 	        // Start a new txn.
 	        if (!isActive()) {
-	            this.begin();
+	            begin();
 	            txnStarted = true;
 	        }
 	
@@ -282,7 +282,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        
 	        // Time to commit the changes.
 	        if (txnStarted) {
-	            this.commit();
+	            commit();
 	            txnStarted = false;
 	        }
 		}
@@ -295,6 +295,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
+		    // Time to rollback if we still have an active txn that we started.
+		    if (txnStarted) {
+		        rollback();
+		        txnStarted = false;
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
@@ -453,6 +458,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
+            // Time to rollback if we still have an active txn that we started.
+            if (txnStarted) {
+                rollback();
+                txnStarted = false;
+            }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
     }

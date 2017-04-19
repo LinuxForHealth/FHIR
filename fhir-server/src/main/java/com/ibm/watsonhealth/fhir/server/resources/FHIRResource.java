@@ -845,6 +845,10 @@ public class FHIRResource {
      */
     protected URI doCreate(String type, Resource resource) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
+
+        FHIRPersistenceTransaction txn = null;
+        boolean txnStarted = false;
+
         try {
             // Make sure the expected type (specified in the URL string) is congruent with the actual type 
             // of the resource.
@@ -866,6 +870,14 @@ public class FHIRResource {
             }
 
             // If there were no validation errors, then create the resource and return the location header.
+            
+            // Start a new txn in the persistence layer if one is not already active.
+            txn = getPersistenceImpl().getTransaction();
+            if (txn != null && !txn.isActive()) {
+                txn.begin();
+                txnStarted = true;
+                log.fine("Started new transaction for 'create' operation.");
+            }
 
             // First, invoke the 'beforeCreate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null));
@@ -880,9 +892,24 @@ public class FHIRResource {
 
             // Invoke the 'afterCreate' interceptor methods.
             getInterceptorMgr().fireAfterCreateEvent(event);
+            
+            // Commit our transaction if we started one before.
+            if (txnStarted) {
+                log.fine("Committing transaction for 'create' operation.");
+                txn.commit();
+                txn = null;
+                txnStarted = false;
+            }
 
             return locationURI;
         } finally {
+            // If we previously started a transaction and it's still active, we need to rollback due to an error.
+            if (txnStarted) {
+                log.fine("Rolling back transaction for 'create' operation.");
+                txn.rollback();
+                txn = null;
+                txnStarted = false;
+            }
             log.exiting(this.getClass().getName(), "doCreate");
         }
     }
@@ -896,6 +923,10 @@ public class FHIRResource {
      */
     protected URI doUpdate(String type, String id, Resource resource, Resource currentResource, String ifMatchValue) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
+
+        FHIRPersistenceTransaction txn = null;
+        boolean txnStarted = false;
+
         try {
             // Make sure the type specified in the URL string matches the resource type obtained from the resource.
             String resourceType = FHIRUtil.getResourceTypeName(resource);
@@ -926,6 +957,14 @@ public class FHIRResource {
                 performVersionAwareUpdateCheck(currentResource, ifMatchValue);
             }
 
+            // Start a new txn in the persistence layer if one is not already active.
+            txn = getPersistenceImpl().getTransaction();
+            if (txn != null && !txn.isActive()) {
+                txn.begin();
+                txnStarted = true;
+                log.fine("Started new transaction for 'update' operation.");
+            }
+            
             // First, invoke the 'beforeUpdate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, resource.getId().getValue(), null));
             boolean updateCreate = (currentResource == null); 
@@ -948,9 +987,24 @@ public class FHIRResource {
             } else {
             	getInterceptorMgr().fireAfterUpdateEvent(event);
             }
+            
+            // Commit our transaction if we started one before.
+            if (txnStarted) {
+                log.fine("Committing transaction for 'update' operation.");
+                txn.commit();
+                txn = null;
+                txnStarted = false;
+            }
 
             return locationURI;
         } finally {
+            // If we still have a transaction at this point, we need to rollback due to an error.
+            if (txnStarted) {
+                log.fine("Rolling back transaction for 'update' operation.");
+                txn.rollback();
+                txn = null;
+                txnStarted = false;
+            }
             log.exiting(this.getClass().getName(), "doUpdate");
         }
     }
