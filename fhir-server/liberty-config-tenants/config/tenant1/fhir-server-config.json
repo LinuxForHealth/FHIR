@@ -4,6 +4,11 @@
         "core":{
             "userDefinedSchematronEnabled":true
         },
+        "searchParameterFilter": {
+            "Observation": [ "subject", "patient", "component-value-quantity" ],
+            "Resource" : [ "_id" ],
+            "*": [ "*" ]
+        },
         "virtualResources":{
             "enabled":true,
             "allowableResourceTypes":[
