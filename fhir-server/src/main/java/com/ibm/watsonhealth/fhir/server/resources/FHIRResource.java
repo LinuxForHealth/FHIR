@@ -20,8 +20,6 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
@@ -56,8 +54,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -125,17 +121,9 @@ import com.ibm.watsonhealth.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ResponseHeader;
-
 @Path("/")
 @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
 @Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
-@Api
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     
@@ -194,13 +182,6 @@ public class FHIRResource {
 
     @GET
     @Path("metadata")
-    @ApiOperation(value = "Returns information about the FHIR server.", 
-        notes = "Currently, the information returned is minimal. The set of information will be expanded as new features are implemented in the server.",
-        response = Conformance.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'metadata' operation was successful and the Conformance resource has been returned in the response body."),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
     public Response metadata() throws ClassNotFoundException {
         log.entering(this.getClass().getName(), "metadata()");
         Date startTime = new Date();
@@ -223,16 +204,8 @@ public class FHIRResource {
 
     @POST
     @Path("{type}")
-    @ApiOperation(value = "Creates a new resource.", notes = "The resource should be passed in the request body.")
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_CREATED, message = "The 'create' operation was successful.", responseHeaders = @ResponseHeader(name = "Location", description = "Contains the location URI of the newly-created resource")),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'create' operation resulted in an error.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
     public Response create(
-        @ApiParam(value = "The type of the resource to be created.", required = true) 
         @PathParam("type") String type, 
-        @ApiParam(value = "The resource to be created.", required = true) 
         Resource resource) {
     	
     	Date startTime = new Date();
@@ -265,17 +238,10 @@ public class FHIRResource {
 
     @PUT
     @Path("{type}/{id}")
-    @ApiOperation(value = "Updates a resource.", 
-        notes = "The 'update' operation will create a new version of the resource.")
-    @ApiResponses(value = {
-            @ApiResponse(code = SC_OK, message = "The 'update' operation was successful.", responseHeaders = @ResponseHeader(name = "Location", description = "Contains the location URI of the updated resource")),
-            @ApiResponse(code = SC_BAD_REQUEST, message = "The 'update' operation resulted in an error.", response = OperationOutcome.class),
-            @ApiResponse(code = SC_METHOD_NOT_ALLOWED, message = "The specified resource could not be updated because it does not yet exist.", response = OperationOutcome.class),
-            @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
-    public Response update(@ApiParam(value = "The type of the resource to be updated.", required = true) @PathParam("type") String type,
-        @ApiParam(value = "The id of the resource to be updated.", required = true) @PathParam("id") String id,
-        @ApiParam(value = "The new contents of the resource to be updated.", required = true) Resource resource) {
+    public Response update(
+        @PathParam("type") String type, 
+        @PathParam("id") String id, 
+        Resource resource) {
 
     	Date startTime = new Date();
     	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
@@ -331,19 +297,8 @@ public class FHIRResource {
 
     @GET
     @Path("{type}/{id}")
-    @ApiOperation(value = "Retrieves the most recent version of a resource.", 
-        notes = "For a specific version, you can use the 'vread' API.",
-        response = Resource.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'read' operation was successful and the specified resource has been returned in the response body."),
-        @ApiResponse(code = SC_NOT_FOUND, message = "The requested resource was not found.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'read' operation resulted in an error.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
     public Response read(
-        @ApiParam(value = "The resource type to be retrieved.", required = true)
         @PathParam("type") String type, 
-        @ApiParam(value = "The id of the resource to be retrieved.", required = true)
         @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "read(String,String)");
         
@@ -378,21 +333,9 @@ public class FHIRResource {
 
     @GET
     @Path("{type}/{id}/_history/{vid}")
-    @ApiOperation(value = "Retrieves a specific version of a resource.", 
-        notes = "For the latest version of a resource, you can use the 'read' API.",
-        response = Resource.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'vread' operation was successful and the specified resource has been returned in the response body."),
-        @ApiResponse(code = SC_NOT_FOUND, message = "The requested resource was not found.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'vread' operation resulted in an error.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
     public Response vread(
-        @ApiParam(value = "The resource type to be retrieved.", required = true)
         @PathParam("type") String type, 
-        @ApiParam(value = "The id of the resource to be retrieved.", required = true)
         @PathParam("id") String id, 
-        @ApiParam(value = "The version of the resource to be retrieved.", required = true)
         @PathParam("vid") String vid) {
       
         log.entering(this.getClass().getName(), "vread(String,String,String)");
@@ -429,18 +372,8 @@ public class FHIRResource {
 
     @GET
     @Path("{type}/{id}/_history")
-    @ApiOperation(value = "Retrieves all of the versions of the specified resource.", 
-                  notes = "To retrieve the most recent version, use the 'read' API.  To retrieve a specific version, use the 'vread' API",
-                  response = Bundle.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The '_history' operation was successful and the specified resources have been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The '_history' operation resulted in an error.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
     public Response history(
-        @ApiParam(value = "The resource type to be retrieved.", required = true)
         @PathParam("type") String type, 
-        @ApiParam(value = "The id of the resource to be retrieved.", required = true)
         @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)");
         
@@ -470,16 +403,7 @@ public class FHIRResource {
 
     @GET
     @Path("{type}")
-    @ApiOperation(value = "Performs a search to retrieve resources of the specified type.", 
-        notes = "Search criteria are specified by using the query string or form parameters.",
-        response = Bundle.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'search' operation was successful and the search results have been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'search' operation resulted in an error.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
     public Response search(
-        @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
         @PathParam("type") String type) {
         log.entering(this.getClass().getName(), "search(String,UriInfo)");
         Date startTime = new Date();
@@ -510,20 +434,9 @@ public class FHIRResource {
     
     @GET
     @Path("{compartment}/{compartmentId}/{type}")
-    @ApiOperation(value = "Performs a compartment based search to retrieve resources of the specified compartment and type.", 
-        notes = "Non-compartment search parameters are specified by using the query string or form parameters.",
-        response = Bundle.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = SC_OK, message = "The 'search' operation was successful and the search results have been returned in the response body."),
-        @ApiResponse(code = SC_BAD_REQUEST, message = "The 'search' operation resulted in an error.", response = OperationOutcome.class),
-        @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "An unexpected server error occurred.", response = OperationOutcome.class)
-    })
     public Response searchCompartment(
-    	@ApiParam(value = "The compartment name that contains the target resource of the 'search' operation.", required = true)
     	@PathParam("compartment") String compartment,
-    	@ApiParam(value = "The id of the compartment that contains the target resource of the 'search' operation.", required = true)
     	@PathParam("compartmentId") String compartmentId,
-        @ApiParam(value = "The resource type which is the target of the 'search' operation.", required = true)
         @PathParam("type") String type) {
     	
         log.entering(this.getClass().getName(), "search(String, String, String)");
@@ -799,11 +712,7 @@ public class FHIRResource {
     }
 
     @POST
-    @ApiOperation(value = "Performs a collection of operations as either a batch or transaction interaction.", 
-    notes = "A Bundle resource containing the operations should be passed in the request body.")
-    public Response bundle(
-        @ApiParam(value = "The Bundle resource which contains the collection of operations to be performed.", required = true) 
-        Bundle bundle) {
+    public Response bundle(Bundle bundle) {
 
         log.entering(this.getClass().getName(), "bundle(Bundle)");
         Date startTime = new Date();
@@ -2280,7 +2189,7 @@ public class FHIRResource {
     	
     	requestUri.append(httpServletRequest.getRequestURL());
     	queryString = httpServletRequest.getQueryString();
-    	if (!StringUtils.isEmpty(queryString)) {
+    	if (queryString != null && !queryString.isEmpty()) {
     		requestUri.append("?").append(queryString);
     	}
     	return requestUri.toString();
@@ -2301,7 +2210,7 @@ public class FHIRResource {
             .append(httpServletRequest.getServerPort())
             .append(httpServletRequest.getContextPath());
         String servletPath = httpServletRequest.getServletPath();
-        if (!StringUtils.isEmpty(servletPath)) {
+        if (servletPath != null && !servletPath.isEmpty()) {
             sb.append(servletPath);
         }
         

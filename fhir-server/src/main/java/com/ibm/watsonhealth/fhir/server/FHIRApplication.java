@@ -17,10 +17,6 @@ import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRVirtualResourceProvider;
 import com.ibm.watsonhealth.fhir.server.resources.FHIRResource;
 
-import io.swagger.jaxrs.config.BeanConfig;
-import io.swagger.jaxrs.listing.ApiListingResource;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
-
 public class FHIRApplication extends Application {
     private static final Logger log = Logger.getLogger(FHIRApplication.class.getName());
 
@@ -29,16 +25,6 @@ public class FHIRApplication extends Application {
 
     public FHIRApplication() {
         log.entering(this.getClass().getName(), "ctor");
-        
-        // Configure Swagger's scanner so that it can scan our resource classes,
-        // and build the required swagger definition.
-        BeanConfig beanConfig = new BeanConfig();
-        beanConfig.setTitle("FHIR REST API");
-        beanConfig.setDescription("IBM Watson Health Cloud FHIR Server");
-        beanConfig.setVersion("0.1");
-        beanConfig.setBasePath("/fhir-server/api/v1");
-        beanConfig.setResourcePackage(FHIRResource.class.getPackage().getName());
-        beanConfig.setScan(true);
         
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         log.info("FHIR Server version " + buildInfo.getBuildVersion() + " build id '" + buildInfo.getBuildId() + "' starting.");
@@ -53,10 +39,6 @@ public class FHIRApplication extends Application {
             if (classes == null) {
                 classes = new HashSet<Class<?>>();
                 classes.add(FHIRResource.class);
-                
-                // Swagger-related resources.
-                classes.add(ApiListingResource.class);
-                classes.add(SwaggerSerializers.class);
             }
             return classes;
         } finally {
