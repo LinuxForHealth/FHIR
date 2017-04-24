@@ -78,7 +78,8 @@ CODE_REMOVED
                 "default": {
                     "type": "derby",
                     "connectionProperties": {
-                        "databaseName": "derby/fhirDB"
+                        "databaseName": "derby/fhirDB",
+                        "createDatabase": "create"
                     }
                 },
                 "_db2_default": {
