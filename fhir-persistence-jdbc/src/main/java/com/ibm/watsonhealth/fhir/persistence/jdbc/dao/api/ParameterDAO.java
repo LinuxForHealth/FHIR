@@ -33,6 +33,6 @@ public interface ParameterDAO extends FHIRDbDAO {
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws FHIRPersistenceDataAccessException 
 	 */
-	void deleteByResource(long resourceId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+	default void deleteByResource(long resourceId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {};
 
 }
