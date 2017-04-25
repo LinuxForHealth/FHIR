@@ -6,24 +6,27 @@
 	<version>99-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>IBM Watson Health Cloud FHIR Server</name>
-	
+
 	<properties>
-	   <was.liberty.version>16.0.0.3</was.liberty.version>
-	   <!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
+		<was.liberty.version>17.0.0.1</was.liberty.version>
+		<eclipselink.moxy.version>2.6.4</eclipselink.moxy.version>
+		<java.sdk.version>8.0-4.2-linux-x86_64-ibmjcefips</java.sdk.version>
+		<derby.version>10.12.1.1</derby.version>
+		<db2.version>4.19.49</db2.version>
+		<cxf.version>3.1.4</cxf.version>
+		<!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
 	</properties>
 
 	<modules>
 		<module>../fhir-core</module>
 		<module>../fhir-config</module>
-        <module>../fhir-audit</module>
+		<module>../fhir-audit</module>
 		<module>../fhir-model</module>
 		<module>../fhir-derby-sproc</module>
 		<module>../fhir-schemaddl</module>
 		<module>../fhir-persistence</module>
 		<module>../fhir-persistence-proxy</module>
-		<module>../fhir-persistence-jpa</module>
 		<module>../fhir-persistence-jdbc</module>
-		<module>../fhir-persistence-cloudant</module>
 		<module>../fhir-provider</module>
 		<module>../fhir-operation</module>
 		<module>../fhir-operation-validate</module>
@@ -31,7 +34,7 @@
 		<module>../fhir-validation</module>
 		<module>../fhir-search</module>
 		<module>../fhir-client</module>
-        <module>../fhir-cli</module>
+		<module>../fhir-cli</module>
 		<module>../fhir-notification</module>
 		<module>../fhir-notification-kafka</module>
 		<module>../fhir-notification-websocket</module>
@@ -58,21 +61,16 @@
 				<version>${was.liberty.version}</version>
 				<type>zip</type>
 			</dependency>
-            <dependency>
-                <groupId>com.ibm.websphere.appserver.runtime</groupId>
-                <artifactId>org.eclipse.persistence.moxy</artifactId>
-                <version>${was.liberty.version}</version>
-            </dependency>
 			<dependency>
 				<groupId>com.ibm.java</groupId>
 				<artifactId>ibm-java-sdk</artifactId>
-				<version>8.0-3.10-linux-x86_64-ibmjcefips</version>
+				<version>${java.sdk.version}</version>
 				<type>zip</type>
 			</dependency>
 			<dependency>
 				<groupId>com.ibm.db2</groupId>
 				<artifactId>db2jcc4</artifactId>
-				<version>4.19.49</version>
+				<version>${db2.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
@@ -82,22 +80,24 @@
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-rs-client</artifactId>
-				<version>3.1.4</version>
+				<version>${cxf.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-				<version>3.1.4</version>
+				<version>${cxf.version}</version>
 			</dependency>
+			<!-- 
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>eclipselink</artifactId>
-				<version>2.6.1</version>
+				<version>${eclipselink.moxy.version}</version>
 			</dependency>
+			 -->
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>org.eclipse.persistence.moxy</artifactId>
-				<version>2.6.1</version>
+				<version>${eclipselink.moxy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.websocket</groupId>
@@ -154,17 +154,17 @@
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbyclient</artifactId>
-				<version>10.12.1.1</version>
+				<version>${derby.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derby</artifactId>
-				<version>10.12.1.1</version>
+				<version>${derby.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbynet</artifactId>
-				<version>10.12.1.1</version>
+				<version>${derby.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -215,11 +215,11 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.4</version>
 			</dependency>
-            <dependency>
-                <groupId>commons-beanutils</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>1.9.3</version>
-            </dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>1.9.3</version>
+			</dependency>
 			<dependency>
 				<groupId>org.glassfish</groupId>
 				<artifactId>javax.json</artifactId>
@@ -238,10 +238,10 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-    			<groupId>org.liquibase</groupId>
-    			<artifactId>liquibase-core</artifactId>
-    			<version>3.4.2</version>
-    		</dependency>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>3.4.2</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

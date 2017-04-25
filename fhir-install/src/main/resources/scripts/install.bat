@@ -67,7 +67,7 @@ if not exist %WLP_INSTALL_DIR% (
 
 @REM Unzip liberty runtime zip
 echo Extracting WebSphere Liberty runtime.
-call :UnZip  %BASEDIR%\server-runtime\wlp-base-embeddable-16.0.0.3.zip\  %WLP_INSTALL_DIR%
+call :UnZip  %BASEDIR%\server-runtime\wlp-base-embeddable-17.0.0.1.zip\  %WLP_INSTALL_DIR%
 if %rc% neq 0 (
     echo Error extracting liberty runtime: %rc%
     goto :exit

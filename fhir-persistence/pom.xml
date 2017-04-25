@@ -38,12 +38,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-validation</artifactId>
 			<version>${project.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.eclipse.persistence</groupId>
-					<artifactId>org.eclipse.persistence.moxy</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.wasdev.maven.tools.targets</groupId>
