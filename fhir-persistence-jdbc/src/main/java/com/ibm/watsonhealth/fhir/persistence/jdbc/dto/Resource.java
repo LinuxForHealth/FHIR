@@ -21,6 +21,7 @@ public class Resource {
     private String resourceType;
     private Timestamp lastUpdated;
     private byte[] data;
+    private boolean deleted;
 
     
     public Resource() {
@@ -74,5 +75,13 @@ public class Resource {
     public void setData(byte[] data) {
         this.data = data;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 }

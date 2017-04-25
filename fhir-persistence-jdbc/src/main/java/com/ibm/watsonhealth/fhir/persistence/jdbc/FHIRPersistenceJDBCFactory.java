@@ -6,12 +6,18 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc;
 
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_SCHEMA_TYPE;
+
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 
 /**
  * Factory which serves up instances of the JDBC persistence implementation.
@@ -25,9 +31,27 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
      */
     @Override
     public FHIRPersistence getInstance() throws FHIRPersistenceException {
+    	
+    	FHIRPersistence persistenceImpl = null;
+    	
         try {
-            return new FHIRPersistenceJDBCImpl();
+        	PropertyGroup fhirConfig =  FHIRConfiguration.getInstance().loadConfiguration();
+    		SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
+    		switch (schemaType) {
+    			case BASIC: 		persistenceImpl = new FHIRPersistenceJDBCImpl();
+    								break;
+    					
+    			case NORMALIZED: 	persistenceImpl = new FHIRPersistenceJDBCNormalizedImpl();
+    								break;
+    			
+    			default: throw new FHIRPersistenceNotSupportedException("Unsupported schema type: " + schemaType.value());
+    		}
+        	
+        	return persistenceImpl;
         } 
+        catch (FHIRPersistenceNotSupportedException e) {
+        	throw e;
+        }
         catch (Throwable t) {
             String msg = "Unexpected exception while creating JDBC persistence layer: ";
             log.severe(msg + t);

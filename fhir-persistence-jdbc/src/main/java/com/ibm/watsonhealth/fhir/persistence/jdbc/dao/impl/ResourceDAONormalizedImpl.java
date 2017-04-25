@@ -6,12 +6,13 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 
+import java.io.ByteArrayInputStream;
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -19,7 +20,6 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ReferenceDataCache;
 
 /**
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
@@ -31,25 +31,24 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final Logger log = Logger.getLogger(ResourceDAONormalizedImpl.class.getName());
 	private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName(); 
 	
-	private static final String SQL_READ = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE_ID, VERSION_ID FROM FHIR_RESOURCE R WHERE R.LOGICAL_ID = ? AND R.RESOURCE_TYPE_ID = ? AND R.VERSION_ID = " +
-            "(SELECT MAX(R2.VERSION_ID) FROM FHIR_RESOURCE R2 WHERE R2.LOGICAL_ID = ? AND R2.RESOURCE_TYPE_ID = ?)";
 	
-	private static final String SQL_VERSION_READ = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE_ID, VERSION_ID FROM FHIR_RESOURCE R WHERE R.LOGICAL_ID = ? AND R.RESOURCE_TYPE_ID = ? AND R.VERSION_ID = ?";
+	private static final String SQL_READ = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE " +
+										   "R.LOGICAL_RESOURCE_ID = ? AND R.VERSION_ID = " +
+										   "(SELECT MAX(R2.VERSION_ID) FROM %s_RESOURCES R2 WHERE R2.LOGICAL_RESOURCE_ID = ?)";
 	
-	private static final String SQL_READ_ALL_RESOURCE_TYPES = "SELECT ID, RESOURCE_TYPE FROM FHIR_RESOURCE_TYPE";
+	private static final String SQL_VERSION_READ = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE " +
+										   		   "R.LOGICAL_RESOURCE_ID = ? AND R.VERSION_ID = ?";
 	
-	private static final String SQL_INSERT = "INSERT INTO FHIR_RESOURCE (RESOURCE_TYPE_ID, LOGICAL_ID, VERSION_ID, DATA, LAST_UPDATED)" +
-			" VALUES(?,?,?,?,?)";
+	private static final  String SQL_INSERT = "CALL %s_add_resource(?, ?, ?, ?, ?, ?)";
 	
-	//protected final String SQL_SEARCH_BY_ID = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE_ID, VERSION_ID FROM RESOURCE R WHERE R.ID IN ";
-	
+
 	// The following History related SQL strings are used by the history related methods in the superclass.
-	private static final String SQL_HISTORY = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE_ID, VERSION_ID FROM FHIR_RESOURCE R WHERE R.LOGICAL_ID = ? "
-												+ "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-	private static final String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM FHIR_RESOURCE R WHERE R.LOGICAL_ID = ?";
-	private static final String SQL_HISTORY_FROM_DATETIME = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE_ID, VERSION_ID FROM FHIR_RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?" + 
+	private static final String SQL_HISTORY = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ? "
+											   + "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+	private static final String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ?";
+	private static final String SQL_HISTORY_FROM_DATETIME = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ? AND R.LAST_UPDATED >= ?" + 
 			 													" ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-	private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM FHIR_RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?";
+	private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ? AND R.LAST_UPDATED >= ?";
 
 	
 	
@@ -75,32 +74,28 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		log.entering(CLASSNAME, METHODNAME);
 		
 		Connection connection = null;
-		PreparedStatement stmt = null;
+		CallableStatement stmt = null;
 		ResultSet resultSet = null;
-		long resourceTypeId;
+		String stmtString = null;
 				
 		try {
-			resourceTypeId = ReferenceDataCache.getResourceTypeId(resource.getResourceType());
+			stmtString = String.format(SQL_INSERT, resource.getClass().getSimpleName());
 			connection = this.getConnection();
-			stmt = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setLong(1, resourceTypeId);
-			stmt.setString(2, resource.getLogicalId());
-			stmt.setInt(3, resource.getVersionId());
-			stmt.setBytes(4, resource.getData());
-			stmt.setTimestamp(5, resource.getLastUpdated());
-					
-			stmt.executeUpdate();
-			resultSet = stmt.getGeneratedKeys();
-			if (resultSet.next()) {
-				resource.setId(resultSet.getLong(1));
-				log.fine("Succesfully inserted Resource. id=" + resource.getId());
-			}
-			else
-			{
-				throw new FHIRPersistenceDataAccessException("Generated key not returned after new Resource inserted.");
-			}
+			stmt = connection.prepareCall(stmtString);
+			stmt.setString(1, resource.getLogicalId());
+			stmt.setBinaryStream(2, new ByteArrayInputStream(resource.getData()), resource.getData().length);
+			stmt.setString(3, resource.isDeleted() ? "Y": "N");
+			stmt.setInt(4, 1);
+			stmt.setInt(5, 1);
+			stmt.registerOutParameter(6, Types.BIGINT);
+			
+			stmt.execute();
+			
+			resource.setId(stmt.getLong(6));
+			log.fine("Succesfully inserted Resource. id=" + resource.getId());
+			
 		}
-		catch(FHIRPersistenceDataAccessException | FHIRPersistenceDBConnectException e) {
+		catch(FHIRPersistenceDBConnectException e) {
 			throw e;
 		}
 		catch(Throwable e) {
@@ -123,11 +118,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		
 		Resource resource = null;
 		List<Resource> resources;
-		Long resourceTypeId;
-				
+		String stmtString = null;
+						
 		try {
-			resourceTypeId = ReferenceDataCache.getResourceTypeId(resourceType);
-			resources = this.runQuery(SQL_READ, logicalId, resourceTypeId, logicalId, resourceTypeId);
+			stmtString = String.format(SQL_READ, resourceType, resourceType);
+			resources = this.runQuery(stmtString, logicalId, logicalId);
 			if (!resources.isEmpty()) {
 				resource = resources.get(0);
 			}
@@ -146,11 +141,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		
 		Resource resource = null;
 		List<Resource> resources;
-		long resourceTypeId;
-				
+		String stmtString = null;
+						
 		try {
-			resourceTypeId = ReferenceDataCache.getResourceTypeId(resourceType);
-			resources = this.runQuery(SQL_VERSION_READ, logicalId, resourceTypeId, versionId);
+			stmtString = String.format(SQL_VERSION_READ, resourceType, resourceType);
+			resources = this.runQuery(stmtString, logicalId, versionId);
 			if (!resources.isEmpty()) {
 				resource = resources.get(0);
 			}
@@ -158,45 +153,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
 		}
-				
 		return resource;
+				
 	}
 
 
-	@Override
-	public Map<String, Long> readAllResourceTypes() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		final String METHODNAME = "readAllResourceTypes";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-		String resourceTypeName;
-		Long resourceTypeId;
-		Map<String, Long> resourceTypeIdMap = new HashMap<>();
-		String errMsg = "Failure retrieving all Resource types.";
-				
-		try {
-			
-			connection = this.getConnection();
-			stmt = connection.prepareStatement(SQL_READ_ALL_RESOURCE_TYPES);
-			resultSet = stmt.executeQuery();
-			while (resultSet.next()) {
-				resourceTypeName = resultSet.getString("RESOURCE_TYPE");
-				resourceTypeId = resultSet.getLong("ID");
-				resourceTypeIdMap.put(resourceTypeName, resourceTypeId);
-			}
-		}
-		catch (Throwable e) {
-			throw new FHIRPersistenceDataAccessException(errMsg,e);
-		}
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-				
-		return resourceTypeIdMap;
-	}
-	
 	/**
 	 * Creates and returns a Resource DTO based on the contents of the passed ResultSet
 	 * @param resultSet A ResultSet containing FHIR persistent object data.
@@ -211,11 +172,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		
 		try {
 			resource.setData(resultSet.getBytes("DATA"));
-			resource.setId(resultSet.getLong("ID"));
+			resource.setId(resultSet.getLong("RESOURCE_ID"));
 			resource.setLastUpdated(resultSet.getTimestamp("LAST_UPDATED"));
-			resource.setLogicalId(resultSet.getString("LOGICAL_ID"));
-			resource.setResourceType(ReferenceDataCache.getResourceTypeName(resultSet.getLong("RESOURCE_TYPE_ID")));
+			resource.setLogicalId(resultSet.getString("LOGICAL_RESOURCE_ID"));
 			resource.setVersionId(resultSet.getInt("VERSION_ID"));
+			resource.setDeleted(resultSet.getString("IS_DELETED").equals("Y") ? true : false);
 		}
 		catch (Throwable e) {
 			throw new FHIRPersistenceDataAccessException("Failure creating Resource DTO.", e);
@@ -227,20 +188,53 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		return resource;
 	}
 
-	protected String getSqlHistoryCount() {
-		return SQL_HISTORY_COUNT;
+	@Override
+	public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults) 
+									throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		final String METHODNAME = "history";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		List<Resource> resources;
+		String stmtString;
+				
+		try {
+			if (fromDateTime != null) {
+				stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType);
+				resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
+			}
+			else {
+				stmtString = String.format(SQL_HISTORY, resourceType);
+				resources = this.runQuery(stmtString, logicalId, offset, maxResults);
+			}
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		return resources;
 	}
-	
-	protected String getSqlHistoryFromDateTimeCount() {
-		return SQL_HISTORY_FROM_DATETIME_COUNT;
-	}
-	
-	protected String getSqlHistory() {
-		return SQL_HISTORY;
-	}
-	
-	protected String getSqlHistoryFromDateTime() {
-		return SQL_HISTORY_FROM_DATETIME;
+
+	@Override
+	public int historyCount(String resourceType, String logicalId, Timestamp fromDateTime) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		final String METHODNAME = "historyCount";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		int count;
+		String stmtString;
+				
+		try {
+			if (fromDateTime != null) {
+				stmtString = String.format(SQL_HISTORY_FROM_DATETIME_COUNT, resourceType);
+				count = this.runCountQuery(stmtString, logicalId, fromDateTime);
+			}
+			else {
+				stmtString = String.format(SQL_HISTORY_COUNT, resourceType);
+				count = this.runCountQuery(stmtString, logicalId);
+			}
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		return count;
 	}
 
 }

@@ -317,11 +317,9 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 		return count;
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAO#history(java.lang.String, java.sql.Timestamp, int, int)
-	 */
+	
 	@Override
-	public List<Resource> history(String logicalId, Timestamp fromDateTime, int offset, int maxResults) 
+	public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults) 
 									throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
 		final String METHODNAME = "history";
 		log.entering(CLASSNAME, METHODNAME);
@@ -330,10 +328,10 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 				
 		try {
 			if (fromDateTime != null) {
-				resources = this.runQuery(this.getSqlHistoryFromDateTime(), logicalId, fromDateTime, offset, maxResults);
+				resources = this.runQuery(SQL_HISTORY_FROM_DATETIME, logicalId, fromDateTime, offset, maxResults);
 			}
 			else {
-				resources = this.runQuery(this.getSqlHistory(), logicalId, offset, maxResults);
+				resources = this.runQuery(SQL_HISTORY, logicalId, offset, maxResults);
 			}
 		}
 		finally {
@@ -342,11 +340,8 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 		return resources;
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAO#historyCount(java.lang.String, java.sql.Timestamp)
-	 */
 	@Override
-	public int historyCount(String logicalId, Timestamp fromDateTime) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+	public int historyCount(String resourceType, String logicalId, Timestamp fromDateTime) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
 		final String METHODNAME = "historyCount";
 		log.entering(CLASSNAME, METHODNAME);
 		
@@ -354,31 +349,15 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 				
 		try {
 			if (fromDateTime != null) {
-				count = this.runCountQuery(this.getSqlHistoryFromDateTimeCount(), logicalId, fromDateTime);
+				count = this.runCountQuery(SQL_HISTORY_FROM_DATETIME_COUNT, logicalId, fromDateTime);
 			}
 			else {
-				count = this.runCountQuery(this.getSqlHistoryCount(), logicalId);
+				count = this.runCountQuery(SQL_HISTORY_COUNT, logicalId);
 			}
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		return count;
-	}
-
-	protected String getSqlHistoryCount() {
-		return SQL_HISTORY_COUNT;
-	}
-	
-	protected String getSqlHistoryFromDateTimeCount() {
-		return SQL_HISTORY_FROM_DATETIME_COUNT;
-	}
-	
-	protected String getSqlHistory() {
-		return SQL_HISTORY;
-	}
-	
-	protected String getSqlHistoryFromDateTime() {
-		return SQL_HISTORY_FROM_DATETIME;
 	}
 }

@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_SCHEMA_TYPE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
@@ -46,18 +45,14 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAOBasicImpl;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAOBasicImpl;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ReferenceDataCache;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -73,12 +68,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
 	private static final Logger log = Logger.getLogger(CLASSNAME);
 	
-	private static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
+	protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
 	
-	private ResourceDAO resourceDao;
-	private ParameterDAO paramaterDao;
-	private UserTransaction userTransaction = null;
-	private Boolean updateCreateEnabled = null;
+	protected ResourceDAO resourceDao;
+	protected ParameterDAO paramaterDao;
+	protected UserTransaction userTransaction = null;
+	protected Boolean updateCreateEnabled = null;
 	private ObjectFactory objectFactory = new ObjectFactory();
 	
 
@@ -96,20 +91,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
-		SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
-		switch (schemaType) {
-		case BASIC: 		this.resourceDao = new ResourceDAOBasicImpl();
-							this.paramaterDao = new ParameterDAOBasicImpl();
-							break;
-					
-		case NORMALIZED: 	ResourceDAONormalizedImpl resourceDAOImpl = new ResourceDAONormalizedImpl();
-							ParameterDAONormalizedImpl parameterDAOImpl = new ParameterDAONormalizedImpl();
-							this.resourceDao = resourceDAOImpl;
-							this.paramaterDao = parameterDAOImpl;
-							ReferenceDataCache.initCache(resourceDAOImpl, parameterDAOImpl);
-							break;
-		}
-						
+		this.resourceDao = new ResourceDAOBasicImpl();
+		this.paramaterDao = new ParameterDAOBasicImpl();
+								
 		log.exiting(CLASSNAME, METHODNAME);
 	}
 	
@@ -123,20 +107,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		log.entering(CLASSNAME, METHODNAME);
 		
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-		SchemaType schemaType = SchemaType.fromValue(configProps.getProperty("schemaType"));
-		switch (schemaType) {
-		case BASIC: 		this.resourceDao = new ResourceDAOBasicImpl(configProps);
-							this.paramaterDao = new ParameterDAOBasicImpl(configProps);
-							break;
-					
-		case NORMALIZED: 	ResourceDAONormalizedImpl resourceDAOImpl = new ResourceDAONormalizedImpl(configProps);
-							ParameterDAONormalizedImpl parameterDAOImpl = new ParameterDAONormalizedImpl(configProps);
-							this.resourceDao = resourceDAOImpl;
-							this.paramaterDao = parameterDAOImpl;
-							ReferenceDataCache.initCache(resourceDAOImpl, parameterDAOImpl);
-							break;
-		}
-						
+		this.resourceDao = new ResourceDAOBasicImpl(configProps);
+		this.paramaterDao = new ParameterDAOBasicImpl(configProps);
+		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
 	
@@ -502,7 +475,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				fromDateTime = FHIRUtilities.convertToTimestamp(since.getValue());
 			}
 			
-			resourceCount = this.resourceDao.historyCount(logicalId, fromDateTime);
+			resourceCount = this.resourceDao.historyCount(resourceType.getSimpleName(), logicalId, fromDateTime);
 			historyContext.setTotalCount(resourceCount);
 			pageSize = historyContext.getPageSize();
 	        lastPageNumber = (int) ((resourceCount + pageSize - 1) / pageSize);
@@ -510,7 +483,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        
 	        if (resourceCount > 0) {
 	        	offset = (historyContext.getPageNumber() - 1) * pageSize;
-	        	resourceDTOList = this.resourceDao.history(logicalId, fromDateTime, offset, pageSize);
+	        	resourceDTOList = this.resourceDao.history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, pageSize);
 	        	resources = this.convertResourceDTOList(resourceDTOList, resourceType);
 	        } 
 		}
@@ -615,7 +588,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Retrieves (via a JNDI lookup) a reference to the UserTransaction. If the JNDI lookup fails, we'll assume that
      * we're not running inside the container.
      */
-    private UserTransaction retrieveUserTransaction(String jndiName) {
+    protected UserTransaction retrieveUserTransaction(String jndiName) {
         UserTransaction txn = null;
         try {
             InitialContext ctx = new InitialContext();

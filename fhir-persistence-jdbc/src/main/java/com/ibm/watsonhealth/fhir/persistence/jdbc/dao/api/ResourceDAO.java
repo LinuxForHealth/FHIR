@@ -102,25 +102,27 @@ public interface ResourceDAO extends FHIRDbDAO {
 	 * Reads and returns all versions of the Resource with the passed logicalId, ordered by descending version id.
 	 * If non-null, the passed fromDateTime is used to limit the returned Resource
 	 * versions to those that were updated after the fromDateTime.
+	 * @param resourceType - The name of a FHIR Resource type
 	 * @param logicalId - The logical id of a FHIR Resource
 	 * @param fromDateTime - The starting date/time of the version history.
 	 * @return List<Resource> - An ordered list of Resource versions.
 	 * @throws FHIRPersistenceDataAccessException
 	 * @throws FHIRPersistenceDBConnectException
 	 */
-	List<Resource> history(String logicalId, Timestamp fromDateTime, int offset, int maxResults)
+	List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults)
 			throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
 	/**
 	 * Reads and returns the COUNT of all versions of the Resource with the passed logicalId.
 	 * If non-null, the passed fromDateTime is used to limit the count of Resource versions to those that were updated after the fromDateTime.
+	 * @param resourceType - The name of a FHIR Resource type
 	 * @param logicalId - The logical id of a FHIR Resource
 	 * @param fromDateTime - The starting date/time of the version history.
 	 * @return int - The count of Resource versions.
 	 * @throws FHIRPersistenceDataAccessException
 	 * @throws FHIRPersistenceDBConnectException
 	 */
-	int historyCount(String logicalId, Timestamp fromDateTime)
+	int historyCount(String resourceType, String logicalId, Timestamp fromDateTime)
 			throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
 }
