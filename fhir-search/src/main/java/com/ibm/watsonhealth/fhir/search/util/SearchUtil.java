@@ -776,7 +776,6 @@ public class SearchUtil {
                 throw e;
             } catch (Exception e) {
                 String msg = "An error occurred while parsing search parameter '" + name + "'.";
-                log.log(Level.SEVERE, msg, e);
                 throw new FHIRSearchException(msg);
             }
         }

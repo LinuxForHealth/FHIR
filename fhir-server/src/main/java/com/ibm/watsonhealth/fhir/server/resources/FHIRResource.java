@@ -23,6 +23,7 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import java.io.StringWriter;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -91,6 +92,7 @@ import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.model.util.ReferenceFinder;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
@@ -775,7 +777,7 @@ public class FHIRResource {
             List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
-                throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
+                throw new FHIRRestException("Input resource failed validation.", operationOutcome, Response.Status.BAD_REQUEST);
             }
 
             // If there were no validation errors, then create the resource and return the location header.
@@ -847,7 +849,7 @@ public class FHIRResource {
             List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
-                throw new FHIRRestException(null, operationOutcome, Response.Status.BAD_REQUEST);
+                throw new FHIRRestException("Input resource failed validation.", operationOutcome, Response.Status.BAD_REQUEST);
             }
 
             // Make sure the resource has an 'id' attribute.
@@ -1417,19 +1419,19 @@ public class FHIRResource {
                         setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
                         setBundleEntryResource(responseEntry, (e.getOperationOutcome() == null)? FHIRUtil.buildOperationOutcome(e, false): e.getOperationOutcome());
                         if (failFast) {
-                            throw new FHIRRestBundledRequestException(null, e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
+                            throw new FHIRRestBundledRequestException("Error while processing request bundle.", e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
                         }
                     } catch (FHIRPersistenceResourceNotFoundException e) {
                         setBundleResponseStatus(response, SC_NOT_FOUND);
                         setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                         if (failFast) {
-                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e, false), Response.Status.NOT_FOUND, responseBundle, e);
+                            throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.NOT_FOUND, responseBundle, e);
                         }
                     } catch (FHIRException e) {
                         setBundleResponseStatus(response, SC_BAD_REQUEST);
                         setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                         if (failFast) {
-                            throw new FHIRRestBundledRequestException(null, FHIRUtil.buildOperationOutcome(e, false), Response.Status.BAD_REQUEST, responseBundle, e);
+                            throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.BAD_REQUEST, responseBundle, e);
                         }
                     }
                 }
@@ -1549,8 +1551,10 @@ public class FHIRResource {
     private Response exceptionResponse(FHIRRestException e) {
         Response response;
         if (e.getOperationOutcome() != null) {
-            String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
-            log.log(Level.SEVERE, msg, e);
+            StringBuilder sb = new StringBuilder();
+            sb.append(e.getMessage() != null ? e.getMessage() : "<exception message not present>");
+            sb.append("\nOperationOutcome:\n").append(serializeOperationOutcome(e.getOperationOutcome()));
+            log.log(Level.SEVERE, sb.toString());
             response = Response.status(e.getHttpStatus()).entity(e.getOperationOutcome()).build();
         } else {
             response = exceptionResponse(e, e.getHttpStatus());
@@ -1558,12 +1562,14 @@ public class FHIRResource {
         
         return response;
     }
-    
+
     private Response exceptionResponse(FHIROperationException e) {
         Response response;
         if (e.getOperationOutcome() != null) {
-            String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
-            log.log(Level.SEVERE, msg, e);
+            StringBuilder sb = new StringBuilder();
+            sb.append(e.getMessage() != null ? e.getMessage() : "<exception message not present>");
+            sb.append("\nOperationOutcome:\n").append(serializeOperationOutcome(e.getOperationOutcome()));
+            log.log(Level.SEVERE, sb.toString());
             response = Response.status(e.getHttpStatus()).entity(e.getOperationOutcome()).build();
         } else {
             response = exceptionResponse(e, e.getHttpStatus());
@@ -1575,8 +1581,12 @@ public class FHIRResource {
     private Response exceptionResponse(FHIRRestBundledRequestException e) {
         Response response;
         if (e.getResponseBundle() != null) {
-            String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
-            log.log(Level.SEVERE, msg, e);
+            StringBuilder sb = new StringBuilder();
+            sb.append(e.getMessage() != null ? e.getMessage() : "<exception message not present>");
+            if (e.getOperationOutcome() != null) {
+                sb.append("\nOperationOutcome:\n").append(serializeOperationOutcome(e.getOperationOutcome()));
+            }
+            log.log(Level.SEVERE, sb.toString());
             response = Response.status(e.getHttpStatus()).entity(e.getResponseBundle()).build() ;
         } else {
            response = exceptionResponse(e, e.getHttpStatus()) ;
@@ -1590,7 +1600,7 @@ public class FHIRResource {
     
     private Response exceptionResponse(FHIRException e, Status status) {
         String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
-        log.log(Level.SEVERE, msg, e);
+        log.log(Level.SEVERE, msg);
         return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e, false)).build();
     }
     
@@ -1598,6 +1608,16 @@ public class FHIRResource {
         return this.exceptionResponse(new FHIRException(e), status);
     }
 
+    
+    private String serializeOperationOutcome(OperationOutcome oo) {
+        try {
+            StringWriter sw = new StringWriter();
+            FHIRUtil.write(oo, Format.JSON, sw);
+            return sw.toString();
+        } catch (Throwable t) {
+            return "Error encountered while serializing OperationOutcome resource: " + t.getMessage();
+        }
+    }
     
     private synchronized Conformance getConformanceStatement() throws Exception {
         try {

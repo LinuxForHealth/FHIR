@@ -59,7 +59,7 @@ public class ValidateOperation extends AbstractOperation {
             List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
-                throw new FHIROperationException(null, operationOutcome, Response.Status.BAD_REQUEST);
+                throw new FHIROperationException("Input resource failed validation.", operationOutcome, Response.Status.BAD_REQUEST);
             }
             return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome());
         } catch (FHIROperationException e) {
