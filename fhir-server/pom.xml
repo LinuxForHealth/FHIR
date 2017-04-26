@@ -67,6 +67,20 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-schemaddl</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.ibm.db2</groupId>
+					<artifactId>db2jcc4</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.derby</groupId>
+					<artifactId>derby</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.derby</groupId>
+					<artifactId>derbyclient</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -85,18 +99,18 @@
 			<artifactId>fhir-operation-validate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-operation-document</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-notification</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-notification</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -145,6 +159,12 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-persistence-jdbc</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.websocket</groupId>
+					<artifactId>javax.websocket-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -160,12 +180,12 @@
 			<artifactId>cxf-rt-rs-client</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>net.wasdev.maven.tools.targets</groupId>
-            <artifactId>liberty-target</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>net.wasdev.maven.tools.targets</groupId>
+			<artifactId>liberty-target</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
@@ -181,9 +201,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-        	<groupId>org.liquibase</groupId>
-    		<artifactId>liquibase-core</artifactId>
-    	</dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

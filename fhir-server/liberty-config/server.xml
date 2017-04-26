@@ -4,7 +4,6 @@
     <featureManager>
         <feature>localConnector-1.0</feature>
         <feature>jaxrs-2.0</feature>
-        <feature>jpa-2.1</feature>
         <!-- <feature>openidConnectClient-1.0</feature> -->
         <feature>openidConnectServer-1.0</feature>
         <feature>appSecurity-2.0</feature>
@@ -15,7 +14,8 @@
         <feature>jsf-2.2</feature>
         <feature>servlet-3.1</feature>
         <feature>websocket-1.1</feature>
-    </featureManager>
+    	<feature>jdbc-4.1</feature>
+	</featureManager>
     
     <!-- Disable welcome page so that internal server info won't be revealed in responses
 	     to requests with an invalid context root.
@@ -39,7 +39,8 @@ CODE_REMOVED
         	<member name="fhiruser"/>
         </group>
     </basicRegistry>
-    
+
+<!--    
     <openidConnectProvider id="oidc-provider" oauthProviderRef="oauth2-provider"/> 
     
     <oauth-roles>
@@ -53,25 +54,28 @@ CODE_REMOVED
     </oauth-roles>
 	
 	<oauthProvider id="oauth2-provider" oauthOnly="false">
-		<!-- <grantType>authorization_code</grantType> -->
 		<grantType>client_credentials</grantType>
 		<databaseStore dataSourceRef="OAuthDataSource" />
 	</oauthProvider>
+-->  
 	
 	<!-- Enable CORS (Cross Origin Resource Sharing) -->
-	<cors allowCredentials="true" 
-	allowedMethods="GET, PUT, POST" 
-	allowedHeaders="Content-Type, Authorization, Accept, Origin"  
-	allowedOrigins="*" domain="/fhir-server/api/v1" maxAge="3600"/>
-	
+	<!--  
+	<cors allowCredentials="true" allowedMethods="GET, PUT, POST"
+		allowedHeaders="Content-Type, Authorization, Accept, Origin"
+		allowedOrigins="*" domain="/fhir-server/api/v1" maxAge="3600" />
+    -->	
+    
 	<!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
 		 Update fhir-server-config.json to publish the remote provider OAuth URLs. -->
-	<!-- <openidConnectClient authorizationEndpointUrl="https://authorize-dstu2.smarthealthit.org/authorize" 
+	<!-- 
+	<openidConnectClient authorizationEndpointUrl="https://authorize-dstu2.smarthealthit.org/authorize" 
 					clientId="c6c17d9e-8633-440f-a220-4d077acce0d1" 
 					clientSecret="{xor}HhQLGx0vBW84aQYmaGgqKWooKW8+JgwtMhBpZmYUHiUOMRkcaxhtajcaPSw3MQw2LzErNzkeMTBvDy9uJwkwJToabw5nHWwNJm8dbR1qNwoLNzQ6Ey0S" 
 					id="client01" 
 					tokenEndpointUrl="https://authorize-dstu2.smarthealthit.org/token"> 	
-	</openidConnectClient> -->
+	</openidConnectClient> 
+	-->
     
     <!-- This entry defines the ports that the server will listen on.
         Modify the port #'s as needed to satisfy your config requirements.
@@ -95,8 +99,7 @@ CODE_REMOVED
 
     <!-- This is the main FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v1" id="fhir-server" location="fhir-server.war" name="fhir-server">
-        <classloader apiTypeVisibility="spec,third-party" commonLibraryRef="moxyLib" 
-            privateLibraryRef="configResources,fhirUserLib"/>
+        <classloader apiTypeVisibility="spec,third-party" privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role name="FHIRUsers">
                 <group name="FHIRUsers"/>
@@ -106,10 +109,6 @@ CODE_REMOVED
 
     <!-- This is the swagger UI for the FHIR Server -->
     <webApplication id="fhir-swagger-ui" location="fhir-swagger-ui.war" name="fhir-swagger-ui"/>
-    
-    <library apiTypeVisibility="spec,third-party" id="moxyLib">
-        <fileset dir="${shared.resource.dir}/lib/moxy" includes="*.jar"/>
-    </library>
     
     <!-- 
         This library element puts a specific directory in the classpath so that it can be used
@@ -144,13 +143,7 @@ CODE_REMOVED
     </dataSource>
     
     
-
-
-    <!-- Definitions related to the JPA persistence layer implementation -->
-    <jpa defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
-
     <!-- Derby/Embedded-related configuration
-    -->    
     <library id="derbyLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
@@ -158,29 +151,6 @@ CODE_REMOVED
     <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
         <jdbcDriver libraryRef="derbyLib"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
-    </dataSource>
-
-    <dataSource id="derbyEmbedded" jndiName="jdbc/fhirDB">
-        <jdbcDriver libraryRef="derbyLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
-    </dataSource>
-    <dataSource id="derbyEmbeddedNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
-        <jdbcDriver libraryRef="derbyLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
-    </dataSource>
-    
-    <!-- Derby/Network Server-related configuration
-    <library id="derbyLib">
-        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
-    </library>
-
-    <dataSource id="derbyDB" jndiName="jdbc/fhirDB">
-        <jdbcDriver libraryRef="derbyLib"/>
-CODE_REMOVED
-    </dataSource>
-    <dataSource id="derbyDBNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
-        <jdbcDriver libraryRef="derbyLib"/>
-CODE_REMOVED
     </dataSource>
     -->    
      
@@ -199,27 +169,6 @@ CODE_REMOVED
             databaseName="FHIRDB" 
             currentSchema="OAUTHDBSCHEMA" 
             driverType="4"/>
-    </dataSource>
-    <dataSource id="db2DB" jndiName="jdbc/fhirDB">
-        <jdbcDriver libraryRef="db2Lib"/>
-        <properties.db2.jcc 
-            serverName="dbserver1.mycompany.com" 
-            portNumber="50000" 
-            user="db2inst1" 
-CODE_REMOVED
-            databaseName="FHIRDB" 
-            currentSchema="FHIR1" 
-            driverType="4"/>
-    </dataSource>
-    <dataSource id="db2DBNonJTA" jndiName="jdbc/fhirDBNonJTA" transactional="false">
-        <jdbcDriver libraryRef="db2Lib"/>
-        <properties.db2.jcc 
-            serverName="dbserver1.mycompany.com" 
-            portNumber="50000" 
-            user="db2inst1" 
-CODE_REMOVED
-            databaseName="FHIRDB" 
-            currentSchema="FHIR1"/>
     </dataSource>
     -->
 </server>
