@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 
-import java.io.ByteArrayInputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,24 +31,31 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName(); 
 	
 	
-	private static final String SQL_READ = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE " +
-										   "R.LOGICAL_RESOURCE_ID = ? AND R.VERSION_ID = " +
-										   "(SELECT MAX(R2.VERSION_ID) FROM %s_RESOURCES R2 WHERE R2.LOGICAL_RESOURCE_ID = ?)";
+	private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+			 							   "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+										   "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";
 	
-	private static final String SQL_VERSION_READ = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE " +
-										   		   "R.LOGICAL_RESOURCE_ID = ? AND R.VERSION_ID = ?";
+	private static final String SQL_VERSION_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+			   									   "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+			   									   "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 	
-	private static final  String SQL_INSERT = "CALL %s_add_resource(?, ?, ?, ?, ?, ?)";
+	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?, ?, ?, ?, ?, ?)";
 	
-
-	// The following History related SQL strings are used by the history related methods in the superclass.
-	private static final String SQL_HISTORY = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ? "
-											   + "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-	private static final String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ?";
-	private static final String SQL_HISTORY_FROM_DATETIME = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ? AND R.LAST_UPDATED >= ?" + 
-			 													" ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-	private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM %s_RESOURCES R WHERE R.LOGICAL_RESOURCE_ID = ? AND R.LAST_UPDATED >= ?";
-
+	private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+			   								  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+			   								  "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
+											  "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+	
+	private static final String SQL_HISTORY_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
+			                                        "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
+	
+	private static final String SQL_HISTORY_FROM_DATETIME = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+				  											"FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+				  											"LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
+				  											"ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+	
+	private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
+            													  "AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
 	
 	
 	/**
@@ -76,14 +82,16 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		Connection connection = null;
 		CallableStatement stmt = null;
 		ResultSet resultSet = null;
+		String currentSchema;
 		String stmtString = null;
 				
 		try {
-			stmtString = String.format(SQL_INSERT, resource.getClass().getSimpleName());
 			connection = this.getConnection();
+			currentSchema = connection.getSchema().trim();
+			stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType().toLowerCase());
 			stmt = connection.prepareCall(stmtString);
 			stmt.setString(1, resource.getLogicalId());
-			stmt.setBinaryStream(2, new ByteArrayInputStream(resource.getData()), resource.getData().length);
+			stmt.setBytes(2, resource.getData());
 			stmt.setString(3, resource.isDeleted() ? "Y": "N");
 			stmt.setInt(4, 1);
 			stmt.setInt(5, 1);
@@ -122,7 +130,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 						
 		try {
 			stmtString = String.format(SQL_READ, resourceType, resourceType);
-			resources = this.runQuery(stmtString, logicalId, logicalId);
+			resources = this.runQuery(stmtString, logicalId);
 			if (!resources.isEmpty()) {
 				resource = resources.get(0);
 			}
@@ -142,7 +150,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		Resource resource = null;
 		List<Resource> resources;
 		String stmtString = null;
-						
+		
 		try {
 			stmtString = String.format(SQL_VERSION_READ, resourceType, resourceType);
 			resources = this.runQuery(stmtString, logicalId, versionId);
@@ -174,7 +182,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			resource.setData(resultSet.getBytes("DATA"));
 			resource.setId(resultSet.getLong("RESOURCE_ID"));
 			resource.setLastUpdated(resultSet.getTimestamp("LAST_UPDATED"));
-			resource.setLogicalId(resultSet.getString("LOGICAL_RESOURCE_ID"));
+			resource.setLogicalId(resultSet.getString("LOGICAL_ID"));
 			resource.setVersionId(resultSet.getInt("VERSION_ID"));
 			resource.setDeleted(resultSet.getString("IS_DELETED").equals("Y") ? true : false);
 		}
@@ -199,11 +207,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 				
 		try {
 			if (fromDateTime != null) {
-				stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType);
+				stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType);
 				resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
 			}
 			else {
-				stmtString = String.format(SQL_HISTORY, resourceType);
+				stmtString = String.format(SQL_HISTORY, resourceType, resourceType);
 				resources = this.runQuery(stmtString, logicalId, offset, maxResults);
 			}
 		}
@@ -223,11 +231,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 				
 		try {
 			if (fromDateTime != null) {
-				stmtString = String.format(SQL_HISTORY_FROM_DATETIME_COUNT, resourceType);
+				stmtString = String.format(SQL_HISTORY_FROM_DATETIME_COUNT, resourceType, resourceType);
 				count = this.runCountQuery(stmtString, logicalId, fromDateTime);
 			}
 			else {
-				stmtString = String.format(SQL_HISTORY_COUNT, resourceType);
+				stmtString = String.format(SQL_HISTORY_COUNT, resourceType, resourceType);
 				count = this.runCountQuery(stmtString, logicalId);
 			}
 		}

@@ -25,6 +25,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
+import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 
 /**
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
@@ -36,21 +37,19 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 	private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
 	private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
 	
+	public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
+	
 	private static final String SQL_INSERT = "INSERT INTO PARAMETERS_GTT (PARAMETER_NAME_ID, PARAMETER_TYPE, STR_VALUE, DATE_VALUE, DATE_START, DATE_END, " +
-			"NUMBER_VALUE, NUMBER_VALUE_LOW, NUMBER_VALUE_HIGH, LATITUDE_VALUE, LONGITUDE_VALUE, TOKEN_VALUE, CODE_SYSTEM_ID, CODE " +
+			"NUMBER_VALUE, NUMBER_VALUE_LOW, NUMBER_VALUE_HIGH, LATITUDE_VALUE, LONGITUDE_VALUE, TOKEN_VALUE, CODE_SYSTEM_ID, CODE) " +
 			"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String SQL_READ_ALL_SEARCH_PARAMETER_NAMES = "SELECT PARAMETER_NAME_ID, PARAMETER_NAME FROM PARAMETER_NAMES";
 	
 	private static final String SQL_READ_ALL_CODE_SYSTEMS = "SELECT CODE_SYSTEM_NAME, CODE_SYSTEM_ID FROM CODE_SYSTEMS";
 	
-	private static final String SQL_READ_PARAMETER_NAME = "CALL add_parameter_name(?, ?)";
+	private static final String SQL_READ_PARAMETER_NAME = "CALL %s.add_parameter_name(?, ?)";
 	
-	private static final String SQL_READ_CODE_SYSTEM_ID = "CALL add_code_system(?, ?)";
-	
-	
-	@Deprecated
-	private final String SQL_READ_ALL_PARAMETER_NAMES = "SELECT ID, NAME FROM PARAMETER_NAME";
+	private static final String SQL_READ_CODE_SYSTEM_ID = "CALL %s.add_code_system(?, ?)";
 	
 	
 	/**
@@ -79,6 +78,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
+		String tokenSystem;
 						
 		try {
 			connection = this.getConnection();
@@ -97,8 +97,13 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 				stmt.setObject(10, parameter.getValueLatitude(), Types.DOUBLE);
 				stmt.setObject(11, parameter.getValueLongitude(), Types.DOUBLE);
 				stmt.setString(12, parameter.getValueCode());
-				if(parameter.getValueSystem() != null) {
-					stmt.setObject(13, CodeSystemsCache.getCodeSystemId(parameter.getValueSystem(), this), Types.INTEGER);
+				tokenSystem = parameter.getValueSystem();
+				if ((parameter.getType().equals(Type.TOKEN) || parameter.getType().equals(Type.QUANTITY)) &&
+					(tokenSystem == null || tokenSystem.isEmpty())) {
+					tokenSystem = DEFAULT_TOKEN_SYSTEM;
+				}
+				if(tokenSystem != null) {
+					stmt.setInt(13, CodeSystemsCache.getCodeSystemId(tokenSystem, this));
 				}
 				else {
 					stmt.setObject(13, null, Types.INTEGER);
@@ -123,44 +128,6 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO#readAllParameterNames()
-	 */
-	@Deprecated
-	@Override
-	public Map<String, Long> readAllParameterNames() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		final String METHODNAME = "readAllParameterNames";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-		String parameterName;
-		Long parameterId;
-		Map<String, Long> resourceTypeIdMap = new HashMap<>();
-		String errMsg = "Failure retrieving all Parameter names.";
-				
-		try {
-			connection = this.getConnection();
-			stmt = connection.prepareStatement(SQL_READ_ALL_PARAMETER_NAMES);
-			resultSet = stmt.executeQuery();
-			while (resultSet.next()) {
-				parameterName = resultSet.getString("NAME");
-				parameterId = resultSet.getLong("ID");
-				resourceTypeIdMap.put(parameterName, parameterId);
-			}
-		}
-		catch (Throwable e) {
-			throw new FHIRPersistenceDataAccessException(errMsg,e);
-		}
-		finally {
-			this.cleanup(stmt, connection);
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-				
-		return resourceTypeIdMap;
-	}
-	
 	@Override
 	public Map<String, Integer> readAllSearchParameterNames()
 										 throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
@@ -300,11 +267,15 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		Connection connection = null;
 		CallableStatement stmt = null;
 		Integer parameterNameId = null;
+		String currentSchema;
+		String stmtString;
 		String errMsg = "Failure storing search parameter name id: name=" + parameter.getName();
 				
 		try {
 			connection = this.getConnection();
-			stmt = connection.prepareCall(SQL_READ_PARAMETER_NAME); 
+			currentSchema = connection.getSchema().trim();
+			stmtString = String.format(SQL_READ_PARAMETER_NAME, currentSchema);
+			stmt = connection.prepareCall(stmtString); 
 			stmt.setString(1, parameter.getName());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
@@ -340,11 +311,15 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		Connection connection = null;
 		CallableStatement stmt = null;
 		Integer systemId = null;
+		String currentSchema;
+		String stmtString;
 		String errMsg = "Failure storing system id: name=" + systemName;
 				
 		try {
 			connection = this.getConnection();
-			stmt = connection.prepareCall(SQL_READ_CODE_SYSTEM_ID); 
+			currentSchema = connection.getSchema().trim();
+			stmtString = String.format(SQL_READ_CODE_SYSTEM_ID, currentSchema);
+			stmt = connection.prepareCall(stmtString); 
 			stmt.setString(1, systemName);
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();

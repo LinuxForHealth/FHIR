@@ -74,7 +74,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	protected ParameterDAO paramaterDao;
 	protected UserTransaction userTransaction = null;
 	protected Boolean updateCreateEnabled = null;
-	private ObjectFactory objectFactory = new ObjectFactory();
+	protected ObjectFactory objectFactory = new ObjectFactory();
 	
 
 
@@ -606,7 +606,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
      * @throws Exception 
      */
-    private void storeSearchParameters(Resource fhirResource, com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO) 
+    protected void storeSearchParameters(Resource fhirResource, com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO) 
     			 throws Exception {
     	final String METHODNAME = "storeSearchParameters";
     	log.entering(CLASSNAME, METHODNAME);

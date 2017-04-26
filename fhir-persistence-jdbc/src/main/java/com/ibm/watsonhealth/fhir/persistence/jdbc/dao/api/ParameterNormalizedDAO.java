@@ -20,14 +20,6 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
  */
 public interface ParameterNormalizedDAO extends ParameterDAO {
 	
-	@Deprecated
-	/**
-	 * Reads all rows in the Parameter_name table, and returns that data as a Map.
-	 * @return Map<String, Long> - A map containing key=parameter-name, value=parameter-name-id
-	 * @throws FHIRPersistenceDBConnectException
-	 * @throws FHIRPersistenceDataAccessException
-	 */
-	Map<String, Long> readAllParameterNames() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 	
 	/**
 	 * Reads all rows in the Parameter_Names table and returns the data as a Map

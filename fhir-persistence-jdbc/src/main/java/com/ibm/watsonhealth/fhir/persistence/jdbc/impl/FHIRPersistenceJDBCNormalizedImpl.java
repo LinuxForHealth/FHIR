@@ -7,19 +7,35 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
+import java.io.ByteArrayOutputStream;
+import java.sql.Timestamp;
 import java.util.Properties;
+import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
+import com.ibm.watsonhealth.fhir.model.Instant;
+import com.ibm.watsonhealth.fhir.model.Meta;
+import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 
 /**
- * This class is the JDBC implementation of the FHIRPersistence interface to support the "normalized" DB schema, providing implementations for CRUD type APIs and search.
+ * This class is the JDBC implementation of the FHIRPersistence interface to support the "normalized" DB schema, 
+ * providing implementations for CRUD type APIs and search.
  * @author markd
  *
  */
@@ -61,6 +77,181 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.paramaterDao = new ParameterDAONormalizedImpl();
 		
 		log.exiting(CLASSNAME, METHODNAME);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#create(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, com.ibm.watsonhealth.fhir.model.Resource)
+	 */
+	@Override
+	public void create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException  {
+		final String METHODNAME = "create";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		boolean txnStarted = false;
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		String logicalId;
+		
+		try {
+	        FHIRUtil.write(resource, Format.XML, stream, false);
+	
+	        // Start a new txn.
+	        if (!isActive()) {
+	            begin();
+	            txnStarted = true;
+	        }
+	
+	        // Default version is 1 for a brand new FHIR Resource.
+	        int newVersionNumber = 1;
+	        logicalId = (resource.getId() != null ? resource.getId().getValue() : UUID.randomUUID().toString());
+	        log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
+	        // Create the new Resource DTO instance.
+	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+	        resourceDTO.setLogicalId(logicalId);
+	        resourceDTO.setVersionId(newVersionNumber);
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	        Instant lastUpdated = instant(System.currentTimeMillis());
+	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+	        resourceDTO.setLastUpdated(timestamp);
+	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
+	        
+	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
+	        // the search parameters being persisted first (in a global temporary table).
+	        this.storeSearchParameters(resource, resourceDTO);
+	        
+	        // Persist the Resource DTO.
+	        this.resourceDao.insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+	        
+	        // Set the resource id and meta fields.
+	        resource.setId(id(resourceDTO.getLogicalId()));
+	        Meta meta = resource.getMeta();
+	        if (meta == null) {
+	            meta = objectFactory.createMeta();
+	        }
+	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
+	        meta.setLastUpdated(lastUpdated);
+	        resource.setMeta(meta);
+	        
+ 
+	        // Time to commit the changes.
+	        if (txnStarted) {
+	            commit();
+	            txnStarted = false;
+	        }
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a create operation.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+		    // Time to rollback if we still have an active txn that we started.
+		    if (txnStarted) {
+		        rollback();
+		        txnStarted = false;
+		    }
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#update(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.String, com.ibm.watsonhealth.fhir.model.Resource)
+	 */
+	@Override
+	public void update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+		final String METHODNAME = "update";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		Class<? extends Resource> resourceType = resource.getClass();
+		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
+		boolean txnStarted = false;
+		int newVersionNumber = 1;
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		
+		try {
+			// Get the current version of the Resource.
+			existingResourceDTO = this.resourceDao.read(logicalId, resourceType.getSimpleName());
+	        
+	        // If this FHIR Resource doesn't exist and updateCreateEnabled is turned off, throw an exception
+	        if (existingResourceDTO == null && !updateCreateEnabled) {
+	            String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
+	            log.log(Level.SEVERE, msg);
+	            throw new FHIRPersistenceResourceNotFoundException(msg);
+	        }
+	        
+	        stream = new ByteArrayOutputStream();
+	        FHIRUtil.write(resource, Format.XML, stream, false);
+	
+	        // Start a new txn.
+	        if (!isActive()) {
+	            begin();
+	            txnStarted = true;
+	        }
+	        
+	        // If the FHIR Resource already exists, then we'll simply bump up the version #, use its logical id,
+	        // and remove its Parameter entries.
+	        if (existingResourceDTO != null) {
+	            newVersionNumber = existingResourceDTO.getVersionId() + 1;
+	            log.fine("Updating FHIR Resource '" + existingResourceDTO.getResourceType() + "/" + existingResourceDTO.getLogicalId() + "', version="
+	                        + existingResourceDTO.getVersionId());
+	        } 
+	        
+	        // Create the new Resource DTO instance.
+	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+	        resourceDTO.setLogicalId(logicalId);
+	        resourceDTO.setVersionId(newVersionNumber);
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	        Instant lastUpdated = instant(System.currentTimeMillis());
+	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+	        resourceDTO.setLastUpdated(timestamp);
+	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
+	        
+	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
+	        // the search parameters being persisted first (in a global temporary table).
+	        this.storeSearchParameters(resource, resourceDTO);
+	        
+	        // Persist the Resource DTO.
+	        this.resourceDao.insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+	        
+	        // Set the resource id and meta fields.
+	        resource.setId(id(logicalId));
+	        Meta meta = resource.getMeta();
+	        if (meta == null) {
+	            meta = objectFactory.createMeta();
+	        }
+	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
+	        meta.setLastUpdated(lastUpdated);
+	        resource.setMeta(meta);
+	          
+        
+	        // Time to commit the changes.
+	        if (txnStarted) {
+	            commit();
+	            txnStarted = false;
+	        }
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing an update operation.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+	        // Time to rollback if we still have an active txn that we started.
+	        if (txnStarted) {
+	            rollback();
+	            txnStarted = false;
+	        }
+			log.exiting(CLASSNAME, METHODNAME);
+		}
 	}
 
 }
