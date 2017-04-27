@@ -6,9 +6,16 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import org.apache.derby.tools.ij;
 
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
@@ -72,6 +79,34 @@ public class DerbyInitializer {
 	}
 	
 	/**
+	 * 
+	 * Install Java Stored Procedure jar file into derby DB
+	 */
+	protected boolean runScript(File scriptFile, Connection connection) { 
+	    FileInputStream fileStream = null; 
+	    try { 
+	        fileStream = new FileInputStream(scriptFile); 
+	        int result  = ij.runScript(connection,fileStream,"UTF-8",System.out,"UTF-8"); 
+	        return (result==0); 
+	    } 
+	    catch (FileNotFoundException e) { 
+	        return false; 
+	    } 
+	    catch (UnsupportedEncodingException e) { 
+	        return false; 
+	    } 
+	    finally { 
+	        if(fileStream!=null) { 
+	            try { 
+	                fileStream.close(); 
+	            } 
+	            catch (IOException e) { 
+	            } 
+	        } 
+	    } 
+	} 
+	
+	/**
 	 * Establishes a connection to /target/fhirdb. Creates the database if necessary complete with tables indexes.
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws LiquibaseException
@@ -80,7 +115,9 @@ public class DerbyInitializer {
 		
 		Connection connection = this.establishDb();
 		if (this.isNewDbCreated()) {
-			this.runDDL(connection);
+			if(this.runScript(new File("src/test/resources/install_jar.sql"), connection)) {
+				this.runDDL(connection);
+			}
 		}
 	}
 	
