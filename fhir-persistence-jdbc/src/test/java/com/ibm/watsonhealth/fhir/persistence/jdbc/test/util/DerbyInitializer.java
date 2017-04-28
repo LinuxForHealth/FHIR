@@ -115,8 +115,13 @@ public class DerbyInitializer {
 		
 		Connection connection = this.establishDb();
 		if (this.isNewDbCreated()) {
-			if(this.runScript(new File("src/test/resources/install_jar.sql"), connection)) {
+			String schemaType = this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE);
+			if(schemaType.equalsIgnoreCase("basic")) {
 				this.runDDL(connection);
+			} else if(schemaType.equalsIgnoreCase("normalized")) {
+				if(this.runScript(new File("src/test/resources/install_jar.sql"), connection)) {
+					this.runDDL(connection);
+				}
 			}
 		}
 	}

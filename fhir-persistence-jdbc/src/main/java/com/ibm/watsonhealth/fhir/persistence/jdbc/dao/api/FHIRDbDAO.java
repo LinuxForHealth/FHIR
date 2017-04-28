@@ -20,6 +20,7 @@ public interface FHIRDbDAO {
 	String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirDB";
 	String PROPERTY_DB_DRIVER = "dbDriverName";
 	String PROPERTY_DB_URL = "dbUrl";
+	String PROPERTY_SCHEMA_TYPE = "schemaType";
 	String PROPERTY_DB2_USER = "user";
 	String PROPERTY_DB2_PSWD = "password";
 
