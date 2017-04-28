@@ -167,7 +167,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
 	 */
-	protected abstract T1 processStringParm(Parameter queryParm);
+	protected abstract T1 processStringParm(Parameter queryParm) throws FHIRPersistenceException;
 	
 	/**
 	 * Creates a query segment for a Reference type parameter.
@@ -228,8 +228,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * Creates a query segment for a URI type parameter.
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
+	 * @throws FHIRPersistenceException 
 	 */
-	protected T1 processUriParm(Parameter queryParm) {
+	protected T1 processUriParm(Parameter queryParm) throws FHIRPersistenceException {
 		final String METHODNAME = "processUriParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		

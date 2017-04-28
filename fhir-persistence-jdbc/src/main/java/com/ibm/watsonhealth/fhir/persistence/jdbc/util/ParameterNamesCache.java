@@ -63,13 +63,13 @@ public class ParameterNamesCache {
 	/**
 	 * Retrieves the id for the name contained in the passed Parameter, for the current tenant-datastore. 
 	 * If not found, null is returned.
-	 * @param parameter The parameter containing the name of the parameter to be looked up.
+	 * @param parameterName A valid FHIR search parameter name.
 	 * @param dao - A DAO used to access Search Parameter related data.
 	 * @return Integer The id corresponding to the parameter name.
 	 * @throws FHIRPersistenceDataAccessException 
 	 * @throws FHIRPersistenceDBConnectException 
 	 */
-	public static Integer getParameterNameId(Parameter parameter, ParameterNormalizedDAO dao) 
+	public static Integer getParameterNameId(String parameterName, ParameterNormalizedDAO dao) 
 					throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
 		
 		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
@@ -78,11 +78,11 @@ public class ParameterNamesCache {
 		
 		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
 		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
-		parameterNameId = currentDsMap.get(parameter.getName());
+		parameterNameId = currentDsMap.get(parameterName);
 		// If parameter name/id not found in datastore cache map, retrieve it from the database.
 		if (parameterNameId == null) {
-			parameterNameId = dao.readParameterNameId(parameter);
-			currentDsMap.putIfAbsent(parameter.getName(), parameterNameId);
+			parameterNameId = dao.readParameterNameId(parameterName);
+			currentDsMap.putIfAbsent(parameterName, parameterNameId);
 		}
 		
 		return parameterNameId;

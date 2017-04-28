@@ -70,8 +70,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	
 	protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
 	
-	protected ResourceDAO resourceDao;
-	protected ParameterDAO paramaterDao;
+	private ResourceDAO resourceDao;
+	private ParameterDAO parameterDao;
 	protected UserTransaction userTransaction = null;
 	protected Boolean updateCreateEnabled = null;
 	protected ObjectFactory objectFactory = new ObjectFactory();
@@ -92,7 +92,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 		this.resourceDao = new ResourceDAOBasicImpl();
-		this.paramaterDao = new ParameterDAOBasicImpl();
+		this.parameterDao = new ParameterDAOBasicImpl();
 								
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -108,7 +108,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 		this.resourceDao = new ResourceDAOBasicImpl(configProps);
-		this.paramaterDao = new ParameterDAOBasicImpl(configProps);
+		this.parameterDao = new ParameterDAOBasicImpl(configProps);
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -386,7 +386,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	                        + existingResourceDTO.getVersionId());
 	             
 	            // Retrieve the Parameters associated with the current version of the Resource and remove them.
-	            this.paramaterDao.deleteByResource(existingResourceDTO.getId());
+	            this.getParameterDao().deleteByResource(existingResourceDTO.getId());
 	        } 
 	        // Create the new Resource DTO instance.
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
@@ -638,7 +638,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	                }
 	            }
 	        }
-	        this.paramaterDao.insert(allParameters);
+	        this.getParameterDao().insert(allParameters);
     	}
     	finally {
     		log.exiting(CLASSNAME, METHODNAME);
@@ -653,7 +653,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws JAXBException
      * @throws IOException 
      */
-    private List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
+    protected List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
 								throws JAXBException, IOException {
     	final String METHODNAME = "convertResourceDTO List";
     	log.entering(CLASSNAME, METHODNAME);
@@ -723,7 +723,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 * @throws JAXBException 
 	 * @throws IOException 
 	 */
-	private List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList) 
+	protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList) 
 							throws FHIRPersistenceException, JAXBException, IOException {
 		final String METHOD_NAME = "buildFhirResource";
 		log.entering(this.getClass().getName(), METHOD_NAME);
@@ -761,6 +761,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		}
 		log.exiting(this.getClass().getName(), METHOD_NAME);
 		return sortedResourceList;
+	}
+	
+	protected ParameterDAO getParameterDao() {
+		return this.parameterDao;
 	}
 
 }
