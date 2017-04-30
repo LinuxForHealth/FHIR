@@ -10,8 +10,7 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_S
 
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.config.PropertyGroup;
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -35,8 +34,7 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
     	FHIRPersistence persistenceImpl = null;
     	
         try {
-        	PropertyGroup fhirConfig =  FHIRConfiguration.getInstance().loadConfiguration();
-    		SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
+    		SchemaType schemaType = SchemaType.fromValue(FHIRConfigHelper.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE, SchemaType.BASIC.value()));
     		switch (schemaType) {
     			case BASIC: 		persistenceImpl = new FHIRPersistenceJDBCImpl();
     								break;
