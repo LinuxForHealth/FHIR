@@ -236,7 +236,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
 	        
 	        // Persist the Resource DTO.
-	        this.resourceDao.insert(resourceDTO);
+	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
 	        
@@ -290,7 +290,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
 		
 		try {
-			resourceDTO = this.resourceDao.read(logicalId, resourceType.getSimpleName());
+			resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
 		}
 		catch(FHIRPersistenceException e) {
@@ -323,7 +323,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				
 		try {
 			version = Integer.parseInt(versionId);
-			resourceDTO = this.resourceDao.versionRead(logicalId, resourceType.getSimpleName(), version);
+			resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
 		}
 		catch(FHIRPersistenceException e) {
@@ -360,7 +360,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		
 		try {
 			// Get the current version of the Resource.
-			existingResourceDTO = this.resourceDao.read(logicalId, resourceType.getSimpleName());
+			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 	        
 	        // If this FHIR Resource doesn't exist and updateCreateEnabled is turned off, throw an exception
 	        if (existingResourceDTO == null && !updateCreateEnabled) {
@@ -399,7 +399,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
 	        
 	        // Persist the Resource DTO.
-	        this.resourceDao.insert(resourceDTO);
+	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
 	        
@@ -475,7 +475,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				fromDateTime = FHIRUtilities.convertToTimestamp(since.getValue());
 			}
 			
-			resourceCount = this.resourceDao.historyCount(resourceType.getSimpleName(), logicalId, fromDateTime);
+			resourceCount = this.getResourceDao().historyCount(resourceType.getSimpleName(), logicalId, fromDateTime);
 			historyContext.setTotalCount(resourceCount);
 			pageSize = historyContext.getPageSize();
 	        lastPageNumber = (int) ((resourceCount + pageSize - 1) / pageSize);
@@ -483,7 +483,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        
 	        if (resourceCount > 0) {
 	        	offset = (historyContext.getPageNumber() - 1) * pageSize;
-	        	resourceDTOList = this.resourceDao.history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, pageSize);
+	        	resourceDTOList = this.getResourceDao().history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, pageSize);
 	        	resources = this.convertResourceDTOList(resourceDTOList, resourceType);
 	        } 
 		}
@@ -531,7 +531,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        
 	        String countQueryString = queryBuilder.buildCountQuery(resourceType, searchContext);
 	        if (countQueryString != null) {
-	        	searchResultCount = this.resourceDao.searchCount(countQueryString);
+	        	searchResultCount = this.getResourceDao().searchCount(countQueryString);
 	        	log.fine("searchResultCount = " + searchResultCount);
 	        	searchContext.setTotalCount(searchResultCount);
 	            pageSize = searchContext.getPageSize();
@@ -543,11 +543,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            	queryString = queryBuilder.buildQuery(resourceType, searchContext);
 	            	
 	                if (searchContext.hasSortParameters()) {
-	                	sortedIdList = this.resourceDao.searchForIds(queryString);
+	                	sortedIdList = this.getResourceDao().searchForIds(queryString);
 	                	resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
 	                }
 	                else {
-	                	unsortedResultsList = this.resourceDao.search(queryString);
+	                	unsortedResultsList = this.getResourceDao().search(queryString);
 	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
 	                }  
 	            }
@@ -742,7 +742,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 			idPositionMap.put(new Long(resourceId), new Integer(i));
 		}
 				
-		resourceDTOList = this.resourceDao.searchByIds(sortedIdList);
+		resourceDTOList = this.getResourceDao().searchByIds(sortedIdList);
 		
 		// Convert the returned JPA Resources to FHIR Resources, and store each FHIRResource in its proper position
 		// in the returned sorted resource list.
@@ -765,6 +765,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	
 	protected ParameterDAO getParameterDao() {
 		return this.parameterDao;
+	}
+
+	protected ResourceDAO getResourceDao() {
+		return resourceDao;
 	}
 
 }

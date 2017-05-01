@@ -131,7 +131,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        this.storeSearchParameters(resource, resourceDTO);
 	        
 	        // Persist the Resource DTO.
-	        this.resourceDao.insert(resourceDTO);
+	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
 	        
@@ -186,7 +186,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		try {
 			// Get the current version of the Resource.
-			existingResourceDTO = this.resourceDao.read(logicalId, resourceType.getSimpleName());
+			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 	        
 	        // If this FHIR Resource doesn't exist and updateCreateEnabled is turned off, throw an exception
 	        if (existingResourceDTO == null && !updateCreateEnabled) {
@@ -227,7 +227,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        this.storeSearchParameters(resource, resourceDTO);
 	        
 	        // Persist the Resource DTO.
-	        this.resourceDao.insert(resourceDTO);
+	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
 	        
@@ -297,7 +297,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        
 	        countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
 	        if (countQuery != null) {
-	        	searchResultCount = this.resourceDao.searchCount(countQuery);
+	        	searchResultCount = this.getResourceDao().searchCount(countQuery);
 	        	log.fine("searchResultCount = " + searchResultCount);
 	        	searchContext.setTotalCount(searchResultCount);
 	            pageSize = searchContext.getPageSize();
@@ -313,7 +313,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	                	//resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
 	               // }
 	                //else {
-	                	unsortedResultsList = this.resourceDao.search(query);
+	                	unsortedResultsList = this.getResourceDao().search(query);
 	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
 	                //}  
 	            }
@@ -336,6 +336,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	
 	protected ParameterDAO getParameterDao() {
 		return this.parameterDao;
+	}
+
+	protected ResourceNormalizedDAO getResourceDao() {
+		return resourceDao;
 	}
 
 }

@@ -11,9 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
@@ -22,6 +26,7 @@ import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.ParameterValue.Prefix;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  * This is the JDBC implementation of a query builder for the 'normalized' schema of the JDBC persistence layer.
@@ -115,6 +120,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			
 	}
 	
+	private Class<? extends Resource> resourceType = null;
+	
 	private ParameterNormalizedDAO parameterDao;
 	
 	public JDBCNormalizedQueryBuilder(ParameterNormalizedDAO parameterDao) {
@@ -159,13 +166,24 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		return helper.buildQuery();
 	}
 	
+	/**
+	 * Contains logic common to the building of 'regular' resource queries and 'count' resource queries.
+	 * @param resourceType The type of FHIR resource being searched for.
+	 * @param searchContext The search context containing search parameters.
+	 * @return QueryBuilderHelper - A query builder helper containing processed query segments.
+	 * @throws Exception
+	 */
 	private QueryBuilderHelper buildQueryCommon (Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws Exception {
+		final String METHODNAME = "buildQueryCommon";
+		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
 		SqlQueryData querySegment;
 		List<Parameter> searchParameters = searchContext.getSearchParameters();
 		int pageSize = searchContext.getPageSize();
 		int offset = (searchContext.getPageNumber() - 1) * pageSize;
 		QueryBuilderHelper helper = new QueryBuilderHelper(resourceType, offset, pageSize);
+		
+		this.resourceType = resourceType;
 		
 		/*
 		// Special logic for handling LocationPosition queries. These queries have interdependencies between
@@ -184,6 +202,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			helper.addQueryData(querySegment, queryParameter);
 		}
 		
+		log.exiting(CLASSNAME, METHODNAME);
 		return helper;
 		
 	}
@@ -275,17 +294,14 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		boolean parmValueProcessed = false;
 		String searchValue, tempSearchValue;
 		boolean appendEscape;
-		int parameterNameId;
 		SqlQueryData queryData;
 		List<Object> bindVariables = new ArrayList<>();
 		
 		// Build this piece of the segment:
-		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = 4 AND
-		parameterNameId = ParameterNamesCache.getParameterNameId(queryParm.getName(), parameterDao);
-		whereClauseSegment.append(LEFT_PAREN);
-		whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append("PARAMETER_NAME_ID=").append(parameterNameId);
-		whereClauseSegment.append(AND).append(LEFT_PAREN);
+		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
 		
+		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
 			appendEscape = false;
 			if (operator.equals(JDBCOperator.LIKE)) {
@@ -327,8 +343,56 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 
 	@Override
 	protected SqlQueryData processReferenceParm(Parameter queryParm) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		final String METHODNAME = "processReferenceParm";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		StringBuilder whereClauseSegment = new StringBuilder();
+		JDBCOperator operator = this.getOperator(queryParm);
+		boolean parmValueProcessed = false;
+		String searchValue;
+		SqlQueryData queryData;
+		List<Object> bindVariables = new ArrayList<>();
+		
+		// Build this piece of the segment:
+		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		
+		whereClauseSegment.append(AND).append(LEFT_PAREN);
+		for (ParameterValue value : queryParm.getValues()) {
+			// Handle query parm representing this name/value pair construct:
+			// {name} = {resource-type/resource-id}
+			searchValue = SQLParameterEncoder.encode(value.getValueString());
+			
+			// Handle query parm representing this name/value pair construct:
+			// {name}:{Resource Type} = {resource-id}
+			if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
+				searchValue = queryParm.getModifierResourceTypeName() + "/" + SQLParameterEncoder.encode(value.getValueString());
+			} else if (!isAbsoluteURL(searchValue)) {
+			    SearchParameter definition = SearchUtil.getSearchParameter(this.resourceType, queryParm.getName());
+			    List<Code> targets = definition.getTarget();
+			    if (targets.size() == 1) {
+			        Code target = targets.get(0);
+			        String targetResourceTypeName = target.getValue();
+			        if (!searchValue.startsWith(targetResourceTypeName + "/")) {
+			            searchValue = targetResourceTypeName + "/" + searchValue;
+			        }
+			    }
+			}
+			
+			// If multiple values are present, we need to OR them together.
+			if (parmValueProcessed) {
+				whereClauseSegment.append(JDBCOperator.OR.value());
+			}
+			// Build this piece: pX.str_value {operator} search-attribute-value
+			whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+			bindVariables.add(searchValue);
+			parmValueProcessed = true;
+		}
+		whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+		
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		log.exiting(CLASSNAME, METHODNAME);
+		return queryData;
 	}
 
 	@Override
@@ -371,6 +435,28 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	protected SqlQueryData buildLocationQuerySegment(String parmName, BoundingBox boundingBox) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * Populates the parameter name sub-segment of the passed where clause segment.
+	 * @param whereClauseSegment
+	 * @param queryParm
+	 * @throws FHIRPersistenceDBConnectException
+	 * @throws FHIRPersistenceDataAccessException
+	 */
+	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, Parameter queryParm) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+		final String METHODNAME = "populateNameIdSegment";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		int parameterNameId;
+		
+		// Build this piece of the segment:
+		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
+		parameterNameId = ParameterNamesCache.getParameterNameId(queryParm.getName(), this.parameterDao);
+		whereClauseSegment.append(LEFT_PAREN);
+		whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append("PARAMETER_NAME_ID=").append(parameterNameId);
+		
+		log.exiting(CLASSNAME, METHODNAME);
 	}
 
 }
