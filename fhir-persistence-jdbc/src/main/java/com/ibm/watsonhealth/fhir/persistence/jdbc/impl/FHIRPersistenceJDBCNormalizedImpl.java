@@ -126,15 +126,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        resourceDTO.setLastUpdated(timestamp);
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
 	        
-	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
-	        // the search parameters being persisted first (in a global temporary table).
-	        this.storeSearchParameters(resource, resourceDTO);
-	        
-	        // Persist the Resource DTO.
-	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
-	        
 	        // Set the resource id and meta fields.
 	        resource.setId(id(resourceDTO.getLogicalId()));
 	        Meta meta = resource.getMeta();
@@ -145,7 +136,15 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
 	        
- 
+	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
+	        // the search parameters being persisted first (in a global temporary table).
+	        this.storeSearchParameters(resource, resourceDTO);
+	        
+	        // Persist the Resource DTO.
+	        this.getResourceDao().insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+	        
 	        // Time to commit the changes.
 	        if (txnStarted) {
 	            commit();
@@ -222,15 +221,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        resourceDTO.setLastUpdated(timestamp);
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
 	        
-	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
-	        // the search parameters being persisted first (in a global temporary table).
-	        this.storeSearchParameters(resource, resourceDTO);
-	        
-	        // Persist the Resource DTO.
-	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
-	        
 	        // Set the resource id and meta fields.
 	        resource.setId(id(logicalId));
 	        Meta meta = resource.getMeta();
@@ -240,8 +230,16 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
-	          
-        
+	        
+	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
+	        // the search parameters being persisted first (in a global temporary table).
+	        this.storeSearchParameters(resource, resourceDTO);
+	        
+	        // Persist the Resource DTO.
+	        this.getResourceDao().insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+	                
 	        // Time to commit the changes.
 	        if (txnStarted) {
 	            commit();

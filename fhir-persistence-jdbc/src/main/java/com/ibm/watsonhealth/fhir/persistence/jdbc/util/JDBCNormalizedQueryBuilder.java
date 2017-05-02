@@ -56,6 +56,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	private static final String ESCAPE_PERCENT = ESCAPE_CHAR + PERCENT_WILDCARD;
 	private static final String ESCAPE_EXPR = " ESCAPE '" + ESCAPE_CHAR + "'";
     private static final String STR_VALUE = "STR_VALUE";
+    private static final String TOKEN_VALUE = "TOKEN_VALUE";
+    private static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
 		 
 	
 	/**
@@ -414,9 +416,57 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	}
 
 	@Override
-	protected SqlQueryData processTokenParm(Parameter queryParm) {
-		// TODO Auto-generated method stub
-		return null;
+	protected SqlQueryData processTokenParm(Parameter queryParm) throws FHIRPersistenceException {
+		final String METHODNAME = "processTokenParm";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		StringBuilder whereClauseSegment = new StringBuilder();
+		JDBCOperator operator = this.getOperator(queryParm, JDBCOperator.EQ);
+		boolean parmValueProcessed = false;
+		SqlQueryData queryData;
+		List<Object> bindVariables = new ArrayList<>();
+		
+		// Build this piece of the segment:
+		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		
+		whereClauseSegment.append(AND).append(LEFT_PAREN);
+		for (ParameterValue value : queryParm.getValues()) {
+			// If multiple values are present, we need to OR them together.
+			if (parmValueProcessed) {
+				whereClauseSegment.append(JDBCOperator.OR.value());
+			}
+			
+			whereClauseSegment.append(LEFT_PAREN);
+			//Include code  
+		 	whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(TOKEN_VALUE)
+							  .append(operator.value())
+							  .append(BIND_VAR);
+		 	bindVariables.add(SQLParameterEncoder.encode(value.getValueCode()));
+						
+			//Include system if present.
+			if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+				if (operator.equals(JDBCOperator.NE)) {
+					whereClauseSegment.append(JDBCOperator.OR.value());
+				}
+				else {
+					whereClauseSegment.append(JDBCOperator.AND.value());
+				}
+				
+			   whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
+			   		.append(operator.value())
+			   		.append(BIND_VAR);
+			   bindVariables.add(SQLParameterEncoder.encode(value.getValueSystem()));
+			}
+			whereClauseSegment.append(RIGHT_PAREN);
+			parmValueProcessed = true;
+		}
+		
+		whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+		
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		log.exiting(CLASSNAME, METHODNAME);
+		return queryData;
 	}
 
 	@Override
