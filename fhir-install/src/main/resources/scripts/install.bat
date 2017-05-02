@@ -94,13 +94,6 @@ if errorlevel 1 (
     goto :exit
 )
 
-@REM Unzip fhir shared library
-echo Extracting FHIR shared library.
-call :UnZip  %BASEDIR%\fhir\zips\fhir-persistence-proxy-distribution.zip\  %WLP_INSTALL_DIR%
-if %rc% neq 0 (
-    echo Error extracting FHIR shared library: %rc%
-    goto :exit
-)
 
 echo The FHIR Server has been successfully deployed to the
 echo Websphere Liberty runtime located at: %WLP_ROOT%
