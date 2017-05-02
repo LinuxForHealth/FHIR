@@ -75,4 +75,9 @@ public class FHIRRequestContext {
     public static void remove() {
         contexts.remove();
     }
+
+    @Override
+    public String toString() {
+        return "FHIRRequestContext [tenantId=" + tenantId + ", dataStoreId=" + dataStoreId + "]";
+    }
 }
