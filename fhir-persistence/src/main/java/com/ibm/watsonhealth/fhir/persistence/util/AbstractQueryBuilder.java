@@ -213,8 +213,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * Creates a query segment for a Number type parameter.
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
+	 * @throws FHIRPersistenceException 
 	 */
-	protected abstract T1 processNumberParm(Parameter queryParm);
+	protected abstract T1 processNumberParm(Parameter queryParm) throws FHIRPersistenceException;
 	
 	/**
 	 * Creates a query segment for a Quantity type parameter.

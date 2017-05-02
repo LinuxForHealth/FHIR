@@ -6,12 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
+import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QueryBuilderHelper.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.model.Code;
+import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -58,6 +60,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
     private static final String STR_VALUE = "STR_VALUE";
     private static final String TOKEN_VALUE = "TOKEN_VALUE";
     private static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
+    private static final String CODE = "CODE";
+    private static final String NUMBER_VALUE = "NUMBER_VALUE";
+    private static final String QUANTITY_VALUE = "QUANTITY_VALUE";
+    private static final String QUANTITY_VALUE_LOW = "QUANTITY_VALUE_LOW";
+    private static final String QUANTITY_VALUE_HIGH = "QUANTITY_VALUE_HIGH";
+    
 		 
 	
 	/**
@@ -328,7 +336,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				whereClauseSegment.append(JDBCOperator.OR.value());
 			}
 			// Build this piece: pX.str_value {operator} search-attribute-value
-			whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+			whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
 			bindVariables.add(searchValue);
 			// Build this piece: ESCAPE '+'
 			if (appendEscape) {
@@ -386,7 +394,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				whereClauseSegment.append(JDBCOperator.OR.value());
 			}
 			// Build this piece: pX.str_value {operator} search-attribute-value
-			whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+			whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
 			bindVariables.add(searchValue);
 			parmValueProcessed = true;
 		}
@@ -439,7 +447,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			
 			whereClauseSegment.append(LEFT_PAREN);
 			//Include code  
-		 	whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(TOKEN_VALUE)
+		 	whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(TOKEN_VALUE)
 							  .append(operator.value())
 							  .append(BIND_VAR);
 		 	bindVariables.add(SQLParameterEncoder.encode(value.getValueCode()));
@@ -452,33 +460,129 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				else {
 					whereClauseSegment.append(JDBCOperator.AND.value());
 				}
-				
-			   whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
-			   		.append(operator.value())
-			   		.append(BIND_VAR);
-			   bindVariables.add(SQLParameterEncoder.encode(value.getValueSystem()));
+				whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
+			   		.append(operator.value()).append(BIND_VAR);
+			    bindVariables.add(CodeSystemsCache.getCodeSystemId(value.getValueSystem(), this.parameterDao));
 			}
 			whereClauseSegment.append(RIGHT_PAREN);
 			parmValueProcessed = true;
 		}
 		
 		whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
-		
 		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		
 		log.exiting(CLASSNAME, METHODNAME);
 		return queryData;
 	}
 
 	@Override
-	protected SqlQueryData processNumberParm(Parameter queryParm) {
-		// TODO Auto-generated method stub
-		return null;
+	protected SqlQueryData processNumberParm(Parameter queryParm) throws FHIRPersistenceException {
+		final String METHODNAME = "processNumberParm";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		StringBuilder whereClauseSegment = new StringBuilder();
+		JDBCOperator operator;
+		boolean parmValueProcessed = false;
+		List<Object> bindVariables = new ArrayList<>();
+		SqlQueryData queryData;
+				
+		// Build this piece of the segment:
+		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		  	
+		whereClauseSegment.append(AND).append(LEFT_PAREN);
+		for (ParameterValue value : queryParm.getValues()) {
+			operator = this.getPrefixOperator(value);
+			// If multiple values are present, we need to OR them together.
+			if (parmValueProcessed) {
+				whereClauseSegment.append(JDBCOperator.OR.value());
+			}
+			// Build this piece: p1.value_string {operator} search-attribute-value
+			whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(NUMBER_VALUE).append(operator.value())
+							  .append(BIND_VAR);
+			bindVariables.add(value.getValueNumber());
+			parmValueProcessed = true;
+		}
+		whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+								
+		log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+		return queryData;
 	}
 
 	@Override
 	protected SqlQueryData processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		final String METHODNAME = "processQuantityParm";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		StringBuilder whereClauseSegment = new StringBuilder();
+		JDBCOperator operator;
+		boolean parmValueProcessed = false;
+		List<Object> bindVariables = new ArrayList<>();
+		Integer systemId;
+		SqlQueryData queryData;
+		
+		
+		// Build this piece of the segment:
+		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		  
+		whereClauseSegment.append(AND).append(LEFT_PAREN);
+		for (ParameterValue value : queryParm.getValues()) {
+			operator = this.getPrefixOperator(value);
+			// If multiple values are present, we need to OR them together.
+			if (parmValueProcessed) {
+				whereClauseSegment.append(JDBCOperator.OR.value());
+			}
+			whereClauseSegment.append(LEFT_PAREN);
+			
+			// If the target data type of the query is a Range, we need to build a piece of the where clause that looks like this:
+			// pX.value_number_low <= {search-attribute-value} AND pX.value_number_high >= {search-attribute-value}
+			if (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class)) {
+				whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(QUANTITY_VALUE_LOW)
+								  .append(JDBCOperator.LTE.value())
+								  .append(BIND_VAR)
+								  .append(JDBCOperator.AND.value())
+								  .append(PARAMETER_TABLE_ALIAS).append(QUANTITY_VALUE_HIGH)
+								  .append(JDBCOperator.GTE.value())
+								  .append(BIND_VAR);
+				bindVariables.add(value.getValueNumber());
+				bindVariables.add(value.getValueNumber());
+			}
+			else {
+				// Build this piece: p1.value_string {operator} search-attribute-value
+				whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(QUANTITY_VALUE).append(operator.value())
+								  .append(BIND_VAR);
+				bindVariables.add(value.getValueNumber());
+			}
+			
+			//Include system if present.
+			if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+				systemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem(), this.parameterDao);
+				whereClauseSegment.append(JDBCOperator.AND.value())
+								  .append(PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
+								  .append(JDBCOperator.EQ.value())
+								  .append(BIND_VAR);
+				bindVariables.add(systemId);
+			}
+			
+			//Include code if present.
+			if (value.getValueCode() != null && !value.getValueCode().isEmpty()) {
+				whereClauseSegment.append(JDBCOperator.AND.value())
+								  .append(PARAMETER_TABLE_ALIAS).append(CODE)
+								  .append(JDBCOperator.EQ.value())
+								  .append(BIND_VAR);
+				bindVariables.add(value.getValueCode());
+			}
+							
+			whereClauseSegment.append(RIGHT_PAREN);
+			parmValueProcessed = true;
+		}
+		whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		 								
+		log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+		return queryData;
 	}
 
 	@Override

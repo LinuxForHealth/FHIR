@@ -73,14 +73,15 @@ public class CodeSystemsCache {
 		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		Integer systemId = null;
+		String encodedSysName = SQLParameterEncoder.encode(systemName);
 		
 		codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
 		currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
-		systemId = currentDsMap.get(systemName);
+		systemId = currentDsMap.get(encodedSysName);
 		// If code system name/id not found in datastore cache map, retrieve it from the database.
 		if (systemId == null) {
-			systemId = dao.readCodeSystemId(systemName);
-			currentDsMap.putIfAbsent(systemName, systemId);
+			systemId = dao.readCodeSystemId(encodedSysName);
+			currentDsMap.putIfAbsent(encodedSysName, systemId);
 		}
 		return systemId;
 		 
