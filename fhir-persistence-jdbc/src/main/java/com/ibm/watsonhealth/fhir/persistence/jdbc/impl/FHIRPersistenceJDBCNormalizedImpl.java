@@ -63,7 +63,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	 */
 	public FHIRPersistenceJDBCNormalizedImpl() throws Exception {
 		super();
-		final String METHODNAME = "FHIRPersistenceJDBCImpl()";
+		final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl()";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
@@ -80,13 +80,17 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	 * @throws Exception 
 	 */
 	public FHIRPersistenceJDBCNormalizedImpl(Properties configProps) throws Exception {
-		super();
-		final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
+		super(configProps);
+		final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl(Properties)";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 		this.resourceDao = new ResourceDAONormalizedImpl(configProps);
 		this.parameterDao = new ParameterDAONormalizedImpl(configProps);
+		
+		System.out.println("this.updateCreateEnabled = " + this.updateCreateEnabled);
+		System.out.println("this.resourceDao = " + this.resourceDao);
+		System.out.println("this.parameterDao = " + this.parameterDao);
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}

@@ -27,8 +27,9 @@ public class JDBCQueryPractitionerTest extends AbstractQueryPractitionerTest {
 		DerbyInitializer derbyInit;
 		String dbDriverName = this.testProps.getProperty("dbDriverName");
 		if (dbDriverName != null && dbDriverName.contains("derby")) {
+			this.testProps.setProperty("schemaType", "basic");
 			derbyInit = new DerbyInitializer(this.testProps);
-			derbyInit.bootstrapDb();
+			derbyInit.bootstrapDb(false);
 		}
 	}
 	

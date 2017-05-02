@@ -52,7 +52,7 @@ public class DerbyInitializer {
 	public static void main(String[] args) {
 		DerbyInitializer initializer = new DerbyInitializer();
 		try {
-			initializer.bootstrapDb();
+			initializer.bootstrapDb(false);
 			
 		} 
 		catch (Throwable e) {
@@ -111,9 +111,9 @@ public class DerbyInitializer {
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws LiquibaseException
 	 */
-	public void bootstrapDb() throws FHIRPersistenceDBConnectException, LiquibaseException {
+	public void bootstrapDb(boolean connectionReset) throws FHIRPersistenceDBConnectException, LiquibaseException {
 		
-		Connection connection = this.establishDb();
+		Connection connection = this.establishDb(connectionReset);
 		if (this.isNewDbCreated()) {
 			String schemaType = this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE);
 			if(schemaType.equalsIgnoreCase("basic")) {
@@ -134,7 +134,7 @@ public class DerbyInitializer {
 	 * @throws FHIRPersistenceDBConnectException
 	 */
 	@SuppressWarnings("rawtypes")
-	private Connection establishDb() throws FHIRPersistenceDBConnectException  {
+	private Connection establishDb(boolean connectionReset) throws FHIRPersistenceDBConnectException  {
 		
 		Connection connection = null;
 		SQLException sqlEx;
@@ -142,7 +142,14 @@ public class DerbyInitializer {
 		FHIRDbDAO dao = new FHIRDbDAOBasicImpl(this.dbProps);
 		
 		try {
-			connection = dao.getConnection();
+			if(connectionReset) {
+				this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
+				dao = new FHIRDbDAOBasicImpl(this.dbProps);
+				connection = dao.getConnection();
+				this.setNewDbCreated(true);
+			} else {
+				connection = dao.getConnection();
+			}
 		} 
 		catch (FHIRPersistenceDBConnectException e) {
 			if (e.getCause() != null && e.getCause() instanceof SQLException) {
