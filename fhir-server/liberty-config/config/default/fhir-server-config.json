@@ -98,9 +98,9 @@ CODE_REMOVED
             "jdbc":{
                 "__comment":"Configuration properties for the JDBC persistence implementation",
                 "bootstrapDb":true,
-                "sProcJarLocation": "userlib/fhir-derby-sproc-99-SNAPSHOT.jar",
+                "derbyStoredProcJarPath": "userlib/fhir-derby-sproc-99-SNAPSHOT.jar",
                 "__comment1":"schemaType allowed values are: basic or normalized",
-                "schemaType":"normalized",
+                "schemaType":"basic",
                 "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource"
             },

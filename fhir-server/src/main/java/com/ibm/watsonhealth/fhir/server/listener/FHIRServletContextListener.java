@@ -7,18 +7,13 @@
 package com.ibm.watsonhealth.fhir.server.listener;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_SPROC_JAR_LOC;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_DERBY_SPROC_JAR_PATH;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_SCHEMA_TYPE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -31,9 +26,6 @@ import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 
-import org.apache.commons.io.input.ReaderInputStream;
-import org.apache.derby.tools.ij;
-
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
@@ -42,14 +34,8 @@ import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationSer
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.DerbyBootstrapper;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
-
-import liquibase.Contexts;
-import liquibase.Liquibase;
-import liquibase.database.Database;
-import liquibase.database.DatabaseFactory;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.resource.ClassLoaderResourceAccessor;
 
 @WebListener("IBM Watson Health Cloud FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -121,11 +107,13 @@ public class FHIRServletContextListener implements ServletContextListener {
             }
             
             Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
-            String sProcJarLocation = fhirConfig.getStringProperty(PROPERTY_JDBC_SPROC_JAR_LOC);
+            String derbySProcJarLocation = fhirConfig.getStringProperty(PROPERTY_JDBC_DERBY_SPROC_JAR_PATH);
             if (performDbBootstrap) {
             	SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
             	String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
-            	bootstrapDb(datasourceJndiName, schemaType, sProcJarLocation);
+            	InitialContext ctxt = new InitialContext();
+            	log.fine("Attempting to bootstrap database using datasource: " + datasourceJndiName);
+            	DerbyBootstrapper.bootstrapDb((DataSource) ctxt.lookup(datasourceJndiName), schemaType, derbySProcJarLocation);
             }
             
             // Finally, set our "initComplete" flag to true.
@@ -161,86 +149,5 @@ public class FHIRServletContextListener implements ServletContextListener {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
             }
         }
-    }
-    
-    /**
-	 * 
-	 * Install Java Stored Procedure jar file into derby DB
-	 */
-	protected boolean runScript(String commands, Connection connection) { 
-		InputStream inStream = new BufferedInputStream( new ReaderInputStream( new StringReader(commands)));
-	    try { 
-	        int result  = ij.runScript(connection,inStream,"UTF-8",System.out,"UTF-8"); 
-	        return (result==0); 
-	    } catch (IOException e) { 
-	        return false; 
-	    } finally { 
-	        if(inStream!=null) { 
-	            try { 
-	            	inStream.close(); 
-	            } 
-	            catch (IOException e) { 
-	            } 
-	        } 
-	    } 
-	} 
-    
-    /**
-     * Bootstraps the FHIR database.
-     * A DB connection is acquired. Then, a Liquibase changelog is run against the database to define tables.
-     * Note: this is only done for Derby databases.
-     * @param schemaType - An enumerated value indicating the schema type to be used when bootstrapping the database.
-     */
-    private void bootstrapDb(String datasourceJndiName, SchemaType schemaType, String sProcJarLocation)  {
-    	if (log.isLoggable(Level.FINER)) {
-			log.entering(FHIRServletContextListener.class.getName(), "bootstrapDb");
-		}
-    	
-    	InitialContext ctxt; 
-    	DataSource fhirDb;
-    	Connection connection;
-    	String dbDriverName;
-    	Database database;
-		Liquibase liquibase;
-		String changeLogPath = null;
-    	    	
-    	try {
-    	    log.fine("Attempting to bootstrap database using datasource: " + datasourceJndiName);
-	    	ctxt = new InitialContext();
-			fhirDb = (DataSource) ctxt.lookup(datasourceJndiName);
-			connection = fhirDb.getConnection();
-			dbDriverName = connection.getMetaData().getDriverName();
-						
-			if (dbDriverName != null && dbDriverName.contains("Derby")) {
-				switch (schemaType) {
-				case BASIC: 	 changeLogPath = "liquibase/ddl/derby/basic-schema/fhirserver.derby.basic.xml";
-								 break;
-				case NORMALIZED: changeLogPath = "liquibase/ddl/derby/normalized-schema/fhirserver.derby.normalized.xml";
-								 break;
-				}
-				database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-				StringBuilder sb = new StringBuilder();
-				sb.append("CALL sqlj.install_jar('" + sProcJarLocation + "', 'APP.FhirDerbySProcs',0);");
-				sb.append("CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.database.classpath','APP.FhirDerbySProcs');");
-				if(schemaType == SchemaType.NORMALIZED) {
-					if(this.runScript(sb.toString(), connection)) {
-						liquibase = new Liquibase(changeLogPath, new ClassLoaderResourceAccessor(), database);
-						liquibase.update((Contexts)null);
-					}
-				} else if(schemaType == SchemaType.BASIC) {
-					liquibase = new Liquibase(changeLogPath, new ClassLoaderResourceAccessor(), database);
-					liquibase.update((Contexts)null);
-				}
-			}
-    	}
-    	catch(Throwable e) {
-    		String msg = "Encountered an exception while bootstrapping the FHIR database";
-		    log.log(Level.SEVERE, msg, e);
-    	}
-    	finally {
-    		if (log.isLoggable(Level.FINER)) {
-    			log.exiting(FHIRServletContextListener.class.getName(), "bootstrapDb");
-    		}
-    	}
     }
 }

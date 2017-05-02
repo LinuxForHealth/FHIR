@@ -40,7 +40,7 @@ import liquibase.resource.FileSystemResourceAccessor;
  */
 public class DerbyInitializer {
 	
-	private static final String LIQUIBASE_CHANGE_LOG_PATH = "../fhir-schemaddl/src/main/resources/liquibase/ddl/derby/basic-schema/fhirserver.derby.basic.xml";
+	private static final String LIQUIBASE_CHANGE_LOG_PATH_TEMPLATE = "../fhir-schemaddl/src/main/resources/liquibase/ddl/derby/<schemaType>-schema/fhirserver.derby.<schemaType>.xml";
 	
 	private boolean newDbCreated = false;
 	private Properties dbProps;
@@ -172,7 +172,9 @@ public class DerbyInitializer {
 		
 		Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(dbConn));
 		
-		Liquibase liquibase = new Liquibase(LIQUIBASE_CHANGE_LOG_PATH, new FileSystemResourceAccessor(), database);
+		String template = LIQUIBASE_CHANGE_LOG_PATH_TEMPLATE;
+		
+		Liquibase liquibase = new Liquibase(template.replaceAll("<schemaType>", this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE)), new FileSystemResourceAccessor(), database);
 		
 		liquibase.update((Contexts)null);
 	}
