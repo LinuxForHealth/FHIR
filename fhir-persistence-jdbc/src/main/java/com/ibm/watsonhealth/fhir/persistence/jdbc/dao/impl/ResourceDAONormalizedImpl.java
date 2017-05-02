@@ -19,7 +19,6 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 
 /**
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
@@ -239,43 +238,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 				stmtString = String.format(SQL_HISTORY_COUNT, resourceType, resourceType);
 				count = this.runCountQuery(stmtString, logicalId);
 			}
-		}
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-		return count;
-	}
-
-	@Override
-	public List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-		final String METHODNAME = "search(SqlQueryData)";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		List<Resource> resources;
-		String sqlSelect = queryData.getQueryString();
-		Object[] bindVariables = queryData.getBindVariables().toArray();
-		
-		try {
-			resources = this.runQuery(sqlSelect, bindVariables);
-		}
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-				
-		return resources;
-	}
-
-	@Override
-	public int searchCount(SqlQueryData queryData) 	throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-		final String METHODNAME = "searchCount(SqlQueryData)";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		int count;
-		String sqlSelectCount = queryData.getQueryString();
-		Object[] bindVariables = queryData.getBindVariables().toArray();
-				
-		try {
-			count = this.runCountQuery(sqlSelectCount, bindVariables);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);

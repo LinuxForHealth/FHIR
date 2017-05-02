@@ -12,8 +12,6 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -31,16 +29,9 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
-import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
 /**
  * This class is the JDBC implementation of the FHIRPersistence interface to support the "normalized" DB schema, 
@@ -53,9 +44,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	private static final String CLASSNAME = FHIRPersistenceJDBCNormalizedImpl.class.getName();
 	private static final Logger log = Logger.getLogger(CLASSNAME);
 	
-	private ResourceNormalizedDAO resourceDao;
-	private ParameterNormalizedDAO parameterDao;
-	
 
 	/**
 	 * Constructor for use when running as web application in WLP. 
@@ -63,14 +51,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	 */
 	public FHIRPersistenceJDBCNormalizedImpl() throws Exception {
 		super();
-		final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl()";
+		final String METHODNAME = "FHIRPersistenceJDBCImpl()";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 		this.resourceDao = new ResourceDAONormalizedImpl();
-		this.parameterDao = new ParameterDAONormalizedImpl();
+		this.paramaterDao = new ParameterDAONormalizedImpl();
 							
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -80,17 +68,13 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	 * @throws Exception 
 	 */
 	public FHIRPersistenceJDBCNormalizedImpl(Properties configProps) throws Exception {
-		super(configProps);
-		final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl(Properties)";
+		super();
+		final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-		this.resourceDao = new ResourceDAONormalizedImpl(configProps);
-		this.parameterDao = new ParameterDAONormalizedImpl(configProps);
-		
-		System.out.println("this.updateCreateEnabled = " + this.updateCreateEnabled);
-		System.out.println("this.resourceDao = " + this.resourceDao);
-		System.out.println("this.parameterDao = " + this.parameterDao);
+		this.resourceDao = new ResourceDAONormalizedImpl();
+		this.paramaterDao = new ParameterDAONormalizedImpl();
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -130,6 +114,15 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        resourceDTO.setLastUpdated(timestamp);
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
 	        
+	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
+	        // the search parameters being persisted first (in a global temporary table).
+	        this.storeSearchParameters(resource, resourceDTO);
+	        
+	        // Persist the Resource DTO.
+	        this.resourceDao.insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+	        
 	        // Set the resource id and meta fields.
 	        resource.setId(id(resourceDTO.getLogicalId()));
 	        Meta meta = resource.getMeta();
@@ -140,15 +133,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
 	        
-	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
-	        // the search parameters being persisted first (in a global temporary table).
-	        this.storeSearchParameters(resource, resourceDTO);
-	        
-	        // Persist the Resource DTO.
-	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
-	        
+ 
 	        // Time to commit the changes.
 	        if (txnStarted) {
 	            commit();
@@ -189,7 +174,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		try {
 			// Get the current version of the Resource.
-			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+			existingResourceDTO = this.resourceDao.read(logicalId, resourceType.getSimpleName());
 	        
 	        // If this FHIR Resource doesn't exist and updateCreateEnabled is turned off, throw an exception
 	        if (existingResourceDTO == null && !updateCreateEnabled) {
@@ -225,6 +210,15 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        resourceDTO.setLastUpdated(timestamp);
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
 	        
+	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
+	        // the search parameters being persisted first (in a global temporary table).
+	        this.storeSearchParameters(resource, resourceDTO);
+	        
+	        // Persist the Resource DTO.
+	        this.resourceDao.insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+	        
 	        // Set the resource id and meta fields.
 	        resource.setId(id(logicalId));
 	        Meta meta = resource.getMeta();
@@ -234,16 +228,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
-	        
-	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
-	        // the search parameters being persisted first (in a global temporary table).
-	        this.storeSearchParameters(resource, resourceDTO);
-	        
-	        // Persist the Resource DTO.
-	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
-	                
+	          
+        
 	        // Time to commit the changes.
 	        if (txnStarted) {
 	            commit();
@@ -266,82 +252,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#search(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class)
-	 */
-	@Override
-	public List<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
-			throws FHIRPersistenceException {
-		final String METHODNAME = "search";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		List<Resource> resources = new ArrayList<Resource>();
-	    FHIRSearchContext searchContext = context.getSearchContext();
-	    JDBCNormalizedQueryBuilder queryBuilder;
-	    //List<Long> sortedIdList;
-	    List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
-	    int searchResultCount = 0;
-	    int pageSize;
-	    int lastPageNumber;
-	    SqlQueryData countQuery;
-	    SqlQueryData query;
-	    
-	    try {
-	        if (searchContext.hasSortParameters()) {
-	        	throw new FHIRPersistenceNotSupportedException("Search result sorting is not supported at this time.");
-	        	//queryBuilder = new JDBCNormalizedSortQueryBuilder();
-	        }
-	         
-	        queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao());
-	         
-	        
-	        countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
-	        if (countQuery != null) {
-	        	searchResultCount = this.getResourceDao().searchCount(countQuery);
-	        	log.fine("searchResultCount = " + searchResultCount);
-	        	searchContext.setTotalCount(searchResultCount);
-	            pageSize = searchContext.getPageSize();
-	            lastPageNumber = (int) ((searchResultCount + pageSize - 1) / pageSize);
-	            searchContext.setLastPageNumber(lastPageNumber);
-	            
-	             
-	            if (searchResultCount > 0) {
-	            	query = queryBuilder.buildQuery(resourceType, searchContext);
-	            	
-	                //if (searchContext.hasSortParameters()) {
-	                	//sortedIdList = this.resourceDao.searchForIds(queryString);
-	                	//resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
-	               // }
-	                //else {
-	                	unsortedResultsList = this.getResourceDao().search(query);
-	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
-	                //}  
-	            }
-	        }
-	    }
-	    catch(FHIRPersistenceException e) {
-			throw e;
-		}
-		catch(Throwable e) {
-			String msg = "Unexpected error while performing a search operation.";
-	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg, e);
-		}
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-	    
-		return resources;
-	}
-	
-	protected ParameterDAO getParameterDao() {
-		return this.parameterDao;
-	}
-
-	protected ResourceNormalizedDAO getResourceDao() {
-		return resourceDao;
 	}
 
 }

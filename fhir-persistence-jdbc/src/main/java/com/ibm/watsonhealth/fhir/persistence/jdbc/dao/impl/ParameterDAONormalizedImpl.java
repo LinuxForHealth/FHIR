@@ -85,7 +85,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 			stmt = connection.prepareStatement(SQL_INSERT);
 			
 			for (Parameter parameter: parameters) {
-				stmt.setInt(1, ParameterNamesCache.getParameterNameId(parameter.getName(), this));
+				stmt.setInt(1, ParameterNamesCache.getParameterNameId(parameter, this));
 				stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
 				stmt.setString(3, parameter.getValueString());
 				stmt.setTimestamp(4, parameter.getValueDate());
@@ -100,7 +100,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 				tokenSystem = parameter.getValueSystem();
 				if ((parameter.getType().equals(Type.TOKEN) || parameter.getType().equals(Type.QUANTITY)) &&
 					(tokenSystem == null || tokenSystem.isEmpty())) {
-						tokenSystem = DEFAULT_TOKEN_SYSTEM;
+					tokenSystem = DEFAULT_TOKEN_SYSTEM;
 				}
 				if(tokenSystem != null) {
 					stmt.setInt(13, CodeSystemsCache.getCodeSystemId(tokenSystem, this));
@@ -260,8 +260,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 	 * @throws FHIRPersistenceDataAccessException 
 	 *  
 	 */
-	@Override
-	public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+	public Integer readParameterNameId(Parameter parameter) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
 		final String METHODNAME = "storeParameterNameId";
 		log.entering(CLASSNAME, METHODNAME);
 		
@@ -270,14 +269,14 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		Integer parameterNameId = null;
 		String currentSchema;
 		String stmtString;
-		String errMsg = "Failure storing search parameter name id: name=" + parameterName;
+		String errMsg = "Failure storing search parameter name id: name=" + parameter.getName();
 				
 		try {
 			connection = this.getConnection();
 			currentSchema = connection.getSchema().trim();
 			stmtString = String.format(SQL_READ_PARAMETER_NAME, currentSchema);
 			stmt = connection.prepareCall(stmtString); 
-			stmt.setString(1, parameterName);
+			stmt.setString(1, parameter.getName());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
 			parameterNameId = stmt.getInt(2);
