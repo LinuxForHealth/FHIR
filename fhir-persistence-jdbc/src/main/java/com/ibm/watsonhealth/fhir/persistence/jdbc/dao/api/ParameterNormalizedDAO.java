@@ -41,12 +41,12 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
 	/**
 	 * Reads the id associated with the name of the passed Parameter from the Parameter_Names table. If the id for the passed name is not present
 	 * in the database, an id is generated, persisted, and returned.
-	 * @param parameter A valid FHIR search  parameter.
+	 * @param String A valid FHIR search  parameter name.
 	 * @return Integer - the id associated with the name of the passed Parameter.
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws FHIRPersistenceDataAccessException
 	 */
-	Integer readParameterNameId(Parameter parameter) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+	Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 	
 	/**
 	 * Reads the id associated with the name of the passed code system name from the Code_Systems table. If the id for the passed system name is not present

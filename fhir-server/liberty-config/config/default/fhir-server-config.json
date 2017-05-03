@@ -103,17 +103,6 @@ CODE_REMOVED
                 "schemaType":"basic",
                 "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource"
-            },
-            "jpa":{
-                "__comment":"Configuration properties for the JPA persistence implementation",
-                "useUUIDs":true
-            },
-            "cloudant":{
-                "__comment":"Configuration properties for the Cloudant persistence implementation",
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-                "dbName":"fhirdb"
             }
         }
     }
