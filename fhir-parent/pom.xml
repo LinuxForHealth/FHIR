@@ -50,6 +50,11 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>com.ibm.whc</groupId>
+				<artifactId>audittrail-retrieve-api</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
 				<groupId>net.wasdev.maven.tools.targets</groupId>
 				<artifactId>liberty-target</artifactId>
 				<version>${was.liberty.version}</version>
