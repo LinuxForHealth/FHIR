@@ -168,7 +168,7 @@ public class FHIRProxyXADataSource implements XADataSource {
 
             return datasource;
         } catch (Throwable t) {
-            throw new SQLException();
+            throw new SQLException("Unexpected error while retrieving XADataSource delegate.", t);
         } finally {
             log.exiting(this.getClass().getName(), "getDelegate");
         }

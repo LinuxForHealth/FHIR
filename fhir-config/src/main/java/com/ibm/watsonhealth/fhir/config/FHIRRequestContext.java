@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.config;
 
-import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import java.util.logging.Logger;
 
 /**
  * This class is used to hold FHIR REST API context information.
@@ -17,6 +17,8 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
  * by the FHIR Server as it processes the request.
  */
 public class FHIRRequestContext {
+    private static final Logger log = Logger.getLogger(FHIRRequestContext.class.getName());
+
     private String tenantId;
     private String dataStoreId;
     
@@ -28,15 +30,18 @@ public class FHIRRequestContext {
     };
     
     public FHIRRequestContext() {
+        log.finer("Default ctor: " + toString());
     }
     
     public FHIRRequestContext(String tenantId) {
         setTenantId(tenantId);
+        log.finer("1-arg ctor: " + toString());
     }
     
     public FHIRRequestContext(String tenantId, String dataStoreId) {
         this(tenantId);
         setDataStoreId(dataStoreId);
+        log.finer("2-arg ctor: " + toString());
     }
     
     public String getTenantId() {
@@ -59,13 +64,18 @@ public class FHIRRequestContext {
      */
     public static void set(FHIRRequestContext context) {
         contexts.set(context);
+        log.finer("Set request context on thread-local: " + context.toString());
+        log.finer("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
     }
     
     /**
      * Returns the FHIRRequestContext on the current thread.
      */
     public static FHIRRequestContext get() {
-        return contexts.get();
+        FHIRRequestContext result = contexts.get();
+        log.finer("Retrieved request context from thread-local: " + result.toString());
+        log.finer("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
+        return result;
     }
     
     /**
@@ -74,10 +84,16 @@ public class FHIRRequestContext {
      */
     public static void remove() {
         contexts.remove();
+        log.finer("Removed request context from thread-local.");
     }
 
     @Override
     public String toString() {
-        return "FHIRRequestContext [tenantId=" + tenantId + ", dataStoreId=" + dataStoreId + "]";
+        return "FHIRRequestContext [tenantId=" + tenantId + ", dataStoreId=" + dataStoreId 
+                + ", this="+ objectHandle(this) + "]";
+    }
+    
+    private static String objectHandle(Object obj) {
+        return '@' + Integer.toHexString(System.identityHashCode(obj));
     }
 }
