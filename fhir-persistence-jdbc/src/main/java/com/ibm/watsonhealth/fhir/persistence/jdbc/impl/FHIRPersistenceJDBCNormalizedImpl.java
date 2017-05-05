@@ -88,10 +88,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.resourceDao = new ResourceDAONormalizedImpl(configProps);
 		this.parameterDao = new ParameterDAONormalizedImpl(configProps);
 		
-		System.out.println("this.updateCreateEnabled = " + this.updateCreateEnabled);
-		System.out.println("this.resourceDao = " + this.resourceDao);
-		System.out.println("this.parameterDao = " + this.parameterDao);
-		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
 

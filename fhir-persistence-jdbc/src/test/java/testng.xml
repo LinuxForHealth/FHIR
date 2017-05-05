@@ -2,7 +2,7 @@
 
 <suite name="JDBCUnitTestsSuite">
 
-	<test name="JDBCTests">
+	<test name="JDBCBasicTests">
 	  	<groups>
 	  		<run>
 	  			<include name="jdbc"></include>
@@ -27,8 +27,18 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRiskAssmtTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQuerySortTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCSearchAllTest" />
-           <!-- <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
+       </classes>
+    </test>
+    
+    <test name="JDBCNormalizedTests">
+	  	<groups>
+	  		<run>
+	  			<include name="jdbc-normalized"></include>
+	  		</run>
+	  	</groups>
+       <classes>
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
+           <!-- <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryEncounterTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryGroupTest" />
