@@ -56,7 +56,7 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
      * Tests a single ascending sort parameter on a Patient search.
      * @throws Exception
      */
-    @Test(groups = { "jpa", "jdbc" })
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" })
     public void testSingleSortParmAsc() throws Exception {
 			
 		Class<Patient> resourceType = Patient.class;
@@ -96,7 +96,7 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
      * Tests a single descending sort parameter on a Patient search.
      * @throws Exception
      */
-    @Test(groups = { "jpa", "jdbc" })
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" })
     public void testSingleSortParmDesc() throws Exception {
 			
 		Class<Patient> resourceType = Patient.class;
@@ -136,7 +136,7 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
      * Tests an ascending sort parameter in combination with a descending sort parameter on a Patient search.
      * @throws Exception
      */
-    @Test(groups = { "jpa", "jdbc" })
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" })
     public void testMultiSortParms() throws Exception {
 			
 		Class<Patient> resourceType = Patient.class;

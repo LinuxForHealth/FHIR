@@ -27,7 +27,7 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
     protected String patientId;
     protected String lastUpdated;
 
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreatePatient() throws Exception {
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         
@@ -49,35 +49,35 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
         lastUpdated = patient.getMeta().getLastUpdated().getValue().toString();
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingId() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_id", patientId);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingLastUpdated() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_lastUpdated", lastUpdated);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingTag() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_tag", "http://ibm.com/watsonhealth/fhir/tag|tag");
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingSecurity() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_security", "http://ibm.com/watsonhealth/fhir/security|security");
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingProfile() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_profile", "http://ibm.com/watsonhealth/fhir/profile/Profile");
         assertNotNull(resources);

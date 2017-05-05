@@ -35,7 +35,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse1() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse.json");
 
@@ -53,7 +53,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse2() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "questionnaireresponse-example-gcs.canonical.json");
 
@@ -71,7 +71,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse_with_patient() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "questionnaireresponse-example-gcs.canonical2.json");
 
@@ -89,7 +89,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse_with_encounter() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse_with_encounter.json");
 
@@ -107,7 +107,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse_with_encounter_1() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse_with_encounter_1.json");
 
@@ -125,7 +125,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse_with_relatedPerson() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse-with-RelatedPerson.json");
 
@@ -143,7 +143,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse_with_relatedPerson2() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse-with-RelatedPerson2.json");
 
@@ -161,7 +161,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaireResponse_with_device() throws Exception {
     	QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "QuestionnaireResponse_with_device.json");
 
@@ -178,7 +178,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with author = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_author() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "author", "Patient/1");
 		assertNotNull(resources);
@@ -190,7 +190,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with questionnaire = 'Questionnaire/1661690' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_questionnaire() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "questionnaire", "Questionnaire/1661690");
 		assertNotNull(resources);
@@ -202,7 +202,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with subject = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_subject() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "subject", "Patient/1");
 		assertNotNull(resources);
@@ -214,7 +214,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f007' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponseQuery_source() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "source", "Practitioner/f007");
 		assertNotNull(resources);
@@ -226,7 +226,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with patient = 'Patient/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_patient() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "patient", "Patient/1");
 		assertNotNull(resources);
@@ -238,7 +238,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2015-11-25T18:30:50+01:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_authored() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "authored", "2015-11-25T18:30:50+01:00");
 		assertNotNull(resources);
@@ -250,7 +250,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_authored_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
 		assertNotNull(resources);
@@ -265,7 +265,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1", "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1", "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponsePagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = QuestionnaireResponse.class;
@@ -286,7 +286,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2015-11-25T18:30:50+01:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponsePagination_002() throws Exception {
 		
 		String parmName = "authored";
@@ -312,7 +312,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponsePagination_003() throws Exception {
 		
 		String parmName = "authored";
@@ -346,7 +346,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
 	public void testQuestionnaireResponseQuery_noParams_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "f002", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -357,7 +357,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with author = 'Practitioner/f201' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
 	public void testQuestionnaireResponseQuery_author_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "f002", QuestionnaireResponse.class, persistence, "author", "Practitioner/f201");
 		assertNotNull(resources);
@@ -369,7 +369,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
 	public void testQuestionnaireResponseQuery_authored_noResults_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "f002", QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
 		assertNotNull(resources);
@@ -380,7 +380,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponseQuery_noParams_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -391,7 +391,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with subject = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponseQuery_author_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
@@ -403,7 +403,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
 	public void testQuestionnaireResponseQuery_authored_noResults_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
 		assertNotNull(resources);
@@ -414,7 +414,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
 	public void testQuestionnaireResponseQuery_noParams_RelatedPerson_compartment() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -425,7 +425,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'RelatedPerson/Benedicte' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
 	public void testQuestionnaireResponseQuery_source_RelatedPerson_compartment() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "source", "RelatedPerson/Benedicte");
 		assertNotNull(resources);
@@ -437,7 +437,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'RelatedPerson/None' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson" })
 	public void testQuestionnaireResponseQuery_sourceNoResults_RelatedPerson_compartment() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "source", "RelatedPerson/None");
 		assertNotNull(resources);
@@ -448,7 +448,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
 	public void testQuestionnaireResponseQuery_noParams_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -459,7 +459,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f201' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
 	public void testQuestionnaireResponseQuery_source_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "source", "Practitioner/f201");
 		assertNotNull(resources);
@@ -471,7 +471,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f2001' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
 	public void testQuestionnaireResponseQuery_sourceNoResults_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "source", "Practitioner/f2001");
 		assertNotNull(resources);
@@ -482,7 +482,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f201', but an incorrect compartment id = f2001 which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter" })
 	public void testQuestionnaireResponseQuery_badCompmtIdNoResults_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f2001", QuestionnaireResponse.class, persistence, "source", "Practitioner/f2001");
 		assertNotNull(resources);
@@ -493,7 +493,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
 	public void testQuestionnaireResponseQuery_noParams_DevCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -504,7 +504,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f201' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
 	public void testQuestionnaireResponseQuery_source_DevCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", QuestionnaireResponse.class, persistence, "source", "Practitioner/f201");
 		assertNotNull(resources);
@@ -516,7 +516,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f2001' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
 	public void testQuestionnaireResponseQuery_sourceNoResults_DevCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", QuestionnaireResponse.class, persistence, "source", "Practitioner/f2001");
 		assertNotNull(resources);
@@ -527,7 +527,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f201', but an incorrect compartment id = f2001 which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_device" })
 	public void testQuestionnaireResponseQuery_badCompmtIdNoResults_DevCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devId", QuestionnaireResponse.class, persistence, "source", "Practitioner/f2001");
 		assertNotNull(resources);
@@ -542,7 +542,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
 	public void testMutiInc_QRQuery_noParams_RelatedPersonCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -566,7 +566,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2014-12-11T04:44:16Z' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
 	public void testMutiInc_QRQuery_source_RelatedPersonCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z");
 		assertNotNull(resources);
@@ -590,7 +590,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
 	public void testMutiInc_QRQuery_noParams_PractitionerCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -614,7 +614,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2013-06-18T00:00:00+01:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
 	public void testMutiInc_QRQuery_source_PractitionerCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "authored", "2013-06-18T00:00:00+01:00");
 		assertNotNull(resources);
@@ -638,7 +638,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
 	public void testMutiInc_QRQuery_noParams_PatientCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, null, null);
 		assertNotNull(resources);
@@ -662,7 +662,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse resource type with authored = '2014-12-11T04:44:16Z' which should yield correct results.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
 	public void testMutiInc_QRQuery_authored_PatientCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z");
 		assertNotNull(resources);
