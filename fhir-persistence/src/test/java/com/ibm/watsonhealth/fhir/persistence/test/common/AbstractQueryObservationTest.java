@@ -43,7 +43,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreatePatient() throws Exception {
     	try {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
@@ -66,7 +66,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testCreateObservation1() throws Exception {
         Observation observation = buildObservation(savedPatient.getId().getValue(), "Observation1.json");
 
@@ -84,7 +84,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation2() throws Exception {
         Observation observation = buildObservation("example", "observation-example.canonical.json");
 
@@ -102,7 +102,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation3() throws Exception {
         Observation observation = buildObservation("blood-pressure", "observation-example-bloodpressure.canonical.json");
 
@@ -120,7 +120,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation4() throws Exception {
         Observation observation = buildObservation("blood-pressure", "obs-uslab-example8.canonical.json");
 
@@ -138,7 +138,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation5() throws Exception {
         Observation observation = readResource(Observation.class, "Observation5.json");
 
@@ -156,7 +156,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation_with_device() throws Exception {
         Observation observation = readResource(Observation.class, "Observation_with_device.json");
 
@@ -174,7 +174,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation_with_device_1() throws Exception {
         Observation observation = readResource(Observation.class, "Observation_with_device_1.json");
 
@@ -192,7 +192,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation_with_patient_1() throws Exception {
         Observation observation = readResource(Observation.class, "observation-example.canonical2.json");
 
@@ -210,7 +210,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateObservation_with_relatedPerson() throws Exception {
         Observation observation = readResource(Observation.class, "Observation_with_RelatedPerson.json");
 
@@ -227,7 +227,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-value-string = 'Systolic' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString1() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Systolic");
 		assertNotNull(resources);
@@ -240,7 +240,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-value-string = 'Diastolic' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString2() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastolic");
 		assertNotNull(resources);
@@ -254,7 +254,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * This should match Observations where Observation.component.valueString = 'Diastolic'
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString3() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastol");
 		assertNotNull(resources);
@@ -268,7 +268,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * This should NOT match any Observations Observation.component.valueString. 
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString4() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "iastol");
 		assertNotNull(resources);
@@ -280,7 +280,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * This should match Observations where Observation.component.valueString = 'Diastolic'
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString5() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string:contains", "iastol");
 		assertNotNull(resources);
@@ -294,7 +294,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * This should NOT match any Observations Observation.component.valueString. 
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString6() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastol%");
 		assertNotNull(resources);
@@ -306,7 +306,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * This should NOT match any Observations Observation.component.valueString. 
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_componentValueString7() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-string", "Diastol_");
 		assertNotNull(resources);
@@ -317,7 +317,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-string = 'Distolic' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_valueString_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-string", "Distolic");
 		assertNotNull(resources);
@@ -328,7 +328,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_encounter() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
@@ -340,7 +340,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_Patient() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
@@ -352,7 +352,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_PatientNoResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -363,7 +363,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with subject = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_subject() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
@@ -375,7 +375,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with performer = 'Practitioner/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationQuery_performer() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "performer", "Practitioner/example");
 		assertNotNull(resources);
@@ -387,7 +387,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with specimen = 'Specimen/spec-uslab-example2' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation4" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation4" })
 	public void testObservationQuery_specimen() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "specimen", "Specimen/spec-uslab-example2");
 		assertNotNull(resources);
@@ -399,7 +399,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with date = '2012-09-17' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationQuery_date() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "date", "2012-09-17");
 		assertNotNull(resources);
@@ -411,7 +411,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with date = '2012-09-17' OR '2012-11-11' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationQuery_date_multivalue() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "date", "2012-09-17,2012-11-11");
 		assertNotNull(resources);
@@ -424,7 +424,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-date = '2014-12-04T15:42:15-08:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation4" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation4" })
 	public void testObservationQuery_valueDate() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-date", "2014-12-04T15:42:15-08:00");
 		assertNotNull(resources);
@@ -436,7 +436,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-date (valuePeriod - start) = '2014-11-04T15:42:15-08:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation4" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation4" })
 	public void testObservationQuery_valueDate_valuePeriodStart() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-date", "2014-11-04T15:42:15-08:00");
 		assertNotNull(resources);
@@ -448,7 +448,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_valueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -461,7 +461,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_valueQuantity_multiValue() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av],222|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -473,7 +473,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'le185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_LEvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "le185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -485,7 +485,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'lt186|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_LTvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "lt186|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -497,7 +497,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'gt186|http://unitsofmeasure.org|[lb_av]' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_GTvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "gt186|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -508,7 +508,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'ge185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_GEvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "ge185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -520,7 +520,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'eq185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_EQvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "eq185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -532,7 +532,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = 'ne186|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testObservationQuery_NEvalueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-quantity", "ne186|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -544,7 +544,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with category = 'vital-signs' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_categoryCode() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "category", "vital-signs");
 		assertNotNull(resources);
@@ -556,7 +556,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with category != 'vital-signs' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_categoryCode_notEqual() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "category:not", "vital-signs");
 		assertNotNull(resources);
@@ -567,7 +567,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with category = 'http://hl7.org/fhir/observation-category|vital-signs' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_categorySystemCode() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "category", "http://hl7.org/fhir/observation-category|vital-signs");
 		assertNotNull(resources);
@@ -580,7 +580,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with category != 'http://hl7.org/fhir/observation-category|vital-signs' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_categorySystemCode_notEquals() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "category:not", "http://hl7.org/fhir/observation-category|vital-signs");
 		assertNotNull(resources);
@@ -591,7 +591,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with category != 'http://hl7.org/fhir/observation-category|vital-signs' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_categorySystemCode_notEquals1() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "category:not", "http://hl7.org/fhir/observation-category|bogusCode");
 		assertNotNull(resources);
@@ -602,7 +602,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with category = 'http://hl7.org/fhir/observation-category|vital-signs1' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
 	public void testObservationQuery_categorySystemCode_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "category", "http://hl7.org/fhir/observation-category|vital-signs1");
 		assertNotNull(resources);
@@ -613,7 +613,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-code = 'http://loinc.org|8453-3' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_componentCode() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-code", "http://loinc.org|8453-3");
 		assertNotNull(resources);
@@ -626,7 +626,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with component-value-quantity = '93.7||mmHg' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_componentValueQuantity() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "93.7||mmHg");
 		assertNotNull(resources);
@@ -640,7 +640,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	//Disabled for Cloudant as it fails for Cloudant on Bluemix
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_componentValueQuantity_LE() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "le93.7||mmHg");
 		assertNotNull(resources);
@@ -654,7 +654,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	//Disabled for Cloudant as it fails for Cloudant on Bluemix
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_componentValueQuantity_LE_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "le93.6||mmHg");
 		assertNotNull(resources);
@@ -666,7 +666,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	//Disabled for Cloudant as it fails for Cloudant on Bluemix
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_componentValueQuantity_GE() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "ge93.7||mmHg");
 		assertNotNull(resources);
@@ -680,7 +680,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	//Disabled for Cloudant as it fails for Cloudant on Bluemix
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_componentValueQuantity_LT() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "lt93.8||mmHg");
 		assertNotNull(resources);
@@ -694,7 +694,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	//Disabled for Cloudant as it fails for Cloudant on Bluemix
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_componentValueQuantity_GT() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "component-value-quantity", "gt93||mmHg");
 		assertNotNull(resources);
@@ -707,7 +707,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with status = 'final' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_status() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "status", "final");
 		assertNotNull(resources);
@@ -719,7 +719,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with status = 'draft' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_status_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "status", "draft");
 		assertNotNull(resources);
@@ -731,7 +731,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Observation's valueRange.
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_valueRange() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-range", "3.7|http://loinc.org|v15074-8");
 		assertNotNull(resources);
@@ -748,7 +748,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Observation's valueRange.
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
 	public void testObservationQuery_valueRange_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "value-range", "97.3|http://loinc.org|v15074-8");
 		assertNotNull(resources);
@@ -763,7 +763,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation4" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation4" })
 	public void testObservationPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Observation.class;
@@ -785,7 +785,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	//Disabled for Cloudant as it fails for Cloudant on Bluemix
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationPagination_002() throws Exception {
 		
 		String parmName = "date";
@@ -811,7 +811,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with date = '2025-09-17' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationPagination_003() throws Exception {
 		
 		String parmName = "date";
@@ -835,7 +835,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Then the Observation is chained to the Device, and the Device to the Patient, by way of FHIR references.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
 	public void testCreateObservation_chained() throws Exception {
 		
 		Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
@@ -883,7 +883,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * associated with a Patient with family name = 'Monella'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_chained" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_chained" })
 	public void testObservationQuery_chained_valid() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "device:Device.patient.family", "Monella");
 		assertNotNull(resources);
@@ -896,7 +896,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * associated with a Patient with family name = 'afeljagadf'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_chained" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_chained" })
 	public void testObservationQuery_chained_invalid1() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "device:Device.patient.family", "afeljagadf");
 		assertNotNull(resources);
@@ -909,7 +909,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * 'device' attribute. A FHIRSearchException should be thrown.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_chained" }, 
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" }, 
 			expectedExceptions = FHIRSearchException.class)
 	public void testObservationQuery_chained_invalid2() throws Exception {
 		runQueryTest(Observation.class, persistence, "device.patient.family", "Monella");
@@ -930,7 +930,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
     public void testSingleInclusionCriteria_valueQuantity() throws Exception{
     	List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -942,7 +942,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_encounter() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
@@ -954,7 +954,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_Patient() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
@@ -966,7 +966,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_PatientNoResults() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -977,7 +977,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with subject = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_subject() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
@@ -989,7 +989,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_encounterCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
@@ -1001,7 +1001,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_PatientNoResultsCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -1012,7 +1012,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
     public void testSingleInclusionCriteria_valueQuantityCompmt() throws Exception{
     	List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -1024,7 +1024,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void test1InclusionCriteria_encounter_Pract_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
@@ -1036,7 +1036,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
 	public void test1InclusionCriteria_PatientNoResults_Pract_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "pract-uslab-example1", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -1047,7 +1047,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-date = '2014-12-04T15:42:15-08:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation4" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation4" })
     public void test1InclusionCriteria_valueQuantity_Pract_Compmt() throws Exception{
     	List<Resource> resources = runQueryTest("Practitioner", "pract-uslab-example1", Observation.class, persistence, "value-date", "2014-12-04T15:42:15-08:00");
 		assertNotNull(resources);
@@ -1059,7 +1059,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device" })
 	public void test1InclusionCriteria_code_Device_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "code", "9269-2");
 		assertNotNull(resources);
@@ -1071,7 +1071,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device" })
 	public void test1InclusionCriteria_PatientNoResults_Device_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -1082,7 +1082,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with RelatedPerson = 'benedicte' but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
 	public void test1InclusionCriteria_noParams_RelatedPerson_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "benedicte", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1093,7 +1093,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with code = '55284-4' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
 	public void test1InclusionCriteria_code_RelatedPerson_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "benedicte", Observation.class, persistence, "code", "55284-4");
 		assertNotNull(resources);
@@ -1105,7 +1105,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with RelatedPerson = 'ben' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
 	public void test1InclusionCriteria_performerNoResults_RelatedPerson_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "ben", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1120,7 +1120,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for Observation resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
 	public void testMutiInc_ObservationQuery_noParams_DeviceCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1144,7 +1144,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for a Observation with subject = 'Device/devID' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
 	public void testMutiInc_ObservationQuery_source_DeviceCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "date", "2014-12-11T04:44:16Z");
 		assertNotNull(resources);
@@ -1168,7 +1168,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for a Observation resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
 	public void testMutiInc_QRQuery_noParams_PatientCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1192,7 +1192,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for a QuestionnaireResponse resource type with status = 'final' which should yield correct results.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
 	public void testMutiInc_QRQuery_authored_PatientCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "status", "final");
 		assertNotNull(resources);

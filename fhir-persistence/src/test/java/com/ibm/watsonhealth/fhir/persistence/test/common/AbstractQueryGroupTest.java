@@ -34,7 +34,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateGroup() throws Exception {
     	Group group = readResource(Group.class, "group-example-member.canonical.json");
 
@@ -51,7 +51,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_noParams() throws Exception {
 		List<Resource> resources = runQueryTest(Group.class, persistence, null, null);
 		assertNotNull(resources);
@@ -62,7 +62,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patient/pat1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_member1() throws Exception {
 		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat1");
 		assertNotNull(resources);
@@ -74,7 +74,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupQuery_member2() throws Exception {
 		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat4");
 		assertNotNull(resources);
@@ -90,7 +90,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Group.class;
@@ -111,7 +111,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupPagination_002() throws Exception {
 		
 		String parmName = "member";
@@ -137,7 +137,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
 	 * Tests a query for a Group with member = 'Patint/pat4' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateGroup" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
 	public void testGroupPagination_003() throws Exception {
 		
 		String parmName = "member";

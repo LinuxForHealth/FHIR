@@ -34,7 +34,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateMedication() throws Exception {
     	 
     	Medication medication = readResource(Medication.class, "medicationexample4.canonical.json");
@@ -53,7 +53,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationQuery_noParams() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, null, null);
 		assertNotNull(resources);
@@ -64,7 +64,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with manufacturer = 'http://www.a-smeds.com/fhirresource/1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationQuery_manufacturer() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "manufacturer", "http://www.a-smeds.com/fhirresource/1");
 		assertNotNull(resources);
@@ -76,7 +76,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with manufacturer = 'http://www.a-smeds.com/fhirresource1' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationQuery_manufacturer_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "manufacturer", "http://www.a-smeds.com/fhirresource1");
 		assertNotNull(resources);
@@ -87,7 +87,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with content = 'MedicationExample14' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationQuery_content() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "content", "Medication/MedicationExample14");
 		assertNotNull(resources);
@@ -99,7 +99,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with ingredient = 'Amoxicillin' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationQuery_ingredient() throws Exception {
 		List<Resource> resources = runQueryTest(Medication.class, persistence, "ingredient", "Amoxicillin");
 		assertNotNull(resources);
@@ -115,7 +115,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = Medication.class;
@@ -136,7 +136,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with ingredient = 'Amoxicillin' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationPagination_002() throws Exception {
 		
 		String parmName = "ingredient";
@@ -162,7 +162,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
 	 * Tests a query for a Medication with ingredient = 'XXX' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedication" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedication" })
 	public void testMedicationPagination_003() throws Exception {
 		
 		String parmName = "ingredient";

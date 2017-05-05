@@ -38,7 +38,7 @@
 	  	</groups>
        <classes>
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
-           <!-- <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryEncounterTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryGroupTest" />
@@ -47,7 +47,7 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationOrderTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryObservationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPatientTest" />
+	       <!-- <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPatientTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPractitionerTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireRespTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireTest" />

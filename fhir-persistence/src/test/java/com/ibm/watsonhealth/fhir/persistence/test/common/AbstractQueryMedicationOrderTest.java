@@ -38,7 +38,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateMedicationOrder() throws Exception {
     	MedicationOrder medOrder = readResource(MedicationOrder.class, "medicationorderexample1.canonical.json");
 
@@ -56,7 +56,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_noParams() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, null, null);
 		assertNotNull(resources);
@@ -67,7 +67,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with encounter = 'Encounter/f002' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_encounter() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "encounter", "Encounter/f002");
 		assertNotNull(resources);
@@ -79,7 +79,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with prescriber = 'Practitioner/f007' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_prescriber() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "prescriber", "Practitioner/f007");
 		assertNotNull(resources);
@@ -91,7 +91,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with patient = 'Practitioner/f007' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_patient() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "patient", "Patient/f001");
 		assertNotNull(resources);
@@ -103,7 +103,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with medication = 'Medication/MedicationExample2' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_medication() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "medication", "Medication/MedicationExample2");
 		assertNotNull(resources);
@@ -115,7 +115,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2015-01-15' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "datewritten", "2015-01-15");
 		assertNotNull(resources);
@@ -127,7 +127,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "datewritten", "2025-01-15");
 		assertNotNull(resources);
@@ -142,7 +142,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderPagination_001() throws Exception {
 		
 		Class<? extends Resource> resourceType = MedicationOrder.class;
@@ -163,7 +163,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with medication = 'Medication/MedicationExample2' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderPagination_002() throws Exception {
 		
 		String parmName = "medication";
@@ -189,7 +189,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderPagination_003() throws Exception {
 		
 		String parmName = "datewritten";
@@ -216,7 +216,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests retrieval of update history of a MedicationOrder. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderHistoryPgn_001() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));
@@ -243,7 +243,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_noParams_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "f002", MedicationOrder.class, persistence, null, null);
 		assertNotNull(resources);
@@ -254,7 +254,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2015-01-15' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "f002", MedicationOrder.class, persistence, "datewritten", "2015-01-15");
 		assertNotNull(resources);
@@ -266,7 +266,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_noResults_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "f002", MedicationOrder.class, persistence, "datewritten", "2025-01-15");
 		assertNotNull(resources);
@@ -277,7 +277,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_noParams_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "f001", MedicationOrder.class, persistence, null, null);
 		assertNotNull(resources);
@@ -288,7 +288,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2015-01-15' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "f001", MedicationOrder.class, persistence, "datewritten", "2015-01-15");
 		assertNotNull(resources);
@@ -300,7 +300,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_noResults_PatCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "f001", MedicationOrder.class, persistence, "datewritten", "2025-01-15");
 		assertNotNull(resources);
@@ -311,7 +311,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_noParams_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f007", MedicationOrder.class, persistence, null, null);
 		assertNotNull(resources);
@@ -322,7 +322,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2015-01-15' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f007", MedicationOrder.class, persistence, "datewritten", "2015-01-15");
 		assertNotNull(resources);
@@ -334,7 +334,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_noResults_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f007", MedicationOrder.class, persistence, "datewritten", "2025-01-15");
 		assertNotNull(resources);
