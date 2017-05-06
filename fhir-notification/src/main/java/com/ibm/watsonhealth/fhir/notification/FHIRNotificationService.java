@@ -14,8 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.naming.InitialContext;
-
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.notification.exception.FHIRNotificationException;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -28,49 +27,36 @@ import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInt
  */
 public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRNotificationService.class.getName());
-    private static final String JNDINAME_INCLUDED_RESOURCE_TYPES = "com.ibm.watsonhealth.fhir.notification.includeResourceTypes";
     private List<FHIRNotificationSubscriber> subscribers = new CopyOnWriteArrayList<FHIRNotificationSubscriber>();
     private static final FHIRNotificationService INSTANCE = new FHIRNotificationService();
     private Set<String> includedResourceTypes = Collections.synchronizedSortedSet(new TreeSet<String>());
 
     private FHIRNotificationService() {
         log.entering(this.getClass().getName(), "FHIRNotificationService");
-
+        try {
         // Register the notification service as an interceptor so we can rely on the
         // interceptor methods to trigger the 'publish' of the notification events.
         FHIRPersistenceInterceptorMgr.getInstance().addPrioritizedInterceptor(this);
-        initResourceTypes();
+        initNotificationResourceTypes();
+        } catch (Throwable t) {
+            throw new RuntimeException("Unexpected error during initialization.", t);
+        }
         log.exiting(this.getClass().getName(), "FHIRNotificationService");
     }
 
-    /**
-     * Retrieve the JNDI entry containing included resource types and initialize our set appropriately.
-     */
-    private void initResourceTypes() {
-        String jndiValue = null;
-        try {
-            InitialContext ctx = new InitialContext();
-            jndiValue = (String) ctx.lookup(JNDINAME_INCLUDED_RESOURCE_TYPES);
-        } catch (Throwable t) {
-            // Ignore any exceptions while looking up the JNDI entry.
-        }
-
-        // If we retrieved a valid non-empty jndi value, then parse it apart and store the resource type
-        // names in our set, which will be used to determine if notification events should be published or not.
-        if (jndiValue != null && !jndiValue.isEmpty()) {
-            includedResourceTypes.clear();
-            String[] list = jndiValue.split(",");
-            if (list.length > 0) {
-                for (int i = 0; i < list.length; i++) {
-                    includedResourceTypes.add(list[i].trim());
-                }
+    private void initNotificationResourceTypes() throws Exception {
+        Set<String> includedResourceTypes = Collections.synchronizedSortedSet(new TreeSet<String>());
+        List<String> types = FHIRConfiguration.getInstance().loadConfiguration().getStringListProperty(FHIRConfiguration.PROPERTY_NOTIFICATION_RESOURCE_TYPES);
+        if (types != null) {
+            for (String type : types) {
+                includedResourceTypes.add(type);
             }
         }
 
         log.finer("Notification service will publish events for these resource types: "
                 + (includedResourceTypes.isEmpty() ? "ALL" : "\n" + includedResourceTypes.toString()));
     }
-
+    
     public static FHIRNotificationService getInstance() {
         return INSTANCE;
     }
@@ -204,6 +190,12 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             // If our resource type filter is empty, then we should publish all notification events.
             if (includedResourceTypes == null || includedResourceTypes.isEmpty()) {
                 log.finer("Resource type filter not specified, publishing all events.");
+                return true;
+            }
+            
+            // If the resource type filter contains "*", then publish all events.
+            if (includedResourceTypes.contains("*")) {
+                log.finer("Resource type filter contains '*', publishing all events.");
                 return true;
             }
 

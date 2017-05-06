@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.config;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -30,18 +31,15 @@ public class FHIRRequestContext {
     };
     
     public FHIRRequestContext() {
-        log.finer("Default ctor: " + toString());
     }
     
     public FHIRRequestContext(String tenantId) {
         setTenantId(tenantId);
-        log.finer("1-arg ctor: " + toString());
     }
     
     public FHIRRequestContext(String tenantId, String dataStoreId) {
         this(tenantId);
         setDataStoreId(dataStoreId);
-        log.finer("2-arg ctor: " + toString());
     }
     
     public String getTenantId() {
@@ -64,8 +62,10 @@ public class FHIRRequestContext {
      */
     public static void set(FHIRRequestContext context) {
         contexts.set(context);
-        log.finer("Set request context on thread-local: " + context.toString());
-        log.finer("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Set request context on thread-local: " + context.toString());
+            log.finest("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
+        }
     }
     
     /**
@@ -73,8 +73,10 @@ public class FHIRRequestContext {
      */
     public static FHIRRequestContext get() {
         FHIRRequestContext result = contexts.get();
-        log.finer("Retrieved request context from thread-local: " + result.toString());
-        log.finer("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Retrieved request context from thread-local: " + result.toString());
+            log.finest("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
+        }
         return result;
     }
     
@@ -84,7 +86,7 @@ public class FHIRRequestContext {
      */
     public static void remove() {
         contexts.remove();
-        log.finer("Removed request context from thread-local.");
+        log.finest("Removed request context from thread-local.");
     }
 
     @Override
