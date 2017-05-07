@@ -63,8 +63,7 @@ public class FHIRRequestContext {
     public static void set(FHIRRequestContext context) {
         contexts.set(context);
         if (log.isLoggable(Level.FINEST)) {
-            log.finest("Set request context on thread-local: " + context.toString());
-            log.finest("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
+            log.finest("FHIRRequestContext.set: " + context.toString());
         }
     }
     
@@ -74,8 +73,7 @@ public class FHIRRequestContext {
     public static FHIRRequestContext get() {
         FHIRRequestContext result = contexts.get();
         if (log.isLoggable(Level.FINEST)) {
-            log.finest("Retrieved request context from thread-local: " + result.toString());
-            log.finest("FHIRRequestContext.class=" + objectHandle(FHIRRequestContext.class));
+            log.finest("FHIRRequestContext.get: " + result.toString());
         }
         return result;
     }
@@ -86,7 +84,7 @@ public class FHIRRequestContext {
      */
     public static void remove() {
         contexts.remove();
-        log.finest("Removed request context from thread-local.");
+        log.finest("FHIRRequestContext.remove invoked.");
     }
 
     @Override

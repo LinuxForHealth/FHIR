@@ -279,7 +279,8 @@ public class FHIRProxyXADataSource implements XADataSource {
             String propertyName = property.getName();
             Object propertyValue = property.getValue();
             if (log.isLoggable(Level.FINER)) {
-                log.finer("Found property '" + propertyName + "' = '" + propertyValue.toString() + "'.");
+                String value = (propertyName.toLowerCase().contains("password") ? "********" : propertyValue.toString());
+                log.finer("Found property '" + propertyName + "' = '" + value + "'.");
             }
             try {
                 PropertyUtils.setSimpleProperty(datasource, propertyName, propertyValue);
