@@ -13,11 +13,13 @@ import java.io.StringReader;
 import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.sql.DataSource;
 
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.derby.tools.ij;
 
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 
 import liquibase.Contexts;
@@ -84,6 +86,9 @@ public class DerbyBootstrapper {
 		String changeLogPath = null;
     	    	
     	try {
+    	    String msg = "Performing derby db bootstrapping for tenant-id '" + FHIRRequestContext.get().getTenantId() 
+                    + "', datastore-id '" + FHIRRequestContext.get().getDataStoreId() + "'.";
+    	    log.info(msg);
 			connection = fhirDb.getConnection();
 			dbDriverName = connection.getMetaData().getDriverName();
 						

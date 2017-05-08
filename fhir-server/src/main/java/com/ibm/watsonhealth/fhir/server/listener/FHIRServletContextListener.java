@@ -27,6 +27,7 @@ import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
@@ -112,8 +113,19 @@ public class FHIRServletContextListener implements ServletContextListener {
             	SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
             	String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             	InitialContext ctxt = new InitialContext();
-            	log.fine("Attempting to bootstrap database using datasource: " + datasourceJndiName);
-            	DerbyBootstrapper.bootstrapDb((DataSource) ctxt.lookup(datasourceJndiName), schemaType, derbySProcJarLocation);
+            	DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
+
+            	FHIRRequestContext.set(new FHIRRequestContext("default", "default"));
+            	DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
+                
+            	FHIRRequestContext.set(new FHIRRequestContext("tenant1", "profile"));
+                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
+                
+                FHIRRequestContext.set(new FHIRRequestContext("tenant1", "reference"));
+                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
+
+                FHIRRequestContext.set(new FHIRRequestContext("tenant1", "study1"));
+                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
             }
             
             // Finally, set our "initComplete" flag to true.

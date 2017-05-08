@@ -1,19 +1,44 @@
 {
-    "__comment":"FHIR Server configuration for mythical tenant id 'tenant1'",
-    "fhirServer":{
-        "core":{
-            "userDefinedSchematronEnabled":true
-        },
-        "searchParameterFilter": {
-            "Observation": [ "subject", "patient", "component-value-quantity" ],
-            "Resource" : [ "_id" ],
-            "*": [ "*" ]
-        },
-        "virtualResources":{
-            "enabled":true,
-            "allowableResourceTypes":[
-                "WeatherDetail"
-            ]
-        }
-    }
+	"__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
+	"fhirServer": {
+		"core": {
+			"userDefinedSchematronEnabled": true
+		},
+		"searchParameterFilter": {
+			"Observation": ["subject",
+			"patient",
+			"component-value-quantity"],
+			"Resource": ["_id"],
+			"*": ["*"]
+		},
+		"virtualResources": {
+			"enabled": true,
+			"allowableResourceTypes": ["WeatherDetail"]
+		},
+		"persistence": {
+			"datasources": {
+				"profile": {
+					"type": "derby",
+					"connectionProperties": {
+						"databaseName": "derby/profile",
+						"createDatabase": "create"
+					}
+				},
+				"reference": {
+					"type": "derby",
+                    "connectionProperties": {
+                        "databaseName": "derby/reference",
+                        "createDatabase": "create"
+                    }
+				},
+                "study1": {
+                    "type": "derby",
+                    "connectionProperties": {
+                        "databaseName": "derby/study1",
+                        "createDatabase": "create"
+                    }
+                }
+			}
+		}
+	}
 }
