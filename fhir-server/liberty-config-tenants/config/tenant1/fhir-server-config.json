@@ -17,6 +17,13 @@
 		},
 		"persistence": {
 			"datasources": {
+				"default": {
+					"type": "derby",
+					"connectionProperties": {
+						"databaseName": "derby/fhirDB",
+						"createDatabase": "create"
+					}
+				},
 				"profile": {
 					"type": "derby",
 					"connectionProperties": {
@@ -26,18 +33,18 @@
 				},
 				"reference": {
 					"type": "derby",
-                    "connectionProperties": {
-                        "databaseName": "derby/reference",
-                        "createDatabase": "create"
-                    }
+					"connectionProperties": {
+						"databaseName": "derby/reference",
+						"createDatabase": "create"
+					}
 				},
-                "study1": {
-                    "type": "derby",
-                    "connectionProperties": {
-                        "databaseName": "derby/study1",
-                        "createDatabase": "create"
-                    }
-                }
+				"study1": {
+					"type": "derby",
+					"connectionProperties": {
+						"databaseName": "derby/study1",
+						"createDatabase": "create"
+					}
+				}
 			}
 		}
 	}
