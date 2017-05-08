@@ -165,10 +165,6 @@ public class FHIRProxyXADataSource implements XADataSource {
                         }
                         datasource = createDataSource(context.getDataStoreId());
                         tenantMap.put(context.getDataStoreId(), datasource);
-                    } else {
-                        if (log.isLoggable(Level.FINER)) {
-                            log.finer("Cached datasource found for tenant-id '" + context.getTenantId() + "', datastore-id '" + context.getDataStoreId() + "'.");
-                        }
                     }
                 }
             }

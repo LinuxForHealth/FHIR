@@ -63,18 +63,26 @@ public class FHIRRestServletFilter implements Filter {
                 if (t != null) {
                     tenantId = t;
                 }
+                
+                t = ((HttpServletRequest) request).getHeader(datastoreIdHeaderName);
+                if (t != null) {
+                    dsId = t;
+                }
             }
 
             // Log a "request received" message.
             StringBuffer requestDescription = new StringBuffer();
-            requestDescription.append("tenantId: ");
+            requestDescription.append("tenantId[");
             requestDescription.append(tenantId);
-            requestDescription.append(" user: ");
+            requestDescription.append("] dsId:[");
+            requestDescription.append(dsId);
+            requestDescription.append("] user:[");
             requestDescription.append(getRequestUserPrincipal(request));
-            requestDescription.append(" method: ");
+            requestDescription.append("] method:[");
             requestDescription.append(getRequestMethod(request));
-            requestDescription.append(" uri: ");
+            requestDescription.append("] uri:[");
             requestDescription.append(getRequestURL(request));
+            requestDescription.append("]");
 
             log.info("Received request: " + requestDescription.toString());
 
@@ -95,9 +103,9 @@ public class FHIRRestServletFilter implements Filter {
             StringBuffer statusMsg = new StringBuffer();
             if (response instanceof HttpServletResponse) {
                 int status = ((HttpServletResponse) response).getStatus();
-                statusMsg.append(" status: " + status);
+                statusMsg.append(" status:[" + status + "]");
             } else {
-                statusMsg.append(" status: unknown (non-HTTP request)");
+                statusMsg.append(" status:[unknown (non-HTTP request)]");
             }
 
             double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;

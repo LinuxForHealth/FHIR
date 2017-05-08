@@ -58,6 +58,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
@@ -759,6 +760,9 @@ public class FHIRResource {
 
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
             // Make sure the expected type (specified in the URL string) is congruent with the actual type 
@@ -814,6 +818,9 @@ public class FHIRResource {
 
             return locationURI;
         } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
                 log.fine("Rolling back transaction for 'create' operation.");
@@ -837,6 +844,9 @@ public class FHIRResource {
 
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
             // Make sure the type specified in the URL string matches the resource type obtained from the resource.
@@ -909,6 +919,9 @@ public class FHIRResource {
 
             return locationURI;
         } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
             // If we still have a transaction at this point, we need to rollback due to an error.
             if (txnStarted) {
                 log.fine("Rolling back transaction for 'update' operation.");
@@ -930,6 +943,10 @@ public class FHIRResource {
      */
     protected Resource doRead(String type, String id, boolean throwExcOnNull) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
+
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
@@ -962,6 +979,9 @@ public class FHIRResource {
 
             return resource;
         } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
             log.exiting(this.getClass().getName(), "doRead");
         }
     }
@@ -976,6 +996,10 @@ public class FHIRResource {
      */
     protected Resource doVRead(String type, String id, String versionId) throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
+
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
@@ -1008,6 +1032,9 @@ public class FHIRResource {
 
             return resource;
         } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
             log.exiting(this.getClass().getName(), "doVRead");
         }
     }
@@ -1026,6 +1053,10 @@ public class FHIRResource {
      */
     protected Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
+
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
@@ -1058,6 +1089,9 @@ public class FHIRResource {
 
             return bundle;
         } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
             log.exiting(this.getClass().getName(), "doHistory");
         }
     }
@@ -1071,6 +1105,10 @@ public class FHIRResource {
      */
     protected Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
+
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
         try {
             String resourceTypeName = type;
             Parameter implicitSearchParameter = null;
@@ -1109,41 +1147,57 @@ public class FHIRResource {
             
             return bundle;
         } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
             log.exiting(this.getClass().getName(), "doSearch");
         }
     }
     
-    protected Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName, Resource resource) throws Exception {
-        Class<? extends Resource> resourceType = null;
-        if (resourceTypeName != null) {
-            resourceType = getResourceType(resourceTypeName);
-        }
+    protected Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
+        Resource resource) throws Exception {
+        log.entering(this.getClass().getName(), "doInvoke");
+
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
         
-        FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationName);
-        Parameters parameters = null;
-        if (resource instanceof Parameters) {
-            parameters = (Parameters) resource;
-        } else {
-            if (resource == null) {
-                // build parameters object from query parameters
-                parameters = FHIROperationUtil.getInputParameters(operation.getDefinition(), uriInfo.getQueryParameters());
-            } else {
-                // wrap resource in a parameters object
-                parameters = FHIROperationUtil.getInputParameters(operation.getDefinition(), resource);
+        try {
+            Class<? extends Resource> resourceType = null;
+            if (resourceTypeName != null) {
+                resourceType = getResourceType(resourceTypeName);
             }
+
+            FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationName);
+            Parameters parameters = null;
+            if (resource instanceof Parameters) {
+                parameters = (Parameters) resource;
+            } else {
+                if (resource == null) {
+                    // build parameters object from query parameters
+                    parameters = FHIROperationUtil.getInputParameters(operation.getDefinition(), uriInfo.getQueryParameters());
+                } else {
+                    // wrap resource in a parameters object
+                    parameters = FHIROperationUtil.getInputParameters(operation.getDefinition(), resource);
+                }
+            }
+
+            // pass the request base URI to the FHIR operation through the operation context
+            operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri());
+
+            Parameters result = operation.invoke(operationContext, resourceType, logicalId, versionId, parameters, getPersistenceImpl());
+
+            // if single resource output parameter, return the resource
+            if (FHIROperationUtil.hasSingleResourceOutputParameter(result)) {
+                return FHIROperationUtil.getSingleResourceOutputParameter(result);
+            }
+
+            return result;
+        } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
+            log.exiting(this.getClass().getName(), "doInvoke");
         }
-        
-        // pass the request base URI to the FHIR operation through the operation context
-        operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri());
-        
-        Parameters result = operation.invoke(operationContext, resourceType, logicalId, versionId, parameters, getPersistenceImpl());
-        
-        // if single resource output parameter, return the resource
-        if (FHIROperationUtil.hasSingleResourceOutputParameter(result)) {
-            return FHIROperationUtil.getSingleResourceOutputParameter(result);
-        }
-        
-        return result;
     }
 
     /**
@@ -1155,6 +1209,10 @@ public class FHIRResource {
      */
     protected Bundle doBundle(Bundle bundle) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
+
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
         try {
             // First, validate the bundle and create the response bundle.
             Bundle responseBundle = validateBundle(bundle);
@@ -1164,6 +1222,9 @@ public class FHIRResource {
             
             return responseBundle;
         } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
             log.exiting(this.getClass().getName(), "doBundle");
         }
     }
