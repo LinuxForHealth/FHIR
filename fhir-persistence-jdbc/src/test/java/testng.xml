@@ -36,8 +36,8 @@
 	  			<include name="jdbc-normalized"></include>
 	  		</run>
 	  	</groups>
-       <classes>
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
+       <classes>   
+       <!--     <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryEncounterTest" />
@@ -54,7 +54,7 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRelatedPersonTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRiskAssmtTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQuerySortTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />  -->
        </classes>
     </test>
  
