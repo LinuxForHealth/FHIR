@@ -188,7 +188,7 @@ public class FHIRProxyXADataSource implements XADataSource {
             // Retrieve the property group containing all of the datasource definitions for the current tenant.
             PropertyGroup datasourcesPG = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);
             if (datasourcesPG == null) {
-                throw new IllegalStateException("Could not locate property group '" + FHIRConfiguration.PROPERTY_DATASOURCES);
+                throw new IllegalStateException("Could not locate property group '" + FHIRConfiguration.PROPERTY_DATASOURCES + "'.");
             }
 
             // Next, retrieve the property group pertaining to the datastore-id.
