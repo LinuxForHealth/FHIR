@@ -35,6 +35,8 @@ public class FHIRRestServletFilter implements Filter {
 
     private static String tenantIdHeaderName = null;
     private static String datastoreIdHeaderName = null;
+    
+    private static String defaultTenantId = null;
 
     /*
      * (non-Javadoc)
@@ -48,7 +50,7 @@ public class FHIRRestServletFilter implements Filter {
         }
 
         try {
-            String tenantId = FHIRConfiguration.DEFAULT_TENANT_ID;
+            String tenantId = defaultTenantId;
             String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
             
             // Wrap the incoming servlet request with our own implementation.
@@ -215,6 +217,11 @@ public class FHIRRestServletFilter implements Filter {
                     .getStringProperty(FHIRConfiguration.PROPERTY_DATASTORE_ID_HEADER_NAME, FHIRConfiguration.DEFAULT_DATASTORE_ID_HEADER_NAME);
 
             log.info("Configured datastore-id header name is: " +  datastoreIdHeaderName);
+            
+            defaultTenantId = 
+                    FHIRConfiguration.getInstance().loadConfiguration()
+                    .getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID);
+            log.info("Configured default tenant-id value is: " +  defaultTenantId);
         } catch (Exception e) {
             throw new ServletException("Servlet filter initialization error.", e);
         }

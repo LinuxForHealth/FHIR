@@ -53,6 +53,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
     public static final String PROPERTY_TENANT_ID_HEADER_NAME = "fhirServer/core/tenantIdHeaderName";
     public static final String PROPERTY_DATASTORE_ID_HEADER_NAME = "fhirServer/core/datastoreIdHeaderName";
+    public static final String PROPERTY_DEFAULT_TENANT_ID = "fhirServer/core/defaultTenantId";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
     

@@ -1828,6 +1828,11 @@ public class FHIRResource {
     
     private void addExtensionElements(Conformance conformance) throws Exception {
         Extension extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/defaultTenantId");
+        extension.setValueString(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID)));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
         extension.setUrl(EXTENSION_URL + "/encryptionEnabled");
         extension.setValueBoolean(bool(fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_ENCRYPTION).getBooleanProperty("enabled", Boolean.FALSE)));
         conformance.getExtension().add(extension);
