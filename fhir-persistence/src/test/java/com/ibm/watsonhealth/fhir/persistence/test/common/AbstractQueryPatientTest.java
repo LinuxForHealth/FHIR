@@ -501,7 +501,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = {"testCreatePatient4"})
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = {"testCreatePatient4"})
     public void testPatient_birthdate() throws Exception {
         List<Resource> resources = runQueryTest(Patient.class, persistence, "birthdate", "eq1944-08-11");
         assertTrue(resources.size() > 0);
@@ -513,7 +513,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
     
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = {"testCreatePatient4"})
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = {"testCreatePatient4"})
     public void testPatient_birthdate_noResults() throws Exception {
         List<Resource> resources = runQueryTest(Patient.class, persistence, "birthdate", "eq1944-08-11");
         assertTrue(resources.size() > 0);
@@ -524,7 +524,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = '2015-02-14T13:42:00+10:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDate() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "eq2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -536,7 +536,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = '2020-02-14T13:42:00+10:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDate_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "eq2020-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -601,7 +601,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'eq2015-02-14T13:42:00+10:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateEQ() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "eq2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -613,7 +613,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'ne2015-02-14T13:42:00+10:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateNE() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "ne2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -624,7 +624,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'gt2015-02-14T13:42:00+10:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateGT() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "gt2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -635,7 +635,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'lt2015-02-14T13:42:00+10:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateLT() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "lt2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -646,7 +646,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'ge2015-02-14T13:42:00+10:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateGE() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "ge2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -658,7 +658,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'le2015-02-14T13:42:00+10:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatient_deathDateLE() throws Exception {
 		List<Resource> resources = runQueryTest(Patient.class, persistence, "deathdate", "le2015-02-14T13:42:00+10:00");
 		assertNotNull(resources);
@@ -746,7 +746,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'le2015-02-14T13:42:00+10:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatientPagination_002() throws Exception {
 		
 		String parmName = "deathdate";
@@ -772,7 +772,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for Patients with deathdate = 'gt2015-02-14T13:42:00+10:00' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient5" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient5" })
 	public void testPatientPagination_003() throws Exception {
 		
 		String parmName = "deathdate";
@@ -799,7 +799,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests retrieval of update history of a Patient. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testPatientHistoryPgn_001() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));

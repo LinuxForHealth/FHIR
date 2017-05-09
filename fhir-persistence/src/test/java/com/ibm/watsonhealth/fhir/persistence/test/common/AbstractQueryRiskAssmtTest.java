@@ -130,7 +130,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with date = "2010-11-22" which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment2" })
 	public void testRiskAssessmentQuery_003() throws Exception {
 		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-11-22");
 		assertNotNull(resources);

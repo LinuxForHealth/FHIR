@@ -115,7 +115,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2015-01-15' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "datewritten", "2015-01-15");
 		assertNotNull(resources);
@@ -127,7 +127,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderQuery_datewritten_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationOrder.class, persistence, "datewritten", "2025-01-15");
 		assertNotNull(resources);
@@ -189,7 +189,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests a query for a MedicationOrder with datewritten = '2025-01-15' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderPagination_003() throws Exception {
 		
 		String parmName = "datewritten";
@@ -216,7 +216,7 @@ public abstract class AbstractQueryMedicationOrderTest extends AbstractPersisten
 	 * Tests retrieval of update history of a MedicationOrder. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationOrder" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationOrder" })
 	public void testMedicationOrderHistoryPgn_001() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));

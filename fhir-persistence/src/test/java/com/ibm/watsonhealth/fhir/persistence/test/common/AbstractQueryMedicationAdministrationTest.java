@@ -128,7 +128,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15T14:30:00+01:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_effectivetime() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "effectivetime", "2015-01-15T14:30:00+01:00");
 		assertNotNull(resources);
@@ -140,7 +140,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2025-01-15T14:30:00+01:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_effectivetime_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "effectivetime", "2025-01-15T14:30:00+01:00");
 		assertNotNull(resources);
@@ -176,7 +176,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15T14:30:00+01:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationPagination_002() throws Exception {
 		
 		String parmName = "effectivetime";
@@ -202,7 +202,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2025-01-15T14:30:00+01:00' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationPagination_003() throws Exception {
 		
 		String parmName = "effectivetime";

@@ -238,7 +238,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2015-11-25T18:30:50+01:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_authored() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "authored", "2015-11-25T18:30:50+01:00");
 		assertNotNull(resources);
@@ -250,7 +250,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponseQuery_authored_noResults() throws Exception {
 		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "authored", "2025-11-25T18:30:50+01:00");
 		assertNotNull(resources);
@@ -286,7 +286,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2015-11-25T18:30:50+01:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponsePagination_002() throws Exception {
 		
 		String parmName = "authored";
@@ -312,7 +312,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 * Tests a query for a QuestionnaireResponse with authored = '2025-11-25T18:30:50+01:00' which should yield no results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse1" })
 	public void testQuestionnaireResponsePagination_003() throws Exception {
 		
 		String parmName = "authored";

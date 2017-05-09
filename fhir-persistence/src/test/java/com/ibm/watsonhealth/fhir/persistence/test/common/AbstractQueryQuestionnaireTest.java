@@ -85,7 +85,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnaireQuery_date() throws Exception {
 		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "date", "1969-12-31T19:00:02+00:00");
 		assertNotNull(resources);
@@ -122,7 +122,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
 	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaire" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
 	public void testQuestionnairePagination_002() throws Exception {
 		
 		String parmName = "date";
