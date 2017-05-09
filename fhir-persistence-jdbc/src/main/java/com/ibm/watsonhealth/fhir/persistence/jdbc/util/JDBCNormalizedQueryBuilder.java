@@ -474,11 +474,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			// If the dateTime value is fully specified, go ahead and build a where clause segment for it.
 			if (FHIRUtilities.isDateTime(calendar)) {
 				if (isDateSearch) {
-					// Build this piece of the segment:
-					//(P1.PARAMETER_NAME_ID = x AND
 					whereClauseSegment.append(LEFT_PAREN);
-					this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
-					whereClauseSegment.append(AND);
 					whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DATE_VALUE).append(operator.value())
 							      	  .append(BIND_VAR);
 					bindVariables.add(FHIRUtilities.formatTimestamp(date));
@@ -519,8 +515,6 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				if (isDateSearch) {
 					whereClauseSegment.append(JDBCOperator.OR.value());
 				}
-				// Build this piece of the segment:
-				//(P1.PARAMETER_NAME_ID = x AND
 				whereClauseSegment.append(LEFT_PAREN)
 				 				  .append(PARAMETER_TABLE_ALIAS).append(DATE_START)
 								  .append(JDBCOperator.LTE.value())
