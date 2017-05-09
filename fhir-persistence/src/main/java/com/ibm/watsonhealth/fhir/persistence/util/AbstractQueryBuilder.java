@@ -199,8 +199,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * Creates a query segment for a Date type parameter.
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
+	 * @throws Exception 
 	 */
-	protected abstract T1 processDateParm(Parameter queryParm);
+	protected abstract T1 processDateParm(Parameter queryParm) throws Exception;
 	
 	/**
 	 * Creates a query segment for a Token type parameter.

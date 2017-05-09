@@ -6,13 +6,21 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
-import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QueryBuilderHelper.*;
+import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QuerySegmentAggregator.*;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Code;
+import com.ibm.watsonhealth.fhir.model.DateTime;
+import com.ibm.watsonhealth.fhir.model.Period;
 import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
@@ -44,11 +52,6 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	// Constants used in SQL query string construction
 	private static final String LEFT_PAREN = "(";
 	private static final String RIGHT_PAREN = ")";
-	private static final String QUOTE = "'";
-	private static final String COMMA = ",";
-	private static final String DOT = ".";
-	private static final String EQUALS = "=";
-	private static final String WHERE = " WHERE ";
 	private static final String AND = " AND ";
 	private static final String BIND_VAR = "?";
 	private static final String PERCENT_WILDCARD = "%";
@@ -65,6 +68,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
     private static final String QUANTITY_VALUE = "QUANTITY_VALUE";
     private static final String QUANTITY_VALUE_LOW = "QUANTITY_VALUE_LOW";
     private static final String QUANTITY_VALUE_HIGH = "QUANTITY_VALUE_HIGH";
+    private static final String DATE_VALUE = "DATE_VALUE";
+    private static final String DATE_START = "DATE_START";
+    private static final String DATE_END = "DATE_END";
     
 		 
 	
@@ -134,6 +140,20 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	
 	private ParameterNormalizedDAO parameterDao;
 	
+	public static final boolean isRangeSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+		return (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class));
+	}
+	
+	public static final boolean isDateSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+		return (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(com.ibm.watsonhealth.fhir.model.Date.class) ||
+                SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(DateTime.class));
+	}
+	
+	public static final boolean isDateRangeSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception  {
+		return  SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
+	}
+	
+	
 	public JDBCNormalizedQueryBuilder(ParameterNormalizedDAO parameterDao) {
 		super();
 		this.parameterDao = parameterDao;
@@ -152,7 +172,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		final String METHODNAME = "buildCountQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
-		QueryBuilderHelper helper;
+		QuerySegmentAggregator helper;
 				
 		helper = this.buildQueryCommon(resourceType, searchContext);
 		
@@ -169,7 +189,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		final String METHODNAME = "buildQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
-        QueryBuilderHelper helper = this.buildQueryCommon(resourceType, searchContext);
+        QuerySegmentAggregator helper = this.buildQueryCommon(resourceType, searchContext);
 				
 		log.exiting(CLASSNAME, METHODNAME);
 		//return sqlQueryString;
@@ -180,10 +200,10 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	 * Contains logic common to the building of 'regular' resource queries and 'count' resource queries.
 	 * @param resourceType The type of FHIR resource being searched for.
 	 * @param searchContext The search context containing search parameters.
-	 * @return QueryBuilderHelper - A query builder helper containing processed query segments.
+	 * @return QuerySegmentAggregator - A query builder helper containing processed query segments.
 	 * @throws Exception
 	 */
-	private QueryBuilderHelper buildQueryCommon (Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws Exception {
+	private QuerySegmentAggregator buildQueryCommon (Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws Exception {
 		final String METHODNAME = "buildQueryCommon";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
@@ -191,7 +211,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		List<Parameter> searchParameters = searchContext.getSearchParameters();
 		int pageSize = searchContext.getPageSize();
 		int offset = (searchContext.getPageNumber() - 1) * pageSize;
-		QueryBuilderHelper helper = new QueryBuilderHelper(resourceType, offset, pageSize);
+		QuerySegmentAggregator helper = new QuerySegmentAggregator(resourceType, offset, pageSize);
 		
 		this.resourceType = resourceType;
 		
@@ -308,8 +328,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		List<Object> bindVariables = new ArrayList<>();
 		
 		// Build this piece of the segment:
-		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		// (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
 		
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -364,8 +384,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		List<Object> bindVariables = new ArrayList<>();
 		
 		// Build this piece of the segment:
-		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		// (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
 		
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -418,9 +438,109 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	}
 
 	@Override
-	protected SqlQueryData processDateParm(Parameter queryParm) {
-		// TODO Auto-generated method stub
-		return null;
+	protected SqlQueryData processDateParm(Parameter queryParm) throws Exception {
+		final String METHODNAME = "processDateParm";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		StringBuilder whereClauseSegment = new StringBuilder();
+		JDBCOperator operator;
+		boolean parmValueProcessed = false;
+		XMLGregorianCalendar calendar;
+		Date date, start, end;
+		Duration duration;
+		SqlQueryData queryData;
+		List<Object> bindVariables = new ArrayList<>();
+		boolean isDateSearch = isDateSearch(resourceType, queryParm);
+		boolean isDateRangeSearch  = isDateRangeSearch(resourceType, queryParm);
+		 
+		log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
+							
+		// Build this piece of the segment:
+		//(P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+		  	
+		whereClauseSegment.append(AND).append(LEFT_PAREN);
+		for (ParameterValue value : queryParm.getValues()) {
+			operator = this.getPrefixOperator(value);
+			// If multiple values are present, we need to OR them together.
+			if (parmValueProcessed) {
+				whereClauseSegment.append(JDBCOperator.OR.value()).append(LEFT_PAREN);
+			}
+			
+			// NOTE: The valueDate is cloned so subsequent calendar adjustments do not affect the original valueDate object.
+			calendar = (XMLGregorianCalendar)value.getValueDate().clone();
+			date = calendar.toGregorianCalendar().getTime();
+			operator = getPrefixOperator(value);
+			// If the dateTime value is fully specified, go ahead and build a where clause segment for it.
+			if (FHIRUtilities.isDateTime(calendar)) {
+				if (isDateSearch) {
+					// Build this piece of the segment:
+					//(P1.PARAMETER_NAME_ID = x AND
+					whereClauseSegment.append(LEFT_PAREN);
+					this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+					whereClauseSegment.append(AND);
+					whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DATE_VALUE).append(operator.value())
+							      	  .append(BIND_VAR);
+					bindVariables.add(FHIRUtilities.formatTimestamp(date));
+					whereClauseSegment.append(RIGHT_PAREN);
+				}
+			}
+			else if (FHIRUtilities.isPartialDate(calendar)) { 
+				// For a partial dateTime and an EQ operator, a duration is calculated and a where segment is generated to cover a range.
+				// For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
+				duration = FHIRUtilities.createDuration(calendar);
+				FHIRUtilities.setDefaults(calendar);
+				start = calendar.toGregorianCalendar().getTime();
+				calendar.add(duration);
+				end = calendar.toGregorianCalendar().getTime();
+				
+				if (isDateSearch) {
+					whereClauseSegment.append(LEFT_PAREN);
+					if (operator.equals(JDBCOperator.EQ)) { 
+						whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DATE_VALUE)
+										  .append(JDBCOperator.GTE.value()).append(BIND_VAR)
+										  .append(JDBCOperator.AND.value())
+										  .append(PARAMETER_TABLE_ALIAS).append(DATE_VALUE)
+										  .append(JDBCOperator.LT.value()).append(BIND_VAR);
+						bindVariables.add(FHIRUtilities.formatTimestamp(start));
+						bindVariables.add(FHIRUtilities.formatTimestamp(end));
+					}
+					else {
+						whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DATE_VALUE)
+										  .append(operator.value())
+										  .append(BIND_VAR);
+						bindVariables.add(FHIRUtilities.formatTimestamp(start));
+					}
+					whereClauseSegment.append(RIGHT_PAREN);
+				}
+				date = start;
+			}
+			if (isDateRangeSearch) {
+				if (isDateSearch) {
+					whereClauseSegment.append(JDBCOperator.OR.value());
+				}
+				// Build this piece of the segment:
+				//(P1.PARAMETER_NAME_ID = x AND
+				whereClauseSegment.append(LEFT_PAREN)
+				 				  .append(PARAMETER_TABLE_ALIAS).append(DATE_START)
+								  .append(JDBCOperator.LTE.value())
+								  .append(BIND_VAR)
+								  .append(JDBCOperator.AND.value())
+								  .append(PARAMETER_TABLE_ALIAS).append(DATE_END)
+								  .append(JDBCOperator.GTE.value())
+								  .append(BIND_VAR)
+								  .append(RIGHT_PAREN);
+				bindVariables.add(FHIRUtilities.formatTimestamp(date));
+				bindVariables.add(FHIRUtilities.formatTimestamp(date));
+			}
+			whereClauseSegment.append(RIGHT_PAREN);
+			parmValueProcessed = true;
+		}
+		whereClauseSegment.append(RIGHT_PAREN);
+		
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		log.exiting(CLASSNAME, METHODNAME);
+		return queryData;
 	}
 
 	@Override
@@ -435,8 +555,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		List<Object> bindVariables = new ArrayList<>();
 		
 		// Build this piece of the segment:
-		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		// (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
 		
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -460,7 +580,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				else {
 					whereClauseSegment.append(JDBCOperator.AND.value());
 				}
-				whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
+				whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
 			   		.append(operator.value()).append(BIND_VAR);
 			    bindVariables.add(CodeSystemsCache.getCodeSystemId(value.getValueSystem(), this.parameterDao));
 			}
@@ -487,8 +607,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		SqlQueryData queryData;
 				
 		// Build this piece of the segment:
-		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		// (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
 		  	
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -524,8 +644,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		
 		
 		// Build this piece of the segment:
-		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm);
+		// (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
 		  
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -538,7 +658,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			
 			// If the target data type of the query is a Range, we need to build a piece of the where clause that looks like this:
 			// pX.value_number_low <= {search-attribute-value} AND pX.value_number_high >= {search-attribute-value}
-			if (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class)) {
+			if (isRangeSearch(resourceType, queryParm)) {
 				whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(QUANTITY_VALUE_LOW)
 								  .append(JDBCOperator.LTE.value())
 								  .append(BIND_VAR)
@@ -598,17 +718,17 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws FHIRPersistenceDataAccessException
 	 */
-	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, Parameter queryParm) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, Parameter queryParm, String parameterTableAlias) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
 		final String METHODNAME = "populateNameIdSegment";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
 		int parameterNameId;
 		
 		// Build this piece of the segment:
-		// P1.RESOURCE_ID = R.RESOURCE_ID AND (P1.PARAMETER_NAME_ID = x AND
+		//(P1.PARAMETER_NAME_ID = x AND
 		parameterNameId = ParameterNamesCache.getParameterNameId(queryParm.getName(), this.parameterDao);
 		whereClauseSegment.append(LEFT_PAREN);
-		whereClauseSegment.append(QueryBuilderHelper.PARAMETER_TABLE_ALIAS).append("PARAMETER_NAME_ID=").append(parameterNameId);
+		whereClauseSegment.append(parameterTableAlias).append("PARAMETER_NAME_ID=").append(parameterNameId);
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}

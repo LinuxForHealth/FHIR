@@ -11,8 +11,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -31,6 +34,8 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final Logger log = Logger.getLogger(ResourceDAONormalizedImpl.class.getName());
 	private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName(); 
 	
+	private static Set<String> resourceTypes = Collections.synchronizedSet(new HashSet<>());
+	
 	
 	private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
 			 							   "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
@@ -40,7 +45,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			   									   "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
 			   									   "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 	
-	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?, ?, ?, ?, ?, ?)";
+	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	
+	private static final  String SQL_INSERT_RESOURCE_TYPE = "CALL %s.add_resource_type(?,?)";
 	
 	private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
 			   								  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
@@ -87,20 +94,35 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		String stmtString = null;
 				
 		try {
+			if (!resourceTypes.contains(resource.getResourceType().toLowerCase())) {
+				this.insertResourceType(resource);
+			}
 			connection = this.getConnection();
 			currentSchema = connection.getSchema().trim();
 			stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType().toLowerCase());
 			stmt = connection.prepareCall(stmtString);
 			stmt.setString(1, resource.getLogicalId());
 			stmt.setBytes(2, resource.getData());
-			stmt.setString(3, resource.isDeleted() ? "Y": "N");
-			stmt.setInt(4, 1);
-			stmt.setInt(5, 1);
-			stmt.registerOutParameter(6, Types.BIGINT);
+			stmt.setTimestamp(3, resource.getLastUpdated());
+			stmt.setString(4, resource.isDeleted() ? "Y": "N");
+			//TODO REAL values need to be inserted instead of these hard-coded placeholders.
+			stmt.setString(5, "tx_correlation_id");
+			stmt.setString(6, "changed_by");
+			stmt.setString(7, "correlation_token");
+			stmt.setString(8, "tenant_id");
+			stmt.setString(9, "reason");
+			stmt.setString(10, "event");
+			stmt.setString(11, "site_id");
+			stmt.setString(12, "study_id");
+			stmt.setString(13, "service_id");
+			stmt.setString(14, "patient_id");
+			stmt.setInt(15, 1);
+			stmt.setInt(16, 1);
+			stmt.registerOutParameter(17, Types.BIGINT);
 			
 			stmt.execute();
 			
-			resource.setId(stmt.getLong(6));
+			resource.setId(stmt.getLong(17));
 			log.fine("Succesfully inserted Resource. id=" + resource.getId());
 			
 		}
@@ -281,6 +303,47 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		return count;
+	}
+
+	/**
+	 * Inserts the name of the type of the passed Resource into the resource_types table.
+	 * This method calls a stored procedure to achieve the insertion.
+	 * @param resource A valid FHIR Resource
+	 * @throws FHIRPersistenceDataAccessException
+	 * @throws FHIRPersistenceDBConnectException
+	 */
+	private synchronized void insertResourceType(Resource resource) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		final String METHODNAME = "insertResourceType";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		Connection connection = null;
+		CallableStatement stmt = null;
+		String currentSchema;
+		String stmtString = null;
+			
+		
+		try {
+			connection = this.getConnection();
+			currentSchema = connection.getSchema().trim();
+			stmtString = String.format(SQL_INSERT_RESOURCE_TYPE, currentSchema);
+			stmt = connection.prepareCall(stmtString);
+			stmt.setString(1, resource.getResourceType().toLowerCase());
+			stmt.registerOutParameter(2, Types.BIGINT);
+			
+			stmt.execute();
+			resourceTypes.add(resource.getResourceType().toLowerCase());
+			log.fine("Succesfully inserted Resource Type: " + resource.getResourceType());
+		}
+		catch(FHIRPersistenceDBConnectException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			throw new FHIRPersistenceDataAccessException("Failure inserting Resource Type.", e);
+		}
+		finally {
+			this.cleanup(stmt, connection);
+			log.exiting(CLASSNAME, METHODNAME);
+		}
 	}
 
 }

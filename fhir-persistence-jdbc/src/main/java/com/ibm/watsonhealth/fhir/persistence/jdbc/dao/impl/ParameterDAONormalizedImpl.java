@@ -217,33 +217,20 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 			switch(parameter.getType()) {
 				case REFERENCE :
 				case URI: 
-				case STRING : returnChar = 'S';
-							  break;
+				case STRING : 	returnChar = 'S';
+							  	break;
 							  
-				case TOKEN :  returnChar = 'C';
-							  break;
+				case TOKEN :  	returnChar = 'C';
+							  	break;
 				
-				case QUANTITY : if (parameter.getValueNumberHigh() != null || parameter.getValueNumberLow() != null) {
-								  returnChar = 'Z';	
-								}
-								else {
-								  returnChar = 'Q';
-								}
-							  break;
+				case QUANTITY : returnChar = 'Q';  
+							    break;
 							  
-				case NUMBER : if (parameter.getValueNumberHigh() != null || parameter.getValueNumberLow() != null) {
-							  	returnChar = 'R';
-							  } else {
-								returnChar = 'N';
-							    }
-							  break;
+				case NUMBER : 	returnChar = 'N';
+								break;
 					
-				case DATE : if (parameter.getValueDateStart() != null || parameter.getValueDateEnd() != null) {
-								returnChar = 'P';
-							} else {
-								returnChar = 'D';
-							  }
-				 		    break;
+				case DATE : 	returnChar = 'D'; 
+								break;
 			}
 		}
 		
