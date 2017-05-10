@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,13 +74,14 @@ public class DerbyBootstrapper {
      * Note: this is only done for Derby databases.
      * @param schemaType - An enumerated value indicating the schema type to be used when bootstrapping the database.
      * @param derbySProcJarLocation - The derby java stored procedures .JAR file location.
+	 * @throws SQLException 
      */
-    public static void bootstrapDb(DataSource fhirDb, SchemaType schemaType, String derbySProcJarLocation)  {
+    public static void bootstrapDb(DataSource fhirDb, SchemaType schemaType, String derbySProcJarLocation) throws SQLException  {
     	if (log.isLoggable(Level.FINER)) {
 			log.entering(className, "bootstrapDb");
 		}
     	
-    	Connection connection;
+    	Connection connection = null;
     	String dbDriverName;
     	Database database;
 		Liquibase liquibase;
@@ -119,6 +121,11 @@ public class DerbyBootstrapper {
 		    log.log(Level.SEVERE, msg, e);
     	}
     	finally {
+    	    if (connection != null) {
+    	        log.finer("Committing and closing connection...");
+    	        connection.commit();
+    	        connection.close();
+    	    }
     		if (log.isLoggable(Level.FINER)) {
     			log.exiting(className, "bootstrapDb");
     		}
