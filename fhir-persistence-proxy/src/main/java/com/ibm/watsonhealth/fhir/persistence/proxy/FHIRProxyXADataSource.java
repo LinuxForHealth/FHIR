@@ -204,10 +204,8 @@ public class FHIRProxyXADataSource implements XADataSource {
                 throw new IllegalStateException("Could not locate 'connectionProperties' property within datasource property group " + dsPropertyName);
             }
 
-            // Fold the type to lowercase to "normalize" it.
-            String typeLC = type.toLowerCase();
-
-            String datasourceClassname = datasourceTypeMapping.get(typeLC);
+            // Map the type to an XADataSource impl classname.
+            String datasourceClassname = datasourceTypeMapping.get(type.toLowerCase());
             if (datasourceClassname == null) {
                 throw new IllegalArgumentException("Datasource type '" + type + "' not supported.");
             }
