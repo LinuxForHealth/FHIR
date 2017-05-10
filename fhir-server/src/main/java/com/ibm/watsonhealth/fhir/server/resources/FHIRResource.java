@@ -1961,7 +1961,12 @@ public class FHIRResource {
     }
     
     private List<String> getAllowableVirtualResourceTypes() throws Exception {
-        return FHIRConfigHelper.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
+        List<String> result = FHIRConfigHelper.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
+        if (result == null) {
+            result = new ArrayList<>();
+            result.add("*");
+        }
+        return result;
     }
     
     private Boolean isVirtualResourceTypesFeatureEnabled() {

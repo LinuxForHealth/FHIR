@@ -114,8 +114,9 @@ public class PropertyGroup {
      */
     public List<String> getStringListProperty(String propertyName) throws Exception {
         Object[] array = getArrayProperty(propertyName);
-        List<String> strings = new ArrayList<>();
-        if (array != null && array.length > 0) {
+        List<String> strings = null;
+        if (array != null) {
+            strings = new ArrayList<String>();
             for (int i = 0; i < array.length; i++) {
                 strings.add((String) array[i].toString());
             }
@@ -181,7 +182,7 @@ public class PropertyGroup {
      * @param propertyName the name of the property to retrieve
      */
     public Boolean getBooleanProperty(String propertyName) {
-        return getBooleanProperty(propertyName, Boolean.FALSE);
+        return getBooleanProperty(propertyName, null);
     }
 
     /**
@@ -228,7 +229,6 @@ public class PropertyGroup {
             } else {
                 throw new IllegalArgumentException("Property '" + propertyName + "' must be an array");
             }
-            
         }
         return result;
     }
@@ -263,7 +263,7 @@ public class PropertyGroup {
      * @return an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
      * @throws Exception 
      */
-    protected Object convertJsonValue(JsonValue jsonValue) throws Exception {
+    public static Object convertJsonValue(JsonValue jsonValue) throws Exception {
         Object result = null;
         switch (jsonValue.getValueType()) {
         case ARRAY:
@@ -302,20 +302,21 @@ public class PropertyGroup {
      * @return an Object[] containing the converted values found in the JsonArray
      * @throws Exception
      */
-    private Object[] convertJsonArray(JsonArray jsonArray) throws Exception {
+    private static Object[] convertJsonArray(JsonArray jsonArray) throws Exception {
         Object[] result = new Object[jsonArray.size()];
         for (int i = 0; i < jsonArray.size(); i++) {
             result[i] = convertJsonValue(jsonArray.get(i));
         }
         return result;
     }
+    
     /**
      * Finds the specified property and returns it as a generic JsonValue.
      * 
      * @param propertyName
      *            the possibly hierarchical property name.
      */
-    protected JsonValue getJsonValue(String propertyName) {
+    public JsonValue getJsonValue(String propertyName) {
         String[] pathElements = getPathElements(propertyName);
         JsonObject subGroup = getPropertySubGroup(pathElements);
         JsonValue result = null;

@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 
 public class FHIRConfigHelperTest {
     
@@ -54,6 +55,8 @@ public class FHIRConfigHelperTest {
         List<String> l;
         String s;
         Boolean b;
+        Integer i;
+        Double d;
         s = FHIRConfigHelper.getStringProperty("collection/groupA/stringProp1", null);
         assertNotNull(s);
         assertEquals("defaultValue1", s);
@@ -73,6 +76,22 @@ public class FHIRConfigHelperTest {
         l = FHIRConfigHelper.getStringListProperty("collection/groupB/stringList1");
         assertNotNull(l);
         assertEquals(expectedList1, l);
+        
+        s = FHIRConfigHelper.getStringProperty("collection/groupB/boolProp1", null);
+        assertNotNull(s);
+        assertEquals("false", s);
+        
+        i = FHIRConfigHelper.getIntProperty("collection/groupC/intProp1", null);
+        assertNotNull(i);
+        assertEquals(12345, i.intValue());
+        
+        i = FHIRConfigHelper.getIntProperty("collection/groupC/intProp2", null);
+        assertNotNull(i);
+        assertEquals(12345, i.intValue());
+        
+        d = FHIRConfigHelper.getDoubleProperty("collection/groupC/doubleProp2", null);
+        assertNotNull(d);
+        assertEquals(12345.001, d.doubleValue());
     }
     
     @Test
@@ -212,4 +231,61 @@ public class FHIRConfigHelperTest {
         assertNotNull(l);
         assertEquals(expectedList1, l);
     }
+    
+    @Test
+    public void testTenant5() throws Exception {
+        // "tenant5" contains property groups from default, but includes only new properties
+        // within those group.   Make sure we can retrieve those, plus the property values within
+        // those groups that exist only in the default config.
+        FHIRRequestContext.set(new FHIRRequestContext("tenant5"));
+        
+        String tenant = FHIRConfigHelper.getStringProperty("collection/tenant", null);
+        assertNotNull(tenant);
+        assertEquals("tenant5", tenant);
+        
+        List<String> l;
+        String s;
+        Boolean b;
+        s = FHIRConfigHelper.getStringProperty("collection/groupA/newProp1", null);
+        assertNotNull(s);
+        assertEquals("newValue1", s);
+        
+        s = FHIRConfigHelper.getStringProperty("collection/groupA/stringProp1", null);
+        assertNotNull(s);
+        assertEquals("defaultValue1", s);
+        
+        s = FHIRConfigHelper.getStringProperty("collection/groupA/stringProp2", null);
+        assertNotNull(s);
+        assertEquals("defaultValue2", s);
+        
+        b = FHIRConfigHelper.getBooleanProperty("collection/groupB/boolProp1", null);
+        assertNotNull(b);
+        assertEquals(Boolean.FALSE, b);
+        
+        b = FHIRConfigHelper.getBooleanProperty("collection/groupB/boolProp2", null);
+        assertNotNull(b);
+        assertEquals(Boolean.FALSE, b);
+        
+        b = FHIRConfigHelper.getBooleanProperty("collection/groupB/newBoolProp1", null);
+        assertNotNull(b);
+        assertEquals(Boolean.TRUE, b);
+        
+        l = FHIRConfigHelper.getStringListProperty("collection/groupB/stringList1");
+        assertNotNull(l);
+        assertEquals(expectedList1, l);
+        
+        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup("whclsfRouter/config");
+        assertNotNull(pg);
+        assertNotNull(pg.getBooleanProperty("supportsTransaction"));
+        assertNotNull(pg.getArrayProperty("routingRules"));
+        
+        b = FHIRConfigHelper.getBooleanProperty("whclsfRouter/consentEnforcementEnabled", null);
+        assertNotNull(b);
+        assertEquals(Boolean.TRUE, b);
+        
+        b = FHIRConfigHelper.getBooleanProperty("whclsfRouter/consentManagementEnabled", null);
+        assertNotNull(b);
+        assertEquals(Boolean.FALSE, b);
+    }
+
 }
