@@ -81,6 +81,15 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		super(dbProperties);
 	}
 
+	/**
+	 * Constructs a DAO using the passed externally managed database connection.
+	 * The connection used by this instance for all DB operations will be the passed connection.
+	 * @param Connection - A database connection that will be managed by the caller.
+	 */
+	public ResourceDAONormalizedImpl(Connection managedConnection) {
+		super(managedConnection);
+	}
+
 	@Override
 	public Resource insert(Resource resource)
 			throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {

@@ -11,6 +11,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,11 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
@@ -55,6 +58,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	
 	private ResourceNormalizedDAO resourceDao;
 	private ParameterNormalizedDAO parameterDao;
+	private Connection managedConnection;
 	
 
 	/**
@@ -79,14 +83,34 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	 * Constructor for use when running standalone, outside of any web container.
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("rawtypes")
 	public FHIRPersistenceJDBCNormalizedImpl(Properties configProps) throws Exception {
 		super(configProps);
 		final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl(Properties)";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-		this.resourceDao = new ResourceDAONormalizedImpl(configProps);
-		this.parameterDao = new ParameterDAONormalizedImpl(configProps);
+		
+		String driverName = configProps.getProperty(FHIRDbDAO.PROPERTY_DB_DRIVER);
+		if (driverName.contains("derby")) {
+			this.resourceDao = new ResourceDAONormalizedImpl(configProps);
+			this.parameterDao = new ParameterDAONormalizedImpl(configProps);
+		}
+		else {
+			// The following is effective when DB2 is selected as the test datastore in unit test mode. 
+			// This instance must manage the DB connection, so that on create and update, search parameters and resources
+			// are stored in the same unit of work. Otherwise, the stored procedure called the Resource DAO will not find the search 
+			// parameters in the Parameters Global Temporary Table.
+			FHIRDbDAOBasicImpl baseDao = new FHIRDbDAOBasicImpl(configProps);
+			this.managedConnection = baseDao.getConnection();
+			this.resourceDao = new ResourceDAONormalizedImpl(this.managedConnection);
+			this.parameterDao = new ParameterDAONormalizedImpl(this.managedConnection);
+		}
+		
+		
+		
+		
+		
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -330,6 +354,81 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		}
 	    
 		return resources;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#begin()
+	 */
+	@Override
+	public void begin() throws FHIRPersistenceException {
+		final String METHODNAME = "begin";
+		log.entering(CLASSNAME, METHODNAME);
+		
+			
+		try {
+			if (userTransaction != null) {
+				userTransaction.begin();
+			}
+			else if (this.managedConnection != null) {
+				managedConnection.setAutoCommit(false);
+			}
+		}
+        catch (Throwable e) {
+            String msg = "An unexpected error occurred while starting a transaction.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg);
+        }
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#commit()
+	 */
+	@Override
+	public void commit() throws FHIRPersistenceException {
+		final String METHODNAME = "commit";
+		log.entering(CLASSNAME, METHODNAME);
+		
+        try {
+            if (userTransaction != null) {
+                userTransaction.commit();
+            } else if (this.managedConnection != null) {
+            	managedConnection.commit();
+			}
+        } 
+        catch (Throwable e) {
+            String msg = "An unexpected error occurred while committing a transaction.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg);
+        }
+        finally {
+        	log.exiting(CLASSNAME, METHODNAME);
+        }
+
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#rollback()
+	 */
+	@Override
+	public void rollback() throws FHIRPersistenceException {
+		final String METHODNAME = "rollback";
+		log.entering(CLASSNAME, METHODNAME);
+		
+        try {
+        	if (userTransaction != null) {
+                userTransaction.rollback();
+            } else if (this.managedConnection != null) {
+            	managedConnection.rollback();
+			}
+        } 
+        catch (Throwable e) {
+            String msg = "An unexpected error occurred while rolling back a transaction.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg);
+        }
 	}
 	
 	protected ParameterDAO getParameterDao() {

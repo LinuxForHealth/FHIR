@@ -68,6 +68,16 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 		super(dbProperties);
 	}
 	
+	
+	/**
+	 * Constructs a DAO using the passed externally managed database connection.
+	 * The connection used by this instance for all DB operations will be the passed connection.
+	 * @param Connection - A database connection that will be managed by the caller.
+	 */
+	public ResourceDAOBasicImpl(Connection managedConnection) {
+		super(managedConnection);
+	}
+
 	/**
 	 * Creates and returns a Resource DTO based on the contents of the passed ResultSet
 	 * @param resultSet A ResultSet containing FHIR persistent object data.

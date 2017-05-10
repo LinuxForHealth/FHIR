@@ -40,6 +40,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	private String datasourceJndiName = null;
 	private Properties dbProps = null;
 	private DataSource fhirDb = null;
+	private Connection externalConnection = null;
 	private static boolean dbDriverLoaded = false;
 
 	/**
@@ -57,6 +58,17 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 		this();
 		this.setDbProps(dbProperties);
 	}
+	
+	/**
+	 * Constructs a DAO using the passed externally managed database connection.
+	 * The connection used by this instance for all DB operations will be the passed connection.
+	 * @param Connection - A database connection that will be managed by the caller.
+	 */
+	public FHIRDbDAOBasicImpl(Connection conn) {
+		this();
+		this.setExternalConnection(conn);
+	}
+
 
 
 	/* (non-Javadoc)
@@ -71,7 +83,10 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
             String dbDriverName = null;
             String dbUrl;
 
-            if (this.getDbProps() == null) {
+            if (this.getExternalConnection() != null) {
+            	connection = this.getExternalConnection();
+            }
+            else if (this.getDbProps() == null) {
                 try {
                     connection = this.getFhirDatasource().getConnection();
                 } catch (Throwable e) {
@@ -165,7 +180,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 				log.log(Level.SEVERE, ce.getMessage(), ce);
 			}
 		}
-		if(connection != null) {
+		if(connection != null && this.getExternalConnection() == null) {
 			try {
 				connection.close();
 			} 
@@ -343,6 +358,14 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 
 	private void setDbProps(Properties dbProps) {
 		this.dbProps = dbProps;
+	}
+
+	private Connection getExternalConnection() {
+		return externalConnection;
+	}
+
+	private void setExternalConnection(Connection externalConnection) {
+		this.externalConnection = externalConnection;
 	}
 
 }

@@ -67,6 +67,15 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		super(dbProperties);
 	}
 
+	/**
+	 * Constructs a DAO using the passed externally managed database connection.
+	 * The connection used by this instance for all DB operations will be the passed connection.
+	 * @param Connection - A database connection that will be managed by the caller.
+	 */
+	public ParameterDAONormalizedImpl(Connection managedConnection) {
+		super(managedConnection);
+	}
+
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO#insert(java.util.List)
 	 */
