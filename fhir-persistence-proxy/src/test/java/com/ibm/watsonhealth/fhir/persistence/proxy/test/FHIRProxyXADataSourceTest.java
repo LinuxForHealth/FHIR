@@ -42,7 +42,6 @@ public class FHIRProxyXADataSourceTest {
         FHIRRequestContext.remove();
     }
     
-    
     @Test(expectedExceptions = { SQLException.class })
     public void testNoDatasources() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext("noprops", "notused"));
@@ -76,7 +75,7 @@ public class FHIRProxyXADataSourceTest {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1", "derby_1"));
         
         FHIRProxyXADataSource proxyDS = new FHIRProxyXADataSource();
-        XADataSource xaDS= proxyDS.getDelegate();
+        XADataSource xaDS = proxyDS.getDelegate();
         assertNotNull(xaDS);
         assertTrue(xaDS instanceof EmbeddedXADataSource);
         EmbeddedXADataSource derbyDS = (EmbeddedXADataSource) xaDS;
@@ -88,7 +87,7 @@ public class FHIRProxyXADataSourceTest {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1", "derby_2"));
         
         FHIRProxyXADataSource proxyDS = new FHIRProxyXADataSource();
-        XADataSource xaDS= proxyDS.getDelegate();
+        XADataSource xaDS = proxyDS.getDelegate();
         assertNotNull(xaDS);
         assertTrue(xaDS instanceof EmbeddedXADataSource);
         EmbeddedXADataSource derbyDS = (EmbeddedXADataSource) xaDS;
@@ -101,7 +100,7 @@ public class FHIRProxyXADataSourceTest {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1", "derby_3"));
         
         FHIRProxyXADataSource proxyDS = new FHIRProxyXADataSource();
-        XADataSource xaDS= proxyDS.getDelegate();
+        XADataSource xaDS = proxyDS.getDelegate();
         assertNotNull(xaDS);
         assertTrue(xaDS instanceof EmbeddedXADataSource);
         EmbeddedXADataSource derbyDS = (EmbeddedXADataSource) xaDS;
@@ -115,6 +114,19 @@ public class FHIRProxyXADataSourceTest {
         assertEquals("DataSource description", derbyDS.getDescription());
         assertEquals("prop1=value1", derbyDS.getConnectionAttributes());
         assertEquals(false, derbyDS.getAttributesAsPassword());
+    }
+    
+    @Test
+    public void testDerby_default() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext("tenant1", "default_derby"));
+        
+        FHIRProxyXADataSource proxyDS = new FHIRProxyXADataSource();
+        XADataSource xaDS = proxyDS.getDelegate();
+        assertNotNull(xaDS);
+        assertTrue(xaDS instanceof EmbeddedXADataSource);
+        EmbeddedXADataSource derbyDS = (EmbeddedXADataSource) xaDS;
+        assertEquals("myDefaultDerbyDatabase", derbyDS.getDatabaseName());
+        assertEquals("create", derbyDS.getCreateDatabase());
     }
     
     @Test

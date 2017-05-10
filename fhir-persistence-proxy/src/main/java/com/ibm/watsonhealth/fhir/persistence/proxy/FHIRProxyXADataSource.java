@@ -185,28 +185,23 @@ public class FHIRProxyXADataSource implements XADataSource {
         try {
             XADataSource datasource = null;
 
-            // Retrieve the property group containing all of the datasource definitions for the current tenant.
-            PropertyGroup datasourcesPG = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);
-            if (datasourcesPG == null) {
-                throw new IllegalStateException("Could not locate property group '" + FHIRConfiguration.PROPERTY_DATASOURCES + "'.");
-            }
-
-            // Next, retrieve the property group pertaining to the datastore-id.
-            PropertyGroup dsPG = datasourcesPG.getPropertyGroup(dsId);
+            // Retrieve the property group pertaining to the specified datastore.
+            String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
+            PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
             if (dsPG == null) {
-                throw new IllegalStateException("Could not locate properties for datastore-id '" + dsId + "'.");
+                throw new IllegalStateException("Could not locate configuration property: " + dsPropertyName);
             }
 
             // Get the datasource type (Derby, DB2, etc.).
             String type = dsPG.getStringProperty("type", null);
             if (type == null) {
-                throw new IllegalStateException("Could not locate 'type' property within datasource property group '" + dsId + "'.");
+                throw new IllegalStateException("Could not locate 'type' property within datasource property group: " + dsPropertyName);
             }
 
             // Get the connection properties
             PropertyGroup connectionProps = dsPG.getPropertyGroup("connectionProperties");
             if (connectionProps == null) {
-                throw new IllegalStateException("Could not locate 'connectionProperties' property within datasource property group '" + dsId + "'.");
+                throw new IllegalStateException("Could not locate 'connectionProperties' property within datasource property group " + dsPropertyName);
             }
 
             // Fold the type to lowercase to "normalize" it.

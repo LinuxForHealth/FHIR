@@ -1,4 +1,15 @@
 {
 	"fhirServer": {
+		"persistence": {
+			"datasources": {
+				"default_derby": {
+					"type": "Derby",
+					"connectionProperties": {
+						"databaseName": "myDefaultDerbyDatabase",
+						"createDatabase": "create"
+					}
+				}
+			}
+		}
 	}
 }
