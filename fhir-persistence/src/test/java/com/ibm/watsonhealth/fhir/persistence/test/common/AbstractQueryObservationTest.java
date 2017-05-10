@@ -375,7 +375,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with performer = 'Practitioner/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationQuery_performer() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "performer", "Practitioner/example");
 		assertNotNull(resources);
@@ -399,7 +399,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with date = '2012-09-17' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationQuery_date() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "date", "2012-09-17");
 		assertNotNull(resources);
@@ -411,7 +411,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with date = '2012-09-17' OR '2012-11-11' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationQuery_date_multivalue() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "date", "2012-09-17,2012-11-11");
 		assertNotNull(resources);
@@ -785,7 +785,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * @throws Exception
 	 */
 	//Disabled for Cloudant as it fails for Cloudant on Bluemix
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation3" })
 	public void testObservationPagination_002() throws Exception {
 		
 		String parmName = "date";
