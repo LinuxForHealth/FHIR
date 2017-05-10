@@ -93,7 +93,26 @@ CODE_REMOVED
                         "currentSchema": "FHIR1",
                         "driverType": 4
                     }
-                }
+                },
+				"audit": {
+					"type": "derby",
+					"connectionProperties": {
+						"databaseName": "derby/auditDB",
+						"createDatabase": "create"
+					}
+				},
+				"_db2_audit": {
+					"type": "db2",
+					"connectionProperties": {
+						"serverName": "localhost",
+						"portNumber": 50000,
+						"user": "db2inst1",
+						"password": "********",
+						"databaseName": "AUDITDB",
+						"currentSchema": "AUDIT1",
+						"driverType": 4
+					}
+				}
             },
             "jdbc":{
                 "__comment":"Configuration properties for the JDBC persistence implementation",
@@ -103,6 +122,9 @@ CODE_REMOVED
                 "schemaType":"basic",
                 "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource"
+            },
+            "audit": {
+            	"bootstrapDb": true
             }
         }
     }
