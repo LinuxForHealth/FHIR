@@ -20,7 +20,7 @@ public class JDBCNormQueryRiskAssmtTest extends AbstractQueryRiskAssmtTest {
 	private Properties testProps;
 	
 	public JDBCNormQueryRiskAssmtTest() throws Exception {
-		this.testProps = readTestProperties();
+		this.testProps = readTestProperties("test.normalized.properties");
 	}
 
 	@Override
@@ -28,7 +28,6 @@ public class JDBCNormQueryRiskAssmtTest extends AbstractQueryRiskAssmtTest {
 		DerbyInitializer derbyInit;
 		String dbDriverName = this.testProps.getProperty("dbDriverName");
 		if (dbDriverName != null && dbDriverName.contains("derby")) {
-			this.testProps.setProperty("schemaType", "normalized");
 			derbyInit = new DerbyInitializer(this.testProps);
 			derbyInit.bootstrapDb(false);
 		}

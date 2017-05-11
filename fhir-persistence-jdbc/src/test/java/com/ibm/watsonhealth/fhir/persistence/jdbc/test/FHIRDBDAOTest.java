@@ -38,7 +38,7 @@ public class FHIRDBDAOTest {
 		
 		Properties props = new Properties();
 		props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
-		props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
+		props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirDB;create=true");
 		FHIRDbDAO dao = new FHIRDbDAOBasicImpl(props);
 		Connection connection = dao.getConnection();
 		assertNotNull(connection);

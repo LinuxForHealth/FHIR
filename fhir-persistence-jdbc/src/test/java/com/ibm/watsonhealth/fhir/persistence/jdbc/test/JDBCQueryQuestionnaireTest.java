@@ -19,7 +19,7 @@ public class JDBCQueryQuestionnaireTest extends AbstractQueryQuestionnaireTest {
 	private Properties testProps;
 	
 	public JDBCQueryQuestionnaireTest() throws Exception {
-		this.testProps = readTestProperties();
+		this.testProps = readTestProperties("test.basic.properties");
 	}
 
 	@Override
@@ -27,7 +27,6 @@ public class JDBCQueryQuestionnaireTest extends AbstractQueryQuestionnaireTest {
 		DerbyInitializer derbyInit;
 		String dbDriverName = this.testProps.getProperty("dbDriverName");
 		if (dbDriverName != null && dbDriverName.contains("derby")) {
-			this.testProps.setProperty("schemaType", "basic");
 			derbyInit = new DerbyInitializer(this.testProps);
 			derbyInit.bootstrapDb(false);
 		}

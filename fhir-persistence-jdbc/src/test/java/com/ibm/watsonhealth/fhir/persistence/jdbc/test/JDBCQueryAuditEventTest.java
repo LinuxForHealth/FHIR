@@ -19,7 +19,7 @@ public class JDBCQueryAuditEventTest extends AbstractQueryAuditEventTest {
 	private Properties testProps;
 	
 	public JDBCQueryAuditEventTest() throws Exception {
-		this.testProps = readTestProperties();
+		this.testProps = readTestProperties("test.basic.properties");
 	}
 
 	@Override

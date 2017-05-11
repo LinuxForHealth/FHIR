@@ -67,7 +67,7 @@ public class DerbyInitializer {
 		super();
 		this.dbProps = new Properties();
 		this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
-		this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb");
+		this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirDB");
 	}
 	
 	/**
@@ -107,13 +107,14 @@ public class DerbyInitializer {
 	} 
 	
 	/**
-	 * Establishes a connection to /target/fhirdb. Creates the database if necessary complete with tables indexes.
+	 * Establishes a connection to fhirDB. Creates the database if necessary complete with tables indexes.
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws LiquibaseException
+	 * @throws SQLException 
 	 */
-	public void bootstrapDb(boolean connectionReset) throws FHIRPersistenceDBConnectException, LiquibaseException {
+	public void bootstrapDb(boolean forceRunLiquibaseUpdates) throws FHIRPersistenceDBConnectException, LiquibaseException, SQLException {
 		
-		Connection connection = this.establishDb(connectionReset);
+		Connection connection = this.establishDb(forceRunLiquibaseUpdates);
 		if (this.isNewDbCreated()) {
 			String schemaType = this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE);
 			if(schemaType.equalsIgnoreCase("basic")) {
@@ -127,23 +128,29 @@ public class DerbyInitializer {
 	}
 	
 	/**
-	 * Establishes a connection to a Derby fhirdb, located in the project's /target/fhirdb directory.
+	 * Establishes a connection to a Derby fhirdb, located in the project's /target/fhirDB directoryfor basic schema or /derby/fhirDB directory for normalized schema.
 	 * If the database already exists, a connection is returned to it. If not, a new Derby fhirdb is created
 	 * and populated with the appropriate tables. 
-	 * @return Connection - A connection to the project's /target/fhirdb
+	 * @return Connection - A connection to the project's /derby/fhirDB
 	 * @throws FHIRPersistenceDBConnectException
 	 */
 	@SuppressWarnings("rawtypes")
-	private Connection establishDb(boolean connectionReset) throws FHIRPersistenceDBConnectException  {
+	private Connection establishDb(boolean forceRunLiquibaseUpdates) throws FHIRPersistenceDBConnectException  {
 		
 		Connection connection = null;
 		SQLException sqlEx;
 		
 		FHIRDbDAO dao = new FHIRDbDAOBasicImpl(this.dbProps);
 		
+		String schemaType = this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE);
+		
 		try {
-			if(connectionReset) {
-				this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
+			if(forceRunLiquibaseUpdates) {
+				if(schemaType.equalsIgnoreCase("basic")) {
+					this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirDB;create=true");
+				} else {
+					this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:derby/fhirDB;create=true");
+				}
 				dao = new FHIRDbDAOBasicImpl(this.dbProps);
 				connection = dao.getConnection();
 				this.setNewDbCreated(true);
@@ -156,7 +163,11 @@ public class DerbyInitializer {
 				sqlEx = (SQLException) e.getCause();
 				// XJ004 means database not found
 				if("XJ004".equals(sqlEx.getSQLState())) {
-					this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirdb;create=true");
+					if(schemaType.equalsIgnoreCase("basic")) {
+						this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirDB;create=true");
+					} else {
+						this.dbProps.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:derby/fhirDB;create=true");
+					}
 					dao = new FHIRDbDAOBasicImpl(this.dbProps);
 					connection = dao.getConnection();
 					this.setNewDbCreated(true);
@@ -174,8 +185,9 @@ public class DerbyInitializer {
 	 * The path to the Liquibase change log is defined by constant LIQUIBASE_CHANGE_LOG_PATH.
 	 * @param dbConn
 	 * @throws LiquibaseException
+	 * @throws SQLException 
 	 */
-	private void runDDL(Connection dbConn) throws LiquibaseException {
+	private void runDDL(Connection dbConn) throws LiquibaseException, SQLException {
 		
 		Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(dbConn));
 		
@@ -184,6 +196,8 @@ public class DerbyInitializer {
 		Liquibase liquibase = new Liquibase(template.replaceAll("<schemaType>", this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE)), new FileSystemResourceAccessor(), database);
 		
 		liquibase.update((Contexts)null);
+		
+		dbConn.setAutoCommit(true);
 	}
 
 	private boolean isNewDbCreated() {
