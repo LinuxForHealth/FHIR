@@ -96,7 +96,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateContract" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract" })
     public void testUpdateContract() throws Exception {
     	Contract contract = savedContract;
     	contract.setLanguage((new Code()).withValue("it"));
@@ -115,7 +115,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      * 
      * @throws Exception
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateContract", "testUpdateContract" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract", "testUpdateContract" })
     public void testUpdateContractAgain() throws Exception {
     	Contract contract = savedContract;
     	contract.setLanguage((new Code()).withValue("pt-BR"));
@@ -217,7 +217,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract with a since parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateContract" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract" })
 	public void testContractHistoryPgn_001() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));
@@ -258,7 +258,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests retrieval of update history of a Contract with a count parameter set. This should yield correct results using pagination
 	 * 
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateContract", "testUpdateContract", "testUpdateContractAgain" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract", "testUpdateContract", "testUpdateContractAgain" })
 	public void testContractHistoryPgn_003() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_page", Collections.singletonList("1"));

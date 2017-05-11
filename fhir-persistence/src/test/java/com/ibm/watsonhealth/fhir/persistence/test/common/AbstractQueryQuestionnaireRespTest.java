@@ -211,15 +211,15 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	}
 	
 	/**
-	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/f007' which should yield correct results
+	 * Tests a query for a QuestionnaireResponse with source = 'Practitioner/unique-source-1' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateQuestionnaireResponse2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse3" })
 	public void testQuestionnaireResponseQuery_source() throws Exception {
-		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "source", "Practitioner/f007");
+		List<Resource> resources = runQueryTest(QuestionnaireResponse.class, persistence, "source", "Practitioner/unique-source-1");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((QuestionnaireResponse)resources.get(0)).getSource().getReference().getValue(),"Practitioner/f007");
+		assertEquals(((QuestionnaireResponse)resources.get(0)).getSource().getReference().getValue(),"Practitioner/unique-source-1");
 	}
 	
 	/**
@@ -680,5 +680,23 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
+	}
+
+	/**
+	 * Tests the FHIRPersistenceCloudantImpl create API for a QuestionnaireResponse.
+	 * 
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
+	public void testCreateQuestionnaireResponse3() throws Exception {
+		QuestionnaireResponse questionnaireResp = readResource(QuestionnaireResponse.class, "questionnaireresponse-example-gcs.canonical3.json");
+	
+	    persistence.create(getDefaultPersistenceContext(), questionnaireResp);
+	    assertNotNull(questionnaireResp);
+	    assertNotNull(questionnaireResp.getId());
+	    assertNotNull(questionnaireResp.getId().getValue());
+	    assertNotNull(questionnaireResp.getMeta());
+	    assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
+	    assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
 	}
 }

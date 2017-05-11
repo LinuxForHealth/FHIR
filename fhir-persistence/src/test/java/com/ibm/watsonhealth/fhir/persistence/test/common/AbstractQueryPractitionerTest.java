@@ -119,30 +119,30 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	}
 	
 	/**
-	 * Tests a query for a Practitioner with address-city = 'Den Burg' which should yield correct results
+	 * Tests a query for a Practitioner with address-city = 'Ogalalla' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_addressCity() throws Exception {
-		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Den Burg");
+		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Ogalalla");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Ogalalla");
 	}	
 	
 	/**
-	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results
+	 * Tests a query for a Practitioner with address = 'Ogalalla' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerQuery_address() throws Exception {
-		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Den Burg");
+		List<Resource> resources = runQueryTest(Practitioner.class, persistence, "address-city", "Ogalalla");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getLine().get(0).getValue(),"Galapagosweg 91");
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getPostalCode().getValue(),"9105 PZ");
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCountry().getValue(),"NLD");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Ogalalla");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getLine().get(0).getValue(),"Nebraska");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getPostalCode().getValue(),"33333");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCountry().getValue(),"USA");
 	}
 	
 	/**
@@ -204,11 +204,11 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 	 * Tests a query for a Practitioner with address = 'Den Burg' which should yield correct results using pagination
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePractitioner2" })
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePractitioner2" })
 	public void testPractitionerPagination_002() throws Exception {
 		
 		String parmName = "address-city";
-		String parmValue = "Den Burg";
+		String parmValue = "Ogalalla";
 		Class<? extends Resource> resourceType = Practitioner.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
 		
@@ -218,10 +218,10 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
 		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Den Burg");
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getLine().get(0).getValue(),"Galapagosweg 91");
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getPostalCode().getValue(),"9105 PZ");
-		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCountry().getValue(),"NLD");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Ogalalla");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getLine().get(0).getValue(),"Nebraska");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getPostalCode().getValue(),"33333");
+		assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCountry().getValue(),"USA");
 		long count = context.getTotalCount();
 		int pageSize = context.getPageSize();
 		int lastPgNum = context.getLastPageNumber();

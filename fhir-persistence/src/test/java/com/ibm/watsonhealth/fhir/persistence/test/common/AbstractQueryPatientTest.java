@@ -818,9 +818,12 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	
 	/*
 	 * Performance testcases for Pagination - create 1000 records of the same resource type and retrieve count
+	 * NOTE: This test is not being run at this time because when running against a Derby DB, it takes over 40 minutes to
+	 * complete. This would be an unacceptable increase to project build time.  When running against a DB2 database,
+	 * this method completes in about 34 seconds.
 	 * @throws Exception
 	 */
-    @Test(groups = { "cloudant-broken", "jpa", "jdbc", "jdbc-normalized-broken" })
+    //@Test(groups = { "cloudant-broken", "jpa", "jdbc", "jdbc-normalized-broken" })
     public void testPerformanceTestPatient() throws Exception {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
