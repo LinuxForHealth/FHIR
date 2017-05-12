@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api;
 
 import java.util.List;
 
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -40,6 +41,12 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
 	 * @throws FHIRPersistenceDBConnectException
 	 */
 	int searchCount(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+	
+	/**
+	 * Sets thc current persistence context
+	 * @param context
+	 */
+	void setPersistenceContext(FHIRPersistenceContext context);
 
 	
 	

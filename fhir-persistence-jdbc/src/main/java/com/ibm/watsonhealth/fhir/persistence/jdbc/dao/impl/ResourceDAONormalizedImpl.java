@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 
+import static java.util.Objects.*;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,6 +20,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -65,6 +69,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
             													  "R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
 	
+	private FHIRPersistenceContext context;
 	
 	/**
 	 * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
@@ -116,11 +121,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.setString(4, resource.isDeleted() ? "Y": "N");
 			//TODO REAL values need to be inserted instead of these hard-coded placeholders.
 			stmt.setString(5, "tx_correlation_id");
-			stmt.setString(6, "changed_by");
-			stmt.setString(7, "correlation_token");
-			stmt.setString(8, "tenant_id");
+			stmt.setString(6, this.getUser());
+			stmt.setString(7, this.getCorrelationToken());
+			stmt.setString(8, this.getTenantId());
 			stmt.setString(9, "reason");
-			stmt.setString(10, "event");
+			stmt.setString(10, this.getEventType(resource));
 			stmt.setString(11, "site_id");
 			stmt.setString(12, "study_id");
 			stmt.setString(13, "service_id");
@@ -354,5 +359,79 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
+
+	@Override
+	public void setPersistenceContext(FHIRPersistenceContext context) {
+		this.context = context;
+	}
+	
+	/**
+	 * Retrieves the correlation token from input http headers.
+	 * @return
+	 */
+	private String getCorrelationToken() {
+		String trxCorrelationId = "";
+		
+		if (nonNull(this.context) && 
+			nonNull(this.context.getPersistenceEvent()) && 
+			nonNull(this.context.getPersistenceEvent().getHttpHeaders()) &&
+			nonNull(this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-DP-correlationid"))) {
+			
+			trxCorrelationId = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-DP-correlationid");
+		}
+		return trxCorrelationId;
+	}
+	
+	/**
+	 * Retrieves the current user from http headers.
+	 * @return
+	 */
+	private String getUser() {
+		String trxCorrelationId = "";
+		
+		if (nonNull(this.context) && 
+			nonNull(this.context.getPersistenceEvent()) && 
+			nonNull(this.context.getPersistenceEvent().getHttpHeaders()) &&
+			nonNull(this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-APP-User"))) {
+			
+			trxCorrelationId = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-APP-User");
+		}
+		return trxCorrelationId;
+	}
+	
+	/**
+	 * Determines and returns the event type, based on data contained in the passed Resource.
+	 * @param resource
+	 * @return
+	 */
+	private String getEventType(Resource resource) {
+		String eventType = "";
+		
+		if (resource.isDeleted()) {
+			eventType = "DELETE";
+		}
+		else if (resource.getVersionId() == 1) {
+			eventType = "CREATE";
+		}
+		else {
+			eventType = "UPDATE";
+		}
+		return eventType;
+	}
+	
+	/**
+	 * Retrieves the current tenant id from Thread-local storage.
+	 * @return
+	 */
+	private String getTenantId() {
+		String tenantId = "";
+		
+		if (nonNull(FHIRRequestContext.get().getTenantId())) {
+			tenantId = FHIRRequestContext.get().getTenantId();
+		}
+		return tenantId;
+	}
+
+	
 
 }
