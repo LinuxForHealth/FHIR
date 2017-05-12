@@ -211,7 +211,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		List<Parameter> searchParameters = searchContext.getSearchParameters();
 		int pageSize = searchContext.getPageSize();
 		int offset = (searchContext.getPageNumber() - 1) * pageSize;
-		QuerySegmentAggregator helper = new QuerySegmentAggregator(resourceType, offset, pageSize);
+		QuerySegmentAggregator helper = new QuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao);
 		
 		this.resourceType = resourceType;
 		

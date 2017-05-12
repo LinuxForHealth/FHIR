@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -366,6 +367,16 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 
 	private void setExternalConnection(Connection externalConnection) {
 		this.externalConnection = externalConnection;
+	}
+
+	@Override
+	public boolean isDb2Database() throws FHIRPersistenceDBConnectException, SQLException {
+				
+		String dbUrl;
+		
+		dbUrl = this.getConnection().getMetaData().getURL();
+		dbUrl = dbUrl.toLowerCase();
+		return dbUrl.contains("db2");
 	}
 
 }

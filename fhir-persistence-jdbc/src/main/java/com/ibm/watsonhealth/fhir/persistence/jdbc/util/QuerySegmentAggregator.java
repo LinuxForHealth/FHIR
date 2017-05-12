@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 
 /**
@@ -38,6 +39,7 @@ class QuerySegmentAggregator {
 	private List<Parameter> searchQueryParameters;
 	private int offset;
 	private int pageSize;
+	private FHIRDbDAO dao;
 	
 
 	/**
@@ -46,11 +48,12 @@ class QuerySegmentAggregator {
 	 * @param offset - The beginning index of the first search result.
 	 * @param pageSize - The max number of requested search results.
 	 */
-	protected QuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize) {
+	protected QuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, FHIRDbDAO dao) {
 		super();
 		this.resourceType = resourceType;
 		this.offset = offset;
 		this.pageSize = pageSize;
+		this.dao = dao;
 		this.querySegments = new ArrayList<>();
 		this.searchQueryParameters = new ArrayList<>();
 		 
@@ -105,8 +108,14 @@ class QuerySegmentAggregator {
 		queryString.append(" ORDER BY R.RESOURCE_ID ASC ");
 		
 		// Add pagination clauses
-		queryString.append(" OFFSET ").append(this.offset).append(" ROWS")
-				   .append(" FETCH NEXT ").append(this.pageSize).append(" ROWS ONLY");
+		if(this.dao.isDb2Database()) {
+			queryString.append(" LIMIT ").append(this.pageSize).append(" OFFSET ").append(this.offset);
+			
+		}
+		else {
+			queryString.append(" OFFSET ").append(this.offset).append(" ROWS")
+				       .append(" FETCH NEXT ").append(this.pageSize).append(" ROWS ONLY");
+		}
 		
 		for (SqlQueryData querySegment : this.querySegments) {
 			allBindVariables.addAll(querySegment.getBindVariables());

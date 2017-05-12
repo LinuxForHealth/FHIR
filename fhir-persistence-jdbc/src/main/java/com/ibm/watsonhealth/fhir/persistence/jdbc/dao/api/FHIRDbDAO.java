@@ -32,5 +32,12 @@ public interface FHIRDbDAO {
 	 * @throws FHIRPersistenceDBConnectException
 	 */
 	Connection getConnection() throws FHIRPersistenceDBConnectException;
+	
+	/**
+	 * 
+	 * @return true if this DAO is connected to a DB2 database.
+	 * @throws Exception
+	 */
+	boolean isDb2Database() throws Exception;
 
 }
