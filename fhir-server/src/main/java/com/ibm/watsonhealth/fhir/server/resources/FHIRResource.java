@@ -159,6 +159,10 @@ public class FHIRResource {
     private SecurityContext securityContext;
     
     private PropertyGroup fhirConfig = null;
+    
+    // These values are used for correlating requests within a bundle.
+    private String bundleTransactionCorrelationId = null;
+    private String bundleRequestCorrelationId = null;
 
     /**
      * This method will do a quick check of the "initCompleted" flag in the servlet context.
@@ -1298,12 +1302,17 @@ public class FHIRResource {
         
         FHIRPersistenceTransaction txn = null;
         
+        // Generate a request correlation id for this request bundle.
+        bundleRequestCorrelationId = UUID.randomUUID().toString();
+        log.fine("Processing request bundle, request-correlation-id=" + bundleRequestCorrelationId);
+        
         try {
             // If we're working on a 'transaction' type interaction, then start a new transaction now.
             if (responseBundle.getType().getValue() == BundleTypeList.TRANSACTION_RESPONSE) {
+                bundleTransactionCorrelationId = bundleRequestCorrelationId;
                 txn = getPersistenceImpl().getTransaction();
                 txn.begin();
-                log.fine("Started new transaction for bundled 'transaction' request.");
+                log.fine("Started new transaction for transaction bundle, txn-correlation-id=" + bundleTransactionCorrelationId);
             }
             
             Map<String, String> localRefMap = new HashMap<>();
@@ -1314,12 +1323,18 @@ public class FHIRResource {
             processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.GET, txn != null, localRefMap);
             
             if (txn != null) {
-                log.fine("Committing transaction for bundled request.");
+                log.fine("Committing transaction for transaction bundle, txn-correlation-id=" + bundleTransactionCorrelationId);
                 txn.commit();
                 txn = null;
             }
             
         } finally {
+            log.fine("Finished processing request bundle, request-correlation-id=" + bundleRequestCorrelationId);
+            
+            // Clear both correlation id fields since we're done processing the bundle.
+            bundleRequestCorrelationId = null;
+            bundleTransactionCorrelationId = null;
+            
             if (txn != null) {
                 log.fine("Rolling back transaction for bundled request.");
                 txn.rollback();
@@ -2254,6 +2269,8 @@ public class FHIRResource {
         props.put(FHIRPersistenceEvent.PROPNAME_URI_INFO, uriInfo);
         props.put(FHIRPersistenceEvent.PROPNAME_HTTP_HEADERS, httpHeaders);
         props.put(FHIRPersistenceEvent.PROPNAME_SECURITY_CONTEXT, securityContext);
+        props.put(FHIRPersistenceEvent.PROPNAME_TXN_CORRELATION_ID, bundleTransactionCorrelationId);
+        props.put(FHIRPersistenceEvent.PROPNAME_REQUEST_CORRELATION_ID, bundleRequestCorrelationId);
         if (type != null) {
             props.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, type);
         }
