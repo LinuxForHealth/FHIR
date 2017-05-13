@@ -59,6 +59,7 @@ import com.ibm.watsonhealth.fhir.model.MedicationDispenseStatus;
 import com.ibm.watsonhealth.fhir.model.MedicationOrderStatus;
 import com.ibm.watsonhealth.fhir.model.MedicationStatementStatus;
 import com.ibm.watsonhealth.fhir.model.Meta;
+import com.ibm.watsonhealth.fhir.model.Money;
 import com.ibm.watsonhealth.fhir.model.NamingSystemIdentifierType;
 import com.ibm.watsonhealth.fhir.model.NamingSystemType;
 import com.ibm.watsonhealth.fhir.model.NutritionOrderStatus;
@@ -84,6 +85,7 @@ import com.ibm.watsonhealth.fhir.model.RestfulConformanceMode;
 import com.ibm.watsonhealth.fhir.model.SampledData;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.Signature;
+import com.ibm.watsonhealth.fhir.model.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.SlotStatus;
 import com.ibm.watsonhealth.fhir.model.StructureDefinitionKind;
 import com.ibm.watsonhealth.fhir.model.SubscriptionChannelType;
@@ -723,7 +725,7 @@ public class ProcessorTest {
     public void testProcessMoney()  throws Exception {
         Object value = factory.createMoney();
         String result = processor.process(null, value);
-        assertEquals("process(SearchParameter, Quantity)", result);
+        assertEquals("process(SearchParameter, Money)", result);
     }
 
     @Test
@@ -905,7 +907,7 @@ public class ProcessorTest {
     public void testProcessSimpleQuantity()  throws Exception {
         Object value = factory.createSimpleQuantity();
         String result = processor.process(null, value);
-        assertEquals("process(SearchParameter, Quantity)", result);
+        assertEquals("process(SearchParameter, SimpleQuantity)", result);
     }
 
     @Test
@@ -1087,6 +1089,10 @@ public class ProcessorTest {
             return "process(SearchParameter, Meta)";
         }
 
+        public String process(SearchParameter parameter, Money value) {
+            return "process(SearchParameter, Money)";
+        }
+
         public String process(SearchParameter parameter, Oid value) {
             return "process(SearchParameter, Oid)";
         }
@@ -1121,6 +1127,10 @@ public class ProcessorTest {
 
         public String process(SearchParameter parameter, Signature value) {
             return "process(SearchParameter, Signature)";
+        }
+
+        public String process(SearchParameter parameter, SimpleQuantity value) {
+            return "process(SearchParameter, SimpleQuantity)";
         }
 
         public String process(SearchParameter parameter, com.ibm.watsonhealth.fhir.model.String value) {
