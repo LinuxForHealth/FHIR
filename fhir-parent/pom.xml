@@ -5,7 +5,7 @@
 	<artifactId>fhir-parent</artifactId>
 	<version>99-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>IBM Watson Platform for Health FHIR Server</name>
+	<name>IBM Watson Health Cloud FHIR Server</name>
 
 	<properties>
 		<was.liberty.version>17.0.0.1</was.liberty.version>
@@ -15,31 +15,12 @@
 		<db2.version>4.19.49</db2.version>
 		<cxf.version>3.1.4</cxf.version>
 		<!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
-
-        <surefire.plugin.version>2.20</surefire.plugin.version>
-		<maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
-		<jacoco.plugin.version>0.7.9</jacoco.plugin.version>
-		<jacoco.check.lineRatio>0.52</jacoco.check.lineRatio>
-		<jacoco.check.branchRatio>0.40</jacoco.check.branchRatio>
-		<jacoco.check.complexityMax>15</jacoco.check.complexityMax>
-		<jacoco.skip>false</jacoco.skip>
-		<jacoco.excludePattern />
-		<jacoco.destfile>${project.build.directory}/coverage-reports/jacoco.exec</jacoco.destfile>
-
-		<sonar.language>java</sonar.language>
-		<sonar.exclusions>**/generated-sources/**/*</sonar.exclusions>
-		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-		<sonar.coverage.exclusions>${jacoco.excludePattern}</sonar.coverage.exclusions>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.jacoco.reportPath>${project.build.directory}/coverage-reports</sonar.jacoco.reportPath>
-
-		<skip.surefire.tests>${skipTests}</skip.surefire.tests>
-		<skip.failsafe.tests>${skipTests}</skip.failsafe.tests>
 	</properties>
 
 	<modules>
 		<module>../fhir-core</module>
 		<module>../fhir-config</module>
+		<module>../fhir-replication-api</module>
 		<module>../fhir-audit</module>
 		<module>../fhir-model</module>
 		<module>../fhir-derby-sproc</module>
@@ -113,6 +94,13 @@
 				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 				<version>${cxf.version}</version>
 			</dependency>
+			<!-- 
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>${eclipselink.moxy.version}</version>
+			</dependency>
+			 -->
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>org.eclipse.persistence.moxy</artifactId>
@@ -181,10 +169,10 @@
 				<version>${derby.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.derby</groupId>
-				<artifactId>derbytools</artifactId>
-				<version>${derby.version}</version>
-			</dependency>
+		    	<groupId>org.apache.derby</groupId>
+		        <artifactId>derbytools</artifactId>
+		        <version>${derby.version}</version>
+		    </dependency>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbynet</artifactId>
@@ -284,54 +272,27 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${surefire.plugin.version}</version>
-
-					<configuration>
-                        <argLine>-Xmx2048m ${surefireArgLine}</argLine>
-<!-- 
-						<forkCount>4</forkCount>
-						<reuseForks>false</reuseForks>
-						<includes>
-							<include>**/*Test.java</include>
-						</includes>
-						<excludes>
-						    <exclude>**/Abstract*Test.java</exclude>
-							<exclude>**/*IT.java</exclude>
-						</excludes>
-						<skip>${skip.surefire.tests}</skip>
- -->                    
-					</configuration>
+					<version>2.19.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${surefire.plugin.version}</version>
-<!--
+					<version>2.19.1</version>
 					<configuration>
-                        <argLine>${failsafeArgLine}</argLine>
-						<forkCount>4</forkCount>
-						<reuseForks>false</reuseForks>
 						<includes>
 							<include>**/*IT.java</include>
 						</includes>
-						<skip>${skip.failsafe.tests}</skip>
 					</configuration>
 					<executions>
 						<execution>
-							<id>integration-test</id>
+							<id>failsafe-integration-tests</id>
+							<phase>integration-test</phase>
 							<goals>
 								<goal>integration-test</goal>
 							</goals>
 						</execution>
-						<execution>
-							<id>verify</id>
-							<goals>
-								<goal>verify</goal>
-							</goals>
-						</execution>
 					</executions>
-  -->   
-  				</plugin>
+				</plugin>
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>3.0.0</version>
@@ -342,154 +303,18 @@
 					<version>3.4.2</version>
 				</plugin>
 				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.7.201606060606</version>
+				</plugin>
+				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
 					<version>1.0.0</version>
 				</plugin>
-				<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>${jacoco.plugin.version}</version>
-					<configuration>
-						<haltOnFailure>true</haltOnFailure>
-						<excludes>
-							<exclude>**/*.mar</exclude>
-							<exclude>liquibase/**/*</exclude>
-							<exclude>org/yaml/**/*</exclude>
-							<exclude>${jacoco.excludePattern}</exclude>
-						</excludes>
-						<rules>
-							<rule>
-								<element>BUNDLE</element>
-								<limits>
-									<limit>
-										<counter>LINE</counter>
-										<value>COVEREDRATIO</value>
-										<minimum>${jacoco.check.lineRatio}</minimum>
-									</limit>
-									<limit>
-										<counter>BRANCH</counter>
-										<value>COVEREDRATIO</value>
-										<minimum>${jacoco.check.branchRatio}</minimum>
-									</limit>
-								</limits>
-							</rule>
-							<rule>
-								<element>METHOD</element>
-								<limits>
-									<limit>
-										<counter>COMPLEXITY</counter>
-										<value>TOTALCOUNT</value>
-										<maximum>${jacoco.check.complexityMax}</maximum>
-									</limit>
-								</limits>
-							</rule>
-						</rules>
-					</configuration>
-					<executions>
-						<execution>
-							<id>pre-unit-test</id>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-							<configuration>
-								<destFile>${jacoco.destfile}</destFile>
-								<append>true</append>
-								<propertyName>surefireArgLine</propertyName>
-							</configuration>
-						</execution>
-						<execution>
-							<id>post-unit-test</id>
-							<phase>test</phase>
-							<goals>
-								<goal>report</goal>
-							</goals>
-							<configuration>
-								<dataFile>${jacoco.destfile}</dataFile>
-								<outputDirectory>${sonar.jacoco.reportPath}</outputDirectory>
-								<skip>${skip.surefire.tests}</skip>
-							</configuration>
-						</execution>
-						<execution>
-							<id>pre-integration-test</id>
-							<phase>pre-integration-test</phase>
-							<goals>
-								<goal>prepare-agent-integration</goal>
-							</goals>
-							<configuration>
-								<destFile>${jacoco.destfile}</destFile>
-								<append>true</append>
-								<propertyName>failsafeArgLine</propertyName>
-							</configuration>
-						</execution>
-						<execution>
-							<id>post-integration-test</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>report-integration</goal>
-							</goals>
-							<configuration>
-								<dataFile>${jacoco.destfile}</dataFile>
-								<outputDirectory>${sonar.jacoco.reportPath}</outputDirectory>
-								<skip>${skip.failsafe.tests}</skip>
-							</configuration>
-						</execution>
-						<!-- Disabled until such time as code quality stops this tripping <execution> 
-							<id>default-check</id> <goals> <goal>check</goal> </goals> <configuration> 
-							<dataFile>${jacoco.destfile}</dataFile> </configuration> </execution> -->
-					</executions>
-				</plugin>
 			</plugins>
 		</pluginManagement>
-
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-		
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>${maven.surefire.report.plugin}</version>
-				<configuration>
-					<showSuccess>false</showSuccess>
-					<alwaysGenerateFailsafeReport>true</alwaysGenerateFailsafeReport>
-					<alwaysGenerateSurefireReport>true</alwaysGenerateSurefireReport>
-					<aggregate>true</aggregate>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.plugin.version}</version>
-				<configuration>
-					<excludes>
-						<exclude>**/*.mar</exclude>
-						<exclude>${jacoco.excludePattern}</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
 
 	<repositories>
 		<repository>
