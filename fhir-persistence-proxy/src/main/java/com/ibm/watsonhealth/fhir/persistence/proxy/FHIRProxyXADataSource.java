@@ -137,6 +137,7 @@ public class FHIRProxyXADataSource implements XADataSource {
 
             // Grab the context info (tenant-id, datastore-id) from thread-local.
             FHIRRequestContext context = FHIRRequestContext.get();
+            log.finer("Current thread-local FHIRRequestContext contains: " + context.getTenantId() + "/" + context.getDataStoreId());
 
             // Next, retrieve from cache or create the tenant's datasource map.
             Map<String, XADataSource> tenantMap = datasourceCache.get(context.getTenantId());
@@ -145,7 +146,7 @@ public class FHIRProxyXADataSource implements XADataSource {
                     tenantMap = datasourceCache.get(context.getTenantId());
                     if (tenantMap == null) {
                         if (log.isLoggable(Level.FINER)) {
-                            log.finer("Tenant datasource cache was not found, creating new cache for tenant-id '" + context.getTenantId() + "'.");
+                            log.finer("Tenant datasource cache was not found, creating new cache for tenant-id " + context.getTenantId() + ".");
                         }
                         tenantMap = new HashMap<String, XADataSource>();
                         datasourceCache.put(context.getTenantId(), tenantMap);
@@ -161,7 +162,7 @@ public class FHIRProxyXADataSource implements XADataSource {
                     datasource = tenantMap.get(context.getDataStoreId());
                     if (datasource == null) {
                         if (log.isLoggable(Level.FINER)) {
-                            log.finer("Datasource '" + context.getDataStoreId() + "' was not found, creating a new datasource and adding to the cache.");
+                            log.finer("Datasource " + context.getDataStoreId() + " was not found in cache, creating a new datasource and adding to the cache.");
                         }
                         datasource = createDataSource(context.getDataStoreId());
                         tenantMap.put(context.getDataStoreId(), datasource);
@@ -189,7 +190,7 @@ public class FHIRProxyXADataSource implements XADataSource {
             String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
             PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
             if (dsPG == null) {
-                throw new IllegalStateException("Could not locate configuration property: " + dsPropertyName);
+                throw new IllegalStateException("Could not locate configuration property group: " + dsPropertyName);
             }
 
             // Get the datasource type (Derby, DB2, etc.).
@@ -201,7 +202,7 @@ public class FHIRProxyXADataSource implements XADataSource {
             // Get the connection properties
             PropertyGroup connectionProps = dsPG.getPropertyGroup("connectionProperties");
             if (connectionProps == null) {
-                throw new IllegalStateException("Could not locate 'connectionProperties' property within datasource property group " + dsPropertyName);
+                throw new IllegalStateException("Could not locate 'connectionProperties' property group within datasource property group: " + dsPropertyName);
             }
 
             // Map the type to an XADataSource impl classname.
