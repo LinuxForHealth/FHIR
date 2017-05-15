@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
@@ -49,7 +50,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			   									   "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
 			   									   "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 	
-	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final  String SQL_INSERT_RESOURCE_TYPE = "CALL %s.add_resource_type(?,?)";
 	
@@ -119,24 +120,25 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.setBytes(2, resource.getData());
 			stmt.setTimestamp(3, resource.getLastUpdated());
 			stmt.setString(4, resource.isDeleted() ? "Y": "N");
+			stmt.setString(5, UUID.randomUUID().toString());
+			stmt.setString(6, this.getCorrelationId());
+			stmt.setString(7, this.getUser());
+			stmt.setString(8, this.getCorrelationToken());
+			stmt.setString(9, this.getTenantId());
 			//TODO REAL values need to be inserted instead of these hard-coded placeholders.
-			stmt.setString(5, "tx_correlation_id");
-			stmt.setString(6, this.getUser());
-			stmt.setString(7, this.getCorrelationToken());
-			stmt.setString(8, this.getTenantId());
-			stmt.setString(9, "reason");
-			stmt.setString(10, this.getEventType(resource));
-			stmt.setString(11, "site_id");
-			stmt.setString(12, "study_id");
-			stmt.setString(13, "service_id");
-			stmt.setString(14, "patient_id");
-			stmt.setInt(15, 1);
+			stmt.setString(10, "reason");
+			stmt.setString(11, this.getEventType(resource));
+			stmt.setString(12, "site_id");
+			stmt.setString(13, "study_id");
+			stmt.setString(14, "service_id");
+			stmt.setString(15, "patient_id");
 			stmt.setInt(16, 1);
-			stmt.registerOutParameter(17, Types.BIGINT);
+			stmt.setInt(17, 1);
+			stmt.registerOutParameter(18, Types.BIGINT);
 			
 			stmt.execute();
 			
-			resource.setId(stmt.getLong(17));
+			resource.setId(stmt.getLong(18));
 			log.fine("Succesfully inserted Resource. id=" + resource.getId());
 			
 		}
@@ -370,14 +372,30 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	 * @return
 	 */
 	private String getCorrelationToken() {
-		String trxCorrelationId = "";
+		String trxCorrelationToken = "";
 		
 		if (nonNull(this.context) && 
 			nonNull(this.context.getPersistenceEvent()) && 
 			nonNull(this.context.getPersistenceEvent().getHttpHeaders()) &&
 			nonNull(this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-DP-correlationid"))) {
 			
-			trxCorrelationId = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-DP-correlationid");
+			trxCorrelationToken = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-DP-correlationid");
+		}
+		return trxCorrelationToken;
+	}
+	
+	/**
+	 * Retrieves the correlation token from input http headers.
+	 * @return
+	 */
+	private String getCorrelationId() {
+		String trxCorrelationId = "";
+		
+		if (nonNull(this.context) && 
+			nonNull(this.context.getPersistenceEvent()) && 
+			nonNull(this.context.getPersistenceEvent().getTransactionCorrelationId())) {
+			
+			trxCorrelationId = this.context.getPersistenceEvent().getTransactionCorrelationId();
 		}
 		return trxCorrelationId;
 	}
@@ -387,16 +405,16 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	 * @return
 	 */
 	private String getUser() {
-		String trxCorrelationId = "";
+		String user = "";
 		
 		if (nonNull(this.context) && 
 			nonNull(this.context.getPersistenceEvent()) && 
 			nonNull(this.context.getPersistenceEvent().getHttpHeaders()) &&
 			nonNull(this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-APP-User"))) {
 			
-			trxCorrelationId = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-APP-User");
+			user = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-APP-User");
 		}
-		return trxCorrelationId;
+		return user;
 	}
 	
 	/**
