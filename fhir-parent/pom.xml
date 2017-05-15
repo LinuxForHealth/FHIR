@@ -5,7 +5,7 @@
 	<artifactId>fhir-parent</artifactId>
 	<version>99-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>IBM Watson Health Cloud FHIR Server</name>
+	<name>IBM Watson Platform for Health FHIR Server</name>
 
 	<properties>
 		<was.liberty.version>17.0.0.1</was.liberty.version>
@@ -14,13 +14,15 @@
 		<derby.version>10.12.1.1</derby.version>
 		<db2.version>4.19.49</db2.version>
 		<cxf.version>3.1.4</cxf.version>
-		<!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
+
+		<surefire.plugin.version>2.20</surefire.plugin.version>
+		<maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
+		<jacoco.plugin.version>0.7.9</jacoco.plugin.version>
 	</properties>
 
 	<modules>
 		<module>../fhir-core</module>
 		<module>../fhir-config</module>
-		<module>../fhir-replication-api</module>
 		<module>../fhir-audit</module>
 		<module>../fhir-model</module>
 		<module>../fhir-derby-sproc</module>
@@ -44,6 +46,7 @@
 		<module>../fhir-swagger-ui</module>
 		<module>../fhir-audit-trail</module>
 		<module>../fhir-install</module>
+		<module>../fhir-coverage-reports</module>
 	</modules>
 
 	<!-- This section "enforces" that we're using consistent versions of artifacts 
@@ -94,13 +97,6 @@
 				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 				<version>${cxf.version}</version>
 			</dependency>
-			<!-- 
-			<dependency>
-				<groupId>org.eclipse.persistence</groupId>
-				<artifactId>eclipselink</artifactId>
-				<version>${eclipselink.moxy.version}</version>
-			</dependency>
-			 -->
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>org.eclipse.persistence.moxy</artifactId>
@@ -151,8 +147,6 @@
 				<artifactId>cloudant-client</artifactId>
 				<version>2.4.1</version>
 			</dependency>
-			<!-- This dependency version needs to be in sync with the library that 
-				is being used by com.cloudant.cloudant-client -->
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
@@ -169,10 +163,10 @@
 				<version>${derby.version}</version>
 			</dependency>
 			<dependency>
-		    	<groupId>org.apache.derby</groupId>
-		        <artifactId>derbytools</artifactId>
-		        <version>${derby.version}</version>
-		    </dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derbytools</artifactId>
+				<version>${derby.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbynet</artifactId>
@@ -272,26 +266,11 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.19.1</version>
+					<version>${surefire.plugin.version}</version>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>2.19.1</version>
-					<configuration>
-						<includes>
-							<include>**/*IT.java</include>
-						</includes>
-					</configuration>
-					<executions>
-						<execution>
-							<id>failsafe-integration-tests</id>
-							<phase>integration-test</phase>
-							<goals>
-								<goal>integration-test</goal>
-							</goals>
-						</execution>
-					</executions>
+					<version>${surefire.plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
@@ -303,17 +282,46 @@
 					<version>3.4.2</version>
 				</plugin>
 				<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.7.7.201606060606</version>
-				</plugin>
-				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
 					<version>1.0.0</version>
 				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.plugin.version}</version>
+					<executions>
+						<execution>
+							<id>prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+
 	</build>
 
 	<repositories>
