@@ -91,7 +91,10 @@ public class DerbyBootstrapper {
     	    String msg = "Performing derby db bootstrapping for tenant-id '" + FHIRRequestContext.get().getTenantId() 
                     + "', datastore-id '" + FHIRRequestContext.get().getDataStoreId() + "'.";
     	    log.info(msg);
+    	    log.finer("DataSource: " + fhirDb.toString());
 			connection = fhirDb.getConnection();
+			log.finer("Connection: " + connection.toString());
+			
 			dbDriverName = connection.getMetaData().getDriverName();
 						
 			if (dbDriverName != null && dbDriverName.contains("Derby")) {
