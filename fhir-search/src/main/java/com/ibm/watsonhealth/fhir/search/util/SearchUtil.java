@@ -358,18 +358,61 @@ public class SearchUtil {
 
             // Next, retrieve the specified tenant's search parameters for this resource type and add those
             // to the result as well.
-            Map<String, Map<String, SearchParameter>> spMapTenant = getTenantSPMap(tenantId);
-            if (spMapTenant != null) {
-                spMapResourceType = spMapTenant.get(resourceType);
-                if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
-                    result.addAll(spMapResourceType.values());
-                }
-            }
-
+            result.addAll(getUserDefinedSearchParameters(resourceType));
+            
             return result;
         } finally {
             log.exiting(CLASSNAME, "getSearchparameters(String, String)");
         }
+    }
+    
+    /**
+     * Retrieves user-defined SearchParameters associated with the specified resource type and current tenant id.
+     * @param resourceType the resource type for which user-defined SearchParameters will be returned
+     * @return a list of user-defined SearchParameters associated with the specified resource type
+     * @throws Exception
+     */
+    protected static List<SearchParameter> getUserDefinedSearchParameters(String resourceType) throws Exception {
+        List<SearchParameter> result = new ArrayList<>();
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        Map<String, Map<String, SearchParameter>> spMapTenant = getTenantSPMap(tenantId);
+        if (spMapTenant != null) {
+            Map<String, SearchParameter> spMapResourceType = spMapTenant.get(resourceType);
+            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
+                result.addAll(spMapResourceType.values());
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Returns a filtered list of built-in SearchParameters associated with the specified resource type and
+     * those associated with the "Resource" resource type.
+     * @param resourceType the resource type 
+     * @return a filtered list of SearchParameters
+     * @throws Exception
+     */
+    protected static List<SearchParameter> getFilteredBuiltinSearchParameters(String resourceType) throws Exception {
+        List<SearchParameter> result = new ArrayList<>();
+        
+        Map<String, Map<String, SearchParameter>> spBuiltin = getBuiltInSearchParameterMap();
+        
+        // Retrieve the current tenant's search parameter filtering rules.
+        Map<String, List<String>> filterRules = getFilterRules();
+        
+        // Retrieve the SPs associated with the specified resource type and filter per the filter rules.
+        Map<String, SearchParameter> spMap = spBuiltin.get(resourceType);
+        if (spMap != null && !spMap.isEmpty()) {
+            result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
+        }
+        
+        // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
+        spMap = spBuiltin.get("Resource");
+        if (spMap != null && !spMap.isEmpty()) {
+            result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
+        }
+        
+        return result;
     }
     
     /**
@@ -614,7 +657,7 @@ public class SearchUtil {
         Binder<Node> binder = FHIRUtil.createBinder(resource);
         Document document = binder.getXMLNode(resource).getOwnerDocument();
 
-        List<SearchParameter> parameters = getApplicableSearchParameters(resourceType);
+        List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
 
         for (SearchParameter parameter : parameters) {
             if (parameter.getXpath() != null) {
@@ -646,7 +689,7 @@ public class SearchUtil {
         List<Parameter> parameters = new ArrayList<Parameter>();
         
         // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
-        Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType);
+        Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType.getSimpleName());
 
         for (String name : queryParameters.keySet()) {
             try {
@@ -790,7 +833,7 @@ public class SearchUtil {
      * Retrieves the applicable search parameters for the specified resource type,
      * then builds a map from it, keyed by search parameter name for quick access.
      */
-    private static Map<String, SearchParameter> getApplicableSearchParametersMap(Class<? extends Resource> resourceType) throws Exception {
+    public static Map<String, SearchParameter> getApplicableSearchParametersMap(String resourceType) throws Exception {
         Map<String, SearchParameter> result = new HashMap<>();
         List<SearchParameter> list = getApplicableSearchParameters(resourceType);
         for (SearchParameter sp : list) {
@@ -804,9 +847,9 @@ public class SearchUtil {
      * Returns a list of SearchParameters that consist of those associated with the "Resource" base resource type, 
      * as well as those associated with the specified resource type.
      */
-    private static List<SearchParameter> getApplicableSearchParameters(Class<? extends Resource> resourceType) throws Exception {
-        List<SearchParameter> result = getSearchParameters(Resource.class);
-        result.addAll(getSearchParameters(resourceType));
+    public static List<SearchParameter> getApplicableSearchParameters(String resourceType) throws Exception {
+        List<SearchParameter> result = getFilteredBuiltinSearchParameters(resourceType);
+        result.addAll(getUserDefinedSearchParameters(resourceType));
         return result;
     }
 
