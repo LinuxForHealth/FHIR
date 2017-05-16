@@ -124,11 +124,11 @@ public class DerbyBootstrapper {
 		    log.log(Level.SEVERE, msg, e);
     	}
     	finally {
-    	    if (connection != null) {
-    	        log.finer("Committing and closing connection...");
-    	        connection.commit();
-    	        connection.close();
-    	    }
+//    	    if (connection != null) {
+//    	        log.finer("Committing and closing connection...");
+//    	        connection.commit();
+//    	        connection.close();
+//    	    }
     		if (log.isLoggable(Level.FINER)) {
     			log.exiting(className, "bootstrapDb");
     		}
