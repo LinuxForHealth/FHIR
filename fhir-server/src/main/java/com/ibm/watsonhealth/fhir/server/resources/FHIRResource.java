@@ -30,6 +30,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -136,8 +137,6 @@ public class FHIRResource {
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
-
-    // private static Conformance conformance = null;
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -1339,13 +1338,14 @@ public class FHIRResource {
         log.fine("Processing request bundle, request-correlation-id=" + bundleRequestCorrelationId);
         
         try {
-            // If we're working on a 'transaction' type interaction, then start a new transaction now.
+            // If we're working on a 'transaction' type interaction, then start a new transaction now
+            // and sort the request bundle entries by their "url" field.
             if (responseBundle.getType().getValue() == BundleTypeList.TRANSACTION_RESPONSE) {
                 bundleTransactionCorrelationId = bundleRequestCorrelationId;
                 txn = getPersistenceImpl().getTransaction();
                 txn.begin();
                 log.fine("Started new transaction for transaction bundle, txn-correlation-id=" + bundleTransactionCorrelationId);
-            }
+            } 
             
             Map<String, String> localRefMap = new HashMap<>();
             
@@ -1377,170 +1377,195 @@ public class FHIRResource {
 
     /**
      * Processes request entries in the specified request bundle whose method matches 'httpMethod'.
-     * @param requestBundle the bundle containing the request entries
-     * @param responseBundle the bundle containing the corresponding response entries
-     * @param httpMethod the HTTP method (GET, POST, PUT, etc.) to be processed
+     * 
+     * @param requestBundle
+     *            the bundle containing the request entries
+     * @param responseBundle
+     *            the bundle containing the corresponding response entries
+     * @param httpMethod
+     *            the HTTP method (GET, POST, PUT, etc.) to be processed
      */
-    private void processEntriesForMethod(Bundle requestBundle, Bundle responseBundle, 
-        HTTPVerbList httpMethod, boolean failFast, Map<String, String> localRefMap) throws Exception {
-        log.entering(this.getClass().getName(), "processEntriesForMethod");
+    private void processEntriesForMethod(Bundle requestBundle, Bundle responseBundle, HTTPVerbList httpMethod, boolean failFast,
+        Map<String, String> localRefMap) throws Exception {
+        log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {"httpMethod", httpMethod});
         try {
-            for (int i = 0; i < requestBundle.getEntry().size(); i++) {
-                BundleEntry requestEntry = requestBundle.getEntry().get(i);
+            // First, obtain a list of request entry indices for the entries that we'll process
+            // This list will contain the indices associated with entries for the specified http method.
+            List<Integer> entryIndices = getBundleRequestIndicesForMethod(requestBundle, responseBundle, httpMethod);
+            log.finer("Bundle request indices to be processed: " + entryIndices.toString());
+
+            // For certain http methods, we need to do some additional pre-processing of the bundle entries.
+            // TODO - add support for DELETE here when we support that as well...
+            switch (httpMethod) {
+            case PUT:
+                // For PUT (update) requests, extract any local identifiers and resolve them ahead of time.
+                // We do this to prevent any local reference problems from occurring due to our re-ordering
+                // of the PUT request entries.
+                log.finer("Pre-processing bundle request entries for PUT method...");
+                for (Integer index : entryIndices) {
+                    BundleEntry requestEntry = requestBundle.getEntry().get(index);
+
+                    // Retrieve the local identifier from the request entry (if present).
+                    String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
+
+                    // Since this is for a PUT request (update) we should be able to resolve the local identifier
+                    // prior to processing the request since the resource's id must already be contained in the resource
+                    // within the request entry.
+                    if (localIdentifier != null) {
+                        Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
+                        addLocalRefMapping(localRefMap, localIdentifier, resource);
+                    }
+                }
+
+                // Next, we need to sort the indices by resource logical id.
+                sortBundleRequestEntries(requestBundle, entryIndices);
+                log.finer("Sorted bundle request indices to be processed: " + entryIndices.toString());
+                break;
+            default:
+                break;
+            }
+
+            // Now visit each of the request entries using the list of indices obtained above.
+            for (Integer entryIndex : entryIndices) {
+                BundleEntry requestEntry = requestBundle.getEntry().get(entryIndex);
+                BundleEntry responseEntry = responseBundle.getEntry().get(entryIndex);
                 BundleRequest request = requestEntry.getRequest();
-                BundleEntry responseEntry = responseBundle.getEntry().get(i);
                 BundleResponse response = responseEntry.getResponse();
-                
+
                 // During the request bundle validation step, if we detected an error
                 // with a particular request entry, then we would have set the status of
                 // the corresponding response entry to an appropriate value.
                 // So here, we'll only process request entries whose corresponding response entry
                 // contains a null status value and whose http method matches 'httpMethod'.
-                if (response.getStatus() == null && request.getMethod().getValue().equals(httpMethod)) {
-                    try {
-                        // Parse the request URL string to determine the path and query strings.
-                        if (request.getUrl() == null || request.getUrl().getValue() == null || request.getUrl().getValue().isEmpty()) {
-                            throw new FHIRException("BundleEntry.request is missing the 'url' field.");
-                        }
-                        FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
-                        
-                        String path = requestURL.getPath();
-                        String query = requestURL.getQuery();
-                        if (log.isLoggable(Level.FINER)) {  
-                            log.finer("Processing bundle request; method=" + request.getMethod().getValue().value()
-                                + ", url=" + request.getUrl().getValue());
-                            log.finer("--> path: " + path);
-                            log.finer("--> query: " + query);
-                        }
-                        String[] pathTokens = requestURL.getPathTokens();
-                        MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
-                        
-                        // Construct the absolute requestUri to be used for any response bundles associated 
-                        // with history and search requests.
-                        String absoluteUri = getAbsoluteUri(getRequestUri(), request.getUrl().getValue());
-                        
-                        switch (request.getMethod().getValue()) {
-                        case GET:
-                        {
-                            Resource resource = null;
-                            int httpStatus = SC_OK;
-                            
-                            // Process a GET (read, vread, history, search, etc.).
-                            // Determine the type of request from the path tokens.
-                            if (pathTokens.length == 1) {
-                                // This is a 'search' request.
-                                resource = doSearch(pathTokens[0], null, null, queryParams, absoluteUri);
+                try {
+                    // Parse the request URL string to determine the path and query strings.
+                    if (request.getUrl() == null || request.getUrl().getValue() == null || request.getUrl().getValue().isEmpty()) {
+                        throw new FHIRException("BundleEntry.request is missing the 'url' field.");
+                    }
+                    FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
+
+                    String path = requestURL.getPath();
+                    String query = requestURL.getQuery();
+                    if (log.isLoggable(Level.FINER)) {
+                        log.finer("Processing bundle request entry " + entryIndex + "; method=" + request.getMethod().getValue().value() + ", url="
+                                + request.getUrl().getValue());
+                        log.finer("--> path: " + path);
+                        log.finer("--> query: " + query);
+                    }
+                    String[] pathTokens = requestURL.getPathTokens();
+                    MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
+
+                    // Construct the absolute requestUri to be used for any response bundles associated
+                    // with history and search requests.
+                    String absoluteUri = getAbsoluteUri(getRequestUri(), request.getUrl().getValue());
+
+                    switch (request.getMethod().getValue()) {
+                    case GET: {
+                        Resource resource = null;
+                        int httpStatus = SC_OK;
+
+                        // Process a GET (read, vread, history, search, etc.).
+                        // Determine the type of request from the path tokens.
+                        if (pathTokens.length == 1) {
+                            // This is a 'search' request.
+                            resource = doSearch(pathTokens[0], null, null, queryParams, absoluteUri);
+                        } else if (pathTokens.length == 2) {
+                            // This is a 'read' request.
+                            resource = doRead(pathTokens[0], pathTokens[1], true);
+                        } else if (pathTokens.length == 3) {
+                            if (pathTokens[2].equals("_history")) {
+                                // This is a 'history' request.
+                                resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri);
+                            } else {
+                                // This is a compartment based search
+                                resource = doSearch(pathTokens[2], pathTokens[0], pathTokens[1], queryParams, absoluteUri);
                             }
-                            else if (pathTokens.length == 2) {
-                                // This is a 'read' request.
-                                resource = doRead(pathTokens[0], pathTokens[1], true);
-                            } 
-                            else if (pathTokens.length == 3) {
-                            	if (pathTokens[2].equals("_history")) {
-                            		// This is a 'history' request.
-                                    resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri);
-                            	}
-                            	else {
-                            		// This is a compartment based search
-                            		resource = doSearch(pathTokens[2], pathTokens[0], pathTokens[1], queryParams, absoluteUri);
-                            	}
-                            }
-                            else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
-                                // This is a 'vread' request.
-                                resource = doVRead(pathTokens[0], pathTokens[1], pathTokens[3]);
-                                setBundleEntryResource(responseEntry, resource);
-                            }
-                            else {
-                                throw new FHIRException("Unrecognized path in request URL: " + path);
-                            }
-                            
-                            // Save the results of the operation in the bundle response field.
-                            setBundleResponseStatus(response, httpStatus);
+                        } else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
+                            // This is a 'vread' request.
+                            resource = doVRead(pathTokens[0], pathTokens[1], pathTokens[3]);
                             setBundleEntryResource(responseEntry, resource);
+                        } else {
+                            throw new FHIRException("Unrecognized path in request URL: " + path);
                         }
-                        break;
-                            
-                        case POST:
-                        {
-                            // Process a POST (create).
-                            if (pathTokens.length != 1) {
-                                throw new FHIRException("Request URL for bundled POST request should have path part with exactly one token (<resourceType>).");
-                            }
-                            
-                            // Retrieve the local identifier from the request entry (if present).
-                            String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
-                            
-                            // Retrieve the resource from the request entry.
-                            Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
-                            
-                            // Convert any local references found within the resource to their
-                            // corresponding external reference.
-                            processLocalReferences(resource, localRefMap);
-                            
-                            // Perform the 'create' operation.
-                            URI locationURI = doCreate(pathTokens[0], resource);
-                            setBundleResponseFields(responseEntry, resource, locationURI, SC_CREATED);
-                            
-                            // Next, if a local identifier was present, we'll need to map this to the 
-                            // correct external identifier (e.g. Patient/12345).
-                            addLocalRefMapping(localRefMap, localIdentifier, responseEntry, resource);
-                        }
+
+                        // Save the results of the operation in the bundle response field.
+                        setBundleResponseStatus(response, httpStatus);
+                        setBundleEntryResource(responseEntry, resource);
+                    }
                         break;
 
-                        case PUT:
-                        {
-                            // Process a PUT (update).
-                            if (pathTokens.length != 2) {
-                                throw new FHIRException("Request URL for bundled PUT request should have path part with exactly two tokens (<resourceType>/<id>).");
-                            }
-                            
-                            // Retrieve the local identifier from the request entry (if present).
-                            String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
-
-                            // Retrieve the resource from the request entry.
-                            Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
-                            
-                            // Convert any local references found within the resource to their
-                            // corresponding external reference.
-                            processLocalReferences(resource, localRefMap);
-                            
-                            // Perform the 'update' operation.
-                            Resource currentResource = doRead(pathTokens[0], pathTokens[1], false);
-                            String ifMatchBundleValue = null;
-                            if(request.getIfMatch() != null) {
-                            	ifMatchBundleValue = request.getIfMatch().getValue();
-                            }
-                            URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource, ifMatchBundleValue);
-                            setBundleResponseFields(responseEntry, resource, locationURI, (currentResource == null ? SC_CREATED : SC_OK));
-                            
-                            // Next, if a local identifier was present, we'll need to map this to the 
-                            // correct external identifier (e.g. Patient/12345).
-                            addLocalRefMapping(localRefMap, localIdentifier, responseEntry, resource);
+                    case POST: {
+                        // Process a POST (create).
+                        if (pathTokens.length != 1) {
+                            throw new FHIRException("Request URL for bundled POST request should have path part with exactly one token (<resourceType>).");
                         }
+
+                        // Retrieve the local identifier from the request entry (if present).
+                        String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
+
+                        // Retrieve the resource from the request entry.
+                        Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
+
+                        // Convert any local references found within the resource to their
+                        // corresponding external reference.
+                        processLocalReferences(resource, localRefMap);
+
+                        // Perform the 'create' operation.
+                        URI locationURI = doCreate(pathTokens[0], resource);
+                        setBundleResponseFields(responseEntry, resource, locationURI, SC_CREATED);
+
+                        // Next, if a local identifier was present, we'll need to map this to the
+                        // correct external identifier (e.g. Patient/12345).
+                        addLocalRefMapping(localRefMap, localIdentifier, resource);
+                    }
                         break;
 
-                        default:
-                            // Internal error, should not get here!
-                            throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
+                    case PUT: {
+                        // Process a PUT (update).
+                        if (pathTokens.length != 2) {
+                            throw new FHIRException("Request URL for bundled PUT request should have path part with exactly two tokens (<resourceType>/<id>).");
                         }
-                    } catch (FHIRRestException e) {
-                        setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
-                        setBundleEntryResource(responseEntry, (e.getOperationOutcome() == null)? FHIRUtil.buildOperationOutcome(e, false): e.getOperationOutcome());
-                        if (failFast) {
-                            throw new FHIRRestBundledRequestException("Error while processing request bundle.", e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
+
+                        // Retrieve the resource from the request entry.
+                        Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
+
+                        // Convert any local references found within the resource to their
+                        // corresponding external reference.
+                        processLocalReferences(resource, localRefMap);
+
+                        // Perform the 'update' operation.
+                        Resource currentResource = doRead(pathTokens[0], pathTokens[1], false);
+                        String ifMatchBundleValue = null;
+                        if (request.getIfMatch() != null) {
+                            ifMatchBundleValue = request.getIfMatch().getValue();
                         }
-                    } catch (FHIRPersistenceResourceNotFoundException e) {
-                        setBundleResponseStatus(response, SC_NOT_FOUND);
-                        setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
-                        if (failFast) {
-                            throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.NOT_FOUND, responseBundle, e);
-                        }
-                    } catch (FHIRException e) {
-                        setBundleResponseStatus(response, SC_BAD_REQUEST);
-                        setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
-                        if (failFast) {
-                            throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.BAD_REQUEST, responseBundle, e);
-                        }
+                        URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource, ifMatchBundleValue);
+                        setBundleResponseFields(responseEntry, resource, locationURI, (currentResource == null ? SC_CREATED : SC_OK));
+                    }
+                        break;
+
+                    default:
+                        // Internal error, should not get here!
+                        throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
+                    }
+                } catch (FHIRRestException e) {
+                    setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
+                    setBundleEntryResource(responseEntry, (e.getOperationOutcome() == null) ? FHIRUtil.buildOperationOutcome(e, false)
+                            : e.getOperationOutcome());
+                    if (failFast) {
+                        throw new FHIRRestBundledRequestException("Error while processing request bundle.", e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
+                    }
+                } catch (FHIRPersistenceResourceNotFoundException e) {
+                    setBundleResponseStatus(response, SC_NOT_FOUND);
+                    setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
+                    if (failFast) {
+                        throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.NOT_FOUND, responseBundle, e);
+                    }
+                } catch (FHIRException e) {
+                    setBundleResponseStatus(response, SC_BAD_REQUEST);
+                    setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
+                    if (failFast) {
+                        throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.BAD_REQUEST, responseBundle, e);
                     }
                 }
             }
@@ -1550,14 +1575,95 @@ public class FHIRResource {
     }
 
     /**
+     * Returns a list of Integers that provide the indices of the bundle entries associated
+     * with the specified http method.
+     * @param requestBundle the request bundle
+     * @param httpMethod the http method to look for
+     * @return
+     */
+    private List<Integer> getBundleRequestIndicesForMethod(Bundle requestBundle, Bundle responseBundle, HTTPVerbList httpMethod) {
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < requestBundle.getEntry().size(); i++) {
+            BundleEntry responseEntry = responseBundle.getEntry().get(i);
+            BundleEntry requestEntry = requestBundle.getEntry().get(i);
+            BundleRequest request = requestEntry.getRequest();
+            BundleResponse response = responseEntry.getResponse();
+            
+            // If our response bundle doesn't already have a response status set, and this request
+            // entry's http method is the one we're looking for, then record the index in our list.
+            if (response.getStatus() == null && request.getMethod().getValue().equals(httpMethod)) {
+                indices.add(Integer.valueOf(i));
+            }
+        }
+        return indices;
+    }
+    
+    /**
+     * This function sorts the request entries in the specified bundle, based on the path
+     * part of the entry's 'url' field.
+     * @param bundle the bundle containing the request entries to be sorted.
+     * @return an array of Integer which provides the "sorted" ordering of request entry index values.
+     */
+    private void sortBundleRequestEntries(Bundle bundle, List<Integer> indices) {
+        // Sort the list of indices based on the contents of their entries in the bundle.
+        Collections.sort(indices, new BundleEntryComparator(bundle.getEntry()));
+    }
+    
+    public static class BundleEntryComparator implements Comparator<Integer> {
+        private List<BundleEntry> entries;
+        
+        public BundleEntryComparator(List<BundleEntry> entries) {
+            this.entries = entries;
+        }
+
+        /* (non-Javadoc)
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        @Override
+        public int compare(Integer indexA, Integer indexB) {
+            BundleEntry a = entries.get(indexA);
+            BundleEntry b = entries.get(indexB);
+            String pathA = getUrlPath(a);
+            String pathB = getUrlPath(b);
+            
+            log.fine("Comparing request entry URL paths: " + pathA + ", " + pathB);
+            if (pathA != null && pathB != null) {
+                return pathA.compareTo(pathB);
+            } else if (pathA != null) {
+                return 1;
+            } else if (pathB != null) {
+                return -1;
+            } 
+            return 0;
+        }
+    }
+    
+    /**
+     * Returns the specified BundleEntry's path component of the 'url' field.
+     * @param entry the bundle entry
+     * @return the bundle entry's 'url' field's path component
+     */
+    private static String getUrlPath(BundleEntry entry) {
+        String path = null;
+        BundleRequest request = entry.getRequest();
+        if (request != null) {
+            if (request.getUrl() != null && request.getUrl().getValue() != null) {
+                FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
+                path = requestURL.getPath();
+            }
+        }
+        
+        return path;
+    }
+
+    /**
      * This method will add a mapping to the local-to-external identifier map if 
      * the specified localIdentifier is non-null.
      * @param localRefMap the map containing the local-to-external identifier mappings
      * @param localIdentifier the localIdentifier previously obtained for the resource
-     * @param responseEntry the bundle response entry containing the resource's id
      * @param resource the resource for which an external identifier will be built
      */
-    private void addLocalRefMapping(Map<String, String> localRefMap, String localIdentifier, BundleEntry responseEntry, Resource resource) {
+    private void addLocalRefMapping(Map<String, String> localRefMap, String localIdentifier, Resource resource) {
         if (localIdentifier != null) {
             String externalIdentifier = FHIRUtil.getResourceTypeName(resource) + "/" + resource.getId().getValue();
             localRefMap.put(localIdentifier, externalIdentifier);
@@ -2208,6 +2314,12 @@ public class FHIRResource {
 
                     // If the request entry contains a resource, then validate it now.
                     if (resource != null) {
+                        if (method == HTTPVerbList.PUT) {
+                            if (resource.getId() == null || resource.getId().getValue() == null) {
+                                throw new FHIRException("BundleEntry.resource must contain an id field for a PUT operation.");
+                            }
+                        }
+                        
                         List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
