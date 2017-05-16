@@ -444,7 +444,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#delete(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.String)
 	 */
 	@Override
-	public void delete(FHIRPersistenceContext context, String logicalId) throws FHIRPersistenceException {
+	public void delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
 		throw new FHIRPersistenceNotSupportedException("delete is not yet implemented");
 
 	}
@@ -680,7 +680,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws JAXBException
      * @throws IOException 
      */
-    private Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType) 
+    protected Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType) 
     									throws JAXBException, IOException {
     	final String METHODNAME = "convertResourceDTO";
     	log.entering(CLASSNAME, METHODNAME);

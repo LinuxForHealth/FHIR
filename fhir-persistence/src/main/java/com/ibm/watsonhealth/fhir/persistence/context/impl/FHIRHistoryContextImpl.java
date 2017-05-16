@@ -6,12 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.persistence.context.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.ibm.watsonhealth.fhir.core.context.impl.FHIRPagingContextImpl;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 
 public class FHIRHistoryContextImpl extends FHIRPagingContextImpl implements FHIRHistoryContext {
     private Instant since = null;
+    private Map<String,List<Integer>> deletedResources = new HashMap<>();
     
     public FHIRHistoryContextImpl() {
     }
@@ -25,4 +30,16 @@ public class FHIRHistoryContextImpl extends FHIRPagingContextImpl implements FHI
     public void setSince(Instant since) {
         this.since = since;
     }
+
+	@Override
+	public Map<String, List<Integer>> getDeletedResources() {
+		return this.deletedResources;
+		
+	}
+
+	@Override
+	public void setDeletedResources(Map<String, List<Integer>> deletedResources) {
+		this.deletedResources = deletedResources;
+		
+	}
 }

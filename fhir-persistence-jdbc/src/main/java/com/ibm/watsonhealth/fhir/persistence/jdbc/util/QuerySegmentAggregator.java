@@ -30,7 +30,7 @@ class QuerySegmentAggregator {
 	private static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
 	private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
 	private static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R, {0}_LOGICAL_RESOURCES LR ";
-	private static final String WHERE_CLAUSE_ROOT = "WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ";
+	private static final String WHERE_CLAUSE_ROOT = "WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y'";
 	private static final String PARAMETER_TABLE_VAR = "P";
 	protected static final String PARAMETER_TABLE_ALIAS = "pX.";
 		

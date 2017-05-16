@@ -14,7 +14,9 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -30,9 +32,11 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -437,6 +441,214 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 
 	protected ResourceNormalizedDAO getResourceDao() {
 		return resourceDao;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#delete(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, Class<? extends Resource> resourceType, java.lang.String)
+	 */
+	@Override
+	public void delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+		final String METHODNAME = "delete";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
+		Resource deletedResource;
+		int newVersionNumber;
+		boolean txnStarted = false;
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		
+		try {
+	        // Start a new txn.
+	        if (!isActive()) {
+	            begin();
+	            txnStarted = true;
+	        }
+			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+			if (existingResourceDTO ==  null) {
+				throw new FHIRPersistenceResourceNotFoundException("Resource not found. resourceType=" + resourceType.getSimpleName() + "  logicalId=" + logicalId);
+			}
+			if (existingResourceDTO.isDeleted()) {
+				throw new FHIRPersistenceResourceDeletedException("Resource already deleted. resourceType=" + resourceType.getSimpleName() + "  logicalId=" + logicalId);
+			}
+			newVersionNumber = existingResourceDTO.getVersionId() + 1;
+			Instant lastUpdated = instant(System.currentTimeMillis());
+			deletedResource = this.convertResourceDTO(existingResourceDTO, resourceType);
+			deletedResource.getMeta().setVersionId(id(String.valueOf(newVersionNumber)));
+			deletedResource.getMeta().setLastUpdated(lastUpdated);
+			            
+	        // Create a new Resource DTO instance to represent the deleted version.
+	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+	        resourceDTO.setLogicalId(logicalId);
+	        resourceDTO.setVersionId(newVersionNumber);
+	        FHIRUtil.write(deletedResource, Format.XML, stream, false);
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+	        resourceDTO.setLastUpdated(timestamp);
+	        resourceDTO.setResourceType(resourceType.getSimpleName());
+	        resourceDTO.setDeleted(true);
+	        
+	        // Persist the logically deleted Resource DTO.
+	        this.getResourceDao().insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+			
+			// Time to commit the changes.
+	        if (txnStarted) {
+	            commit();
+	            txnStarted = false;
+	        }
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a delete operation.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+	        // Time to rollback if we still have an active txn that we started.
+	        if (txnStarted) {
+	            rollback();
+	            txnStarted = false;
+	        }
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#read(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
+	 */
+	@Override
+	public Resource read(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId)
+							throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+		final String METHODNAME = "read";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		Resource resource = null;
+		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
+		
+		try {
+			resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+			if (resourceDTO != null && resourceDTO.isDeleted()) {
+				throw new FHIRPersistenceResourceDeletedException("Resource is deleted. resourceType=" + resourceType.getSimpleName() + " logicalId=" + logicalId);
+			}
+			resource = this.convertResourceDTO(resourceDTO, resourceType);
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a read operation.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		
+		return resource;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#history(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
+	 */
+	@Override
+	public List<Resource> history(FHIRPersistenceContext context, Class<? extends Resource> resourceType,
+			String logicalId) throws FHIRPersistenceException {
+		final String METHODNAME = "history";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		List<Resource> resources = new ArrayList<>();
+		List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
+		Map<String,List<Integer>> deletedResourceVersions = new HashMap<>();
+		FHIRHistoryContext historyContext;
+		int resourceCount;
+		Instant since;
+		Timestamp fromDateTime = null;
+		int pageSize;
+		int lastPageNumber;
+		int offset;
+		
+		try {
+			historyContext = context.getHistoryContext();
+			historyContext.setDeletedResources(deletedResourceVersions);
+			since = historyContext.getSince();
+			if (since != null) {
+				fromDateTime = FHIRUtilities.convertToTimestamp(since.getValue());
+			}
+			
+			resourceCount = this.getResourceDao().historyCount(resourceType.getSimpleName(), logicalId, fromDateTime);
+			historyContext.setTotalCount(resourceCount);
+			pageSize = historyContext.getPageSize();
+	        lastPageNumber = (int) ((resourceCount + pageSize - 1) / pageSize);
+	        historyContext.setLastPageNumber(lastPageNumber);            
+	        
+	        if (resourceCount > 0) {
+	        	offset = (historyContext.getPageNumber() - 1) * pageSize;
+	        	resourceDTOList = this.getResourceDao().history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, pageSize);
+	        	for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
+	        		if (resourceDTO.isDeleted()) {
+	        			deletedResourceVersions.putIfAbsent(logicalId, new ArrayList<Integer>());
+	        			deletedResourceVersions.get(logicalId).add(resourceDTO.getVersionId());
+	        		}
+	        	}
+	        	resources = this.convertResourceDTOList(resourceDTOList, resourceType);
+	        } 
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a history operation.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		
+		return resources;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#vread(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public Resource vread(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId, String versionId) 
+						throws FHIRPersistenceException {
+		final String METHODNAME = "vread";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		Resource resource = null;
+		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
+		int version;
+								
+		try {
+			version = Integer.parseInt(versionId);
+			resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
+			if (resourceDTO != null && resourceDTO.isDeleted()) {
+				throw new FHIRPersistenceResourceDeletedException("Resource version is deleted. resourceType=" + resourceType.getSimpleName() + 
+																	" logicalId=" + logicalId + "  versionId=" + versionId);
+			}
+			resource = this.convertResourceDTO(resourceDTO, resourceType);
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch (NumberFormatException e) {
+	        throw new FHIRPersistenceException("Invalid version id specified for vread operation: " + versionId);
+	    }
+		catch(Throwable e) {
+			String msg = "Unexpected error while performing a version read operation.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg, e);
+		}
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		
+		return resource;
 	}
 
 }

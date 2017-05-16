@@ -11,6 +11,7 @@ import java.util.List;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 
 /**
  * This interface defines the contract between the FHIR Server's REST API layer and the underlying
@@ -34,8 +35,10 @@ public interface FHIRPersistence {
 	 * @param logicalId the logical id of the Resource instance to be retrieved
 	 * @return the FHIR Resource that was retrieved from the datastore
 	 * @throws FHIRPersistenceException
+	 * @throws FHIRPersistenceResourceDeletedException
 	 */
-	Resource read(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
+	Resource read(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) 
+							throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException;
 	
 	/**
 	 * Retrieves a specific version of a FHIR Resource from the datastore.
@@ -46,8 +49,10 @@ public interface FHIRPersistence {
      * @return the FHIR Resource that was retrieved from the datastore
 	 * @return
 	 * @throws FHIRPersistenceException
+	 * @throws FHIRPersistenceResourceDeletedException
 	 */
-	Resource vread(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId, String versionId) throws FHIRPersistenceException;
+	Resource vread(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId, String versionId) 
+					throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException;;
 	
 	/**
 	 * Updates an existing FHIR Resource by storing a new version in the datastore.
@@ -60,12 +65,12 @@ public interface FHIRPersistence {
 	
 	/**
 	 * Deletes the specified FHIR Resource from the datastore.
-	 * Note: this is currently not implemented, pending a decision on the type of delete to perform.
-     * @param context the FHIRPersistenceContext instance associated with the current request
+	 * @param context the FHIRPersistenceContext instance associated with the current request
+	 * @param resourceType The type of FHIR Resource to be deleted.
 	 * @param logicalId the logical id of the FHIR Resource to be deleted
 	 * @throws FHIRPersistenceException
 	 */
-	void delete(FHIRPersistenceContext context, String logicalId) throws FHIRPersistenceException;
+	void delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
 	
 	/**
 	 * Retrieves all of the versions of the specified FHIR Resource.
