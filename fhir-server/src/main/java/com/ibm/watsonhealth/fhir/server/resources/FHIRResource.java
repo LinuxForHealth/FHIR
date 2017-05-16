@@ -821,6 +821,10 @@ public class FHIRResource {
             }
 
             return locationURI;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'create' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -922,10 +926,14 @@ public class FHIRResource {
             }
 
             return locationURI;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'update' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
-            
+
             // If we still have a transaction at this point, we need to rollback due to an error.
             if (txnStarted) {
                 log.fine("Rolling back transaction for 'update' operation.");
@@ -982,6 +990,10 @@ public class FHIRResource {
             getInterceptorMgr().fireAfterReadEvent(event);
 
             return resource;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'read' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1035,6 +1047,10 @@ public class FHIRResource {
             getInterceptorMgr().fireAfterVreadEvent(event);
 
             return resource;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'vread' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1092,6 +1108,10 @@ public class FHIRResource {
             getInterceptorMgr().fireAfterHistoryEvent(event);
 
             return bundle;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'history' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1150,6 +1170,10 @@ public class FHIRResource {
             getInterceptorMgr().fireAfterSearchEvent(event);
             
             return bundle;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'search' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1196,7 +1220,11 @@ public class FHIRResource {
             }
 
             return result;
-        } finally {
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'invoke' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
+       } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
             
@@ -1225,6 +1253,10 @@ public class FHIRResource {
             processBundleEntries(bundle, responseBundle);
             
             return responseBundle;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'bundle' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
