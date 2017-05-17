@@ -13,6 +13,8 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,11 +47,14 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
@@ -70,8 +75,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	
 	protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
 	
+	private FHIRDbDAO baseDao;
 	private ResourceDAO resourceDao;
 	private ParameterDAO parameterDao;
+	private Connection managedConnection;
 	protected UserTransaction userTransaction = null;
 	protected Boolean updateCreateEnabled = null;
 	protected ObjectFactory objectFactory = new ObjectFactory();
@@ -101,14 +108,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 * Constructor for use when running standalone, outside of any web container.
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("rawtypes")
 	public FHIRPersistenceJDBCImpl(Properties configProps) throws Exception {
 		super();
 		final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-		this.resourceDao = new ResourceDAOBasicImpl(configProps);
-		this.parameterDao = new ParameterDAOBasicImpl(configProps);
+		this.setBaseDao(new FHIRDbDAOBasicImpl(configProps));
+		this.setManagedConnection(this.getBaseDao().getConnection());
+		this.resourceDao = new ResourceDAOBasicImpl(this.getManagedConnection());
+		this.parameterDao = new ParameterDAOBasicImpl(this.getManagedConnection());
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -134,73 +144,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	}
 
 	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#begin()
-	 */
-	@Override
-	public void begin() throws FHIRPersistenceException {
-		final String METHODNAME = "begin";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		try {
-			if (userTransaction != null) {
-				userTransaction.begin();
-			}
-		}
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while starting a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg);
-        }
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#commit()
-	 */
-	@Override
-	public void commit() throws FHIRPersistenceException {
-		final String METHODNAME = "commit";
-		log.entering(CLASSNAME, METHODNAME);
-		
-        try {
-            if (userTransaction != null) {
-                userTransaction.commit();
-            } 
-        } 
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while committing a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg);
-        }
-        finally {
-        	log.exiting(CLASSNAME, METHODNAME);
-        }
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#rollback()
-	 */
-	@Override
-	public void rollback() throws FHIRPersistenceException {
-		final String METHODNAME = "rollback";
-		log.entering(CLASSNAME, METHODNAME);
-		
-        try {
-        	if (userTransaction != null) {
-                userTransaction.rollback();
-            } 
-        } 
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while rolling back a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg);
-        }
-	}
-
-	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#create(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, com.ibm.watsonhealth.fhir.model.Resource)
 	 */
 	@Override
@@ -211,8 +154,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		boolean txnStarted = false;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		String logicalId;
+		Connection myConnection = null;;
 		
 		try {
+			if (this.managedConnection == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
 	        FHIRUtil.write(resource, Format.XML, stream, false);
 	
 	        // Start a new txn.
@@ -273,6 +222,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		        rollback();
 		        txnStarted = false;
 		    }
+		    if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
@@ -288,8 +245,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		
 		Resource resource = null;
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
+		Connection myConnection = null;
 		
 		try {
+			if (this.managedConnection == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
 			resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
 		}
@@ -302,6 +265,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
+			if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		
@@ -320,8 +291,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		Resource resource = null;
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
 		int version;
+		Connection myConnection = null;
 				
 		try {
+			if (this.managedConnection == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
 			version = Integer.parseInt(versionId);
 			resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
@@ -338,6 +315,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
+			if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		
@@ -357,8 +342,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		boolean txnStarted = false;
 		int newVersionNumber = 1;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		Connection myConnection = null;
+		
 		
 		try {
+			if (this.managedConnection == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
 			// Get the current version of the Resource.
 			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 	        
@@ -436,6 +428,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 rollback();
                 txnStarted = false;
             }
+            if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
     }
@@ -467,8 +467,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		int pageSize;
 		int lastPageNumber;
 		int offset;
+		Connection myConnection = null;
 		
 		try {
+			if (this.managedConnection == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
+
 			historyContext = context.getHistoryContext();
 			since = historyContext.getSince();
 			if (since != null) {
@@ -496,6 +503,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
+			if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		
@@ -520,8 +535,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         int pageSize;
         int lastPageNumber;
         String queryString;
+        Connection myConnection = null;
         
         try {
+        	if (this.managedConnection == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
 	        if (searchContext.hasSortParameters()) {
 	        	queryBuilder = new JDBCSortQueryBuilder();
 	        }
@@ -562,6 +583,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
+			if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
         
@@ -769,6 +798,104 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
 	protected ResourceDAO getResourceDao() {
 		return resourceDao;
+	}
+
+	protected FHIRDbDAO getBaseDao() {
+		return baseDao;
+	}
+
+	protected void setBaseDao(FHIRDbDAO baseDao) {
+		this.baseDao = baseDao;
+	}
+
+	protected Connection getManagedConnection() {
+		return managedConnection;
+	}
+
+	protected void setManagedConnection(Connection managedConnection) {
+		this.managedConnection = managedConnection;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#begin()
+	 */
+	@Override
+	public void begin() throws FHIRPersistenceException {
+		final String METHODNAME = "begin";
+		log.entering(CLASSNAME, METHODNAME);
+		
+			
+		try {
+			if (userTransaction != null) {
+				userTransaction.begin();
+			}
+			else if (this.getManagedConnection() != null) {
+				this.getManagedConnection().setAutoCommit(false);
+			}
+		}
+	    catch (Throwable e) {
+	        String msg = "An unexpected error occurred while starting a transaction.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg);
+	    }
+		finally {
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#commit()
+	 */
+	@Override
+	public void commit() throws FHIRPersistenceException {
+		final String METHODNAME = "commit";
+		log.entering(CLASSNAME, METHODNAME);
+		
+	    try {
+	        if (userTransaction != null) {
+	            userTransaction.commit();
+	        } else if (this.getManagedConnection() != null) {
+	        	this.getManagedConnection().commit();
+			}
+	    } 
+	    catch (Throwable e) {
+	        String msg = "An unexpected error occurred while committing a transaction.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg);
+	    }
+	    finally {
+	    	log.exiting(CLASSNAME, METHODNAME);
+	    }
+	
+	}
+
+	/* (non-Javadoc)
+	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#rollback()
+	 */
+	@Override
+	public void rollback() throws FHIRPersistenceException {
+		final String METHODNAME = "rollback";
+		log.entering(CLASSNAME, METHODNAME);
+		
+	    try {
+	    	if (userTransaction != null) {
+	            userTransaction.rollback();
+	        } else if (this.getManagedConnection() != null) {
+	        	this.getManagedConnection().rollback();
+			}
+	    } 
+	    catch (Throwable e) {
+	        String msg = "An unexpected error occurred while rolling back a transaction.";
+	        log.log(Level.SEVERE, msg, e);
+	        throw new FHIRPersistenceException(msg);
+	    }
+	}
+
+	@SuppressWarnings("rawtypes")
+	protected Connection createConnection() throws FHIRPersistenceDBConnectException {
+		
+		FHIRDbDAOBasicImpl dao = new FHIRDbDAOBasicImpl();
+		return dao.getConnection();
 	}
 
 }

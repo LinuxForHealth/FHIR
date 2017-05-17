@@ -51,6 +51,15 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
 		super(dbProperties);
 	}
 	
+	/**
+	 * Constructs a DAO using the passed externally managed database connection.
+	 * The connection used by this instance for all DB operations will be the passed connection.
+	 * @param Connection - A database connection that will be managed by the caller.
+	 */
+	public ParameterDAOBasicImpl(Connection managedConnection) {
+		super(managedConnection);
+	}
+	
 	@Override
 	public void insert(List<Parameter> parameters) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
 		final String METHODNAME = "insert(List<Parameter>)";

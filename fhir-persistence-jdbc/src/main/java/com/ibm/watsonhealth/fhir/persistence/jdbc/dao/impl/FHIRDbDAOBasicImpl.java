@@ -361,11 +361,11 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 		this.dbProps = dbProps;
 	}
 
-	private Connection getExternalConnection() {
+	public Connection getExternalConnection() {
 		return externalConnection;
 	}
 
-	private void setExternalConnection(Connection externalConnection) {
+	public void setExternalConnection(Connection externalConnection) {
 		this.externalConnection = externalConnection;
 	}
 

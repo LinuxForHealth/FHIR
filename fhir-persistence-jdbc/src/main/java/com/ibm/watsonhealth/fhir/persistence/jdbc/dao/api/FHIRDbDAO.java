@@ -34,6 +34,18 @@ public interface FHIRDbDAO {
 	Connection getConnection() throws FHIRPersistenceDBConnectException;
 	
 	/**
+	 * Returns a previously set externally managed DB connection, used by the DAO for all DB activity.
+	 * @return Connection
+	 */
+	Connection getExternalConnection();
+	
+	/**
+	 * Sets an externally managed DB connection, used by the DAO for all DB activity.
+	 * @param connection
+	 */
+	void setExternalConnection(Connection connection);
+	
+	/**
 	 * 
 	 * @return true if this DAO is connected to a DB2 database.
 	 * @throws Exception
