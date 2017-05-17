@@ -26,6 +26,7 @@ import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
@@ -107,26 +108,7 @@ public class FHIRServletContextListener implements ServletContextListener {
                 log.info("Bypassing Kafka notification init.");
             }
             
-            Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
-            String derbySProcJarLocation = fhirConfig.getStringProperty(PROPERTY_JDBC_DERBY_SPROC_JAR_PATH);
-            if (performDbBootstrap) {
-            	SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
-            	String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
-            	InitialContext ctxt = new InitialContext();
-            	DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
-
-            	FHIRRequestContext.set(new FHIRRequestContext("default", "default"));
-            	DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
-                
-            	FHIRRequestContext.set(new FHIRRequestContext("tenant1", "profile"));
-                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
-                
-                FHIRRequestContext.set(new FHIRRequestContext("tenant1", "reference"));
-                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
-
-                FHIRRequestContext.set(new FHIRRequestContext("tenant1", "study1"));
-                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbySProcJarLocation);
-            }
+            bootstrapDerbyDatabases(fhirConfig);
             
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
@@ -140,6 +122,42 @@ public class FHIRServletContextListener implements ServletContextListener {
 			}
 		}
 	}
+
+    /**
+     * Bootstraps derby databases during server startup if requested.
+     */
+    private void bootstrapDerbyDatabases(PropertyGroup fhirConfig) throws Exception {
+        Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
+        if (performDbBootstrap) {
+            String derbySProcJarLocation = fhirConfig.getStringProperty(PROPERTY_JDBC_DERBY_SPROC_JAR_PATH);
+            SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
+            String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
+            InitialContext ctxt = new InitialContext();
+            DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
+
+            bootstrapDb("default", "default", ds, schemaType, derbySProcJarLocation);
+            bootstrapDb("tenant1", "profile", ds, schemaType, derbySProcJarLocation);
+            bootstrapDb("tenant1", "reference", ds, schemaType, derbySProcJarLocation);
+            bootstrapDb("tenant1", "study1", ds, schemaType, derbySProcJarLocation);
+        }
+    }
+    
+    /**
+     * Bootstraps the database specified by tenantId and dsId, assuming the specified datastore definition can be
+     * retrieved from the configuration.
+     */
+    private void bootstrapDb(String tenantId, String dsId, DataSource ds, SchemaType schemaType, String derbyJar) throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
+        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
+        if (pg != null) {
+            String type = pg.getStringProperty("type");
+            if (type != null && !type.isEmpty() && type.toLowerCase().equals("derby")) {
+                DerbyBootstrapper.bootstrapDb(ds, schemaType, derbyJar);
+            }
+        }
+
+        FHIRRequestContext.remove();
+    }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
