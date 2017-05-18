@@ -713,7 +713,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	 * @throws FHIRPersistenceDataAccessException
 	 */
 	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, Parameter queryParm, String parameterTableAlias) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		final String METHODNAME = "populateNameIdSegment";
+		final String METHODNAME = "populateNameIdSubSegment";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
 		int parameterNameId;
