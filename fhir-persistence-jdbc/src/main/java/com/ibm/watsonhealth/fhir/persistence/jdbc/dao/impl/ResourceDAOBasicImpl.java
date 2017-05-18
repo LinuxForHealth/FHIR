@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,13 +43,17 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 	private static final String SQL_SEARCH_BY_ID = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.ID IN ";
 	
 	private static final  String SQL_HISTORY = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? "
-															+ "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+															+ "ORDER BY R.VERSION_ID DESC ";
 	
 	private static final  String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ?";
 	
 	private static final  String SQL_HISTORY_FROM_DATETIME = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?" + 
-															 " ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+															 " ORDER BY R.VERSION_ID DESC ";
 	private static final  String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?";
+	
+	private static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+	
+	private static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
 	
 	
 	
@@ -335,14 +340,33 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 		log.entering(CLASSNAME, METHODNAME);
 		
 		List<Resource> resources;
+		String historyQuery = null;
 				
 		try {
 			if (fromDateTime != null) {
-				resources = this.runQuery(SQL_HISTORY_FROM_DATETIME, logicalId, fromDateTime, offset, maxResults);
+				if (this.isDb2Database()) {
+					historyQuery = SQL_HISTORY_FROM_DATETIME + DB2_PAGINATION_PARMS;
+					resources = this.runQuery(historyQuery, logicalId, fromDateTime, maxResults, offset);
+				}
+				else {
+					historyQuery = SQL_HISTORY_FROM_DATETIME + DERBY_PAGINATION_PARMS;
+					resources = this.runQuery(historyQuery, logicalId, fromDateTime, offset, maxResults);
+				}
 			}
-			else {
-				resources = this.runQuery(SQL_HISTORY, logicalId, offset, maxResults);
+			else 
+			{
+				if(this.isDb2Database()) {
+					historyQuery = SQL_HISTORY + DB2_PAGINATION_PARMS;
+					resources = this.runQuery(historyQuery, logicalId, maxResults, offset);
+				}
+				else {
+					historyQuery = SQL_HISTORY + DERBY_PAGINATION_PARMS;
+					resources = this.runQuery(historyQuery, logicalId, offset, maxResults);
+				}
+				
 			}
+		} catch (SQLException e) {
+			throw new FHIRPersistenceDataAccessException("Failure running history query: " + historyQuery, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
