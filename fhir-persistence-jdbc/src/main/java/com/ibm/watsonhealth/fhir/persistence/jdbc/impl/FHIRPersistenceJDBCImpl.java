@@ -544,10 +544,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				this.getResourceDao().setExternalConnection(myConnection);
 			}
 	        if (searchContext.hasSortParameters()) {
-	        	queryBuilder = new JDBCSortQueryBuilder();
+	        	queryBuilder = new JDBCSortQueryBuilder(this.getResourceDao());
 	        }
 	        else {
-	        	queryBuilder = new JDBCQueryBuilder();
+	        	queryBuilder = new JDBCQueryBuilder(this.getResourceDao());
 	        }
 	        
 	        String countQueryString = queryBuilder.buildCountQuery(resourceType, searchContext);

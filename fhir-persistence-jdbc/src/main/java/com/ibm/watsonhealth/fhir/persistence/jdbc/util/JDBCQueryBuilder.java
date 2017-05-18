@@ -23,6 +23,7 @@ import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
@@ -76,6 +77,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	protected static final String SELECT_ROOT = "SELECT r.id, r.data, r.last_updated, r.logical_id, r.resource_type, r.version_id FROM Resource r";
 	protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(*) FROM Resource r";
 	protected static final String JOIN_CLAUSE_ROOT = " JOIN Parameter p%d ON p%d.resource_id=r.id";
+	
+	private FHIRDbDAO fhirDbDao;
 	
 	/**
 	 * An enumeration of SQL query operators.
@@ -141,8 +144,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	
 	private Class<? extends Resource> resourceType = null;
 
-	public JDBCQueryBuilder() {
+	public JDBCQueryBuilder(FHIRDbDAO dao) {
 		super();
+		this.fhirDbDao = dao;
 	}
 	
 	/**
@@ -991,15 +995,23 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * the total number of rows to be returned.
 	 * @param sqlQuery - A buffer containing complete SQL query (without the pagination clauses).
 	 * @param searchContext - The search context.
+	 * @throws Exception 
 	 */
-	protected void addPaginationClauses(StringBuilder sqlQuery, FHIRSearchContext searchContext) {
+	protected void addPaginationClauses(StringBuilder sqlQuery, FHIRSearchContext searchContext) throws Exception {
 		final String METHODNAME = "addPaginationClauses";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		int pageSize = searchContext.getPageSize();
 		int offset = (searchContext.getPageNumber() - 1) * pageSize;
-		sqlQuery.append(" OFFSET ").append(offset).append(" ROWS")
-				.append(" FETCH NEXT ").append(pageSize).append(" ROWS ONLY");
+				
+		if(this.fhirDbDao.isDb2Database()) {
+			sqlQuery.append(" LIMIT ").append(pageSize).append(" OFFSET ").append(offset);
+			
+		}
+		else {
+			sqlQuery.append(" OFFSET ").append(offset).append(" ROWS")
+				       .append(" FETCH NEXT ").append(pageSize).append(" ROWS ONLY");
+		}
 		
 		log.exiting(CLASSNAME, METHODNAME);
 		

@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.search.SortParameter;
 import com.ibm.watsonhealth.fhir.search.SortParameter.SortDirection;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -37,8 +38,8 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 	private static final String AND = " AND ";
 	
 
-	public JDBCSortQueryBuilder() {
-		super();
+	public JDBCSortQueryBuilder(FHIRDbDAO dao) {
+		super(dao);
 	}
 	
 	/**
