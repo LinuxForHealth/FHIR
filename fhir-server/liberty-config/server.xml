@@ -139,7 +139,7 @@ CODE_REMOVED
         type="javax.sql.XADataSource">
         <jdbcDriver libraryRef="fhirSharedLib"
             javax.sql.XADataSource="com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource" />
-        <connectionManager agedTimeout="0"/>
+        <connectionManager agedTimeout="0" enableSharingForDirectLookups="false"/>
     </dataSource>
     
     
