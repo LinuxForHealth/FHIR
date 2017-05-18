@@ -215,6 +215,17 @@ public interface FHIRClient {
     FHIRResponse update(JsonObject resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
+     * Invokes the 'delete' FHIR REST API operation.
+     * @param resourceType a string representing the name of the resource type 
+     * to be deleted (e.g. "Patient")
+     * @param resourceId the id of the resource to be deleted
+     * @param headers an optional list of request headers to be added to the request
+     * @return a FHIRResponse that contains the results of the 'delete' operation
+     * @throws Exception
+     */
+    FHIRResponse delete(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception;
+
+    /**
      * Invokes the 'read' FHIR REST API operation.
      * @param resourceType a string representing the name of the resource type 
      * to be retrieved (e.g. "Patient")

@@ -14,6 +14,7 @@ package com.ibm.watsonhealth.fhir.cli;
 public enum Operations {
     BATCH("batch", OptionNames.RESOURCE),
     CREATE("create", OptionNames.RESOURCE),
+    DELETE("delete", OptionNames.RESOURCETYPE, OptionNames.ID),
     HISTORY("history", OptionNames.RESOURCETYPE, OptionNames.ID),
     METADATA("metadata"),
     READ("read", OptionNames.RESOURCETYPE, OptionNames.ID),

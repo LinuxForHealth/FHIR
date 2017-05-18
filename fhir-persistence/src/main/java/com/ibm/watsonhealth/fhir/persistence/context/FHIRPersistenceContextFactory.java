@@ -31,6 +31,15 @@ public class FHIRPersistenceContextFactory {
     }
     
     /**
+     * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
+     * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
+     * @param includeDeleted flag to tell the persistence layer to include deleted resources in the operation results.
+     */
+    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted) {
+        return new FHIRPersistenceContextImpl(event, includeDeleted);
+    }
+    
+    /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRHistoryContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
      * @param historyContext the FHIRHistoryContext instance to be contained in the FHIRPersistenceContext instance

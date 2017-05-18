@@ -11,7 +11,7 @@ import javax.json.JsonObject;
 import com.ibm.watsonhealth.fhir.model.Resource;
 
 /**
- * This class is the OperationInvoker implementation for the 'metadata' operation.
+ * This class is the OperationInvoker implementation for the 'validate' operation.
  * 
  * @author padams
  */

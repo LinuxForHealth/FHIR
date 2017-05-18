@@ -62,10 +62,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	
 	
 	private ResourceNormalizedDAO resourceDao;
-	private ParameterNormalizedDAO parameterDao;		
+	private ParameterNormalizedDAO parameterDao;
+		
 
-	private Connection sharedConnection = null;
-	
 	/**
 	 * Constructor for use when running as web application in WLP. 
 	 * @throws Exception 
@@ -115,8 +114,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		boolean txnStarted = false;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		String logicalId;
+		Connection myConnection = null;
 		
 		try {
+			if (this.getManagedConnection() == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
 	        FHIRUtil.write(resource, Format.XML, stream, false);
 	
 	        // Start a new txn.
@@ -178,6 +183,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		        rollback();
 		        txnStarted = false;
 		    }
+		    if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
@@ -195,8 +208,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		boolean txnStarted = false;
 		int newVersionNumber = 1;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		Connection myConnection = null;
 		
 		try {
+			if (this.getManagedConnection() == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
 			// Get the current version of the Resource.
 			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 	        
@@ -273,6 +292,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            rollback();
 	            txnStarted = false;
 	        }
+	        if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
@@ -299,7 +326,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	    Connection myConnection = null;
 	    
 	    try {
-	    	if (this.getManagedConnection() == null && !isActive()) {
+	    	if (this.getManagedConnection() == null) {
 				myConnection = this.createConnection();
 				this.getParameterDao().setExternalConnection(myConnection);
 				this.getResourceDao().setExternalConnection(myConnection);
@@ -365,12 +392,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	public void begin() throws FHIRPersistenceException {
 		final String METHODNAME = "begin";
 		log.entering(CLASSNAME, METHODNAME);
+		
 			
 		try {
 			if (userTransaction != null) {
-			    sharedConnection = createConnection();
-			    resourceDao.setExternalConnection(sharedConnection);
-			    parameterDao.setExternalConnection(sharedConnection);
 				userTransaction.begin();
 			}
 			else if (this.getManagedConnection() != null) {
@@ -408,14 +433,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw new FHIRPersistenceException(msg);
         }
         finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                } catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
         	log.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -440,15 +457,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             String msg = "An unexpected error occurred while rolling back a transaction.";
             log.log(Level.SEVERE, msg, e);
             throw new FHIRPersistenceException(msg);
-        } finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                } catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
         }
 	}
 	
@@ -464,56 +472,68 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#delete(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, Class<? extends Resource> resourceType, java.lang.String)
 	 */
 	@Override
-	public void delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+	public Resource delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
 		final String METHODNAME = "delete";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
-		Resource deletedResource;
-		int newVersionNumber;
+		Resource deletedResource = null;
 		boolean txnStarted = false;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		Connection myConnection = null;
 		
 		try {
+			if (this.getManagedConnection() == null) {
+				myConnection = this.createConnection();
+				this.getParameterDao().setExternalConnection(myConnection);
+				this.getResourceDao().setExternalConnection(myConnection);
+			}
+
 	        // Start a new txn.
 	        if (!isActive()) {
 	            begin();
 	            txnStarted = true;
 	        }
 			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
-			if (existingResourceDTO ==  null) {
-				throw new FHIRPersistenceResourceNotFoundException("Resource not found. resourceType=" + resourceType.getSimpleName() + "  logicalId=" + logicalId);
-			}
-			if (existingResourceDTO.isDeleted()) {
-				throw new FHIRPersistenceResourceDeletedException("Resource already deleted. resourceType=" + resourceType.getSimpleName() + "  logicalId=" + logicalId);
-			}
-			newVersionNumber = existingResourceDTO.getVersionId() + 1;
-			Instant lastUpdated = instant(System.currentTimeMillis());
-			deletedResource = this.convertResourceDTO(existingResourceDTO, resourceType);
-			deletedResource.getMeta().setVersionId(id(String.valueOf(newVersionNumber)));
-			deletedResource.getMeta().setLastUpdated(lastUpdated);
-			            
-	        // Create a new Resource DTO instance to represent the deleted version.
-	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
-	        resourceDTO.setLogicalId(logicalId);
-	        resourceDTO.setVersionId(newVersionNumber);
-	        FHIRUtil.write(deletedResource, Format.XML, stream, false);
-	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
-	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-	        resourceDTO.setLastUpdated(timestamp);
-	        resourceDTO.setResourceType(resourceType.getSimpleName());
-	        resourceDTO.setDeleted(true);
-	        
-	        // Persist the logically deleted Resource DTO.
-	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
+			
+			// If the resource DTO exists, then convert it to a FHIR resource.
+            if (existingResourceDTO != null) {
+                deletedResource = this.convertResourceDTO(existingResourceDTO, resourceType);
+
+                // If the resource was not already deleted, then update it to be logically deleted.
+                if (!existingResourceDTO.isDeleted()) {
+                    int newVersionNumber = existingResourceDTO.getVersionId() + 1;
+                    Instant lastUpdated = instant(System.currentTimeMillis());
+
+                    // Update the returned resource to reflect the new version and lastUpdated values.
+                    deletedResource.getMeta().setVersionId(id(String.valueOf(newVersionNumber)));
+                    deletedResource.getMeta().setLastUpdated(lastUpdated);
+
+                    // Create a new Resource DTO instance to represent the deleted version.
+                    com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+                    resourceDTO.setLogicalId(logicalId);
+                    resourceDTO.setVersionId(newVersionNumber);
+                    FHIRUtil.write(deletedResource, Format.XML, stream, false);
+                    resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+                    Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+                    resourceDTO.setLastUpdated(timestamp);
+                    resourceDTO.setResourceType(resourceType.getSimpleName());
+                    resourceDTO.setDeleted(true);
+
+                    // Persist the logically deleted Resource DTO.
+                    this.getResourceDao().insert(resourceDTO);
+                    log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                            + ", version=" + resourceDTO.getVersionId());
+                }
+            }
 			
 			// Time to commit the changes.
 	        if (txnStarted) {
 	            commit();
 	            txnStarted = false;
 	        }
+	        
+	        return deletedResource;
 		}
 		catch(FHIRPersistenceException e) {
 			throw e;
@@ -529,6 +549,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            rollback();
 	            txnStarted = false;
 	        }
+	        if (myConnection != null) {
+		    	try {
+					myConnection.close();
+				} 
+		    	catch (SQLException e) {
+					throw new FHIRPersistenceException("Failure closing DB Conection", e);
+				}
+		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
@@ -547,14 +575,15 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		Connection myConnection = null;
 		
 		try {
-			if (this.getManagedConnection() == null && !isActive()) {
+			if (this.getManagedConnection() == null) {
 				myConnection = this.createConnection();
 				this.getParameterDao().setExternalConnection(myConnection);
 				this.getResourceDao().setExternalConnection(myConnection);
 			}
+
 			resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
-			if (resourceDTO != null && resourceDTO.isDeleted()) {
-				throw new FHIRPersistenceResourceDeletedException("Resource is deleted. resourceType=" + resourceType.getSimpleName() + " logicalId=" + logicalId);
+			if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
+                throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
 			}
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
 		}
@@ -603,7 +632,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		Connection myConnection = null;
 		
 		try {
-			if (this.getManagedConnection() == null && !isActive()) {
+			if (this.getManagedConnection() == null) {
 				myConnection = this.createConnection();
 				this.getParameterDao().setExternalConnection(myConnection);
 				this.getResourceDao().setExternalConnection(myConnection);
@@ -671,7 +700,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		Connection myConnection = null;
 								
 		try {
-			if (this.getManagedConnection() == null && !isActive()) {
+			if (this.getManagedConnection() == null) {
 				myConnection = this.createConnection();
 				this.getParameterDao().setExternalConnection(myConnection);
 				this.getResourceDao().setExternalConnection(myConnection);
@@ -679,8 +708,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			version = Integer.parseInt(versionId);
 			resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
 			if (resourceDTO != null && resourceDTO.isDeleted()) {
-				throw new FHIRPersistenceResourceDeletedException("Resource version is deleted. resourceType=" + resourceType.getSimpleName() + 
-																	" logicalId=" + logicalId + "  versionId=" + versionId);
+                throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
 			}
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
 		}

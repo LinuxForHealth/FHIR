@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -107,6 +108,7 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper;
@@ -263,7 +265,7 @@ public class FHIRResource {
                 throw new FHIRException("Input resource must contain an 'id' attribute.");
             }
         	
-        	currentResource = doRead(type, resource.getId().getValue(), false);
+        	currentResource = doRead(type, resource.getId().getValue(), false, true);
             URI locationURI = doUpdate(type, id, resource, currentResource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH));
             
             ResponseBuilder response = null;
@@ -301,6 +303,44 @@ public class FHIRResource {
         }
     }
 
+    @DELETE
+    @Path("{type}/{id}")
+    public Response delete(
+        @PathParam("type") String type, 
+        @PathParam("id") String id) throws Exception {
+        log.entering(this.getClass().getName(), "delete(String,String)");
+        
+        Date startTime = new Date();
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Resource resource = null;
+        
+        try {
+            checkInitComplete();
+
+            resource = doDelete(type, id);
+            ResponseBuilder response = Response.noContent();
+            if (resource != null) {
+                status = Response.Status.NO_CONTENT;
+                response = addHeaders(response, resource);
+            }
+            return response.build();
+        } catch (FHIRRestException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.NO_CONTENT;
+            return exceptionResponse(e, status);
+        } catch (FHIRException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, status);
+        } finally {
+            RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
+            log.exiting(this.getClass().getName(), "delete(String,String)");
+        }
+    }
+
     @GET
     @Path("{type}/{id}")
     public Response read(
@@ -315,7 +355,7 @@ public class FHIRResource {
         try {
             checkInitComplete();
 
-            resource = doRead(type, id, true);
+            resource = doRead(type, id, true, false);
             ResponseBuilder response = Response.ok().entity(resource);
             status = Response.Status.OK;
             response = addHeaders(response, resource);
@@ -325,6 +365,9 @@ public class FHIRResource {
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
         	status = Response.Status.NOT_FOUND;
+            return exceptionResponse(e, status);
+        } catch (FHIRPersistenceResourceDeletedException e) {
+            status = Response.Status.GONE;
             return exceptionResponse(e, status);
         } catch (FHIRException e) {
         	status = e.getHttpStatus();
@@ -364,6 +407,9 @@ public class FHIRResource {
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
         	status = Response.Status.NOT_FOUND;
+            return exceptionResponse(e, status);
+        } catch (FHIRPersistenceResourceDeletedException e) {
+            status = Response.Status.GONE;
             return exceptionResponse(e, status);
         } catch (FHIRException e) {
         	status = e.getHttpStatus();
@@ -943,7 +989,60 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "doUpdate");
         }
     }
+    
+    /**
+     * Performs a 'delete' operation on the specified resource.
+     * @param type the resource type associated with the Resource to be deleted
+     * @param id the id of the Resource to be deleted
+     * @return the deleted Resource
+     * @throws Exception
+     */
+    protected Resource doDelete(String type, String id) throws Exception {
+        log.entering(this.getClass().getName(), "doDelete");
 
+        // Save the current request context.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
+        try {
+            String resourceTypeName = type;
+            if (!FHIRUtil.isStandardResourceType(type)) {
+                if (!isVirtualResourceTypesFeatureEnabled()) {
+                    throw new FHIRVirtualResourceTypeException("The virtual resource types feature is not enabled for this server");
+                }
+                if (!isAllowableVirtualResourceType(type)) {
+                    throw new FHIRVirtualResourceTypeException("The virtual resource type '" + type
+                            + "' is not allowed. Allowable virtual types for this server are: " + getAllowableVirtualResourceTypes().toString());
+                }
+                resourceTypeName = "Basic";
+            }
+            
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            
+            // First, invoke the 'beforeDelete' interceptor methods.
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
+            getInterceptorMgr().fireBeforeDeleteEvent(event);
+            
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
+
+            Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id);
+            
+            event.setFhirResource(resource);
+
+            // Invoke the 'afterDelete' interceptor methods.
+            getInterceptorMgr().fireAfterDeleteEvent(event);
+
+            return resource;
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while processing 'delete' request.";
+            log.log(Level.SEVERE, msg, t);
+            throw t;
+        } finally {
+            // Restore the original request context.
+            FHIRRequestContext.set(requestContext);
+            
+            log.exiting(this.getClass().getName(), "doDelete");
+        }
+    }
 
     /**
      * Performs a 'read' operation to retrieve a Resource.
@@ -952,7 +1051,7 @@ public class FHIRResource {
      * @return the Resource
      * @throws Exception
      */
-    protected Resource doRead(String type, String id, boolean throwExcOnNull) throws Exception {
+    protected Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
 
         // Save the current request context.
@@ -977,7 +1076,7 @@ public class FHIRResource {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeReadEvent(event);
             
-            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted);
             Resource resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
             if (resource == null && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
@@ -989,6 +1088,8 @@ public class FHIRResource {
             getInterceptorMgr().fireAfterReadEvent(event);
 
             return resource;
+        } catch (FHIRPersistenceResourceDeletedException e) {
+            throw e;
         } catch (Throwable t) {
             String msg = "Unexpected exception while processing 'read' request.";
             log.log(Level.SEVERE, msg, t);
@@ -1000,7 +1101,6 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "doRead");
         }
     }
-
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource.
      * @param type the resource type associated with the Resource to be retrieved
@@ -1098,7 +1198,7 @@ public class FHIRResource {
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, historyContext);
             List<Resource> resources = getPersistenceImpl().history(persistenceContext, resourceType, id);
-            Bundle bundle = createBundle(resources, BundleTypeList.HISTORY, historyContext.getTotalCount());
+            Bundle bundle = createHistoryBundle(resources, historyContext);
             addLinks(historyContext, bundle, requestUri);
             
             event.setFhirResource(bundle);
@@ -1118,7 +1218,7 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "doHistory");
         }
     }
-    
+
     /**
      * Performs heavy lifting associated with a 'search' operation.
      * @param type the resource type associated with the search
@@ -1160,7 +1260,7 @@ public class FHIRResource {
             
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             List<Resource> resources = getPersistenceImpl().search(persistenceContext, resourceType);
-            Bundle bundle = createBundle(resources, BundleTypeList.SEARCHSET, searchContext.getTotalCount());
+            Bundle bundle = createSearchBundle(resources, searchContext);
             addLinks(searchContext, bundle, requestUri);
             
             event.setFhirResource(bundle);
@@ -1471,7 +1571,7 @@ public class FHIRResource {
                             resource = doSearch(pathTokens[0], null, null, queryParams, absoluteUri);
                         } else if (pathTokens.length == 2) {
                             // This is a 'read' request.
-                            resource = doRead(pathTokens[0], pathTokens[1], true);
+                            resource = doRead(pathTokens[0], pathTokens[1], true, false);
                         } else if (pathTokens.length == 3) {
                             if (pathTokens[2].equals("_history")) {
                                 // This is a 'history' request.
@@ -1534,7 +1634,7 @@ public class FHIRResource {
                         processLocalReferences(resource, localRefMap);
 
                         // Perform the 'update' operation.
-                        Resource currentResource = doRead(pathTokens[0], pathTokens[1], false);
+                        Resource currentResource = doRead(pathTokens[0], pathTokens[1], false, true);
                         String ifMatchBundleValue = null;
                         if (request.getIfMatch() != null) {
                             ifMatchBundleValue = request.getIfMatch().getValue();
@@ -1854,12 +1954,12 @@ public class FHIRResource {
         List<ConformanceInteraction> interactions = new ArrayList<>();
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.CREATE));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.UPDATE));
+        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.DELETE));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.READ));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.VREAD));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.HISTORY_INSTANCE));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.VALIDATE));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.SEARCH_TYPE));
-        
         
         // Build the list of supported resources.
         List<ConformanceResource> resources = new ArrayList<>();
@@ -2054,8 +2154,15 @@ public class FHIRResource {
         return ci;
     }
 
-    private Bundle createBundle(List<Resource> resources, BundleTypeList type, long total) throws FHIRException {
-        Bundle bundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(type));
+    /**
+     * Creates a bundle that will hold results for a search operation.
+     * @param resources the list of resources to include in the bundle
+     * @param searchContext the FHIRSearchContext object associated with the search
+     * @return the bundle
+     * @throws FHIRException
+     */
+    private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext) throws FHIRException {
+        Bundle bundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(BundleTypeList.SEARCHSET));
 
         // generate ID for this bundle
         bundle.setId(id(UUID.randomUUID().toString()));
@@ -2073,7 +2180,72 @@ public class FHIRResource {
         }
 
         // Finally, set the "total" field.
-        bundle.setTotal(objectFactory.createUnsignedInt().withValue(BigInteger.valueOf(total)));
+        bundle.setTotal(objectFactory.createUnsignedInt().withValue(BigInteger.valueOf(searchContext.getTotalCount())));
+
+        return bundle;
+    }
+    
+    /**
+     * Creates a bundle that will hold the results of a history operation.
+     * @param resources the list of resources to include in the bundle
+     * @param historyContext the FHIRHistoryContext associated with the history operation
+     * @return the bundle
+     */
+    private Bundle createHistoryBundle(List<Resource> resources, FHIRHistoryContext historyContext) throws FHIRException {
+        Bundle bundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(BundleTypeList.HISTORY));
+
+        // generate ID for this bundle
+        bundle.setId(id(UUID.randomUUID().toString()));
+        
+        Map<String, List<Integer>> deletedResourcesMap = historyContext.getDeletedResources();
+
+        for (int i = 0; i < resources.size(); i++) {
+            Resource resource = resources.get(i);
+            BundleEntry entry = objectFactory.createBundleEntry();
+
+            Integer versionId = Integer.valueOf(resource.getMeta().getVersionId().getValue());
+            String logicalId = resource.getId().getValue();
+            String resourceType = FHIRUtil.getResourceTypeName(resource);
+            List<Integer> deletedVersions = deletedResourcesMap.get(logicalId);
+            
+            // Determine the correct method to include in this history entry (POST, PUT, DELETE).
+            HTTPVerbList method;
+            if (deletedVersions != null && deletedVersions.contains(versionId)) {
+                method = HTTPVerbList.DELETE;
+            } else if (versionId == 1) {
+                method = HTTPVerbList.POST;
+            } else {
+                method = HTTPVerbList.PUT;
+            }
+            
+            // Create the 'request' entry
+            BundleRequest request = objectFactory.createBundleRequest();
+            entry.setRequest(request);
+            request.setMethod(objectFactory.createHTTPVerb().withValue(method));
+            
+            // Set the request.url field.
+            if (method == HTTPVerbList.POST) {
+                // 'create' --> url = "<resourceType>"
+                request.setUrl(objectFactory.createUri().withValue(resourceType));
+            } else {
+                // 'update'/'delete' --> url = "<resourceType>/<logicalId>"
+                request.setUrl(objectFactory.createUri().withValue(resourceType + "/" + logicalId));
+            }
+            
+            // Set the resource.
+            ResourceContainer container = objectFactory.createResourceContainer();
+            entry.setResource(container);
+            try {
+                FHIRUtil.setResourceContainerResource(container, resource);
+            } catch (Exception e) {
+                throw new FHIRException("Unable to set resource in bundle entry.", e);
+            }
+            
+            bundle.getEntry().add(entry);
+        }
+
+        // Finally, set the "total" field.
+        bundle.setTotal(objectFactory.createUnsignedInt().withValue(BigInteger.valueOf(historyContext.getTotalCount())));
 
         return bundle;
     }

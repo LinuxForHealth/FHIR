@@ -23,7 +23,6 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 
 /**
  * This class contains resource deletion tests.
@@ -71,10 +70,11 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     	assertEquals("1",device.getMeta().getVersionId().getValue());
     }
     
-    @Test(groups = { "jdbc-normalized" }, expectedExceptions = FHIRPersistenceResourceNotFoundException.class)
+    @Test(groups = { "jdbc-normalized" })
     public void testDeleteInvalidDevice() throws Exception {
     	
-    	persistence.delete(getDefaultPersistenceContext(), Device.class, "invalid-device-id");
+    	Resource result = persistence.delete(getDefaultPersistenceContext(), Device.class, "invalid-device-id");
+    	assertNull(result);
     }
     
     @Test(groups = { "jdbc-normalized" })
@@ -143,8 +143,7 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
 		assertEquals(new Integer(2),deletedVersions.get(0));
 	}
     
-    @Test(groups = { "jdbc-normalized" }, dependsOnMethods = { "testDeleteValidDevice" },
-    			   expectedExceptions = FHIRPersistenceResourceDeletedException.class)
+    @Test(groups = { "jdbc-normalized" }, dependsOnMethods = { "testDeleteValidDevice" })
     public void testReDeleteValidDevice() throws Exception {
     	
     	persistence.delete(getDefaultPersistenceContext(), Device.class, this.deviceId);

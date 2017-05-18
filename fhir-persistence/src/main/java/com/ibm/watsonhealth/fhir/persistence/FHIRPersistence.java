@@ -47,7 +47,6 @@ public interface FHIRPersistence {
      * @param logicalId the logical id of the Resource instance to be retrieved
      * @param versionId the version of the Resource instance to be retrieved
      * @return the FHIR Resource that was retrieved from the datastore
-	 * @return
 	 * @throws FHIRPersistenceException
 	 * @throws FHIRPersistenceResourceDeletedException
 	 */
@@ -68,9 +67,10 @@ public interface FHIRPersistence {
 	 * @param context the FHIRPersistenceContext instance associated with the current request
 	 * @param resourceType The type of FHIR Resource to be deleted.
 	 * @param logicalId the logical id of the FHIR Resource to be deleted
+	 * @return the FHIR Resource that was deleted
 	 * @throws FHIRPersistenceException
 	 */
-	void delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
+	Resource delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
 	
 	/**
 	 * Retrieves all of the versions of the specified FHIR Resource.

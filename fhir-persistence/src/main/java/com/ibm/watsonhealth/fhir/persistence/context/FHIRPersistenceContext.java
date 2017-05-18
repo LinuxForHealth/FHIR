@@ -33,4 +33,9 @@ public interface FHIRPersistenceContext {
      * This will be null if the current request is not a 'search' operation.
      */
     FHIRSearchContext getSearchContext();
+    
+    /**
+     * Indicates whether the persistence layer should include "deleted" resources in the operation response.
+     */
+    boolean includeDeleted();
 }

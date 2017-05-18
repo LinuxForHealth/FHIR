@@ -59,6 +59,28 @@ public interface FHIRPersistenceInterceptor {
     }
 
     /**
+     * This method is called during the processing of a 'delete' REST API invocation, immediately before the 
+     * resource is deleted by the persistence layer.
+     * 
+     * @param event
+     *            information about the 'delete' event
+     * @throws FHIRPersistenceInterceptorException
+     */
+    default void beforeDelete(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+    }
+
+    /**
+     * This method is called during the processing of a 'delete' REST API invocation, immediately after the
+     * resource has been deleted by the persistence layer.
+     * 
+     * @param event
+     *            information about the 'delete' event
+     * @throws FHIRPersistenceInterceptorException
+     */
+    default void afterDelete(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+    }
+    
+    /**
      * This method is called during the processing of a 'read' REST API invocation, immediately before the resource is
      * read by the persistence layer.
      * 

@@ -176,6 +176,18 @@ public class FHIRClientImpl implements FHIRClient {
     }
 
     /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#delete(java.lang.String, java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
+     */
+    @Override
+    public FHIRResponse delete(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception {
+        WebTarget endpoint = getWebTarget();
+        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.delete();
+        return new FHIRResponseImpl(response);
+    }
+
+    /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#read(java.lang.String, java.lang.String)
      */
     @Override

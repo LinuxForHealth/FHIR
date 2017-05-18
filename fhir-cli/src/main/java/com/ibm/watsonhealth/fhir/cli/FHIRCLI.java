@@ -28,6 +28,7 @@ import org.apache.commons.cli.ParseException;
 
 import com.ibm.watsonhealth.fhir.cli.invoker.BatchInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.CreateInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.DeleteInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.HistoryInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.InvocationContext;
 import com.ibm.watsonhealth.fhir.cli.invoker.MetadataInvoker;
@@ -103,6 +104,7 @@ public class FHIRCLI {
         invokers = new HashMap<Operations, OperationInvoker>();
         invokers.put(Operations.BATCH, new BatchInvoker());
         invokers.put(Operations.CREATE, new CreateInvoker());
+        invokers.put(Operations.DELETE, new DeleteInvoker());
         invokers.put(Operations.HISTORY, new HistoryInvoker());
         invokers.put(Operations.METADATA, new MetadataInvoker());
         invokers.put(Operations.READ, new ReadInvoker());

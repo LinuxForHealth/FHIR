@@ -444,9 +444,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#delete(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.String)
 	 */
 	@Override
-	public void delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+	public Resource delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
 		throw new FHIRPersistenceNotSupportedException("delete is not yet implemented");
-
 	}
 
 	/* (non-Javadoc)
@@ -544,10 +543,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				this.getResourceDao().setExternalConnection(myConnection);
 			}
 	        if (searchContext.hasSortParameters()) {
-	        	queryBuilder = new JDBCSortQueryBuilder(this.getResourceDao());
+	        	queryBuilder = new JDBCSortQueryBuilder();
 	        }
 	        else {
-	        	queryBuilder = new JDBCQueryBuilder(this.getResourceDao());
+	        	queryBuilder = new JDBCQueryBuilder();
 	        }
 	        
 	        String countQueryString = queryBuilder.buildCountQuery(resourceType, searchContext);

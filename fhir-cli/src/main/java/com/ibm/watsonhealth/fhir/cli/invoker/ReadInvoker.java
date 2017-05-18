@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.cli.invoker;
 
 /**
- * This class is the OperationInvoker implementation for the 'metadata' operation.
+ * This class is the OperationInvoker implementation for the 'read' operation.
  * 
  * @author padams
  */
