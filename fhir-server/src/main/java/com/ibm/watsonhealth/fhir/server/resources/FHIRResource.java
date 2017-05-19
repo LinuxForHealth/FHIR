@@ -109,6 +109,7 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -317,7 +318,7 @@ public class FHIRResource {
         
         try {
             checkInitComplete();
-
+            
             resource = doDelete(type, id);
             ResponseBuilder response = Response.noContent();
             status = Response.Status.NO_CONTENT;
@@ -328,8 +329,8 @@ public class FHIRResource {
         } catch (FHIRRestException e) {
             status = e.getHttpStatus();
             return exceptionResponse(e);
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            status = Response.Status.NO_CONTENT;
+        } catch (FHIRPersistenceNotSupportedException e) {
+            status = Response.Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIRException e) {
             status = e.getHttpStatus();
