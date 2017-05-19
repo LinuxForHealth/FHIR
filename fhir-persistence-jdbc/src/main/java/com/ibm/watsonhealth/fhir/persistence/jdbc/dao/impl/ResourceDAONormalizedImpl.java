@@ -11,6 +11,7 @@ import static java.util.Objects.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Collections;
@@ -57,7 +58,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
 			   								  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
 			   								  "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
-											  "ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+											  "ORDER BY R.VERSION_ID DESC ";
 	
 	private static final String SQL_HISTORY_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
 			                                        "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
@@ -65,7 +66,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final String SQL_HISTORY_FROM_DATETIME = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
 				  											"FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
 				  											"LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
-				  											"ORDER BY R.VERSION_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+				  											"ORDER BY R.VERSION_ID DESC ";
 	
 	private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
             													  "R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
@@ -242,17 +243,34 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		log.entering(CLASSNAME, METHODNAME);
 		
 		List<Resource> resources;
-		String stmtString;
+		String stmtString = null;
 				
 		try {
 			if (fromDateTime != null) {
 				stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType);
-				resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
+				if (this.isDb2Database()) {
+					stmtString = stmtString + DB2_PAGINATION_PARMS;
+					resources = this.runQuery(stmtString, logicalId, fromDateTime, maxResults, offset);
+				}
+				else {
+					stmtString = stmtString + DERBY_PAGINATION_PARMS;
+					resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
+				}
 			}
 			else {
 				stmtString = String.format(SQL_HISTORY, resourceType, resourceType);
-				resources = this.runQuery(stmtString, logicalId, offset, maxResults);
+				if (this.isDb2Database()) {
+					stmtString = stmtString + DB2_PAGINATION_PARMS;
+					resources = this.runQuery(stmtString, logicalId, maxResults, offset);
+				}
+				else {
+					stmtString = stmtString + DERBY_PAGINATION_PARMS;
+					resources = this.runQuery(stmtString, logicalId, offset, maxResults);
+				}
 			}
+		} 
+		catch (SQLException e) {
+			throw new FHIRPersistenceDataAccessException("Failure running history query: " + stmtString, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);

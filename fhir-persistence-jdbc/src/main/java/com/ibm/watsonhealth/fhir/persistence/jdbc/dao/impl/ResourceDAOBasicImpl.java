@@ -51,9 +51,9 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 															 " ORDER BY R.VERSION_ID DESC ";
 	private static final  String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?";
 	
-	private static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+	protected static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 	
-	private static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
+	protected static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
 	
 	
 	
