@@ -1458,7 +1458,11 @@ public class FHIRResource {
                         break;
                         
                     case DELETE:
-                        // Nothing to do here for DELETE other than prevent landing on the default case block :)
+                        // If the "delete" operation isn't supported by the configured persistence layer,
+                        // then we need to fail validation of this bundle entry.
+                        if (!isDeleteSupported()) {
+                            throw new FHIRException("BundleEntry.request contains unsupported HTTP method: " + method.name());
+                        }
                         break;
 
                     default:
