@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
@@ -47,6 +48,24 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
 	 * @param context
 	 */
 	void setPersistenceContext(FHIRPersistenceContext context);
+	
+	/**
+	 * Reads all rows in the resource_types table and returns the data as a Map
+	 * @return Map<String, Long> - A map containing key=parameter-name, value=parameter-name-id
+	 * @throws FHIRPersistenceDBConnectException
+	 * @throws FHIRPersistenceDataAccessException
+	 */
+	Map<String,Integer> readAllResourceTypeNames() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+	
+	/**
+	 * Reads the id associated with the name of the passed Resource type from the Resource_Types table. If the id for the passed name is not present
+	 * in the database, an id is generated, persisted, and returned.
+	 * @param String A valid FHIR resource type.
+	 * @return Integer - the id associated with the name of the passed Resource type.
+	 * @throws FHIRPersistenceDBConnectException
+	 * @throws FHIRPersistenceDataAccessException
+	 */
+	Integer readResourceTypeId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 
 	
 	
