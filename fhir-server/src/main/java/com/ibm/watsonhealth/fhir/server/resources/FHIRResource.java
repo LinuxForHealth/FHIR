@@ -21,6 +21,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.io.StringWriter;
@@ -319,8 +320,8 @@ public class FHIRResource {
 
             resource = doDelete(type, id);
             ResponseBuilder response = Response.noContent();
+            status = Response.Status.NO_CONTENT;
             if (resource != null) {
-                status = Response.Status.NO_CONTENT;
                 response = addHeaders(response, resource);
             }
             return response.build();
@@ -1025,8 +1026,9 @@ public class FHIRResource {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
 
             Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id);
-            
-            event.setFhirResource(resource);
+            if (resource != null) {
+                event.setFhirResource(resource);
+            }
 
             // Invoke the 'afterDelete' interceptor methods.
             getInterceptorMgr().fireAfterDeleteEvent(event);
@@ -1365,6 +1367,144 @@ public class FHIRResource {
     }
     
     /**
+     * Performs validation of a request Bundle and returns a Bundle containing response entries corresponding to the
+     * request entries in the request Bundle. holding the responses for the requests contained in the request Bundle.
+     * 
+     * @param bundle
+     *            the bundle to be validated
+     * @return a response Bundle
+     * @throws Exception
+     */
+    private Bundle validateBundle(Bundle bundle) throws Exception {
+        log.entering(this.getClass().getName(), "validateBundle");
+
+        try {
+            // Make sure the bundle isn't empty and has a type.
+            if (bundle == null || bundle.getEntry() == null || bundle.getEntry().isEmpty()) {
+                throw new FHIRException("Bundle parameter is missing or empty.");
+            }
+            
+            if (bundle.getType() == null || bundle.getType().getValue() == null) {
+                throw new FHIRException("Bundle.type is missing");
+            }
+            
+            // Determine the bundle type of the response bundle.
+            BundleTypeList responseBundleType;
+            switch (bundle.getType().getValue()) {
+            case BATCH:
+                responseBundleType = BundleTypeList.BATCH_RESPONSE;
+                break;
+            case TRANSACTION:
+                responseBundleType = BundleTypeList.TRANSACTION_RESPONSE;
+                // For a 'transaction' interaction, if the underlying persistence layer doesn't support
+                // transactions, then throw an error.
+                if (!getPersistenceImpl().isTransactional()) {
+                    throw new FHIRException("Bundled 'transaction' request cannot be processed because the configured persistence layer does not support transactions.");
+                }
+                break;
+
+            // For any other bundle type, we'll throw an error.
+            default:
+                throw new FHIRException("Bundle.type must be either 'batch' or 'transaction'.");
+            }  
+            
+            // Create the response bundle with the appropriate type.
+            Bundle responseBundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(responseBundleType));
+
+            // Next, make sure that each bundle entry contains a valid request.
+            // As we're validating the request bundle, we'll also construct entries for the response bundle.
+            int numErrors = 0;
+            for (BundleEntry requestEntry : bundle.getEntry()) {
+                // Create a corresponding response entry and add it to the response bundle.
+                BundleResponse response = objectFactory.createBundleResponse();
+                BundleEntry responseEntry = objectFactory.createBundleEntry().withResponse(response);
+                responseBundle.getEntry().add(responseEntry);
+                
+                // Validate 'requestEntry' and update 'responseEntry' with any errors.
+                try {
+                    BundleRequest request = requestEntry.getRequest();
+                    // Verify that the request field is present.
+                    if (request == null) {
+                        throw new FHIRException("BundleEntry is missing the 'request' field.");
+                    }
+                    
+                    // Verify that a method was specified.
+                    if (request.getMethod() == null || request.getMethod().getValue() == null) {
+                        throw new FHIRException("BundleEntry.request is missing the 'method' field");
+                    }
+
+                    // Verify that a URL was specified.
+                    if (request.getUrl() == null || request.getUrl().getValue() == null) {
+                        throw new FHIRException("BundleEntry.request is missing the 'url' field");
+                    }
+                    
+                    // Retrieve the resource from the request entry to prepare for some validations below.
+                    Resource resource = getBundleEntryResource(requestEntry);
+
+                    // Validate the HTTP method.
+                    HTTPVerbList method = request.getMethod().getValue();
+                    switch (method) {
+                    case GET:
+                        if (resource != null) {
+                            throw new FHIRException("BundleEntry.resource not allowed for BundleEntry with GET method.");
+                        }
+                        break;
+
+                    case POST:
+                    case PUT:
+                        if (resource == null) {
+                            throw new FHIRException("BundleEntry.resource is required for BundleEntry with POST or PUT method.");
+                        }
+                        break;
+                        
+                    case DELETE:
+                        // Nothing to do here for DELETE other than prevent landing on the default case block :)
+                        break;
+
+                    default:
+                        throw new FHIRException("BundleEntry.request contains unsupported HTTP method: " + method.name());
+                    }
+
+                    // If the request entry contains a resource, then validate it now.
+                    if (resource != null) {
+                        if (method == HTTPVerbList.PUT) {
+                            if (resource.getId() == null || resource.getId().getValue() == null) {
+                                throw new FHIRException("BundleEntry.resource must contain an id field for a PUT operation.");
+                            }
+                        }
+                        
+                        List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
+                        if (!issues.isEmpty()) {
+                            OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
+                            setBundleEntryResource(responseEntry, oo);
+                            response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
+                            numErrors++;
+                        }
+                    }
+                } catch (FHIRException e) {
+                    setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
+                    response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
+                    numErrors++;
+                }
+            }
+            
+            // If this is a "transaction" interaction and we encountered any errors, then we'll
+            // abort processing this request right now since a transaction interaction is supposed to be
+            // all or nothing.
+            if (numErrors > 0 && responseBundle.getType().getValue() == BundleTypeList.TRANSACTION_RESPONSE) {
+                String msg = "One or more errors were encountered while validating a 'transaction' request bundle.";
+                OperationOutcomeIssue issue = buildOperationOutcomeIssue(IssueSeverityList.ERROR, IssueTypeList.EXCEPTION, msg);
+                OperationOutcome oo = FHIRUtil.buildOperationOutcome(Collections.singletonList(issue));
+                throw new FHIRRestBundledRequestException(msg, oo, Response.Status.BAD_REQUEST, responseBundle);
+            }
+
+            return responseBundle;
+        } finally {
+            log.exiting(this.getClass().getName(), "validateBundle");
+        }
+    }
+    
+    /**
      * This function will perform the version-aware update check by making sure that
      * the If-Match request header value (if present) specifies a version # equal to
      * the current latest version of the resource.
@@ -1450,6 +1590,7 @@ public class FHIRResource {
             Map<String, String> localRefMap = new HashMap<>();
             
             // Next, process entries in the correct order.
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.DELETE, txn != null, localRefMap);
             processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.POST, txn != null, localRefMap);
             processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.PUT, txn != null, localRefMap);
             processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.GET, txn != null, localRefMap);
@@ -1487,20 +1628,19 @@ public class FHIRResource {
      */
     private void processEntriesForMethod(Bundle requestBundle, Bundle responseBundle, HTTPVerbList httpMethod, boolean failFast,
         Map<String, String> localRefMap) throws Exception {
-        log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {"httpMethod", httpMethod});
+        log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {
+                "httpMethod", httpMethod
+        });
         try {
-            // First, obtain a list of request entry indices for the entries that we'll process
-            // This list will contain the indices associated with entries for the specified http method.
+            // First, obtain a list of request entry indices for the entries that we'll process.
+            // This list will contain the indices associated with only the entries for the specified http method.
             List<Integer> entryIndices = getBundleRequestIndicesForMethod(requestBundle, responseBundle, httpMethod);
             log.finer("Bundle request indices to be processed: " + entryIndices.toString());
 
-            // For certain http methods, we need to do some additional pre-processing of the bundle entries.
-            // TODO - add support for DELETE here when we support that as well...
-            switch (httpMethod) {
-            case PUT:
-                // For PUT (update) requests, extract any local identifiers and resolve them ahead of time.
-                // We do this to prevent any local reference problems from occurring due to our re-ordering
-                // of the PUT request entries.
+            // Next, for PUT (update) requests, extract any local identifiers and resolve them ahead of time.
+            // We do this to prevent any local reference problems from occurring due to our re-ordering
+            // of the PUT request entries.
+            if (httpMethod == HTTPVerbList.PUT) {
                 log.finer("Pre-processing bundle request entries for PUT method...");
                 for (Integer index : entryIndices) {
                     BundleEntry requestEntry = requestBundle.getEntry().get(index);
@@ -1516,13 +1656,12 @@ public class FHIRResource {
                         addLocalRefMapping(localRefMap, localIdentifier, resource);
                     }
                 }
+            }
 
-                // Next, we need to sort the indices by resource logical id.
+            // Next, for PUT and DELETE requests, we need to sort the indices by the request url path value.
+            if (httpMethod == HTTPVerbList.PUT || httpMethod == HTTPVerbList.DELETE) {
                 sortBundleRequestEntries(requestBundle, entryIndices);
                 log.finer("Sorted bundle request indices to be processed: " + entryIndices.toString());
-                break;
-            default:
-                break;
             }
 
             // Now visit each of the request entries using the list of indices obtained above.
@@ -1532,16 +1671,7 @@ public class FHIRResource {
                 BundleRequest request = requestEntry.getRequest();
                 BundleResponse response = responseEntry.getResponse();
 
-                // During the request bundle validation step, if we detected an error
-                // with a particular request entry, then we would have set the status of
-                // the corresponding response entry to an appropriate value.
-                // So here, we'll only process request entries whose corresponding response entry
-                // contains a null status value and whose http method matches 'httpMethod'.
                 try {
-                    // Parse the request URL string to determine the path and query strings.
-                    if (request.getUrl() == null || request.getUrl().getValue() == null || request.getUrl().getValue().isEmpty()) {
-                        throw new FHIRException("BundleEntry.request is missing the 'url' field.");
-                    }
                     FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
 
                     String path = requestURL.getPath();
@@ -1644,6 +1774,18 @@ public class FHIRResource {
                     }
                         break;
 
+                    case DELETE: {
+                        // Process a DELETE.
+                        if (pathTokens.length != 2) {
+                            throw new FHIRException("Request URL for bundled DELETE request should have path part with exactly two tokens (<resourceType>/<id>).");
+                        }
+
+                        // Perform the 'delete' operation.
+                        Resource resource = doDelete(pathTokens[0], pathTokens[1]);
+                        setBundleResponseFields(responseEntry, resource, null, SC_NO_CONTENT);
+                    }
+                        break;
+
                     default:
                         // Internal error, should not get here!
                         throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
@@ -1689,8 +1831,9 @@ public class FHIRResource {
             BundleRequest request = requestEntry.getRequest();
             BundleResponse response = responseEntry.getResponse();
             
-            // If our response bundle doesn't already have a response status set, and this request
-            // entry's http method is the one we're looking for, then record the index in our list.
+            // If our response bundle doesn't already have a response status set (perhaps as a result of
+            // a validation error), and this request entry's http method is the one we're looking for, 
+            // then record the index in our list.
             if (response.getStatus() == null && request.getMethod().getValue().equals(httpMethod)) {
                 indices.add(Integer.valueOf(i));
             }
@@ -1838,11 +1981,15 @@ public class FHIRResource {
     private void setBundleResponseFields(BundleEntry responseEntry, Resource resource, URI locationURI, int httpStatus) throws FHIRException {
         BundleResponse response = responseEntry.getResponse();
         response.setStatus(objectFactory.createString().withValue(Integer.toString(httpStatus)));
-        response.setLocation(objectFactory.createUri().withValue(locationURI.toString()));
-        response.setEtag(objectFactory.createString().withValue(getEtagValue(resource)));
-        response.setId(resource.getId().getValue());
-        response.setLastModified(resource.getMeta().getLastUpdated());
-        setBundleEntryResource(responseEntry, resource);
+        if (resource != null) {
+            response.setId(resource.getId().getValue());
+            response.setLastModified(resource.getMeta().getLastUpdated());
+            response.setEtag(objectFactory.createString().withValue(getEtagValue(resource)));
+            setBundleEntryResource(responseEntry, resource);
+        }
+        if (locationURI != null) {
+            response.setLocation(objectFactory.createUri().withValue(locationURI.toString()));
+        }
     }
 
     private void setBundleResponseStatus(BundleResponse response, int httpStatus) {
@@ -1951,10 +2098,13 @@ public class FHIRResource {
      */
     private Conformance buildConformanceStatement() throws Exception {
         // Build the list of interactions that are supported for each resource type.
+        
         List<ConformanceInteraction> interactions = new ArrayList<>();
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.CREATE));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.UPDATE));
-        interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.DELETE));
+        if (isDeleteSupported()) {
+            interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.DELETE));
+        }
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.READ));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.VREAD));
         interactions.add(buildConformanceInteraction(TypeRestfulInteractionList.HISTORY_INSTANCE));
@@ -2147,7 +2297,7 @@ public class FHIRResource {
         }
         return Arrays.asList(notificationResourceTypes).toString().replace("[", "").replace("]", "").replace(" ", "");
     }
-
+    
     private ConformanceInteraction buildConformanceInteraction(TypeRestfulInteractionList value) {
         ConformanceInteraction ci = objectFactory.createConformanceInteraction()
                 .withCode(objectFactory.createTypeRestfulInteraction().withValue(value));
@@ -2302,6 +2452,10 @@ public class FHIRResource {
         return FHIRConfigHelper.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE);
     }
     
+    private boolean isDeleteSupported() throws FHIRPersistenceException {
+        return getPersistenceImpl().isDeleteSupported();
+    }
+    
     private Boolean isUpdateCreateEnabled() {
         return fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
     }
@@ -2386,140 +2540,6 @@ public class FHIRResource {
             prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
             prevLink.setUrl(uri(prevLinkUrl));
             bundle.getLink().add(prevLink);
-        }
-    }
-    
-    /**
-     * Performs validation of a request Bundle and returns a Bundle containing response entries corresponding to the
-     * request entries in the request Bundle. holding the responses for the requests contained in the request Bundle.
-     * 
-     * @param bundle
-     *            the bundle to be validated
-     * @return a response Bundle
-     * @throws Exception
-     */
-    private Bundle validateBundle(Bundle bundle) throws Exception {
-        log.entering(this.getClass().getName(), "validateBundle");
-
-        try {
-            // Make sure the bundle isn't empty and has a type.
-            if (bundle == null || bundle.getEntry() == null || bundle.getEntry().isEmpty()) {
-                throw new FHIRException("Bundle parameter is missing or empty.");
-            }
-            
-            if (bundle.getType() == null || bundle.getType().getValue() == null) {
-                throw new FHIRException("Bundle.type is missing");
-            }
-            
-            // Determine the bundle type of the response bundle.
-            BundleTypeList responseBundleType;
-            switch (bundle.getType().getValue()) {
-            case BATCH:
-                responseBundleType = BundleTypeList.BATCH_RESPONSE;
-                break;
-            case TRANSACTION:
-                responseBundleType = BundleTypeList.TRANSACTION_RESPONSE;
-                // For a 'transaction' interaction, if the underlying persistence layer doesn't support
-                // transactions, then throw an error.
-                if (!getPersistenceImpl().isTransactional()) {
-                    throw new FHIRException("Bundled 'transaction' request cannot be processed because the configured persistence layer does not support transactions.");
-                }
-                break;
-
-            // For any other bundle type, we'll throw an error.
-            default:
-                throw new FHIRException("Bundle.type must be either 'batch' or 'transaction'.");
-            }  
-            
-            // Create the response bundle with the appropriate type.
-            Bundle responseBundle = objectFactory.createBundle().withType(objectFactory.createBundleType().withValue(responseBundleType));
-
-            // Next, make sure that each bundle entry contains a valid request.
-            // As we're validating the request bundle, we'll also construct entries for the response bundle.
-            int numErrors = 0;
-            for (BundleEntry requestEntry : bundle.getEntry()) {
-                // Create a corresponding response entry and add it to the response bundle.
-                BundleResponse response = objectFactory.createBundleResponse();
-                BundleEntry responseEntry = objectFactory.createBundleEntry().withResponse(response);
-                responseBundle.getEntry().add(responseEntry);
-                
-                // Validate 'requestEntry' and update 'responseEntry' with any errors.
-                try {
-                    BundleRequest request = requestEntry.getRequest();
-                    // Verify that the request field is present.
-                    if (request == null) {
-                        throw new FHIRException("BundleEntry is missing the 'request' field.");
-                    }
-                    
-                    // Verify that a method was specified.
-                    if (request.getMethod() == null || request.getMethod().getValue() == null) {
-                        throw new FHIRException("BundleEntry.request is missing the 'method' field");
-                    }
-
-                    // Verify that a URL was specified.
-                    if (request.getUrl() == null || request.getUrl().getValue() == null) {
-                        throw new FHIRException("BundleEntry.request is missing the 'url' field");
-                    }
-                    
-                    // Retrieve the resource from the request entry to prepare for some validations below.
-                    Resource resource = getBundleEntryResource(requestEntry);
-
-                    // Validate the HTTP method.
-                    HTTPVerbList method = request.getMethod().getValue();
-                    switch (method) {
-                    case GET:
-                        if (resource != null) {
-                            throw new FHIRException("BundleEntry.resource not allowed for BundleEntry with GET method.");
-                        }
-                        break;
-
-                    case POST:
-                    case PUT:
-                        if (resource == null) {
-                            throw new FHIRException("BundleEntry.resource is required for BundleEntry with POST or PUT method.");
-                        }
-                        break;
-
-                    default:
-                        throw new FHIRException("BundleEntry.request contains unsupported HTTP method: " + method.name());
-                    }
-
-                    // If the request entry contains a resource, then validate it now.
-                    if (resource != null) {
-                        if (method == HTTPVerbList.PUT) {
-                            if (resource.getId() == null || resource.getId().getValue() == null) {
-                                throw new FHIRException("BundleEntry.resource must contain an id field for a PUT operation.");
-                            }
-                        }
-                        
-                        List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
-                        if (!issues.isEmpty()) {
-                            OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
-                            setBundleEntryResource(responseEntry, oo);
-                            response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
-                            numErrors++;
-                        }
-                    }
-                } catch (FHIRException e) {
-                    setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
-                    response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
-                    numErrors++;
-                }
-            }
-            
-            // If this is a "transaction" interaction and we encountered any errors, then we'll
-            // abort processing this request right now since a transaction interaction is supposed to be
-            // all or nothing.
-            if (numErrors > 0 && responseBundle.getType().getValue() == BundleTypeList.TRANSACTION_RESPONSE) {
-                String msg = "One or more errors were encountered while validating a 'transaction' request bundle.";
-                OperationOutcomeIssue issue = buildOperationOutcomeIssue(IssueSeverityList.ERROR, IssueTypeList.EXCEPTION, msg);
-                OperationOutcome oo = FHIRUtil.buildOperationOutcome(Collections.singletonList(issue));
-                throw new FHIRRestBundledRequestException(msg, oo, Response.Status.BAD_REQUEST, responseBundle);
-            }
-
-            return responseBundle;
-        } finally {
-            log.exiting(this.getClass().getName(), "validateBundle");
         }
     }
 

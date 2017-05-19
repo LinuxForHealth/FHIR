@@ -45,7 +45,6 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -440,14 +439,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		}
     }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#delete(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.String)
-	 */
-	@Override
-	public void delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
-		throw new FHIRPersistenceNotSupportedException("delete is not yet implemented");
-
-	}
+//	/* (non-Javadoc)
+//	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#delete(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.String)
+//	 */
+// The interface contains a default implementation of this, so leave commented out until we add support here.
+//	@Override
+//	public Resource delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+//		throw new FHIRPersistenceNotSupportedException("delete is not yet implemented");
+//	}
 
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#history(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
@@ -544,10 +543,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				this.getResourceDao().setExternalConnection(myConnection);
 			}
 	        if (searchContext.hasSortParameters()) {
-	        	queryBuilder = new JDBCSortQueryBuilder(this.getResourceDao());
+	        	queryBuilder = new JDBCSortQueryBuilder();
 	        }
 	        else {
-	        	queryBuilder = new JDBCQueryBuilder(this.getResourceDao());
+	        	queryBuilder = new JDBCQueryBuilder();
 	        }
 	        
 	        String countQueryString = queryBuilder.buildCountQuery(resourceType, searchContext);
@@ -612,6 +611,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	public FHIRPersistenceTransaction getTransaction() {
 		return this;
 	}
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#isDeleteSupported()
+     */
+    @Override
+    public boolean isDeleteSupported() {
+        return false;
+    }
 	
 	/**
      * Retrieves (via a JNDI lookup) a reference to the UserTransaction. If the JNDI lookup fails, we'll assume that

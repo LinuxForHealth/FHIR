@@ -11,6 +11,7 @@ import java.util.List;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 
 /**
@@ -67,10 +68,12 @@ public interface FHIRPersistence {
 	 * @param context the FHIRPersistenceContext instance associated with the current request
 	 * @param resourceType The type of FHIR Resource to be deleted.
 	 * @param logicalId the logical id of the FHIR Resource to be deleted
-	 * @return the FHIR Resource that was deleted
+	 * @return the FHIR Resource that was deleted or null if the specified resource doesn't exist
 	 * @throws FHIRPersistenceException
 	 */
-	Resource delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
+	default Resource delete(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+        throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
+	}
 	
 	/**
 	 * Retrieves all of the versions of the specified FHIR Resource.
@@ -101,4 +104,11 @@ public interface FHIRPersistence {
 	 * This can then be used to control transactional boundaries.
 	 */
 	FHIRPersistenceTransaction getTransaction();
+	
+	/**
+	 * Returns true iff the persistence layer implementation supports the "delete" operation.
+	 */
+	default boolean isDeleteSupported() {
+	    return false;
+	}
 }
