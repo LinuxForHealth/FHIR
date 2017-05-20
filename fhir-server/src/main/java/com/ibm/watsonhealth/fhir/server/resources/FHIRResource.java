@@ -20,6 +20,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
+import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -1464,6 +1465,9 @@ public class FHIRResource {
                         if (!isDeleteSupported()) {
                             throw new FHIRException("BundleEntry.request contains unsupported HTTP method: " + method.name());
                         }
+                        if (resource != null) {
+                            throw new FHIRException("BundleEntry.resource not allowed for BundleEntry with DELETE method.");
+                        }
                         break;
 
                     default:
@@ -1807,6 +1811,12 @@ public class FHIRResource {
                     setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                     if (failFast) {
                         throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.NOT_FOUND, responseBundle, e);
+                    }
+                } catch (FHIRPersistenceResourceDeletedException e) {
+                    setBundleResponseStatus(response, SC_GONE);
+                    setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
+                    if (failFast) {
+                        throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.GONE, responseBundle, e);
                     }
                 } catch (FHIRException e) {
                     setBundleResponseStatus(response, SC_BAD_REQUEST);
