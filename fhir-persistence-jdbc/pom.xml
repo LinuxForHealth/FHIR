@@ -14,6 +14,7 @@
 	
 	<properties>
 	   <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
+	   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
