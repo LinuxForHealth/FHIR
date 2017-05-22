@@ -44,16 +44,16 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
     }        
 	
 	/**
-	 * Tests a query for a RelatedPerson with name = 'BÃ©nÃ©dicte' which should yield correct results.
+	 * Tests a query for a RelatedPerson with name = 'Bénédicte' which should yield correct results.
 	 * This is a "starts-with" case insensitive, accent-insensitive string value search.
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name1() throws Exception {
-		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "BÃ©nÃ©dicte");
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "Bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"BÃ©nÃ©dicte");
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
 	}
 	
 	/**
@@ -62,22 +62,22 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 */
 	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name2() throws Exception {
-		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name:exact", "BÃ©nÃ©dicte");
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name:exact", "Bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"BÃ©nÃ©dicte");
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
 	}
 	
 	/**
 	 * This is a "starts-with" case insensitive, accent-insensitive string value search, with an all lower case search parameter value.
 	 * @throws Exception
 	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRelatedPerson" })
+	@Test(groups = { "cloudant", "jpa", "jdbc-normalized" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name3() throws Exception {
-		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "ba©na©dicte");
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"BÃ©nÃ©dicte");
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 */
 	@Test(groups = { "cloudant", "jpa", "jdbc-normalized" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name4() throws Exception {
-		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name:exact", "ba©na©dicte");
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name:exact", "bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
@@ -115,15 +115,15 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	}
 	
 	/**
-	 * Tests a query for a RelatedPerson with relationship = 'BÃ©nÃ©dicte' which should yield correct results
+	 * Tests a query for a RelatedPerson with relationship = 'Bénédicte' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_relationship() throws Exception {
-		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "BÃ©nÃ©dicte");
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "Bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"BÃ©nÃ©dicte");
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
 	}
 	
 	/**
@@ -158,15 +158,15 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 */
 	
 	/**
-	 * Tests a query for a RelatedPerson with name = 'BÃ©nÃ©dicte' which should yield correct results
+	 * Tests a query for a RelatedPerson with name = 'Bénédicte' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name_PatCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "BÃ©nÃ©dicte");
+		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "Bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"BÃ©nÃ©dicte");
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
 	}
 	
 	/**
@@ -193,14 +193,14 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	}
 	
 	/**
-	 * Tests a query for a RelatedPerson with relationship = 'BÃ©nÃ©dicte' which should yield correct results
+	 * Tests a query for a RelatedPerson with relationship = 'Bénédicte' which should yield correct results
 	 * @throws Exception
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_relationship_PatCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "BÃ©nÃ©dicte");
+		List<Resource> resources = runQueryTest("Patient", "example", RelatedPerson.class, persistence, "name", "Bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
-		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"BÃ©nÃ©dicte");
+		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");
 	}
 }
