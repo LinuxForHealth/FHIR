@@ -718,7 +718,15 @@ public class SearchUtil {
                         modifier = Modifier.TYPE;
                         modifierResourceTypeName = mod;
                     } else {
-                        modifier = Modifier.fromValue(mod);
+                    	try {
+                    		modifier = Modifier.fromValue(mod);
+                    		if (!Modifier.isAllowed(modifier)) {
+                    			throw new FHIRSearchException("Modifier not allowed: " + mod);
+                    		}
+                    	}
+                    	catch(IllegalArgumentException e) {
+                    		throw new FHIRSearchException("Undefined Modifier: " + mod);
+                    	}
                     }
                     parameterName = parameterName.substring(0, parameterName.indexOf(":"));
                 }
@@ -894,13 +902,20 @@ public class SearchUtil {
         return context;
     }
 
-    private static Prefix getPrefix(String s) {
-        for (Prefix prefix : Prefix.values()) {
-            if (s.startsWith(prefix.value())) {
-                return prefix;
-            }
-        }
-        return null;
+    private static Prefix getPrefix(String s) throws FHIRSearchException {
+    	
+    	Prefix returnPrefix = null;
+    	 
+		for (Prefix prefix : Prefix.values()) {
+	         if (s.startsWith(prefix.value())) {
+	        	 returnPrefix = prefix;
+	        	 break;
+	         }
+		}
+	    if (returnPrefix != null && !Prefix.isAllowed(returnPrefix)) {
+			throw new FHIRSearchException("Prefix not allowed: " + returnPrefix);
+		}
+	   	return returnPrefix;
     }
 
     private static boolean isFormatParameter(String name) {

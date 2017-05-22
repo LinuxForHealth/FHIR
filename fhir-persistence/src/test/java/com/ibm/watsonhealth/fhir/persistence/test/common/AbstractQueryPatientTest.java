@@ -26,6 +26,7 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -569,20 +570,40 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(hnList.contains(humanName("John Doe-Smith-Jones")) == false);
 	}
     
-	//NOT SUPPORTED YET
-//	/**
-//	 * Tests a query for Patients with address field missing using :missing modifier which should yield correct results
-//	 * @throws Exception
-//	 */
-//	// TODO - fix this test on JPA and Cloudant.
-//	@Test(enabled = true, groups = { "cloudant-broken", "jpa-broken"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
-//	public void testPatientQuery_missingModifier() throws Exception {
-//		List<Resource> resources = runQueryTest(Patient.class, persistence, "address:missing", "false");
-//		assertNotNull(resources);
-//		//System.out.println("Size = " + resources.size());
-//		assertTrue(resources.size() != 0);
-//	}
-//	
+	
+	/**
+	 * Tests a query for Patients with address field missing using :missing modifier which is not supported and should result in an exception
+	 * @throws Exception
+	 */
+	@Test(groups = {"jdbc-normalized"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" },
+					expectedExceptions = {FHIRSearchException.class})
+	public void testPatientQuery_missingModifier() throws Exception {
+		runQueryTest(Patient.class, persistence, "address:missing", "false");
+		
+	}
+	
+	/**
+	 * Tests a query for Patients with address field missing using :text modifier which is not supported and should result in an exception
+	 * @throws Exception
+	 */
+	@Test(groups = {"jdbc-normalized"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" },
+					expectedExceptions = {FHIRSearchException.class})
+	public void testPatientQuery_textModifier() throws Exception {
+		runQueryTest(Patient.class, persistence, "address:text", "false");
+		
+	}
+	
+	/**
+	 * Tests a query for Patients with address field missing using an invalid modifier which is not supported and should result in an exception
+	 * @throws Exception
+	 */
+	@Test(groups = {"jdbc-normalized"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" },
+					expectedExceptions = {FHIRSearchException.class})
+	public void testPatientQuery_invalid_Modifier() throws Exception {
+		runQueryTest(Patient.class, persistence, "address:invalid-modifier", "false");
+		
+	}
+	
 	/**
 	 * Tests a query for Patients with address field containing partial matches using :contains modifier which should yield correct results
 	 * @throws Exception

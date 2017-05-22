@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Encounter;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -166,6 +167,39 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_LTlength() throws Exception {
 		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "lt60.0");
+		assertNotNull(resources);
+		assertTrue(resources.size() == 0);
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'sa60.0' which should result in an exception since prefix sa is not currently supported.
+	 * @throws Exception
+	 */
+	@Test(groups = {"jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" }, expectedExceptions={FHIRSearchException.class})
+	public void testEncounter_SAlength() throws Exception {
+		
+		runQueryTest(Encounter.class, persistence, "length", "sa60.0");
+		 
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'eb60.0' which should result in an exception since prefix sa is not currently supported.
+	 * @throws Exception
+	 */
+	@Test(groups = {"jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" }, expectedExceptions={FHIRSearchException.class})
+	public void testEncounter_EBlength() throws Exception {
+		
+		runQueryTest(Encounter.class, persistence, "length", "eb60.0");
+		
+	}
+	
+	/**
+	 * Tests a query for Encounters with length = 'ap60.0' which should result in an exception since prefix sa is not currently supported.
+	 * @throws Exception
+	 */
+	@Test(groups = {"jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" }, expectedExceptions={FHIRSearchException.class})
+	public void testEncounter_APlength() throws Exception {
+		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "ap60.0");
 		assertNotNull(resources);
 		assertTrue(resources.size() == 0);
 	}
