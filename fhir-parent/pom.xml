@@ -20,7 +20,7 @@
 		<jacoco.plugin.version>0.7.9</jacoco.plugin.version>
 	</properties>
 
-	<modules>
+	<modules> 
 		<module>../fhir-core</module>
 		<module>../fhir-config</module>
 		<module>../fhir-replication-api</module>
