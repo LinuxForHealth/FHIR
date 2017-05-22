@@ -26,6 +26,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
@@ -39,9 +40,9 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 	
 	public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 	
-	private static final String SQL_INSERT = "INSERT INTO PARAMETERS_GTT (PARAMETER_NAME_ID, PARAMETER_TYPE, STR_VALUE, DATE_VALUE, DATE_START, DATE_END, " +
+	private static final String SQL_INSERT = "INSERT INTO PARAMETERS_GTT (PARAMETER_NAME_ID, PARAMETER_TYPE, STR_VALUE, STR_VALUE_LCASE, DATE_VALUE, DATE_START, DATE_END, " +
 			"NUMBER_VALUE, NUMBER_VALUE_LOW, NUMBER_VALUE_HIGH, LATITUDE_VALUE, LONGITUDE_VALUE, TOKEN_VALUE, CODE_SYSTEM_ID, CODE) " +
-			"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String SQL_READ_ALL_SEARCH_PARAMETER_NAMES = "SELECT PARAMETER_NAME_ID, PARAMETER_NAME FROM PARAMETER_NAMES";
 	
@@ -97,27 +98,28 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 				stmt.setInt(1, ParameterNamesCache.getParameterNameId(parameter.getName(), this));
 				stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
 				stmt.setString(3, parameter.getValueString());
-				stmt.setTimestamp(4, parameter.getValueDate());
-				stmt.setTimestamp(5, parameter.getValueDateStart());
-				stmt.setTimestamp(6, parameter.getValueDateEnd());
-				stmt.setObject(7, parameter.getValueNumber(), Types.DOUBLE);
-				stmt.setObject(8, parameter.getValueNumberLow(), Types.DOUBLE);
-				stmt.setObject(9, parameter.getValueNumberHigh(), Types.DOUBLE);
-				stmt.setObject(10, parameter.getValueLatitude(), Types.DOUBLE);
-				stmt.setObject(11, parameter.getValueLongitude(), Types.DOUBLE);
-				stmt.setString(12, parameter.getValueCode());
+				stmt.setString(4, SearchUtil.normalizeForSearch(parameter.getValueString()));
+				stmt.setTimestamp(5, parameter.getValueDate());
+				stmt.setTimestamp(6, parameter.getValueDateStart());
+				stmt.setTimestamp(7, parameter.getValueDateEnd());
+				stmt.setObject(8, parameter.getValueNumber(), Types.DOUBLE);
+				stmt.setObject(9, parameter.getValueNumberLow(), Types.DOUBLE);
+				stmt.setObject(10, parameter.getValueNumberHigh(), Types.DOUBLE);
+				stmt.setObject(11, parameter.getValueLatitude(), Types.DOUBLE);
+				stmt.setObject(12, parameter.getValueLongitude(), Types.DOUBLE);
+				stmt.setString(13, parameter.getValueCode());
 				tokenSystem = parameter.getValueSystem();
 				if ((parameter.getType().equals(Type.TOKEN) || parameter.getType().equals(Type.QUANTITY)) &&
 					(tokenSystem == null || tokenSystem.isEmpty())) {
 						tokenSystem = DEFAULT_TOKEN_SYSTEM;
 				}
 				if(tokenSystem != null) {
-					stmt.setInt(13, CodeSystemsCache.getCodeSystemId(tokenSystem, this));
+					stmt.setInt(14, CodeSystemsCache.getCodeSystemId(tokenSystem, this));
 				}
 				else {
-					stmt.setObject(13, null, Types.INTEGER);
+					stmt.setObject(14, null, Types.INTEGER);
 				}
-				stmt.setString(14, parameter.getValueCode());
+				stmt.setString(15, parameter.getValueCode());
 				stmt.addBatch();
 			}
 			

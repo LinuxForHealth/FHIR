@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
-import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QuerySegmentAggregator.*;
+import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETER_TABLE_ALIAS;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +25,7 @@ import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -61,6 +62,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	private static final String ESCAPE_PERCENT = ESCAPE_CHAR + PERCENT_WILDCARD;
 	private static final String ESCAPE_EXPR = " ESCAPE '" + ESCAPE_CHAR + "'";
     private static final String STR_VALUE = "STR_VALUE";
+    private static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
     private static final String TOKEN_VALUE = "TOKEN_VALUE";
     private static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
     private static final String CODE = "CODE";
@@ -355,8 +357,18 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			if (parmValueProcessed) {
 				whereClauseSegment.append(JDBCOperator.OR.value());
 			}
-			// Build this piece: pX.str_value {operator} search-attribute-value
-			whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+			if (operator.equals(JDBCOperator.EQ)) {
+				// For an exact match, we search against the STR_VALUE column in the Resource's string values table.
+				// Build this piece: pX.str_value = search-attribute-value
+				whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+			}
+			else {
+				// For anything other than an  exact match, we search against the STR_VALUE_LCASE column in the Resource's string values table.
+				// Also, the search value is "normalized"; it has accents removed and is lower-cased. This enables a case-insensitve, accent-insesnsitive search.
+				// Build this piece: pX.str_value_lcase {operator} search-attribute-value
+				whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(STR_VALUE_LCASE).append(operator.value()).append(BIND_VAR);
+				searchValue = SearchUtil.normalizeForSearch(searchValue);
+			}
 			bindVariables.add(searchValue);
 			// Build this piece: ESCAPE '+'
 			if (appendEscape) {
@@ -427,14 +439,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 
 	@Override
 	protected SqlQueryData processChainedReferenceParm(Parameter queryParm) throws FHIRPersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new FHIRPersistenceNotSupportedException("Chained parameter searches not supported at this time.");
 	}
 
 	@Override
 	protected SqlQueryData processInclusionCriteria(Parameter queryParm) throws FHIRPersistenceException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new FHIRPersistenceNotSupportedException("Compartment searches not supported at this time.");
 	}
 
 	@Override

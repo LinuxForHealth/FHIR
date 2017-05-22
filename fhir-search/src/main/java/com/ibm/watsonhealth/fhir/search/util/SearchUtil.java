@@ -17,6 +17,8 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1095,5 +1097,22 @@ public class SearchUtil {
 			}
 		}
 		return rootParameter;
+    }
+    
+    /**
+     * Normalizes a string to be used as a search parameter value.
+     * All accents and diacritics are removed. And then the string is transformed to lower case.
+     * @param value
+     * @return
+     */
+    public static String normalizeForSearch(String value) {
+    	
+    	String normalizedValue = null;
+    	if (value != null) {
+    		normalizedValue = Normalizer.normalize(value, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    		normalizedValue = normalizedValue.toLowerCase();
+    	}
+    	
+    	return normalizedValue;
     }
 }
