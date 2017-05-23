@@ -142,10 +142,10 @@ public class SearchUtil {
     private static void initializedResourceTypeModifierMap() {
     	
     	resourceTypeModifierMap = new HashMap<Type,List<Modifier>>();
-    	resourceTypeModifierMap.put(Type.STRING, Arrays.asList(new Modifier[] {Modifier.EXACT, Modifier.CONTAINS}));
-    	resourceTypeModifierMap.put(Type.REFERENCE, Arrays.asList(new Modifier[] {Modifier.TYPE}));
-    	resourceTypeModifierMap.put(Type.URI, Arrays.asList(new Modifier[] {Modifier.BELOW}));
-    	resourceTypeModifierMap.put(Type.TOKEN, Arrays.asList(new Modifier[] {Modifier.BELOW, Modifier.NOT}));
+    	resourceTypeModifierMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS));
+    	resourceTypeModifierMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE));
+    	resourceTypeModifierMap.put(Type.URI, Arrays.asList(Modifier.BELOW));
+    	resourceTypeModifierMap.put(Type.TOKEN, Arrays.asList(Modifier.BELOW, Modifier.NOT));
     	
     }
 
@@ -732,7 +732,7 @@ public class SearchUtil {
                     } else {
                     	try {
                     		modifier = Modifier.fromValue(mod);
-                    		if (!Modifier.isAllowed(modifier)) {
+                    		if (!Modifier.isSupported(modifier)) {
                     			throw new FHIRSearchException("Modifier not allowed: " + mod);
                     		}
                     	}
@@ -934,7 +934,7 @@ public class SearchUtil {
 	        	 break;
 	         }
 		}
-	    if (returnPrefix != null && !Prefix.isAllowed(returnPrefix)) {
+	    if (returnPrefix != null && !Prefix.isSupported(returnPrefix)) {
 			throw new FHIRSearchException("Prefix not allowed: " + returnPrefix);
 		}
 	   	return returnPrefix;
