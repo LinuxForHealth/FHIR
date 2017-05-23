@@ -107,9 +107,11 @@ public class SearchUtil {
      */
     private static TenantSpecificSearchParameterCache searchParameterCache = null;
     private static Map<String, Map<String, SearchParameter>> builtInSearchParameters = null;
+    private static Map<Type,List<Modifier>> resourceTypeModifierMap = null;
     static {
         System.setProperty("com.sun.org.apache.xml.internal.dtm.DTMManager", "com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault");
         initializeSearchParameterMap();
+        initializedResourceTypeModifierMap();
     }
 
     private static final ThreadLocal<XPathFactory> threadLocalXPathFactory = new ThreadLocal<XPathFactory>() {
@@ -135,6 +137,16 @@ public class SearchUtil {
         } catch (Throwable t) {
             throw new Error(t);
         }
+    }
+    
+    private static void initializedResourceTypeModifierMap() {
+    	
+    	resourceTypeModifierMap = new HashMap<Type,List<Modifier>>();
+    	resourceTypeModifierMap.put(Type.STRING, Arrays.asList(new Modifier[] {Modifier.EXACT, Modifier.CONTAINS}));
+    	resourceTypeModifierMap.put(Type.REFERENCE, Arrays.asList(new Modifier[] {Modifier.TYPE}));
+    	resourceTypeModifierMap.put(Type.URI, Arrays.asList(new Modifier[] {Modifier.BELOW}));
+    	resourceTypeModifierMap.put(Type.TOKEN, Arrays.asList(new Modifier[] {Modifier.BELOW, Modifier.NOT}));
+    	
     }
 
     /**
@@ -740,6 +752,10 @@ public class SearchUtil {
 
                 // get the type of parameter so that we can use it to parse the value
                 Type type = Type.fromValue(searchParameter.getType().getValue());
+                
+                if (modifier != null && ! isAllowed(type, modifier)) {
+                	throw new FHIRSearchException("Unsupported type/modifier combination: " + type.value() + "/" + modifier.value());
+                }
 
                 // parse values
                 for (String value : queryParameters.get(name)) {
@@ -839,7 +855,13 @@ public class SearchUtil {
         return context;
     }
     
-    /**
+    private static boolean isAllowed(Type type, Modifier modifier) {
+		
+    	return resourceTypeModifierMap.get(type).contains(modifier);
+	}
+
+
+	/**
      * Retrieves the applicable search parameters for the specified resource type,
      * then builds a map from it, keyed by search parameter name for quick access.
      */

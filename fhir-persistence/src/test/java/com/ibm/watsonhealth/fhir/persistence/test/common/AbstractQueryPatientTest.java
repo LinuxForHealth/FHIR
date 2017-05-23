@@ -558,20 +558,6 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	}
 	
 	/**
-	 * Tests a query for Patients with family name != 'Doe' using :not modifier which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testPatient_notModifier() throws Exception {
-		List<Resource> resources = runQueryTest(Patient.class, persistence, "family:not", "Doe");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
-		assertTrue(hnList.contains(humanName("John Doe-Smith-Jones")) == false);
-	}
-    
-	
-	/**
 	 * Tests a query for Patients with address field missing using :missing modifier which is not supported and should result in an exception
 	 * @throws Exception
 	 */
@@ -1005,19 +991,6 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 		assertTrue(resources.size() != 0);
 		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
 		assertEquals(hnList.get(0).getFamily().get(0).getValue(),"Doe");
-	}
-	
-	/**
-	 * Tests a query for Patients with family name != 'Doe' using :not modifier which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
-	public void testSingleInclusionCriteriaPatient_notModifier() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family:not", "Doe");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		List<HumanName> hnList = ((Patient)resources.get(0)).getName();
-		assertTrue(hnList.contains(humanName("John Doe-Smith-Jones")) == false);
 	}
 	
 	/**
