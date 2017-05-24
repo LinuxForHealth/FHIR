@@ -82,6 +82,13 @@ public class FHIRPersistenceEvent {
      */
     public static final String PROPNAME_REQUEST_CORRELATION_ID = "REQUEST_CORRELATION_ID";
     
+    /**
+     * This property holds the ReplicationInfo instance associated with the request.
+     * The ReplicationInfo object holds information that is used by the persistence layer
+     * to create an entry in the replication log for a create, update, or delete operation.
+     */
+    public static final String PROPNAME_REPLICATION_INFO = "REPLICATION_INFO";
+    
     Resource fhirResource;
     Map<String, Object> properties;
     

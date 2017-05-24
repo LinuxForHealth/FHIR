@@ -1,0 +1,9 @@
+{
+    "fhirServer":{
+        "persistence":{
+            "replicationInterceptor": {
+                "enabled": false
+            }
+        }
+    }
+}

@@ -23,12 +23,12 @@
 	<modules> 
 		<module>../fhir-core</module>
 		<module>../fhir-config</module>
-		<module>../fhir-replication-api</module>
 		<module>../fhir-audit</module>
 		<module>../fhir-model</module>
 		<module>../fhir-derby-sproc</module>
 		<module>../fhir-schemaddl</module>
 		<module>../fhir-persistence</module>
+        <module>../fhir-replication-api</module>
 		<module>../fhir-persistence-proxy</module>
 		<module>../fhir-persistence-jdbc</module>
 		<module>../fhir-persistence-hbase</module>

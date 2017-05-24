@@ -56,6 +56,11 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_TENANT_ID = "fhirServer/core/defaultTenantId";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
+    public static final String PROPERTY_REPL_INTERCEPTOR_ENABLED = "fhirServer/persistence/replicationInterceptor/enabled";
+    public static final String PROPERTY_STUDY_ID_EXTURL = "fhirServer/persistence/replicationInterceptor/studyIdExtensionUrl";
+    public static final String PROPERTY_SITE_ID_EXTURL = "fhirServer/persistence/replicationInterceptor/siteIdExtensionUrl";
+    public static final String PROPERTY_SUBJECT_ID_EXTURL = "fhirServer/persistence/replicationInterceptor/subjectIdExtensionUrl";
+    public static final String PROPERTY_STUDY_ID_HEADER_NAME = "fhirServer/persistence/replicationInterceptor/studyIdHeaderName";
     
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
     public static final String DEFAULT_DATASTORE_ID_HEADER_NAME = "X-FHIR-DSID";

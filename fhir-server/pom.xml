@@ -110,13 +110,16 @@
 			<artifactId>fhir-operation-document</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-notification</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-replication-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-notification-websocket</artifactId>
@@ -128,7 +131,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-notification-kafka</artifactId>
