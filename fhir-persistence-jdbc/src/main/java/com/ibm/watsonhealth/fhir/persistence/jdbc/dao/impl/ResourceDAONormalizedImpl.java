@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 import java.sql.CallableStatement;
@@ -22,14 +23,15 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
 
 /**
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
@@ -72,6 +74,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final String SQL_READ_RESOURCE_TYPE = "CALL %s.add_resource_type(?, ?)";
 	
 	private FHIRPersistenceContext context;
+	private ReplicationInfo replicationInfo;
 	
 	/**
 	 * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
@@ -127,17 +130,16 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.setTimestamp(3, resource.getLastUpdated());
 			stmt.setString(4, resource.isDeleted() ? "Y": "N");
 			stmt.setString(5, UUID.randomUUID().toString());
-			stmt.setString(6, this.getCorrelationId());
-			stmt.setString(7, this.getUser());
-			stmt.setString(8, this.getCorrelationToken());
-			stmt.setString(9, this.getTenantId());
-			//TODO REAL values need to be inserted instead of these hard-coded placeholders.
-			stmt.setString(10, "reason");
-			stmt.setString(11, this.getEventType(resource));
-			stmt.setString(12, "site_id");
-			stmt.setString(13, "study_id");
-			stmt.setString(14, "service_id");
-			stmt.setString(15, "patient_id");
+			stmt.setString(6, this.getReplicationInfo().getTxCorrelationId());
+			stmt.setString(7, this.getReplicationInfo().getChangedBy());
+			stmt.setString(8, this.getReplicationInfo().getCorrelationToken());
+			stmt.setString(9, this.getReplicationInfo().getTenantId());
+			stmt.setString(10, this.getReplicationInfo().getReason());
+			stmt.setString(11, this.getReplicationInfo().getEvent());
+			stmt.setString(12, this.getReplicationInfo().getSiteId());
+			stmt.setString(13, this.getReplicationInfo().getStudyId());
+			stmt.setString(14, this.getReplicationInfo().getServiceId());
+			stmt.setString(15, this.getReplicationInfo().getPatientId());
 			stmt.setInt(16, 1);
 			stmt.setInt(17, 1);
 			stmt.registerOutParameter(18, Types.BIGINT);
@@ -349,89 +351,48 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		this.context = context;
 	}
 	
-	/**
-	 * Retrieves the correlation token from input http headers.
-	 * @return
-	 */
-	private String getCorrelationToken() {
-		String trxCorrelationToken = "";
+	private ReplicationInfo getReplicationInfo() {
+		ReplicationInfo repInfo = null;
 		
-		if (nonNull(this.context) && 
-			nonNull(this.context.getPersistenceEvent()) && 
-			nonNull(this.context.getPersistenceEvent().getHttpHeaders()) &&
-			nonNull(this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-DP-correlationid"))) {
+		// If a ReplicationInfo is found in the persistence event, use it. Otherwise, create a dummy ReplicationInfo.
+		if (this.replicationInfo == null) {
+			if (nonNull(this.context) &&
+				nonNull(this.context.getPersistenceEvent()) && 
+				nonNull(this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO))) {
+				repInfo = (ReplicationInfo)this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
+			}
+			else {
+				repInfo = new ReplicationInfo();
+			}
+			// Ensure that all ReplilcationInfo attributes that are required to be non-null in the fhir_replication_log table 
+			// do indeed have non-null values.
+			if (isNull(repInfo.getTxCorrelationId())) {
+				repInfo.setTxCorrelationId("");
+			}
+			if (isNull(repInfo.getChangedBy())) {
+				repInfo.setChangedBy("");
+			}
+			if (isNull(repInfo.getCorrelationToken())) {
+				repInfo.setCorrelationToken("");
+			}
+			if (isNull(repInfo.getTenantId())) {
+				repInfo.setTenantId("");
+			}
+			if (isNull(repInfo.getReason())) {
+				repInfo.setReason("");
+			}
+			if (isNull(repInfo.getEvent())) {
+				repInfo.setEvent("");
+			}if (isNull(repInfo.getServiceId())) {
+				repInfo.setServiceId("");
+			}
 			
-			trxCorrelationToken = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-DP-correlationid");
+			this.replicationInfo = repInfo;
 		}
-		return trxCorrelationToken;
+		return this.replicationInfo;
 	}
 	
-	/**
-	 * Retrieves the correlation token from input http headers.
-	 * @return
-	 */
-	private String getCorrelationId() {
-		String trxCorrelationId = "";
-		
-		if (nonNull(this.context) && 
-			nonNull(this.context.getPersistenceEvent()) && 
-			nonNull(this.context.getPersistenceEvent().getTransactionCorrelationId())) {
-			
-			trxCorrelationId = this.context.getPersistenceEvent().getTransactionCorrelationId();
-		}
-		return trxCorrelationId;
-	}
 	
-	/**
-	 * Retrieves the current user from http headers.
-	 * @return
-	 */
-	private String getUser() {
-		String user = "";
-		
-		if (nonNull(this.context) && 
-			nonNull(this.context.getPersistenceEvent()) && 
-			nonNull(this.context.getPersistenceEvent().getHttpHeaders()) &&
-			nonNull(this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-APP-User"))) {
-			
-			user = this.context.getPersistenceEvent().getHttpHeaders().getHeaderString("IBM-APP-User");
-		}
-		return user;
-	}
-	
-	/**
-	 * Determines and returns the event type, based on data contained in the passed Resource.
-	 * @param resource
-	 * @return
-	 */
-	private String getEventType(Resource resource) {
-		String eventType = "";
-		
-		if (resource.isDeleted()) {
-			eventType = "DELETE";
-		}
-		else if (resource.getVersionId() == 1) {
-			eventType = "CREATE";
-		}
-		else {
-			eventType = "UPDATE";
-		}
-		return eventType;
-	}
-	
-	/**
-	 * Retrieves the current tenant id from Thread-local storage.
-	 * @return
-	 */
-	private String getTenantId() {
-		String tenantId = "";
-		
-		if (nonNull(FHIRRequestContext.get().getTenantId())) {
-			tenantId = FHIRRequestContext.get().getTenantId();
-		}
-		return tenantId;
-	}
-
 	@Override
 	public Map<String, Integer> readAllResourceTypeNames()
 										 throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
