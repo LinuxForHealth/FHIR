@@ -68,6 +68,12 @@
 				<configuration>
     				<excludes>
         				<exclude>com/ibm/watsonhealth/fhir/model/*</exclude>
+        				<exclude>com/ibm/watsonhealth/fhir/validation/exception/*</exclude>
+        				<exclude>com/ibm/watsonhealth/fhir/search/exception/*</exclude>
+        				<exclude>com/ibm/watsonhealth/fhir/persistence/exception/*</exclude>
+        				<exclude>com/ibm/watsonhealth/fhir/audit/logging/beans/*</exclude>
+CODE_REMOVED
+        				<exclude>com/ibm/watsonhealth/fhir/persistence/jdbc/exception/*</exclude>
     				</excludes>
 				</configuration>
 				<executions>
