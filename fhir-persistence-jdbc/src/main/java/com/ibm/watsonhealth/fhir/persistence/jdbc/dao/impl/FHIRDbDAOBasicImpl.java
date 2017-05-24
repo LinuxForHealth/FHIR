@@ -21,6 +21,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
@@ -89,7 +90,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
             }
             else if (this.getDbProps() == null) {
                 try {
-                    connection = this.getFhirDatasource().getConnection();
+                    String tenantId = FHIRRequestContext.get().getTenantId();
+                    String dsId = FHIRRequestContext.get().getDataStoreId();
+                    connection = this.getFhirDatasource().getConnection(tenantId, dsId);
                 } catch (Throwable e) {
                     throw new FHIRPersistenceDBConnectException("Failure acquiring Connection for datasource: " + getDataSourceJndiName(), e);
                 }

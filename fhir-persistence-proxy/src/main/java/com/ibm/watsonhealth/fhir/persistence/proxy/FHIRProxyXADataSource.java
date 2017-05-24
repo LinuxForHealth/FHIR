@@ -104,7 +104,11 @@ public class FHIRProxyXADataSource implements XADataSource {
     public XAConnection getXAConnection() throws SQLException {
         log.entering(this.getClass().getName(), "getXAConnection");
         try {
-            return getDelegate().getXAConnection();
+            XAConnection connection = getDelegate().getXAConnection();
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Returning XAConnection: " + connection.toString());
+            }
+            return connection;
         } finally {
             log.exiting(this.getClass().getName(), "getXAConnection");
         }
@@ -116,12 +120,12 @@ public class FHIRProxyXADataSource implements XADataSource {
      */
     @Override
     public XAConnection getXAConnection(String user, String password) throws SQLException {
-        log.entering(this.getClass().getName(), "getXAConnection(String,String)");
-        try {
-            return getDelegate().getXAConnection(user, password);
-        } finally {
-            log.exiting(this.getClass().getName(), "getXAConnection");
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("Entered getXAConnection(" + user + ", " + password + ")...");
         }
+        
+        // Funnel all calls to the no-arg getXAConnection
+        return this.getXAConnection();
     }
 
     /**
