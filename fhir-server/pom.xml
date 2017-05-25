@@ -37,6 +37,7 @@
 		<!-- We don't want maven to automatically run our tests since they require 
 			a server -->
 		<skipTests>true</skipTests>
+        <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
 	</properties>
 
 	<dependencies>
@@ -237,15 +238,6 @@
 							<Implementation-Version>${project.version} - ${build.id}</Implementation-Version>
 						</manifestEntries>
 					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<suiteXmlFiles>
-						<suiteXmlFile>src/test/java/testng.xml</suiteXmlFile>
-					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 		</plugins>
