@@ -92,7 +92,9 @@ public class DerbyBootstrapper {
                     + "', datastore-id '" + FHIRRequestContext.get().getDataStoreId() + "'.";
     	    log.info(msg);
     	    log.finer("DataSource: " + fhirDb.toString());
-			connection = fhirDb.getConnection();
+    	    String tenantId = FHIRRequestContext.get().getTenantId();
+    	    String dsId = FHIRRequestContext.get().getDataStoreId();
+			connection = fhirDb.getConnection(tenantId, dsId);
 			log.finer("Connection: " + connection.toString());
 			
 			dbDriverName = connection.getMetaData().getDriverName();
