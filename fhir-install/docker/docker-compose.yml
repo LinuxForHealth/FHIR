@@ -1,12 +1,19 @@
 version: '3.0'
 services:
 
+  fhir-baseos:
+    build:
+        context: .
+        dockerfile: Dockerfile-fhirbaseos
+    image: fhir-baseos:latest
+    hostname: fhir-baseos
+
   fhir-basic:
     build:
         context: .
         dockerfile: Dockerfile-fhirbasic
     image: fhir-basic:latest
-    hostname: fhir-server
+    hostname: fhir-basic
     ports:
       - 9080:9080
       - 9443:9443
@@ -16,7 +23,7 @@ services:
         context: .
         dockerfile: Dockerfile-fhirtest
     image: fhir-test:latest
-    hostname: fhir-server
+    hostname: fhir-test
     ports:
       - 9080:9080
       - 9443:9443

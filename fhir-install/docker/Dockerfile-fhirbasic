@@ -4,28 +4,11 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM centos:7
+FROM fhir-baseos:latest
 
 LABEL maintainer Phil Adams <phil_adams@us.ibm.com>
 
 ENV LICENSE accept
-
-RUN \
-  yum update -y &&\
-  yum install -y make &&\
-  yum install -y curl &&\
-  yum install -y wget &&\
-  yum install -y zip &&\
-  yum install -y unzip &&\
-  yum install -y tar &&\
-  yum install -y gzip &&\
-  yum install -y less &&\
-  yum install -y vi &&\
-  yum install -y coreutils &&\
-  yum install -y which &&\
-  yum install -y epel-release &&\
-  yum install -y sudo && \
-  yum -y clean all
 
 COPY volumes/dist /dist
 COPY volumes/scripts  /scripts
