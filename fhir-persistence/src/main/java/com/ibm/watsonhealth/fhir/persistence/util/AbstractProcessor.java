@@ -35,7 +35,8 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 			else if (valueType == Extension.class) {
 				value = getValue((Extension) value);
 				valueType = value.getClass();
-			} else if (valueType.getDeclaredFields().length == 0) {
+			} else if ((valueType.getDeclaredFields().length == 0) || 
+			        (valueType.getDeclaredFields().length == 1 && valueType.getDeclaredFields()[0].isSynthetic())) {
 				valueType = valueType.getSuperclass();
 			}
 			Method processMethod = this.getClass().getMethod("process", SearchParameter.class, valueType);

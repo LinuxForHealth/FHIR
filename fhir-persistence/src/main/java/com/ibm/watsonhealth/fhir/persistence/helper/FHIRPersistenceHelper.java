@@ -93,10 +93,10 @@ public class FHIRPersistenceHelper implements PersistenceHelper {
             if (FHIRPersistenceFactory.class.isAssignableFrom(factoryClass)) {
                 try {
                     factory = (FHIRPersistenceFactory) factoryClass.newInstance();
-                } catch (IllegalAccessException | InstantiationException e) {
+                } catch (Throwable t) {
                     String msg = "An error occurred while trying to instantiate FHIR persistence factory class '" + factoryClassName + "'";
-                    log.severe(msg + ": " + e);
-                    throw new FHIRPersistenceException(msg, e);
+                    log.severe(msg + ": " + t);
+                    throw new FHIRPersistenceException(msg, t);
                 }
             } else {
                 String msg = "Configured FHIR persistence factory class '" + factoryClass.getName() + "' does not implement FHIRPersistenceFactory interface.";

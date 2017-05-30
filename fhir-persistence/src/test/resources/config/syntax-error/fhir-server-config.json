@@ -1,0 +1,7 @@
+{
+    "_comment": "This file has an intentional json syntax error"
+	"fhirServer": {
+		"persistence": {
+			"factoryClassname": "com.ibm.watsonhealth.fhir.persistence.test.MockPersistenceFactory"
+		}
+	}

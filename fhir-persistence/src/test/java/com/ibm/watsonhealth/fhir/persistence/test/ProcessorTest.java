@@ -725,7 +725,7 @@ public class ProcessorTest {
     public void testProcessMoney()  throws Exception {
         Object value = factory.createMoney();
         String result = processor.process(null, value);
-        assertEquals("process(SearchParameter, Money)", result);
+        assertEquals("process(SearchParameter, Quantity)", result);
     }
 
     @Test
@@ -907,7 +907,7 @@ public class ProcessorTest {
     public void testProcessSimpleQuantity()  throws Exception {
         Object value = factory.createSimpleQuantity();
         String result = processor.process(null, value);
-        assertEquals("process(SearchParameter, SimpleQuantity)", result);
+        assertEquals("process(SearchParameter, Quantity)", result);
     }
 
     @Test

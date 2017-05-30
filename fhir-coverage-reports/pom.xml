@@ -8,7 +8,6 @@
 		<relativePath>../fhir-parent</relativePath>
 	</parent>
 	<artifactId>fhir-coverage-reports</artifactId>
-	<name>FHIR Server Unit Test Code Coverage Reports</name>
 
 	<dependencies>
 		<dependency>
@@ -51,12 +50,21 @@
 			<artifactId>fhir-persistence-jdbc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-persistence-hbase</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-replication-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-audit-trail</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -65,17 +73,6 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<configuration>
-    				<excludes>
-        				<exclude>com/ibm/watsonhealth/fhir/model/*</exclude>
-        				<exclude>com/ibm/watsonhealth/fhir/validation/exception/*</exclude>
-        				<exclude>com/ibm/watsonhealth/fhir/search/exception/*</exclude>
-        				<exclude>com/ibm/watsonhealth/fhir/persistence/exception/*</exclude>
-        				<exclude>com/ibm/watsonhealth/fhir/audit/logging/beans/*</exclude>
-CODE_REMOVED
-        				<exclude>com/ibm/watsonhealth/fhir/persistence/jdbc/exception/*</exclude>
-    				</excludes>
-				</configuration>
 				<executions>
     				<execution>
             			<id>default-report</id>
