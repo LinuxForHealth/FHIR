@@ -305,7 +305,7 @@
 					<version>${jacoco.plugin.version}</version>
 					<configuration>
 						<excludes>
-							<exclude>com/ibm/watsonhealth/fhir/model/**/*</exclude>
+							<exclude>com/ibm/watsonhealth/fhir/model/*.class</exclude>
 							<exclude>**/*Exception.*</exclude>
 							<exclude>**/FHIRPersistenceInterceptor.*</exclude>
 							<exclude>**/exception/*</exclude>
