@@ -290,7 +290,7 @@
 					<version>2.6</version>
 					<configuration>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
-						<archiveClasses>true</archiveClasses>
+						<archiveClasses>false</archiveClasses>
 						<archive>
 							<manifest>
 								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -444,7 +444,7 @@ CODE_REMOVED
                 </property>
             </activation>
             <properties>
-                <build.id>${env.BUILD_TIMESTAMP}</build.id>
+                <build.id>${env.BUILD_DISPLAY_NAME}-${env.BUILD_TIMESTAMP}</build.id>
             </properties>
         </profile>
     </profiles>

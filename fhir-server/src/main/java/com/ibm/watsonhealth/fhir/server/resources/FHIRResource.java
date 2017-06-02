@@ -2225,7 +2225,7 @@ public class FHIRResource {
                 .withFhirVersion(objectFactory.createId().withValue(FHIR_SPEC_VERSION))
                 .withName(objectFactory.createString().withValue(FHIR_SERVER_NAME))
                 .withDescription(objectFactory.createString().withValue(buildDescription))
-                .withCopyright(objectFactory.createString().withValue("(c) Copyright IBM Corporation 2016"))
+                .withCopyright(objectFactory.createString().withValue("(c) Copyright IBM Corporation 2016, 2017"))
                 .withPublisher(objectFactory.createString().withValue("IBM Corporation"))
                 .withKind(objectFactory.createConformanceStatementKind().withValue(ConformanceStatementKindList.INSTANCE))
                 .withSoftware(
