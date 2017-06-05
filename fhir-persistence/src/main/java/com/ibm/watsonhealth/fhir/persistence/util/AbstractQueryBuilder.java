@@ -257,8 +257,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * This method executes special logic for a Token type query that maps to a LocationPosition data type.
 	 * @param queryParameters The entire collection of query input parameters
 	 * @return T1 - A query segment related to a LocationPosition
+	 * @throws FHIRPersistenceException 
 	 */
-	protected T1 processLocationPosition(List<Parameter> queryParameters) {
+	protected T1 processLocationPosition(List<Parameter> queryParameters) throws FHIRPersistenceException {
 		final String METHODNAME = "processLocationPosition";
 		log.entering(CLASSNAME, METHODNAME);
 		
@@ -311,6 +312,6 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @param boundingBox - Container for the geospatial data needed to construct the query segment.
 	 * @return T1 - The query segment necessary for searching locations that are inside the bounding box.
 	 */
-	protected abstract T1 buildLocationQuerySegment(String parmName, BoundingBox boundingBox);
+	protected abstract T1 buildLocationQuerySegment(String parmName, BoundingBox boundingBox) throws FHIRPersistenceException;
 
 }

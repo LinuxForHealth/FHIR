@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
+import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 
 /**
@@ -174,13 +176,14 @@ class QuerySegmentAggregator {
 		final String METHODNAME = "buildFromClause";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		
+		boolean isLocationQuery;
 		int parameterTableAliasIndex = 1;
 		StringBuilder fromClause = new StringBuilder();
 		String resourceTypeName = this.resourceType.getSimpleName();
 		fromClause.append(MessageFormat.format(FROM_CLAUSE_ROOT, this.resourceType.getSimpleName()));
 		
 		for (Parameter searchQueryParm : this.searchQueryParameters) {
+			isLocationQuery = Location.class.equals(this.resourceType) && searchQueryParm.getName().equals(AbstractQueryBuilder.NEAR);
 			switch(searchQueryParm.getType()) {
 				case URI :
 				case REFERENCE : 
@@ -192,7 +195,12 @@ class QuerySegmentAggregator {
 					 break;
 				case DATE :     fromClause.append(", ").append(resourceTypeName).append("_DATE_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
 				 	 break;
-				case TOKEN :    fromClause.append(", ").append(resourceTypeName).append("_TOKEN_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+				case TOKEN :    if (isLocationQuery) {
+									fromClause.append(", ").append(resourceTypeName).append("_LATLNG_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+								}
+								else {
+									fromClause.append(", ").append(resourceTypeName).append("_TOKEN_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+								}
 					 break;
 			}
 			parameterTableAliasIndex++;

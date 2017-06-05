@@ -20,6 +20,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.DateTime;
+import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Period;
 import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -73,6 +74,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
     private static final String DATE_VALUE = "DATE_VALUE";
     private static final String DATE_START = "DATE_START";
     private static final String DATE_END = "DATE_END";
+    private static final String LATITUDE_VALUE = "LATITUDE_VALUE";
+    private static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
     
 		 
 	
@@ -175,11 +178,15 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
 		QuerySegmentAggregator helper;
+		SqlQueryData query = null;
 				
 		helper = this.buildQueryCommon(resourceType, searchContext);
+		if (helper != null) {
+        	query = helper.buildCountQuery();
+        }
 		
 		log.exiting(CLASSNAME, METHODNAME);
-		return helper.buildCountQuery();
+		return query;
 	}
 
 	/* (non-Javadoc)
@@ -190,12 +197,15 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			throws Exception {
 		final String METHODNAME = "buildQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
+		SqlQueryData query = null;
 		
         QuerySegmentAggregator helper = this.buildQueryCommon(resourceType, searchContext);
+        if (helper != null) {
+        	query = helper.buildQuery();
+        }
 				
 		log.exiting(CLASSNAME, METHODNAME);
-		//return sqlQueryString;
-		return helper.buildQuery();
+		return query;
 	}
 	
 	/**
@@ -210,30 +220,43 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
 		SqlQueryData querySegment;
+		int nearParameterIndex;
 		List<Parameter> searchParameters = searchContext.getSearchParameters();
 		int pageSize = searchContext.getPageSize();
 		int offset = (searchContext.getPageNumber() - 1) * pageSize;
 		QuerySegmentAggregator helper = new QuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao);
+		boolean isValidQuery = true;
 		
 		this.resourceType = resourceType;
 		
-		/*
+		
 		// Special logic for handling LocationPosition queries. These queries have interdependencies between
 		// a couple of related input query parameters
 		if (Location.class.equals(resourceType)) {
-			queryParm = this.processLocationPosition(searchParameters);
-			if (queryParm != null) {
-				queryParms.add(queryParm);
-				parmAdded = true;
+			querySegment = this.processLocationPosition(searchParameters);
+			if (querySegment != null) {
+				nearParameterIndex = this.findNearParameterIndex(searchParameters);
+				helper.addQueryData(querySegment, searchParameters.get(nearParameterIndex));
 			}
-		}  */
+			// If there are Location-position parameters but a querySegment was not built, 
+			// the query would be invalid. Note that valid parameters could be found in the following
+			// for loop.
+			else if (!searchParameters.isEmpty()) {
+				isValidQuery = false;
+			}
+		}  
 		
 		// For each search parm, build a query parm that will satisfy the search. 
 		for (Parameter queryParameter : searchParameters) {
 			querySegment = this.buildQueryParm(resourceType, queryParameter);
-			helper.addQueryData(querySegment, queryParameter);
+			if (querySegment != null) {
+				helper.addQueryData(querySegment, queryParameter);
+				isValidQuery = true;
+			}
 		}
-		
+		if (!isValidQuery) {
+			helper = null;
+		}
 		log.exiting(CLASSNAME, METHODNAME);
 		return helper;
 		
@@ -331,7 +354,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		
 		// Build this piece of the segment:
 		// (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), PARAMETER_TABLE_ALIAS);
 		
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -397,7 +420,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		
 		// Build this piece of the segment:
 		// (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), PARAMETER_TABLE_ALIAS);
 		
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -467,7 +490,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 							
 		// Build this piece of the segment:
 		//(P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), PARAMETER_TABLE_ALIAS);
 		  	
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -560,7 +583,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		
 		// Build this piece of the segment:
 		// (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), PARAMETER_TABLE_ALIAS);
 		
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -612,7 +635,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				
 		// Build this piece of the segment:
 		// (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), PARAMETER_TABLE_ALIAS);
 		  	
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -649,7 +672,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		
 		// Build this piece of the segment:
 		// (P1.PARAMETER_NAME_ID = x AND
-		this.populateNameIdSubSegment(whereClauseSegment, queryParm, PARAMETER_TABLE_ALIAS);
+		this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), PARAMETER_TABLE_ALIAS);
 		  
 		whereClauseSegment.append(AND).append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
@@ -710,31 +733,87 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	}
 
 	@Override
-	protected SqlQueryData buildLocationQuerySegment(String parmName, BoundingBox boundingBox) {
-		// TODO Auto-generated method stub
-		return null;
+	protected SqlQueryData buildLocationQuerySegment(String parmName, BoundingBox boundingBox) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+		final String METHODNAME = "buildLocationQuerySegment";
+		log.entering(CLASSNAME, METHODNAME, parmName);
+		
+		StringBuilder whereClauseSegment = new StringBuilder();
+		List<Object> bindVariables = new ArrayList<>();
+		SqlQueryData queryData;
+				
+		// Build this piece of the segment:
+		// (P1.PARAMETER_NAME_ID = x AND
+		this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETER_TABLE_ALIAS);
+		
+		// Now build the piece that compares the BoundingBox longitude and latitude values
+		// to the persisted longitude and latitude parameters.
+		whereClauseSegment.append(JDBCOperator.AND.value())
+		  				  .append(LEFT_PAREN)
+		  				  .append(PARAMETER_TABLE_ALIAS).append(LONGITUDE_VALUE)
+		  				  .append(JDBCOperator.LTE.value())
+		  				  .append(BIND_VAR)
+		  				  .append(JDBCOperator.AND.value())
+		  				  .append(PARAMETER_TABLE_ALIAS).append(LONGITUDE_VALUE)
+		  				  .append(JDBCOperator.GTE.value())
+		  				  .append(BIND_VAR)
+		  				  .append(JDBCOperator.AND.value())
+		  				  .append(PARAMETER_TABLE_ALIAS).append(LATITUDE_VALUE)
+		  				  .append(JDBCOperator.LTE.value())
+		  				  .append(BIND_VAR)
+		  				  .append(JDBCOperator.AND.value())
+		  				  .append(PARAMETER_TABLE_ALIAS).append(LATITUDE_VALUE)
+		  				  .append(JDBCOperator.GTE.value())
+		  				  .append(BIND_VAR)
+		  				  .append(RIGHT_PAREN).append(RIGHT_PAREN);
+		bindVariables.add(boundingBox.getMaxLongitude());
+		bindVariables.add(boundingBox.getMinLongitude());
+		bindVariables.add(boundingBox.getMaxLatitude());
+		bindVariables.add(boundingBox.getMinLatitude());
+		
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+		return queryData;
 	}
 	
 	/**
 	 * Populates the parameter name sub-segment of the passed where clause segment.
 	 * @param whereClauseSegment
-	 * @param queryParm
+	 * @param queryParmName
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws FHIRPersistenceDataAccessException
 	 */
-	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, Parameter queryParm, String parameterTableAlias) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, String queryParmName, String parameterTableAlias) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
 		final String METHODNAME = "populateNameIdSubSegment";
-		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		log.entering(CLASSNAME, METHODNAME, queryParmName);
 		
 		int parameterNameId;
 		
 		// Build this piece of the segment:
 		//(P1.PARAMETER_NAME_ID = x AND
-		parameterNameId = ParameterNamesCache.getParameterNameId(queryParm.getName(), this.parameterDao);
+		parameterNameId = ParameterNamesCache.getParameterNameId(queryParmName, this.parameterDao);
 		whereClauseSegment.append(LEFT_PAREN);
 		whereClauseSegment.append(parameterTableAlias).append("PARAMETER_NAME_ID=").append(parameterNameId);
 		
 		log.exiting(CLASSNAME, METHODNAME);
+	}
+	
+	/**
+	 * Finds the index of the 'near' parameter in the passed list of search parameters.
+	 * If not found, -1 is returned.
+	 * @param searchParameters
+	 * @return int - The index of the 'near' parameter in the passed List.
+	 */
+	private int findNearParameterIndex(List<Parameter> searchParameters) {
+		
+		int nearParameterIndex = -1;
+		
+		for (int i = 0; i < searchParameters.size(); i++) {
+			if (searchParameters.get(i).getName().equals(NEAR)) {
+				nearParameterIndex = i;
+				break;
+			}
+		}
+		return nearParameterIndex;
 	}
 
 }
