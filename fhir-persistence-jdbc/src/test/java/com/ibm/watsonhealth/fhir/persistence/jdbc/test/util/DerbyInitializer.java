@@ -6,15 +6,19 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test.util;
 
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.derby.tools.ij;
 
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
@@ -82,27 +86,21 @@ public class DerbyInitializer {
 	 * 
 	 * Install Java Stored Procedure jar file into derby DB
 	 */
-	protected boolean runScript(File scriptFile, Connection connection) { 
-	    FileInputStream fileStream = null; 
+	protected static boolean runScript(String commands, Connection connection) {
+		InputStream inStream = new BufferedInputStream( new ReaderInputStream( new StringReader(commands)));
 	    try { 
-	        fileStream = new FileInputStream(scriptFile); 
-	        int result  = ij.runScript(connection,fileStream,"UTF-8",System.out,"UTF-8"); 
+	        int result  = ij.runScript(connection,inStream,"UTF-8",System.out,"UTF-8"); 
 	        return (result==0); 
-	    } 
-	    catch (FileNotFoundException e) { 
+	    } catch (IOException e) { 
 	        return false; 
-	    } 
-	    catch (UnsupportedEncodingException e) { 
-	        return false; 
-	    } 
-	    finally { 
-	        if(fileStream!=null) { 
+	    } finally { 
+	        if(inStream!=null) { 
 	            try { 
-	                fileStream.close(); 
+	            	inStream.close(); 
 	            } 
 	            catch (IOException e) { 
 	            } 
-	        } 
+	        }
 	    } 
 	} 
 	
@@ -120,9 +118,17 @@ public class DerbyInitializer {
 			if(schemaType.equalsIgnoreCase("basic")) {
 				this.runDDL(connection);
 			} else if(schemaType.equalsIgnoreCase("normalized")) {
-				if(this.runScript(new File("src/test/resources/install_jar.sql"), connection)) {
-					this.runDDL(connection);
-				}
+				String derbySprocJarDir = "../fhir-derby-sproc/target";
+			    Collection<File> derbyJarFiles = FileUtils.listFiles(new File(derbySprocJarDir), new WildcardFileFilter("fhir-derby-sproc*SNAPSHOT.jar"), null);
+			    
+			    if(!derbyJarFiles.isEmpty()) {
+			    	StringBuilder sb = new StringBuilder();
+					sb.append("CALL sqlj.install_jar('" + derbySprocJarDir + "/" + derbyJarFiles.iterator().next().getName() + "', 'APP.FhirDerbySProcs',0);");
+					sb.append("CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.database.classpath','APP.FhirDerbySProcs');");
+					if(runScript(sb.toString(), connection)) {
+						this.runDDL(connection);
+					}
+			    }
 			}
 		}
 	}
