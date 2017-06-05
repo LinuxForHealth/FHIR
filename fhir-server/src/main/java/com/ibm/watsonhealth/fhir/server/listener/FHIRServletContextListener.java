@@ -7,13 +7,14 @@
 package com.ibm.watsonhealth.fhir.server.listener;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_DERBY_SPROC_JAR_PATH;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_SCHEMA_TYPE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -25,6 +26,9 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -135,12 +139,20 @@ public class FHIRServletContextListener implements ServletContextListener {
     private void bootstrapDerbyDatabases(PropertyGroup fhirConfig) throws Exception {
         Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
         if (performDbBootstrap) {
-            String derbySProcJarLocation = fhirConfig.getStringProperty(PROPERTY_JDBC_DERBY_SPROC_JAR_PATH);
             SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
             String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             InitialContext ctxt = new InitialContext();
             DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
 
+            String derbySprocJarDir = "userlib";
+		    Collection<File> derbyJarFiles = FileUtils.listFiles(new File(derbySprocJarDir), new WildcardFileFilter("fhir-derby-sproc*.jar"), null);
+            
+		    String derbySProcJarLocation = null;
+            if(!derbyJarFiles.isEmpty() && schemaType == SchemaType.NORMALIZED) {
+            	derbySProcJarLocation = derbySprocJarDir + "/" + derbyJarFiles.iterator().next().getName();
+            } else {
+            	derbySProcJarLocation = "";	//The JAR file is not used while bootstrapping Derby for BASIC schema type
+            }
             bootstrapDb("default", "default", ds, schemaType, derbySProcJarLocation);
             bootstrapDb("tenant1", "profile", ds, schemaType, derbySProcJarLocation);
             bootstrapDb("tenant1", "reference", ds, schemaType, derbySProcJarLocation);

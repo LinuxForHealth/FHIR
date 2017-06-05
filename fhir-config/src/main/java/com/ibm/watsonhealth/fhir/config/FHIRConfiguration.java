@@ -48,7 +48,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CLOUDANT_DBNAME = "fhirServer/persistence/cloudant/dbName";
     public static final String PROPERTY_WHCLSF_ROUTER = "fhirServer/persistence/whclsfRouter";
     public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";
-    public static final String PROPERTY_JDBC_DERBY_SPROC_JAR_PATH = "fhirServer/persistence/jdbc/derbyStoredProcJarPath";
     public static final String PROPERTY_JDBC_SCHEMA_TYPE = "fhirServer/persistence/jdbc/schemaType";
     public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
     public static final String PROPERTY_TENANT_ID_HEADER_NAME = "fhirServer/core/tenantIdHeaderName";
