@@ -15,6 +15,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 
 /**
  * This class represents an event fired by the FHIR persistence interceptor framework.
@@ -88,6 +89,13 @@ public class FHIRPersistenceEvent {
      * to create an entry in the replication log for a create, update, or delete operation.
      */
     public static final String PROPNAME_REPLICATION_INFO = "REPLICATION_INFO";
+    
+    /**
+     * This property holds the ReplicationContext instance associated with the request.
+     * The ReplicationContext object is passed to the persistence layer by the replication
+     * consumer component in order to store a replicated resource.
+     */
+    public static final String PROPNAME_REPLICATION_CONTEXT = "REPLICATION_CONTEXT";
     
     Resource fhirResource;
     Map<String, Object> properties;
@@ -199,7 +207,15 @@ public class FHIRPersistenceEvent {
     public String getRequestCorrelationId() {
         return (String) getProperty(PROPNAME_REQUEST_CORRELATION_ID);
     }
-
+    
+    /**
+     * Returns the FHIRReplicationContext object associated with the current persistence event,
+     * or null if the persistence event is not for a replicated resource.
+     */
+    public FHIRReplicationContext getReplicationContext() {
+        return (FHIRReplicationContext) getProperty(PROPNAME_REPLICATION_CONTEXT);
+    }
+    
     /**
      * Retrieves the named property from the set of properties available to the interceptor.
      * @param propertyName the name of the property to retrieve.

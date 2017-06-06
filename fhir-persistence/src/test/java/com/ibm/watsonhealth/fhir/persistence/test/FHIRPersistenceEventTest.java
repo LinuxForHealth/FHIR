@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 
 /**
@@ -38,6 +39,7 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         assertNull(pe.getUriInfo());
         assertNull(pe.getTransactionCorrelationId());
         assertNull(pe.getRequestCorrelationId());
+        assertNull(pe.getReplicationContext());
     }
     
     @Test
@@ -54,5 +56,29 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         assertEquals("Patient", pe.getFhirResourceType());
         assertEquals("id1", pe.getFhirResourceId());
         assertEquals("v1", pe.getFhirVersionId());
+        assertNull(pe.getReplicationContext());
+    }
+    
+    @Test
+    public void test3() throws Exception {
+        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Map<String, Object> properties = new HashMap<>();
+        
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "id1");
+        properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "v1");
+        
+        FHIRReplicationContext expectedRC = new FHIRReplicationContext("999999", "LAST_UPDATED");
+        properties.put(FHIRPersistenceEvent.PROPNAME_REPLICATION_CONTEXT, expectedRC);
+        
+        FHIRPersistenceEvent pe = new FHIRPersistenceEvent(patient, properties);
+        assertNotNull(pe.getFhirResource());
+        assertEquals("Patient", pe.getFhirResourceType());
+        assertEquals("id1", pe.getFhirResourceId());
+        assertEquals("v1", pe.getFhirVersionId());
+        FHIRReplicationContext actualRC = pe.getReplicationContext();
+        assertNotNull(actualRC);
+        assertEquals(expectedRC.getVersionId(), actualRC.getVersionId());
+        assertEquals(expectedRC.getLastUpdated(), actualRC.getLastUpdated());
     }
 }
