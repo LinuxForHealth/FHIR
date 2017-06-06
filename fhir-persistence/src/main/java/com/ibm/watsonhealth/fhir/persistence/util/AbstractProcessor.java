@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.persistence.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
@@ -94,9 +93,9 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 		return null;
 	}
 
-	protected Timestamp convertToTimestamp(String str) throws ParseException {
+	protected java.util.Date convertToDate(String str) throws ParseException {
 		try {
-			return processDate(str, "yyyy-MM-dd'T'hh:mm:ss");
+			return processDate(str, "yyyy-MM-dd'T'hh:mm:ss'Z'");
 		} catch (ParseException e) {
 			try {
 				return processDate(str, "yyyy-MM-dd'T'hh:mm");
@@ -104,21 +103,16 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 				try {
 					return processDate(str, "yyyy-MM-dd");
 				} catch (ParseException e2) {
-					return new Timestamp(System.currentTimeMillis());
+					throw e2;
 				}
 			}
 		} 
 	}
 
-	private Timestamp processDate(String date, String format) throws ParseException {
+	private java.util.Date processDate(String date, String format) throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT 0:00"));
 		java.util.Date parsedDate = dateFormat.parse(date);
-		SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
-		sdfDate.setTimeZone(java.util.TimeZone.getTimeZone("GMT 0:00"));
-		long tlong = parsedDate.getTime();
-		long lTime = TimeZone.getDefault().getOffset(tlong);
-		return new Timestamp(tlong + lTime);
-
+		return parsedDate;
 	}
 }
