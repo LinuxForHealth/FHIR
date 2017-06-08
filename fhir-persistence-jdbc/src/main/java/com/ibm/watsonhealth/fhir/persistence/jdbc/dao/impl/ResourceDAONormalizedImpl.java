@@ -23,7 +23,11 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
@@ -51,7 +55,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			   									   "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
 			   									   "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 	
-	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
 			   								  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
@@ -112,6 +116,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		String currentSchema;
 		String stmtString = null;
 		Integer resourceTypeId;
+		Timestamp lastUpdated, replicationLastUpdated;
 				
 		try {
 			connection = this.getConnection();
@@ -127,7 +132,10 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt = connection.prepareCall(stmtString);
 			stmt.setString(1, resource.getLogicalId());
 			stmt.setBytes(2, resource.getData());
-			stmt.setTimestamp(3, resource.getLastUpdated());
+			// If there is a lastUpdated attribute in the ReplicationContext, use it.
+			replicationLastUpdated = this.getReplicationLastUpdated();
+			lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
+			stmt.setTimestamp(3, lastUpdated);
 			stmt.setString(4, resource.isDeleted() ? "Y": "N");
 			stmt.setString(5, UUID.randomUUID().toString());
 			stmt.setString(6, this.getReplicationInfo().getTxCorrelationId());
@@ -140,13 +148,14 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.setString(13, this.getReplicationInfo().getStudyId());
 			stmt.setString(14, this.getReplicationInfo().getServiceId());
 			stmt.setString(15, this.getReplicationInfo().getPatientId());
-			stmt.setInt(16, 1);
+			stmt.setObject(16, this.getReplicationVersionId(), Types.INTEGER);
 			stmt.setInt(17, 1);
-			stmt.registerOutParameter(18, Types.BIGINT);
+			stmt.setInt(18, 1);
+			stmt.registerOutParameter(19, Types.BIGINT);
 			
 			stmt.execute();
 			
-			resource.setId(stmt.getLong(18));
+			resource.setId(stmt.getLong(19));
 			log.fine("Succesfully inserted Resource. id=" + resource.getId());
 			
 		}
@@ -383,13 +392,46 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			}
 			if (isNull(repInfo.getEvent())) {
 				repInfo.setEvent("");
-			}if (isNull(repInfo.getServiceId())) {
+			}
+			if (isNull(repInfo.getServiceId())) {
 				repInfo.setServiceId("");
 			}
 			
 			this.replicationInfo = repInfo;
 		}
 		return this.replicationInfo;
+	}
+	
+	private FHIRReplicationContext getReplicationContext() {
+		FHIRReplicationContext replicationContext = null;
+		
+		if (nonNull(this.context) && nonNull(this.context.getPersistenceEvent())) {
+				replicationContext = this.context.getPersistenceEvent().getReplicationContext();
+		}
+		
+		return replicationContext;
+	}
+	
+	private Integer getReplicationVersionId() {
+		Integer repVersionId = null;
+		
+		FHIRReplicationContext repContext = this.getReplicationContext();
+		if (nonNull(repContext) && nonNull(repContext.getVersionId())) {
+			repVersionId = Integer.valueOf(repContext.getVersionId());
+		}
+		return repVersionId;
+	}
+	
+	private Timestamp getReplicationLastUpdated() {
+		Timestamp repLastUpdated = null;
+				
+		FHIRReplicationContext repContext = this.getReplicationContext();
+		if (nonNull(repContext) && nonNull(repContext.getLastUpdated())) {
+			XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(repContext.getLastUpdated(), true);
+			repLastUpdated = FHIRUtilities.convertToTimestamp(calendar);
+		}
+		
+		return repLastUpdated;
 	}
 	
 	
