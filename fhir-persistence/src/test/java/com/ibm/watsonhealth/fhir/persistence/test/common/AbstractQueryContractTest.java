@@ -311,7 +311,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests a valid chained parameter query that retrieves all contracts associate with a Patient with name = 'Jane'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateContract_chained" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract_chained" })
 	public void testContractQuery_chained_valid() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject:Patient.name", "Jane");
 		assertNotNull(resources);
@@ -323,7 +323,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
 	 * Tests an invalid chained parameter query that attempts to retrieve contracts associate with a Patient with name = 'bogusName'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateContract_chained" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract_chained" })
 	public void testContractQuery_chained_invalid1() throws Exception {
 		List<Resource> resources = runQueryTest(Contract.class, persistence, "subject:Patient.name", "bogusName");
 		assertNotNull(resources);

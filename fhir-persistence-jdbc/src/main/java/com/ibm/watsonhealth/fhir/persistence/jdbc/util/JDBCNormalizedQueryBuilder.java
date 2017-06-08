@@ -460,9 +460,114 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		return queryData;
 	}
 
+	/**
+	 * Contains special logic for handling chained reference search parameters.
+	 * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
+	 * Nested sub-selects are built to realize the chaining logic required. Here is a sample chained query for an
+	 * Observation given this search parameter: device:Device.patient.family=Monella
+	 * 
+	 * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
+	 * Observation_RESOURCES R, Observation_LOGICAL_RESOURCES LR , Observation_STR_VALUES P1 WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND 
+	 * P1.RESOURCE_ID = R.RESOURCE_ID AND 
+	 * P1.PARAMETER_NAME_ID = 107 AND 
+	 * (p1.STR_VALUE IN 
+	 *    (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+	 *		CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+	 *          CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN
+	 *             	(SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE
+	 *             		CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
+	 *             		CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')));
+	 *
+	 * @param queryParm - A Parameter representing a chained query.
+	 * @return SqlQueryData - The query segment for a chained parameter reference search.
+	 */
 	@Override
 	protected SqlQueryData processChainedReferenceParm(Parameter queryParm) throws FHIRPersistenceException {
-		throw new FHIRPersistenceNotSupportedException("Chained parameter searches not supported at this time.");
+		final String METHODNAME = "processChainedReferenceParm";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		final String CR = "CR";
+		final String CLR = "CLR";
+		final String CP = "CP";
+		Parameter currentParm;
+		int refParmIndex = 0;
+		String chainedResourceVar = null;
+		String chainedLogicalResourceVar = null;
+		String chainedParmVar = null;
+		String resourceTypeName = null;
+		StringBuilder whereClauseSegment = new StringBuilder();
+		List<Object> bindVariables = new ArrayList<>();
+		SqlQueryData queryData;
+		
+		currentParm = queryParm;
+		while(currentParm != null) {
+			if (currentParm.getNextParameter() != null) {
+				if (refParmIndex == 0) {
+					// Must build this first piece using px placeholder table alias, which will be replaced with a 
+					// generated value in the buildQuery() method.
+					// Build this piece:P1.PARAMETER_NAME_ID = x AND (p1.STR_VALUE IN 
+					this.populateNameIdSubSegment(whereClauseSegment, currentParm.getName(), PARAMETER_TABLE_ALIAS);
+					whereClauseSegment.append(JDBCOperator.AND.value());
+					whereClauseSegment.append(LEFT_PAREN);
+					whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(JDBCOperator.IN.value());
+				}
+				else {
+					// Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.STR_VALUE IN
+					whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID")
+				  	  				  .append(JDBCOperator.EQ.value())
+				  	  				  .append(ParameterNamesCache.getParameterNameId(currentParm.getName(), this.parameterDao))
+				  	                  .append(JDBCOperator.AND.value())
+					                  .append(chainedParmVar).append(".").append(STR_VALUE).append(JDBCOperator.IN.value());
+				}
+			 
+				refParmIndex++;
+				chainedResourceVar = CR + refParmIndex;
+				chainedLogicalResourceVar = CLR + refParmIndex;
+				chainedParmVar = CP + refParmIndex;
+				
+				// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
+				resourceTypeName = "'" + currentParm.getModifierResourceTypeName() + "'";
+				whereClauseSegment.append(LEFT_PAREN).append("SELECT ")
+								  .append(resourceTypeName)
+								  .append(" || ").append("'/'").append(" || ")
+								  .append(chainedLogicalResourceVar).append(".").append("LOGICAL_ID");
+				
+				// Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+				whereClauseSegment.append(" FROM ")
+								  .append(currentParm.getModifierResourceTypeName()).append("_RESOURCES ")
+								  .append(chainedResourceVar).append(", ")
+								  .append(currentParm.getModifierResourceTypeName()).append("_LOGICAL_RESOURCES ")
+								  .append(chainedLogicalResourceVar).append(", ")
+								  .append(currentParm.getModifierResourceTypeName()).append("_STR_VALUES ")
+								  .append(chainedParmVar)
+								  .append(" WHERE ");
+				// Build this piece: CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+				whereClauseSegment.append(chainedResourceVar).append(".RESOURCE_ID = ")
+								  .append(chainedLogicalResourceVar).append(".").append("CURRENT_RESOURCE_ID").append(AND)
+								  .append(chainedResourceVar).append(".IS_DELETED").append(" <> 'Y'").append(AND)
+								  .append(chainedParmVar).append(".RESOURCE_ID = ").append(chainedResourceVar).append(".RESOURCE_ID").append(AND);
+			}
+			else {
+				// This logic processes the LAST parameter in the chain.
+				// Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
+				whereClauseSegment.append(chainedParmVar).append(".PARAMETER_NAME_ID=")
+								  .append(ParameterNamesCache.getParameterNameId(currentParm.getName(), this.parameterDao)).append(AND)
+								  .append(chainedParmVar).append(".").append(STR_VALUE).append(" = ?");
+				bindVariables.add(currentParm.getValues().get(0).getValueString());
+			}
+			currentParm = currentParm.getNextParameter();
+		}
+		 
+		// Finally, ensure the correct number of right parens are inserted to balance the where clause segment.
+		int rightParensRequired = queryParm.getChain().size() + 2;
+		for (int i = 0; i < rightParensRequired; i++) 
+		{
+			whereClauseSegment.append(RIGHT_PAREN);
+		}
+		
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+		return queryData;
 	}
 
 	@Override
@@ -789,7 +894,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		int parameterNameId;
 		
 		// Build this piece of the segment:
-		//(P1.PARAMETER_NAME_ID = x AND
+		//(P1.PARAMETER_NAME_ID = x 
 		parameterNameId = ParameterNamesCache.getParameterNameId(queryParmName, this.parameterDao);
 		whereClauseSegment.append(LEFT_PAREN);
 		whereClauseSegment.append(parameterTableAlias).append("PARAMETER_NAME_ID=").append(parameterNameId);

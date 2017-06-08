@@ -883,7 +883,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * associated with a Patient with family name = 'Monella'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_chained" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
 	public void testObservationQuery_chained_valid() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "device:Device.patient.family", "Monella");
 		assertNotNull(resources);
@@ -896,7 +896,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * associated with a Patient with family name = 'afeljagadf'
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_chained" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
 	public void testObservationQuery_chained_invalid1() throws Exception {
 		List<Resource> resources = runQueryTest(Observation.class, persistence, "device:Device.patient.family", "afeljagadf");
 		assertNotNull(resources);
