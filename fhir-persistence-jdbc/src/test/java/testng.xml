@@ -30,6 +30,7 @@
        </classes>
     </test>
     
+    <!--   
     <test name="JDBCNormalizedTests">
 	  	<groups>
 	  		<run>
@@ -58,5 +59,6 @@
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
        </classes>
     </test>
+    -->
  
 </suite>

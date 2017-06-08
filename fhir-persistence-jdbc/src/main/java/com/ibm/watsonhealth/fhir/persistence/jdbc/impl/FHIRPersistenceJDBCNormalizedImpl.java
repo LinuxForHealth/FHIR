@@ -162,6 +162,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        this.storeSearchParameters(resource, resourceDTO);
 	        
 	        // Persist the Resource DTO.
+	        this.getResourceDao().setPersistenceContext(context);
 	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
@@ -257,6 +258,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        this.storeSearchParameters(resource, resourceDTO);
 	        
 	        // Persist the Resource DTO.
+	        this.getResourceDao().setPersistenceContext(context);
 	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());

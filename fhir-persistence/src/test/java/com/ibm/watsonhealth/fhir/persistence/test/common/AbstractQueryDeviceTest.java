@@ -15,10 +15,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Device;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
+import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
@@ -45,7 +52,42 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         assertNotNull(device.getMeta());
         assertNotNull(device.getMeta().getVersionId().getValue());
         assertEquals("1", device.getMeta().getVersionId().getValue());
-    }        
+    }    
+    
+    /**
+     * This simulates the creation of a replicated Device Resource.
+     * @throws Exception
+     */
+    @Test(groups = { "jdbc-normalized" })
+    public void testCreateReplicatedDevice() throws Exception {
+        
+    	String versionId = "22";
+    	String lastUpdated = "2017-05-10T13:01:01.000Z";
+    	// Create replication context, include that in a create event.
+    	// The version and lastUpdated attributes in the repContext should be persisted.
+    	FHIRReplicationContext repContext = new FHIRReplicationContext();
+    	repContext.setVersionId(versionId);
+    	repContext.setLastUpdated(lastUpdated);
+    	Map<String, Object> properties = new HashMap<>();
+    	properties.put(FHIRPersistenceEvent.PROPNAME_REPLICATION_CONTEXT, repContext);
+    	FHIRPersistenceEvent createEvent = new FHIRPersistenceEvent(null,properties);
+    	
+    	FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(createEvent); 
+    	    	
+    	Device device = readResource(Device.class, "Device2.json");
+        persistence.create(context, device);
+        assertNotNull(device);
+        assertNotNull(device.getId());
+        assertNotNull(device.getId().getValue());
+        assertNotNull(device.getMeta());
+        assertNotNull(device.getMeta().getVersionId().getValue());
+         
+        Device readDevice = (Device)persistence.read(context, Device.class, device.getId().getValue());
+        assertNotNull(readDevice);
+        assertEquals(versionId,readDevice.getMeta().getVersionId().getValue());
+        XMLGregorianCalendar tempLastUpdated =  readDevice.getMeta().getLastUpdated().getValue();
+        assertEquals(lastUpdated,FHIRUtilities.formatCalendarGMT(tempLastUpdated));
+    }    
 	
 	/**
 	 * Tests a query for a Device with manufacturer = 'Acme Devices, Inc' which should yield correct results
