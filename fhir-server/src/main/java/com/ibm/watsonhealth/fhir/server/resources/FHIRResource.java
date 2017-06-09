@@ -142,6 +142,7 @@ public class FHIRResource {
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
+    private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -226,12 +227,16 @@ public class FHIRResource {
 
         try {
             checkInitComplete();
+            
+            String ifNoneExist = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_EXIST);
 
-        	URI locationURI = doCreate(type, resource);
+        	InternalOperationResponse ior = doCreate(type, resource, ifNoneExist);
                        
-            ResponseBuilder response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString())));
-            status = Response.Status.CREATED;
+            ResponseBuilder response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
+            status = ior.getStatus();
+            resource = ior.getResource();
             response = addHeaders(response, resource);
+            response.status(ior.getStatus());
             return response.build();
         } catch (FHIRRestException e) {
         	status = e.getHttpStatus();
@@ -807,21 +812,61 @@ public class FHIRResource {
      * @return the location URI associated with the new Resource
      * @throws Exception
      */
-    protected URI doCreate(String type, Resource resource) throws Exception {
+    protected InternalOperationResponse doCreate(String type, Resource resource, String ifNoneExist) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
 
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
         
+        InternalOperationResponse result = new InternalOperationResponse();
+        
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
+            
             // Make sure the expected type (specified in the URL string) is congruent with the actual type 
             // of the resource.
             String resourceType = FHIRUtil.getResourceTypeName(resource);
             if (!resourceType.equals(type)) {
                 throw new FHIRException("Resource type '" + resourceType + "' does not match type specified in request URI: " + type);
+            }
+            
+            // Check to see if we're supposed to perform a conditional 'create'.
+            if (ifNoneExist != null && !ifNoneExist.isEmpty()) {
+                log.fine("Performing conditional create with search criteria: " + ifNoneExist);
+                Bundle responseBundle = null;
+
+                // Perform the search using the "If-None-Exist" header value.
+                try {
+                    MultivaluedMap<String, String> searchParameters = getQueryParameterMap(ifNoneExist);
+                    responseBundle = doSearch(type, null, null, searchParameters, null);
+                } catch (Throwable t) {
+                    String msg = "An error occurred while performing the search for a conditional create operation.";
+                    log.log(Level.SEVERE, msg, t);
+                    throw new FHIRException(msg, Response.Status.BAD_REQUEST, null);
+                }
+                
+                // Check the search results to determine whether or not to perform the create operation.
+                int resultCount = responseBundle.getTotal().getValue().intValue();
+                log.fine("Conditional create search yielded " + resultCount + " results.");
+
+                if (resultCount == 0) {
+                    // Do nothing and fall through to process the 'create' request.
+                } else if (resultCount == 1) {
+                    // If we found a single match, bypass the 'create' request and return information
+                    // for the matched resource.
+                    Resource matchedResource = FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+                    result.locationURI = FHIRUtil.buildLocationURI(type, matchedResource);
+                    result.status = Response.Status.OK;
+                    result.resource = matchedResource;
+                    log.fine("Returning location URI of matched resource: " + result.locationURI);
+
+                    return result;
+                } else {
+                    String msg = "The search criteria specified for a 'conditional create' operation returned multiple matches.";
+                    throw new FHIRException(msg, Response.Status.PRECONDITION_FAILED, null);
+                }
             }
             
             // A new resource should not contain an ID.
@@ -852,10 +897,12 @@ public class FHIRResource {
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             getPersistenceImpl().create(persistenceContext, resource);
+            result.status = Response.Status.CREATED;
+            result.resource = resource;
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
-            URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource);
-            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
+            result.locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource);
+            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, result.locationURI.toString());
 
             // Invoke the 'afterCreate' interceptor methods.
             getInterceptorMgr().fireAfterCreateEvent(event);
@@ -868,9 +915,9 @@ public class FHIRResource {
                 txnStarted = false;
             }
 
-            return locationURI;
+            return result;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'create' request.";
+            String msg = "Caught exception while processing 'create' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -887,7 +934,7 @@ public class FHIRResource {
             log.exiting(this.getClass().getName(), "doCreate");
         }
     }
-    
+
     /**
      * Performs an update operation (a new version of the Resource will be stored).
      * @param resource the Resource being updated
@@ -975,7 +1022,7 @@ public class FHIRResource {
 
             return locationURI;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'update' request.";
+            String msg = "Caught exception while processing 'update' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -1037,7 +1084,7 @@ public class FHIRResource {
 
             return resource;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'delete' request.";
+            String msg = "Caught exception while processing 'delete' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -1095,7 +1142,7 @@ public class FHIRResource {
         } catch (FHIRPersistenceResourceDeletedException e) {
             throw e;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'read' request.";
+            String msg = "Caught exception while processing 'read' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -1151,7 +1198,7 @@ public class FHIRResource {
 
             return resource;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'vread' request.";
+            String msg = "Caught exception while processing 'vread' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -1212,7 +1259,7 @@ public class FHIRResource {
 
             return bundle;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'history' request.";
+            String msg = "Caught exception while processing 'history' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -1265,8 +1312,9 @@ public class FHIRResource {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             List<Resource> resources = getPersistenceImpl().search(persistenceContext, resourceType);
             Bundle bundle = createSearchBundle(resources, searchContext);
-            addLinks(searchContext, bundle, requestUri);
-            
+            if (requestUri != null) {
+                addLinks(searchContext, bundle, requestUri);
+            }
             event.setFhirResource(bundle);
 
             // Invoke the 'afterSearch' interceptor methods.
@@ -1274,7 +1322,7 @@ public class FHIRResource {
             
             return bundle;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'search' request.";
+            String msg = "Caught exception while processing 'search' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -1324,7 +1372,7 @@ public class FHIRResource {
 
             return result;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'invoke' request.";
+            String msg = "Caught exception while processing 'invoke' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
        } finally {
@@ -1357,7 +1405,7 @@ public class FHIRResource {
             
             return responseBundle;
         } catch (Throwable t) {
-            String msg = "Unexpected exception while processing 'bundle' request.";
+            String msg = "Caught exception while processing 'bundle' request.";
             log.log(Level.SEVERE, msg, t);
             throw t;
         } finally {
@@ -1750,8 +1798,9 @@ public class FHIRResource {
                         processLocalReferences(resource, localRefMap);
 
                         // Perform the 'create' operation.
-                        URI locationURI = doCreate(pathTokens[0], resource);
-                        setBundleResponseFields(responseEntry, resource, locationURI, SC_CREATED);
+                        String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
+                        InternalOperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist);
+                        setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode());
 
                         // Next, if a local identifier was present, we'll need to map this to the
                         // correct external identifier (e.g. Patient/12345).
@@ -1819,10 +1868,10 @@ public class FHIRResource {
                         throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.GONE, responseBundle, e);
                     }
                 } catch (FHIRException e) {
-                    setBundleResponseStatus(response, SC_BAD_REQUEST);
+                    setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
                     setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                     if (failFast) {
-                        throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.BAD_REQUEST, responseBundle, e);
+                        throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), e.getHttpStatus(), responseBundle, e);
                     }
                 }
             }
@@ -1894,6 +1943,20 @@ public class FHIRResource {
             } 
             return 0;
         }
+    }
+    
+    /**
+     * This function converts the specified query string (a String) into an
+     * equivalent MultivaluedMap<String,String> containing the query parameters
+     * defined in the query string.
+     * @param queryString the query string to be processed
+     * @return
+     */
+    private MultivaluedMap<String, String> getQueryParameterMap(String queryString) {
+        MultivaluedMap<String, String> result = null;
+        FHIRUrlParser parser = new FHIRUrlParser("foo?" + queryString);
+        result = parser.getQueryParameters();
+        return result;
     }
     
     /**
@@ -2075,15 +2138,20 @@ public class FHIRResource {
     }
     
     private Response exceptionResponse(FHIRException e, Status status) {
+        return exceptionResponse(e, status, true);
+    }
+    
+    private Response exceptionResponse(FHIRException e, Status status, boolean logMsg) {
         String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
         log.log(Level.SEVERE, msg);
         return Response.status(status).entity(FHIRUtil.buildOperationOutcome(e, false)).build();
     }
     
     private Response exceptionResponse(Exception e, Status status) {
-        return this.exceptionResponse(new FHIRException(e), status);
+        String msg = e.getMessage() != null ? e.getMessage() : "<exception message not present>";
+        log.log(Level.SEVERE, msg, e);
+        return this.exceptionResponse(new FHIRException(e), status, false);
     }
-
     
     private String serializeOperationOutcome(OperationOutcome oo) {
         try {
@@ -2691,5 +2759,41 @@ public class FHIRResource {
             return Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString()))).entity(resource).build();
         }
         return Response.ok().entity(resource).build();
+    }
+    
+    /**
+     * This is an internal class used to hold a multi-valued function response.
+     */
+    public static class InternalOperationResponse {
+        private Response.Status status;
+        private URI locationURI;
+        private Resource resource;
+        
+        public InternalOperationResponse() {
+        }
+        
+        public InternalOperationResponse(Response.Status status, URI locationURI, Resource resource) {
+            setStatus(status);
+            setLocationURI(locationURI);
+            setResource(resource);
+        }
+        public Response.Status getStatus() {
+            return status;
+        }
+        public void setStatus(Response.Status status) {
+            this.status = status;
+        }
+        public URI getLocationURI() {
+            return locationURI;
+        }
+        public void setLocationURI(URI locationURI) {
+            this.locationURI = locationURI;
+        }
+        public Resource getResource() {
+            return resource;
+        }
+        public void setResource(Resource resource) {
+            this.resource = resource;
+        }
     }
 }
