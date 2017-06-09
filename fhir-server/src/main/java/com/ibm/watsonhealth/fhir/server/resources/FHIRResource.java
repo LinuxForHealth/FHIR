@@ -2223,7 +2223,7 @@ public class FHIRResource {
                     .withType(objectFactory.createCode().withValue(resourceType))
                     .withProfile(objectFactory.createReference().withReference(objectFactory.createString().withValue("http://hl7.org/fhir/profiles/" + resourceType)))
                     .withInteraction(interactions)
-                    .withConditionalCreate(objectFactory.createBoolean().withValue(false))
+                    .withConditionalCreate(objectFactory.createBoolean().withValue(true))
                     .withConditionalUpdate(objectFactory.createBoolean().withValue(false))
                     .withConditionalDelete(objectFactory.createConditionalDeleteStatus().withValue(ConditionalDeleteStatusList.NOT_SUPPORTED))
                     .withUpdateCreate(objectFactory.createBoolean().withValue(isUpdateCreateEnabled()))
