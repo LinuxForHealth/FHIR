@@ -150,7 +150,7 @@ CODE_REMOVED
     
     <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
         <jdbcDriver libraryRef="derbyLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+        <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db"/>
     </dataSource>
     -->    
      
@@ -166,7 +166,7 @@ CODE_REMOVED
             portNumber="50000" 
             user="db2inst1" 
 CODE_REMOVED
-            databaseName="FHIRDB" 
+            databaseName="OAUTH2DB" 
             currentSchema="OAUTHDBSCHEMA" 
             driverType="4"/>
     </dataSource>
