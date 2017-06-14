@@ -46,6 +46,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
@@ -80,6 +81,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 		this.resourceDao = new ResourceDAONormalizedImpl();
 		this.parameterDao = new ParameterDAONormalizedImpl();
+		
+		// This cache must be pre-initialized in order for certain types of searches to work correctly.
+		ResourceTypesCache.initCache(this.resourceDao);
 							
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -100,6 +104,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.setManagedConnection(this.getBaseDao().getConnection());
 		this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
 		this.parameterDao = new ParameterDAONormalizedImpl(this.getManagedConnection());
+		
+		// This cache must be pre-initialized in order for certain types of searches to work correctly.
+		ResourceTypesCache.initCache(this.resourceDao);
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}

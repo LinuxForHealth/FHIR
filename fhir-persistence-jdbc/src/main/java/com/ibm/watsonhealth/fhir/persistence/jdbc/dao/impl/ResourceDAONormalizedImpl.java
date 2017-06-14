@@ -124,11 +124,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			// The Resource Type Id must be populated into the cache by calling the following method.
 			// This also causes the store procedure that is called by the cache to persist the resource type and id
 			// in the resource_types table, if it does not already exist.
-			resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType().toLowerCase(), this);
-			log.fine("resourceType=" + resource.getResourceType().toLowerCase() + "  resourceTypeId=" + resourceTypeId);
+			resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType(), this);
+			log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId);
 						
 			currentSchema = connection.getSchema().trim();
-			stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType().toLowerCase());
+			stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType());
 			stmt = connection.prepareCall(stmtString);
 			stmt.setString(1, resource.getLogicalId());
 			stmt.setBytes(2, resource.getData());

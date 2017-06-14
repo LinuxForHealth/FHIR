@@ -214,7 +214,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounterQuery_noParams_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "11111", Encounter.class, persistence, null, null);
 		assertNotNull(resources);
@@ -225,7 +225,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query for Encounters with length = '60.0' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_length_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "11111", Encounter.class, persistence, "length", "60.0");
 		assertNotNull(resources);
@@ -236,7 +236,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query for Encounters with length = 'gt59.0' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_GTlength_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "11111", Encounter.class, persistence, "length", "gt59.0");
 		assertNotNull(resources);
@@ -247,7 +247,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query for Encounters with length = 'lt60.0' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_LTlength_EncCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "11111", Encounter.class, persistence, "length", "lt60.0");
 		assertNotNull(resources);
@@ -258,7 +258,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounterQuery_noParams_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, null, null);
 		assertNotNull(resources);
@@ -269,7 +269,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query for Encounters with length = '60.0' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_length_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, "length", "60.0");
 		assertNotNull(resources);
@@ -280,7 +280,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query for Encounters with length = 'gt59.0' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_GTlength_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, "length", "gt59.0");
 		assertNotNull(resources);
@@ -291,7 +291,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query for Encounters with length = 'lt60.0' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
 	public void testEncounter_LTlength_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "26086", Encounter.class, persistence, "length", "lt60.0");
 		assertNotNull(resources);
@@ -302,7 +302,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query with RelatedPerson resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
 	public void testEncounterQuery_noParams_RelatedPersonCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", Encounter.class, persistence, null, null);
 		assertNotNull(resources);
@@ -313,7 +313,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query with a RelatedPerson resource and patient = '11111' which should yield correct results.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
 	public void testEncounterQuery_patient_RelatedPersonCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", Encounter.class, persistence, "patient", "Patient/11111");
 		assertNotNull(resources);
@@ -325,7 +325,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	 * Tests a query with a RelatedPerson resource type and patient = '11112' which should yield no results.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter_with_relatedPerson" })
 	public void testEncounterQuery_patientNoResults_RelatedPersonCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", Encounter.class, persistence, "patient", "Patient/11112");
 		assertNotNull(resources);

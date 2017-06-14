@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.humanName;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -830,7 +829,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * this method completes in about 34 seconds.
 	 * @throws Exception
 	 */
-    //@Test(groups = { "cloudant-broken", "jpa", "jdbc", "jdbc-normalized-broken" })
+    //@Test(groups = { "cloudant-broken", "jpa", "jdbc", "jdbc-normalized" })
     public void testPerformanceTestPatient() throws Exception {
    		Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
@@ -863,7 +862,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_noparams() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, null, null);
 		assertTrue(resources.size() != 0);
@@ -873,7 +872,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Doe' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_family() throws Exception {
         List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family", "Doe");
 		assertTrue(resources.size() != 0);
@@ -885,7 +884,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_family_noResults() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family", "Non-existent");
 		assertNotNull(resources);
@@ -896,7 +895,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-city = 'Amsterdam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_city() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-city", "Amsterdam");
 		assertNotNull(resources);
@@ -909,7 +908,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-city = 'Amsterdam' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_adressByCity() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address", "Amsterdam");
 		assertNotNull(resources);
@@ -922,7 +921,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-city = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_city_noResults() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-city", "Non-existent");
 		assertNotNull(resources);
@@ -933,7 +932,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-country = 'NLD' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_country() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-country", "NLD");
 		assertNotNull(resources);
@@ -947,7 +946,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-country = 'NLD' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatientAdressByCountry() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address", "NLD");
 		assertNotNull(resources);
@@ -960,7 +959,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with address-country = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_country_noResults() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-country", "Non-existent");
 		assertNotNull(resources);
@@ -971,7 +970,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with link = 'Patient/pat2' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_link() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "link", "Patient/pat2");
 		assertNotNull(resources);
@@ -984,7 +983,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Doe' using :exact modifier which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_exactModifier() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "family:exact", "Doe");
 		assertNotNull(resources);
@@ -998,7 +997,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void testSingleInclusionCriteriaPatient_addressUse() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "pat2", Patient.class, persistence, "address-use", "home");
 		assertNotNull(resources);
@@ -1010,7 +1009,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient3" })
 	public void test1InclusionCriteriaPatient_noparams_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "practID", Patient.class, persistence, null, null);
 		assertTrue(resources.size() != 0);
@@ -1020,7 +1019,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Levin' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient3" })
 	public void test1InclusionCriteriaPatient_family_PractCompmt() throws Exception {
         List<Resource> resources = runQueryTest("Practitioner", "practID", Patient.class, persistence, "family", "Levin");
 		assertTrue(resources.size() != 0);
@@ -1032,7 +1031,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * Tests a query for a Patient with family name = 'Non-existent' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient1" })
 	public void test1InclusionCriteriaPatient_family_noResults_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "Organization/2", Patient.class, persistence, "family", "Non-existent");
 		assertNotNull(resources);
@@ -1044,7 +1043,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
 	 * @throws Exception
 	 */
 	
-    @Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = {"testCreatePatient3"})
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = {"testCreatePatient3"})
     public void testPatient_birthdate_PractCompmt() throws Exception {
         List<Resource> resources = runQueryTest("Practitioner", "practID", Patient.class, persistence, "birthdate", "eq1932-09-24");
         assertTrue(resources.size() > 0);

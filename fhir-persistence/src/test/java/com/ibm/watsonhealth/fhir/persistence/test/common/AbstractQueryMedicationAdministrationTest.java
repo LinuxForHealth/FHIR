@@ -231,7 +231,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_noParams_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "example", MedicationAdministration.class, persistence, null, null);
 		assertNotNull(resources);
@@ -242,7 +242,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_patient_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "example", MedicationAdministration.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
@@ -254,7 +254,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2025-01-15T14:30:00+01:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_effectivetime_noResults_PractCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "example", MedicationAdministration.class, persistence, "effectivetime", "2025-01-15T14:30:00+01:00");
 		assertNotNull(resources);
@@ -265,7 +265,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_noParams_DevCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", MedicationAdministration.class, persistence, null, null);
 		assertNotNull(resources);
@@ -276,7 +276,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_patient_DevCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", MedicationAdministration.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
@@ -288,7 +288,7 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
 	 * Tests a query for a MedicationAdministration with effectivetime = '2025-01-15T14:30:00+01:00' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateMedicationAdministration" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
 	public void testMedicationAdministrationQuery_effectivetime_noResults_DevCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", MedicationAdministration.class, persistence, "effectivetime", "2025-01-15T14:30:00+01:00");
 		assertNotNull(resources);

@@ -211,7 +211,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
 	public void testRiskAssessmentQuery_PatCompmt_1() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", RiskAssessment.class, persistence, "performer", "Practitioner/f001");
 		assertNotNull(resources);
@@ -223,7 +223,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
 	public void testRiskAssessmentQuery_PatCompmt_2() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", RiskAssessment.class, persistence, "date", "0010-11-22");
 		assertNotNull(resources);
@@ -234,7 +234,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
 	public void testRiskAssessmentQuery_PractCompmt_1() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "performer", "Practitioner/f001");
 		assertNotNull(resources);
@@ -246,7 +246,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
 	public void testRiskAssessmentQuery_PractCompmt_2() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "date", "0010-11-22");
 		assertNotNull(resources);
@@ -257,7 +257,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
 	public void testRiskAssessmentQuery_DevCompmt_1() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "performer", "Device/d001");
 		assertNotNull(resources);
@@ -269,7 +269,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
 	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
 	public void testRiskAssessmentQuery_DevCompmt_2() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "date", "0010-11-22");
 		assertNotNull(resources);

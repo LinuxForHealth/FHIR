@@ -6,8 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -99,6 +103,46 @@ public class ResourceTypesCache {
 				 .append("~")
 				 .append(FHIRRequestContext.get().getDataStoreId());
 		return cacheName.toString();
+	}
+
+	/**
+	 * Returns all cached resource type ids for the current tenant/datastore.
+	 * NOTE: The cache must be initialized prior to calling this method.
+	 * @return Collection<Integer> - All cached resource type ids for the current tenant/datastore.
+	 */
+	public static Collection<Integer> getAllResourceTypeIds() {
+		 
+		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+		ConcurrentHashMap<String,Integer> currentDsMap;
+		Collection<Integer> resourceTypeIds = new ArrayList<>();
+		
+		currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+		if (currentDsMap != null) {
+			resourceTypeIds = currentDsMap.values();
+		}
+		 
+		return resourceTypeIds;
+	}
+
+	/**
+	 * Returns the resource type name that corresponds to the passed resource type id.
+	 * @param resourceTypeId - A valid unique resource type id.
+	 * @return String - Resource type name.
+	 */
+	public static String getResourceTypeName(Integer resourceTypeId) {
+		 
+		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+		ConcurrentHashMap<String,Integer> currentDsMap;
+		String resourceTypeName = null;
+		Map<Integer, String> inversedDsMap;
+		
+		currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+		if (currentDsMap != null) {
+			// This map inversion should not be costly from a performance perspective, since there will be less than 100 resource types.
+			inversedDsMap = currentDsMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+			resourceTypeName = inversedDsMap.get(resourceTypeId);
+		}
+		return resourceTypeName;
 	}
 
 }

@@ -930,7 +930,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
     public void testSingleInclusionCriteria_valueQuantity() throws Exception{
     	List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -942,7 +942,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_encounter() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
@@ -954,7 +954,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_Patient() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "patient", "Patient/example");
 		assertNotNull(resources);
@@ -966,7 +966,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_PatientNoResults() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -977,7 +977,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with subject = 'Patient/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_subject() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "subject", "Patient/example");
 		assertNotNull(resources);
@@ -989,7 +989,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_encounterCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
@@ -1001,7 +1001,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void testSingleInclusionCriteria_PatientNoResultsCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -1012,7 +1012,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-quantity = '185|http://unitsofmeasure.org|[lb_av]' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
     public void testSingleInclusionCriteria_valueQuantityCompmt() throws Exception{
     	List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "value-quantity", "185|http://unitsofmeasure.org|[lb_av]");
 		assertNotNull(resources);
@@ -1024,7 +1024,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void test1InclusionCriteria_encounter_Pract_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Encounter", "example", Observation.class, persistence, "encounter", "Encounter/example");
 		assertNotNull(resources);
@@ -1036,7 +1036,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2" })
 	public void test1InclusionCriteria_PatientNoResults_Pract_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Practitioner", "pract-uslab-example1", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -1047,7 +1047,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with value-date = '2014-12-04T15:42:15-08:00' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation4" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation4" })
     public void test1InclusionCriteria_valueQuantity_Pract_Compmt() throws Exception{
     	List<Resource> resources = runQueryTest("Practitioner", "pract-uslab-example1", Observation.class, persistence, "value-date", "2014-12-04T15:42:15-08:00");
 		assertNotNull(resources);
@@ -1059,7 +1059,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with encounter = 'Encounter/example' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_device" })
 	public void test1InclusionCriteria_code_Device_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "code", "9269-2");
 		assertNotNull(resources);
@@ -1071,7 +1071,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with patient = 'Patient/exam' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_device" })
 	public void test1InclusionCriteria_PatientNoResults_Device_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "patient", "Patient/exam");
 		assertNotNull(resources);
@@ -1082,7 +1082,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with RelatedPerson = 'benedicte' but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
 	public void test1InclusionCriteria_noParams_RelatedPerson_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "benedicte", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1093,7 +1093,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with code = '55284-4' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
 	public void test1InclusionCriteria_code_RelatedPerson_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "benedicte", Observation.class, persistence, "code", "55284-4");
 		assertNotNull(resources);
@@ -1105,7 +1105,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for an Observation with RelatedPerson = 'ben' which should yield no results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_relatedPerson" })
 	public void test1InclusionCriteria_performerNoResults_RelatedPerson_Compmt() throws Exception {
 		List<Resource> resources = runQueryTest("RelatedPerson", "ben", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1120,7 +1120,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for Observation resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
 	public void testMutiInc_ObservationQuery_noParams_DeviceCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1144,7 +1144,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for a Observation with subject = 'Device/devID' which should yield correct results
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
 	public void testMutiInc_ObservationQuery_source_DeviceCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "date", "2014-12-11T04:44:16Z");
 		assertNotNull(resources);
@@ -1168,7 +1168,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for a Observation resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
 	public void testMutiInc_QRQuery_noParams_PatientCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, null, null);
 		assertNotNull(resources);
@@ -1192,7 +1192,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	 * Tests a query for a QuestionnaireResponse resource type with status = 'final' which should yield correct results.
 	 * @throws Exception
 	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
+	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
 	public void testMutiInc_QRQuery_authored_PatientCompmt() throws Exception {
 		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "status", "final");
 		assertNotNull(resources);

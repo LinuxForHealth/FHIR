@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETER_TABLE_ALIAS;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,6 @@ import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -525,6 +525,13 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				chainedLogicalResourceVar = CLR + refParmIndex;
 				chainedParmVar = CP + refParmIndex;
 				
+				// The * is a wildcard for any resource type. This occurs only in the case where a reference parameter chain
+				// was built to represent a compartment search with chained inclusion criteria that includes a wildcard.
+				// For this situation, a separate method is called, and further processing of the chain by this method is halted.
+				if (currentParm.getModifierResourceTypeName().equals("*")) {
+					this.processWildcardChainedRefParm(currentParm, chainedResourceVar, chainedLogicalResourceVar, chainedParmVar, whereClauseSegment, bindVariables);
+					break;
+				}
 				// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
 				resourceTypeName = "'" + currentParm.getModifierResourceTypeName() + "'";
 				whereClauseSegment.append(LEFT_PAREN).append("SELECT ")
@@ -570,9 +577,174 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		return queryData;
 	}
 
+	/**
+	 * This method handles the processing of a wildcard chained reference parameter. The wildcard represents ALL FHIR resource types stored 
+	 * in the FHIR database.
+	 */
+	private void processWildcardChainedRefParm(Parameter currentParm, String chainedResourceVar,
+			String chainedLogicalResourceVar, String chainedParmVar, StringBuilder whereClauseSegment, List<Object> bindVariables) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+		final String METHODNAME = "processChainedReferenceParm";
+		log.entering(CLASSNAME, METHODNAME, currentParm.toString());
+		
+		String resourceTypeName;
+		Collection<Integer> resourceTypeIds;
+		Parameter lastParm;
+		boolean selectGenerated = false;
+		
+		lastParm = currentParm.getNextParameter();
+		
+		// Acquire ALL Resource Type Ids
+		resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
+		
+		// Build a sub-SELECT for each resource type, and put them together in a UNION.
+		for (Integer resourceTypeId : resourceTypeIds) {
+			if (selectGenerated) {
+				whereClauseSegment.append(" UNION ");
+			}
+			// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
+			resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId);
+			if (!selectGenerated) {
+				whereClauseSegment.append(LEFT_PAREN);
+			}
+			whereClauseSegment.append("SELECT ")
+							  .append("'").append(resourceTypeName).append("'")
+							  .append(" || ").append("'/'").append(" || ")
+							  .append(chainedLogicalResourceVar).append(".").append("LOGICAL_ID");
+			
+			// Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+			whereClauseSegment.append(" FROM ")
+							  .append(resourceTypeName).append("_RESOURCES ")
+							  .append(chainedResourceVar).append(", ")
+							  .append(resourceTypeName).append("_LOGICAL_RESOURCES ")
+							  .append(chainedLogicalResourceVar).append(", ")
+							  .append(resourceTypeName).append("_STR_VALUES ")
+							  .append(chainedParmVar)
+							  .append(" WHERE ");
+			// Build this piece: CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+			whereClauseSegment.append(chainedResourceVar).append(".RESOURCE_ID = ")
+							  .append(chainedLogicalResourceVar).append(".").append("CURRENT_RESOURCE_ID").append(AND)
+							  .append(chainedResourceVar).append(".IS_DELETED").append(" <> 'Y'").append(AND)
+							  .append(chainedParmVar).append(".RESOURCE_ID = ").append(chainedResourceVar).append(".RESOURCE_ID").append(AND);
+			
+			// This logic processes the LAST parameter in the chain.
+			// Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
+			whereClauseSegment.append(chainedParmVar).append(".PARAMETER_NAME_ID=")
+							  .append(ParameterNamesCache.getParameterNameId(lastParm.getName(), this.parameterDao)).append(AND)
+							  .append(chainedParmVar).append(".").append(STR_VALUE).append(" = ?");
+			bindVariables.add(lastParm.getValues().get(0).getValueString());
+				
+			selectGenerated = true;
+		}
+		
+		log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+		
+	}
+
+	/**
+	 * This method is the entry point for processing inclusion criteria, which define resources that are part of a comparment-based search.
+	 * @see compartments.json for the specificaiton of compartments, resources contained in each compartment, and the criteria that must be for 
+	 * a resource to be included in a compartment. 
+	 * Example inclusion criteria for AuditEvent in the Patient compartment:
+	 * {
+	 *		"name": "AuditEvent",
+	 *		"inclusionCriteria": ["patient",          This is a simple attribute inclusion criterion
+	 *		"participant.patient:Device",             This is a chained inclusion criterion
+	 *		"participant.patient:RelatedPerson",      This is a chained inclusion criterion
+	 *		"reference.patient:*"]                    This is a chained inclusion criterion with wildcard. The wildcard means "any resource type".
+		} 
+	 *
+	 * Here is a sample generated query for this inclusion criteria:
+	 * --PARAMETER_NAME_ID 13 = 'participant'
+	 * --PARAMETER_NAME_ID 14 = 'patient'
+	 * --PARAMETER_NAME_ID 16 = 'reference'
+	 *	
+	 *	SELECT COUNT(R.RESOURCE_ID) FROM 
+	 *	AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR , AuditEvent_STR_VALUES P1 WHERE 
+	 *	R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND 
+	 *	R.IS_DELETED <> 'Y' AND 
+	 *	P1.RESOURCE_ID = R.RESOURCE_ID AND 
+	 *	((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR 
+	 *	 ((P1.PARAMETER_NAME_ID=13 AND 
+	 *	  (P1.STR_VALUE IN 
+	 *		(SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM 
+	 *			Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE 
+	 *			CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND 
+	 *			CR1.IS_DELETED <> 'Y' AND 
+	 *			CP1.RESOURCE_ID = CR1.RESOURCE_ID AND 
+	 *			CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR 
+	 *	((P1.PARAMETER_NAME_ID=13 AND 
+	 *	 (P1.STR_VALUE IN 
+	 *		(SELECT 'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM 
+	 *			RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES CLR1, RelatedPerson_STR_VALUES CP1 WHERE 
+	 *			CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND 
+	 *			CR1.IS_DELETED <> 'Y' AND 
+	 *			CP1.RESOURCE_ID = CR1.RESOURCE_ID AND 
+	 *			CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR 
+	 *	 ((P1.PARAMETER_NAME_ID=16 AND 
+	 *	  (P1.STR_VALUE IN 
+	 *		(SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM 
+	 *			auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE 
+	 *			CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND 
+	 *			CR1.IS_DELETED <> 'Y' AND 
+	 *			CP1.RESOURCE_ID = CR1.RESOURCE_ID AND 
+	 *			CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ? 
+	 *			UNION 
+	 *			SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM 
+	 *				device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE 
+	 *				CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND 
+	 *				CR1.IS_DELETED <> 'Y' AND 
+	 *				CP1.RESOURCE_ID = CR1.RESOURCE_ID AND 
+	 *				CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
+	 */
 	@Override
 	protected SqlQueryData processInclusionCriteria(Parameter queryParm) throws FHIRPersistenceException {
-		throw new FHIRPersistenceNotSupportedException("Compartment searches not supported at this time.");
+		final String METHODNAME = "processInclusionCriteria";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		StringBuilder whereClauseSegment = new StringBuilder();
+		JDBCOperator operator = JDBCOperator.EQ;
+		Parameter currentParm;
+		String currentParmValue; 
+		List<Object> bindVariables = new ArrayList<>();
+		SqlQueryData queryData;
+		SqlQueryData chainedIncQueryData;
+		
+		currentParm = queryParm;
+		whereClauseSegment.append(LEFT_PAREN);
+		while(currentParm != null) {
+			if (currentParm.getValues() == null || currentParm.getValues().isEmpty()) {
+				throw new FHIRPersistenceException("No Paramter values found when processing inclusion criteria.");
+			}
+			// Handle the special case of chained inclusion criteria.
+			if (currentParm.getName().contains(".")) {
+				whereClauseSegment.append(LEFT_PAREN);
+				chainedIncQueryData = this.processChainedInclusionCriteria(currentParm);
+				whereClauseSegment.append(chainedIncQueryData.getQueryString());
+				bindVariables.addAll(chainedIncQueryData.getBindVariables());
+				whereClauseSegment.append(RIGHT_PAREN);
+			}
+			else {
+				currentParmValue = currentParm.getValues().get(0).getValueString();
+				// Build this piece:
+				// (pX.PARAMETER_NAME_ID = x AND
+				this.populateNameIdSubSegment(whereClauseSegment, currentParm.getName(), PARAMETER_TABLE_ALIAS);
+				whereClauseSegment.append(JDBCOperator.AND.value());
+				// Build this piece: pX.str_value = search-attribute-value
+				whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+				whereClauseSegment.append(RIGHT_PAREN);
+				bindVariables.add(currentParmValue);
+			}
+			
+			currentParm = currentParm.getNextParameter();
+			// If more than one parameter is in the chain, OR them together.
+			if (currentParm != null) {
+				whereClauseSegment.append(JDBCOperator.OR.value());
+			}
+		}
+		whereClauseSegment.append(RIGHT_PAREN);
+		queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+		log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+		return queryData;
 	}
 
 	@Override
@@ -919,6 +1091,32 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			}
 		}
 		return nearParameterIndex;
+	}
+
+	/**
+	 * This method handles the special case of chained inclusion criteria. 
+	 * Using data extracted from the passed query parameter, a new Parameter chain is built to represent the chained inclusion criteria.
+	 * That new Parameter is then passed to the inherited processChainedReferenceParamter() method to generate the required where clause segment.
+	 * @see https://www.hl7.org/fhir/compartments.html
+	 * @param queryParm - A Parameter representing chained inclusion criterion.
+	 * @return SqlQueryData - the where clause segment and bind variables for a chained inclusion criterion.
+	 * @throws FHIRPersistenceException 
+	 */
+	private SqlQueryData processChainedInclusionCriteria(Parameter queryParm) throws FHIRPersistenceException {
+		final String METHODNAME = "processChainedInclusionCriteria";
+		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+		
+		SqlQueryData queryData;
+		Parameter rootParameter = null;
+		
+		// Transform the passed query parm into a chained parameter representation.
+		rootParameter = SearchUtil.parseChainedInclusionCriteria(queryParm);
+		// Call method to process the Parameter built by this method as a chained parameter.
+		queryData = this.processChainedReferenceParm(rootParameter);
+		
+		log.exiting(CLASSNAME, METHODNAME);
+		return queryData;
+		
 	}
 
 }
