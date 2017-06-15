@@ -19,10 +19,8 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.io.StringWriter;
@@ -261,10 +259,9 @@ public class FHIRResource {
 
     	Date startTime = new Date();
     	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
-    	Resource currentResource = null;
     	
-        log.entering(this.getClass().getName(), "update(String,Resource)");
-
+        log.entering(this.getClass().getName(), "update(String,String,Resource)");
+        InternalOperationResponse ior = null;
         try {
             checkInitComplete();
 
@@ -272,23 +269,14 @@ public class FHIRResource {
             if (resource.getId() == null) {
                 throw new FHIRException("Input resource must contain an 'id' attribute.");
             }
-        	
-        	currentResource = doRead(type, resource.getId().getValue(), false, true);
-            URI locationURI = doUpdate(type, id, resource, currentResource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH));
             
-            ResponseBuilder response = null;
+            ior = doUpdate(type, id, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null);
+            
+            ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
+            status = ior.getStatus();
+            response.status(status);
 
-            // Determine whether we actually did a create or an update operation in the persistence layer.
-            if (currentResource == null) {
-                // Must have been a create.
-                response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString())));
-                status = Response.Status.CREATED;
-            } else {
-                // Must have been an update.
-                response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString())));
-                status = Response.Status.OK;
-            }
-            response = addHeaders(response, resource);
+            response = addHeaders(response, ior.getResource());
             return response.build();
         } catch (FHIRRestException e) {
             status = e.getHttpStatus();
@@ -303,11 +291,66 @@ public class FHIRResource {
             return exceptionResponse(e, status);
         } finally {
             if (status == Response.Status.CREATED) {
-                RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
+                RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
             } else {
-                RestAuditLogger.logUpdate(httpServletRequest, currentResource, resource, startTime, new Date(), status);
+                RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
             }
-            log.exiting(this.getClass().getName(), "update(String,Resource)");
+            log.exiting(this.getClass().getName(), "update(String,String,Resource)");
+        }
+    }
+
+    @PUT
+    @Path("{type}")
+    public Response conditionalUpdate(
+        @PathParam("type") String type, 
+        Resource resource) {
+
+        Date startTime = new Date();
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        
+        log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
+        
+        InternalOperationResponse ior = null;
+
+        try {
+            checkInitComplete();
+
+            // Make sure the resource has an 'id' attribute.
+            if (resource.getId() == null) {
+                throw new FHIRException("Input resource must contain an 'id' attribute.");
+            }
+            
+            String searchQueryString = httpServletRequest.getQueryString();
+            if (searchQueryString == null || searchQueryString.isEmpty()) {
+                throw new FHIRException("A search query string is required for a conditional update operation.");
+            }
+            
+            ior = doUpdate(type, null, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString);
+            
+            ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
+            status = ior.getStatus();
+            response.status(status);
+
+            response = addHeaders(response, ior.getResource());
+            return response.build();
+        } catch (FHIRRestException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
+        } catch (FHIRException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, status);
+        } finally {
+            if (status == Response.Status.CREATED) {
+                RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+            } else {
+                RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+            }
+            log.exiting(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         }
     }
 
@@ -320,21 +363,25 @@ public class FHIRResource {
         
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
-        Resource resource = null;
+
+        InternalOperationResponse ior = null;
         
         try {
             checkInitComplete();
             
-            resource = doDelete(type, id);
+            ior = doDelete(type, id, null);
             ResponseBuilder response = Response.noContent();
-            status = Response.Status.NO_CONTENT;
-            if (resource != null) {
-                response = addHeaders(response, resource);
+            status = ior.getStatus();
+            if (ior.getResource() != null) {
+                response = addHeaders(response, ior.getResource());
             }
             return response.build();
         } catch (FHIRRestException e) {
             status = e.getHttpStatus();
             return exceptionResponse(e);
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.NOT_FOUND;
+            return exceptionResponse(e, status);
         } catch (FHIRPersistenceNotSupportedException e) {
             status = Response.Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
@@ -344,7 +391,51 @@ public class FHIRResource {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-            RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
+            RestAuditLogger.logRead(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+            log.exiting(this.getClass().getName(), "delete(String,String)");
+        }
+    }
+
+    @DELETE
+    @Path("{type}")
+    public Response conditionalDelete(@PathParam("type") String type) throws Exception {
+        log.entering(this.getClass().getName(), "conditionalDelete(String,String)");
+        
+        Date startTime = new Date();
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        InternalOperationResponse ior = null;
+        
+        try {
+            checkInitComplete();
+            
+            String searchQueryString = httpServletRequest.getQueryString();
+            if (searchQueryString == null || searchQueryString.isEmpty()) {
+                throw new FHIRException("A search query string is required for a conditional delete operation.");
+            }
+            
+            ior = doDelete(type, null, searchQueryString);
+            ResponseBuilder response = Response.noContent();
+            status = ior.getStatus();
+            if (ior.getResource() != null) {
+                response = addHeaders(response, ior.getResource());
+            }
+            return response.build();
+        } catch (FHIRRestException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.NOT_FOUND;
+            return exceptionResponse(e, status);
+        } catch (FHIRPersistenceNotSupportedException e) {
+            status = Response.Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
+        } catch (FHIRException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, status);
+        } finally {
+            RestAuditLogger.logRead(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
@@ -809,7 +900,7 @@ public class FHIRResource {
     /**
      * Performs the heavy lifting associated with a 'create' interaction.
      * @param resource the Resource to be stored.
-     * @return the location URI associated with the new Resource
+     * @return an InternalOperationResponse object containing the results of the operation
      * @throws Exception
      */
     protected InternalOperationResponse doCreate(String type, Resource resource, String ifNoneExist) throws Exception {
@@ -818,7 +909,7 @@ public class FHIRResource {
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
         
-        InternalOperationResponse result = new InternalOperationResponse();
+        InternalOperationResponse ior = new InternalOperationResponse();
         
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -848,7 +939,7 @@ public class FHIRResource {
                 }
                 
                 // Check the search results to determine whether or not to perform the create operation.
-                int resultCount = responseBundle.getTotal().getValue().intValue();
+                int resultCount = responseBundle.getEntry().size();
                 log.fine("Conditional create search yielded " + resultCount + " results.");
 
                 if (resultCount == 0) {
@@ -857,14 +948,14 @@ public class FHIRResource {
                     // If we found a single match, bypass the 'create' request and return information
                     // for the matched resource.
                     Resource matchedResource = FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
-                    result.locationURI = FHIRUtil.buildLocationURI(type, matchedResource);
-                    result.status = Response.Status.OK;
-                    result.resource = matchedResource;
-                    log.fine("Returning location URI of matched resource: " + result.locationURI);
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, matchedResource));
+                    ior.setStatus(Response.Status.OK);
+                    ior.setResource(matchedResource);
+                    log.fine("Returning location URI of matched resource: " + ior.getLocationURI());
 
-                    return result;
+                    return ior;
                 } else {
-                    String msg = "The search criteria specified for a 'conditional create' operation returned multiple matches.";
+                    String msg = "The search criteria specified for a conditional create operation returned multiple matches.";
                     throw new FHIRException(msg, Response.Status.PRECONDITION_FAILED, null);
                 }
             }
@@ -897,12 +988,12 @@ public class FHIRResource {
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             getPersistenceImpl().create(persistenceContext, resource);
-            result.status = Response.Status.CREATED;
-            result.resource = resource;
+            ior.setStatus(Response.Status.CREATED);
+            ior.setResource(resource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
-            result.locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource);
-            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, result.locationURI.toString());
+            ior.setLocationURI(FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource));
+            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
 
             // Invoke the 'afterCreate' interceptor methods.
             getInterceptorMgr().fireAfterCreateEvent(event);
@@ -915,7 +1006,7 @@ public class FHIRResource {
                 txnStarted = false;
             }
 
-            return result;
+            return ior;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'create' request.";
             log.log(Level.SEVERE, msg, t);
@@ -937,12 +1028,15 @@ public class FHIRResource {
 
     /**
      * Performs an update operation (a new version of the Resource will be stored).
-     * @param resource the Resource being updated
+     * @param type the type of the resource to be updated
      * @param id the id of the Resource being updated
-     * @return the location URI associated with the new version of the Resource
+     * @param newResource the new resource to be stored
+     * @param ifMatchValue an optional "If-Match" header value to request a version-aware update
+     * @param searchQueryString an optional search query string to request a conditional update
+     * @return an InternalOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    protected URI doUpdate(String type, String id, Resource resource, Resource currentResource, String ifMatchValue) throws Exception {
+    protected InternalOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
 
         FHIRPersistenceTransaction txn = null;
@@ -950,35 +1044,78 @@ public class FHIRResource {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        InternalOperationResponse ior = new InternalOperationResponse();
 
         try {
-            // Make sure the type specified in the URL string matches the resource type obtained from the resource.
-            String resourceType = FHIRUtil.getResourceTypeName(resource);
+            // Make sure the type specified in the URL string matches the resource type obtained from the new resource.
+            String resourceType = FHIRUtil.getResourceTypeName(newResource);
             if (!resourceType.equals(type)) {
                 throw new FHIRException("Resource type '" + resourceType + "' does not match type specified in request URI: " + type);
             }
             
+            // Make sure the resource has an 'id' attribute.
+            if (newResource.getId() == null) {
+                throw new FHIRException("Input resource must contain an 'id' attribute.");
+            }
+            
+            // Next, if a conditional update was invoked then use the search criteria to find the
+            // resource to be updated.   Otherwise, we'll use the id value to retrieve the current
+            // version of the resource.
+            if (searchQueryString != null) {
+                log.fine("Performing conditional update with search criteria: " + searchQueryString);
+                Bundle responseBundle = null;
+                try {
+                    MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
+                    responseBundle = doSearch(type, null, null, searchParameters, null);
+                } catch (Throwable t) {
+                    String msg = "An error occurred while performing the search for a conditional update operation.";
+                    log.log(Level.SEVERE, msg, t);
+                    throw new FHIRException(msg, Response.Status.BAD_REQUEST, null);
+                }
+                
+                // Check the search results to determine whether or not to perform the update operation.
+                int resultCount = responseBundle.getEntry().size();
+                log.fine("Conditional update search yielded " + resultCount + " results.");
+
+                if (resultCount == 0) {
+                    // Search yielded no matches, so we'll do an update/create operation below.
+                    ior.setPrevResource(null);
+                    id = newResource.getId().getValue();
+                } else if (resultCount == 1) {
+                    // If we found a single match, then we'll perform a normal update on the matched resource.
+                    ior.setPrevResource(FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource()));
+                    id = ior.getPrevResource().getId().getValue();
+                } else {
+                    String msg = "The search criteria specified for a conditional update operation returned multiple matches.";
+                    throw new FHIRException(msg, Response.Status.PRECONDITION_FAILED, null);
+                }
+            } else {
+                // Make sure an id value was passed in.
+                if (id == null) {
+                    throw new FHIRException("The 'id' parameter is required for an update operation.");
+                }
+                
+                // If an id value was passed in (i.e. the id specified in the REST API URL string),
+                // then make sure it's the same as the value in the resource.
+                if (!newResource.getId().getValue().equals(id)) {
+                    throw new FHIRException("Input resource 'id' attribute must match 'id' parameter.");
+                }
+                
+                // Retrieve the resource to be updated using the type and id values.
+                ior.setPrevResource(doRead(type, id, false, true));
+            }
+            
             // Validate the input resource and return any validation errors.
-            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
+            List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(newResource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
                 OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
                 throw new FHIRRestException("Input resource failed validation.", operationOutcome, Response.Status.BAD_REQUEST);
             }
-
-            // Make sure the resource has an 'id' attribute.
-            if (resource.getId() == null) {
-                throw new FHIRException("Input resource must contain an 'id' attribute.");
-            }
-
-            // If an id value was passed in (i.e. the id specified in the REST API URL string),
-            // then make sure it's the same as the value in the resource.
-            if (id != null & !resource.getId().getValue().equals(id)) {
-                throw new FHIRException("Input resource 'id' attribute must match 'id' parameter.");
-            }
             
             // Perform the "version-aware" update check.
-            if (currentResource != null) {
-                performVersionAwareUpdateCheck(currentResource, ifMatchValue);
+            if (ior.getPrevResource() != null) {
+                performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -990,8 +1127,8 @@ public class FHIRResource {
             }
             
             // First, invoke the 'beforeUpdate' interceptor methods.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, resource.getId().getValue(), null));
-            boolean updateCreate = (currentResource == null); 
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null));
+            boolean updateCreate = (ior.getPrevResource() == null); 
             if (updateCreate) {
             	getInterceptorMgr().fireBeforeCreateEvent(event);
             } else {
@@ -999,16 +1136,19 @@ public class FHIRResource {
             }
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            getPersistenceImpl().update(persistenceContext, id, resource);
+            getPersistenceImpl().update(persistenceContext, id, newResource);
+            ior.setResource(newResource);
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
-            URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(resource), resource);
-            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, locationURI.toString());
+            ior.setLocationURI(FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(newResource), newResource));
+            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
 
             // Invoke the 'afterUpdate' interceptor methods.
             if (updateCreate) {
+                ior.setStatus(Response.Status.CREATED);
             	getInterceptorMgr().fireAfterCreateEvent(event);
             } else {
+                ior.setStatus(Response.Status.OK);
             	getInterceptorMgr().fireAfterUpdateEvent(event);
             }
             
@@ -1020,7 +1160,7 @@ public class FHIRResource {
                 txnStarted = false;
             }
 
-            return locationURI;
+            return ior;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'update' request.";
             log.log(Level.SEVERE, msg, t);
@@ -1047,11 +1187,13 @@ public class FHIRResource {
      * @return the deleted Resource
      * @throws Exception
      */
-    protected Resource doDelete(String type, String id) throws Exception {
+    protected InternalOperationResponse doDelete(String type, String id, String searchQueryString) throws Exception {
         log.entering(this.getClass().getName(), "doDelete");
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        InternalOperationResponse ior = new InternalOperationResponse();
 
         try {
             String resourceTypeName = type;
@@ -1068,6 +1210,44 @@ public class FHIRResource {
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
+            // Next, if a conditional delete was invoked then use the search criteria to find the
+            // resource to be deleted.   Otherwise, we'll use the id value to identify the resource
+            // to be deleted.
+            if (searchQueryString != null) {
+                log.fine("Performing conditional delete with search criteria: " + searchQueryString);
+                Bundle responseBundle = null;
+                try {
+                    MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
+                    responseBundle = doSearch(type, null, null, searchParameters, null);
+                } catch (Throwable t) {
+                    String msg = "An error occurred while performing the search for a conditional delete operation.";
+                    log.log(Level.SEVERE, msg, t);
+                    throw new FHIRException(msg, Response.Status.BAD_REQUEST, null);
+                }
+                
+                // Check the search results to determine whether or not to perform the update operation.
+                int resultCount = responseBundle.getEntry().size();
+                log.fine("Conditional delete search yielded " + resultCount + " results.");
+
+                if (resultCount == 0) {
+                    // Search yielded no matches, so we'll return a 404 Not Found.
+                    String msg = "Search criteria for a conditional delete operation yielded no matches.";
+                    throw new FHIRPersistenceResourceNotFoundException(msg);
+                } else if (resultCount == 1) {
+                    // If we found a single match, then we'll delete this one.
+                    Resource resource = FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+                    id = resource.getId().getValue();
+                } else {
+                    String msg = "The search criteria specified for a conditional delete operation returned multiple matches.";
+                    throw new FHIRException(msg, Response.Status.PRECONDITION_FAILED, null);
+                }
+            } else {
+                // Make sure an id value was passed in.
+                if (id == null) {
+                    throw new FHIRException("The 'id' parameter is required for a delete operation.");
+                }
+            }
+            
             // First, invoke the 'beforeDelete' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeDeleteEvent(event);
@@ -1076,13 +1256,15 @@ public class FHIRResource {
 
             Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id);
             if (resource != null) {
+                ior.setResource(resource);
+                ior.setStatus(Response.Status.NO_CONTENT);
                 event.setFhirResource(resource);
             }
 
             // Invoke the 'afterDelete' interceptor methods.
             getInterceptorMgr().fireAfterDeleteEvent(event);
 
-            return resource;
+            return ior;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'delete' request.";
             log.log(Level.SEVERE, msg, t);
@@ -1809,9 +1991,23 @@ public class FHIRResource {
                         break;
 
                     case PUT: {
+                        String type = null;
+                        String id = null;
+                        
                         // Process a PUT (update).
-                        if (pathTokens.length != 2) {
-                            throw new FHIRException("Request URL for bundled PUT request should have path part with exactly two tokens (<resourceType>/<id>).");
+                        if (pathTokens.length == 1) {
+                            // A single-part url would be a conditional update: <type>?<query>
+                            type = pathTokens[0];
+                            if (query == null || query.isEmpty()) {
+                                throw new FHIRException("A search query string is required for a conditional update operation.");
+                            }
+                        } else if (pathTokens.length == 2) {
+                            // A two-part url would be a normal update: <type>/<id>.
+                            type = pathTokens[0];
+                            id = pathTokens[1];
+                        } else {
+                            // A url with any other pattern is an error.
+                            throw new FHIRException("Request URL for bundled PUT request should have path part with either one or two tokens (<resourceType> or <resourceType>/<id>).");
                         }
 
                         // Retrieve the resource from the request entry.
@@ -1822,25 +2018,36 @@ public class FHIRResource {
                         processLocalReferences(resource, localRefMap);
 
                         // Perform the 'update' operation.
-                        Resource currentResource = doRead(pathTokens[0], pathTokens[1], false, true);
                         String ifMatchBundleValue = null;
                         if (request.getIfMatch() != null) {
                             ifMatchBundleValue = request.getIfMatch().getValue();
                         }
-                        URI locationURI = doUpdate(pathTokens[0], pathTokens[1], resource, currentResource, ifMatchBundleValue);
-                        setBundleResponseFields(responseEntry, resource, locationURI, (currentResource == null ? SC_CREATED : SC_OK));
+                        InternalOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, query);
+                        setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode());
                     }
                         break;
 
                     case DELETE: {
+                        String type = null;
+                        String id = null;
+                        
                         // Process a DELETE.
-                        if (pathTokens.length != 2) {
-                            throw new FHIRException("Request URL for bundled DELETE request should have path part with exactly two tokens (<resourceType>/<id>).");
+                        if (pathTokens.length == 1) {
+                            // A single-part url would be a conditional delete: <type>?<query>
+                            type = pathTokens[0];
+                            if (query == null || query.isEmpty()) {
+                                throw new FHIRException("A search query string is required for a conditional delete operation.");
+                            }
+                        } else if (pathTokens.length == 2) {
+                            type = pathTokens[0];
+                            id = pathTokens[1];
+                        } else {
+                            throw new FHIRException("Request URL for bundled DELETE request should have path part with one or two tokens (<resourceType> or <resourceType>/<id>).");
                         }
 
                         // Perform the 'delete' operation.
-                        Resource resource = doDelete(pathTokens[0], pathTokens[1]);
-                        setBundleResponseFields(responseEntry, resource, null, SC_NO_CONTENT);
+                        InternalOperationResponse ior = doDelete(type, id, query);
+                        setBundleResponseFields(responseEntry, ior.getResource(), null, ior.getStatus().getStatusCode());
                     }
                         break;
 
@@ -2224,8 +2431,8 @@ public class FHIRResource {
                     .withProfile(objectFactory.createReference().withReference(objectFactory.createString().withValue("http://hl7.org/fhir/profiles/" + resourceType)))
                     .withInteraction(interactions)
                     .withConditionalCreate(objectFactory.createBoolean().withValue(true))
-                    .withConditionalUpdate(objectFactory.createBoolean().withValue(false))
-                    .withConditionalDelete(objectFactory.createConditionalDeleteStatus().withValue(ConditionalDeleteStatusList.NOT_SUPPORTED))
+                    .withConditionalUpdate(objectFactory.createBoolean().withValue(true))
+                    .withConditionalDelete(objectFactory.createConditionalDeleteStatus().withValue(ConditionalDeleteStatusList.SINGLE))
                     .withUpdateCreate(objectFactory.createBoolean().withValue(isUpdateCreateEnabled()))
                     .withSearchParam(conformanceSearchParams);
             
@@ -2768,6 +2975,7 @@ public class FHIRResource {
         private Response.Status status;
         private URI locationURI;
         private Resource resource;
+        private Resource prevResource;
         
         public InternalOperationResponse() {
         }
@@ -2794,6 +3002,14 @@ public class FHIRResource {
         }
         public void setResource(Resource resource) {
             this.resource = resource;
+        }
+
+        public Resource getPrevResource() {
+            return prevResource;
+        }
+
+        public void setPrevResource(Resource prevResource) {
+            this.prevResource = prevResource;
         }
     }
 }

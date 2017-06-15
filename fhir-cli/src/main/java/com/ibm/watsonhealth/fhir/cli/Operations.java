@@ -14,7 +14,9 @@ package com.ibm.watsonhealth.fhir.cli;
 public enum Operations {
     BATCH("batch", OptionNames.RESOURCE),
     CREATE("create", OptionNames.RESOURCE),
+    COND_CREATE("conditional-create", OptionNames.RESOURCE),
     DELETE("delete", OptionNames.RESOURCETYPE, OptionNames.ID),
+    COND_DELETE("conditional-delete", OptionNames.RESOURCETYPE),
     HISTORY("history", OptionNames.RESOURCETYPE, OptionNames.ID),
     METADATA("metadata"),
     READ("read", OptionNames.RESOURCETYPE, OptionNames.ID),
@@ -23,6 +25,7 @@ public enum Operations {
     SEARCH_POST("search-post", OptionNames.RESOURCETYPE),
     TRANSACTION("transaction", OptionNames.RESOURCE),
     UPDATE("update", OptionNames.RESOURCE),
+    COND_UPDATE("conditional-update", OptionNames.RESOURCE),
     VALIDATE("validate", OptionNames.RESOURCE),
     VREAD("vread", OptionNames.RESOURCETYPE, OptionNames.ID, OptionNames.VERSIONID);
 

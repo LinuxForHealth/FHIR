@@ -27,6 +27,9 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import com.ibm.watsonhealth.fhir.cli.invoker.BatchInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.ConditionalCreateInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.ConditionalDeleteInvoker;
+import com.ibm.watsonhealth.fhir.cli.invoker.ConditionalUpdateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.CreateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.DeleteInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.HistoryInvoker;
@@ -104,7 +107,9 @@ public class FHIRCLI {
         invokers = new HashMap<Operations, OperationInvoker>();
         invokers.put(Operations.BATCH, new BatchInvoker());
         invokers.put(Operations.CREATE, new CreateInvoker());
+        invokers.put(Operations.COND_CREATE, new ConditionalCreateInvoker());
         invokers.put(Operations.DELETE, new DeleteInvoker());
+        invokers.put(Operations.COND_DELETE, new ConditionalDeleteInvoker());
         invokers.put(Operations.HISTORY, new HistoryInvoker());
         invokers.put(Operations.METADATA, new MetadataInvoker());
         invokers.put(Operations.READ, new ReadInvoker());
@@ -113,6 +118,7 @@ public class FHIRCLI {
         invokers.put(Operations.SEARCH_POST, new SearchPostInvoker());
         invokers.put(Operations.TRANSACTION, new TransactionInvoker());
         invokers.put(Operations.UPDATE, new UpdateInvoker());
+        invokers.put(Operations.COND_UPDATE, new ConditionalUpdateInvoker());
         invokers.put(Operations.VALIDATE, new ValidateInvoker());
         invokers.put(Operations.VREAD, new VreadInvoker());
     }

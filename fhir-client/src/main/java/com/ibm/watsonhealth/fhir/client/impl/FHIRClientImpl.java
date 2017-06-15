@@ -109,13 +109,11 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse create(Resource resource, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
         String resourceType = resource.getClass().getSimpleName();
-        WebTarget endpoint = getWebTarget();
-        Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path(resourceType).request(getDefaultMimeType());
-        builder = addRequestHeaders(builder, headers);
-        Response response = builder.post(entity);
-        return new FHIRResponseImpl(response);
+        return _create(resource, resourceType, null, headers);
     }
 
     /* (non-Javadoc)
@@ -123,16 +121,90 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse create(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
         String resourceType = resource.getString("resourceType");
         if (resourceType == null || resourceType.isEmpty()) {
-            throw new IllegalArgumentException("Unable to retrieve the resource type resource.");
+            throw new IllegalArgumentException("Unable to retrieve the resource type from the resource.");
         }
+        return _create(resource, resourceType, null, headers);
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#conditionalCreate(com.ibm.watsonhealth.fhir.model.Resource, com.ibm.watsonhealth.fhir.client.FHIRParameters, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
+     */
+    @Override
+    public FHIRResponse conditionalCreate(Resource resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
+        String resourceType = resource.getClass().getSimpleName();
+        if (parameters == null || parameters.getParameterMap() == null || parameters.getParameterMap().isEmpty()) {
+            throw new IllegalArgumentException("The 'parameters' argument must be non-null and must contain at least one search query parameter");
+        }
+        return _create(resource, resourceType, parameters, headers);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#conditionalCreate(javax.json.JsonObject, com.ibm.watsonhealth.fhir.client.FHIRParameters, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
+     */
+    @Override
+    public FHIRResponse conditionalCreate(JsonObject resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
+        String resourceType = resource.getString("resourceType");
+        if (resourceType == null || resourceType.isEmpty()) {
+            throw new IllegalArgumentException("Unable to retrieve the resource type from the resource.");
+        }
+        if (parameters == null || parameters.getParameterMap() == null || parameters.getParameterMap().isEmpty()) {
+            throw new IllegalArgumentException("The 'parameters' argument must be non-null and must contain at least one search query parameter");
+        }
+        return _create(resource, resourceType, parameters, headers);
+    }
+    
+    /**
+     * Common "create" implementations used by the "create()" and "conditionalCreate()" methods.
+     */
+    private <T> FHIRResponse _create(T resource, String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
+        Entity<T> entity = Entity.entity(resource, getDefaultMimeType());
         Invocation.Builder builder = endpoint.path(resourceType).request(getDefaultMimeType());
+        headers = addIfNoneExistHeader(headers, parameters);
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
+    }
+
+    /**
+     * This function will add a "If-None-Exist" request header to the specified array of headers.
+     * @param headers a possibly null array of FHIRRequestHeader objects
+     * @param ifNoneExistQuery a string representing the search query to be used for a conditional create operation
+     * @return a new array of FHIRRequestHeader objects containing the additional "If-None-Exist" request header
+     */
+    private FHIRRequestHeader[] addIfNoneExistHeader(FHIRRequestHeader[] headers, FHIRParameters ifNoneExistQuery) {
+        if (ifNoneExistQuery == null) {
+            return headers;
+        }
+        
+        // Create a "If-None-Exist" request header whose value is the stringified version of "ifNoneExistQuery".
+        FHIRRequestHeader ifNoneExistHeader = new FHIRRequestHeader("If-None-Exist", ifNoneExistQuery.queryString(false));
+        
+        // Create a new array that has room for the new "If-None-Exist" header.
+        int headersSize = (headers != null ? headers.length : 0);
+        FHIRRequestHeader[] result = new FHIRRequestHeader[headersSize + 1];
+        if (headers != null) {
+            for (int i = 0; i < headers.length; i++) {
+                result[i] = headers[i];
+            }
+        }
+        
+        // Add the new header at the end.
+        result[result.length - 1] = ifNoneExistHeader;
+        
+        return result;
     }
     
 
@@ -141,17 +213,15 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse update(Resource resource, FHIRRequestHeader... headers) throws Exception {
-        WebTarget endpoint = getWebTarget();
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
         String resourceType = resource.getClass().getSimpleName();
         String resourceId = (resource.getId() != null ? resource.getId().getValue() : null);
         if (resourceId == null || resourceId.isEmpty()) {
-            throw new IllegalArgumentException("Unable to retrieve the id from resource.");
+            throw new IllegalArgumentException("Unable to retrieve the resource id from the resource.");
         }
-        Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
-        builder = addRequestHeaders(builder, headers);
-        Response response = builder.put(entity);
-        return new FHIRResponseImpl(response);
+        return _update(resource, resourceType, resourceId, null, headers);
     }
 
     /* (non-Javadoc)
@@ -159,17 +229,70 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse update(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
         String resourceType = resource.getString("resourceType");
         if (resourceType == null || resourceType.isEmpty()) {
-            throw new IllegalArgumentException("Unable to retrieve the resource type from resource.");
+            throw new IllegalArgumentException("Unable to retrieve the resource type from the resource.");
         }
         String resourceId = resource.getString("id");
         if (resourceId == null || resourceId.isEmpty()) {
-            throw new IllegalArgumentException("Unable to retrieve the id from resource.");
+            throw new IllegalArgumentException("Unable to retrieve the resource id from the resource.");
         }
+        return _update(resource, resourceType, resourceId, null, headers);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#conditionalUpdate(com.ibm.watsonhealth.fhir.model.Resource, com.ibm.watsonhealth.fhir.client.FHIRParameters, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
+     */
+    @Override
+    public FHIRResponse conditionalUpdate(Resource resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
+        String resourceType = resource.getClass().getSimpleName();
+        if (parameters == null || parameters.getParameterMap() == null || parameters.getParameterMap().isEmpty()) {
+            throw new IllegalArgumentException("The 'parameters' argument must be non-null and must contain at least one search query parameter");
+        }
+        return _update(resource, resourceType, null, parameters, headers);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#conditionalUpdate(javax.json.JsonObject, com.ibm.watsonhealth.fhir.client.FHIRParameters, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
+     */
+    @Override
+    public FHIRResponse conditionalUpdate(JsonObject resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
+        String resourceType = resource.getString("resourceType");
+        if (resourceType == null || resourceType.isEmpty()) {
+            throw new IllegalArgumentException("Unable to retrieve the resource type from the resource.");
+        }
+        if (parameters == null || parameters.getParameterMap() == null || parameters.getParameterMap().isEmpty()) {
+            throw new IllegalArgumentException("The 'parameters' argument must be non-null and must contain at least one search query parameter");
+        }
+        return _update(resource, resourceType, null, parameters, headers);
+    }
+    
+    /**
+     * Common "update" implementations used by the "update()" and "conditionalUpdate()" methods.
+     */
+    private <T> FHIRResponse _update(T resource, String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
+        Entity<T> entity = Entity.entity(resource, getDefaultMimeType());
+        endpoint = endpoint.path(resourceType);
+        
+        if (resourceId != null) {
+            // For a normal update operation, add the resource id to the URL pattern of the request.
+            endpoint = endpoint.path(resourceId);
+        } else {
+            // Otherwise, for a conditional update, add the search query parameter(s) to the request.
+            endpoint = addParametersToWebTarget(endpoint, parameters);
+        }
+        
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.put(entity);
         return new FHIRResponseImpl(response);
@@ -180,8 +303,41 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse delete(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
+        return _delete(resourceType, resourceId, null, headers);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#conditionalDelete(java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRParameters, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
+     */
+    @Override
+    public FHIRResponse conditionalDelete(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (parameters == null || parameters.getParameterMap() == null || parameters.getParameterMap().isEmpty()) {
+            throw new IllegalArgumentException("The 'parameters' argument must be non-null and must contain at least one search query parameter");
+        }
+        return _delete(resourceType, null, parameters, headers);
+    }
+    private FHIRResponse _delete(String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
+        endpoint = endpoint.path(resourceType);
+        
+        if (resourceId != null) {
+            // For a normal delete operation, add the resource id to the URL pattern of the request.
+            endpoint = endpoint.path(resourceId);
+        } else {
+            // Otherwise, for a conditional delte, add the search query parameter(s) to the request.
+            endpoint = addParametersToWebTarget(endpoint, parameters);
+        }
+
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.delete();
         return new FHIRResponseImpl(response);
@@ -192,6 +348,12 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse read(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
@@ -204,6 +366,15 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse vread(String resourceType, String resourceId, String versionId, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
+        if (versionId == null) {
+            throw new IllegalArgumentException("The 'versionId' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).path("_history").path(versionId).request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
@@ -216,6 +387,12 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(resourceType).path(resourceId).path("_history");
         endpoint = addParametersToWebTarget(endpoint, parameters);
@@ -230,6 +407,9 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(resourceType);
         endpoint = addParametersToWebTarget(endpoint, parameters);
@@ -241,6 +421,9 @@ public class FHIRClientImpl implements FHIRClient {
     
     @Override
     public FHIRResponse _search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(resourceType).path("_search");
         Form form = buildForm(parameters);
@@ -267,12 +450,10 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse validate(Resource resource, FHIRRequestHeader... headers) throws Exception {
-        WebTarget endpoint = getWebTarget();
-        Entity<Resource> entity = Entity.entity(resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path("Resource").path("$validate").request(getDefaultMimeType());
-        builder = addRequestHeaders(builder, headers);
-        Response response = builder.post(entity);
-        return new FHIRResponseImpl(response);
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
+        return _validate(resource, headers);
     }
 
     /* (non-Javadoc)
@@ -280,12 +461,20 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse validate(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
+        return _validate(resource, headers);
+    }
+    
+    private <T> FHIRResponse _validate(T resource, FHIRRequestHeader...headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        Entity<JsonObject> entity = Entity.entity(resource, getDefaultMimeType());
+        Entity<T> entity = Entity.entity(resource, getDefaultMimeType());
         Invocation.Builder builder = endpoint.path("Resource").path("$validate").request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
+        
     }
 
     /* (non-Javadoc)
@@ -293,7 +482,10 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse batch(Bundle bundle, FHIRRequestHeader... headers) throws Exception {
-        return bundle(bundle, BundleTypeList.BATCH, headers);
+        if (bundle == null) {
+            throw new IllegalArgumentException("The 'bundle' argument is required but was null.");
+        }
+        return _bundle(bundle, BundleTypeList.BATCH, headers);
     }
 
     /* (non-Javadoc)
@@ -301,7 +493,10 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse transaction(Bundle bundle, FHIRRequestHeader... headers) throws Exception {
-        return bundle(bundle, BundleTypeList.TRANSACTION, headers);
+        if (bundle == null) {
+            throw new IllegalArgumentException("The 'bundle' argument is required but was null.");
+        }
+        return _bundle(bundle, BundleTypeList.TRANSACTION, headers);
     }
     
     /* (non-Javadoc)
@@ -309,6 +504,9 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse invoke(String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(operationName);
         endpoint = addParametersToWebTarget(endpoint, parameters);
@@ -323,6 +521,12 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public FHIRResponse invoke(String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
         Invocation.Builder builder = endpoint.path(operationName).request();
@@ -335,9 +539,15 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceType, String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
-        endpoint = endpoint.path(resourceTypeName).path(operationName);
+        endpoint = endpoint.path(resourceType).path(operationName);
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
@@ -349,10 +559,16 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceType, String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path(resourceTypeName).path(operationName).request();
+        Invocation.Builder builder = endpoint.path(resourceType).path(operationName).request();
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
@@ -362,9 +578,18 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceType, String operationName, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
-        endpoint = endpoint.path(resourceTypeName).path(logicalId).path(operationName);
+        endpoint = endpoint.path(resourceType).path(resourceId).path(operationName);
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
@@ -376,10 +601,22 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, Resource resource, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceType, String operationName, String resourceId, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path(operationName).request();
+        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).path(operationName).request();
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
@@ -389,9 +626,21 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceType, String operationName, String resourceId, String versionId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
+        if (versionId == null) {
+            throw new IllegalArgumentException("The 'versionId' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
-        endpoint = endpoint.path(resourceTypeName).path(logicalId).path("_history").path(versionId).path(operationName);
+        endpoint = endpoint.path(resourceType).path(resourceId).path("_history").path(versionId).path(operationName);
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
@@ -403,16 +652,31 @@ public class FHIRClientImpl implements FHIRClient {
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String, com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
-    public FHIRResponse invoke(String resourceTypeName, String operationName, String logicalId, String versionId, Resource resource, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse invoke(String resourceType, String operationName, String resourceId, String versionId, Resource resource, FHIRRequestHeader... headers) throws Exception {
+        if (resourceType == null) {
+            throw new IllegalArgumentException("The 'resourceType' argument is required but was null.");
+        }
+        if (operationName == null) {
+            throw new IllegalArgumentException("The 'operationName' argument is required but was null.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("The 'resourceId' argument is required but was null.");
+        }
+        if (versionId == null) {
+            throw new IllegalArgumentException("The 'versionId' argument is required but was null.");
+        }
+        if (resource == null) {
+            throw new IllegalArgumentException("The 'resource' argument is required but was null.");
+        }
         WebTarget endpoint = getWebTarget();
         Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path(resourceTypeName).path(logicalId).path("_history").path(versionId).path(operationName).request();
+        Invocation.Builder builder = endpoint.path(resourceType).path(resourceId).path("_history").path(versionId).path(operationName).request();
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
     
-    private FHIRResponse bundle(Bundle bundle, BundleTypeList bundleType, FHIRRequestHeader... headers) throws Exception {
+    private FHIRResponse _bundle(Bundle bundle, BundleTypeList bundleType, FHIRRequestHeader... headers) throws Exception {
         bundle.setType(new BundleType().withValue(bundleType));
         WebTarget endpoint = getWebTarget();
         Entity<Bundle> entity = Entity.entity(bundle, getDefaultMimeType());

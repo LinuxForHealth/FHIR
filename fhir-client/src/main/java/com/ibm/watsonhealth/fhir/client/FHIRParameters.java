@@ -257,13 +257,12 @@ public class FHIRParameters {
     }
 
     /**
-     * This method is intended to be used for debugging, and returns the parameters contained in 'this'
-     * in the form of a query string.
+     * This method returns the parameters contained in 'this' in the form of a query string.
      */
-    public String queryString() {
+    public String queryString(boolean includeSeparator) {
         StringBuilder sb = new StringBuilder();
         if (getParameters() != null) {
-            boolean needSeparator = false;
+            boolean needSeparator = includeSeparator;
             for (Map.Entry<String, List<String>> mapEntry : getParameters().entrySet()) {
                 for (String value : mapEntry.getValue()) {
                     if (needSeparator) {
@@ -277,6 +276,10 @@ public class FHIRParameters {
             }
         }
         return sb.toString();
+    }
+    
+    public String queryString() {
+        return queryString(true);
     }
 
     /**

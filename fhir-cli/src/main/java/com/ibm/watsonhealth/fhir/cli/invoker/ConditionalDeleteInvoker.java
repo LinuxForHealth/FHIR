@@ -7,11 +7,11 @@
 package com.ibm.watsonhealth.fhir.cli.invoker;
 
 /**
- * This class is the OperationInvoker implementation for the 'delete' operation.
+ * This class is the OperationInvoker implementation for the 'conditional delete' operation.
  * 
  * @author padams
  */
-public class DeleteInvoker extends OperationInvoker {
+public class ConditionalDeleteInvoker extends OperationInvoker {
 
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.cli.OperationInvoker#invoke(com.ibm.watsonhealth.fhir.cli.InvocationContext)
@@ -19,8 +19,7 @@ public class DeleteInvoker extends OperationInvoker {
     @Override
     public void doInvoke(InvocationContext ic) throws Exception {
         String resourceType = ic.getResourceTypeWithExcp();
-        String resourceId = ic.getResourceIdWithExcp();
         
-        response = client.delete(resourceType, resourceId, requestHeaders);
+        response = client.conditionalDelete(resourceType, queryParameters, requestHeaders);
     }
 }
