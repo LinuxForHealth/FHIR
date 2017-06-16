@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,11 +31,18 @@ class QuerySegmentAggregator {
 	private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 	
 	private static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
+	private static final String SYSTEM_LEVEL_SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
+	private static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
 	private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
+	private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
+	private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
 	private static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R, {0}_LOGICAL_RESOURCES LR ";
 	private static final String WHERE_CLAUSE_ROOT = "WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y'";
 	private static final String PARAMETER_TABLE_VAR = "P";
 	protected static final String PARAMETER_TABLE_ALIAS = "pX.";
+	private static final String FROM = " FROM ";
+	private static final String UNION = " UNION ALL ";
+	private static final String COMBINED_RESULTS = " COMBINED_RESULTS";
 		
 	private Class<? extends Resource> resourceType;
 	private List<SqlQueryData> querySegments;
@@ -78,7 +86,7 @@ class QuerySegmentAggregator {
 	}
 	
 	/**
-	 * Builds a complete SQL count Query based upon the encapsulated query segments and bind variables.
+	 * Builds a complete SQL Query based upon the encapsulated query segments and bind variables.
 	 * A simple example query produced by this method:
 	 * 
 	 * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
@@ -100,30 +108,25 @@ class QuerySegmentAggregator {
 		SqlQueryData queryData;
 		List<Object> allBindVariables = new ArrayList<>();
 		
-		queryString.append(SELECT_ROOT);
-				
-		queryString.append(this.buildFromClause());
-		
-		queryString.append(this.buildWhereClause());
-		
-		// Add default ordering
-		queryString.append(" ORDER BY R.RESOURCE_ID ASC ");
-		
-		// Add pagination clauses
-		if(this.dao.isDb2Database()) {
-			queryString.append(" LIMIT ").append(this.pageSize).append(" OFFSET ").append(this.offset);
-			
+		if (this.isSystemLevelSearch()) {
+			queryData = this.buildSystemLevelQuery(SYSTEM_LEVEL_SELECT_ROOT, SYSTEM_LEVEL_SUBSELECT_ROOT, true);
 		}
 		else {
-			queryString.append(" OFFSET ").append(this.offset).append(" ROWS")
-				       .append(" FETCH NEXT ").append(this.pageSize).append(" ROWS ONLY");
+			queryString.append(SELECT_ROOT);
+					
+			queryString.append(this.buildFromClause());
+			
+			queryString.append(this.buildWhereClause());
+			
+			for (SqlQueryData querySegment : this.querySegments) {
+				allBindVariables.addAll(querySegment.getBindVariables());
+			}
+			// Add default ordering
+			queryString.append(" ORDER BY R.RESOURCE_ID ASC ");
+			this.addPaginationClauses(queryString);		
+			queryData = new SqlQueryData(queryString.toString(), allBindVariables);
 		}
 		
-		for (SqlQueryData querySegment : this.querySegments) {
-			allBindVariables.addAll(querySegment.getBindVariables());
-		}
-				
-		queryData = new SqlQueryData(queryString.toString(), allBindVariables);
 		log.exiting(CLASSNAME, METHODNAME, queryData);
 		return queryData;
 	}
@@ -150,20 +153,94 @@ class QuerySegmentAggregator {
 		SqlQueryData queryData;
 		List<Object> allBindVariables = new ArrayList<>();
 		
-		queryString.append(SELECT_COUNT_ROOT);
-				
-		queryString.append(this.buildFromClause());
-		
-		queryString.append(this.buildWhereClause());
-		
-		for (SqlQueryData querySegment : this.querySegments) {
-			allBindVariables.addAll(querySegment.getBindVariables());
+		if (this.isSystemLevelSearch()) {
+			queryData = this.buildSystemLevelQuery(SYSTEM_LEVEL_SELECT_COUNT_ROOT, SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT, false);
 		}
-		queryData = new SqlQueryData(queryString.toString(), allBindVariables);
+		else {
+			queryString.append(SELECT_COUNT_ROOT);
+					
+			queryString.append(this.buildFromClause());
+			
+			queryString.append(this.buildWhereClause());
+			
+			for (SqlQueryData querySegment : this.querySegments) {
+				allBindVariables.addAll(querySegment.getBindVariables());
+			}
+			queryData = new SqlQueryData(queryString.toString(), allBindVariables);
+		}
 		
 		log.exiting(CLASSNAME, METHODNAME, queryData);
 		return queryData;
 		
+	}
+	
+	/**
+	 * Build a system level query or count query, based upon the encapsulated query segments and bind variables and
+	 * the passed select-root strings.
+	 * A FHIR system level query spans multiple resource types, and therefore spans multiple tables in the database. 
+	 * Here is an example of a system level query, assuming that only 3 different resource types have been persisted
+	 * in the database:
+	 * SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM 
+	 *  (SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
+	 *    RiskAssessment_RESOURCES R, RiskAssessment_LOGICAL_RESOURCES LR , RiskAssessment_DATE_VALUES P1 WHERE 
+	 *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
+	 *    (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))
+	 *  UNION ALL 
+     *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
+	 *   Group_RESOURCES R, Group_LOGICAL_RESOURCES LR , Group_DATE_VALUES P1 WHERE 
+     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
+     *  (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251'))) 
+	 *  UNION ALL  
+     *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
+     *   Questionnaire_RESOURCES R, Questionnaire_LOGICAL_RESOURCES LR , Questionnaire_DATE_VALUES P1 WHERE
+     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
+     *   (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))) COMBINED_RESULTS; 
+	 * 
+	 * @param selectRoot - The text of the outer SELECT ('SELECT' to 'FROM')
+	 * @param subSelectRoot - The text of the inner SELECT root to use in each sub-select
+	 * @param addFinalClauses - Indicates whether or not ordering and pagination clauses should be generated.
+	 * @return SqlQueryData - contains the complete SQL query string and any associated bind variables.
+	 * @throws Exception
+	 */
+	protected SqlQueryData buildSystemLevelQuery(String selectRoot, String subSelectRoot, boolean addFinalClauses) 
+													throws Exception {
+		final String METHODNAME = "buildSystemLevelQuery";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		StringBuilder queryString = new StringBuilder();
+		SqlQueryData queryData;
+		List<Object> allBindVariables = new ArrayList<>();
+		Collection<Integer> resourceTypeIds;
+		String tempFromClause;
+		String resourceTypeName;
+		boolean resourceTypeProcessed = false;
+		
+		queryString.append(selectRoot).append(FROM).append("(");
+		resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
+		for(Integer resourceTypeId : resourceTypeIds) {
+			resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId) + "_";
+			tempFromClause = this.buildFromClause();
+			tempFromClause = tempFromClause.replaceAll("Resource_", resourceTypeName);
+			if (resourceTypeProcessed) {
+				queryString.append(UNION);
+			}
+			queryString.append(subSelectRoot).append(tempFromClause);
+			resourceTypeProcessed = true;
+			queryString.append(this.buildWhereClause());
+			for (SqlQueryData querySegment : this.querySegments) {
+				allBindVariables.addAll(querySegment.getBindVariables());
+			}
+		}
+		queryString.append(")").append(COMBINED_RESULTS);
+		if (addFinalClauses) {
+			queryString.append(" ORDER BY RESOURCE_ID ASC ");
+			this.addPaginationClauses(queryString);
+		}
+		
+		queryData = new SqlQueryData(queryString.toString(), allBindVariables);
+		
+		log.exiting(CLASSNAME, METHODNAME, queryData);
+		return queryData;
 	}
 	
 	/**
@@ -246,6 +323,31 @@ class QuerySegmentAggregator {
 		
 		log.exiting(CLASSNAME, METHODNAME);
 		return whereClause.toString();
+	}
+	
+	/**
+	 * 
+	 * @return true if this instance represents a FHIR system level search
+	 */
+	private boolean isSystemLevelSearch() {
+		return Resource.class.equals(this.resourceType);
+	}
+	
+	/**
+	 * Adds the appropriate pagination clauses to the passed query string buffer, based on the type
+	 * of database we're running against.
+	 * @param queryString A query string buffer.
+	 * @throws Exception
+	 */
+	private void addPaginationClauses(StringBuilder queryString) throws Exception {
+		
+		if(this.dao.isDb2Database()) {
+			queryString.append(" LIMIT ").append(this.pageSize).append(" OFFSET ").append(this.offset);
+		}
+		else {
+			queryString.append(" OFFSET ").append(this.offset).append(" ROWS")
+				       .append(" FETCH NEXT ").append(this.pageSize).append(" ROWS ONLY");
+		}
 	}
 
 }

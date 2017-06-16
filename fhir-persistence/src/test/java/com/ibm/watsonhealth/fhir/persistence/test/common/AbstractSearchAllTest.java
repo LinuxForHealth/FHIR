@@ -12,7 +12,10 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -49,35 +52,73 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
         lastUpdated = patient.getMeta().getLastUpdated().getValue().toString();
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingId() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_id", patientId);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingLastUpdated() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_lastUpdated", lastUpdated);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingIdAndLastUpdated() throws Exception {
+    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+    	queryParms.put("_id", Collections.singletonList(patientId));
+    	queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
+        List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
+        assertNotNull(resources);
+        assertTrue(resources.size() > 0);
+    }
+    
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingInvalidIdAndLastUpdated() throws Exception {
+    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+    	queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id"));
+    	queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
+        List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingMultipleIds() throws Exception {
+    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+    	queryParms.put("_id", Collections.singletonList(patientId + ",a-totally-stinking-phony-id"));
+    	List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
+        assertNotNull(resources);
+        assertTrue(resources.size() > 0);
+    }
+    
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingMultipleInvalidIds() throws Exception {
+    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+    	queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id,a-second-phony-id"));
+    	List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingTag() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_tag", "http://ibm.com/watsonhealth/fhir/tag|tag");
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingSecurity() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_security", "http://ibm.com/watsonhealth/fhir/security|security");
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized-broken" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingProfile() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, persistence, "_profile", "http://ibm.com/watsonhealth/fhir/profile/Profile");
         assertNotNull(resources);

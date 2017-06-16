@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.xml.datatype.Duration;
@@ -21,6 +22,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Code;
 import com.ibm.watsonhealth.fhir.model.DateTime;
+import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Period;
 import com.ibm.watsonhealth.fhir.model.Range;
@@ -150,8 +152,10 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	}
 	
 	public static final boolean isDateSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
-		return (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(com.ibm.watsonhealth.fhir.model.Date.class) ||
-                SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(DateTime.class));
+		Set<Class<?>> valueTypes = SearchUtil.getValueTypes(resourceType, queryParm.getName());
+		return valueTypes.contains(com.ibm.watsonhealth.fhir.model.Date.class) ||
+			   valueTypes.contains(DateTime.class) ||
+			   valueTypes.contains(Instant.class);
 	}
 	
 	public static final boolean isDateRangeSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception  {
@@ -182,7 +186,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				
 		helper = this.buildQueryCommon(resourceType, searchContext);
 		if (helper != null) {
-        	query = helper.buildCountQuery();
+			query = helper.buildCountQuery();
         }
 		
 		log.exiting(CLASSNAME, METHODNAME);
