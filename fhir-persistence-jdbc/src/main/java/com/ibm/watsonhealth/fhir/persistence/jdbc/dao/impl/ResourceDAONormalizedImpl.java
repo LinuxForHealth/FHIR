@@ -19,7 +19,6 @@ import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -79,6 +78,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	
 	private FHIRPersistenceContext context;
 	private ReplicationInfo replicationInfo;
+	private boolean isRepInfoRequired;
 	
 	/**
 	 * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
@@ -87,14 +87,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		super();
 	}
 	
-	/**
-	 * Constructs a DAO instance suitable for acquiring connections based on the passed database type specific properties.
-	 * @param dbProperties
-	 */
-	public ResourceDAONormalizedImpl(Properties dbProperties) {
-		super(dbProperties);
-	}
-
 	/**
 	 * Constructs a DAO using the passed externally managed database connection.
 	 * The connection used by this instance for all DB operations will be the passed connection.
@@ -138,16 +130,16 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.setTimestamp(3, lastUpdated);
 			stmt.setString(4, resource.isDeleted() ? "Y": "N");
 			stmt.setString(5, UUID.randomUUID().toString());
-			stmt.setString(6, this.getReplicationInfo().getTxCorrelationId());
-			stmt.setString(7, this.getReplicationInfo().getChangedBy());
-			stmt.setString(8, this.getReplicationInfo().getCorrelationToken());
-			stmt.setString(9, this.getReplicationInfo().getTenantId());
-			stmt.setString(10, this.getReplicationInfo().getReason());
-			stmt.setString(11, this.getReplicationInfo().getEvent());
-			stmt.setString(12, this.getReplicationInfo().getSiteId());
-			stmt.setString(13, this.getReplicationInfo().getStudyId());
-			stmt.setString(14, this.getReplicationInfo().getServiceId());
-			stmt.setString(15, this.getReplicationInfo().getPatientId());
+			stmt.setString(6, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
+			stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
+			stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
+			stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getTenantId());
+			stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getReason());
+			stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getEvent());
+			stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getSiteId());
+			stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getStudyId());
+			stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getServiceId());
+			stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getPatientId());
 			stmt.setObject(16, this.getReplicationVersionId(), Types.INTEGER);
 			stmt.setInt(17, 1);
 			stmt.setInt(18, 1);
@@ -159,7 +151,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			log.fine("Succesfully inserted Resource. id=" + resource.getId());
 			
 		}
-		catch(FHIRPersistenceDBConnectException e) {
+		catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
 			throw e;
 		}
 		catch(Throwable e) {
@@ -360,7 +352,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		this.context = context;
 	}
 	
-	private ReplicationInfo getReplicationInfo() {
+	private ReplicationInfo getReplicationInfo(boolean isLogicalDelete) throws FHIRPersistenceDataAccessException {
 		ReplicationInfo repInfo = null;
 		
 		// If a ReplicationInfo is found in the persistence event, use it. Otherwise, create a dummy ReplicationInfo.
@@ -369,6 +361,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 				nonNull(this.context.getPersistenceEvent()) && 
 				nonNull(this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO))) {
 				repInfo = (ReplicationInfo)this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
+			}
+			else if (this.isRepInfoRequired && !isLogicalDelete) {
+				throw new FHIRPersistenceDataAccessException("Required ReplicationInfo is null");
 			}
 			else {
 				repInfo = new ReplicationInfo();
@@ -504,6 +499,17 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		return parameterNameId;
+	}
+
+	@Override
+	public void setRepInfoRequired(boolean isRepInfoRequired) {
+		this.isRepInfoRequired = isRepInfoRequired;
+		
+	}
+
+	@Override
+	public boolean isRepInfoRequired() {
+		return this.isRepInfoRequired;
 	}
 
 	

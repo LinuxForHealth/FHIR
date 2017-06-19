@@ -66,6 +66,19 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
 	 * @throws FHIRPersistenceDataAccessException
 	 */
 	Integer readResourceTypeId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+	
+	/**
+	 * Sets a flag indicating whether or not ReplicationInfo is required on Resource insertion.
+	 * @param isRepInfoRequired
+	 */
+	void setRepInfoRequired(boolean isRepInfoRequired);
+
+
+	/**
+	 * Reteives the flag indicating if ReplicationInfo is required on Resource insertion.
+	 * @return boolean
+	 */
+	boolean isRepInfoRequired();
 
 	
 	

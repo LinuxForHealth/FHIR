@@ -80,6 +80,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 		this.resourceDao = new ResourceDAONormalizedImpl();
+		this.resourceDao.setRepInfoRequired(true);
 		this.parameterDao = new ParameterDAONormalizedImpl();
 		
 		// This cache must be pre-initialized in order for certain types of searches to work correctly.
@@ -103,6 +104,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.setBaseDao(new FHIRDbDAOBasicImpl(configProps));
 		this.setManagedConnection(this.getBaseDao().getConnection());
 		this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
+		this.resourceDao.setRepInfoRequired(false);
 		this.parameterDao = new ParameterDAONormalizedImpl(this.getManagedConnection());
 		
 		// This cache must be pre-initialized in order for certain types of searches to work correctly.
