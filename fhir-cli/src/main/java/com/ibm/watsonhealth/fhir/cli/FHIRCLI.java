@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.cli;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -24,7 +25,6 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 import com.ibm.watsonhealth.fhir.cli.invoker.BatchInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.ConditionalCreateInvoker;
@@ -59,9 +59,10 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 public class FHIRCLI {
     
     public static void main(String[] args) {
+        FHIRCLI fhircli = null;
         try {
             println(copyright);
-            FHIRCLI fhircli = new FHIRCLI(args);
+            fhircli = new FHIRCLI(args);
             fhircli.processCommand();
             System.exit(0);
         } catch (Throwable t) {
@@ -77,6 +78,8 @@ public class FHIRCLI {
     private static final String CONTENT_LENGTH_HEADER = "Content-Length";
     private static final String DEFAULT_MIMETYPE = "application/json+fhir";
     
+    private static PrintStream console = System.err;
+    
     private String[] args;
     
     private Map<Operations, OperationInvoker> invokers = null;
@@ -86,15 +89,19 @@ public class FHIRCLI {
         initInvokersMap();
     }
     
+    public static void setConsoleStream(PrintStream stream) {
+        console = stream;
+    }
+    
     private static void println(String s) {
-        System.err.println(s);
+        console.println(s);
     }
     
     private static void print(String s) {
-        System.err.print(s);
+        console.print(s);
     }
     
-    private static String getStackTrace(Throwable t) {
+    public static String getStackTrace(Throwable t) {
         StringWriter sw = new StringWriter();
         t.printStackTrace(new PrintWriter(sw));
         return sw.toString();
@@ -131,8 +138,8 @@ public class FHIRCLI {
         CommandLine cmdline = null;
         try {
             cmdline = parser.parse(options, args);
-        } catch (ParseException e) {
-            throw new IllegalStateException("Error while parsing command line options.", e);
+        } catch (Throwable t) {
+            throw new IllegalArgumentException("Error while parsing command line options.", t);
         }
         
         // If "help" was requested, then let's display that and we're done.
@@ -311,7 +318,7 @@ public class FHIRCLI {
                         writer = new OutputStreamWriter(os);
                         println("Response resource written to file: " + outputFile);
                     } else {
-                        writer = new OutputStreamWriter(System.out);
+                        writer = new OutputStreamWriter(console);
                         println("Response resource:\n");
                     }
 
