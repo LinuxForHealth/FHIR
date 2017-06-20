@@ -42,6 +42,7 @@ public class FHIRProxyXADataSource implements XADataSource {
         datasourceTypeMapping = new HashMap<>();
         datasourceTypeMapping.put("db2", "com.ibm.db2.jcc.DB2XADataSource");
         datasourceTypeMapping.put("derby", "org.apache.derby.jdbc.EmbeddedXADataSource");
+        datasourceTypeMapping.put("derby_network_server", "org.apache.derby.jdbc.ClientXADataSource");
     }
 
     public FHIRProxyXADataSource() {

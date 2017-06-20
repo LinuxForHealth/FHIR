@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import javax.sql.XADataSource;
 
 import org.apache.derby.jdbc.EmbeddedXADataSource;
+import org.apache.derby.jdbc.ClientXADataSource;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -114,6 +115,23 @@ public class FHIRProxyXADataSourceTest {
         assertEquals("DataSource description", derbyDS.getDescription());
         assertEquals("prop1=value1", derbyDS.getConnectionAttributes());
         assertEquals(false, derbyDS.getAttributesAsPassword());
+    }
+    
+    @Test
+    public void testDerby_4() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext("tenant2", "derby_4"));
+        
+        FHIRProxyXADataSource proxyDS = new FHIRProxyXADataSource();
+        XADataSource xaDS = proxyDS.getDelegate();
+        assertNotNull(xaDS);
+        assertTrue(xaDS instanceof ClientXADataSource);
+        ClientXADataSource derbyDS = (ClientXADataSource) xaDS;
+        assertEquals("myDerbyDatabase4", derbyDS.getDatabaseName());
+        assertEquals("create", derbyDS.getCreateDatabase());
+        assertEquals("dbuser", derbyDS.getUser());
+        assertEquals("dbpassword", derbyDS.getPassword());
+        assertEquals("x.x.x.x", derbyDS.getServerName());
+        assertEquals(1527, derbyDS.getPortNumber());
     }
     
     @Test

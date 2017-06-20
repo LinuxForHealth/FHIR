@@ -27,6 +27,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+    		<groupId>org.apache.derby</groupId>
+    		<artifactId>derbyclient</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.ibm.db2</groupId>
 			<artifactId>db2jcc4</artifactId>
             <scope>test</scope>
