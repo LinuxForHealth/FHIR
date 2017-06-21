@@ -36,15 +36,17 @@ class QuerySegmentAggregator {
 	private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
 	private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
 	private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
-	private static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R, {0}_LOGICAL_RESOURCES LR ";
+	private static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R JOIN {0}_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID ";
 	private static final String WHERE_CLAUSE_ROOT = "WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y'";
 	private static final String PARAMETER_TABLE_VAR = "P";
 	protected static final String PARAMETER_TABLE_ALIAS = "pX.";
 	private static final String FROM = " FROM ";
 	private static final String UNION = " UNION ALL ";
+	private static final String ON = " ON ";
+	private static final String JOIN = " JOIN ";
 	private static final String COMBINED_RESULTS = " COMBINED_RESULTS";
 		
-	private Class<? extends Resource> resourceType;
+	protected Class<? extends Resource> resourceType;
 	private List<SqlQueryData> querySegments;
 	private List<Parameter> searchQueryParameters;
 	private int offset;
@@ -249,7 +251,7 @@ class QuerySegmentAggregator {
 	 * @return A String containing the FROM clause
 	 * @throws Exception 
 	 */
-	private String buildFromClause() throws Exception {
+	protected String buildFromClause() throws Exception {
 		final String METHODNAME = "buildFromClause";
 		log.entering(CLASSNAME, METHODNAME);
 		
@@ -264,22 +266,23 @@ class QuerySegmentAggregator {
 			switch(searchQueryParm.getType()) {
 				case URI :
 				case REFERENCE : 
-				case STRING :   fromClause.append(", ").append(resourceTypeName).append("_STR_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+				case STRING :   fromClause.append(JOIN).append(resourceTypeName).append("_STR_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
 					 break;
-				case NUMBER :   fromClause.append(", ").append(resourceTypeName).append("_NUMBER_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex); 
+				case NUMBER :   fromClause.append(JOIN).append(resourceTypeName).append("_NUMBER_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex); 
 					 break;
-				case QUANTITY : fromClause.append(", ").append(resourceTypeName).append("_QUANTITY_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+				case QUANTITY : fromClause.append(JOIN).append(resourceTypeName).append("_QUANTITY_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
 					 break;
-				case DATE :     fromClause.append(", ").append(resourceTypeName).append("_DATE_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+				case DATE :     fromClause.append(JOIN).append(resourceTypeName).append("_DATE_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
 				 	 break;
 				case TOKEN :    if (isLocationQuery) {
-									fromClause.append(", ").append(resourceTypeName).append("_LATLNG_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+									fromClause.append(JOIN).append(resourceTypeName).append("_LATLNG_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
 								}
 								else {
-									fromClause.append(", ").append(resourceTypeName).append("_TOKEN_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+									fromClause.append(JOIN).append(resourceTypeName).append("_TOKEN_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
 								}
 					 break;
 			}
+			fromClause.append(ON).append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".RESOURCE_ID=R.RESOURCE_ID");
 			parameterTableAliasIndex++;
 		}
 		fromClause.append(" ");
