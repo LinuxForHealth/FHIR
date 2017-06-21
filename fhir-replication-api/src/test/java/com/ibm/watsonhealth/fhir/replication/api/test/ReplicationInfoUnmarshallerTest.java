@@ -36,7 +36,7 @@ public class ReplicationInfoUnmarshallerTest {
 		assertNotNull(replicationInfo);
 		assertEquals("theSourceKey", replicationInfo.getSourceKey());
 		assertEquals("theServiceId", replicationInfo.getServiceId());
-		assertEquals(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse("2017-05-15T17:03:47-0300"), replicationInfo.getCreationTime());
+		assertEquals(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse("2017-05-01T19:54:50.000-0000"), replicationInfo.getCreationTime());
 		assertEquals(1, replicationInfo.getVersionId());
 		assertEquals("theTxCorrelationId", replicationInfo.getTxCorrelationId());
 		assertEquals("theChangedBy", replicationInfo.getChangedBy());
@@ -50,13 +50,14 @@ public class ReplicationInfoUnmarshallerTest {
 		assertEquals("thePatientId", replicationInfo.getPatientId());
 	}
 	
-	private String buidReplicationStr() {
+	private String buidReplicationStr() throws ParseException {
 		final StringBuilder buider = new StringBuilder();
 
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse("2017-05-01T19:54:50.000-0000");
 		buider.append("{")
 				.append("  \"sourceKey\": \"theSourceKey\",")
 				.append("  \"serviceId\": \"theServiceId\",")
-				.append("  \"creationTime\": \"2017-05-15T17:03:47-0300\",")
+				.append("  \"creationTime\": \"2017-05-01T19:54:50.000-0000\",")
 				.append("  \"versionId\": 1,")
 				.append("  \"txCorrelationId\": \"theTxCorrelationId\",")
 				.append("  \"changedBy\": \"theChangedBy\",")

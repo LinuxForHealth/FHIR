@@ -13,7 +13,7 @@ import com.ibm.watsonhealth.fhir.exception.FHIRException;
  */
 @FunctionalInterface
 public interface Marshaller<T> {
-	static final String ISO_8601_GMT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+	static final String ISO_8601_GMT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 	
 	/**
      * Returns string version of obj.
