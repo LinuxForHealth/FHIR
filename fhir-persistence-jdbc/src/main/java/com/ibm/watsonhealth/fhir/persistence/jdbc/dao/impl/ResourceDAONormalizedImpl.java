@@ -362,7 +362,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 				nonNull(this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO))) {
 				repInfo = (ReplicationInfo)this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
 			}
-			else if (this.isRepInfoRequired && !isLogicalDelete) {
+			else if (this.isRepInfoRequired && !isLogicalDelete && this.getReplicationContext() == null) {
 				throw new FHIRPersistenceDataAccessException("Required ReplicationInfo is null");
 			}
 			else {
