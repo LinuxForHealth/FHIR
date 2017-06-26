@@ -48,6 +48,11 @@
 			<fileMode>0755</fileMode>
 		</file>
         <file>
+            <source>../fhir-audit-trail/target/fhir-audit-trail.war</source>
+            <outputDirectory>fhir/server/fhir/apps</outputDirectory>
+            <fileMode>0755</fileMode>
+        </file>
+        <file>
             <source>../fhir-persistence-proxy/target/fhir-persistence-proxy-distribution.zip</source>
             <outputDirectory>fhir/zips</outputDirectory>
             <fileMode>0755</fileMode>
@@ -83,6 +88,20 @@
 				<include>com.ibm.websphere.appserver.runtime:wlp-base-embeddable:*</include>
 			</includes>
 		</dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <outputDirectory>fhir/server/usr/shared/resources/lib/fhir</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>${project.groupId}:fhir-persistence-proxy:*</include>
+            </includes>
+            <excludes>
+                <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
+            </excludes>
+        </dependencySet>
 		<dependencySet>
 			<useProjectArtifact>false</useProjectArtifact>
 			<outputDirectory>fhir/server/usr/shared/resources/lib/derby</outputDirectory>
@@ -109,15 +128,7 @@
 			<fileMode>0755</fileMode>
 			<includes>
 				<include>com.ibm.db2:db2jcc4:*</include>
-			</includes>
-		</dependencySet>
-		<dependencySet>
-			<useProjectArtifact>false</useProjectArtifact>
-			<outputDirectory>fhir/server/usr/shared/resources/lib/moxy</outputDirectory>
-			<directoryMode>0755</directoryMode>
-			<fileMode>0755</fileMode>
-			<includes>
-				<include>com.ibm.websphere.appserver.runtime:org.eclipse.persistence.moxy:*</include>
+                <include>org.apache.derby:derby:*</include>
 			</includes>
 		</dependencySet>
 		<dependencySet>

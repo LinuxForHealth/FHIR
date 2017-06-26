@@ -53,34 +53,18 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>fhir-server-distribution</id>
+                        <id>fhir-server-dist</id>
                         <goals>
                             <goal>single</goal>
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <finalName>fhir-server</finalName>
+                            <finalName>fhir-server-distribution</finalName>
                             <outputDirectory>${publish.dir}</outputDirectory>
-                            <appendAssemblyId>true</appendAssemblyId>
-                            <attach>false</attach>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>true</attach>
                             <descriptors>
-                                <descriptor>src/main/assembly/server.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>fhir-schemaddl-distribution</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <finalName>fhir-schemaddl</finalName>
-                            <outputDirectory>${publish.dir}</outputDirectory>
-                            <appendAssemblyId>true</appendAssemblyId>
-                            <attach>false</attach>
-                            <descriptors>
-                                <descriptor>src/main/assembly/schemaddl.xml</descriptor>
+                                <descriptor>src/main/assembly/distribution.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>
