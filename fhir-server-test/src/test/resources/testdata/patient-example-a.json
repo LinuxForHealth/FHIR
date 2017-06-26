@@ -1,0 +1,49 @@
+{
+	"active": true,
+	"contact": [{
+		"organization": {
+			"display": "Walt Disney Corporation",
+			"reference": "Organization/1"
+		},
+		"relationship": [{
+			"coding": [{
+				"code": "owner",
+				"system": "http://hl7.org/fhir/patient-contact-relationship"
+			}]
+		}]
+	}],
+	"gender": "male",
+	"identifier": [{
+		"system": "urn:oid:0.1.2.3.4.5.6.7",
+		"type": {
+			"coding": [{
+				"code": "MR",
+				"system": "http://hl7.org/fhir/v2/0203"
+			}]
+		},
+		"use": "usual",
+		"value": "654321"
+	}],
+	"link": [{
+		"other": {
+			"reference": "Patient/pat2"
+		},
+		"type": "seealso"
+	}],
+	"managingOrganization": {
+		"display": "ACME Healthcare, Inc",
+		"reference": "Organization/1"
+	},
+	"name": [{
+		"family": ["Donald"],
+		"given": ["Duck"],
+		"use": "official"
+	}],
+	"resourceType": "Patient",
+	"telecom" : [ {
+        "system" : "phone",
+        "value" : "666-1122",
+        "use" : "home"
+    } ],
+    "birthDate" : "1960-01-01"
+}

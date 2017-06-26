@@ -63,12 +63,12 @@
 			<fileMode>0755</fileMode>
 		</file>
 		<file>
-			<source>../fhir-server/src/test/resources/fhirClientTruststore.jks</source>
+			<source>../fhir-server-test/src/test/resources/fhirClientTruststore.jks</source>
 			<outputDirectory>fhir/server/fhir/client</outputDirectory>
 			<fileMode>0755</fileMode>
 		</file>
 		<file>
-			<source>../fhir-server/src/test/resources/fhirClientKeystore.jks</source>
+			<source>../fhir-server-test/src/test/resources/fhirClientKeystore.jks</source>
 			<outputDirectory>fhir/server/fhir/client</outputDirectory>
 			<fileMode>0755</fileMode>
 		</file>

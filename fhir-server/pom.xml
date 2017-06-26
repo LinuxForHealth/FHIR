@@ -33,11 +33,6 @@
     <url>http://maven.apache.org</url>
 
 	<properties>
-
-		<!-- We don't want maven to automatically run our tests since they require 
-			a server -->
-		<skipTests>true</skipTests>
-        <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
 	</properties>
 
 	<dependencies>
@@ -57,13 +52,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-audit</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-model</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -148,12 +136,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-client</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-provider</artifactId>
 			<version>${project.version}</version>
 			<exclusions>
@@ -184,16 +166,6 @@
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-rs-client</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>net.wasdev.maven.tools.targets</groupId>
 			<artifactId>liberty-target</artifactId>
 			<type>pom</type>
@@ -202,11 +174,6 @@
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.skyscreamer</groupId>
-			<artifactId>jsonassert</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>

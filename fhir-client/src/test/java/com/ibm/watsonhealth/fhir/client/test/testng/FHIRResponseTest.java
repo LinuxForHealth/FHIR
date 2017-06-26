@@ -13,12 +13,11 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.client.impl.FHIRResponseImpl;
-import com.ibm.watsonhealth.fhir.client.test.FHIRClientTestBase;
 
 /**
  * Basic tests related to the FHIRResponse interface.
  */
-public class FHIRResponseTest extends FHIRClientTestBase {
+public class FHIRResponseTest {
 
     @Test
     public void testParseLocation1() throws Exception {

@@ -1,0 +1,172 @@
+/**
+ * (C) Copyright IBM Corp. 2017,2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.ibm.watsonhealth.fhir.server.test;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+
+import java.util.UUID;
+
+import javax.ws.rs.core.Response;
+
+import org.testng.annotations.Test;
+
+import com.ibm.watsonhealth.fhir.client.FHIRClient;
+import com.ibm.watsonhealth.fhir.client.FHIRResponse;
+import com.ibm.watsonhealth.fhir.model.ObjectFactory;
+import com.ibm.watsonhealth.fhir.model.Patient;
+
+/**
+ * Tests the update operation.
+ */
+public class UpdateTest extends FHIRServerTestBase {
+    
+    private Boolean updateCreateEnabled = null;
+    private ObjectFactory of = new ObjectFactory();
+    
+    private Patient savedUCPatient = null;
+    
+	/**
+	 * Retrieve the server's conformance statement to determine the status
+	 * of certain runtime options.
+	 * @throws Exception 
+	 */
+	@Test
+	public void retrieveConfig() throws Exception {
+	    updateCreateEnabled = isUpdateCreateSupported();
+        System.out.println("Update/Create enabled?: " + updateCreateEnabled.toString());
+	}
+	
+    /**
+     * Test the "update/create" behavior.
+     */
+    @Test(dependsOnMethods = {"retrieveConfig"})
+    public void testUpdateCreate1() throws Exception {
+        assertNotNull(updateCreateEnabled);
+        
+        // If the "Update/Create" feature is enabled, then test it.
+        if (updateCreateEnabled.booleanValue()) {
+            
+            // Generate an ID for the new resource.
+            String newId = UUID.randomUUID().toString();
+            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            patient.withId(of.createId().withValue(newId));
+            
+            // Create the new resource via the update operation.
+            FHIRClient client = getFHIRClient();
+            FHIRResponse response = client.update(patient);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+            
+            // Now read the resource to verify it's there.
+            response = client.read("Patient", newId);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+            Patient responsePatient = response.getResource(Patient.class);
+            assertNotNull(responsePatient);
+            savedUCPatient = responsePatient;
+        }
+    }
+    /**
+     * Test the normal update behavior.
+     */
+    @Test(dependsOnMethods = {"testUpdateCreate1"})
+    public void testUpdateCreate2() throws Exception {
+        assertNotNull(updateCreateEnabled);
+        
+        // If the "Update/Create" feature is enabled, then test the normal update behavior.
+        if (updateCreateEnabled.booleanValue()) {
+            
+            Patient patient = savedUCPatient;
+            
+            patient.setBirthDate(of.createDate().withValue("1986-06-20"));
+            
+            // Update the resource that was previously created.
+            FHIRClient client = getFHIRClient();
+            FHIRResponse response = client.update(patient);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+            String locationURI = response.getLocation();
+            String[] locationTokens = getLocationURITokens(locationURI);
+            assertEquals(4, locationTokens.length);
+            assertEquals("2", locationTokens[3]);
+            
+            // Now read the resource to verify it's there.
+            response = client.vread(locationTokens[0], locationTokens[1], locationTokens[3]);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+            Patient responsePatient = response.getResource(Patient.class);
+            assertNotNull(responsePatient);
+        }
+    }
+
+    /**
+     * Test the base-level "update" behavior (negative test).
+     */
+    @Test(dependsOnMethods = {"retrieveConfig"})
+    public void testUpdateOnly1() throws Exception {
+        assertNotNull(updateCreateEnabled);
+        
+        // If the "Update/Create" feature is disabled, then make sure
+        // we get an error when trying to do an update on a non-existent resource.
+        if (!updateCreateEnabled.booleanValue()) {
+            
+            // Generate an ID for the new resource.
+            String newId = UUID.randomUUID().toString();
+            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            patient.withId(of.createId().withValue(newId));
+            
+            // Call update for this new resource and make sure we get back an error.
+            FHIRClient client = getFHIRClient();
+            FHIRResponse response = client.update(patient);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
+        }
+    }
+    
+    /**
+     * Test the base-level "update" behavior.
+     */
+    @Test(dependsOnMethods = {"retrieveConfig"})
+    public void testUpdateOnly2() throws Exception {
+        assertNotNull(updateCreateEnabled);
+        
+        // If the "Update/Create" feature is disabled, then test the base behavior
+        // to make sure we can create and then update a resource.
+        if (!updateCreateEnabled.booleanValue()) {
+            
+            // Generate an ID for the new resource.
+            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            
+            // Call update for this new resource and make sure we get back an error.
+            FHIRClient client = getFHIRClient();
+            FHIRResponse response = client.create(patient);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+            String locationURI = response.getLocation();
+            String[] locationTokens = getLocationURITokens(locationURI);
+            assertEquals(4, locationTokens.length);
+            assertEquals("1", locationTokens[3]);
+            
+            // Read the new patient.
+            response = client.read(locationTokens[0], locationTokens[1]);
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+            Patient createdPatient = response.getResource(Patient.class);
+            assertNotNull(createdPatient);
+            
+            // Update the patient.
+            createdPatient.setBirthDate(of.createDate().withValue("1987-10-09"));
+            
+            response = client.update(createdPatient);
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+            locationURI = response.getLocation();
+            locationTokens = getLocationURITokens(locationURI);
+            assertEquals(4, locationTokens.length);
+            assertEquals("2", locationTokens[3]);            
+        }
+    }
+}

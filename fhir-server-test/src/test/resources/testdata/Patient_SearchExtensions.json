@@ -1,0 +1,13 @@
+{
+    "resourceType" : "Patient",
+    "name" : [ {
+        "family" : [ "Extensions" ],
+        "given" : [ "Search" ]
+    } ],
+    "telecom" : [ {
+        "system" : "phone",
+        "value" : "555-1234",
+        "use" : "home"
+    } ],
+    "birthDate" : "1950-08-15"
+}

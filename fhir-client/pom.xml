@@ -12,11 +12,6 @@
 	<artifactId>fhir-client</artifactId>
 
 	<properties>
-
-		<!-- We don't want maven to automatically run our tests since they require 
-			a server -->
-		<skipTests>true</skipTests>
-		<surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
 	</properties>
 
 	<dependencies>

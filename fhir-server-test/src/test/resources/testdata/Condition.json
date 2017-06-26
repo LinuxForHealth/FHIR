@@ -1,0 +1,45 @@
+{
+	"resourceType": "Condition",
+	"text": {
+		"status": "generated",
+		"div": "<div>Severe burn of left ear (Date: 24-May 2012)</div>"
+	},
+	"code": {
+		"coding": [{
+			"system": "http://snomed.info/sct",
+			"code": "39065001",
+			"display": "Burn of ear"
+		}],
+		"text": "Burnt Ear"
+	},
+	"category": {
+		"coding": [{
+			"system": "http://hl7.org/fhir/condition-category",
+			"code": "diagnosis",
+			"display": "Diagnosis"
+		},
+		{
+			"fhir_comments": ["  and also a SNOMED CT coding  "],
+			"system": "http://snomed.info/sct",
+			"code": "439401001",
+			"display": "Diagnosis"
+		}]
+	},
+	"verificationStatus": "confirmed",
+	"severity": {
+		"coding": [{
+			"system": "http://snomed.info/sct",
+			"code": "24484000",
+			"display": "Severe"
+		}]
+	},
+	"onsetDateTime": "2012-05-24",
+	"bodySite": [{
+		"coding": [{
+			"system": "http://snomed.info/sct",
+			"code": "49521004",
+			"display": "Left external ear structure"
+		}],
+		"text": "Left Ear"
+	}]
+}

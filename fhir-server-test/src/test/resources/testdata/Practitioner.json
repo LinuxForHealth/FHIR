@@ -1,0 +1,37 @@
+{
+	"resourceType": "Practitioner",
+	"text": {
+		"status": "generated",
+		"div": "<div>Assigned, Amanda. SSN:\n            33344444</div>"
+	},
+	"identifier": [{
+		"type": {
+			"coding": [{
+				"system": "http://hl7.org/fhir/v2/0203",
+				"code": "SS"
+			}]
+		},
+		"system": "http://hl7.org/fhir/sid/us-ssn",
+		"value": "33344444"
+	}],
+	"name": {
+		"use": "official",
+		"family": ["Assigned"],
+		"given": ["Amanda"]
+	},
+	"telecom": [{
+		"system": "phone",
+		"value": "555-555-1021",
+		"use": "work"
+	}],
+	"address": [{
+		"use": "home",
+		"line": ["1020 Healthcare Drive"]
+	}],
+	"gender": "female",
+	"practitionerRole": [{
+		"managingOrganization": {
+			"reference": "Organization/hl7"
+		}
+	}]
+}

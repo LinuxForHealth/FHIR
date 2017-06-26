@@ -14,12 +14,11 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.Modifier;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.ValuePrefix;
-import com.ibm.watsonhealth.fhir.client.test.FHIRClientTestBase;
 
 /**
  * Tests related to the FHIRParameters class.
  */
-public class FHIRParametersTest extends FHIRClientTestBase {
+public class FHIRParametersTest {
     
     @Test
     public void testParameter1() {

@@ -1,0 +1,34 @@
+{
+  "resourceType": "Organization",
+  "type": {
+    "coding": [
+      {
+        "system": "urn:oid:12345",
+        "code": "V1",
+        "display": "Acme Healthcare Provider, Inc."
+      },
+      {
+        "system": "http://hl7.org/fhir/organization-type",
+        "code": "prov",
+        "display": "Healthcare Provider"
+      }
+    ]
+  },
+  "name": "Acme Healthcare Provider, Inc.",
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "512-123-4567",
+      "use": "work"
+    }
+  ],
+  "address": [
+    {
+      "use": "work",
+      "city": "Acmeville",
+      "state": "Tejas",
+      "postalCode": "12345",
+      "country": "USA"
+    }
+  ]
+}

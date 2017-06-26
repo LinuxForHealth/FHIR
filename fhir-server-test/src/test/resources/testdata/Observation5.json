@@ -1,0 +1,40 @@
+{
+    "resourceType" : "Observation",
+   	"subject": {
+		"reference": "Patient/1",
+		"display": "Geraldine Daniel Herring MD"
+	},
+	"code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "15074-8",
+        "display": "Glucose [Moles/volume] in Blood"
+      }
+    ]
+  },
+	"status":"final",
+	"category":{
+        "coding":[
+            {
+                "system":"http://hl7.org/fhir/observation-category",
+                "code":"vital-signs",
+                "display":"Vital Signs"
+            }
+        ]
+    },
+    "valueRange" : {
+        "low" : {
+            "system":"http://loinc.org",
+             "code":"v15074-8",
+            "value" : 3.0,
+            "unit" : "mg"
+        },
+        "high" : {
+            "value" : 7.0,
+             "system":"http://loinc.org",
+             "code":"v15074-8",
+            "unit" : "mg"
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "resourceType" : "Bundle",
+    "type" : "transaction",
+    "entry" : [ {
+        "resource" : {
+            "resourceType" : "Patient",
+            "active" : true,
+            "name" : [ {
+                "family" : [ "9ecd88c9-8c19-47c8-9fde-aec11dfd2ff8" ],
+                "given" : [ "David" ]
+            } ],
+            "gender" : "male"
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Patient"
+        }
+    }, {
+        "resource" : {
+            "resourceType" : "Patient",
+            "name" : [ {
+                "family" : [ "1043fa8c-8185-47b6-8e75-a831103becc4" ],
+                "given" : [ "John" ]
+            } ],
+            "telecom" : [ {
+                "system" : "phone",
+                "value" : "555-1122",
+                "use" : "home"
+            } ],
+            "birthDate" : "1970-01-01"
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Patient"
+        }
+    } ]
+}

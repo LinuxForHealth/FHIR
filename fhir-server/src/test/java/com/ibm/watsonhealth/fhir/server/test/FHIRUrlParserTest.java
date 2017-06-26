@@ -17,7 +17,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.watsonhealth.fhir.server.helper.FHIRUrlParser;
 
 
-public class FHIRUrlParserTest extends FHIRServerTestBase {
+public class FHIRUrlParserTest {
 
     @Test(groups = { "server-basic" }, expectedExceptions = { IllegalArgumentException.class })
     public void testNullUrlString() {
