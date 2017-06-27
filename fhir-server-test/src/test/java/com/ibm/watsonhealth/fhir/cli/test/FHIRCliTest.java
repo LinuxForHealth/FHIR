@@ -32,7 +32,7 @@ import com.ibm.watsonhealth.fhir.server.test.FHIRServerTestBase;
 public class FHIRCliTest extends FHIRServerTestBase {
 
     // To see testcase output for debugging, set this to true.
-    private boolean debug = false;
+    private boolean debug = true;
 
     private FHIRCLI cli = null;
     private String consoleOutput = null;
@@ -125,51 +125,53 @@ public class FHIRCliTest extends FHIRServerTestBase {
     }
     
     @Test(dependsOnMethods={"testHistoryPatient"})
-    public void testDeletePatient() throws Exception {
-        if (!deleteSupported) {
-            return;
-        }
-        
-        assertNotNull(patientId);
-        runTest("testDeletePatient", "-p", propsFile(), "--operation", "delete", "--type", "Patient", "--resourceId", patientId);
-        verifyConsoleOutput("Status code: 204", "ETag: W/\"3\"");
-    }
-    
-    @Test(dependsOnMethods={"testDeletePatient"})
-    public void testReadDeletedPatient() throws Exception {
-        if (!deleteSupported) {
-            return;
-        }
-        
-        assertNotNull(patientId);
-        runTest("testReadDeletedPatient", "-p", propsFile(), "--operation", "read", "--type", "Patient", "--resourceId", patientId);
-        verifyConsoleOutput("Status code: 410", "FHIRPersistenceResourceDeletedException: Resource", "is deleted.");
-    }
-    
-    @Test(dependsOnMethods={"testReadDeletedPatient"})
-    public void testHistoryPatient2() throws Exception {
-        assertNotNull(patientId);
-        runTest("testHistoryPatient2", "-p", propsFile(), "--operation", "history", "--type", "Patient", "--resourceId", patientId);
-        verifyConsoleOutput("Status code: 200", patientId, "\"total\" : 3");
-    }
-    
-    @Test(dependsOnMethods={"testHistoryPatient2"})
     public void testSearchPatient() throws Exception {
         assertNotNull(patientId);
         runTest("testSearchPatient", "-p", propsFile(), "--operation", "search", "--type", "Patient", "--queryParam", "_id=" + patientId, "-o", dirPrefix("searchPatients.json"));
         verifyConsoleOutput("Status code: 200");
-        if (deleteSupported) {
-            verifyFileContents("searchPatients.json", "\"total\" : 0");
-        } else {
-            verifyFileContents("searchPatients.json", "\"total\" : 1");
-        }
+        verifyFileContents("searchPatients.json", "\"total\" : 1");
     }
     
     @Test(dependsOnMethods={"testSearchPatient"})
+    public void testSearchAll() throws Exception {
+        runTest("testSearchAll", "-p", propsFile(), "--operation", "search-all", "-qp", "_count=1000", "-qp", "_lastUpdated=ge1970-01-01", "-o", dirPrefix("searchAll.json"));
+        verifyConsoleOutput("Status code: 200");
+    }
+    
+    @Test(dependsOnMethods={"testSearchAll"})
+    public void testDeletePatient() throws Exception {
+        assertNotNull(patientId);
+        runTest("testDeletePatient", "-p", propsFile(), "--operation", "delete", "--type", "Patient", "--resourceId", patientId);
+        if (deleteSupported) {
+            verifyConsoleOutput("Status code: 204", "ETag: W/\"3\"");
+        } else {
+            verifyConsoleOutput("Status code: 405");
+            
+            // Next, do an update so that future version checks can work consistently 
+            // with or without delete support.
+            runTest("testUpdatePatient", "-p", propsFile(), "--operation", "update", "--resource", dirPrefix("readPatient.json"));
+            verifyConsoleOutput("Status code: 200", "ETag: W/\"3\"");
+        }
+    }
+    
+    @Test(dependsOnMethods={"testDeletePatient"})
+    public void testReadDeletedPatient() throws Exception {
+        assertNotNull(patientId);
+        runTest("testReadDeletedPatient", "-p", propsFile(), "--operation", "read", "--type", "Patient", "--resourceId", patientId);
+        if (deleteSupported) {
+            verifyConsoleOutput("Status code: 410", "FHIRPersistenceResourceDeletedException: Resource", "is deleted.");
+        } else {
+            verifyConsoleOutput("Status code: 200");
+        }
+    }
+    
+    @Test(dependsOnMethods={"testReadDeletedPatient"})
     public void testUpdateDeletedPatient() throws Exception {
-        String ifMatchValue = "W/\"3\"";
+        String currentVersion = "3";
+        String newVersion = "4";
+        String ifMatchValue = "W/\"" + currentVersion + "\"";
         runTest("testUpdateDeletedPatient", "-p", propsFile(), "--operation", "update", "--resource", dirPrefix("vreadPatient.json"), "-H", "If-Match=" + ifMatchValue);
-        verifyConsoleOutput("Status code: 200", "ETag: W/\"4\"");
+        verifyConsoleOutput("Status code: 200", "ETag: W/\"" + newVersion + "\"");
     }
     
     @Test(dependsOnMethods={"testUpdateDeletedPatient"})
@@ -181,6 +183,10 @@ public class FHIRCliTest extends FHIRServerTestBase {
     
     @Test(dependsOnMethods={"testConditionalUpdatePatient"})
     public void testConditionalDeletePatient() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        
         assertNotNull(patientId);
         runTest("testConditionalDeletePatient", "-p", propsFile(), "--operation", "conditional-delete", "--type", "Patient", "-qp", "_id=" + patientId);
         verifyConsoleOutput("Status code: 204", "ETag: W/\"6\"");
@@ -188,6 +194,10 @@ public class FHIRCliTest extends FHIRServerTestBase {
     
     @Test(dependsOnMethods={"testConditionalDeletePatient"})
     public void testConditionalDeletePatientError() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        
         runTest("testConditionalDeletePatientError", "-p", propsFile(), "--operation", "conditional-delete", "--type", "Patient", "-qp", "_id=" + UUID.randomUUID().toString());
         verifyConsoleOutput("Status code: 404", "no matches");
     }
@@ -204,12 +214,6 @@ public class FHIRCliTest extends FHIRServerTestBase {
         assertNotNull(patientId);
         runTest("testConditionalCreatePatientError", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "BADSEARCHPARAM=XXX");
         verifyConsoleOutput("Status code: 400");
-    }
-    
-    @Test(dependsOnMethods={"testSearchPatient"})
-    public void testSearchAll() throws Exception {
-        runTest("testSearchAll", "-p", propsFile(), "--operation", "search-all", "-qp", "_count=1000", "-o", dirPrefix("searchAll.json"));
-        verifyConsoleOutput("Status code: 200");
     }
     
     @Test
@@ -292,7 +296,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
      * @throws Exception
      */
     private void runTest(String methodName, String... args) throws Exception {
-        print("\n*************** " + methodName + "***************");
+        print("\n*************** Test method: " + methodName + " ***************");
         print("Command-line arguments:");
         print(Arrays.asList(args).toString());
         
