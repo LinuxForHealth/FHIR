@@ -32,7 +32,7 @@ import com.ibm.watsonhealth.fhir.server.test.FHIRServerTestBase;
 public class FHIRCliTest extends FHIRServerTestBase {
 
     // To see testcase output for debugging, set this to true.
-    private boolean debug = true;
+    private boolean debug = false;
 
     private FHIRCLI cli = null;
     private String consoleOutput = null;
