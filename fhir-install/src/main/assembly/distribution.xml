@@ -52,11 +52,6 @@
             <outputDirectory>fhir/server/fhir/apps</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
-        <file>
-            <source>../fhir-persistence-proxy/target/fhir-persistence-proxy-distribution.zip</source>
-            <outputDirectory>fhir/zips</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
 		<file>
 			<source>../fhir-swagger-ui/target/fhir-swagger-ui.war</source>
 			<outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
@@ -101,6 +96,17 @@
             <excludes>
                 <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
             </excludes>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>${project.groupId}:fhir-derby-sproc:*</include>
+            </includes>
         </dependencySet>
 		<dependencySet>
 			<useProjectArtifact>false</useProjectArtifact>

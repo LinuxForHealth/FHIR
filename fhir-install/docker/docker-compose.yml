@@ -1,4 +1,4 @@
-version: '2.0'
+version: '2.1'
 services:
 
   fhir-baseos:
@@ -24,7 +24,20 @@ services:
         dockerfile: Dockerfile-fhirtest
     image: fhir-test:latest
     hostname: fhir-test
+    healthcheck:
+      interval: 20s
+      timeout: 10s
+      retries: 40
+      test: curl -v -f -k -u 'fhiruser:fhiruser' https://localhost:9443/fhir-server/api/v1/metadata
     ports:
       - 9080:9080
       - 9443:9443
 
+  fhir-proxy:
+    build:
+        context: .
+        dockerfile: Dockerfile-fhirbaseos
+    depends_on:
+      fhir-test:
+        condition: service_healthy
+    command: sleep 1
