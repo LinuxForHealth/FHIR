@@ -79,6 +79,27 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
 	 * @return boolean
 	 */
 	boolean isRepInfoRequired();
+	
+	/**
+	 * This method supports the execution of a specialized query designed to return Resource ids, based on the contents
+	 * of the passed select statement.
+	 * Note that the first column to be selected MUST be the Resource.id column.
+	 * @param sqlSelect - A select for Resource ids.
+	 * @return - A List of resource ids that satisfy the passed SQL query.
+	 * @throws FHIRPersistenceDataAccessException
+	 * @throws FHIRPersistenceDBConnectException
+	 */
+	List<Long> searchForIds(SqlQueryData  queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+	
+	/**
+	 * Searches for Resources that contain one of the passed ids.
+	 * @param resourceType - The type of the FHIR Resource.
+	 * @param resourceIds - A List of resource ids.
+	 * @return List<Resource> - A List of resources matching the the passed list of ids.
+	 * @throws FHIRPersistenceDataAccessException
+	 * @throws FHIRPersistenceDBConnectException
+	 */
+	List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
 	
 	

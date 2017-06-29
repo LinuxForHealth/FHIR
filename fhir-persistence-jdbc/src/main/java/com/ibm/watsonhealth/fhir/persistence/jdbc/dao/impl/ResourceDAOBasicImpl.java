@@ -40,7 +40,7 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 	
 	private static final String SQL_VERSION_READ = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.RESOURCE_TYPE = ? AND R.VERSION_ID = ?";
 	
-	private static final String SQL_SEARCH_BY_ID = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.ID IN ";
+	private static final String SQL_SEARCH_BY_IDS = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.ID IN ";
 	
 	private static final  String SQL_HISTORY = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? "
 															+ "ORDER BY R.VERSION_ID DESC ";
@@ -282,18 +282,22 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 		List<Resource> resources = new ArrayList<>();
 		
 		try {
-			idQuery.append(SQL_SEARCH_BY_ID);
+			idQuery.append(this.getSearchByIdsSql());
 			idQuery.append("(");
 			for (int i = 0; i < resourceIds.size(); i++) {
 				if (i > 0) {
 					idQuery.append(",");
 				}
-				idQuery.append(resourceIds.get(i));
+				idQuery.append("?");
 			}
 			idQuery.append(")");
 						
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(idQuery.toString());
+			// Inject IDs into the prepared stmt.
+			for (int i = 0; i < resourceIds.size();  i++) {
+				stmt.setObject(i+1, resourceIds.get(i));
+			}
 			resultSet = stmt.executeQuery();
 			resources = this.createDTOs(resultSet);
 		}
@@ -393,5 +397,9 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		return count;
+	}
+	
+	protected String getSearchByIdsSql() {
+		return SQL_SEARCH_BY_IDS;
 	}
 }

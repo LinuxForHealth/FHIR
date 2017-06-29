@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 
@@ -42,16 +42,16 @@ class QuerySegmentAggregator {
 	protected static final String PARAMETER_TABLE_ALIAS = "pX.";
 	private static final String FROM = " FROM ";
 	private static final String UNION = " UNION ALL ";
-	private static final String ON = " ON ";
+	protected static final String ON = " ON ";
 	private static final String JOIN = " JOIN ";
 	private static final String COMBINED_RESULTS = " COMBINED_RESULTS";
 		
 	protected Class<? extends Resource> resourceType;
-	private List<SqlQueryData> querySegments;
+	protected List<SqlQueryData> querySegments;
 	private List<Parameter> searchQueryParameters;
 	private int offset;
 	private int pageSize;
-	private FHIRDbDAO dao;
+	protected ParameterNormalizedDAO dao;
 	
 
 	/**
@@ -60,7 +60,7 @@ class QuerySegmentAggregator {
 	 * @param offset - The beginning index of the first search result.
 	 * @param pageSize - The max number of requested search results.
 	 */
-	protected QuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, FHIRDbDAO dao) {
+	protected QuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, ParameterNormalizedDAO dao) {
 		super();
 		this.resourceType = resourceType;
 		this.offset = offset;
@@ -297,7 +297,7 @@ class QuerySegmentAggregator {
 	 * to the appropriate parameter table alias.
 	 * @return
 	 */
-	private String buildWhereClause() {
+	protected String buildWhereClause() {
 		final String METHODNAME = "buildWhereClause";
 		log.entering(CLASSNAME, METHODNAME);
 		
@@ -342,7 +342,7 @@ class QuerySegmentAggregator {
 	 * @param queryString A query string buffer.
 	 * @throws Exception
 	 */
-	private void addPaginationClauses(StringBuilder queryString) throws Exception {
+	protected void addPaginationClauses(StringBuilder queryString) throws Exception {
 		
 		if(this.dao.isDb2Database()) {
 			queryString.append(" LIMIT ").append(this.pageSize).append(" OFFSET ").append(this.offset);

@@ -36,7 +36,6 @@ import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -45,6 +44,8 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
@@ -308,7 +309,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		List<Resource> resources = new ArrayList<Resource>();
 	    FHIRSearchContext searchContext = context.getSearchContext();
 	    JDBCNormalizedQueryBuilder queryBuilder;
-	    //List<Long> sortedIdList;
+	    List<Long> sortedIdList;
 	    List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
 	    int searchResultCount = 0;
 	    int pageSize;
@@ -323,11 +324,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 				this.getParameterDao().setExternalConnection(myConnection);
 				this.getResourceDao().setExternalConnection(myConnection);
 			}
-	        if (searchContext.hasSortParameters()) {
-	        	throw new FHIRPersistenceNotSupportedException("Search result sorting is not supported at this time.");
-	        	//queryBuilder = new JDBCNormalizedSortQueryBuilder();
-	        }
-	         
+	        	         
 	        queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao());
 	         
 	        countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
@@ -343,14 +340,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            if (searchResultCount > 0) {
 	            	query = queryBuilder.buildQuery(resourceType, searchContext);
 	            	
-	                //if (searchContext.hasSortParameters()) {
-	                	//sortedIdList = this.resourceDao.searchForIds(queryString);
-	                	//resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
-	               // }
-	                //else {
+	                if (searchContext.hasSortParameters()) {
+	                	sortedIdList = this.resourceDao.searchForIds(query);
+	                	resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
+	                }
+	                else {
 	                	unsortedResultsList = this.getResourceDao().search(query);
 	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
-	                //}  
+	                }  
 	            }
 	        }
 	    }
@@ -731,6 +728,21 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		}
 		
 		return resource;
+	}
+	
+	/**
+	 * Returns a List of Resource DTOs corresponding to the passed list of Resource IDs.
+	 * @param resourceType The type of resource being queried.
+	 * @param sortedIdList A sorted list of Resource IDs.
+	 * @return List - A list of ResourceDTOs
+	 * @throws FHIRPersistenceDataAccessException
+	 * @throws FHIRPersistenceDBConnectException
+	 */
+	@Override
+	protected List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> getResourceDTOs(
+			Class<? extends Resource> resourceType, List<Long> sortedIdList) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		 
+		return this.getResourceDao().searchByIds(resourceType.getSimpleName(), sortedIdList);
 	}
 
 }

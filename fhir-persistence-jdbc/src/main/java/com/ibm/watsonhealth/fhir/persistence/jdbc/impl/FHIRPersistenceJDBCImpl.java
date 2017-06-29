@@ -54,6 +54,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAOBasicImpl
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
@@ -777,8 +778,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 			resourceId = sortedIdList.get(i);
 			idPositionMap.put(new Long(resourceId), new Integer(i));
 		}
-				
-		resourceDTOList = this.getResourceDao().searchByIds(sortedIdList);
+		
+		resourceDTOList = this.getResourceDTOs(resourceType, sortedIdList);
+		
 		
 		// Convert the returned JPA Resources to FHIR Resources, and store each FHIRResource in its proper position
 		// in the returned sorted resource list.
@@ -799,6 +801,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		return sortedResourceList;
 	}
 	
+	/**
+	 * Returns a List of Resource DTOs corresponding to the passed list of Resource IDs.
+	 * @param resourceType The type of resource being queried.
+	 * @param sortedIdList A sorted list of Resource IDs.
+	 * @return List - A list of ResourceDTOs
+	 * @throws FHIRPersistenceDataAccessException
+	 * @throws FHIRPersistenceDBConnectException
+	 */
+	protected List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> getResourceDTOs(
+			Class<? extends Resource> resourceType, List<Long> sortedIdList) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		 
+		return this.getResourceDao().searchByIds(sortedIdList);
+	}
+
 	protected ParameterDAO getParameterDao() {
 		return this.parameterDao;
 	}

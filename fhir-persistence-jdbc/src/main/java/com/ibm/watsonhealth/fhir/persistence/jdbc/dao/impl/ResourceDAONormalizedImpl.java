@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
@@ -75,6 +77,10 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private static final String SQL_READ_ALL_RESOURCE_TYPE_NAMES = "SELECT RESOURCE_TYPE_ID, RESOURCE_TYPE FROM RESOURCE_TYPES";
 	
 	private static final String SQL_READ_RESOURCE_TYPE = "CALL %s.add_resource_type(?, ?)";
+	
+	private static final String SQL_SEARCH_BY_IDS = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+													"FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " + 
+													"R.RESOURCE_ID IN ";
 	
 	private FHIRPersistenceContext context;
 	private ReplicationInfo replicationInfo;
@@ -512,6 +518,92 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		return this.isRepInfoRequired;
 	}
 
-	
+	@Override
+	public List<Long> searchForIds(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		final String METHODNAME = "searchForIds";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		List<Long> resourceIds = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		String errMsg;
+		
+		try {
+			connection = this.getConnection();
+			stmt = connection.prepareStatement(queryData.getQueryString());
+			// Inject arguments into the prepared stmt.
+			for (int i = 0; i < queryData.getBindVariables().size();  i++) {
+				stmt.setObject(i+1, queryData.getBindVariables().get(i));
+			}
+			resultSet = stmt.executeQuery();
+			while(resultSet.next())	 {
+				resourceIds.add(resultSet.getLong(1));
+			}
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch (Throwable e) {
+			errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + queryData;
+			throw new FHIRPersistenceDataAccessException(errMsg,e);
+		} 
+		finally {
+			this.cleanup(resultSet, stmt, connection);
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		return resourceIds;
+	}
+
+	@Override
+	public List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+		final String METHODNAME = "searchByIds";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		String errMsg;
+		StringBuilder idQuery = new StringBuilder();
+		List<Resource> resources = new ArrayList<>();
+		String stmtString = null;
+		
+		try {
+			stmtString = String.format(this.getSearchByIdsSql(resourceType));
+			idQuery.append(stmtString);
+			idQuery.append("(");
+			for (int i = 0; i < resourceIds.size(); i++) {
+				if (i > 0) {
+					idQuery.append(",");
+				}
+				idQuery.append(resourceIds.get(i));
+			}
+			idQuery.append(")");
+						
+			connection = this.getConnection();
+			stmt = connection.prepareStatement(idQuery.toString());
+			resultSet = stmt.executeQuery();
+			resources = this.createDTOs(resultSet);
+		}
+		catch(FHIRPersistenceException e) {
+			throw e;
+		}
+		catch (Throwable e) {
+			errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
+			throw new FHIRPersistenceDataAccessException(errMsg,e);
+		} 
+		finally {
+			this.cleanup(resultSet, stmt, connection);
+			log.exiting(CLASSNAME, METHODNAME);
+		}
+		return resources;
+	}
+
+	protected String getSearchByIdsSql(String resourceType) {
+		
+		String stmtString;
+		stmtString = String.format(SQL_SEARCH_BY_IDS, resourceType, resourceType);
+		return stmtString;
+	}	
 
 }

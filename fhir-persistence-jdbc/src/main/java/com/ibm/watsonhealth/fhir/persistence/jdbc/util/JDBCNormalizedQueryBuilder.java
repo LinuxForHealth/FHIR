@@ -64,20 +64,20 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	private static final String ESCAPE_UNDERSCORE = ESCAPE_CHAR + "_";
 	private static final String ESCAPE_PERCENT = ESCAPE_CHAR + PERCENT_WILDCARD;
 	private static final String ESCAPE_EXPR = " ESCAPE '" + ESCAPE_CHAR + "'";
-    private static final String STR_VALUE = "STR_VALUE";
-    private static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
-    private static final String TOKEN_VALUE = "TOKEN_VALUE";
-    private static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
-    private static final String CODE = "CODE";
-    private static final String NUMBER_VALUE = "NUMBER_VALUE";
-    private static final String QUANTITY_VALUE = "QUANTITY_VALUE";
-    private static final String QUANTITY_VALUE_LOW = "QUANTITY_VALUE_LOW";
-    private static final String QUANTITY_VALUE_HIGH = "QUANTITY_VALUE_HIGH";
-    private static final String DATE_VALUE = "DATE_VALUE";
-    private static final String DATE_START = "DATE_START";
-    private static final String DATE_END = "DATE_END";
-    private static final String LATITUDE_VALUE = "LATITUDE_VALUE";
-    private static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
+    protected static final String STR_VALUE = "STR_VALUE";
+    protected static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
+    protected static final String TOKEN_VALUE = "TOKEN_VALUE";
+    protected static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
+    protected static final String CODE = "CODE";
+    protected static final String NUMBER_VALUE = "NUMBER_VALUE";
+    protected static final String QUANTITY_VALUE = "QUANTITY_VALUE";
+    protected static final String QUANTITY_VALUE_LOW = "QUANTITY_VALUE_LOW";
+    protected static final String QUANTITY_VALUE_HIGH = "QUANTITY_VALUE_HIGH";
+    protected static final String DATE_VALUE = "DATE_VALUE";
+    protected static final String DATE_START = "DATE_START";
+    protected static final String DATE_END = "DATE_END";
+    protected static final String LATITUDE_VALUE = "LATITUDE_VALUE";
+    protected static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
     
 		 
 	
@@ -197,13 +197,14 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.QueryBuilder#buildQuery(java.lang.Class, com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext)
 	 */
 	@Override
-	public SqlQueryData buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
-			throws Exception {
+	public SqlQueryData buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws Exception {
 		final String METHODNAME = "buildQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
-		SqlQueryData query = null;
 		
-        QuerySegmentAggregator helper = this.buildQueryCommon(resourceType, searchContext);
+		SqlQueryData query = null;
+		QuerySegmentAggregator helper;
+		
+		helper = this.buildQueryCommon(resourceType, searchContext);
         if (helper != null) {
         	query = helper.buildQuery();
         }
@@ -228,10 +229,16 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		List<Parameter> searchParameters = searchContext.getSearchParameters();
 		int pageSize = searchContext.getPageSize();
 		int offset = (searchContext.getPageNumber() - 1) * pageSize;
-		QuerySegmentAggregator helper = new QuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao);
+		QuerySegmentAggregator helper;
 		boolean isValidQuery = true;
 		
 		this.resourceType = resourceType;
+		if (searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty()) {
+			helper = new QuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao);
+		}
+		else {
+			helper = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, searchContext.getSortParameters());
+		}
 		
 		
 		// Special logic for handling LocationPosition queries. These queries have interdependencies between
