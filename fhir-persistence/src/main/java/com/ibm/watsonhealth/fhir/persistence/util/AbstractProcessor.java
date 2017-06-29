@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 import com.ibm.watsonhealth.fhir.model.Duration;
 import com.ibm.watsonhealth.fhir.model.Element;
@@ -94,25 +92,7 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 	}
 
 	protected java.util.Date convertToDate(String str) throws ParseException {
-		try {
-			return processDate(str, "yyyy-MM-dd'T'hh:mm:ss'Z'");
-		} catch (ParseException e) {
-			try {
-				return processDate(str, "yyyy-MM-dd'T'hh:mm");
-			} catch (ParseException e1) {
-				try {
-					return processDate(str, "yyyy-MM-dd");
-				} catch (ParseException e2) {
-					throw e2;
-				}
-			}
-		} 
-	}
-
-	private java.util.Date processDate(String date, String format) throws ParseException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT 0:00"));
-		java.util.Date parsedDate = dateFormat.parse(date);
-		return parsedDate;
+		TimestampUtil timestampUtil = TimestampUtil.create();
+		return timestampUtil.getTimestamp(str); 
 	}
 }
