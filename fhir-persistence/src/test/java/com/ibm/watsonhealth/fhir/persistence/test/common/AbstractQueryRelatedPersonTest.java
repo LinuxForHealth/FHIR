@@ -74,7 +74,7 @@ public abstract class AbstractQueryRelatedPersonTest extends AbstractPersistence
 	 */
 	@Test(groups = { "cloudant", "jpa", "jdbc-normalized" }, dependsOnMethods = { "testCreateRelatedPerson" })
 	public void testRelatedPersonQuery_name3() throws Exception {
-		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "bénédicte");
+		List<Resource> resources = runQueryTest(RelatedPerson.class, persistence, "name", "Bénédicte");
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((RelatedPerson)resources.get(0)).getName().getGiven().get(0).getValue(),"Bénédicte");

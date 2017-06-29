@@ -162,7 +162,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				this.getParameterDao().setExternalConnection(myConnection);
 				this.getResourceDao().setExternalConnection(myConnection);
 			}
-	        FHIRUtil.write(resource, Format.XML, stream, false);
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
 	
 	        // Start a new txn.
 	        if (!isActive()) {
@@ -362,7 +362,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        }
 	        
 	        stream = new ByteArrayOutputStream();
-	        FHIRUtil.write(resource, Format.XML, stream, false);
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
 	
 	        // Start a new txn.
 	        if (!isActive()) {
@@ -729,7 +729,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	    	if (resourceDTO != null) {
 	    		resourceBytes = resourceDTO.getData();
 	    		resourceBytes = FHIRUtilities.gzipDecompress(resourceBytes);
-	    		resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceBytes));
+	    		// If the first byte of Resource blob is a '<', that means its an XML byte stream. 
+	    		// Otherwise we attempt to deserialize it as a JSON stream.
+	    		if (resourceBytes[0] == 60) {
+	    			resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceBytes));
+	    		}
+	    		else {
+	    			resource = FHIRUtil.read(resourceType, Format.JSON, new ByteArrayInputStream(resourceBytes));
+	    		}
 	            resource.setId(id(resourceDTO.getLogicalId()));
 	            Meta meta = resource.getMeta();
 	            if (meta == null) {

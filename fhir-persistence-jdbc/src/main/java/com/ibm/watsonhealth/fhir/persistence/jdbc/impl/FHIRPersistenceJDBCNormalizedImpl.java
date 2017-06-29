@@ -135,7 +135,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		String logicalId;
 		
 		try {
-	        FHIRUtil.write(resource, Format.XML, stream, false);
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
 	
 	        // Start a new txn.
 	        if (!isActive()) {
@@ -227,7 +227,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        }
 	        
 	        stream = new ByteArrayOutputStream();
-	        FHIRUtil.write(resource, Format.XML, stream, false);
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
 	
 	        // Start a new txn.
 	        if (!isActive()) {
@@ -514,7 +514,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                     com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
                     resourceDTO.setLogicalId(logicalId);
                     resourceDTO.setVersionId(newVersionNumber);
-                    FHIRUtil.write(deletedResource, Format.XML, stream, false);
+                    FHIRUtil.write(deletedResource, Format.JSON, stream, false);
                     resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
                     Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
                     resourceDTO.setLastUpdated(timestamp);
