@@ -976,13 +976,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		log.entering(CLASSNAME, METHODNAME);
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append(WHERE);
-		
-		if (!Resource.class.equals(resourceType) && queryParms.isEmpty()) {
-		    builder.append(" r.resource_type = '");
+		if (!Resource.class.equals(resourceType)) {
+			builder.append(WHERE);
+			builder.append(" r.resource_type = '");
 		    builder.append(resourceType.getSimpleName());
 		    builder.append("' AND");
 		    builder.append(" r.version_id = (SELECT MAX(r2.version_id) FROM Resource r2 WHERE r2.logical_id = r.logical_id)");
+			
+		}
+		if (!queryParms.isEmpty() && builder.length() == 0) {
+			builder.append(WHERE);
 		}
 		
 		 
