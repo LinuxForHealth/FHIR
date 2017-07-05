@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.*;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
@@ -81,7 +81,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
 		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 		this.resourceDao = new ResourceDAONormalizedImpl();
-		this.resourceDao.setRepInfoRequired(true);
+		this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.TRUE));
 		this.parameterDao = new ParameterDAONormalizedImpl();
 		
 		// This cache must be pre-initialized in order for certain types of searches to work correctly.
