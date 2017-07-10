@@ -15,6 +15,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 
 /**
@@ -27,6 +28,13 @@ public class FHIRPersistenceEvent {
      * URI information associated with the REST API request for which the interceptor is being invoked.
      */
     public static final String PROPNAME_URI_INFO = "URI_INFO";
+    
+    /**
+     * This property is of type FHIRPersistence and is the handle to the persistence layer implementation
+     * being used by the FHIR Server while processing the current request.
+     * Persistence interceptors can use this handle to invoke persistence operations.
+     */
+    public static final String PROPNAME_PERSISTENCE_IMPL = "PERSISTENCE_IMPL";
     
     /**
      * This property is of type javax.ws.rs.core.HttpHeaders and contains the set of HTTP headers
@@ -214,6 +222,14 @@ public class FHIRPersistenceEvent {
      */
     public FHIRReplicationContext getReplicationContext() {
         return (FHIRReplicationContext) getProperty(PROPNAME_REPLICATION_CONTEXT);
+    }
+    
+    /**
+     * Returns the FHIRPersistence instance currently being used by the FHIR REST API layer
+     * to process the current request.
+     */
+    public FHIRPersistence getPersistenceImpl() {
+        return (FHIRPersistence) getProperty(PROPNAME_PERSISTENCE_IMPL);
     }
     
     /**

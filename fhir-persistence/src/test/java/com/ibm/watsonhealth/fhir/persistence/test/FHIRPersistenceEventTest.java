@@ -40,6 +40,7 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         assertNull(pe.getTransactionCorrelationId());
         assertNull(pe.getRequestCorrelationId());
         assertNull(pe.getReplicationContext());
+        assertNull(pe.getPersistenceImpl());
     }
     
     @Test

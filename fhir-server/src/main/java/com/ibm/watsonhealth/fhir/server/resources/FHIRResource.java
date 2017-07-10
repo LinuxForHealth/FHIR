@@ -2889,9 +2889,11 @@ public class FHIRResource {
 
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
+     * @throws FHIRPersistenceException 
      */
-    private Map<String, Object> buildPersistenceEventProperties(String type, String id, String version) {
+    private Map<String, Object> buildPersistenceEventProperties(String type, String id, String version) throws FHIRPersistenceException {
         Map<String, Object> props = new HashMap<>();
+        props.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, getPersistenceImpl());
         props.put(FHIRPersistenceEvent.PROPNAME_URI_INFO, uriInfo);
         props.put(FHIRPersistenceEvent.PROPNAME_HTTP_HEADERS, httpHeaders);
         props.put(FHIRPersistenceEvent.PROPNAME_SECURITY_CONTEXT, securityContext);
