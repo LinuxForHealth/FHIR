@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -256,7 +257,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		final String METHODNAME = "history";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		List<Resource> resources;
+		List<Resource> resources = null;
 		String stmtString = null;
 				
 		try {
@@ -287,7 +288,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			throw new FHIRPersistenceDataAccessException("Failure running history query: " + stmtString, e);
 		}
 		finally {
-			log.exiting(CLASSNAME, METHODNAME);
+			log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] {resources}));
 		}
 		return resources;
 	}

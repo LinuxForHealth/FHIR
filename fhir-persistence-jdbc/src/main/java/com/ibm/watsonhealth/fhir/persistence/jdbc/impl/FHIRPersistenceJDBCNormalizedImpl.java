@@ -651,6 +651,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        			deletedResourceVersions.get(logicalId).add(resourceDTO.getVersionId());
 	        		}
 	        	}
+	        	log.log(Level.FINE, "deletedResourceVersions=" + deletedResourceVersions);
 	        	resources = this.convertResourceDTOList(resourceDTOList, resourceType);
 	        } 
 		}

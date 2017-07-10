@@ -83,5 +83,12 @@ public class Resource {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+	
+	@Override
+	public String toString() {
+		return "Resource [id=" + id + ", logicalId=" + logicalId + ", versionId=" + versionId + ", resourceType="
+				+ resourceType + ", lastUpdated=" + lastUpdated + ", deleted=" + deleted + "]";
+	}
 
 }
+

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -38,6 +39,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 		
 	private static final Logger log = Logger.getLogger(FHIRDbDAOBasicImpl.class.getName());
 	private static final String CLASSNAME = FHIRDbDAOBasicImpl.class.getName(); 
+	private static final String NEWLINE = System.getProperty("line.separator");
 	
 	private String datasourceJndiName = null;
 	private Properties dbProps = null;
@@ -249,13 +251,13 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			resultSet = stmt.executeQuery();
 			// Transform the resultSet into a collection of Data Transfer Objects
 			fhirObjects = this.createDTOs(resultSet);
-			log.fine("Sucessfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + searchArgs);
+			log.fine("Sucessfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs));
 		} 
 		catch(FHIRPersistenceException e) {
 			throw e;
 		}
 		catch (Throwable e) {
-			errMsg = "Failure retrieving FHIR objects. SQL=" + sql + "  searchArgs=" + searchArgs;
+			errMsg = "Failure retrieving FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs);
 			throw new FHIRPersistenceDataAccessException(errMsg,e);
 		} 
 		finally {
@@ -283,7 +285,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
-		String errMsg = "Failure retrieving count. SQL=" + sql + "  searchArgs=" + searchArgs;;
+		String errMsg = "Failure retrieving count. SQL=" + sql + NEWLINE + "  searchArgs=" + Arrays.toString(searchArgs);
 						
 		try {
 			connection = this.getConnection();
@@ -295,7 +297,8 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			resultSet = stmt.executeQuery();
 			if (resultSet.next()) {
 				rowCount = resultSet.getInt(1);
-				log.fine("Sucessfully retrieved count. SQL=" + sql + "  searchArgs=" + searchArgs);
+				log.fine("Sucessfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
+							Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount);
 			}
 			else {
 				throw new FHIRPersistenceDataAccessException(errMsg);
@@ -322,7 +325,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	 * @throws FHIRPersistenceDataAccessException
 	 */
 	protected List<T> createDTOs(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
-		final String METHODNAME = "runQuery";
+		final String METHODNAME = "createDTOs";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		T dto;
@@ -332,7 +335,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			while(resultSet.next()) {
 				dto = this.createDTO(resultSet);
 				if (dto != null) {
-					dtoList.add(this.createDTO(resultSet));
+					dtoList.add(dto);
 				}
 			}
 		} 
