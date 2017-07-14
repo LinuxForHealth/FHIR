@@ -858,6 +858,12 @@ public class FHIRClientImpl implements FHIRClient {
             }
             setBaseEndpointURL(s);
             
+            // Process the default mimetype property.
+            s = getProperty(PROPNAME_DEFAULT_MIMETYPE, null);
+            if (s != null && !s.isEmpty()) {
+                setDefaultMimeType(s);
+            }
+            
             // Process the basic auth properties (temporary until client auth is fully working).
             setBasicAuthEnabled(Boolean.parseBoolean(getProperty(PROPNAME_BASIC_AUTH_ENABLED, "false")));
             if (isBasicAuthEnabled()) {

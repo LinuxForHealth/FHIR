@@ -12,12 +12,16 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Properties;
+
 import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.client.FHIRClient;
+import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.Modifier;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.ValuePrefix;
@@ -41,8 +45,33 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
  * Basic tests related to the FHIR Client API.
  */
 public class FHIRClientTest extends FHIRClientTestBase {
+    private static final String MIMETYPE_JSON = "application/json+fhir";
+    private static final String MIMETYPE_XML = "application/xml+fhir";
+    
     private Patient createdPatient = null;
     private Patient updatedPatient = null;
+    
+    @Test
+    public void testFHIRClientCtorProperties1() throws Exception {
+        // by default, our testcase creates a FHIRClient instance using test.properties
+        // so this test will just verify that the default mimetype is present.
+        assertNotNull(client);
+        assertEquals(MIMETYPE_JSON, client.getDefaultMimeType());
+    }
+
+    @Test
+    public void testFHIRClientCtorProperties2() throws Exception {
+        // Clone our "testProperties" field.
+        Properties props = new Properties();
+        props.putAll(testProperties);
+        
+        // Set the mimetype we want to test with.
+        props.setProperty(FHIRClient.PROPNAME_DEFAULT_MIMETYPE, MIMETYPE_XML);
+        
+        FHIRClient c = FHIRClientFactory.getClient(props);
+        assertNotNull(c);
+        assertEquals(MIMETYPE_XML, c.getDefaultMimeType());
+    }
 
     @Test
     public void testMetadataWebTarget() throws Exception {
