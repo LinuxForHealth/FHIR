@@ -135,8 +135,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		String logicalId;
 		
 		try {
-	        FHIRUtil.write(resource, Format.JSON, stream, false);
-	
+	        	
 	        // Start a new txn.
 	        if (!isActive()) {
 	            begin();
@@ -151,7 +150,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
 	        resourceDTO.setLogicalId(logicalId);
 	        resourceDTO.setVersionId(newVersionNumber);
-	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
 	        Instant lastUpdated = instant(System.currentTimeMillis());
 	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 	        resourceDTO.setLastUpdated(timestamp);
@@ -166,6 +164,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
+	        
+	        // Serialize and compress the Resource
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
 	        
 	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
 	        // the search parameters being persisted first (in a global temporary table).
@@ -226,9 +228,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            throw new FHIRPersistenceResourceNotFoundException(msg);
 	        }
 	        
-	        stream = new ByteArrayOutputStream();
-	        FHIRUtil.write(resource, Format.JSON, stream, false);
-	
+	        
 	        // Start a new txn.
 	        if (!isActive()) {
 	            begin();
@@ -247,7 +247,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
 	        resourceDTO.setLogicalId(logicalId);
 	        resourceDTO.setVersionId(newVersionNumber);
-	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
 	        Instant lastUpdated = instant(System.currentTimeMillis());
 	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 	        resourceDTO.setLastUpdated(timestamp);
@@ -262,6 +261,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
+	        
+	        // Serialize and compress the Resource
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
 	        
 	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
 	        // the search parameters being persisted first (in a global temporary table).
