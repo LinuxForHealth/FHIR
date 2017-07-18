@@ -169,7 +169,7 @@ public class FHIRServletContextListener implements ServletContextListener {
         PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
         if (pg != null) {
             String type = pg.getStringProperty("type");
-            if (type != null && !type.isEmpty() && type.toLowerCase().equals("derby")) {
+            if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
                 DerbyBootstrapper.bootstrapDb(ds, schemaType, derbyJar);
             }
         }
