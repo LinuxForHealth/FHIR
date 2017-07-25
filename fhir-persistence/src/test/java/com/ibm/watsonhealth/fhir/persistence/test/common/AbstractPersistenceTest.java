@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -59,6 +61,20 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     	bootstrapDatabase();
         persistence = getPersistenceImpl();
         FHIRConfiguration.setConfigHome("target/test-classes");
+    }
+    
+    @BeforeMethod(alwaysRun = true)
+    public void startTrx() throws Exception{
+    	if (persistence.isTransactional()) {
+    		persistence.getTransaction().begin();
+    	}
+    }
+    
+    @AfterMethod(alwaysRun = true)
+    public void commitTrx() throws Exception{
+    	if (persistence.isTransactional()) {
+    		persistence.getTransaction().commit();
+    	}
     }
     
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {

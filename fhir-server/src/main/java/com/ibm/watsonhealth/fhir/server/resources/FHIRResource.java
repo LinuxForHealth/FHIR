@@ -1286,6 +1286,9 @@ public class FHIRResource {
      */
     protected Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
+        
+        FHIRPersistenceTransaction txn = null;
+        boolean txnStarted = false;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1305,6 +1308,14 @@ public class FHIRResource {
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
+            // Start a new txn in the persistence layer if one is not already active.
+            txn = getPersistenceImpl().getTransaction();
+            if (txn != null && !txn.isActive()) {
+                txn.begin();
+                txnStarted = true;
+                log.fine("Started new transaction for 'read' operation.");
+            }
+            
             // First, invoke the 'beforeRead' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeReadEvent(event);
@@ -1319,6 +1330,14 @@ public class FHIRResource {
 
             // Invoke the 'afterRead' interceptor methods.
             getInterceptorMgr().fireAfterReadEvent(event);
+            
+            // Commit our transaction if we started one before.
+            if (txnStarted) {
+                log.fine("Committing transaction for 'read' operation.");
+                txn.commit();
+                txn = null;
+                txnStarted = false;
+            }
 
             return resource;
         } catch (FHIRPersistenceResourceDeletedException e) {
@@ -1330,6 +1349,14 @@ public class FHIRResource {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
+            
+            // If we previously started a transaction and it's still active, we need to rollback due to an error.
+            if (txnStarted) {
+                log.fine("Rolling back transaction for 'read' operation.");
+                txn.rollback();
+                txn = null;
+                txnStarted = false;
+            }
             
             log.exiting(this.getClass().getName(), "doRead");
         }
@@ -1344,6 +1371,9 @@ public class FHIRResource {
      */
     protected Resource doVRead(String type, String id, String versionId) throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
+        
+        FHIRPersistenceTransaction txn = null;
+        boolean txnStarted = false;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1363,6 +1393,14 @@ public class FHIRResource {
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
+            // Start a new txn in the persistence layer if one is not already active.
+            txn = getPersistenceImpl().getTransaction();
+            if (txn != null && !txn.isActive()) {
+                txn.begin();
+                txnStarted = true;
+                log.fine("Started new transaction for 'vread' operation.");
+            }
+            
             // First, invoke the 'beforeVread' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId));
             getInterceptorMgr().fireBeforeVreadEvent(event);
@@ -1377,6 +1415,14 @@ public class FHIRResource {
 
             // Invoke the 'afterVread' interceptor methods.
             getInterceptorMgr().fireAfterVreadEvent(event);
+            
+            // Commit our transaction if we started one before.
+            if (txnStarted) {
+                log.fine("Committing transaction for 'vread' operation.");
+                txn.commit();
+                txn = null;
+                txnStarted = false;
+            }
 
             return resource;
         } catch (Throwable t) {
@@ -1386,6 +1432,14 @@ public class FHIRResource {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
+            
+            // If we previously started a transaction and it's still active, we need to rollback due to an error.
+            if (txnStarted) {
+                log.fine("Rolling back transaction for 'vread' operation.");
+                txn.rollback();
+                txn = null;
+                txnStarted = false;
+            }
             
             log.exiting(this.getClass().getName(), "doVRead");
         }
@@ -1405,6 +1459,9 @@ public class FHIRResource {
      */
     protected Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
+        
+        FHIRPersistenceTransaction txn = null;
+        boolean txnStarted = false;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1425,6 +1482,14 @@ public class FHIRResource {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             FHIRHistoryContext historyContext = FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
             
+            // Start a new txn in the persistence layer if one is not already active.
+            txn = getPersistenceImpl().getTransaction();
+            if (txn != null && !txn.isActive()) {
+                txn.begin();
+                txnStarted = true;
+                log.fine("Started new transaction for 'history' operation.");
+            }
+            
             // First, invoke the 'beforeHistory' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeHistoryEvent(event);
@@ -1438,6 +1503,14 @@ public class FHIRResource {
 
             // Invoke the 'afterHistory' interceptor methods.
             getInterceptorMgr().fireAfterHistoryEvent(event);
+            
+            // Commit our transaction if we started one before.
+            if (txnStarted) {
+                log.fine("Committing transaction for 'history' operation.");
+                txn.commit();
+                txn = null;
+                txnStarted = false;
+            }
 
             return bundle;
         } catch (Throwable t) {
@@ -1447,6 +1520,14 @@ public class FHIRResource {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
+            
+            // If we previously started a transaction and it's still active, we need to rollback due to an error.
+            if (txnStarted) {
+                log.fine("Rolling back transaction for 'history' operation.");
+                txn.rollback();
+                txn = null;
+                txnStarted = false;
+            }
             
             log.exiting(this.getClass().getName(), "doHistory");
         }
@@ -1461,6 +1542,9 @@ public class FHIRResource {
      */
     protected Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
+        
+        FHIRPersistenceTransaction txn = null;
+        boolean txnStarted = false;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1480,6 +1564,14 @@ public class FHIRResource {
             }
             
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+            
+            // Start a new txn in the persistence layer if one is not already active.
+            txn = getPersistenceImpl().getTransaction();
+            if (txn != null && !txn.isActive()) {
+                txn.begin();
+                txnStarted = true;
+                log.fine("Started new transaction for 'search' operation.");
+            }
             
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, null, null));
@@ -1502,6 +1594,14 @@ public class FHIRResource {
             // Invoke the 'afterSearch' interceptor methods.
             getInterceptorMgr().fireAfterSearchEvent(event);
             
+            // Commit our transaction if we started one before.
+            if (txnStarted) {
+                log.fine("Committing transaction for 'search' operation.");
+                txn.commit();
+                txn = null;
+                txnStarted = false;
+            }
+            
             return bundle;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'search' request.";
@@ -1510,6 +1610,14 @@ public class FHIRResource {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
+            
+            // If we previously started a transaction and it's still active, we need to rollback due to an error.
+            if (txnStarted) {
+                log.fine("Rolling back transaction for 'search' operation.");
+                txn.rollback();
+                txn = null;
+                txnStarted = false;
+            }
             
             log.exiting(this.getClass().getName(), "doSearch");
         }

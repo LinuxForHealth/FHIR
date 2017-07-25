@@ -6,8 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
-import static org.testng.AssertJUnit.*;
-
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,13 +39,19 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         super.setUp();
         Patient patient;
         String patientFile;
-        
+               
         // Load 5 patients
         for (int i = 1; i <=5; i++) 
         {
         	patientFile = "sortTest.patient" + i + ".json";
         	patient = readResource(Patient.class, patientFile);
+        	if(persistence.isTransactional()) {
+        		persistence.getTransaction().begin();
+        	}
          	persistence.create(getDefaultPersistenceContext(), patient);
+         	if(persistence.isTransactional()) {
+        		persistence.getTransaction().commit();
+        	}
          	assertNotNull(patient);
          	assertNotNull(patient.getId());
             assertNotNull(patient.getId().getValue());

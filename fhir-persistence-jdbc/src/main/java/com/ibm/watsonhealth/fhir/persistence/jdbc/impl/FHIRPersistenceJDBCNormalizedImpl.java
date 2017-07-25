@@ -11,8 +11,6 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,8 +64,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	private ResourceNormalizedDAO resourceDao;
 	private ParameterNormalizedDAO parameterDao;		
 
-	private Connection sharedConnection = null;
-	
 	/**
 	 * Constructor for use when running as web application in WLP. 
 	 * @throws Exception 
@@ -130,18 +126,11 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		final String METHODNAME = "create";
 		log.entering(CLASSNAME, METHODNAME);
 		
-		boolean txnStarted = false;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		String logicalId;
 		
 		try {
 	        	
-	        // Start a new txn.
-	        if (!isActive()) {
-	            begin();
-	            txnStarted = true;
-	        }
-	
 	        // Default version is 1 for a brand new FHIR Resource.
 	        int newVersionNumber = 1;
 	        logicalId = (resource.getId() != null ? resource.getId().getValue() : UUID.randomUUID().toString());
@@ -178,13 +167,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
-	        
-	        // Time to commit the changes.
-	        if (txnStarted) {
-	            commit();
-	            txnStarted = false;
-	        }
-		}
+	    }
 		catch(FHIRPersistenceException e) {
 			throw e;
 		}
@@ -194,12 +177,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
-		    // Time to rollback if we still have an active txn that we started.
-		    if (txnStarted) {
-		        rollback();
-		        txnStarted = false;
-		    }
-			log.exiting(CLASSNAME, METHODNAME);
+		   log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
 
@@ -213,7 +191,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		Class<? extends Resource> resourceType = resource.getClass();
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
-		boolean txnStarted = false;
 		int newVersionNumber = 1;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		
@@ -226,13 +203,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
 	            log.log(Level.SEVERE, msg);
 	            throw new FHIRPersistenceResourceNotFoundException(msg);
-	        }
-	        
-	        
-	        // Start a new txn.
-	        if (!isActive()) {
-	            begin();
-	            txnStarted = true;
 	        }
 	        
 	        // If the FHIR Resource already exists, then we'll simply bump up the version #, use its logical id,
@@ -275,12 +245,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        this.getResourceDao().insert(resourceDTO);
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
-	                
-	        // Time to commit the changes.
-	        if (txnStarted) {
-	            commit();
-	            txnStarted = false;
-	        }
 		}
 		catch(FHIRPersistenceException e) {
 			throw e;
@@ -291,12 +255,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
-	        // Time to rollback if we still have an active txn that we started.
-	        if (txnStarted) {
-	            rollback();
-	            txnStarted = false;
-	        }
-			log.exiting(CLASSNAME, METHODNAME);
+	        log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
 
@@ -319,16 +278,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	    int lastPageNumber;
 	    SqlQueryData countQuery;
 	    SqlQueryData query;
-	    Connection myConnection = null;
-	    
+	    	    
 	    try {
-	    	if (this.getManagedConnection() == null && !isActive()) {
-				myConnection = this.createConnection();
-				this.getParameterDao().setExternalConnection(myConnection);
-				this.getResourceDao().setExternalConnection(myConnection);
-			}
-	        	         
-	        queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao());
+	    	queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao());
 	         
 	        countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
 	        if (countQuery != null) {
@@ -363,112 +315,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
-			if (myConnection != null) {
-		    	try {
-					myConnection.close();
-				} 
-		    	catch (SQLException e) {
-					throw new FHIRPersistenceException("Failure closing DB Conection", e);
-				}
-		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 	    
 		return resources;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#begin()
-	 */
-	@Override
-	public void begin() throws FHIRPersistenceException {
-		final String METHODNAME = "begin";
-		log.entering(CLASSNAME, METHODNAME);
-			
-		try {
-			if (userTransaction != null) {
-			    sharedConnection = createConnection();
-			    resourceDao.setExternalConnection(sharedConnection);
-			    parameterDao.setExternalConnection(sharedConnection);
-				userTransaction.begin();
-			}
-			else if (this.getManagedConnection() != null) {
-				this.getManagedConnection().setAutoCommit(false);
-			}
-		}
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while starting a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg);
-        }
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#commit()
-	 */
-	@Override
-	public void commit() throws FHIRPersistenceException {
-		final String METHODNAME = "commit";
-		log.entering(CLASSNAME, METHODNAME);
-		
-        try {
-            if (userTransaction != null) {
-                userTransaction.commit();
-            } else if (this.getManagedConnection() != null) {
-            	this.getManagedConnection().commit();
-			}
-        } 
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while committing a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg);
-        }
-        finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                } catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
-        	log.exiting(CLASSNAME, METHODNAME);
-        }
-
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#rollback()
-	 */
-	@Override
-	public void rollback() throws FHIRPersistenceException {
-		final String METHODNAME = "rollback";
-		log.entering(CLASSNAME, METHODNAME);
-		
-        try {
-        	if (userTransaction != null) {
-                userTransaction.rollback();
-            } else if (this.getManagedConnection() != null) {
-            	this.getManagedConnection().rollback();
-			}
-        } 
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while rolling back a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg);
-        } finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                } catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
-        }
 	}
 	
 	protected ParameterDAO getParameterDao() {
@@ -489,16 +339,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
 		Resource deletedResource = null;
-		boolean txnStarted = false;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		
 		try {
-	        // Start a new txn.
-	        if (!isActive()) {
-	            begin();
-	            txnStarted = true;
-	        }
-			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+	        existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 			
 			// If the resource DTO exists, then convert it to a FHIR resource.
             if (existingResourceDTO != null) {
@@ -530,13 +374,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                             + ", version=" + resourceDTO.getVersionId());
                 }
             }
-			
-			// Time to commit the changes.
-	        if (txnStarted) {
-	            commit();
-	            txnStarted = false;
-	        }
-	        
+			        
 	        return deletedResource;
 		}
 		catch(FHIRPersistenceException e) {
@@ -548,12 +386,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
-	        // Time to rollback if we still have an active txn that we started.
-	        if (txnStarted) {
-	            rollback();
-	            txnStarted = false;
-	        }
-			log.exiting(CLASSNAME, METHODNAME);
+	        log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
 
@@ -568,14 +401,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		Resource resource = null;
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
-		Connection myConnection = null;
-		
+				
 		try {
-			if (this.getManagedConnection() == null && !isActive()) {
-				myConnection = this.createConnection();
-				this.getParameterDao().setExternalConnection(myConnection);
-				this.getResourceDao().setExternalConnection(myConnection);
-			}
 			resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 			if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
@@ -591,14 +418,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
-			if (myConnection != null) {
-		    	try {
-					myConnection.close();
-				} 
-		    	catch (SQLException e) {
-					throw new FHIRPersistenceException("Failure closing DB Conection", e);
-				}
-		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		
@@ -624,14 +443,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		int pageSize;
 		int lastPageNumber;
 		int offset;
-		Connection myConnection = null;
-		
+				
 		try {
-			if (this.getManagedConnection() == null && !isActive()) {
-				myConnection = this.createConnection();
-				this.getParameterDao().setExternalConnection(myConnection);
-				this.getResourceDao().setExternalConnection(myConnection);
-			}
 			historyContext = context.getHistoryContext();
 			historyContext.setDeletedResources(deletedResourceVersions);
 			since = historyContext.getSince();
@@ -667,14 +480,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
-			if (myConnection != null) {
-		    	try {
-					myConnection.close();
-				} 
-		    	catch (SQLException e) {
-					throw new FHIRPersistenceException("Failure closing DB Conection", e);
-				}
-		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		
@@ -693,14 +498,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		Resource resource = null;
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
 		int version;
-		Connection myConnection = null;
-								
+										
 		try {
-			if (this.getManagedConnection() == null && !isActive()) {
-				myConnection = this.createConnection();
-				this.getParameterDao().setExternalConnection(myConnection);
-				this.getResourceDao().setExternalConnection(myConnection);
-			}
 			version = Integer.parseInt(versionId);
 			resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
 			if (resourceDTO != null && resourceDTO.isDeleted()) {
@@ -720,14 +519,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
-			if (myConnection != null) {
-		    	try {
-					myConnection.close();
-				} 
-		    	catch (SQLException e) {
-					throw new FHIRPersistenceException("Failure closing DB Conection", e);
-				}
-		    }
 			log.exiting(CLASSNAME, METHODNAME);
 		}
 		
