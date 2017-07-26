@@ -344,35 +344,39 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		try {
 	        existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 			
-			// If the resource DTO exists, then convert it to a FHIR resource.
-            if (existingResourceDTO != null) {
-                deletedResource = this.convertResourceDTO(existingResourceDTO, resourceType);
-
-                // If the resource was not already deleted, then update it to be logically deleted.
-                if (!existingResourceDTO.isDeleted()) {
-                    int newVersionNumber = existingResourceDTO.getVersionId() + 1;
-                    Instant lastUpdated = instant(System.currentTimeMillis());
-
-                    // Update the returned resource to reflect the new version and lastUpdated values.
-                    deletedResource.getMeta().setVersionId(id(String.valueOf(newVersionNumber)));
-                    deletedResource.getMeta().setLastUpdated(lastUpdated);
-
-                    // Create a new Resource DTO instance to represent the deleted version.
-                    com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
-                    resourceDTO.setLogicalId(logicalId);
-                    resourceDTO.setVersionId(newVersionNumber);
-                    FHIRUtil.write(deletedResource, Format.JSON, stream, false);
-                    resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
-                    Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-                    resourceDTO.setLastUpdated(timestamp);
-                    resourceDTO.setResourceType(resourceType.getSimpleName());
-                    resourceDTO.setDeleted(true);
-
-                    // Persist the logically deleted Resource DTO.
-                    this.getResourceDao().insert(resourceDTO);
-                    log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-                            + ", version=" + resourceDTO.getVersionId());
-                }
+			if (existingResourceDTO != null) {
+				if (existingResourceDTO.isDeleted()) {
+					deletedResource = this.convertResourceDTO(existingResourceDTO, resourceType);
+				}
+				else {
+					// Create a soft-delete Resource instance with minimal data
+	            	deletedResource = FHIRUtil.createResource(resourceType);
+	            	deletedResource.setMeta(objectFactory.createMeta());
+	            	deletedResource.setId(objectFactory.createId().withValue(logicalId));
+	
+	                int newVersionNumber = existingResourceDTO.getVersionId() + 1;
+	                Instant lastUpdated = instant(System.currentTimeMillis());
+	
+	                // Update the soft-delete resource to reflect the new version and lastUpdated values.
+	                deletedResource.getMeta().setVersionId(id(String.valueOf(newVersionNumber)));
+	                deletedResource.getMeta().setLastUpdated(lastUpdated);
+	
+	                // Create a new Resource DTO instance to represent the deleted version.
+	                com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+	                resourceDTO.setLogicalId(logicalId);
+	                resourceDTO.setVersionId(newVersionNumber);
+	                FHIRUtil.write(deletedResource, Format.JSON, stream, false);
+	                resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	                Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+	                resourceDTO.setLastUpdated(timestamp);
+	                resourceDTO.setResourceType(resourceType.getSimpleName());
+	                resourceDTO.setDeleted(true);
+	
+	                // Persist the logically deleted Resource DTO.
+	                this.getResourceDao().insert(resourceDTO);
+	                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	                        + ", version=" + resourceDTO.getVersionId());
+				}
             }
 			        
 	        return deletedResource;
