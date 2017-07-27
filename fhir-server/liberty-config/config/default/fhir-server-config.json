@@ -126,7 +126,7 @@ CODE_REMOVED
             	"bootstrapDb": true
             },
             "replicationInterceptor": {
-                "enabled": true,
+                "enabled": false,
                 "studyIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/studyid",
                 "siteIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/siteid",
                 "subjectIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid",
