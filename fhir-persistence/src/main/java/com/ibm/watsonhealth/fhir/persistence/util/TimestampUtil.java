@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.persistence.util;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +22,8 @@ public class TimestampUtil {
 	
 	// format for converting to/from our tstamp string in UTC
 	private final ZoneId utc = ZoneId.of("UTC");
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX").withZone(utc);
+	private final DateTimeFormatter formatterPartial = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000Z'").withZone(utc);
+	private final DateTimeFormatter formatterFullTimestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX").withZone(utc);
 
 	/**
 	 * Create a new utility instance, so each thread can get its own
@@ -38,9 +40,15 @@ public class TimestampUtil {
 	 * @throws ReplicatorException for an error
 	 */
 	public Date getTimestamp(String str) {
-		Instant instant = Instant.parse(str);
-		ZonedDateTime dt = instant.atZone(utc);
-		return Date.from(dt.toInstant());
+		try {
+			Instant instant = Instant.parse(str);
+			ZonedDateTime dt = instant.atZone(utc);
+			return Date.from(dt.toInstant());
+		} catch (Exception e) {
+			LocalDate ld = LocalDate.parse(str);
+			ZonedDateTime dt = ld.atStartOfDay(utc);
+			return Date.from(dt.toInstant());
+		}
 	}
 
 	/**
@@ -50,6 +58,10 @@ public class TimestampUtil {
 	 */
 	public String format(Date tstamp) {
 		Instant inst = tstamp.toInstant();
-		return formatter.format(inst);
+		try {
+			return formatterFullTimestamp.format(inst);
+		} catch (Exception e) {
+			return formatterPartial.format(inst);
+		}
 	}
 }
