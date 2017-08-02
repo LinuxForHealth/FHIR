@@ -11,6 +11,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -22,6 +26,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.Conformance;
 import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
 import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
@@ -310,6 +315,35 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
+    
+    /**
+     * Searches for all Patients, and ensures that no duplicates for the same Patient are returned. 
+     * (This ensures that multiple versions of a Patient with the same logical id are not returned.)
+     */
+    @Test(groups = { "server-basic" }, dependsOnMethods={"testCreatePatient", "testUpdatePatient"})
+    public void testSearchAllPatients() {
+    	WebTarget target = getWebTarget();
+    	
+    	Response response = target.path("Patient").request(MediaType.APPLICATION_JSON_FHIR).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertNotNull(bundle.getTotal());
+        assertNotNull(bundle.getTotal().getValue());
+        
+        List<String> patientLogicalIds = new ArrayList<>();
+        Patient patient;
+        for(BundleEntry entry : bundle.getEntry()) {
+        	patient = entry.getResource().getPatient();
+        	if (patientLogicalIds.contains(patient.getId().getValue())) {
+        		fail("Duplicate logicalId found: " + patient.getId().getValue());
+        	}
+        	else {
+        		patientLogicalIds.add(patient.getId().getValue());
+        	}
+        }
+   }
     
     /**
      * Tests a search for an observation based on its association with a patient.
