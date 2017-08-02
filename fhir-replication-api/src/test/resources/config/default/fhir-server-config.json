@@ -6,7 +6,11 @@
                 "studyIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/studyid",
                 "siteIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/siteid",
                 "subjectIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid",
-                "studyIdHeaderName": "X-WHC-LSF-studyid"
+                "studyIdHeaderName": "X-WHC-LSF-studyid",
+                "resourcesRequiringSubjectId": [
+                    "Contract",
+                    "Device"
+                ]
             }
         }
     }
