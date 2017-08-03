@@ -15,11 +15,10 @@ COPY volumes/scripts  /scripts
 
 RUN \
   useradd fhir && \
-  cp /scripts/.bash_profile /home/fhir/.bash_profile && \
-  chown fhir /home/fhir/.bash_profile && \
-  mkdir /opt/ibm && \
-  chmod 777 /opt/ibm && \
-  su - fhir -c '/scripts/deploy-fhir.sh'
+  cp -pr /scripts /home/fhir && mv /home/fhir/scripts/.bash_profile /home/fhir && chown fhir:fhir /home/fhir/.bash_profile && \
+  chown fhir:fhir /home/fhir/scripts && chown fhir:fhir /home/fhir/scripts/* && chmod 755 /home/fhir/scripts && chmod 755 /home/fhir/scripts/* && \
+  mkdir /opt/ibm && chmod 777 /opt/ibm && \
+  su - fhir -c '/home/fhir/scripts/deploy-fhir.sh'
 
 CMD su - fhir -c '/opt/ibm/fhir-server/wlp/bin/server run fhir-server'
 
