@@ -17,6 +17,7 @@ RUN \
   useradd fhir && \
   cp -pr /scripts /home/fhir && mv /home/fhir/scripts/.bash_profile /home/fhir && chown fhir:fhir /home/fhir/.bash_profile && \
   chown fhir:fhir /home/fhir/scripts && chown fhir:fhir /home/fhir/scripts/* && chmod 755 /home/fhir/scripts && chmod 755 /home/fhir/scripts/* && \
+  cp -pr /dist /home/fhir && chown fhir:fhir /home/fhir/dist && find /home/fhir/dist | xargs chown fhir:fhir && \
   mkdir /opt/ibm && chmod 777 /opt/ibm && \
   su - fhir -c '/home/fhir/scripts/deploy-fhir.sh'
 
