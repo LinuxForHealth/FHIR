@@ -14,10 +14,13 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.OperationDefinitionParameter;
+import com.ibm.watsonhealth.fhir.model.OperationKind;
+import com.ibm.watsonhealth.fhir.model.OperationKindList;
 import com.ibm.watsonhealth.fhir.model.OperationParameterUseList;
 import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
@@ -27,8 +30,12 @@ public class MyOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         OperationDefinition definition = factory.createOperationDefinition();
+        definition.setName(string("My Operation"));
+        definition.setStatus(code("draft"));
+        definition.setKind(factory.createOperationKind().withValue(OperationKindList.OPERATION));
         definition.setCode(code("hello"));
         definition.setSystem(bool(true));
+        definition.setInstance(bool(false));
         
         OperationDefinitionParameter inputParameter = factory.createOperationDefinitionParameter();
         inputParameter.setName(code("input"));

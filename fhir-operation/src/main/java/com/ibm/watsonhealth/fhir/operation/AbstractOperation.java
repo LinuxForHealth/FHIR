@@ -39,7 +39,8 @@ public abstract class AbstractOperation implements FHIROperation {
 
     @Override
     public String getName() {
-        return definition.getCode().getValue();
+        if (definition.getCode() == null) return null;
+        else return definition.getCode().getValue();
     }
 
     @Override

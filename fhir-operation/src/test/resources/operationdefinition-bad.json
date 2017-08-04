@@ -1,0 +1,15 @@
+{
+	"resourceType": "OperationDefinition",
+	"id": "bad",
+	"url": "http://www.ibm.com/watsonhealth/fhir/OperationDefinition/bad",
+	"name": "Bad Operation",
+	"extra": "junk",
+	"status": "draft",
+	"kind": "operation",
+	"date": "2017-07-18T16:00:00+00:00",
+	"publisher": "IBM (Watson Health)",
+	"code": "bad",
+	"comment": "This is a fake operation that is missing the required 'instance' field to test the validation of custom operations",
+	"system": false,
+	"type": false
+}
