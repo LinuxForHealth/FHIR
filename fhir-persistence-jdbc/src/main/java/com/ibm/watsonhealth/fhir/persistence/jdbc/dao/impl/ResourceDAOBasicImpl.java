@@ -42,14 +42,14 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 	
 	private static final String SQL_SEARCH_BY_IDS = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.ID IN ";
 	
-	private static final  String SQL_HISTORY = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? "
-															+ "ORDER BY R.VERSION_ID DESC ";
+	private static final  String SQL_HISTORY = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.RESOURCE_TYPE = ? AND R.LOGICAL_ID = ? " +
+											   "ORDER BY R.VERSION_ID DESC ";
 	
-	private static final  String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ?";
+	private static final  String SQL_HISTORY_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.RESOURCE_TYPE = ? AND R.LOGICAL_ID = ?";
 	
-	private static final  String SQL_HISTORY_FROM_DATETIME = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?" + 
+	private static final  String SQL_HISTORY_FROM_DATETIME = "SELECT DATA, ID, LAST_UPDATED, LOGICAL_ID, RESOURCE_TYPE, VERSION_ID FROM RESOURCE R WHERE R.RESOURCE_TYPE = ? AND R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?" + 
 															 " ORDER BY R.VERSION_ID DESC ";
-	private static final  String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?";
+	private static final  String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(*) FROM RESOURCE R WHERE R.RESOURCE_TYPE = ? AND R.LOGICAL_ID = ? AND R.LAST_UPDATED >= ?";
 	
 	protected static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 	
@@ -350,22 +350,22 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 			if (fromDateTime != null) {
 				if (this.isDb2Database()) {
 					historyQuery = SQL_HISTORY_FROM_DATETIME + DB2_PAGINATION_PARMS;
-					resources = this.runQuery(historyQuery, logicalId, fromDateTime, maxResults, offset);
+					resources = this.runQuery(historyQuery, resourceType, logicalId, fromDateTime, maxResults, offset);
 				}
 				else {
 					historyQuery = SQL_HISTORY_FROM_DATETIME + DERBY_PAGINATION_PARMS;
-					resources = this.runQuery(historyQuery, logicalId, fromDateTime, offset, maxResults);
+					resources = this.runQuery(historyQuery, resourceType, logicalId, fromDateTime, offset, maxResults);
 				}
 			}
 			else 
 			{
 				if(this.isDb2Database()) {
 					historyQuery = SQL_HISTORY + DB2_PAGINATION_PARMS;
-					resources = this.runQuery(historyQuery, logicalId, maxResults, offset);
+					resources = this.runQuery(historyQuery, resourceType, logicalId, maxResults, offset);
 				}
 				else {
 					historyQuery = SQL_HISTORY + DERBY_PAGINATION_PARMS;
-					resources = this.runQuery(historyQuery, logicalId, offset, maxResults);
+					resources = this.runQuery(historyQuery, resourceType, logicalId, offset, maxResults);
 				}
 				
 			}
@@ -387,10 +387,10 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 				
 		try {
 			if (fromDateTime != null) {
-				count = this.runCountQuery(SQL_HISTORY_FROM_DATETIME_COUNT, logicalId, fromDateTime);
+				count = this.runCountQuery(SQL_HISTORY_FROM_DATETIME_COUNT, resourceType, logicalId, fromDateTime);
 			}
 			else {
-				count = this.runCountQuery(SQL_HISTORY_COUNT, logicalId);
+				count = this.runCountQuery(SQL_HISTORY_COUNT, resourceType, logicalId);
 			}
 		}
 		finally {
