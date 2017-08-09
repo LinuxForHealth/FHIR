@@ -156,29 +156,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		String logicalId;
 				
 		try {
-			FHIRUtil.write(resource, Format.JSON, stream, false);
-	
-	        // Default version is 1 for a brand new FHIR Resource.
+			// Default version is 1 for a brand new FHIR Resource.
 	        int newVersionNumber = 1;
 	        logicalId = (resource.getId() != null ? resource.getId().getValue() : UUID.randomUUID().toString());
-	        log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
-	        // Create the new Resource DTO instance.
-	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
-	        resourceDTO.setLogicalId(logicalId);
-	        resourceDTO.setVersionId(newVersionNumber);
-	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
 	        Instant lastUpdated = instant(System.currentTimeMillis());
-	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-	        resourceDTO.setLastUpdated(timestamp);
-	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
-	        
-	        // Persist the Resource DTO.
-	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
+	        log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
 	        
 	        // Set the resource id and meta fields.
-	        resource.setId(id(resourceDTO.getLogicalId()));
+	        resource.setId(id(logicalId));
 	        Meta meta = resource.getMeta();
 	        if (meta == null) {
 	            meta = objectFactory.createMeta();
@@ -186,6 +171,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
+	        
+	        // Create the new Resource DTO instance.
+	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+	        resourceDTO.setLogicalId(logicalId);
+	        resourceDTO.setVersionId(newVersionNumber);
+	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+	        resourceDTO.setLastUpdated(timestamp);
+	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
+	        // Serialize and compress the Resource
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	        
+	        // Persist the Resource DTO.
+	        this.getResourceDao().insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
 	        
 	        // Store search parameters
 	        this.storeSearchParameters(resource, resourceDTO);
@@ -296,8 +297,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        }
 	        
 	        stream = new ByteArrayOutputStream();
-	        FHIRUtil.write(resource, Format.JSON, stream, false);
-	
+	        	
 	        // If the FHIR Resource already exists, then we'll simply bump up the version #, use its logical id,
 	        // and remove its Parameter entries.
 	        if (existingResourceDTO != null) {
@@ -308,20 +308,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            // Retrieve the Parameters associated with the current version of the Resource and remove them.
 	            this.getParameterDao().deleteByResource(existingResourceDTO.getId());
 	        } 
-	        // Create the new Resource DTO instance.
-	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
-	        resourceDTO.setLogicalId(logicalId);
-	        resourceDTO.setVersionId(newVersionNumber);
-	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
-	        Instant lastUpdated = instant(System.currentTimeMillis());
-	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-	        resourceDTO.setLastUpdated(timestamp);
-	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
 	        
-	        // Persist the Resource DTO.
-	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
+	        Instant lastUpdated = instant(System.currentTimeMillis());
 	        
 	        // Set the resource id and meta fields.
 	        resource.setId(id(logicalId));
@@ -332,7 +320,23 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        meta.setVersionId(id(Integer.toString(newVersionNumber)));
 	        meta.setLastUpdated(lastUpdated);
 	        resource.setMeta(meta);
-	          
+	        
+	        // Create the new Resource DTO instance.
+	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+	        resourceDTO.setLogicalId(logicalId);
+	        resourceDTO.setVersionId(newVersionNumber);
+	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+	        resourceDTO.setLastUpdated(timestamp);
+	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
+	        // Serialize and compress the Resource
+	        FHIRUtil.write(resource, Format.JSON, stream, false);
+	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	        
+	        // Persist the Resource DTO.
+	        this.getResourceDao().insert(resourceDTO);
+	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        + ", version=" + resourceDTO.getVersionId());
+	        
 	        // Store search parameters
 	        this.storeSearchParameters(resource, resourceDTO);
 	    }
