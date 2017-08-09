@@ -41,9 +41,10 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	private static final String CLASSNAME = FHIRDbDAOBasicImpl.class.getName(); 
 	private static final String NEWLINE = System.getProperty("line.separator");
 	
-	private String datasourceJndiName = null;
+	private static DataSource fhirDb = null;
+	private static String datasourceJndiName = null;
+	
 	private Properties dbProps = null;
-	private DataSource fhirDb = null;
 	private Connection externalConnection = null;
 	private static boolean dbDriverLoaded = false;
 
@@ -94,7 +95,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                 try {
                     String tenantId = FHIRRequestContext.get().getTenantId();
                     String dsId = FHIRRequestContext.get().getDataStoreId();
-                    connection = this.getFhirDatasource().getConnection(tenantId, dsId);
+                    connection = getFhirDatasource().getConnection(tenantId, dsId);
                 } catch (Throwable e) {
                     throw new FHIRPersistenceDBConnectException("Failure acquiring Connection for datasource: " + getDataSourceJndiName(), e);
                 }
@@ -132,7 +133,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	 * @return the datasource JNDI name
 	 * @throws Exception
 	 */
-	private String getDataSourceJndiName() throws Exception {
+	private static String getDataSourceJndiName() throws Exception {
 	    if (datasourceJndiName == null) {
 	        datasourceJndiName = FHIRConfiguration.getInstance().loadConfiguration()
 	                .getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbDAO.FHIRDB_JNDI_NAME_DEFAULT);
@@ -146,25 +147,41 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	 * @return
 	 * @throws Exception 
 	 */
-    private DataSource getFhirDatasource() throws Exception {
+    private static DataSource getFhirDatasource() throws Exception {
         final String METHODNAME = "getFhirDb";
         log.entering(CLASSNAME, METHODNAME);
         try {
-            InitialContext ctxt;
-
-            if (this.fhirDb == null) {
-                try {
-                    ctxt = new InitialContext();
-                    this.fhirDb = (DataSource) ctxt.lookup(getDataSourceJndiName());
-                } catch (Throwable e) {
-                    throw new FHIRPersistenceDBConnectException("Failure acquiring Datasource for " + getDataSourceJndiName(), e);
-                }
+            
+            if (fhirDb == null) {
+                acquireFhirDb();
             }
-            return this.fhirDb;
+            return fhirDb;
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
+    
+    private static synchronized void acquireFhirDb() throws Exception {
+   	 final String METHODNAME = "acquireFhirDb";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        try {
+            InitialContext ctxt;
+
+            if (fhirDb == null) {
+            	try {
+                    ctxt = new InitialContext();
+                    fhirDb = (DataSource) ctxt.lookup(getDataSourceJndiName());
+                } catch (Throwable e) {
+                    throw new FHIRPersistenceDBConnectException("Failure acquiring Datasource for " + getDataSourceJndiName(), e);
+                }
+            }
+            
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+   	
+   }
 	
 	/**
 	 * Closes the passed PreparedStatement and Connection objects.
