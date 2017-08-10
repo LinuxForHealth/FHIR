@@ -1192,6 +1192,8 @@ public class FHIRResource {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        FHIRPersistenceTransaction txn = null;
+        boolean txnStarted = false;
         
         InternalOperationResponse ior = new InternalOperationResponse();
 
@@ -1248,6 +1250,15 @@ public class FHIRResource {
                 }
             }
             
+            
+            // Start a new txn in the persistence layer if one is not already active.
+            txn = getPersistenceImpl().getTransaction();
+            if (txn != null && !txn.isActive()) {
+                txn.begin();
+                txnStarted = true;
+                log.fine("Started new transaction for 'delete' operation.");
+            }
+            
             // First, invoke the 'beforeDelete' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
             getInterceptorMgr().fireBeforeDeleteEvent(event);
@@ -1263,7 +1274,15 @@ public class FHIRResource {
 
             // Invoke the 'afterDelete' interceptor methods.
             getInterceptorMgr().fireAfterDeleteEvent(event);
-
+            
+            // Commit our transaction if we started one before.
+            if (txnStarted) {
+                log.fine("Committing transaction for 'delete' operation.");
+                txn.commit();
+                txn = null;
+                txnStarted = false;
+            }
+            
             return ior;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'delete' request.";
@@ -1272,6 +1291,14 @@ public class FHIRResource {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
+            
+            // If we previously started a transaction and it's still active, we need to rollback due to an error.
+            if (txnStarted) {
+                log.fine("Rolling back transaction for 'delete' operation.");
+                txn.rollback();
+                txn = null;
+                txnStarted = false;
+            }
             
             log.exiting(this.getClass().getName(), "doDelete");
         }
