@@ -971,15 +971,16 @@ public class FHIRUtil {
             + "/_history/" + resource.getMeta().getVersionId().getValue());
     }
     
-	/**
-	 * Creates a FHIR Resource object of the specified type.
-	 * @param resourceType The simple name of the type of resource instance to be created.
-	 * @return Resource - A Resource instance of the specified type.
-	 * @throws Exception
-	 */
-	public static Resource createResource(Class<? extends Resource> resourceType) throws Exception {
-		String createMethodName = "create" + resourceType.getSimpleName();
-		Method createMethod = objectFactory.getClass().getMethod(createMethodName);
-		return (Resource)createMethod.invoke(objectFactory);
-	}
+    /**
+     * Creates a FHIR Resource object of the specified type.
+     * @param resourceType The simple name of the type of resource instance to be created.
+     * @return Resource - A Resource instance of the specified type.
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Resource> T createResource(Class<T> resourceType) throws Exception {
+        String createMethodName = "create" + resourceType.getSimpleName();
+        Method createMethod = objectFactory.getClass().getMethod(createMethodName);
+        return (T) createMethod.invoke(objectFactory);
+    }
 }
