@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence.proxy.rm;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,11 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
-import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource;
 
 /**
- * This class is used during XA recovery operations to represent an XAConnection and its associated XAResource, but
- * in reality it serves as a proxy for ALL of the XAConnections and their associated XAResources related to XADataSources
+ * This class is used during XA recovery operations to represent an XAConnection and its associated XAResource, but in
+ * reality it serves as a proxy for ALL of the XAConnections and their associated XAResources related to XADataSources
  * cached by the proxy datasource.
  * 
  * This class is only used during the XA Resource recovery operations triggered by the Liberty Recovery Manager.
@@ -42,7 +42,15 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     private List<XADataSource> proxiedXADataSources;
     private List<XAConnection> proxiedXAConnections;
     private List<XAResource> proxiedXAResources;
-    private Map<Xid, List<XAResource>> proxiedXids;
+    private Map<XidKey, List<XAResource>> proxiedXids;
+
+    // This threadlocal is used to bypass artificial failures that might be requested during testing.
+    private static ThreadLocal<Boolean> bypassFailures = new ThreadLocal<Boolean>() {
+        @Override
+        public Boolean initialValue() {
+            return Boolean.FALSE;
+        }
+    };
 
     /**
      * This ctor is invoked by the FHIRProxyXADataSource class when the Liberty Recovery Manager has triggered XA
@@ -54,13 +62,21 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
      */
     public RMXAConnectionResource(FHIRProxyXADataSource parentDS) throws SQLException {
         log.entering(this.getClass().getName(), "RMXAConnectionResource ctor");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             setProxiedXADataSources(parentDS.getCachedDataSources());
             buildProxiedXAConnections();
         } finally {
             log.exiting(this.getClass().getName(), "RMXAConnectionResource ctor");
         }
+    }
+
+    public static boolean shouldBypassFailures() {
+        return bypassFailures.get();
+    }
+
+    public static void setBypassFailures(Boolean flag) {
+        bypassFailures.set(flag);
     }
 
     //
@@ -91,11 +107,11 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         this.proxiedXAResources = proxiedXAResources;
     }
 
-    public Map<Xid, List<XAResource>> getProxiedXids() {
+    public Map<XidKey, List<XAResource>> getProxiedXids() {
         return proxiedXids;
     }
 
-    public void setProxiedXids(Map<Xid, List<XAResource>> proxiedXids) {
+    public void setProxiedXids(Map<XidKey, List<XAResource>> proxiedXids) {
         this.proxiedXids = proxiedXids;
     }
 
@@ -110,14 +126,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     @Override
     public XAResource getXAResource() throws SQLException {
         log.entering(this.getClass().getName(), "getXAResource");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             buildProxiedXAResources();
-            try {
-                buildProxiedXids(0);
-            } catch (XAException e) {
-                throw new SQLException("Error gathering Xids for XAResources", e);
-            }
             return this;
         } finally {
             log.exiting(this.getClass().getName(), "getXAResource");
@@ -132,20 +143,20 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     public Connection getConnection() throws SQLException {
         //
         // Note: there's really no good answer for how to implement this method in
-        // the context of the RMXAConnectionResource class.   This class's job is to 
+        // the context of the RMXAConnectionResource class. This class's job is to
         // act as a proxy for all the XAConnections associated with the proxy datasource's
-        // cached XADataSource instances.   Most of the methods in this class will simply
+        // cached XADataSource instances. Most of the methods in this class will simply
         // delegate calls to each of the proxied XAConnections.
         // However, this method must return a Connection associated with our proxy XAConnection,
-        // and it wouldn't make sense to try to delete each of those method calls to EACH of the 
-        // proxied XAConnections.   Our assumption is that the Liberty Recovery Manager will use this
+        // and it wouldn't make sense to try to delete each of those method calls to EACH of the
+        // proxied XAConnections. Our assumption is that the Liberty Recovery Manager will use this
         // Connection to gather metadata about the datasource (database) and will not actually try to
-        // execute any SQL statements, etc.   So, we'll grab the first proxied XAConnection and then
+        // execute any SQL statements, etc. So, we'll grab the first proxied XAConnection and then
         // call it's getConnection() method, then wrap that with our TestConnection wrapper class
         // and hope for the best :)
         //
         log.entering(this.getClass().getName(), "getConnection");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             Connection conn = null;
             if (getProxiedXAConnections() != null && getProxiedXAConnections().size() > 0) {
@@ -164,7 +175,6 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     @Override
     public void close() throws SQLException {
         log.entering(this.getClass().getName(), "close");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             if (getProxiedXAConnections() != null) {
                 // Call close on each proxied XAConnection.
@@ -267,7 +277,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         log.entering(this.getClass().getName(), "recover(int)", new Object[] {
                 "flag", flag
         });
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             // We'll need to visit each proxied XAResource and call its recover() method,
             // then store each of the returned Xid's in a map keyed by Xid and holding the
@@ -292,7 +302,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         log.entering(this.getClass().getName(), "commit", new Object[] {
                 "onePhase", Boolean.toString(onePhase), "Xid", displayXid(xid)
         });
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             // Retrieve the XAResource(s) associated with this Xid.
             List<XAResource> resources = getXAResourcesForXid(xid);
@@ -300,15 +310,19 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("commit: Unknown Xid");
             }
 
+            // Make sure our artificial failures are not triggered during recovery processing :)
+            setBypassFailures(Boolean.TRUE);
+
             // Drive the method calls to each of the XAResource instances.
             for (XAResource resource : resources) {
                 resource.commit(xid, onePhase);
             }
         } finally {
+            setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "commit");
         }
     }
-    
+
     private String displayXid(Xid xid) {
         StringBuilder sb = new StringBuilder();
         sb.append("Xid[");
@@ -318,11 +332,12 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         sb.append("]");
         return sb.toString();
     }
-    
+
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
@@ -337,7 +352,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     @Override
     public void end(Xid xid, int flag) throws XAException {
         log.entering(this.getClass().getName(), "end");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             // Retrieve the XAResource(s) associated with this Xid.
             List<XAResource> resources = getXAResourcesForXid(xid);
@@ -345,11 +360,15 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("end: Unknown Xid");
             }
 
+            // Make sure our artificial failures are not triggered during recovery processing :)
+            setBypassFailures(Boolean.TRUE);
+
             // Drive the method calls to each of the XAResource instances.
             for (XAResource resource : resources) {
                 resource.end(xid, flag);
             }
         } finally {
+            setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "end");
         }
     }
@@ -361,7 +380,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     @Override
     public void forget(Xid xid) throws XAException {
         log.entering(this.getClass().getName(), "forget");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             // Retrieve the XAResource(s) associated with this Xid.
             List<XAResource> resources = getXAResourcesForXid(xid);
@@ -369,11 +388,15 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("forget: Unknown Xid");
             }
 
+            // Make sure our artificial failures are not triggered during recovery processing :)
+            setBypassFailures(Boolean.TRUE);
+
             // Drive the method calls to each of the XAResource instances.
             for (XAResource resource : resources) {
                 resource.forget(xid);
             }
         } finally {
+            setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "forget");
         }
 
@@ -438,7 +461,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     @Override
     public int prepare(Xid xid) throws XAException {
         log.entering(this.getClass().getName(), "prepare");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         int vote = XAResource.XA_OK;
         try {
             // Retrieve the XAResource(s) associated with this Xid.
@@ -446,6 +469,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             if (resources == null) {
                 throw new XAException("prepare: Unknown Xid");
             }
+
+            // Make sure our artificial failures are not triggered during recovery processing :)
+            setBypassFailures(Boolean.TRUE);
 
             // Drive the method calls to each of the XAResource instances.
             for (XAResource resource : resources) {
@@ -456,6 +482,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             }
             return vote;
         } finally {
+            setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "prepare", new Object[] {
                     "vote", vote
             });
@@ -469,7 +496,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     @Override
     public void rollback(Xid xid) throws XAException {
         log.entering(this.getClass().getName(), "rollback");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             // Retrieve the XAResource(s) associated with this Xid.
             List<XAResource> resources = getXAResourcesForXid(xid);
@@ -477,11 +504,15 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("rollback: Unknown Xid");
             }
 
+            // Make sure our artificial failures are not triggered during recovery processing :)
+            setBypassFailures(Boolean.TRUE);
+
             // Drive the method calls to each of the XAResource instances.
             for (XAResource resource : resources) {
                 resource.rollback(xid);
             }
         } finally {
+            setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "rollback");
         }
     }
@@ -515,7 +546,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     @Override
     public void start(Xid xid, int flag) throws XAException {
         log.entering(this.getClass().getName(), "start");
-        log.fine(FHIRUtilities.getCurrentStacktrace());
+        // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
             // Retrieve the XAResource(s) associated with this Xid.
             List<XAResource> resources = getXAResourcesForXid(xid);
@@ -523,11 +554,15 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("start: Unknown Xid");
             }
 
+            // Make sure our artificial failures are not triggered during recovery processing :)
+            setBypassFailures(Boolean.TRUE);
+
             // Drive the method calls to each of the XAResource instances.
             for (XAResource resource : resources) {
                 resource.start(xid, flag);
             }
         } finally {
+            setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "start");
         }
     }
@@ -543,10 +578,14 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
      *            the transaction identifier
      * @return a list of XAResources associated with the transaction, or null if mapping is found
      */
-    private List<XAResource> getXAResourcesForXid(Xid xid) {
+    private List<XAResource> getXAResourcesForXid(Xid xid) throws XAException {
         List<XAResource> result = null;
+        if (getProxiedXids() == null || getProxiedXids().isEmpty()) {
+            log.warning("No proxied transaction ids found!  Building list now...");
+            buildProxiedXids(XAResource.TMSTARTRSCAN | XAResource.TMENDRSCAN);
+        }
         if (getProxiedXids() != null) {
-            result = getProxiedXids().get(xid);
+            result = getProxiedXids().get(new XidKey(xid));
         }
         return result;
     }
@@ -560,6 +599,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             List<XAConnection> connections = new ArrayList<>();
             if (getProxiedXADataSources() != null) {
                 for (XADataSource ds : getProxiedXADataSources()) {
+                    log.fine("Building XAConnection for XADataSource: " + ds.toString());
                     XAConnection connection = ds.getXAConnection();
                     connections.add(connection);
                 }
@@ -593,9 +633,11 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
      * This method builds our map of Xid -> List<XAResource> for the collection of proxied XAResource instances.
      */
     private void buildProxiedXids(int flag) throws XAException {
-        log.entering(this.getClass().getName(), "buildProxiedXids(int)");
+        log.entering(this.getClass().getName(), "buildProxiedXids(int)", new Object[] {
+                "flag", flag
+        });
         try {
-            Map<Xid, List<XAResource>> xidMap = new HashMap<>();
+            Map<XidKey, List<XAResource>> xidMap = new HashMap<>();
             if (getProxiedXAResources() != null) {
                 // Visit each XAResource, and add it to the correct map entry(ies).
                 for (XAResource resource : getProxiedXAResources()) {
@@ -607,27 +649,31 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                         // its transactions (Xids).
                         for (int i = 0; i < xids.length; i++) {
                             // First, make sure we have a map entry for this xid.
-                            List<XAResource> resourceList = xidMap.get(xids[i]);
+                            XidKey key = new XidKey(xids[i]);
+                            List<XAResource> resourceList = xidMap.get(key);
                             if (resourceList == null) {
                                 resourceList = new ArrayList<>();
-                                xidMap.put(xids[i], resourceList);
+                                xidMap.put(key, resourceList);
                             }
 
                             // Next, add this XAResource to the map entry's list.
-                            resourceList.add(resource);
+                            if (!resourceList.contains(resource)) {
+                                resourceList.add(resource);
+                            }
                         }
                     }
                 }
             }
             setProxiedXids(xidMap);
             if (log.isLoggable(Level.FINER)) {
-                Xid[] xids = buildXidArrayFromMap();
-                log.finer("Built the following Xids:");
-                for (int i = 0; i < xids.length; i++) {
-                    log.finer("Xid[" + i + "]: " + displayXid(xids[i]));
+                log.finer("Built the following Xid/XAResource mapping:");
+                int i = 1;
+                for (Map.Entry<XidKey, List<XAResource>> entry : xidMap.entrySet()) {
+                    Xid xid = entry.getKey().getXid();
+                    log.finer("Xid[" + i++ + "]: " + displayXid(xid));
+                    log.finer("\t# of XAResources: " + entry.getValue().size());
                 }
             }
-
         } finally {
             log.exiting(this.getClass().getName(), "buildProxiedXids(int)");
         }
@@ -638,12 +684,12 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         try {
             Xid[] result = null;
             if (getProxiedXids() != null) {
-                Set<Xid> keyset = getProxiedXids().keySet();
+                Set<XidKey> keyset = getProxiedXids().keySet();
                 int numXids = keyset.size();
                 result = new Xid[numXids];
                 int i = 0;
-                for (Xid xid : keyset) {
-                    result[i] = xid;
+                for (XidKey key : keyset) {
+                    result[i] = key.getXid();
                     i++;
                 }
             }
@@ -653,6 +699,50 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             return result;
         } finally {
             log.exiting(this.getClass().getName(), "buildXidArrayFromMap");
+        }
+    }
+
+    /**
+     * This inner class is used to represent an xid-based key suitable for use within a HashMap.
+     *
+     */
+    public static class XidKey {
+        private Xid xid;
+
+        public XidKey(Xid xid) {
+            this.xid = xid;
+        }
+
+        public Xid getXid() {
+            return this.xid;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + Arrays.hashCode(xid.getBranchQualifier());
+            result = prime * result + xid.getFormatId();
+            result = prime * result + Arrays.hashCode(xid.getGlobalTransactionId());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            XidKey other = (XidKey) obj;
+            if (!Arrays.equals(xid.getBranchQualifier(), other.xid.getBranchQualifier()))
+                return false;
+            if (xid.getFormatId() != other.xid.getFormatId())
+                return false;
+            if (!Arrays.equals(xid.getGlobalTransactionId(), other.xid.getGlobalTransactionId()))
+                return false;
+            return true;
         }
     }
 }

@@ -6,11 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.persistence.proxy.rm.test;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
+
+import com.ibm.watsonhealth.fhir.persistence.proxy.rm.RMXAConnectionResource;
 
 /**
  * @author padams
@@ -21,18 +24,20 @@ public class TestXAResource implements XAResource {
 
     private XAResource delegate;
     private String failStep;
+    private int failCount;
     private String dsLabel;
 
     @SuppressWarnings("unused")
     private TestXAResource() {
     }
 
-    public TestXAResource(XAResource resource, String dsLabel, String failStep) {
+    public TestXAResource(XAResource resource, String dsLabel, String failStep, int failCount) {
         log.entering(this.getClass().getName(), "TestXAResource ctor", new Object[] {
-                "dsLabel", dsLabel
+                "dsLabel", dsLabel, "failStep", failStep, "failCount", failCount
         });
         this.delegate = resource;
         this.failStep = failStep;
+        this.failCount = failCount;
         this.dsLabel = dsLabel;
         log.exiting(this.getClass().getName(), "TestXAResource ctor");
     }
@@ -141,6 +146,20 @@ public class TestXAResource implements XAResource {
 
     private void checkFailStep(String step) throws XAException {
         if (failStep.equals(step)) {
+            File f = new File("/tmp/skipFailures");
+            if (f.exists()) {
+                log.fine("Bypassing artificial failures due to presence of /tmp/skipFailures...");
+                return;
+            }
+            if (RMXAConnectionResource.shouldBypassFailures()) {
+                log.fine("Bypassing artifical failures while in recovery mode...");
+                return;
+            }
+            if (failCount == 0) {
+                log.fine("Bypassing artificial failure since failCount is zero");
+                return;
+            }
+            failCount--;
             XAException e = new XAException("Simulating failure in '" + step + "'!");
             e.errorCode = XAException.XAER_RMFAIL;
             throw e;
@@ -148,6 +167,6 @@ public class TestXAResource implements XAResource {
     }
 
     private String methodLabel(String method) {
-        return method + "[" + dsLabel + ":" + failStep + "]";
+        return method + "[" + dsLabel + ":" + failStep + ":" + failCount + "]";
     }
 }

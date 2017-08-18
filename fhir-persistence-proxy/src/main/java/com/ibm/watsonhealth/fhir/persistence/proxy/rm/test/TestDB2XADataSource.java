@@ -26,6 +26,7 @@ public class TestDB2XADataSource extends DB2XADataSource {
     private static final Logger log = Logger.getLogger(TestDB2XADataSource.class.getName());
 
     private String failStep = "none";
+    private int failCount = 1;
 
     public TestDB2XADataSource() {
         super();
@@ -41,6 +42,14 @@ public class TestDB2XADataSource extends DB2XADataSource {
     }
 
     
+    public int getFailCount() {
+        return failCount;
+    }
+
+    public void setFailCount(int failCount) {
+        this.failCount = failCount;
+    }
+
     /**
      * We'll override this method so that we can insert our own class as a wrapper
      * around the XAConnection served up by the super class.
@@ -50,7 +59,7 @@ public class TestDB2XADataSource extends DB2XADataSource {
         log.entering(this.getClass().getName(), methodLabel("getXAConnection"));
         try {
             XAConnection conn = super.getXAConnection();
-            XAConnection result = new TestXAConnection(conn, getDataSourceLabel(), failStep);
+            XAConnection result = new TestXAConnection(conn, getDataSourceLabel(), failStep, failCount);
             return result;
         } finally {
             log.exiting(this.getClass().getName(), methodLabel("getXAConnection"));
@@ -68,5 +77,10 @@ public class TestDB2XADataSource extends DB2XADataSource {
 
     private String methodLabel(String method) {
         return method + "[" + getDataSourceLabel() + ":" + failStep + "]";
+    }
+    
+    @Override
+    public String toString() {
+        return "[" + getDataSourceLabel() + "]";
     }
 }

@@ -37,6 +37,7 @@ public class TestEmbeddedXADataSource implements EmbeddedXADataSourceInterface {
     private EmbeddedXADataSource delegate;
 
     private String failStep = "none";
+    private int failCount = 1;
 
     public TestEmbeddedXADataSource() {
         log.entering(this.getClass().getName(), "TestEmbeddedXADataSource ctor");
@@ -50,6 +51,14 @@ public class TestEmbeddedXADataSource implements EmbeddedXADataSourceInterface {
 
     public void setFailStep(String failStep) {
         this.failStep = failStep;
+    }
+
+    public int getFailCount() {
+        return failCount;
+    }
+
+    public void setFailCount(int failCount) {
+        this.failCount = failCount;
     }
 
     /**
@@ -75,7 +84,7 @@ public class TestEmbeddedXADataSource implements EmbeddedXADataSourceInterface {
         try {
             XAConnection conn = delegate.getXAConnection();
             String dsLabel = getDataSourceLabel();
-            XAConnection result = new TestXAConnection(conn, dsLabel, failStep);
+            XAConnection result = new TestXAConnection(conn, dsLabel, failStep, failCount);
             return result;
         } finally {
             log.exiting(this.getClass().getName(), methodLabel("getXAConnection"));
@@ -154,10 +163,6 @@ public class TestEmbeddedXADataSource implements EmbeddedXADataSourceInterface {
         delegate.setLogWriter(paramPrintWriter);
     }
 
-    public String toString() {
-        return delegate.toString();
-    }
-
     public void setCreateDatabase(String paramString) {
         delegate.setCreateDatabase(paramString);
     }
@@ -217,4 +222,13 @@ public class TestEmbeddedXADataSource implements EmbeddedXADataSourceInterface {
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return delegate.getParentLogger();
     }
+    
+    @Override
+    public String toString() {
+        return "[" + getDataSourceLabel() + "]";
+    }
+
+//    public String toString() {
+//        return delegate.toString();
+//    }
 }

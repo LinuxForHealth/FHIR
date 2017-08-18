@@ -26,18 +26,20 @@ public class TestXAConnection implements XAConnection {
 
     private XAConnection delegate;
     private String failStep;
+    private int failCount;
     private String dsLabel;
 
     @SuppressWarnings("unused")
     private TestXAConnection() {
     }
 
-    public TestXAConnection(XAConnection conn, String dsLabel, String failStep) {
+    public TestXAConnection(XAConnection conn, String dsLabel, String failStep, int failCount) {
         log.entering(this.getClass().getName(), "TestXAConnection ctor", new Object[] {
-                "dsLabel", dsLabel
+                "dsLabel", dsLabel, "failStep", failStep, "failCount", failCount
         });
         this.delegate = conn;
         this.failStep = failStep;
+        this.failCount = failCount;
         this.dsLabel = dsLabel;
         log.exiting(this.getClass().getName(), "TestXAConnection ctor");
     }
@@ -46,7 +48,7 @@ public class TestXAConnection implements XAConnection {
         log.entering(this.getClass().getName(), methodLabel("getXAResource"));
         try {
             XAResource resource = delegate.getXAResource();
-            XAResource result = new TestXAResource(resource, dsLabel, failStep);
+            XAResource result = new TestXAResource(resource, dsLabel, failStep, failCount);
             return result;
         } finally {
             log.exiting(this.getClass().getName(), methodLabel("getXAResource"));

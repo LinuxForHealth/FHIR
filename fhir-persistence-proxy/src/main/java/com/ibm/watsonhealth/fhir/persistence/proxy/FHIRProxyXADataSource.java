@@ -112,9 +112,13 @@ public class FHIRProxyXADataSource implements XADataSource {
         log.entering(this.getClass().getName(), "getCachedDataSources");
         try {
             List<XADataSource> result = new ArrayList<>();
-            for (Map<String, XADataSource> tenantMap : datasourceCache.values()) {
-                for (XADataSource ds : tenantMap.values()) {
-                    result.add(ds);
+            log.fine("Building list of cached DataSources...");
+            for (Map.Entry<String, Map<String, XADataSource>> tenantEntry : datasourceCache.entrySet()) {
+                log.fine("Tenant id: " + tenantEntry.getKey());
+                for (Map.Entry<String, XADataSource> dsEntry : tenantEntry.getValue().entrySet()) {
+                    
+                    log.fine("   XADataSource for dsId: " + dsEntry.getKey());
+                    result.add(dsEntry.getValue());
                 }
             }
             
@@ -192,6 +196,7 @@ public class FHIRProxyXADataSource implements XADataSource {
             String tenantId = FHIRRequestContext.get().getTenantId();
             String dsId = FHIRRequestContext.get().getDataStoreId();
             if (FHIRConfiguration.DEFAULT_TENANT_ID.equals(tenantId) && FHIRConfiguration.DEFAULT_DATASTORE_ID.equals(dsId)) {
+                log.fine("Ensuring all datasources are cached to prepare for XAResource recovery operations.");
                 cacheAllConfiguredDataSources();
                 connection = new RMXAConnectionResource(this);
             } else {
