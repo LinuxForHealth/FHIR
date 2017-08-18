@@ -1017,15 +1017,15 @@ public class FHIRResource {
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
-                log.fine("Rolling back transaction for 'create' operation.");
-                txn.rollback();
+                rollback(txn, "create");
                 txn = null;
                 txnStarted = false;
             }
             log.exiting(this.getClass().getName(), "doCreate");
         }
     }
-
+    
+    
     /**
      * Performs an update operation (a new version of the Resource will be stored).
      * @param type the type of the resource to be updated
@@ -1171,8 +1171,7 @@ public class FHIRResource {
 
             // If we still have a transaction at this point, we need to rollback due to an error.
             if (txnStarted) {
-                log.fine("Rolling back transaction for 'update' operation.");
-                txn.rollback();
+                rollback(txn, "update");
                 txn = null;
                 txnStarted = false;
             }
@@ -1295,7 +1294,7 @@ public class FHIRResource {
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
                 log.fine("Rolling back transaction for 'delete' operation.");
-                txn.rollback();
+                rollback(txn, "delete");
                 txn = null;
                 txnStarted = false;
             }
@@ -1379,8 +1378,7 @@ public class FHIRResource {
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
-                log.fine("Rolling back transaction for 'read' operation.");
-                txn.rollback();
+                rollback(txn, "read");
                 txn = null;
                 txnStarted = false;
             }
@@ -1462,8 +1460,7 @@ public class FHIRResource {
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
-                log.fine("Rolling back transaction for 'vread' operation.");
-                txn.rollback();
+                rollback(txn, "vread");
                 txn = null;
                 txnStarted = false;
             }
@@ -1550,8 +1547,7 @@ public class FHIRResource {
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
-                log.fine("Rolling back transaction for 'history' operation.");
-                txn.rollback();
+                rollback(txn, "history");
                 txn = null;
                 txnStarted = false;
             }
@@ -1640,8 +1636,7 @@ public class FHIRResource {
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
-                log.fine("Rolling back transaction for 'search' operation.");
-                txn.rollback();
+                rollback(txn, "search");
                 txn = null;
                 txnStarted = false;
             }
@@ -1730,6 +1725,27 @@ public class FHIRResource {
             FHIRRequestContext.set(requestContext);
             
             log.exiting(this.getClass().getName(), "doBundle");
+        }
+    }
+    
+    /**
+     * This method will perform a rollback for the specified REST API operation and then
+     * log any exception caught as a result.
+     * Note: we'll absorb any exception caught while doing the rollback because the assumption
+     * is that the rollback is being performed due an exception that occurred during a commit, 
+     * and we'll want to report that exception in the REST API response, not the exception that
+     * resulted from the rollback.
+     * 
+     * @param txn the transaction to be rolled back
+     * @param operation the operation being processed when the rollback was requested
+     */
+    private void rollback(FHIRPersistenceTransaction txn, String operation) {
+        log.fine("Rolling back transaction for '" + operation + "' operation.");
+        try {
+            txn.rollback();
+        } catch (Throwable t) {
+            String msg = "Unexpected exception while trying to rollback a transaction";
+            log.log(Level.SEVERE, msg, t);
         }
     }
     
@@ -1983,8 +1999,8 @@ public class FHIRResource {
             bundleTransactionCorrelationId = null;
             
             if (txn != null) {
-                log.fine("Rolling back transaction for bundled request.");
-                txn.rollback();
+                rollback(txn, "transaction");
+                txn = null;
             }
             log.exiting(this.getClass().getName(), "processBundleEntries");
         }
