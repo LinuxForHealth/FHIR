@@ -6,7 +6,10 @@
 
 package com.ibm.watsonhealth.fhir.config;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class FHIRConfiguration {
@@ -144,6 +147,42 @@ public class FHIRConfiguration {
     public void clearConfiguration() {
         synchronized (configCache) {
             configCache.clearCache();
+        }
+    }
+    
+    /**
+     * This method returns the list of tenant id's for which a configuration exists.
+     * @return
+     */
+    public List<String> getConfiguredTenants() {
+        log.entering(this.getClass().getName(), "getConfiguredTenants");
+
+        try {
+            List<String> result = new ArrayList<>();
+
+            // 'configDir' represents the directory that contains the tenant ids
+            // Example: "/opt/ibm/fhir-server/wlp/usr/servers/fhir-server/config".
+            File configDir = new File(getConfigHome() + CONFIG_LOCATION);
+            log.fine("Listing tenant id's rooted at directory: " + configDir.getName());
+
+            // List the directories within 'configDir' that contain a fhir-server-config.json file.
+            for (File f : configDir.listFiles()) {
+                // For a directory, let's verify that a config exists within it.
+                // If yes, then add the name of the directory to the result list, as that
+                // represents a tenant id.
+                if (f.isDirectory()) {
+                    File configFile = new File(f, CONFIG_FILE_BASENAME);
+                    if (configFile.exists() && configFile.isFile()) {
+                        result.add(f.getName());
+                    }
+                }
+            }
+            
+            log.fine("Returning list of tenant ids: " + result.toString());
+
+            return result;
+        } finally {
+            log.exiting(this.getClass().getName(), "getConfiguredTenants");
         }
     }
 }

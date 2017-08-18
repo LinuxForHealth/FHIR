@@ -139,6 +139,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     private void bootstrapDerbyDatabases(PropertyGroup fhirConfig) throws Exception {
         Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
         if (performDbBootstrap) {
+            log.info("Performing Derby database bootstrapping...");
             SchemaType schemaType = SchemaType.fromValue(fhirConfig.getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE));
             String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             InitialContext ctxt = new InitialContext();
@@ -157,6 +158,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             bootstrapDb("tenant1", "profile", ds, schemaType, derbySProcJarLocation);
             bootstrapDb("tenant1", "reference", ds, schemaType, derbySProcJarLocation);
             bootstrapDb("tenant1", "study1", ds, schemaType, derbySProcJarLocation);
+            log.info("Finished Derby database bootstrapping...");
+        } else {
+            log.info("Derby database bootstrapping is disabled.");
         }
     }
     
@@ -170,7 +174,9 @@ public class FHIRServletContextListener implements ServletContextListener {
         if (pg != null) {
             String type = pg.getStringProperty("type");
             if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
+                log.info("Bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
                 DerbyBootstrapper.bootstrapDb(ds, schemaType, derbyJar);
+                log.info("Finished bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
             }
         }
 

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.config.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -286,6 +287,18 @@ public class FHIRConfigHelperTest {
         b = FHIRConfigHelper.getBooleanProperty("whclsfRouter/consentManagementEnabled", null);
         assertNotNull(b);
         assertEquals(Boolean.FALSE, b);
+    }
+    
+    @Test
+    public void testGetConfiguredTenants() {
+        List<String> tenants = FHIRConfiguration.getInstance().getConfiguredTenants();
+        assertNotNull(tenants);
+        assertEquals(5, tenants.size());
+        assertTrue(tenants.contains("default"));
+        assertTrue(tenants.contains("tenant1"));
+        assertTrue(tenants.contains("tenant2"));
+        assertTrue(tenants.contains("tenant3"));
+        assertTrue(tenants.contains("tenant5"));
     }
 
 }
