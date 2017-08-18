@@ -1293,7 +1293,6 @@ public class FHIRResource {
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
             if (txnStarted) {
-                log.fine("Rolling back transaction for 'delete' operation.");
                 rollback(txn, "delete");
                 txn = null;
                 txnStarted = false;

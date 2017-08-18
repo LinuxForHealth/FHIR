@@ -25,6 +25,10 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource;
 
 /**
@@ -39,7 +43,7 @@ import com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource;
 public class RMXAConnectionResource implements XAConnection, XAResource {
     private static final Logger log = Logger.getLogger(RMXAConnectionResource.class.getName());
 
-    private List<XADataSource> proxiedXADataSources;
+    private Map<String, XADataSource> proxiedXADataSources;
     private List<XAConnection> proxiedXAConnections;
     private List<XAResource> proxiedXAResources;
     private Map<XidKey, List<XAResource>> proxiedXids;
@@ -64,7 +68,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         log.entering(this.getClass().getName(), "RMXAConnectionResource ctor");
         // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
-            setProxiedXADataSources(parentDS.getCachedDataSources());
+            buildProxiedXADataSources();
+            // setProxiedXADataSources(parentDS.getCachedDataSources());
             buildProxiedXAConnections();
         } finally {
             log.exiting(this.getClass().getName(), "RMXAConnectionResource ctor");
@@ -83,11 +88,11 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     // Getter/setter methods
     //
 
-    public List<XADataSource> getProxiedXADataSources() {
+    public Map<String, XADataSource> getProxiedXADataSources() {
         return proxiedXADataSources;
     }
 
-    public void setProxiedXADataSources(List<XADataSource> proxiedXADataSources) {
+    public void setProxiedXADataSources(Map<String, XADataSource> proxiedXADataSources) {
         this.proxiedXADataSources = proxiedXADataSources;
     }
 
@@ -279,6 +284,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         });
         // log.fine(FHIRUtilities.getCurrentStacktrace());
         try {
+            log.info("Retrieving transaction id information from cached datsources.");
+            
             // We'll need to visit each proxied XAResource and call its recover() method,
             // then store each of the returned Xid's in a map keyed by Xid and holding the
             // list of XAResources associated with that Xid.
@@ -286,6 +293,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
 
             // Return an array containing all the Xid keys from the map.
             Xid[] result = buildXidArrayFromMap();
+
+            log.info("Finished retrieving transaction id information from cached datsources. Size=" 
+                    + (result != null ? result.length : "<null>") );
 
             return result;
         } finally {
@@ -310,6 +320,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("commit: Unknown Xid");
             }
 
+            String xidString = displayXid(xid);
+            log.info("Initiating recovery 'commit' processing for Xid:\n" + xidString);
+            
             // Make sure our artificial failures are not triggered during recovery processing :)
             setBypassFailures(Boolean.TRUE);
 
@@ -317,32 +330,12 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             for (XAResource resource : resources) {
                 resource.commit(xid, onePhase);
             }
+            
+            log.info("Finished recovery 'commit' processing for Xid:\n" + xidString);
         } finally {
             setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "commit");
         }
-    }
-
-    private String displayXid(Xid xid) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Xid[");
-        sb.append("formatId=").append(xid.getFormatId());
-        sb.append(",globalTxnId=").append(bytesToHex(xid.getGlobalTransactionId()));
-        sb.append(",branchQualifier=").append(bytesToHex(xid.getBranchQualifier()));
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
-
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for (int j = 0; j < bytes.length; j++) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
     }
 
     /*
@@ -360,6 +353,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("end: Unknown Xid");
             }
 
+            String xidString = displayXid(xid);
+            log.info("Initiating recovery 'end' processing for Xid:\n" + xidString);
+
             // Make sure our artificial failures are not triggered during recovery processing :)
             setBypassFailures(Boolean.TRUE);
 
@@ -367,6 +363,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             for (XAResource resource : resources) {
                 resource.end(xid, flag);
             }
+            
+            log.info("Finished recovery 'end' processing for Xid:\n" + xidString);
         } finally {
             setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "end");
@@ -388,6 +386,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("forget: Unknown Xid");
             }
 
+            String xidString = displayXid(xid);
+            log.info("Initiating recovery 'forget' processing for Xid:\n" + xidString);
+            
             // Make sure our artificial failures are not triggered during recovery processing :)
             setBypassFailures(Boolean.TRUE);
 
@@ -395,6 +396,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             for (XAResource resource : resources) {
                 resource.forget(xid);
             }
+            
+            log.info("Finished recovery 'forget' processing for Xid:\n" + xidString);
         } finally {
             setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "forget");
@@ -470,6 +473,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("prepare: Unknown Xid");
             }
 
+            String xidString = displayXid(xid);
+            log.info("Initiating recovery 'prepare' processing for Xid:\n" + xidString);
+            
             // Make sure our artificial failures are not triggered during recovery processing :)
             setBypassFailures(Boolean.TRUE);
 
@@ -480,6 +486,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                     vote = resourceVote;
                 }
             }
+            
+            log.info("Finished recovery 'prepare' processing for Xid:\n" + xidString);
             return vote;
         } finally {
             setBypassFailures(Boolean.FALSE);
@@ -504,6 +512,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("rollback: Unknown Xid");
             }
 
+            String xidString = displayXid(xid);
+            log.info("Initiating recovery 'rollback' processing for Xid:\n" + xidString);
+            
             // Make sure our artificial failures are not triggered during recovery processing :)
             setBypassFailures(Boolean.TRUE);
 
@@ -511,6 +522,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             for (XAResource resource : resources) {
                 resource.rollback(xid);
             }
+            
+            log.info("Finished recovery 'rollback' processing for Xid:\n" + xidString);
         } finally {
             setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "rollback");
@@ -554,6 +567,9 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 throw new XAException("start: Unknown Xid");
             }
 
+            String xidString = displayXid(xid);
+            log.info("Initiating recovery 'start' processing for Xid:\n" + xidString);
+            
             // Make sure our artificial failures are not triggered during recovery processing :)
             setBypassFailures(Boolean.TRUE);
 
@@ -561,6 +577,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
             for (XAResource resource : resources) {
                 resource.start(xid, flag);
             }
+            
+            log.info("Finished recovery 'start' processing for Xid:\n" + xidString);
         } finally {
             setBypassFailures(Boolean.FALSE);
             log.exiting(this.getClass().getName(), "start");
@@ -572,6 +590,38 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     //
 
     /**
+     * Performs a "toString"-like operation on the specified xid, suitable for including in
+     * informational and trace messages.
+     * @param xid the transaction id value to be displayed.
+     */
+    private String displayXid(Xid xid) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Xid[");
+        sb.append("formatId=").append(xid.getFormatId());
+        sb.append(",globalTxnId=").append(bytesToHex(xid.getGlobalTransactionId()));
+        sb.append(",branchQualifier=").append(bytesToHex(xid.getBranchQualifier()));
+        sb.append("]");
+        return sb.toString();
+    }
+
+    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+    /**
+     * Converts the specified byte array into a string by converting each
+     * byte into a 2-digit hex string.
+     * @param bytes the byte array to be converted
+     */
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
+    /**
      * Retrieves the list of XAResources associated with the specified transaction id (xid)
      * 
      * @param xid
@@ -581,13 +631,124 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
     private List<XAResource> getXAResourcesForXid(Xid xid) throws XAException {
         List<XAResource> result = null;
         if (getProxiedXids() == null || getProxiedXids().isEmpty()) {
-            log.warning("No proxied transaction ids found!  Building list now...");
             buildProxiedXids(XAResource.TMSTARTRSCAN | XAResource.TMENDRSCAN);
         }
         if (getProxiedXids() != null) {
             result = getProxiedXids().get(new XidKey(xid));
         }
         return result;
+    }
+
+    /**
+     * This method will look at the current configuration (e.g. set of tenants and their datasources)
+     * and instantiate each unique datasource so that we can proceed with transaction recovery operations.
+     * In this context, uniqueness is determined by the serverName, databaseName and currentSchema properties
+     * associated with the datasource
+     */
+    private void buildProxiedXADataSources() {
+        log.entering(this.getClass().getName(), "buildProxiedXADataSources");
+        
+        // Save off the current request context.
+        FHIRRequestContext context = FHIRRequestContext.get();
+        
+        Map<String, XADataSource> dsMap = new HashMap<>();
+        
+        try {
+            List<String> tenantIds = FHIRConfiguration.getInstance().getConfiguredTenants();
+            for (String tenantId : tenantIds) {
+                log.fine("Looking for datasources belonging to tenant id: " + tenantId);
+                
+                // Set the tenantId on thread local and then retrieve the datasources property group for it.
+                FHIRRequestContext.set(new FHIRRequestContext(tenantId));
+                
+                // Retrieve and process each datasource entry found under "fhirServer/persistence/datasources".
+                PropertyGroup datasourcesPG = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);
+                if (datasourcesPG != null) {
+                    try {
+                        for (PropertyGroup.PropertyEntry propEntry : datasourcesPG.getProperties()) {
+                            String datasourceId = propEntry.getName();
+                            log.fine("Found datasource entry: " + datasourceId);
+                            
+                            // Skip if the datasource name starts with a _
+                            if (datasourceId.startsWith("_")) {
+                                log.fine("Skipping because name starts with '_'...");
+                                continue;
+                            }
+                            
+                            PropertyGroup dsPG = datasourcesPG.getPropertyGroup(datasourceId);
+                            
+                            // Retrieve the "type" property.
+                            String type = dsPG.getStringProperty("type");
+                            
+                            // Skip this entry if the type is not recognized.
+                            String datasourceClassname = FHIRProxyXADataSource.getDataSourceImplClassnameForType(type);
+                            if (datasourceClassname == null) {
+                                log.fine("Skipping because type '" + type + "' is not recognized...");
+                                continue;
+                            }
+                            
+                            // Retrieve the "connectionProps" property group so we can retrieve the
+                            // serverName and currentSchema properties.
+                            PropertyGroup connProps = dsPG.getPropertyGroup("connectionProperties");
+                            if (connProps == null) {
+                                log.fine("Skipping because no 'connectionProperties' property was found...");
+                                continue;
+                            }
+                            
+                            // Next, retrieve some connection properties to complete our key value.
+                            String serverName = null;
+                            String databaseName = null;
+                            String currentSchema = null;
+                            try {
+                                serverName = connProps.getStringProperty("serverName", "null");
+                                databaseName = connProps.getStringProperty("databaseName", "null");
+                                currentSchema = connProps.getStringProperty("currentSchema", "null");
+                            } catch (Throwable t) {
+                                log.fine("Skipping because the key connection properties couldn't be retrieved.");
+                                continue;
+                            }
+                            
+                            // Compute the key and check to see if this datasource is already in our map.
+                            String datasourceKey = getDatasourceKey(type, serverName, databaseName, currentSchema);
+                            log.fine("Datasource key: " + datasourceKey);
+                            XADataSource ds = dsMap.get(datasourceKey);
+                            
+                            // If not found in the map, let's create this datasource and add to the map.
+                            if (ds == null) {
+                                try {
+                                    ds = FHIRProxyXADataSource.createDataSource(datasourceId);
+                                    dsMap.put(datasourceKey, ds);
+                                } catch (Throwable t) {
+                                    // Ignore any exceptions here.
+                                }
+                            }
+                        }
+                    } catch (Throwable t) {
+                        // Ignore any exceptions here.
+                    }
+                }
+            }
+            
+            log.fine("Setting map of proxied datasources... size=" + dsMap.size());
+            setProxiedXADataSources(dsMap);
+        } finally {
+            // Restore the old context.
+            FHIRRequestContext.set(context);
+
+            log.exiting(this.getClass().getName(), "buildProxiedXADataSources");
+        }
+    }
+
+    /**
+     * Produces a key string composed of the input parameters.
+     */
+    private String getDatasourceKey(String type, String serverName, String databaseName, String currentSchema) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("dskey::type=").append(type).append("::");
+        sb.append("serverName=").append(serverName).append("::");
+        sb.append("databaseName=").append(databaseName).append("::");
+        sb.append("currentSchema=").append(currentSchema);
+        return sb.toString();
     }
 
     /**
@@ -598,7 +759,8 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
         try {
             List<XAConnection> connections = new ArrayList<>();
             if (getProxiedXADataSources() != null) {
-                for (XADataSource ds : getProxiedXADataSources()) {
+                for (Map.Entry<String, XADataSource> entry : getProxiedXADataSources().entrySet()) {
+                    XADataSource ds = entry.getValue();
                     log.fine("Building XAConnection for XADataSource: " + ds.toString());
                     XAConnection connection = ds.getXAConnection();
                     connections.add(connection);
@@ -637,6 +799,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 "flag", flag
         });
         try {
+            log.info("Collecting the list of in-doubt transactions...");
             Map<XidKey, List<XAResource>> xidMap = new HashMap<>();
             if (getProxiedXAResources() != null) {
                 // Visit each XAResource, and add it to the correct map entry(ies).
@@ -665,6 +828,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 }
             }
             setProxiedXids(xidMap);
+            log.info("Retrieved information about " + xidMap.size() + " in-doubt transaction(s).");
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Built the following Xid/XAResource mapping:");
                 int i = 1;
