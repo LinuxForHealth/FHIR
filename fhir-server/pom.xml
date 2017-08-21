@@ -30,7 +30,7 @@
 	<packaging>war</packaging>
 
 	<name>FHIR Server REST API WebApp</name>
-    <url>http://maven.apache.org</url>
+	<url>http://maven.apache.org</url>
 
 	<properties>
 	</properties>
@@ -104,11 +104,11 @@
 			<artifactId>fhir-notification</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-replication-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-replication-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-notification-websocket</artifactId>
@@ -187,7 +187,7 @@
 	</dependencies>
 
 	<build>
-        <finalName>${project.artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

@@ -13,8 +13,8 @@
 	<artifactId>fhir-persistence-jdbc</artifactId>
 	
 	<properties>
-	   <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
-	   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -41,10 +41,10 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-replication-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-replication-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-model</artifactId>

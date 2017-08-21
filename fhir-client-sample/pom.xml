@@ -7,15 +7,15 @@
 	<description>Sample application that uses the FHIR Client API</description>
 	
 	<properties>
-	   <fhir.server.groupId>com.ibm.watsonhealth.fhir</fhir.server.groupId>
-	   <fhir.server.version>99-SNAPSHOT</fhir.server.version>
+		<fhir.server.groupId>com.ibm.watsonhealth.fhir</fhir.server.groupId>
+		<fhir.server.version>99-SNAPSHOT</fhir.server.version>
 	</properties>
 	
 	<dependencies>
-        <dependency>
-            <groupId>${fhir.server.groupId}</groupId>
-            <artifactId>fhir-client</artifactId>
-            <version>${fhir.server.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>${fhir.server.groupId}</groupId>
+			<artifactId>fhir-client</artifactId>
+			<version>${fhir.server.version}</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -44,11 +44,11 @@
 		<module>../fhir-notification-kafka</module>
 		<module>../fhir-notification-websocket</module>
 		<module>../fhir-server</module>
-        <module>../fhir-server-test</module>
+		<module>../fhir-server-test</module>
 		<module>../fhir-swagger-generator</module>
 		<module>../fhir-swagger-ui</module>
 		<module>../fhir-audit-trail</module>
-        <module>../fhir-schemaddl-dist</module>
+		<module>../fhir-schemaddl-dist</module>
 		<module>../fhir-install</module>
 		<module>../fhir-coverage-reports</module>
 	</modules>
@@ -209,11 +209,11 @@
 				<artifactId>commons-beanutils</artifactId>
 				<version>1.9.3</version>
 			</dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>1.10</version>
-            </dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.10</version>
+			</dependency>
 			<dependency>
 				<groupId>org.glassfish</groupId>
 				<artifactId>javax.json</artifactId>
@@ -247,15 +247,15 @@
 				<scope>test</scope>
 				<version>1.10.19</version>
 			</dependency>
-            <dependency>
-                <groupId>com.google.collections</groupId>
-                <artifactId>google-collections</artifactId>
-                <version>1.0</version>
-            </dependency>
-            <dependency>
-			    <groupId>javax.mail</groupId>
-			    <artifactId>mail</artifactId>
-			    <version>1.4.7</version>
+			<dependency>
+				<groupId>com.google.collections</groupId>
+				<artifactId>google-collections</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.7</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -401,8 +401,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
-                </configuration>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -445,27 +445,27 @@ CODE_REMOVED
 	</distributionManagement>
 
 
-    <profiles>
-        <profile>
-            <id>sandbox</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <build.id>development</build.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>jenkins</id>
-            <activation>
-                <property>
-                    <name>profile</name>
-                    <value>jenkins</value>
-                </property>
-            </activation>
-            <properties>
-                <build.id>${env.BUILD_DISPLAY_NAME}-${env.BUILD_TIMESTAMP}</build.id>
-            </properties>
-        </profile>
-    </profiles>
+	<profiles>
+		<profile>
+			<id>sandbox</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.id>development</build.id>
+			</properties>
+		</profile>
+		<profile>
+			<id>jenkins</id>
+			<activation>
+				<property>
+					<name>profile</name>
+					<value>jenkins</value>
+				</property>
+			</activation>
+			<properties>
+				<build.id>${env.BUILD_DISPLAY_NAME}-${env.BUILD_TIMESTAMP}</build.id>
+			</properties>
+		</profile>
+	</profiles>
 </project>
