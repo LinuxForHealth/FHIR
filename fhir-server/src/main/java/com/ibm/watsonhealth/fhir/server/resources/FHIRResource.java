@@ -391,7 +391,7 @@ public class FHIRResource {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-            RestAuditLogger.logRead(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+            RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
@@ -435,7 +435,7 @@ public class FHIRResource {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-            RestAuditLogger.logRead(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+            RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }

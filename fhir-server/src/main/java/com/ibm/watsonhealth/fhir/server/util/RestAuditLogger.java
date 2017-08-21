@@ -46,7 +46,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for a 'create' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being created.
 	 * @param startTime - The start time of the create request execution.
@@ -77,7 +76,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for an 'update' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param oldResource - The previous version of the Resource, before it was updated.
 	 * @param newResource - The updated version of the Resource.
@@ -111,7 +109,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for a 'read' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being read.
 	 * @param startTime - The start time of the read request execution.
@@ -131,10 +128,38 @@ public class RestAuditLogger {
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
 	}
+    
+    /**
+     * Builds an audit log entry for a 'delete' REST service invocation.
+     * @param request - The HttpServletRequest representation of the REST request.
+     * @param resource - The Resource object being deleted.
+     * @param startTime - The start time of the read request execution.
+     * @param endTime - The end time of the read request execution.
+     * @param responseStatus - The response status.
+     */
+    public static void logDelete(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+        final String METHODNAME = "logDelete";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
+        AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_DELETE);
+        populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
+                
+        entry.getContext().setAction("D");
+        if (Response.Status.NO_CONTENT.equals(responseStatus) && resource != null) {
+            try {
+                entry.getContext().setValueNew(convertToJsonObject(resource));
+            } catch (JAXBException e) {
+                log.severe("Failure converting Resource to JsonObject: " + e.getMessage());
+            }
+        }
+                        
+        auditLogSvc.logEntry(entry);
+        log.exiting(CLASSNAME, METHODNAME);
+    }
 	
 	/**
 	 * Builds an audit log entry for a 'version-read' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being read.
 	 * @param startTime - The start time of the read request execution.
@@ -157,7 +182,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for a 'history' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param bundle - The Bundle that is returned to the REST service caller.
 	 * @param startTime - The start time of the bundle request execution.
@@ -187,7 +211,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for a 'validate' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object being validated.
 	 * @param startTime - The start time of the validate request execution.
@@ -210,7 +233,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for a 'bundle' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param bundle - The Bundle that is returned to the REST service caller.
 	 * @param startTime - The start time of the bundle request execution.
@@ -261,7 +283,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for a 'search' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param queryParms - The query parameters passed to the search REST service.
 	 * @param bundle - The Bundle that is returned to the REST service caller.
@@ -295,7 +316,6 @@ public class RestAuditLogger {
 	
 	/**
 	 * Builds an audit log entry for a 'metadata' REST service invocation.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param startTime - The start time of the metadata request execution.
 	 * @param endTime - The end time of the metadata request execution.
@@ -336,7 +356,6 @@ public class RestAuditLogger {
 	/**
 	 * Populates the passed audit log entry, with attributes common to all REST services.
 	 * @param entry - The AuditLogEntry to be populated.
-	 * @param user - The user who initiated the request.
 	 * @param request - The HttpServletRequest representation of the REST request.
 	 * @param resource - The Resource object.
 	 * @param startTime - The start time of the request execution.
