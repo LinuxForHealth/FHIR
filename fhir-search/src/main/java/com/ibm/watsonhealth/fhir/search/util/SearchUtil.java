@@ -560,15 +560,15 @@ public class SearchUtil {
         String tenantId = FHIRRequestContext.get().getTenantId();
         
         // First try to find the search parameter within the specified tenant's map.
-        SearchParameter result = getSearchParameterInternal(getTenantSPMap(tenantId), resourceType, name);
+        SearchParameter result = getSearchParameterInternal(getTenantSPMap(tenantId), resourceType, name, false);
         
         // If we didn't find it within the tenant's map, then look within the built-in map.
         if (result == null) {
-            result = getSearchParameterInternal(getBuiltInSearchParameterMap(), resourceType, name);
+            result = getSearchParameterInternal(getBuiltInSearchParameterMap(), resourceType, name, true);
             
             // If we found it within the built-in search parameters, apply our filtering rules.
             if (result != null) {
-                Collection<SearchParameter> filteredResult = filterSearchParameters(getFilterRules(), resourceType, Collections.singleton(result));
+                Collection<SearchParameter> filteredResult = filterSearchParameters(getFilterRules(), result.getBase().getValue(), Collections.singleton(result));
 
                 // If our filtered result is non-empty, then just return the first (and only) item.
                 result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
@@ -585,12 +585,21 @@ public class SearchUtil {
      * @param name  the name of the desired SearchParameter
      * @return
      */
-    private static SearchParameter getSearchParameterInternal(Map<String, Map<String, SearchParameter>> tenantMap, String resourceType, String name) {
+    private static SearchParameter getSearchParameterInternal(Map<String, Map<String, SearchParameter>> tenantMap, String resourceType, String name, boolean searchSuperType) {
         SearchParameter result = null;
         if (tenantMap != null) {
             Map<String, SearchParameter> resourceTypeMap = tenantMap.get(resourceType);
             if (resourceTypeMap != null) {
                 result = resourceTypeMap.get(name);
+            }
+            
+            // If requested, search for the SP associated with the "Resource" super type
+            // if we didn't find the SP above.
+            if (result == null && searchSuperType) {
+                resourceTypeMap = tenantMap.get("Resource");
+                if (resourceTypeMap != null) {
+                    result = resourceTypeMap.get(name);
+                }
             }
         }
         
