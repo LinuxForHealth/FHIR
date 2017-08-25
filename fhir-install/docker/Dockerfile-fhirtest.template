@@ -1,0 +1,20 @@
+# ----------------------------------------------------------------------------
+# (C) Copyright IBM Corp. 2017,2018,2019
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ----------------------------------------------------------------------------
+
+FROM fhir-basic:${FHIR_DOCKER_TAG}
+
+LABEL maintainer Phil Adams <phil_adams@us.ibm.com>
+
+ENV LICENSE accept
+
+RUN \
+  rm -fr /opt/ibm/fhir-server/wlp/usr/servers/fhir-server/config/* && \
+  cp -pr /home/fhir/dist/config/* /opt/ibm/fhir-server/wlp/usr/servers/fhir-server/config && \
+  find /opt/ibm/fhir-server/wlp/usr/servers/fhir-server/config | xargs chown fhir:fhir && \
+  /home/fhir/scripts/enable-trace.sh
+
+CMD su - fhir -c '/opt/ibm/fhir-server/wlp/bin/server run fhir-server'
+

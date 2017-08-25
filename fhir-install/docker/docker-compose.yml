@@ -12,7 +12,7 @@ services:
     build:
         context: .
         dockerfile: Dockerfile-fhirbasic
-    image: fhir-basic:latest
+    image: fhir-basic:${FHIR_DOCKER_TAG}
     hostname: fhir-basic
     ports:
       - 9080:9080
@@ -22,7 +22,7 @@ services:
     build:
         context: .
         dockerfile: Dockerfile-fhirtest
-    image: fhir-test:latest
+    image: fhir-test:${FHIR_DOCKER_TAG}
     hostname: fhir-test
     healthcheck:
       interval: 20s
@@ -37,6 +37,7 @@ services:
     build:
         context: .
         dockerfile: Dockerfile-fhirbaseos
+    image: fhir-proxy:${FHIR_DOCKER_TAG}
     depends_on:
       fhir-test:
         condition: service_healthy
