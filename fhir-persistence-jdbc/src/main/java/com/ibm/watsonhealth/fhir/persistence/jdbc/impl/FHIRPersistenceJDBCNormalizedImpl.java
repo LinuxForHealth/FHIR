@@ -168,9 +168,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
 	    }
-		catch(FHIRPersistenceException e) {
-			throw e;
-		}
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a create operation.";
 	        log.log(Level.SEVERE, msg, e);
@@ -246,7 +243,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        + ", version=" + resourceDTO.getVersionId());
 		}
-		catch(FHIRPersistenceException e) {
+		catch(FHIRPersistenceResourceNotFoundException e) {
 			throw e;
 		}
 		catch(Throwable e) {
@@ -306,10 +303,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            }
 	        }
 	    }
-	    catch(FHIRPersistenceException e) {
-			throw e;
-		}
-		catch(Throwable e) {
+	    catch(Throwable e) {
 			String msg = "Unexpected error while performing a search operation.";
 	        log.log(Level.SEVERE, msg, e);
 	        throw new FHIRPersistenceException(msg, e);
@@ -382,9 +376,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			        
 	        return deletedResource;
 		}
-		catch(FHIRPersistenceException e) {
-			throw e;
-		}
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a delete operation.";
 	        log.log(Level.SEVERE, msg, e);
@@ -414,7 +405,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			}
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
 		}
-		catch(FHIRPersistenceException e) {
+		catch(FHIRPersistenceResourceDeletedException e) {
 			throw e;
 		}
 		catch(Throwable e) {
@@ -476,9 +467,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        	resources = this.convertResourceDTOList(resourceDTOList, resourceType);
 	        } 
 		}
-		catch(FHIRPersistenceException e) {
-			throw e;
-		}
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a history operation.";
 	        log.log(Level.SEVERE, msg, e);
@@ -512,7 +500,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			}
 			resource = this.convertResourceDTO(resourceDTO, resourceType);
 		}
-		catch(FHIRPersistenceException e) {
+		catch(FHIRPersistenceResourceDeletedException e) {
 			throw e;
 		}
 		catch (NumberFormatException e) {

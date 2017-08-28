@@ -13,6 +13,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -405,6 +406,33 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		assertEquals(((Observation)resources.get(0)).getEffectiveDateTime().getValue(),"2012-09-17");
+	}
+	
+	/**
+	 * Tests a query for an Observation with date >= '2012-01-01' which should yield correct results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_lastUpdated() throws Exception {
+		GregorianCalendar compareToDate = new GregorianCalendar(2012,0,1);
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "_lastUpdated", "gt2012-01-01");
+		assertNotNull(resources);
+		assertTrue(resources.size() != 0);
+		for(Resource resource : resources) {
+			GregorianCalendar resourceLastUpdated = resource.getMeta().getLastUpdated().getValue().toGregorianCalendar();
+			assertTrue(resourceLastUpdated.after(compareToDate));
+		}
+	}
+	
+	/**
+	 * Tests a query for an Observation with date >= '9999-01-01' which should yield no results
+	 * @throws Exception
+	 */
+	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation1" })
+	public void testObservationQuery_lastUpdated_noresults() throws Exception {
+		List<Resource> resources = runQueryTest(Observation.class, persistence, "_lastUpdated", "ge9999-01-01");
+		assertNotNull(resources);
+		assertTrue(resources.isEmpty());
 	}
 	
 	/**
