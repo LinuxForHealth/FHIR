@@ -133,7 +133,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        // Default version is 1 for a brand new FHIR Resource.
 	        int newVersionNumber = 1;
 	        logicalId = (resource.getId() != null ? resource.getId().getValue() : UUID.randomUUID().toString());
-	        log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
+	        if (log.isLoggable(Level.FINE)) {
+	        	log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
+	        }
 	        // Create the new Resource DTO instance.
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
 	        resourceDTO.setLogicalId(logicalId);
@@ -164,8 +166,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        // Persist the Resource DTO.
 	        this.getResourceDao().setPersistenceContext(context);
 	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
+	        if (log.isLoggable(Level.FINE)) {
+	        	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        				+ ", version=" + resourceDTO.getVersionId());
+	        }
 	    }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a create operation.";
@@ -205,8 +209,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        // and remove its Parameter entries.
 	        if (existingResourceDTO != null) {
 	            newVersionNumber = existingResourceDTO.getVersionId() + 1;
-	            log.fine("Updating FHIR Resource '" + existingResourceDTO.getResourceType() + "/" + existingResourceDTO.getLogicalId() + "', version="
-	                        + existingResourceDTO.getVersionId());
+	            if (log.isLoggable(Level.FINE)) {
+	            	log.fine("Updating FHIR Resource '" + resource.getClass().getSimpleName() + "/" + existingResourceDTO.getLogicalId() + "', version="
+	                        	+ existingResourceDTO.getVersionId());
+	            }
 	        } 
 	        
 	        // Create the new Resource DTO instance.
@@ -239,8 +245,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        // Persist the Resource DTO.
 	        this.getResourceDao().setPersistenceContext(context);
 	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
+	        if (log.isLoggable(Level.FINE)) {
+	        	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        				+ ", version=" + resourceDTO.getVersionId());
+	        }
 		}
 		catch(FHIRPersistenceResourceNotFoundException e) {
 			throw e;
@@ -281,7 +289,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
 	        if (countQuery != null) {
 	        	searchResultCount = this.getResourceDao().searchCount(countQuery);
-	        	log.fine("searchResultCount = " + searchResultCount);
+	        	if (log.isLoggable(Level.FINE)) {
+	        		log.fine("searchResultCount = " + searchResultCount);
+	        	}
 	        	searchContext.setTotalCount(searchResultCount);
 	            pageSize = searchContext.getPageSize();
 	            lastPageNumber = (int) ((searchResultCount + pageSize - 1) / pageSize);
@@ -368,8 +378,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	                // Persist the logically deleted Resource DTO.
 	                this.getResourceDao().setPersistenceContext(context);
 	                this.getResourceDao().insert(resourceDTO);
-	                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	                        + ", version=" + resourceDTO.getVersionId());
+	                if (log.isLoggable(Level.FINE)) {
+	                	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	                        		+ ", version=" + resourceDTO.getVersionId());
+	                }
 				}
             }
 			        

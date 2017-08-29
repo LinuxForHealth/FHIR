@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -138,7 +139,9 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
 			resultSet = stmt.getGeneratedKeys();
 			if (resultSet.next()) {
 				resource.setId(resultSet.getLong(1));
-				log.fine("Succesfully inserted Resource. id=" + resource.getId());
+				if (log.isLoggable(Level.FINE)) {
+					log.fine("Succesfully inserted Resource. id=" + resource.getId());
+				}
 			}
 			else
 			{

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -124,7 +125,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			// This also causes the store procedure that is called by the cache to persist the resource type and id
 			// in the resource_types table, if it does not already exist.
 			resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType(), this);
-			log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId);
+			if (log.isLoggable(Level.FINE)) {
+				log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId);
+			}
 						
 			currentSchema = connection.getSchema().trim();
 			stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType());
@@ -155,7 +158,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.execute();
 			
 			resource.setId(stmt.getLong(19));
-			log.fine("Succesfully inserted Resource. id=" + resource.getId());
+			if (log.isLoggable(Level.FINE)) {
+				log.fine("Succesfully inserted Resource. id=" + resource.getId());
+			}
 			
 		}
 		catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {

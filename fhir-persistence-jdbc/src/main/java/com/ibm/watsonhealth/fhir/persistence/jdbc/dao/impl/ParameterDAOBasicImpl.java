@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -125,7 +126,9 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
 			stmt.setLong(1, resourceId);
 					
 			stmt.executeUpdate();
-			log.fine("Successfully delete Parameters for Resource id=" + resourceId);
+			if (log.isLoggable(Level.FINE)) {
+				log.fine("Successfully delete Parameters for Resource id=" + resourceId);
+			}
 		}
 		catch(FHIRPersistenceDBConnectException e) {
 			throw e;

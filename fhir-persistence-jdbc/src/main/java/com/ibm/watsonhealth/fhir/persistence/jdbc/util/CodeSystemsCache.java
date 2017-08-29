@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
@@ -52,7 +53,9 @@ public class CodeSystemsCache {
 			if (currentDsMap.isEmpty()) {
 				currentDsMap.putAll(parameterDao.readAllCodeSystems());
 			}
-			log.fine("Initialized Code System name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+			if (log.isLoggable(Level.FINE)) {
+				log.fine("Initialized Code System name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+			}
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);

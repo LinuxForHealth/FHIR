@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.datatype.Duration;
@@ -773,8 +774,10 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		List<Object> bindVariables = new ArrayList<>();
 		boolean isDateSearch = isDateSearch(resourceType, queryParm);
 		boolean isDateRangeSearch  = isDateRangeSearch(resourceType, queryParm);
-		 
-		log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
+		
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
+		}
 							
 		// Build this piece of the segment:
 		//(P1.PARAMETER_NAME_ID = x AND

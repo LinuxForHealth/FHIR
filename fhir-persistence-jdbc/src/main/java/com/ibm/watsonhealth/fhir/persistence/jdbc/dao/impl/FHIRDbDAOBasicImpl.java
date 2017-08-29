@@ -137,7 +137,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	    if (datasourceJndiName == null) {
 	        datasourceJndiName = FHIRConfiguration.getInstance().loadConfiguration()
 	                .getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbDAO.FHIRDB_JNDI_NAME_DEFAULT);
-	        log.fine("Using datasource JNDI name: " + datasourceJndiName);
+	        if (log.isLoggable(Level.FINE)) {
+	        	log.fine("Using datasource JNDI name: " + datasourceJndiName);
+	        }
 	    }
 	    return datasourceJndiName;
 	}
@@ -268,7 +270,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			resultSet = stmt.executeQuery();
 			// Transform the resultSet into a collection of Data Transfer Objects
 			fhirObjects = this.createDTOs(resultSet);
-			log.fine("Sucessfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs));
+			if (log.isLoggable(Level.FINE)) {
+				log.fine("Sucessfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs));
+			}
 		} 
 		catch(FHIRPersistenceException e) {
 			throw e;
@@ -314,8 +318,10 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			resultSet = stmt.executeQuery();
 			if (resultSet.next()) {
 				rowCount = resultSet.getInt(1);
-				log.fine("Sucessfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
-							Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount);
+				if (log.isLoggable(Level.FINE)) {
+					log.fine("Sucessfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
+								Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount);
+				}
 			}
 			else {
 				throw new FHIRPersistenceDataAccessException(errMsg);

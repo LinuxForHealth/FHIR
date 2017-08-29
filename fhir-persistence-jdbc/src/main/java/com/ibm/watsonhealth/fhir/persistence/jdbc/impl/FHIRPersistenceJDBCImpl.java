@@ -160,7 +160,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        int newVersionNumber = 1;
 	        logicalId = (resource.getId() != null ? resource.getId().getValue() : UUID.randomUUID().toString());
 	        Instant lastUpdated = instant(System.currentTimeMillis());
-	        log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
+	        if (log.isLoggable(Level.FINE)) {
+	        	log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
+	        }
 	        
 	        // Set the resource id and meta fields.
 	        resource.setId(id(logicalId));
@@ -185,8 +187,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        
 	        // Persist the Resource DTO.
 	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
+	        if (log.isLoggable(Level.FINE)) {
+	        	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        				+ ", version=" + resourceDTO.getVersionId());
+	        }
 	        
 	        // Store search parameters
 	        this.storeSearchParameters(resource, resourceDTO);
@@ -302,8 +306,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        // and remove its Parameter entries.
 	        if (existingResourceDTO != null) {
 	            newVersionNumber = existingResourceDTO.getVersionId() + 1;
-	            log.fine("Updating FHIR Resource '" + existingResourceDTO.getResourceType() + "/" + existingResourceDTO.getLogicalId() + "', version="
-	                        + existingResourceDTO.getVersionId());
+	            if (log.isLoggable(Level.FINE)) {
+	            	log.fine("Updating FHIR Resource '" + resource.getClass().getSimpleName() + "/" + existingResourceDTO.getLogicalId() + "', version="
+	                        	+ existingResourceDTO.getVersionId());
+	            }
 	             
 	            // Retrieve the Parameters associated with the current version of the Resource and remove them.
 	            this.getParameterDao().deleteByResource(existingResourceDTO.getId());
@@ -334,8 +340,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        
 	        // Persist the Resource DTO.
 	        this.getResourceDao().insert(resourceDTO);
-	        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-	        + ", version=" + resourceDTO.getVersionId());
+	        if (log.isLoggable(Level.FINE)) {
+	        	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+	        				+ ", version=" + resourceDTO.getVersionId());
+	        }
 	        
 	        // Store search parameters
 	        this.storeSearchParameters(resource, resourceDTO);
@@ -445,7 +453,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        String countQueryString = queryBuilder.buildCountQuery(resourceType, searchContext);
 	        if (countQueryString != null) {
 	        	searchResultCount = this.getResourceDao().searchCount(countQueryString);
-	        	log.fine("searchResultCount = " + searchResultCount);
+	        	if (log.isLoggable(Level.FINE)) {
+	        		log.fine("searchResultCount = " + searchResultCount);
+	        	}
 	        	searchContext.setTotalCount(searchResultCount);
 	            pageSize = searchContext.getPageSize();
 	            lastPageNumber = (int) ((searchResultCount + pageSize - 1) / pageSize);
@@ -545,7 +555,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            type = parameter.getType().getValue();
 	            xpath = parameter.getXpath().getValue();
 	            
-	            log.fine("Processing SearchParameter name: " + name + ", type: " + type + ", xpath: " + xpath);
+	            if (log.isLoggable(Level.FINE)) {
+	            	log.fine("Processing SearchParameter name: " + name + ", type: " + type + ", xpath: " + xpath);
+	            }
 	            
 	            List<Object> values = map.get(parameter);
 	            for (Object value : values) {
@@ -555,7 +567,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	                    p.setResourceId(resourceDTO.getId());
 	                    p.setResourceType(fhirResource.getClass().getSimpleName());
 	                    allParameters.add(p);
-	                    log.fine("Added Parameter '" + p.getName() + "' to Resource.");
+	                    if (log.isLoggable(Level.FINE)) {
+	                    	log.fine("Added Parameter '" + p.getName() + "' to Resource.");
+	                    }
 	                }
 	            }
 	        }

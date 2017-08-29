@@ -7,11 +7,11 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -53,7 +53,9 @@ public class ParameterNamesCache {
 			if (currentDsMap.isEmpty()) {
 				currentDsMap.putAll(parameterDao.readAllSearchParameterNames());
 			}
-			log.fine("Initialized Parameter name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+			if (log.isLoggable(Level.FINE)) {
+				log.fine("Initialized Parameter name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+			}
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);

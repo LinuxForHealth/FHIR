@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,9 @@ public class ResourceTypesCache {
 			if (currentDsMap.isEmpty()) {
 				currentDsMap.putAll(resourceDao.readAllResourceTypeNames());
 			}
-			log.fine("Initialized Resource type/id cache for tenant datasore: " + tenantDatstoreCacheName);
+			if (log.isLoggable(Level.FINE)) {
+				log.fine("Initialized Resource type/id cache for tenant datasore: " + tenantDatstoreCacheName);
+			}
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
