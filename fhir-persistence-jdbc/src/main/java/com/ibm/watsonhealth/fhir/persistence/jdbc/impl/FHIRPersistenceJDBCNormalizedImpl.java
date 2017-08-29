@@ -75,7 +75,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
-		this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 		this.resourceDao = new ResourceDAONormalizedImpl();
 		this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.TRUE));
 		this.parameterDao = new ParameterDAONormalizedImpl();
