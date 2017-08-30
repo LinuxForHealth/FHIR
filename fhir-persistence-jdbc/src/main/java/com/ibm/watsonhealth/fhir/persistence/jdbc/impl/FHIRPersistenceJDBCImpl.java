@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -642,7 +643,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            }
 	            meta.setVersionId(id(Integer.toString(resourceDTO.getVersionId())));
 	            Timestamp lastUpdated = resourceDTO.getLastUpdated();
-	            meta.setLastUpdated(objectFactory.createInstant().withValue(FHIRUtilities.convertToCalendar(lastUpdated)));
+	            meta.setLastUpdated(objectFactory.createInstant()
+		            .withValue(FHIRUtilities.convertToCalendar(lastUpdated, TimeZone.getTimeZone("UTC"))));
 	            resource.setMeta(meta);
 			}
     	}

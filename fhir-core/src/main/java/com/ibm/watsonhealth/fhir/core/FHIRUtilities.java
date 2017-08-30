@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -192,9 +193,13 @@ public class FHIRUtilities {
         return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
     }
     
-    public static XMLGregorianCalendar convertToCalendar(Timestamp timestamp) {
-        return parseDateTime(formatCalendar(timestamp), false);
-    }
+    public static XMLGregorianCalendar convertToCalendar(Timestamp timestamp, TimeZone zone) {
+    	GregorianCalendar calendar = new GregorianCalendar();
+    	calendar.setTime(timestamp);
+        XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
+        xmlCalendar.setTimezone(zone.getRawOffset());
+        return xmlCalendar;
+   }
     
     public static void setDefaults(XMLGregorianCalendar calendar) {
         if (isYear(calendar)) {
