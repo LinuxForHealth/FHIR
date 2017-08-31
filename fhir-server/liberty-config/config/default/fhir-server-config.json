@@ -132,13 +132,18 @@ CODE_REMOVED
                 "subjectIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid",
                 "studyIdHeaderName": "X-WHC-LSF-studyid",
                 "resourcesRequiringSubjectId": [
-                    "QuestionnaireResponse",
-                    "MedicationOrder",
-                    "Patient",
-                    "DeviceComponent", 
-                    "MedicationAdministration",
+                    "Patient"
+                ],
+                "studyScopedResources": [
                     "Contract",
-                    "Device"
+                    "CarePlan",
+                    "Device",
+                    "DeviceComponent",
+                    "DeviceMetric",
+                    "MedicationOrder",
+                    "Observation",
+                    "MedicationAdministration",
+                    "QuestionnaireResponse"
                 ]
             }
         }
