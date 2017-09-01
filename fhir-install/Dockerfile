@@ -12,8 +12,7 @@ ENV LICENSE accept
 
 RUN mkdir /fhir-installer
 ADD target/fhir-server-distribution.zip /fhir-installer/
-RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/
-RUN ./fhir-installer/fhir-server-dist/install-fhir.sh /opt/ibm/wlp
+RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/ && ./fhir-installer/fhir-server-dist/install-fhir.sh /opt/ibm/wlp && rm -rf ./fhir-installer/fhir-server-dist
 
 EXPOSE 9080 9443
 
