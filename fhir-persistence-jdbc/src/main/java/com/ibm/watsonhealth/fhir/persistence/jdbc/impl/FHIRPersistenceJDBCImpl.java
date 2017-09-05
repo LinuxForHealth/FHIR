@@ -13,6 +13,9 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PushbackReader;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -25,6 +28,8 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.naming.InitialContext;
 import javax.transaction.Status;
@@ -182,9 +187,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 	        resourceDTO.setLastUpdated(timestamp);
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
+	         
 	        // Serialize and compress the Resource
-	        FHIRUtil.write(resource, Format.JSON, stream, false);
-	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	        GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+	        FHIRUtil.write(resource, Format.JSON, zipStream, false);
+	        zipStream.finish();
+	        resourceDTO.setData(stream.toByteArray());
+	        zipStream.close();
 	        
 	        // Persist the Resource DTO.
 	        this.getResourceDao().insert(resourceDTO);
@@ -335,9 +344,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 	        resourceDTO.setLastUpdated(timestamp);
 	        resourceDTO.setResourceType(resource.getClass().getSimpleName());
+	         
 	        // Serialize and compress the Resource
-	        FHIRUtil.write(resource, Format.JSON, stream, false);
-	        resourceDTO.setData(FHIRUtilities.gzipCompress(stream.toByteArray()));
+	        GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+	        FHIRUtil.write(resource, Format.JSON, zipStream, false);
+	        zipStream.finish();
+	        resourceDTO.setData(stream.toByteArray());
+	        zipStream.close();
 	        
 	        // Persist the Resource DTO.
 	        this.getResourceDao().insert(resourceDTO);
@@ -622,20 +635,26 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	log.entering(CLASSNAME, METHODNAME);
     	
     	Resource resource = null;
-    	byte[] resourceBytes;
-    	
+    	Reader reader;
+    	PushbackReader pushbackReader;
+    	int firstByte;
+    	    	
     	try {
 	    	if (resourceDTO != null) {
-	    		resourceBytes = resourceDTO.getData();
-	    		resourceBytes = FHIRUtilities.gzipDecompress(resourceBytes);
-	    		// If the first byte of Resource blob is a '<', that means its an XML byte stream. 
-	    		// Otherwise we attempt to deserialize it as a JSON stream.
-	    		if (resourceBytes[0] == 60) {
-	    			resource = FHIRUtil.read(resourceType, Format.XML, new ByteArrayInputStream(resourceBytes));
+	    		reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())));
+	    		pushbackReader = new PushbackReader(reader);
+	    		firstByte = pushbackReader.read();
+	    		pushbackReader.unread(firstByte);
+	    		// At an earlier point in time in the life of the FHIR server, we serialized resources as XML. 
+	    		// This logic is here to be able to deserialize any old XML resources that might still remain in the FHIR DB. 
+	    		if (firstByte == 60) {
+	    			resource = FHIRUtil.read(resourceType, Format.XML, pushbackReader);
 	    		}
 	    		else {
-	    			resource = FHIRUtil.read(resourceType, Format.JSON, new ByteArrayInputStream(resourceBytes));
+	    			resource = FHIRUtil.read(resourceType, Format.JSON, pushbackReader);
 	    		}
+	    		pushbackReader.close();
+	    		
 	            resource.setId(id(resourceDTO.getLogicalId()));
 	            Meta meta = resource.getMeta();
 	            if (meta == null) {
