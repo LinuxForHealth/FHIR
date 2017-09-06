@@ -1,99 +1,104 @@
 {
-    "__comment":"FHIR Server configuration",
-    "fhirServer":{
-        "core":{
-            "truststoreLocation":"resources/security/fhirTruststore.jks",
+	"__comment": "FHIR Server configuration",
+	"fhirServer": {
+		"core": {
+			"truststoreLocation": "resources/security/fhirTruststore.jks",
 CODE_REMOVED
-            "userDefinedSchematronEnabled":false,
-            "tenantIdHeaderName":"X-FHIR-TENANT-ID",
-            "datastoreIdHeaderName": "X-FHIR-DSID"
-        },
-        "oauth":{
-        	"regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
-        	"authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
-        	"tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
-        },
-        "encryption":{
-            "enabled":false,
-            "keystoreLocation":"resources/security/fhirkeys.jceks",
-CODE_REMOVED
-CODE_REMOVED
-        },
-        "virtualResources":{
-            "enabled":false,
-            "allowableResourceTypes":[
-                "*"
-            ]
-        },
-        "notifications":{
-            "common":{
-                "__comment_includeResourceTypes":[
-                    "QuestionnaireResponse",
-                    "CarePlan",
-                    "MedicationAdministration",
-                    "Device",
-                    "DeviceComponent",
-                    "DeviceMetric",
-                    "MedicationOrder",
-                    "Observation"
-                ]
-            },
-            "websocket":{
-                "enabled":true
-            },
-            "kafka":{
-                "enabled":false,
-                "topicName":"fhirNotifications",
-                "connectionProperties":{
-                    "group.id":"securing-kafka-group",
-                    "bootstrap.servers":"localhost:9093",
-                    "security.protocol":"SSL",
-                    "ssl.truststore.location":"resources/security/kafka.client.truststore.jks",
-CODE_REMOVED
-                    "ssl.keystore.location":"resources/security/kafka.client.keystore.jks",
+			"userDefinedSchematronEnabled": false,
+			"tenantIdHeaderName": "X-FHIR-TENANT-ID",
+			"datastoreIdHeaderName": "X-FHIR-DSID"
+		},
+		"authFilter": {
+			"enabled": false,
+			"authorizedClientCertClientCN": "",
+			"authorizedClientCertIssuerOU": ""
+		},
+		"oauth": {
+			"regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
+			"authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
+			"tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
+		},
+		"encryption": {
+			"enabled": false,
+			"keystoreLocation": "resources/security/fhirkeys.jceks",
 CODE_REMOVED
 CODE_REMOVED
-                    "ssl.truststore.type":"JKS",
-                    "ssl.keystore.type":"JKS",
-                    "acks": "all",
-                    "retries": "60",
-                    "request.timeout.ms": "10000",
-                    "max.block.ms": "60000",
-                    "max.in.flight.requests.per.connection": "5"
-                }
-            }
-        },
-        "audit":{
-            "logPath":"logs/",
-            "logMaxSize": 20,
-            "tenantId":"fhir-server"
-        },
-        "persistence":{
-            "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
-            "common":{
-                "__comment":"Configuration properties common to all persistence layer implementations",
-                "updateCreateEnabled":true
-            },
-            "datasources": {
-                "default": {
-                    "type": "derby",
-                    "connectionProperties": {
-                        "databaseName": "derby/fhirDB",
-                        "createDatabase": "create"
-                    }
-                },
-                "_db2_default": {
-                    "type": "db2",
-                    "connectionProperties": {
-                        "serverName": "localhost",
-                        "portNumber": 50000,
-                        "user": "db2inst1",
-                        "password": "********",
-                        "databaseName": "FHIRDB",
-                        "currentSchema": "FHIR1",
-                        "driverType": 4
-                    }
-                },
+		},
+		"virtualResources": {
+			"enabled": false,
+			"allowableResourceTypes": [
+				"*"
+			]
+		},
+		"notifications": {
+			"common": {
+				"__comment_includeResourceTypes": [
+					"QuestionnaireResponse",
+					"CarePlan",
+					"MedicationAdministration",
+					"Device",
+					"DeviceComponent",
+					"DeviceMetric",
+					"MedicationOrder",
+					"Observation"
+				]
+			},
+			"websocket": {
+				"enabled": true
+			},
+			"kafka": {
+				"enabled": false,
+				"topicName": "fhirNotifications",
+				"connectionProperties": {
+					"group.id": "securing-kafka-group",
+					"bootstrap.servers": "localhost:9093",
+					"security.protocol": "SSL",
+					"ssl.truststore.location": "resources/security/kafka.client.truststore.jks",
+CODE_REMOVED
+					"ssl.keystore.location": "resources/security/kafka.client.keystore.jks",
+CODE_REMOVED
+CODE_REMOVED
+					"ssl.truststore.type": "JKS",
+					"ssl.keystore.type": "JKS",
+					"acks": "all",
+					"retries": "60",
+					"request.timeout.ms": "10000",
+					"max.block.ms": "60000",
+					"max.in.flight.requests.per.connection": "5"
+				}
+			}
+		},
+		"audit": {
+			"logPath": "logs/",
+			"logMaxSize": 20,
+			"tenantId": "fhir-server"
+		},
+		"persistence": {
+			"factoryClassname": "com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+			"common": {
+				"__comment": "Configuration properties common to all persistence layer implementations",
+				"updateCreateEnabled": true
+			},
+			"datasources": {
+				"default": {
+					"type": "derby",
+					"connectionProperties": {
+						"databaseName": "derby/fhirDB",
+						"createDatabase": "create"
+					}
+				},
+				"_db2_default": {
+					"type": "db2",
+					"connectionProperties": {
+						"serverName": "localhost",
+						"portNumber": 50000,
+						"user": "db2inst1",
+						"password": "********",
+						"databaseName": "FHIRDB",
+						"currentSchema": "FHIR1",
+						"driverType": 4
+					}
+				},
 				"audit": {
 					"type": "derby",
 					"connectionProperties": {
@@ -113,39 +118,39 @@ CODE_REMOVED
 						"driverType": 4
 					}
 				}
-            },
-            "jdbc":{
-                "__comment":"Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb":true,
-                "__comment1":"schemaType allowed values are: basic or normalized",
-                "schemaType":"normalized",
-                "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
-                "dataSourceJndiName": "jdbc/fhirProxyDataSource"
-            },
-            "audit": {
-            	"bootstrapDb": true
-            },
-            "replicationInterceptor": {
-                "enabled": false,
-                "studyIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/studyid",
-                "siteIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/siteid",
-                "subjectIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid",
-                "studyIdHeaderName": "X-WHC-LSF-studyid",
-                "resourcesRequiringSubjectId": [
-                    "Patient"
-                ],
-                "studyScopedResources": [
-                    "Contract",
-                    "CarePlan",
-                    "Device",
-                    "DeviceComponent",
-                    "DeviceMetric",
-                    "MedicationOrder",
-                    "Observation",
-                    "MedicationAdministration",
-                    "QuestionnaireResponse"
-                ]
-            }
-        }
-    }
+			},
+			"jdbc": {
+				"__comment": "Configuration properties for the JDBC persistence implementation",
+				"bootstrapDb": true,
+				"__comment1": "schemaType allowed values are: basic or normalized",
+				"schemaType": "normalized",
+				"__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
+				"dataSourceJndiName": "jdbc/fhirProxyDataSource"
+			},
+			"audit": {
+				"bootstrapDb": true
+			},
+			"replicationInterceptor": {
+				"enabled": false,
+				"studyIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/studyid",
+				"siteIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/siteid",
+				"subjectIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid",
+				"studyIdHeaderName": "X-WHC-LSF-studyid",
+				"resourcesRequiringSubjectId": [
+					"Patient"
+				],
+				"studyScopedResources": [
+					"Contract",
+					"CarePlan",
+					"Device",
+					"DeviceComponent",
+					"DeviceMetric",
+					"MedicationOrder",
+					"Observation",
+					"MedicationAdministration",
+					"QuestionnaireResponse"
+				]
+			}
+		}
+	}
 }
