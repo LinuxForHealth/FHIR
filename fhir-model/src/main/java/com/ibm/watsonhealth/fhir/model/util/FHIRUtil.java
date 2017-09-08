@@ -37,6 +37,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
@@ -108,6 +109,7 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.RiskAssessmentPrediction;
 import com.ibm.watsonhealth.fhir.model.SimpleQuantity;
+import com.ibm.watsonhealth.fhir.model.Time;
 import com.ibm.watsonhealth.fhir.model.TimingRepeat;
 import com.ibm.watsonhealth.fhir.model.UnitsOfTime;
 import com.ibm.watsonhealth.fhir.model.UnitsOfTimeList;
@@ -500,6 +502,11 @@ public class FHIRUtil {
 
     public static DateTime dateTime(String dateTime) {
         return objectFactory.createDateTime().withValue(dateTime);
+    }
+
+    public static Time time(int hours, int minutes, int seconds) throws DatatypeConfigurationException {
+        XMLGregorianCalendar time = datatypeFactory.newXMLGregorianCalendarTime(hours, minutes, seconds, DatatypeConstants.FIELD_UNDEFINED);
+        return objectFactory.createTime().withValue(time);
     }
 
     public static Decimal decimal(Number value) {
