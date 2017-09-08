@@ -7,7 +7,9 @@
 package com.ibm.watsonhealth.fhir.server.util;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +45,9 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 public class RestAuditLogger {
 	private static final String CLASSNAME = RestAuditLogger.class.getName();
 	private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
+	
+	private static final String HEADER_IBM_APP_USER = "IBM-App-User";
+	private static final String HEADER_CLIENT_CERT_CN = "IBM-App-cli-CN";
 	
 	/**
 	 * Builds an audit log entry for a 'create' REST service invocation.
@@ -370,8 +375,19 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		StringBuffer requestUrl;
+		List<String> userList = new ArrayList<>();
 		
-		entry.setUserName(request.getUserPrincipal().getName());
+		// Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
+		userList.add(request.getHeader(HEADER_IBM_APP_USER));
+		userList.add(request.getHeader(HEADER_CLIENT_CERT_CN));
+		userList.add(request.getUserPrincipal().getName());
+		for (String userName : userList) {
+			if (userName != null && !userName.isEmpty()) {
+				entry.setUserName(userName);
+				break;
+			}
+		}
+		 
 		entry.setLocation(new StringBuilder()
 							.append(request.getRemoteAddr())
 							.append("/")
