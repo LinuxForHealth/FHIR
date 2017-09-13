@@ -191,12 +191,14 @@ public class InvocationContext {
     }
 
     public Object getRequestResourceWithExcp() throws Exception {
+        Reader reader = null;
+        InputStream is = null;
+        
         try {
             // If the user specified the resource filename then we'll try to read
             // the resource from there; otherwise, we'll get it from System.in.
-            Reader reader = null;
             if (resourceFile != null && !resourceFile.isEmpty()) {
-                InputStream is = new FileInputStream(resourceFile);
+                is = new FileInputStream(resourceFile);
                 reader = new InputStreamReader(is);
             } else {
                 reader = new InputStreamReader(System.in);
@@ -207,6 +209,13 @@ public class InvocationContext {
             return result;
         } catch (Throwable t) {
             throw t;
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+            if (is != null) {
+                is.close();
+            }
         }
     }
 }

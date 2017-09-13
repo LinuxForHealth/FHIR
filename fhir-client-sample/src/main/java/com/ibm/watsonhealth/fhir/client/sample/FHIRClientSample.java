@@ -35,35 +35,35 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
 /**
- * This class is sample code that demonstrates the use of the FHIR Server's Client API.
- * This sample is not necessarily expected to run correctly as certain details are omitted so that
- * we can focus on the highlights of the FHIRClient interface.
+ * This class is sample code that demonstrates the use of the FHIR Server's Client API. This sample is not necessarily
+ * expected to run correctly as certain details are omitted so that we can focus on the highlights of the FHIRClient
+ * interface.
  */
 public class FHIRClientSample {
-    
+
     private ObjectFactory of;
-    
+
     public static void main(String[] args) throws Exception {
         FHIRClientSample sample = new FHIRClientSample();
         sample.run();
     }
-    
+
     public FHIRClientSample() {
         of = new ObjectFactory();
     }
-    
+
     public void run() throws Exception {
         String location;
-        
+
         // Load up our properties file.
         Properties clientProperties = readProperties();
-        
+
         // Retrieve an instance of the FHIRClient interface.
         FHIRClient client = FHIRClientFactory.getClient(clientProperties);
-        
+
         // Create and initialize a new patient.
         Patient patient = createPatient("John", "Doe", "512-555-1234");
-        
+
         // Persist the patient.
         FHIRResponse response = client.create(patient);
         if (response.getStatus() != Status.CREATED.getStatusCode()) {
@@ -72,7 +72,7 @@ public class FHIRClientSample {
             displayOperationOutcome(response);
             throw new Exception(msg);
         }
-        
+
         // Retrieve the patient's location URI string.
         location = response.getLocation();
         System.out.println("Patient resource was persisted, location = " + location);
@@ -88,13 +88,13 @@ public class FHIRClientSample {
             displayOperationOutcome(response);
             throw new Exception(msg);
         }
-        
+
         // Retrieve the resource from the API response.
         patient = response.getResource(Patient.class);
-        
+
         // Create and initialize an observation to represent a glucose reading for the patient.
         Observation obs = createObservation(patient, 7.4);
-        
+
         // Persist the observation.
         response = client.create(obs);
         if (response.getStatus() != Status.CREATED.getStatusCode()) {
@@ -103,7 +103,7 @@ public class FHIRClientSample {
             displayOperationOutcome(response);
             throw new Exception(msg);
         }
-        
+
         // Retrieve the observation's location URI string.
         location = response.getLocation();
         System.out.println("Observation resource was persisted, location = " + location);
@@ -120,17 +120,18 @@ public class FHIRClientSample {
             throw new Exception(msg);
         }
     }
-    
+
     /**
      * Reads in the 'fhir-client.properties' file and returns a Properties object.
      */
     private Properties readProperties() throws Exception {
         Properties props = new Properties();
-        InputStream is = resolveFileLocation("fhir-client.properties");
-        props.load(is);
-        return props;
+        try (InputStream is = resolveFileLocation("fhir-client.properties")) {
+            props.load(is);
+            return props;
+        }
     }
-    
+
     /**
      * Returns an InputStream for reading the specified file.
      */
@@ -150,7 +151,7 @@ public class FHIRClientSample {
 
         throw new FileNotFoundException("File '" + fileName + "' was not found.");
     }
-    
+
     /**
      * Retrieves the location id value from a location URI string.
      */
@@ -162,7 +163,7 @@ public class FHIRClientSample {
         }
         return logicalId;
     }
-    
+
     private void displayOperationOutcome(FHIRResponse response) {
         try {
             OperationOutcome oo = response.getResource(OperationOutcome.class);
@@ -174,30 +175,24 @@ public class FHIRClientSample {
         }
     }
 
-    
     /**
-     * Create a new Patient resource with the specified name and mobile 
+     * Create a new Patient resource with the specified name and mobile
+     * 
      * @param firstName
      * @param lastName
      * @param mobilePhoneNum
      * @return
      */
     private Patient createPatient(String firstName, String lastName, String mobilePhoneNum) {
-        Patient p = of.createPatient()
-                .withName(of.createHumanName()
-                    .withFamily(of.createString().withValue(lastName))
-                    .withGiven(of.createString().withValue(firstName)))
-                .withTelecom(contactPoint(ContactPointSystemList.fromValue("phone"),mobilePhoneNum, ContactPointUseList.fromValue("mobile")));
+        Patient p =
+                of.createPatient().withName(of.createHumanName().withFamily(of.createString().withValue(lastName)).withGiven(of.createString().withValue(firstName))).withTelecom(contactPoint(ContactPointSystemList.fromValue("phone"), mobilePhoneNum, ContactPointUseList.fromValue("mobile")));
         return p;
     }
-    
+
     private Observation createObservation(Patient p, double glucoseReading) {
         String subject = "Patient/" + p.getId().getValue();
-        Observation o = of.createObservation()
-                .withSubject(of.createReference().withReference(of.createString().withValue(subject)))
-                .withStatus(observationStatus(ObservationStatusList.PRELIMINARY))
-                .withCode(codeableConcept(coding("http://loinc.org", "15074-8", "Glucose [Moles/volume] in Blood")))
-                .withValueQuantity(quantity(glucoseReading, "mmol/l", "http://unitsofmeasure.org", "mmol/L"));
+        Observation o =
+                of.createObservation().withSubject(of.createReference().withReference(of.createString().withValue(subject))).withStatus(observationStatus(ObservationStatusList.PRELIMINARY)).withCode(codeableConcept(coding("http://loinc.org", "15074-8", "Glucose [Moles/volume] in Blood"))).withValueQuantity(quantity(glucoseReading, "mmol/l", "http://unitsofmeasure.org", "mmol/L"));
         return o;
     }
 }

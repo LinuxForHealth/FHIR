@@ -40,7 +40,7 @@ import org.apache.commons.io.IOUtils;
  * A collection of miscellaneous utility functions used by the various fhir-* projects.
  */
 public class FHIRUtilities {
-	private static final String VALID_CHARACTERS_FOR_DATETIME = "^([\\-\\:\\.TZ0123456789\\+]+)$";
+    private static final String VALID_CHARACTERS_FOR_DATETIME = "^([\\-\\:\\.TZ0123456789\\+]+)$";
     private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
     private static final ThreadLocal<SimpleDateFormat> timestampSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
@@ -95,7 +95,6 @@ public class FHIRUtilities {
         return sb.toString();
     }
 
-
     /**
      * This function will remove any whitspace characters which appear in a '<div>...</div>' section within the
      * specified string.
@@ -127,10 +126,10 @@ public class FHIRUtilities {
             int endIndex = str.indexOf("</div>", startIndex);
             if (endIndex != -1) {
                 String divContent = str.substring(startIndex + 5, endIndex);
-                String divWithoutNewLine = divContent.replace("\\r","").replace("\\n", "").replaceAll(">\\s*<", "><");
+                String divWithoutNewLine = divContent.replace("\\r", "").replace("\\n", "").replaceAll(">\\s*<", "><");
                 String strNewLineStrippedInDiv = str.replace(divContent, divWithoutNewLine);
-                //String divWithoutNewLineWhiteSpace = divWithoutNewLine.replace(" ", "");
-                return strNewLineStrippedInDiv;//.replace(divWithoutNewLine, divWithoutNewLineWhiteSpace);
+                // String divWithoutNewLineWhiteSpace = divWithoutNewLine.replace(" ", "");
+                return strNewLineStrippedInDiv;// .replace(divWithoutNewLine, divWithoutNewLineWhiteSpace);
             }
         }
         return str;
@@ -174,28 +173,28 @@ public class FHIRUtilities {
     }
 
     public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) throws IllegalArgumentException {
-    	validateInputCharacters(lexicalRepresentation);
+        validateInputCharacters(lexicalRepresentation);
         XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
         if (defaults) {
             setDefaults(calendar);
         }
         return calendar;
     }
-    
+
     private static void validateInputCharacters(String lexicalRepresentation) {
-    	String input = Optional.of(lexicalRepresentation).orElse("");
+        String input = Optional.of(lexicalRepresentation).orElse("");
         if (!input.matches(VALID_CHARACTERS_FOR_DATETIME)) {
             throw new IllegalArgumentException("Illegal input identified: '" + input + "'.");
         }
     }
-    
+
     public static Timestamp convertToTimestamp(XMLGregorianCalendar calendar) {
         return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
     }
-    
+
     public static XMLGregorianCalendar convertToCalendar(Timestamp timestamp, TimeZone zone) {
-    	GregorianCalendar calendar = new GregorianCalendar();
-    	calendar.setTime(timestamp);
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(timestamp);
         XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
         xmlCalendar.setTimezone(zone.getRawOffset());
         return xmlCalendar;
@@ -285,48 +284,54 @@ public class FHIRUtilities {
      * @param keyPassword the password associated with the key's entry in the keystore file
      * @return a SecretKeySpec object containing the AES encryption key retrieved from the keystore file
      */
-    public static SecretKeySpec retrieveEncryptionKeyFromKeystore(String keystoreLocation, String keystorePassword, String keyAlias, String keyPassword, String storeType, String keyAlgorithm) throws Exception {
-        SecretKeySpec secretKey = null;
-        
-        // First, search the classpath for the keystore file.
+    public static SecretKeySpec retrieveEncryptionKeyFromKeystore(String keystoreLocation, String keystorePassword, String keyAlias, String keyPassword,
+        String storeType, String keyAlgorithm) throws Exception {
         InputStream is = null;
-        URL url = Thread.currentThread().getContextClassLoader().getResource(keystoreLocation);
-        if (url != null) {
-            is = url.openStream();
-        }
+        SecretKeySpec secretKey = null;
 
-        // If the classpath search failed, try to open the file directly.
-        if (is == null) {
-            File f = new File(keystoreLocation);
-            if (f.exists()) {
-                is = new FileInputStream(f);
+        try {
+            // First, search the classpath for the keystore file.
+            URL url = Thread.currentThread().getContextClassLoader().getResource(keystoreLocation);
+            if (url != null) {
+                is = url.openStream();
+            }
+
+            // If the classpath search failed, try to open the file directly.
+            if (is == null) {
+                File f = new File(keystoreLocation);
+                if (f.exists()) {
+                    is = new FileInputStream(f);
+                }
+            }
+
+            // If we couldn't open the file, throw an exception now.
+            if (is == null) {
+                throw new FileNotFoundException("Keystore file '" + keystoreLocation + "' was not found.");
+            }
+
+            // Load up the keystore.
+            KeyStore keystore = KeyStore.getInstance(storeType);
+            keystore.load(is, keystorePassword.toCharArray());
+
+            // Retrieve the key entry using the keyAlias
+            if (keystore.containsAlias(keyAlias)) {
+                Key keyEntry = keystore.getKey(keyAlias, keyPassword.toCharArray());
+                if (keyEntry == null) {
+                    throw new IllegalStateException("Could not retrieve encryption key for alias: " + keyAlias);
+                }
+                byte[] key = keyEntry.getEncoded();
+
+                // Create our secret key object from the key's byte array stored in the keystore file.
+                secretKey = new SecretKeySpec(key, keyAlgorithm);
+            } else {
+                throw new IllegalArgumentException("Keystore file does not contain the required key alias: " + keyAlias);
+            }
+            return secretKey;
+        } finally {
+            if (is != null) {
+                is.close();
             }
         }
-        
-        // If we couldn't open the file, throw an exception now.
-        if (is == null) {
-            throw new FileNotFoundException("Keystore file '" + keystoreLocation + "' was not found.");
-        }
-        
-        // Load up the keystore.
-        KeyStore keystore = KeyStore.getInstance(storeType);
-        keystore.load(is, keystorePassword.toCharArray());
-        is.close();
-        
-        // Retrieve the key entry using the keyAlias
-        if (keystore.containsAlias(keyAlias)) {
-            Key keyEntry = keystore.getKey(keyAlias, keyPassword.toCharArray());
-            if (keyEntry == null) {
-                throw new IllegalStateException("Could not retrieve encryption key for alias: "+ keyAlias);
-            }
-            byte[] key = keyEntry.getEncoded();
-        
-            // Create our secret key object from the key's byte array stored in the keystore file.
-            secretKey = new SecretKeySpec(key, keyAlgorithm);
-        } else {
-            throw new IllegalArgumentException("Keystore file does not contain the required key alias: " + keyAlias);
-        }
-        return secretKey;
     }
     
 	/**
@@ -369,17 +374,15 @@ public class FHIRUtilities {
 	 * 
 	 */
 	public static byte[] gzipDecompress(byte[] compressedInput) throws IOException {
-		
-		GZIPInputStream gzip;
 		byte[] output = compressedInput;
-				
 		Objects.requireNonNull(compressedInput, "compressedInput cannot be null");
-		
 		if (isGzipCompressed(compressedInput)) {
-			gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput));
+			try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput))) {
 			output = IOUtils.toByteArray(gzip);
+			}
 		}
 								
 		return output;
 	}
+
 }

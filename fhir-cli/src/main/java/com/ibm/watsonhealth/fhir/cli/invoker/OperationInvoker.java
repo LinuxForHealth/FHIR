@@ -30,13 +30,13 @@ public abstract class OperationInvoker {
     protected FHIRResponse response;
     protected FHIRParameters queryParameters;
     protected FHIRRequestHeader[] requestHeaders;
-    
+
     public void invoke(InvocationContext ic) throws Exception {
         preInvoke(ic);
         doInvoke(ic);
         postInvoke(ic);
     }
-    
+
     /**
      * Performs the necessary steps before the operation is invoked.
      */
@@ -46,7 +46,7 @@ public abstract class OperationInvoker {
         Properties properties = loadClientProperties(ic.getPropertiesFile());
         client = getClient(properties);
 
-        // If query parameters were specified on the command line, 
+        // If query parameters were specified on the command line,
         // then create a FHIRParameters object and store them in it.
         List<NameValuePair> params = ic.getQueryParameters();
         if (params != null && !params.isEmpty()) {
@@ -55,7 +55,7 @@ public abstract class OperationInvoker {
                 queryParameters.addMultivaluedParameter(param.getName(), param.getValue());
             }
         }
-        
+
         List<NameValuePair> headers = ic.getHeaders();
         if (headers != null && !headers.isEmpty()) {
             requestHeaders = new FHIRRequestHeader[headers.size()];
@@ -67,41 +67,46 @@ public abstract class OperationInvoker {
     }
 
     /**
-     * Each subclass will implement this method to invoke the appropriate FHIR Client API,
-     * based on the operation requested by the user.
+     * Each subclass will implement this method to invoke the appropriate FHIR Client API, based on the operation
+     * requested by the user.
      */
     public abstract void doInvoke(InvocationContext ic) throws Exception;
-    
+
     /**
-     * Saves off the relevant response information in the InvocationContext
-     * after the operation has been invoked.
+     * Saves off the relevant response information in the InvocationContext after the operation has been invoked.
      */
     public void postInvoke(InvocationContext ic) throws Exception {
         ic.setResponse(response);
     }
-    
+
     /**
      * Loads the FHIRClient properties from the specified file.
      */
     protected Properties loadClientProperties(String filename) throws Exception {
-        Properties props = new Properties();
-        
-        // Open the properties file specified by the user.
         InputStream is = null;
-        File f = new File(filename);
-        if (f.exists()) {
-            is = new FileInputStream(f);
-        } else {
-            throw new FileNotFoundException("Properties file '" + filename + "' not found.");
+        try {
+            Properties props = new Properties();
+
+            // Open the properties file specified by the user.
+            File f = new File(filename);
+            if (f.exists()) {
+                is = new FileInputStream(f);
+            } else {
+                throw new FileNotFoundException("Properties file '" + filename + "' not found.");
+            }
+
+            // Load the properties.
+            props.load(is);
+            is.close();
+
+            return props;
+        } finally {
+            if (is != null) {
+                is.close();
+            }
         }
-        
-        // Load the properties.
-        props.load(is);
-        is.close();
-        
-        return props;
     }
-    
+
     /**
      * Retrieves a new FHIRClient instance using the specified properties.
      */

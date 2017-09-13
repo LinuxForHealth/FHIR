@@ -39,8 +39,9 @@ public class ConfigurationService {
      * @throws FileNotFoundException
      */
     public static PropertyGroup loadConfiguration(String filename) throws Exception {
-        InputStream is = resolveFile(filename);
-        return loadConfiguration(is);
+        try (InputStream is = resolveFile(filename)) {
+            return loadConfiguration(is);
+        }
     }
 
     /**
@@ -51,10 +52,11 @@ public class ConfigurationService {
      *            an InputStream to the input JSON file
      */
     public static PropertyGroup loadConfiguration(InputStream is) throws Exception {
-        JsonReader reader = Json.createReader(is);
-        JsonObject jsonObj = reader.readObject();
-        reader.close();
-        return instantiatePropertyGroup(jsonObj);
+        try (JsonReader reader = Json.createReader(is)) {
+            JsonObject jsonObj = reader.readObject();
+            reader.close();
+            return instantiatePropertyGroup(jsonObj);
+        }
     }
 
     /**

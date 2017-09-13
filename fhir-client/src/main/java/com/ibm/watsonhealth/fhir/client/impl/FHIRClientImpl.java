@@ -48,11 +48,11 @@ import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 
 /**
- * Provides an implementation of the FHIRClient interface, which can be used as a high-level API for invoking FHIR
- * REST APIs.
+ * Provides an implementation of the FHIRClient interface, which can be used as a high-level API for invoking FHIR REST
+ * APIs.
  */
 public class FHIRClientImpl implements FHIRClient {
-    
+
     private static final String KEYSTORE_TYPE_JKS = "JKS";
     private static final String KEYSTORE_TYPE_JCEKS = "JCEKS";
     private static final String ENCRYPTION_ALGORITHM_AES = "AES";
@@ -61,30 +61,30 @@ public class FHIRClientImpl implements FHIRClient {
     private Properties clientProperties = null;
     private String baseEndpointURL = null;
     private String defaultMimeType = "application/json+fhir";
-    
+
     private boolean basicAuthEnabled = false;
     private String basicAuthUsername = null;
     private String basicAuthPassword = null;
-    
+
     private boolean clientAuthEnabled = false;
     private String trustStoreLocation = null;
     private String trustStorePassword = null;
     private String keyStoreLocation = null;
     private String keyStorePassword = null;
     private String keyStoreKeyPassword = null;
-    
+
     private boolean oAuth2Enabled = false;
     private String accessToken = null;
-    
+
     private KeyStore trustStore = null;
     private KeyStore keyStore = null;
-    
+
     private boolean encryptionEnabled = false;
     private String encKeyStoreLocation = null;
     private String encKeyStorePassword = null;
     private String encKeyPassword = null;
     private SecretKeySpec encryptionKey = null;
-    
+
     protected FHIRClientImpl() {
     }
 
@@ -92,7 +92,8 @@ public class FHIRClientImpl implements FHIRClient {
         initProperties(props);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#metadata()
      */
     @Override
@@ -104,7 +105,8 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#create(com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
@@ -116,7 +118,8 @@ public class FHIRClientImpl implements FHIRClient {
         return _create(resource, resourceType, null, headers);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#create(javax.json.JsonObject, java.lang.String)
      */
     @Override
@@ -207,8 +210,8 @@ public class FHIRClientImpl implements FHIRClient {
         return result;
     }
     
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#update(java.lang.Object, java.lang.Class, java.lang.String)
      */
     @Override
@@ -224,8 +227,10 @@ public class FHIRClientImpl implements FHIRClient {
         return _update(resource, resourceType, resourceId, null, headers);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#update(javax.json.JsonObject, java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#update(javax.json.JsonObject, java.lang.String,
+     * java.lang.String)
      */
     @Override
     public FHIRResponse update(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
@@ -298,8 +303,10 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#delete(java.lang.String, java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#delete(java.lang.String, java.lang.String,
+     * com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
      */
     @Override
     public FHIRResponse delete(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception {
@@ -343,7 +350,8 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#read(java.lang.String, java.lang.String)
      */
     @Override
@@ -361,7 +369,8 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#vread(java.lang.String, java.lang.String, int)
      */
     @Override
@@ -381,9 +390,11 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#history(java.lang.String, java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
+
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#history(java.lang.String, java.lang.String,
+     * com.ibm.watsonhealth.fhir.client.FHIRParameters)
      */
     @Override
     public FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
@@ -402,8 +413,10 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#search(java.lang.String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#search(java.lang.String,
+     * com.ibm.watsonhealth.fhir.client.FHIRParameters)
      */
     @Override
     public FHIRResponse search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
@@ -418,7 +431,7 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
-    
+
     @Override
     public FHIRResponse _search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -445,7 +458,8 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
@@ -456,7 +470,8 @@ public class FHIRClientImpl implements FHIRClient {
         return _validate(resource, headers);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#validate(javax.json.JsonObject)
      */
     @Override
@@ -477,7 +492,8 @@ public class FHIRClientImpl implements FHIRClient {
         
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#batch(com.ibm.watsonhealth.fhir.model.Bundle)
      */
     @Override
@@ -488,7 +504,8 @@ public class FHIRClientImpl implements FHIRClient {
         return _bundle(bundle, BundleTypeList.BATCH, headers);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#transaction(com.ibm.watsonhealth.fhir.model.Bundle)
      */
     @Override
@@ -498,8 +515,9 @@ public class FHIRClientImpl implements FHIRClient {
         }
         return _bundle(bundle, BundleTypeList.TRANSACTION, headers);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, com.ibm.watsonhealth.fhir.client.FHIRParameters)
      */
     @Override
@@ -515,8 +533,9 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
@@ -528,14 +547,15 @@ public class FHIRClientImpl implements FHIRClient {
             throw new IllegalArgumentException("The 'resource' argument is required but was null.");
         }
         WebTarget endpoint = getWebTarget();
-        Entity<Parameters> entity = Entity.entity((Parameters)resource, getDefaultMimeType());
+        Entity<Parameters> entity = Entity.entity((Parameters) resource, getDefaultMimeType());
         Invocation.Builder builder = endpoint.path(operationName).request();
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String)
      */
     @Override
@@ -554,8 +574,9 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
@@ -573,8 +594,9 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String)
      */
     @Override
@@ -596,9 +618,11 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, com.ibm.watsonhealth.fhir.model.Resource)
+
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String,
+     * com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, String resourceId, Resource resource, FHIRRequestHeader... headers) throws Exception {
@@ -621,8 +645,9 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String)
      */
     @Override
@@ -647,9 +672,11 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.get();
         return new FHIRResponseImpl(response);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String, com.ibm.watsonhealth.fhir.model.Resource)
+
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.client.FHIRClient#invoke(String, String, String, String,
+     * com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, String resourceId, String versionId, Resource resource, FHIRRequestHeader... headers) throws Exception {
@@ -685,18 +712,21 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
-    
+
     /**
-     * This function adds each of the parameters contained in the FHIRParameters object 
-     * to the specified WebTarget as a query parameter.
-     * @param endpoint the WebTarget which will receive the query parameters
-     * @param parameters the FHIRParameters object that contains the query parameters to be added
+     * This function adds each of the parameters contained in the FHIRParameters object to the specified WebTarget as a
+     * query parameter.
+     * 
+     * @param endpoint
+     *            the WebTarget which will receive the query parameters
+     * @param parameters
+     *            the FHIRParameters object that contains the query parameters to be added
      */
     private WebTarget addParametersToWebTarget(WebTarget endpoint, FHIRParameters parameters) {
         if (parameters != null) {
             MultivaluedMap<String, String> parameterMap = parameters.getParameterMap();
             if (parameterMap != null && !parameterMap.isEmpty()) {
-                
+
                 // Each entry in the multivalued map represents a query parameter and its value(s).
                 // So for each entry, we'll add a query parameter to the WebTarget
                 for (Map.Entry<String, List<String>> mapEntry : parameterMap.entrySet()) {
@@ -706,10 +736,10 @@ public class FHIRClientImpl implements FHIRClient {
                 }
             }
         }
-        
+
         return endpoint;
     }
-    
+
     private Form buildForm(FHIRParameters parameters) {
         Form form = new Form();
         if (parameters != null) {
@@ -727,8 +757,11 @@ public class FHIRClientImpl implements FHIRClient {
 
     /**
      * This function will add each of the specified request headers to the Invocation Builder object.
-     * @param builder the Invocation.Builder used to build up the request
-     * @param headers the array of headers to be added to the request
+     * 
+     * @param builder
+     *            the Invocation.Builder used to build up the request
+     * @param headers
+     *            the array of headers to be added to the request
      */
     private Builder addRequestHeaders(Builder builder, FHIRRequestHeader[] headers) {
         if (headers != null) {
@@ -742,35 +775,33 @@ public class FHIRClientImpl implements FHIRClient {
     }
 
     /**
-     * Retrieves a jax-rs Client from the ClientBuilder object.  The Client instance is created if necessary.
+     * Retrieves a jax-rs Client from the ClientBuilder object. The Client instance is created if necessary.
      */
     protected synchronized Client getClient() throws Exception {
         if (client == null) {
-            ClientBuilder cb = ClientBuilder.newBuilder()
-                    .register(new FHIRProvider())
-                    .register(new FHIRJsonProvider());
-            
+            ClientBuilder cb = ClientBuilder.newBuilder().register(new FHIRProvider()).register(new FHIRJsonProvider());
+
             // Add support for basic auth if enabled.
             if (isBasicAuthEnabled()) {
                 cb = cb.register(new FHIRBasicAuthenticator(getBasicAuthUsername(), getBasicAuthPassword()));
             }
-            
-         // Add support for OAuth 2.0 if enabled.
+
+            // Add support for OAuth 2.0 if enabled.
             if (isOAuth2Enabled()) {
                 cb = cb.register(new FHIROAuth2Authenticator(getOAuth2AccessToken()));
             }
-            
+
             // If using oAuth 2.0 or clientauth, then we need to attach our Keystore.
             if (isOAuth2Enabled() || isClientAuthEnabled()) {
                 cb = cb.keyStore(getKeyStore(), getKeyStoreKeyPassword());
             }
-            
+
             // If using oAuth 2.0 or clientauth or an https endpoint, then we need to attach our Truststore.
             KeyStore ks = getTrustStore();
             if (ks != null) {
-            	cb = cb.trustStore(ks);
+                cb = cb.trustStore(ks);
             }
-            
+
             // Add support for encryption/decryption if enabled.
             if (isEncryptionEnabled()) {
                 try {
@@ -779,7 +810,7 @@ public class FHIRClientImpl implements FHIRClient {
                     throw new Exception("Unexpected error while registering encryption client filter: ", t);
                 }
             }
-            
+
             // Finally, add a hostname verifier if we're using an ssl transport.
             if (usingSSLTransport()) {
                 cb = cb.hostnameVerifier(new HostnameVerifier() {
@@ -791,54 +822,47 @@ public class FHIRClientImpl implements FHIRClient {
 
             // Save off our cached Client instance.
             client = cb.build();
-            
+
         }
         return client;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getWebTarget()
      */
     @Override
     public WebTarget getWebTarget() throws Exception {
-        
+
         return getClient().target(getBaseEndpointURL());
     }
-    
+
     /*
      * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getWebTarget()
      */
     @Override
     public WebTarget getWebTarget(String baseURL) throws Exception {
-    	ClientBuilder cb = ClientBuilder.newBuilder()
-                .register(new FHIRProvider())
-                .register(new FHIRJsonProvider())
-        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword());
-    	
-    	KeyStore ts = getTrustStore();
-    	
-    	if(ts != null) {
-    		cb = cb.trustStore(ts);
-    	}
+        ClientBuilder cb =
+                ClientBuilder.newBuilder().register(new FHIRProvider()).register(new FHIRJsonProvider()).keyStore(getKeyStore(), getKeyStoreKeyPassword());
+
+        KeyStore ts = getTrustStore();
+
+        if (ts != null) {
+            cb = cb.trustStore(ts);
+        }
         Client client = cb.build();
         return client.target(baseURL);
     }
-    
+
     /*
      * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getWebTargetUsingBasicAuth()
      */
     @Override
     public WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception {
-        Client client = ClientBuilder.newBuilder()
-                .register(new FHIRProvider())
-                .register(new FHIRJsonProvider())
-        		.register(new FHIRBasicAuthenticator(username, pwd))
-        	    .keyStore(getKeyStore(), getKeyStoreKeyPassword())
-        	    .trustStore(getTrustStore())
-        	    .build();
+        Client client =
+                ClientBuilder.newBuilder().register(new FHIRProvider()).register(new FHIRJsonProvider()).register(new FHIRBasicAuthenticator(username, pwd)).keyStore(getKeyStore(), getKeyStoreKeyPassword()).trustStore(getTrustStore()).build();
         return client.target(baseURL);
     }
 
@@ -857,38 +881,38 @@ public class FHIRClientImpl implements FHIRClient {
                 s += "/";
             }
             setBaseEndpointURL(s);
-            
+
             // Process the default mimetype property.
             s = getProperty(PROPNAME_DEFAULT_MIMETYPE, null);
             if (s != null && !s.isEmpty()) {
                 setDefaultMimeType(s);
             }
-            
+
             // Process the basic auth properties (temporary until client auth is fully working).
             setBasicAuthEnabled(Boolean.parseBoolean(getProperty(PROPNAME_BASIC_AUTH_ENABLED, "false")));
             if (isBasicAuthEnabled()) {
                 setBasicAuthUsername(getRequiredProperty(PROPNAME_CLIENT_USERNAME));
                 setBasicAuthPassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_CLIENT_PASSWORD)));
             }
-            
+
             // Process the OAuth 2.0 properties
             setOAuth2Enabled(Boolean.parseBoolean(getProperty(PROPNAME_OAUTH2_ENABLED, "false")));
             if (isOAuth2Enabled()) {
-            	setOAuth2AccessToken(FHIRUtilities.decode(getRequiredProperty(PROPNAME_OAUTH2_TOKEN)));
+                setOAuth2AccessToken(FHIRUtilities.decode(getRequiredProperty(PROPNAME_OAUTH2_TOKEN)));
             }
-            
+
             // If necessary, load the truststore-related properties.
             setClientAuthEnabled(Boolean.parseBoolean(getProperty(PROPNAME_CLIENT_AUTH_ENABLED, "false")));
             if (isOAuth2Enabled() || isClientAuthEnabled() || usingSSLTransport()) {
-            	String trustStoreLoc = getProperty(PROPNAME_TRUSTSTORE_LOCATION, null);
-            	String trustStoreEncodedPwd = getProperty(PROPNAME_TRUSTSTORE_PASSWORD, null);
-            	if(trustStoreLoc != null && trustStoreEncodedPwd != null) {
-            		setTrustStoreLocation(trustStoreLoc);
-                	setTrustStorePassword(FHIRUtilities.decode(trustStoreEncodedPwd));
-                	setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE_JKS));
-            	}
+                String trustStoreLoc = getProperty(PROPNAME_TRUSTSTORE_LOCATION, null);
+                String trustStoreEncodedPwd = getProperty(PROPNAME_TRUSTSTORE_PASSWORD, null);
+                if (trustStoreLoc != null && trustStoreEncodedPwd != null) {
+                    setTrustStoreLocation(trustStoreLoc);
+                    setTrustStorePassword(FHIRUtilities.decode(trustStoreEncodedPwd));
+                    setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE_JKS));
+                }
             }
-            
+
             // If necessary, load the keystore-related properties.
             if (isOAuth2Enabled() || isClientAuthEnabled()) {
                 setKeyStoreLocation(getRequiredProperty(PROPNAME_KEYSTORE_LOCATION));
@@ -896,7 +920,7 @@ public class FHIRClientImpl implements FHIRClient {
                 setKeyStoreKeyPassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_KEYSTORE_KEY_PASSWORD)));
                 setKeyStore(loadKeyStoreFile(getKeyStoreLocation(), getKeyStorePassword(), KEYSTORE_TYPE_JKS));
             }
-            
+
             // Process the encryption-related properties.
             setEncryptionEnabled(Boolean.parseBoolean(getProperty(PROPNAME_ENCRYPTION_ENABLED, "false")));
             if (isEncryptionEnabled()) {
@@ -909,7 +933,7 @@ public class FHIRClientImpl implements FHIRClient {
             throw new Exception("Unexpected error while processing client properties.", t);
         }
     }
-    
+
     private boolean usingSSLTransport() {
         return getBaseEndpointURL().startsWith("https:");
     }
@@ -918,11 +942,11 @@ public class FHIRClientImpl implements FHIRClient {
      * Loads the client trust store file for use with https endpoints.
      */
     private KeyStore loadKeyStoreFile(String ksFilename, String ksPassword, String ksType) {
+        InputStream is = null;
         try {
             KeyStore ks = KeyStore.getInstance(ksType);
 
             // First, search the classpath for the truststore file.
-            InputStream is = null;
             URL tsURL = Thread.currentThread().getContextClassLoader().getResource(ksFilename);
             if (tsURL != null) {
                 is = tsURL.openStream();
@@ -947,6 +971,14 @@ public class FHIRClientImpl implements FHIRClient {
             return ks;
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
             throw new IllegalStateException("Error loading keystore file '" + ksFilename + "' : " + e);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Throwable t) {
+                    // absorb any exceptions while closing the stream.
+                }
+            }
         }
     }
 
@@ -986,7 +1018,8 @@ public class FHIRClientImpl implements FHIRClient {
         this.baseEndpointURL = baseEndpointURL;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#setDefaultMimeType(java.lang.String)
      */
     @Override
@@ -994,15 +1027,17 @@ public class FHIRClientImpl implements FHIRClient {
         this.defaultMimeType = mimeType;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getDefaultMimeType()
      */
     @Override
     public String getDefaultMimeType() throws Exception {
         return defaultMimeType;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#setOAuth2AccessToken(java.lang.String)
      */
     @Override
@@ -1010,7 +1045,8 @@ public class FHIRClientImpl implements FHIRClient {
         this.accessToken = accessToken;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#getOAuth2AccessToken()
      */
     @Override
@@ -1049,15 +1085,15 @@ public class FHIRClientImpl implements FHIRClient {
     private void setEncryptionEnabled(boolean encryptionEnabled) {
         this.encryptionEnabled = encryptionEnabled;
     }
-    
+
     private boolean isOAuth2Enabled() {
-    	return oAuth2Enabled;
+        return oAuth2Enabled;
     }
-    
+
     private void setOAuth2Enabled(boolean oAuth2Enabled) {
-    	this.oAuth2Enabled = oAuth2Enabled;
+        this.oAuth2Enabled = oAuth2Enabled;
     }
-    
+
     private boolean isBasicAuthEnabled() {
         return basicAuthEnabled;
     }
