@@ -12,7 +12,7 @@ Running FHIR Server as a Docker container.
 Using Docker Terminal, access the fhir-install directory and run:
 
 ```sh
-docker build -t fhir-server .
+docker build -t fhir-server . --squash
 ```
 ## Run
 
