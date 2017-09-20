@@ -29,6 +29,13 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *  There will be a subclass in each persistence project.
  */
 public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersistenceTest {
+	
+	private String testCreateQuestionnaireResponse_with_relatedPerson_id;
+	private String testCreateQuestionnaireResponse_with_relatedPerson2_id;
+	private String testCreateQuestionnaireResponse2_id;
+	private String testCreateQuestionnaireResponse_with_patient_id;
+	private String testCreateQuestionnaireResponse_with_encounter_id;
+	private String testCreateQuestionnaireResponse_with_encounter_1_id;
         
     /**
      * Tests the FHIRPersistenceCloudantImpl create API for a QuestionnaireResponse.
@@ -64,6 +71,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         assertNotNull(questionnaireResp.getMeta());
         assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
         assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+        this.testCreateQuestionnaireResponse2_id = questionnaireResp.getId().getValue();
     }
     
     /**
@@ -82,6 +90,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         assertNotNull(questionnaireResp.getMeta());
         assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
         assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+        this.testCreateQuestionnaireResponse_with_patient_id = questionnaireResp.getId().getValue();
     }
     
     /**
@@ -100,6 +109,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         assertNotNull(questionnaireResp.getMeta());
         assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
         assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+        this.testCreateQuestionnaireResponse_with_encounter_id = questionnaireResp.getId().getValue();
     }
     
     /**
@@ -118,6 +128,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         assertNotNull(questionnaireResp.getMeta());
         assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
         assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+        this.testCreateQuestionnaireResponse_with_encounter_1_id = questionnaireResp.getId().getValue();
     }
     
     /**
@@ -136,6 +147,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         assertNotNull(questionnaireResp.getMeta());
         assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
         assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+        this.testCreateQuestionnaireResponse_with_relatedPerson_id = questionnaireResp.getId().getValue();
     }
     
     /**
@@ -154,6 +166,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         assertNotNull(questionnaireResp.getMeta());
         assertNotNull(questionnaireResp.getMeta().getVersionId().getValue());
         assertEquals("1", questionnaireResp.getMeta().getVersionId().getValue());
+        this.testCreateQuestionnaireResponse_with_relatedPerson2_id = questionnaireResp.getId().getValue();
     }
     
     /**
@@ -544,7 +557,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
 	public void testMutiInc_QRQuery_noParams_RelatedPersonCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, null, null);
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, null, null, Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -555,8 +568,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("gcs");
-		expectedIdList.add("gcs_1");
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_relatedPerson_id);
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_relatedPerson2_id);
 				
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -568,7 +581,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_relatedPerson", "testCreateQuestionnaireResponse_with_relatedPerson2" })
 	public void testMutiInc_QRQuery_source_RelatedPersonCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z");
+		List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z", Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -579,8 +592,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("gcs");
-		expectedIdList.add("gcs_1");
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_relatedPerson_id);
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_relatedPerson2_id);
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -592,7 +605,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
 	public void testMutiInc_QRQuery_noParams_PractitionerCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, null, null);
+		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, null, null, Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -603,8 +616,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("f201");
-		expectedIdList.add("f202");
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_encounter_id);
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_encounter_1_id);
 				
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -616,7 +629,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse_with_encounter", "testCreateQuestionnaireResponse_with_encounter_1" })
 	public void testMutiInc_QRQuery_source_PractitionerCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "authored", "2013-06-18T00:00:00+01:00");
+		List<Resource> resources = runQueryTest("Practitioner", "f201", QuestionnaireResponse.class, persistence, "authored", "2013-06-18T00:00:00+01:00", Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -627,8 +640,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("f201");
-		expectedIdList.add("f202");
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_encounter_id);
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_encounter_1_id);
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -640,7 +653,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
 	public void testMutiInc_QRQuery_noParams_PatientCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, null, null);
+		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, null, null, Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -651,8 +664,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("gcs_2");
-		expectedIdList.add("gcs");
+		expectedIdList.add(this.testCreateQuestionnaireResponse2_id);
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_patient_id);
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -664,9 +677,10 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaireResponse2", "testCreateQuestionnaireResponse_with_patient" })
 	public void testMutiInc_QRQuery_authored_PatientCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z");
+		List<Resource> resources = runQueryTest("Patient", "example", QuestionnaireResponse.class, persistence, "authored", "2014-12-11T04:44:16Z", Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
+		
 		//Get all the ids returned from search results
 		List<String> resultSetIds = new ArrayList<String>();
 		for(Resource temp : resources) {
@@ -675,8 +689,8 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("gcs_2");
-		expectedIdList.add("gcs");
+		expectedIdList.add(this.testCreateQuestionnaireResponse2_id);
+		expectedIdList.add(this.testCreateQuestionnaireResponse_with_patient_id);
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
