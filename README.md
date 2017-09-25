@@ -7,7 +7,7 @@ the [FHIR REST API specification](https://www.hl7.org/fhir/http.html).
 The FHIR Server implements operations on various FHIR-defined resource types
 (e.g. Patient, Observation, etc.).
 
-CODE_REMOVED
+For details on how to obtain and build the FHIR Server code, please see the [wiki](https://git.watson.sby.dst.ibm.com/fhir/fhir/wikis/home)  
 
 
 **Note to developers:**  
