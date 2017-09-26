@@ -25,9 +25,8 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 
 /**
- * This servlet filter is configured with the FHIR Server webapp and will perform an
- * authorization "whitelist" check to ensure that the incoming client CN and issuer OU
- * values specified via request headers are valid.
+ * This servlet filter is configured with the FHIR Server webapp and will perform an authorization "whitelist" check to
+ * ensure that the incoming client CN and issuer OU values specified via request headers are valid.
  * 
  */
 public class FHIRRestAuthorizationServletFilter implements Filter {
@@ -48,27 +47,37 @@ public class FHIRRestAuthorizationServletFilter implements Filter {
                 log.fine("FHIR Server authorization filter is enabled.");
                 HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-                String authorizedClientCertClientCN = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN, "");
-                log.fine("authorizedClientCertClientCN: " + authorizedClientCertClientCN);
-                List<String> authorizedClientCertClientCNs = Arrays.asList(authorizedClientCertClientCN.split(","));
-
-                String authorizedClientCertIssuerOU = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU, "");
-                log.fine("authorizedClientCertIssuerOU: " + authorizedClientCertIssuerOU);
-
+                // Retrieve the two request headers from the incoming request.
                 String clientCertClientCN = httpServletRequest.getHeader(CLIENT_CERT_CLIENT_CN_HEADER);
                 log.fine("clientCertClientCN: " + clientCertClientCN);
 
                 String clientCertIssuerOU = httpServletRequest.getHeader(CLIENT_CERT_ISSUER_OU_HEADER);
                 log.fine("clientCertIssuerOU: " + clientCertIssuerOU);
 
-                // If we fail the whitelist check, then send back a FORBIDDEN response.
-                if (!authorizedClientCertClientCNs.contains(clientCertClientCN) || !authorizedClientCertIssuerOU.equals(clientCertIssuerOU)) {
-                    String msg = "Incoming request failed authorization whitelist check; clientCertClientCN=" + (clientCertClientCN != null ? clientCertClientCN : "<null>") 
-                            + ", clientCertIssuerOU=" + (clientCertIssuerOU != null ? clientCertIssuerOU : "<null>");
-                    log.log(Level.SEVERE, msg);
-                    HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-                    httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    failedAuthCheck = true;
+                // If neither header is present, then we'll bypass the check.
+                if (clientCertClientCN == null && clientCertIssuerOU == null) {
+                    log.fine("Neither request header present, bypassing whitelist check...");
+                }
+
+                // Otherwise, perform the whitelist check.
+                else {
+                    String authorizedClientCertClientCN = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN, "");
+                    log.fine("authorizedClientCertClientCN: " + authorizedClientCertClientCN);
+                    List<String> authorizedClientCertClientCNs = Arrays.asList(authorizedClientCertClientCN.split(","));
+
+                    String authorizedClientCertIssuerOU = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU, "");
+                    log.fine("authorizedClientCertIssuerOU: " + authorizedClientCertIssuerOU);
+
+                    // If we fail the whitelist check, then send back a FORBIDDEN response.
+                    if (!authorizedClientCertClientCNs.contains(clientCertClientCN) || !authorizedClientCertIssuerOU.equals(clientCertIssuerOU)) {
+                        String msg = "Incoming request failed authorization whitelist check; clientCertClientCN="
+                                + (clientCertClientCN != null ? clientCertClientCN : "<null>") + ", clientCertIssuerOU="
+                                + (clientCertIssuerOU != null ? clientCertIssuerOU : "<null>");
+                        log.log(Level.SEVERE, msg);
+                        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+                        httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        failedAuthCheck = true;
+                    }
                 }
             }
 
