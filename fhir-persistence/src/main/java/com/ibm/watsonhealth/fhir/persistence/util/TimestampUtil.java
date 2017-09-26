@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.util;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,14 +42,22 @@ public class TimestampUtil {
 	 */
 	public Date getTimestamp(String str) {
 		try {
-			Instant instant = Instant.parse(str);
-			ZonedDateTime dt = instant.atZone(utc);
-			return Date.from(dt.toInstant());
-		} catch (Exception e) {
 			LocalDate ld = LocalDate.parse(str);
 			ZonedDateTime dt = ld.atStartOfDay(utc);
 			return Date.from(dt.toInstant());
+		} catch (Exception e1) {
+			try {
+				OffsetDateTime offsetDateTime = OffsetDateTime.parse(str);
+				return Date.from(offsetDateTime.toInstant());
+			} catch (Exception e2) {
+				OffsetDateTime offsetDateTime = OffsetDateTime.parse(addUTCTimezone(str));
+				return Date.from(offsetDateTime.toInstant());
+			}
 		}
+	}
+
+	private CharSequence addUTCTimezone(String date) {
+		return date + "Z";
 	}
 
 	/**
