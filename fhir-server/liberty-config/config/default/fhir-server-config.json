@@ -70,8 +70,7 @@ CODE_REMOVED
 		},
 		"audit": {
 			"logPath": "logs/",
-			"logMaxSize": 20,
-			"tenantId": "fhir-server"
+			"logMaxSize": 20
 		},
 		"persistence": {
 			"factoryClassname": "com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
