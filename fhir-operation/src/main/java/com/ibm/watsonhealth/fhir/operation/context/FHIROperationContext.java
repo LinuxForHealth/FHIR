@@ -14,6 +14,7 @@ public class FHIROperationContext {
 
     public static final String PROPNAME_REQUEST_BASE_URI = "REQUEST_BASE_URI";
     public static final String PROPNAME_LOCATION_URI = "LOCATION_URI";
+    public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
 
     private Type type = null;
     private Map<String, Object> properties = null;

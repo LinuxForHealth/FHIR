@@ -1671,6 +1671,8 @@ public class FHIRResource {
                 }
             }
 
+            // Add the http headers to the operation context
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, this.httpHeaders);
             // pass the request base URI to the FHIR operation through the operation context
             operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri());
 
