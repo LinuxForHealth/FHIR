@@ -131,7 +131,7 @@ import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 @Path("/")
 @Produces({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
 @Consumes({ MediaType.APPLICATION_JSON_FHIR, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML_FHIR, MediaType.APPLICATION_XML })
-public class FHIRResource {
+public class FHIRResource implements FHIRResourceHelpers {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
     
     private static final String FHIR_SERVER_NAME = "IBM Watson Health Cloud FHIR Server";
@@ -228,7 +228,7 @@ public class FHIRResource {
             
             String ifNoneExist = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_EXIST);
 
-        	InternalOperationResponse ior = doCreate(type, resource, ifNoneExist);
+        	FHIROperationResponse ior = doCreate(type, resource, ifNoneExist);
                        
             ResponseBuilder response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -261,7 +261,7 @@ public class FHIRResource {
     	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
     	
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
-        InternalOperationResponse ior = null;
+        FHIROperationResponse ior = null;
         try {
             checkInitComplete();
 
@@ -310,7 +310,7 @@ public class FHIRResource {
         
         log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         
-        InternalOperationResponse ior = null;
+        FHIROperationResponse ior = null;
 
         try {
             checkInitComplete();
@@ -364,7 +364,7 @@ public class FHIRResource {
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
 
-        InternalOperationResponse ior = null;
+        FHIROperationResponse ior = null;
         
         try {
             checkInitComplete();
@@ -403,7 +403,7 @@ public class FHIRResource {
         
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
-        InternalOperationResponse ior = null;
+        FHIROperationResponse ior = null;
         
         try {
             checkInitComplete();
@@ -900,16 +900,16 @@ public class FHIRResource {
     /**
      * Performs the heavy lifting associated with a 'create' interaction.
      * @param resource the Resource to be stored.
-     * @return an InternalOperationResponse object containing the results of the operation
+     * @return a FHIROperationResponse object containing the results of the operation
      * @throws Exception
      */
-    protected InternalOperationResponse doCreate(String type, Resource resource, String ifNoneExist) throws Exception {
+    public FHIROperationResponse doCreate(String type, Resource resource, String ifNoneExist) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
 
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
         
-        InternalOperationResponse ior = new InternalOperationResponse();
+        FHIROperationResponse ior = new FHIROperationResponse();
         
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1033,10 +1033,10 @@ public class FHIRResource {
      * @param newResource the new resource to be stored
      * @param ifMatchValue an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString an optional search query string to request a conditional update
-     * @return an InternalOperationResponse that contains the results of the operation
+     * @return a FHIROperationResponse that contains the results of the operation
      * @throws Exception
      */
-    protected InternalOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString) throws Exception {
+    public FHIROperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
 
         FHIRPersistenceTransaction txn = null;
@@ -1045,7 +1045,7 @@ public class FHIRResource {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
-        InternalOperationResponse ior = new InternalOperationResponse();
+        FHIROperationResponse ior = new FHIROperationResponse();
 
         try {
             // Make sure the type specified in the URL string matches the resource type obtained from the new resource.
@@ -1183,10 +1183,10 @@ public class FHIRResource {
      * Performs a 'delete' operation on the specified resource.
      * @param type the resource type associated with the Resource to be deleted
      * @param id the id of the Resource to be deleted
-     * @return the deleted Resource
+     * @return a FHIROperationResponse that contains the results of the operation
      * @throws Exception
      */
-    protected InternalOperationResponse doDelete(String type, String id, String searchQueryString) throws Exception {
+    public FHIROperationResponse doDelete(String type, String id, String searchQueryString) throws Exception {
         log.entering(this.getClass().getName(), "doDelete");
 
         // Save the current request context.
@@ -1194,7 +1194,7 @@ public class FHIRResource {
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
         
-        InternalOperationResponse ior = new InternalOperationResponse();
+        FHIROperationResponse ior = new FHIROperationResponse();
 
         try {
             String resourceTypeName = type;
@@ -1309,7 +1309,7 @@ public class FHIRResource {
      * @return the Resource
      * @throws Exception
      */
-    protected Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted) throws Exception {
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
         
         FHIRPersistenceTransaction txn = null;
@@ -1393,7 +1393,7 @@ public class FHIRResource {
      * @return the Resource
      * @throws Exception
      */
-    protected Resource doVRead(String type, String id, String versionId) throws Exception {
+    public Resource doVRead(String type, String id, String versionId) throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
         
         FHIRPersistenceTransaction txn = null;
@@ -1480,7 +1480,7 @@ public class FHIRResource {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    protected Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
         
         FHIRPersistenceTransaction txn = null;
@@ -1562,7 +1562,7 @@ public class FHIRResource {
      * @return a Bundle containing the search result set
      * @throws Exception
      */
-    protected Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
         
         FHIRPersistenceTransaction txn = null;
@@ -1644,7 +1644,18 @@ public class FHIRResource {
         }
     }
     
-    protected Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
+    /**
+     * Helper method which invokes a custom operation.
+     * @param operationContext the FHIROperationContext associated with the request
+     * @param resourceTypeName the resource type associated with the request
+     * @param logicalId the resource logical id associated with the request
+     * @param versionId the resource version id associated with the request
+     * @param operationName the name of the custom operation to be invoked
+     * @param resource the input resource associated with the custom operation to be invoked
+     * @return a Resource that represents the response to the custom operation
+     * @throws Exception
+     */
+    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
         Resource resource) throws Exception {
         log.entering(this.getClass().getName(), "doInvoke");
 
@@ -1671,12 +1682,16 @@ public class FHIRResource {
                 }
             }
 
-            // Add the http headers to the operation context
-            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, this.httpHeaders);
-            // pass the request base URI to the FHIR operation through the operation context
-            operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri());
-
+            // Add properties to the FHIR operation context
+            setOperationContextProperties(operationContext);
+            
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Invoking operation '" + operationName + "', context=\n" + operationContext.toString());
+            }
             Parameters result = operation.invoke(operationContext, resourceType, logicalId, versionId, parameters, getPersistenceImpl());
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Returned from invocation of operation '" + operationName + "'...");
+            }
 
             // if single resource output parameter, return the resource
             if (FHIROperationUtil.hasSingleResourceOutputParameter(result)) {
@@ -1703,7 +1718,7 @@ public class FHIRResource {
      *            the request Bundle
      * @return the response Bundle
      */
-    protected Bundle doBundle(Bundle bundle) throws Exception {
+    public Bundle doBundle(Bundle bundle) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
 
         // Save the current request context.
@@ -1727,6 +1742,20 @@ public class FHIRResource {
             
             log.exiting(this.getClass().getName(), "doBundle");
         }
+    }
+
+    /**
+     * Sets various properties on the FHIROperationContext instance.
+     * @param operationContext the FHIROperationContext on which to set the properties
+     * @throws FHIRPersistenceException 
+     */
+    private void setOperationContextProperties(FHIROperationContext operationContext) throws FHIRPersistenceException {
+        operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri());
+        operationContext.setProperty(FHIROperationContext.PROPNAME_RESOURCE_HELPER, this);
+        operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, getPersistenceImpl());
+        operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
+        operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+        operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
     }
     
     /**
@@ -2133,7 +2162,7 @@ public class FHIRResource {
 
                         // Perform the 'create' operation.
                         String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
-                        InternalOperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist);
+                        FHIROperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist);
                         setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode());
 
                         // Next, if a local identifier was present, we'll need to map this to the
@@ -2174,7 +2203,7 @@ public class FHIRResource {
                         if (request.getIfMatch() != null) {
                             ifMatchBundleValue = request.getIfMatch().getValue();
                         }
-                        InternalOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, query);
+                        FHIROperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, query);
                         setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode());
                     }
                         break;
@@ -2198,7 +2227,7 @@ public class FHIRResource {
                         }
 
                         // Perform the 'delete' operation.
-                        InternalOperationResponse ior = doDelete(type, id, query);
+                        FHIROperationResponse ior = doDelete(type, id, query);
                         setBundleResponseFields(responseEntry, ior.getResource(), null, ior.getStatus().getStatusCode());
                     }
                         break;
@@ -3120,50 +3149,5 @@ public class FHIRResource {
             return Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString()))).entity(resource).build();
         }
         return Response.ok().entity(resource).build();
-    }
-    
-    /**
-     * This is an internal class used to hold a multi-valued function response.
-     */
-    public static class InternalOperationResponse {
-        private Response.Status status;
-        private URI locationURI;
-        private Resource resource;
-        private Resource prevResource;
-        
-        public InternalOperationResponse() {
-        }
-        
-        public InternalOperationResponse(Response.Status status, URI locationURI, Resource resource) {
-            setStatus(status);
-            setLocationURI(locationURI);
-            setResource(resource);
-        }
-        public Response.Status getStatus() {
-            return status;
-        }
-        public void setStatus(Response.Status status) {
-            this.status = status;
-        }
-        public URI getLocationURI() {
-            return locationURI;
-        }
-        public void setLocationURI(URI locationURI) {
-            this.locationURI = locationURI;
-        }
-        public Resource getResource() {
-            return resource;
-        }
-        public void setResource(Resource resource) {
-            this.resource = resource;
-        }
-
-        public Resource getPrevResource() {
-            return prevResource;
-        }
-
-        public void setPrevResource(Resource prevResource) {
-            this.prevResource = prevResource;
-        }
     }
 }

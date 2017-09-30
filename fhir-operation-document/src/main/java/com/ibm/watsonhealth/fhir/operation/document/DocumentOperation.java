@@ -73,6 +73,7 @@ public class DocumentOperation extends AbstractOperation {
                     }
                     
                     if (persist) {
+                        // FHIRResourceHelper resourceHelper = (FHIRResourceHelper) operationContext.getProperty(FHIROperationContext.PROPNAME_RESOURCE_HELPER;
                         persistence.create(context, bundle);
                         URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(bundle), bundle);
                         operationContext.setProperty(FHIROperationContext.PROPNAME_LOCATION_URI, locationURI);

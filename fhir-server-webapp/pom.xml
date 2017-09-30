@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<licenses>
+		<license>
+			<name>IBM International License Agreement for Non-Warranted Programs</name>
+			<url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/</url>
+			<distribution>repo</distribution>
+			<comments>Additional notices http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/notices.html</comments>
+		</license>
+	</licenses>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.ibm.watsonhealth.fhir</groupId>
+		<artifactId>fhir-parent</artifactId>
+		<version>99-SNAPSHOT</version>
+		<relativePath>../fhir-parent</relativePath>
+	</parent>
+
+	<artifactId>fhir-server-webapp</artifactId>
+
+	<packaging>war</packaging>
+
+	<name>FHIR Server REST API WebApp</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+	   <fhir.server.war.name>fhir-server</fhir.server.war.name>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-server</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-operation-validate</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-operation-document</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-persistence-hbase</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-persistence-jdbc</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.websocket</groupId>
+					<artifactId>javax.websocket-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>${fhir.server.war.name}</warName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
