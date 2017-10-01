@@ -107,9 +107,6 @@
                 <include>${project.groupId}:fhir-operation-document:*</include>
                 <include>${project.groupId}:fhir-operation-validate:*</include>
             </includes>
-            <excludes>
-                <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
-            </excludes>
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
