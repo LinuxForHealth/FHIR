@@ -99,6 +99,20 @@
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>${project.groupId}:fhir-operation-document:*</include>
+                <include>${project.groupId}:fhir-operation-validate:*</include>
+            </includes>
+            <excludes>
+                <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
+            </excludes>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
             <useTransitiveDependencies>true</useTransitiveDependencies>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
