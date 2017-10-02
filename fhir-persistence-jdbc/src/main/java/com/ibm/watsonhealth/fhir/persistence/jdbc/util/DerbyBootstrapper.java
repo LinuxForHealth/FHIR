@@ -94,6 +94,7 @@ public class DerbyBootstrapper {
     	    log.finer("DataSource: " + fhirDb.toString());
     	    String tenantId = FHIRRequestContext.get().getTenantId();
     	    String dsId = FHIRRequestContext.get().getDataStoreId();
+    	    log.finer("Obtaining connection for tenantId/dsId: " + tenantId + "/" + dsId);
 			connection = fhirDb.getConnection(tenantId, dsId);
 			log.finer("Connection: " + connection.toString());
 			

@@ -98,7 +98,7 @@ CODE_REMOVED
     <webContainer deferServletLoad="false"/>   
 
     <!-- This is the main FHIR Server REST API war -->
-    <webApplication contextRoot="fhir-server/api/v1" id="fhir-server" location="fhir-server.war" name="fhir-server">
+    <webApplication contextRoot="fhir-server/api/v1" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role name="FHIRUsers">
