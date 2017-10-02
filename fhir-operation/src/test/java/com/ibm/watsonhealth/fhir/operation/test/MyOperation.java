@@ -14,17 +14,15 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.OperationDefinitionParameter;
-import com.ibm.watsonhealth.fhir.model.OperationKind;
 import com.ibm.watsonhealth.fhir.model.OperationKindList;
 import com.ibm.watsonhealth.fhir.model.OperationParameterUseList;
 import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 public class MyOperation extends AbstractOperation {
     @Override
@@ -57,7 +55,7 @@ public class MyOperation extends AbstractOperation {
     }
 
     @Override
-    protected Parameters doInvoke(FHIROperationContext context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRPersistence persistence)
+    protected Parameters doInvoke(FHIROperationContext context, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
         throws FHIROperationException {
         try {
             ParametersParameter inputParameter = parameters.getParameter().get(0);

@@ -33,9 +33,8 @@ import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
-import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
-import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
+import com.ibm.watsonhealth.fhir.rest.FHIRRestOperationResponse;
 
 public class DocumentOperation extends AbstractOperation {
     @Override
@@ -50,16 +49,18 @@ public class DocumentOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters,
-        FHIRPersistence persistence) throws FHIROperationException {
+        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-            Composition composition = (Composition) persistence.read(context, Composition.class, logicalId);            
+            Composition composition = null;
             
-            if (composition == null) {
+            Resource resource = resourceHelper.doRead("Composition", logicalId, false, false);
+            if (resource == null) {
                 throw new FHIROperationException("Could not find composition with id: " + logicalId);
             }
             
-            Bundle bundle = buildDocument(operationContext, composition, persistence);            
+            composition = (Composition) resource;
+            
+            Bundle bundle = buildDocument(operationContext, composition, resourceHelper);            
             ParametersParameter persistParameter = getParameter(parameters, "persist");
             
             if (persistParameter != null) {
@@ -74,8 +75,8 @@ public class DocumentOperation extends AbstractOperation {
                     
                     if (persist) {
                         // FHIRResourceHelper resourceHelper = (FHIRResourceHelper) operationContext.getProperty(FHIROperationContext.PROPNAME_RESOURCE_HELPER;
-                        persistence.create(context, bundle);
-                        URI locationURI = FHIRUtil.buildLocationURI(FHIRUtil.getResourceTypeName(bundle), bundle);
+                        FHIRRestOperationResponse response = resourceHelper.doCreate("Bundle", bundle, null);
+                        URI locationURI = response.getLocationURI();
                         operationContext.setProperty(FHIROperationContext.PROPNAME_LOCATION_URI, locationURI);
                     }
                 }
@@ -89,7 +90,7 @@ public class DocumentOperation extends AbstractOperation {
         }
     }
     
-    private Bundle buildDocument(FHIROperationContext operationContext, Composition composition, FHIRPersistence persistence) throws Exception {
+    private Bundle buildDocument(FHIROperationContext operationContext, Composition composition, FHIRResourceHelpers resourceHelper) throws Exception {
         Bundle document = factory.createBundle();
         document.setType(factory.createBundleType().withValue(BundleTypeList.DOCUMENT));
         
@@ -107,38 +108,38 @@ public class DocumentOperation extends AbstractOperation {
         Map<String, Resource> resources = new HashMap<String, Resource>();
         
         // Composition.subject
-        addBundleEntry(operationContext, document, composition.getSubject(), persistence, resources);
+        addBundleEntry(operationContext, document, composition.getSubject(), resourceHelper, resources);
         
         // Composition.author
         for (Reference author : composition.getAuthor()) {
-            addBundleEntry(operationContext, document, author, persistence, resources);
+            addBundleEntry(operationContext, document, author, resourceHelper, resources);
         }
         
         // Composition.attester.party
         for (CompositionAttester attester : composition.getAttester()) {
-            addBundleEntry(operationContext, document, attester.getParty(), persistence, resources);
+            addBundleEntry(operationContext, document, attester.getParty(), resourceHelper, resources);
         }
         
         // Composition.custodian
-        addBundleEntry(operationContext, document, composition.getCustodian(), persistence, resources);
+        addBundleEntry(operationContext, document, composition.getCustodian(), resourceHelper, resources);
         
         // Composition.event.detail
         for (CompositionEvent event : composition.getEvent()) {
             for (Reference detail : event.getDetail()) {
-                addBundleEntry(operationContext, document, detail, persistence, resources);
+                addBundleEntry(operationContext, document, detail, resourceHelper, resources);
             }
         }
         
         // Composition.encounter
-        addBundleEntry(operationContext, document, composition.getEncounter(), persistence, resources);
+        addBundleEntry(operationContext, document, composition.getEncounter(), resourceHelper, resources);
         
         // Composition.section.entry
-        addBundleEntries(operationContext, document, composition.getSection(), persistence, resources);
+        addBundleEntries(operationContext, document, composition.getSection(), resourceHelper, resources);
         
         return document;
     }
 
-    private void addBundleEntry(FHIROperationContext operationContext, Bundle document, Reference reference, FHIRPersistence persistence, Map<String, Resource> resources) throws Exception {;
+    private void addBundleEntry(FHIROperationContext operationContext, Bundle document, Reference reference, FHIRResourceHelpers resourceHelper, Map<String, Resource> resources) throws Exception {;
         if (reference == null) {
             return;
         }
@@ -165,8 +166,7 @@ public class DocumentOperation extends AbstractOperation {
             String resourceTypeName = referenceTokens[0];
             String logicalId = referenceTokens[1];
             
-            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-            resource = persistence.read(context, FHIRUtil.getResourceType(resourceTypeName), logicalId);
+            resource = resourceHelper.doRead(resourceTypeName, logicalId, false, false);
             
             if (resource == null) {
                 throw new FHIROperationException("Could not find resource for reference value: " + referenceValue);
@@ -187,15 +187,15 @@ public class DocumentOperation extends AbstractOperation {
         }
     }
 
-    private void addBundleEntries(FHIROperationContext operationContext, Bundle document, List<CompositionSection> sections, FHIRPersistence persistence, Map<String, Resource> resources) throws Exception {
+    private void addBundleEntries(FHIROperationContext operationContext, Bundle document, List<CompositionSection> sections, FHIRResourceHelpers resourceHelper, Map<String, Resource> resources) throws Exception {
         for (CompositionSection section : sections) {                
             // process entries for this section
             for (Reference entry : section.getEntry()) {
-                addBundleEntry(operationContext, document, entry, persistence, resources);
+                addBundleEntry(operationContext, document, entry, resourceHelper, resources);
             }
             
             // process subsections
-            addBundleEntries(operationContext, document, section.getSection(), persistence, resources);
+            addBundleEntries(operationContext, document, section.getSection(), resourceHelper, resources);
         }
     }
     

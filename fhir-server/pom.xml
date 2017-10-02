@@ -20,8 +20,7 @@
 
 	<packaging>jar</packaging>
 
-	<name>FHIR Server REST API</name>
-	<url>http://maven.apache.org</url>
+	<name>FHIR Server REST API Implementation</name>
 
 	<properties>
 	</properties>
@@ -167,7 +166,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

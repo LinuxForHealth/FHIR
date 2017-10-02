@@ -31,7 +31,7 @@ import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
-import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 
 public class ValidateOperation extends AbstractOperation {
@@ -52,7 +52,7 @@ public class ValidateOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters,
-        FHIRPersistence persistence) throws FHIROperationException {
+        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
             ResourceContainer container = getParameter(parameters, "resource").getResource();
             Resource resource = FHIRUtil.getResourceContainerResource(container);

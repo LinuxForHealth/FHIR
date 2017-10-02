@@ -16,7 +16,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 /**
  * This class will test what happens if there is a bad OperationDefinition defined for a custom operation.
@@ -40,7 +40,7 @@ public class BadOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRPersistence persistence) throws FHIROperationException {
+        Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         // do nothing
         return null;
     }
