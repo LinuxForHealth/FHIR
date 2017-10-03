@@ -44,7 +44,7 @@
 		<module>../fhir-notification-kafka</module>
 		<module>../fhir-notification-websocket</module>
 		<module>../fhir-server</module>
-        <module>../fhir-server-webapp</module>
+		<module>../fhir-server-webapp</module>
 		<module>../fhir-server-test</module>
 		<module>../fhir-swagger-generator</module>
 		<module>../fhir-swagger-ui</module>
@@ -258,6 +258,16 @@
 				<artifactId>mail</artifactId>
 				<version>1.4.7</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.3</version>
+			</dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.3</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 
