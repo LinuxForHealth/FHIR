@@ -50,34 +50,32 @@ public class FHIRRestAuthorizationServletFilter implements Filter {
                 // Retrieve the two request headers from the incoming request.
                 String clientCertClientCN = httpServletRequest.getHeader(CLIENT_CERT_CLIENT_CN_HEADER);
                 log.fine("clientCertClientCN: " + clientCertClientCN);
+                if (clientCertClientCN == null) {
+                    log.log(Level.SEVERE, "The '" + CLIENT_CERT_CLIENT_CN_HEADER + "' request header was not specified.");
+                }
 
                 String clientCertIssuerOU = httpServletRequest.getHeader(CLIENT_CERT_ISSUER_OU_HEADER);
                 log.fine("clientCertIssuerOU: " + clientCertIssuerOU);
-
-                // If neither header is present, then we'll bypass the check.
-                if (clientCertClientCN == null && clientCertIssuerOU == null) {
-                    log.fine("Neither request header present, bypassing whitelist check...");
+                if (clientCertIssuerOU == null) {
+                    log.log(Level.SEVERE, "The '" + CLIENT_CERT_ISSUER_OU_HEADER + "' request header was not specified.");
                 }
 
-                // Otherwise, perform the whitelist check.
-                else {
-                    String authorizedClientCertClientCN = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN, "");
-                    log.fine("authorizedClientCertClientCN: " + authorizedClientCertClientCN);
-                    List<String> authorizedClientCertClientCNs = Arrays.asList(authorizedClientCertClientCN.split(","));
+                String authorizedClientCertClientCN = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN, "");
+                log.fine("authorizedClientCertClientCN: " + authorizedClientCertClientCN);
+                List<String> authorizedClientCertClientCNs = Arrays.asList(authorizedClientCertClientCN.split(","));
 
-                    String authorizedClientCertIssuerOU = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU, "");
-                    log.fine("authorizedClientCertIssuerOU: " + authorizedClientCertIssuerOU);
+                String authorizedClientCertIssuerOU = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU, "");
+                log.fine("authorizedClientCertIssuerOU: " + authorizedClientCertIssuerOU);
 
-                    // If we fail the whitelist check, then send back a FORBIDDEN response.
-                    if (!authorizedClientCertClientCNs.contains(clientCertClientCN) || !authorizedClientCertIssuerOU.equals(clientCertIssuerOU)) {
-                        String msg = "Incoming request failed authorization whitelist check; clientCertClientCN="
-                                + (clientCertClientCN != null ? clientCertClientCN : "<null>") + ", clientCertIssuerOU="
-                                + (clientCertIssuerOU != null ? clientCertIssuerOU : "<null>");
-                        log.log(Level.SEVERE, msg);
-                        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-                        httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                        failedAuthCheck = true;
-                    }
+                // If we fail the whitelist check, then send back a FORBIDDEN response.
+                if (!authorizedClientCertClientCNs.contains(clientCertClientCN) || !authorizedClientCertIssuerOU.equals(clientCertIssuerOU)) {
+                    String msg = "Incoming request failed authorization whitelist check; clientCertClientCN="
+                            + (clientCertClientCN != null ? clientCertClientCN : "<null>") + ", clientCertIssuerOU="
+                            + (clientCertIssuerOU != null ? clientCertIssuerOU : "<null>");
+                    log.log(Level.SEVERE, msg);
+                    HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+                    httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    failedAuthCheck = true;
                 }
             }
 
