@@ -18,20 +18,22 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 public class FHIRPersistenceDataAccessException extends FHIRPersistenceException {
 
 	private static final long serialVersionUID = -8350452448890342596L;
+	private static final Status DEFAULT_HTTP_STATUS = Status.INTERNAL_SERVER_ERROR;
 
 	
 	public FHIRPersistenceDataAccessException() {
 		super();
+		this.setHttpStatus(DEFAULT_HTTP_STATUS);
 	}
 
 	public FHIRPersistenceDataAccessException(String message) {
 		super(message);
-		
+		this.setHttpStatus(DEFAULT_HTTP_STATUS);
 	}
 
 	public FHIRPersistenceDataAccessException(String message, Throwable cause) {
 		super(message, cause);
-		
+		this.setHttpStatus(DEFAULT_HTTP_STATUS);
 	}
 
 	public FHIRPersistenceDataAccessException(String message, Status httpStatus, Throwable cause) {
@@ -45,7 +47,7 @@ public class FHIRPersistenceDataAccessException extends FHIRPersistenceException
 
 	public FHIRPersistenceDataAccessException(Throwable cause) {
 		super(cause);
-		
+		this.setHttpStatus(DEFAULT_HTTP_STATUS);
 	}
 
 }

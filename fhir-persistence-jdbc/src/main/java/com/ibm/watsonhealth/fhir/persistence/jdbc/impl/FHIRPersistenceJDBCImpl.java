@@ -34,6 +34,7 @@ import java.util.zip.GZIPOutputStream;
 import javax.naming.InitialContext;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -145,7 +146,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		catch (Throwable e) {
             String msg = "An unexpected error occurred while examining transactional status.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
         }
         return isActive;
 	}
@@ -211,7 +212,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a create operation.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 		}
 		finally {
 		    log.exiting(CLASSNAME, METHODNAME);
@@ -240,7 +241,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a read operation.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -276,7 +277,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a version read operation.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -368,7 +369,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing an update operation.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 		}
 		finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -428,7 +429,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a history operation.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -496,7 +497,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a search operation.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            throw new FHIRPersistenceException(msg,Response.Status.INTERNAL_SERVER_ERROR, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -794,7 +795,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	    catch (Throwable e) {
 	        String msg = "An unexpected error occurred while starting a transaction.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg);
+	        throw new FHIRPersistenceException(msg,Response.Status.INTERNAL_SERVER_ERROR, e);
 	    }
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -819,14 +820,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	    catch (Throwable e) {
 	        String msg = "An unexpected error occurred while committing a transaction.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg);
+	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 	    }
 	    finally {
 	        if (sharedConnection != null) {
 	            try {
 	                sharedConnection.close();
 	            } catch (SQLException e) {
-	                throw new FHIRPersistenceException("Failure closing DB Conection", e);
+	                throw new FHIRPersistenceException("Failure closing DB Conection", Response.Status.INTERNAL_SERVER_ERROR, e);
 	            }
 	            sharedConnection = null;
 	        }
@@ -854,7 +855,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	    catch (Throwable e) {
 	        String msg = "An unexpected error occurred while rolling back a transaction.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg);
+	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 	    } 
 	    finally {
 	        if (sharedConnection != null) {
@@ -862,7 +863,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	                sharedConnection.close();
 	            } 
 	            catch (SQLException e) {
-	                throw new FHIRPersistenceException("Failure closing DB Conection", e);
+	                throw new FHIRPersistenceException("Failure closing DB Conection", Response.Status.INTERNAL_SERVER_ERROR, e);
 	            }
 	            sharedConnection = null;
 	        }

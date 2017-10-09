@@ -100,4 +100,8 @@ public class FHIRException extends Exception {
 		
 		return myMsg.toString();
 	}
+
+	protected void setHttpStatus(Status httpStatus) {
+		this.httpStatus = httpStatus;
+	}
 }
