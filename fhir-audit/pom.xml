@@ -36,6 +36,11 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 		<dependency>
+            <groupId>com.ibm.whc</groupId>
+            <artifactId>audittrail-log-util</artifactId>
+            <version>2.1.0-12-201709141215</version>
+        </dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
