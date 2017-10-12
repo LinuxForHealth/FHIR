@@ -14,6 +14,7 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.model.DomainResource;
 import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
@@ -41,16 +42,16 @@ public class ReplicationUtil {
 		repInfo = (ReplicationInfo)context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
 		if (repInfo != null) {
 			if (isStudyScopedResourceType(resource)) {
-				patientId = getExtensionStringValue(resource, getSubjectIdExtensionUrl());
+				patientId = FHIRUtil.getExtensionStringValue(resource, getSubjectIdExtensionUrl());
 				repInfo.setPatientId(patientId);
-				siteId = getExtensionStringValue(resource, getSiteIdExtensionUrl());
+				siteId = FHIRUtil.getExtensionStringValue(resource, getSiteIdExtensionUrl());
 				repInfo.setSiteId(siteId);
-				studyId = getExtensionStringValue(resource, getStudyIdExtensionUrl());
+				studyId = FHIRUtil.getExtensionStringValue(resource, getStudyIdExtensionUrl());
 				repInfo.setStudyId(studyId);
 			}
 			else {
 				if (isPatientRelatedResourceType(resource)) {
-					patientId = getExtensionStringValue(resource, getSubjectIdExtensionUrl());
+					patientId = FHIRUtil.getExtensionStringValue(resource, getSubjectIdExtensionUrl());
 					repInfo.setPatientId(patientId);
 				}
 			}

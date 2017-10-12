@@ -29,6 +29,8 @@ import com.ibm.watsonhealth.fhir.audit.logging.beans.Batch;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.ConfigData;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Context;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Data;
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
@@ -48,6 +50,8 @@ public class RestAuditLogger {
 	
 	private static final String HEADER_IBM_APP_USER = "IBM-App-User";
 	private static final String HEADER_CLIENT_CERT_CN = "IBM-App-cli-CN";
+	private static final String HEADER_CLIENT_CERT_ISSUER_OU = "IBM-App-iss-OU";
+	private static final String HEADER_CORRELATION_ID = "IBM-DP-correlationid";
 	
 	/**
 	 * Builds an audit log entry for a 'create' REST service invocation.
@@ -74,7 +78,8 @@ public class RestAuditLogger {
 				log.severe("Failure converting Resource to JsonObject: " + e.getMessage());
 			}
 		}
-				
+		entry.setDescription("FHIR Create request");
+		
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -90,7 +95,7 @@ public class RestAuditLogger {
 	 */
 	public static void logUpdate(HttpServletRequest request, Resource oldResource, Resource updatedResource, Date startTime, Date endTime, 
 								 Response.Status responseStatus) {
-		final String METHODNAME = "logCreate";
+		final String METHODNAME = "logUpdate";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
@@ -107,6 +112,7 @@ public class RestAuditLogger {
 				log.severe("Failure converting Resource to JsonObject: " + e.getMessage());
 			}
 		}
+		entry.setDescription("FHIR Update request");
 				
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -129,6 +135,7 @@ public class RestAuditLogger {
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
+		entry.setDescription("FHIR Read request");
 						
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -158,7 +165,8 @@ public class RestAuditLogger {
                 log.severe("Failure converting Resource to JsonObject: " + e.getMessage());
             }
         }
-                        
+        entry.setDescription("FHIR Delete request");
+        
         auditLogSvc.logEntry(entry);
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -180,6 +188,7 @@ public class RestAuditLogger {
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
+		entry.setDescription("FHIR VersionRead request");
 						
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -209,6 +218,7 @@ public class RestAuditLogger {
 			entry.getContext().setBatch(new Batch().withResourcesRead(totalHistory));
 		}
 		entry.getContext().setAction("R");
+		entry.setDescription("FHIR History request");
 						
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -223,7 +233,7 @@ public class RestAuditLogger {
 	 * @param responseStatus - The response status.
 	 */
 	public static void logValidate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
-		final String METHODNAME = "logRead";
+		final String METHODNAME = "logValidate";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
@@ -231,6 +241,7 @@ public class RestAuditLogger {
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
+		entry.setDescription("FHIR Validate request");
 						
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -281,6 +292,7 @@ public class RestAuditLogger {
 				.withResourcesCreated(createCount)
 				.withResourcesRead(readCount)
 				.withResourcesUpdated(updateCount));
+		entry.setDescription("FHIR Bundle request");
 		
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -296,7 +308,7 @@ public class RestAuditLogger {
 	 * @param responseStatus - The response status.
 	 */
 	public static void logSearch(HttpServletRequest request, MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
-		final String METHODNAME = "logHistory";
+		final String METHODNAME = "logSearch";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
@@ -314,6 +326,7 @@ public class RestAuditLogger {
 			entry.getContext().setBatch(new Batch().withResourcesRead(totalSearch));
 		}
 		entry.getContext().setAction("R");
+		entry.setDescription("FHIR Search request");
 						
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -335,6 +348,7 @@ public class RestAuditLogger {
 		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
+		entry.setDescription("FHIR Metadata request");
 						
 		auditLogSvc.logEntry(entry);
 		log.exiting(CLASSNAME, METHODNAME);
@@ -351,6 +365,8 @@ public class RestAuditLogger {
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
 		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_CONFIGDATA);
 		entry.setConfigData(new ConfigData().withServerStartupParms(configData));
+		entry.setDescription("FHIR ConfigData request");
+		
 		auditLogSvc.logEntry(entry);
 		
 		log.exiting(METHODNAME, METHODNAME);
@@ -375,6 +391,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		StringBuffer requestUrl;
+		String subjectIdExtUrl;
 		List<String> userList = new ArrayList<>();
 		
 		// Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
@@ -408,6 +425,13 @@ public class RestAuditLogger {
 				entry.getContext().getData().setVersionId(resource.getMeta().getVersionId().getValue());
 			}
 		}
+		
+		entry.setClientCertCn(request.getHeader(HEADER_CLIENT_CERT_CN));
+		entry.setClientCertIssuerOu(request.getHeader(HEADER_CLIENT_CERT_ISSUER_OU));
+		entry.setCorrelationId(request.getHeader(HEADER_CORRELATION_ID));
+		
+		subjectIdExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_SUBJECT_ID_EXTURL, null);
+		entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, subjectIdExtUrl));
 				
 		log.exiting(CLASSNAME, METHODNAME);
 		return entry;

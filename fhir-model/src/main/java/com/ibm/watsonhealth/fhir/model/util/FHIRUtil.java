@@ -21,6 +21,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -73,6 +74,7 @@ import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
 import com.ibm.watsonhealth.fhir.model.Date;
 import com.ibm.watsonhealth.fhir.model.DateTime;
 import com.ibm.watsonhealth.fhir.model.Decimal;
+import com.ibm.watsonhealth.fhir.model.DomainResource;
 import com.ibm.watsonhealth.fhir.model.Element;
 import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.GoalStatus;
@@ -990,4 +992,27 @@ public class FHIRUtil {
         Method createMethod = objectFactory.getClass().getMethod(createMethodName);
         return (T) createMethod.invoke(objectFactory);
     }
+
+	/**
+	 * Returns the string value of the specified extension element within
+	 * the specified resource.
+	 * @param resource
+	 * @param extensionUrl
+	 * @return
+	 */
+	public static String getExtensionStringValue(Resource resource, String extensionUrl) {
+		if (Objects.nonNull(resource) && Objects.nonNull(extensionUrl)) {
+		    if (DomainResource.class.isAssignableFrom(resource.getClass())) {
+		        DomainResource dr = (DomainResource) resource;
+		        for (Extension ext : dr.getExtension()) {
+		            if (ext.getUrl() != null && ext.getValueString() != null 
+		                    && ext.getUrl().equals(extensionUrl)) {
+		                return ext.getValueString().getValue();
+		            }
+		        }
+		    }
+		}   
+		    	    
+	    return null;
+	}
 }

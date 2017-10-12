@@ -29,19 +29,34 @@ public class AuditLogEntry {
 	@SerializedName("event_type")
 	private String eventType;
 	
+	@SerializedName("timestamp")
 	private String timestamp;
 	
+	@SerializedName("description")
 	private String description;
 	
 	@SerializedName("user_name")
 	private String userName;
 	
+	@SerializedName("client_cert_cn")
+	private String clientCertCn;
+	
+	@SerializedName("client_cert_issuer_ou")
+	private String clientCertIssuerOu;
+	
+	@SerializedName("correlation_id")
+	private String correlationId;
+	
+	@SerializedName("patient_id")
+	private String patientId;
+	
+	@SerializedName("context")
 	private Context context;
 	
 	@SerializedName("config_data")
 	private ConfigData configData;
-
-
+	
+	
 	public AuditLogEntry(String componentId, String eventType, String timestamp, String componentIp, String tenantId) {
 		super();
 		this.setComponentId(componentId);
@@ -149,6 +164,46 @@ public class AuditLogEntry {
 
 	public void setConfigData(ConfigData configData) {
 		this.configData = configData;
+	}
+
+
+	public String getClientCertCn() {
+		return clientCertCn;
+	}
+
+
+	public void setClientCertCn(String clientCertCn) {
+		this.clientCertCn = clientCertCn;
+	}
+
+
+	public String getClientCertIssuerOu() {
+		return clientCertIssuerOu;
+	}
+
+
+	public void setClientCertIssuerOu(String clientCertIssuerOu) {
+		this.clientCertIssuerOu = clientCertIssuerOu;
+	}
+
+
+	public String getCorrelationId() {
+		return correlationId;
+	}
+
+
+	public void setCorrelationId(String correlationId) {
+		this.correlationId = correlationId;
+	}
+
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
 	}
 
 }
