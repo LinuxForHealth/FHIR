@@ -42,6 +42,7 @@ public class FHIROperationRegistry {
             String operationName = "unknown name";
             try {
                 FHIROperation operation = iterator.next();
+                log.fine("Found FHIROperation implementation class: " + operation.getClass().getName());
                 operationName = operation.getName();
                 if (!isValid(operation)) {
                     log.severe("Operation $" + operationName + " has failed validation and will be skipped.");
@@ -49,8 +50,13 @@ public class FHIROperationRegistry {
                 }
                 operationMap.put(operation.getName(), operation);
             } catch (ServiceConfigurationError | FHIRValidationException | JAXBException e) {
-                log.log(Level.SEVERE,"Unable to validate operation $" + operationName + ". This operation will be skipped.",e);
+                log.log(Level.SEVERE, "Unable to validate operation $" + operationName + ". This operation will be skipped.", e);
             }
+        }
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Discovered " + operationMap.size() + " custom operation implementations:");
+            log.fine(operationMap.toString());
         }
     }
 
@@ -62,7 +68,9 @@ public class FHIROperationRegistry {
             }
             return false;
         }
-        if (operation.getName() == null) return false;
+        if (operation.getName() == null) {
+            return false;
+        }
         return true;
     }
 
