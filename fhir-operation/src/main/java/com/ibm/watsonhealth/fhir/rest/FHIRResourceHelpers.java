@@ -11,6 +11,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
+import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 
 /**
  * This interface describes the set of helper methods from the FHIR REST layer that are used by custom operation
@@ -113,4 +114,6 @@ public interface FHIRResourceHelpers {
      * @return the response Bundle
      */
     public Bundle doBundle(Bundle bundle) throws Exception;
+    
+    public FHIRPersistenceTransaction getTransaction() throws Exception;
 }

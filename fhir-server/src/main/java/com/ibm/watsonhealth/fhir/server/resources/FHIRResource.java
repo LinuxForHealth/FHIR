@@ -977,7 +977,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // If there were no validation errors, then create the resource and return the location header.
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getPersistenceImpl().getTransaction();
+            txn = getTransaction();
             if (txn != null && !txn.isActive()) {
                 txn.begin();
                 txnStarted = true;
@@ -1121,7 +1121,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getPersistenceImpl().getTransaction();
+            txn = getTransaction();
             if (txn != null && !txn.isActive()) {
                 txn.begin();
                 txnStarted = true;
@@ -1253,7 +1253,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getPersistenceImpl().getTransaction();
+            txn = getTransaction();
             if (txn != null && !txn.isActive()) {
                 txn.begin();
                 txnStarted = true;
@@ -1336,7 +1336,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getPersistenceImpl().getTransaction();
+            txn = getTransaction();
             if (txn != null && !txn.isActive()) {
                 txn.begin();
                 txnStarted = true;
@@ -1420,7 +1420,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getPersistenceImpl().getTransaction();
+            txn = getTransaction();
             if (txn != null && !txn.isActive()) {
                 txn.begin();
                 txnStarted = true;
@@ -1508,7 +1508,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRHistoryContext historyContext = FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getPersistenceImpl().getTransaction();
+            txn = getTransaction();
             if (txn != null && !txn.isActive()) {
                 txn.begin();
                 txnStarted = true;
@@ -1590,7 +1590,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getPersistenceImpl().getTransaction();
+            txn = getTransaction();
             if (txn != null && !txn.isActive()) {
                 txn.begin();
                 txnStarted = true;
@@ -1744,6 +1744,14 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             log.exiting(this.getClass().getName(), "doBundle");
         }
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers#getTransaction()
+     */
+    @Override
+    public FHIRPersistenceTransaction getTransaction() throws Exception {
+        return getPersistenceImpl().getTransaction();
     }
 
     /**
@@ -2004,7 +2012,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // and sort the request bundle entries by their "url" field.
             if (responseBundle.getType().getValue() == BundleTypeList.TRANSACTION_RESPONSE) {
                 bundleTransactionCorrelationId = bundleRequestCorrelationId;
-                txn = getPersistenceImpl().getTransaction();
+                txn = getTransaction();
                 txn.begin();
                 log.fine("Started new transaction for transaction bundle, txn-correlation-id=" + bundleTransactionCorrelationId);
             } 
