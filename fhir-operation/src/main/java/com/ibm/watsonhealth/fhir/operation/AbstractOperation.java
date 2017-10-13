@@ -85,7 +85,7 @@ public abstract class AbstractOperation implements FHIROperation {
     protected List<ParametersParameter> getParameters(Parameters parameters, String name) {
         List<ParametersParameter> result = new ArrayList<ParametersParameter>();
         for (ParametersParameter parameter : parameters.getParameter()) {
-            if (name.equals(parameter.getName().getValue())) {
+            if (parameter.getName() != null && name.equals(parameter.getName().getValue())) {
                 result.add(parameter);
             }
         }
