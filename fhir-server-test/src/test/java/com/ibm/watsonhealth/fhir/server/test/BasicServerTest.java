@@ -348,7 +348,7 @@ public class BasicServerTest extends FHIRServerTestBase {
     /**
      * Tests a search for an observation based on its association with a patient.
      */
-    @Test(groups = { "server-basic" }, dependsOnMethods={"testCreatePatient", "testUpdatePatient"})
+    @Test(groups = { "server-basic" }, dependsOnMethods={"testCreatePatient", "testUpdatePatient", "testCreateObservation"})
     public void testSearchObservation() {
     	WebTarget target = getWebTarget();
     	

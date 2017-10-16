@@ -233,6 +233,7 @@ public class FHIRUtil {
 		JAXBContext context = getContext(format);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		configureUnmarshaller(unmarshaller, format);
+		unmarshaller.setEventHandler(new FHIRSerializationEventHandler());
 		return unmarshaller;
 	}
 	
@@ -313,6 +314,7 @@ public class FHIRUtil {
 		JAXBContext context = getContext(format);
 		Marshaller marshaller = context.createMarshaller();
 		configureMarshaller(marshaller, format, formatted);
+		marshaller.setEventHandler(new FHIRSerializationEventHandler());
 		return marshaller;
 	}
 	
@@ -888,9 +890,11 @@ public class FHIRUtil {
             // Visit each of the ResourceContainer.getXXX() methods until we see a non-null value.
             for (Method method : ResourceContainer.class.getMethods()) {
                 if (method.getName().startsWith("get")) {
-                    Resource resource = (Resource) method.invoke(container);
-                    if (resource != null) {
-                        return resource;
+                    if(Resource.class.isAssignableFrom(method.getReturnType())) {
+                        Resource resource = (Resource) method.invoke(container);
+                        if (resource != null) {
+                            return resource;
+                        }
                     }
                 }
             }
