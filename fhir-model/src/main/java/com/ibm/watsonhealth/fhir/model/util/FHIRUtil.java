@@ -15,6 +15,7 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.GregorianCalendar;
@@ -876,7 +877,6 @@ public class FHIRUtil {
 		"VisionPrescription"
 	);
 	
-	
     /**
      * Retrieves the resource contained in the specified ResourceContainer.
      * 
@@ -888,18 +888,26 @@ public class FHIRUtil {
     public static Resource getResourceContainerResource(ResourceContainer container) throws Exception {
         if (container != null) {
             // Visit each of the ResourceContainer.getXXX() methods until we see a non-null value.
-            for (Method method : ResourceContainer.class.getMethods()) {
-                if (method.getName().startsWith("get")) {
-                    if(Resource.class.isAssignableFrom(method.getReturnType())) {
-                        Resource resource = (Resource) method.invoke(container);
-                        if (resource != null) {
-                            return resource;
-                        }
-                    }
+            for (Method method : RESOURCE_CONTAINER_DECLARED_GET_METHODS) {
+                Resource resource = (Resource) method.invoke(container);
+                if (resource != null) {
+                    return resource;
                 }
             }
         }
         return null;
+    }
+    
+    private static final List<Method> RESOURCE_CONTAINER_DECLARED_GET_METHODS = buildResourceContainerDeclaredGetMethods();
+
+    private static List<Method> buildResourceContainerDeclaredGetMethods() {
+        List<Method> result = new ArrayList<>();
+        for (Method method : ResourceContainer.class.getDeclaredMethods()) {
+            if (method.getName().startsWith("get")) {
+                result.add(method);
+            }
+        }
+        return result;
     }
 
     /**
