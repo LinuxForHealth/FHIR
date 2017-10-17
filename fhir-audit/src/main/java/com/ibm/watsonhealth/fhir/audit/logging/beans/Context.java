@@ -6,8 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 
 
@@ -18,32 +17,28 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Context {
 	
+	@JsonProperty("data")
 	private Data data;
 	
+	@JsonProperty("action")
 	private String action;
 	
+	@JsonProperty("query")
 	private String query;
 	
-	@SerializedName("value_old")
-	private JsonObject valueOld;
+	@JsonProperty("purpose")
+	private String purpose;
 	
-	@SerializedName("value_new")
-	private JsonObject valueNew;
-	
-	@SerializedName("reason_of_action")
-	private String reasonOfAction;
-	
-	private String status;
-	
-	@SerializedName("start_time")
+	@JsonProperty("start_time")
 	private String startTime;
 	
-	@SerializedName("end_time")
+	@JsonProperty("end_time")
 	private String endTime;
 	
-	@SerializedName("api_parameters")
+	@JsonProperty("api_parameters")
 	private ApiParameters apiParameters;
 	
+	@JsonProperty("batch")
 	private Batch batch;
 
 
@@ -79,46 +74,6 @@ public class Context {
 
 	public void setQuery(String query) {
 		this.query = query;
-	}
-
-
-	public JsonObject getValueOld() {
-		return valueOld;
-	}
-
-
-	public void setValueOld(JsonObject valueOld) {
-		this.valueOld = valueOld;
-	}
-
-
-	public JsonObject getValueNew() {
-		return valueNew;
-	}
-
-
-	public void setValueNew(JsonObject valueNew) {
-		this.valueNew = valueNew;
-	}
-
-
-	public String getReasonOfAction() {
-		return reasonOfAction;
-	}
-
-
-	public void setReasonOfAction(String reasonOfAction) {
-		this.reasonOfAction = reasonOfAction;
-	}
-
-
-	public String getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 
@@ -159,6 +114,16 @@ public class Context {
 
 	public void setBatch(Batch batch) {
 		this.batch = batch;
+	}
+
+
+	public String getPurpose() {
+		return purpose;
+	}
+
+
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
 	}
 
 }

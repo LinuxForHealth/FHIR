@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * This class defines the ApiParameters section of the FHIR server AuditLogEntry.
  * @author markd
@@ -13,8 +15,11 @@ package com.ibm.watsonhealth.fhir.audit.logging.beans;
  */
 public class ApiParameters {
 	
+	@JsonProperty("request")
 	private String request;
-	private String response;
+	
+	@JsonProperty("response_status")
+	private int status;
 
 	
 	public ApiParameters() {
@@ -37,17 +42,17 @@ public class ApiParameters {
 	}
 
 
-	public String getResponse() {
-		return response;
+	public int getStatus() {
+		return status;
 	}
 
 
-	public void setResponse(String response) {
-		this.response = response;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
-	public ApiParameters withResponse(String response) {
-		this.response = response;
+	public ApiParameters withStatus(int status) {
+		this.status = status;
 		return this;
 	}
 

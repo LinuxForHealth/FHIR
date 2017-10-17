@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.server.util;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,11 +14,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBException;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.ibm.watsonhealth.fhir.audit.logging.api.AuditLogEventType;
 import com.ibm.watsonhealth.fhir.audit.logging.api.AuditLogService;
 import com.ibm.watsonhealth.fhir.audit.logging.api.AuditLogServiceFactory;
@@ -37,7 +32,6 @@ import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.HTTPVerb;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
 /**
  * This class provides convenience methods for FHIR Rest services that need to write FHIR audit log entries.
@@ -70,14 +64,6 @@ public class RestAuditLogger {
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("C");
-		if (Response.Status.CREATED.equals(responseStatus)) {
-			try {
-				entry.getContext().setValueNew(convertToJsonObject(resource));
-			}
-			catch(JAXBException e) {
-				log.severe("Failure converting Resource to JsonObject: " + e.getMessage());
-			}
-		}
 		entry.setDescription("FHIR Create request");
 		
 		auditLogSvc.logEntry(entry);
@@ -103,15 +89,6 @@ public class RestAuditLogger {
 		populateAuditLogEntry(entry, request, updatedResource, startTime, endTime, responseStatus);
 		
 		entry.getContext().setAction("U");
-		if (Response.Status.OK.equals(responseStatus)) {
-			try {
-				entry.getContext().setValueOld(convertToJsonObject(oldResource));
-				entry.getContext().setValueNew(convertToJsonObject(updatedResource));
-			}
-			catch(JAXBException e) {
-				log.severe("Failure converting Resource to JsonObject: " + e.getMessage());
-			}
-		}
 		entry.setDescription("FHIR Update request");
 				
 		auditLogSvc.logEntry(entry);
@@ -158,13 +135,6 @@ public class RestAuditLogger {
         populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
                 
         entry.getContext().setAction("D");
-        if (Response.Status.NO_CONTENT.equals(responseStatus) && resource != null) {
-            try {
-                entry.getContext().setValueNew(convertToJsonObject(resource));
-            } catch (JAXBException e) {
-                log.severe("Failure converting Resource to JsonObject: " + e.getMessage());
-            }
-        }
         entry.setDescription("FHIR Delete request");
         
         auditLogSvc.logEntry(entry);
@@ -393,6 +363,7 @@ public class RestAuditLogger {
 		StringBuffer requestUrl;
 		String subjectIdExtUrl;
 		List<String> userList = new ArrayList<>();
+		StringBuilder resourceId = new StringBuilder();
 		
 		// Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
 		userList.add(request.getHeader(HEADER_IBM_APP_USER));
@@ -415,17 +386,23 @@ public class RestAuditLogger {
 			requestUrl.append("?");
 			requestUrl.append(request.getQueryString());
 		}
-		entry.getContext().setApiParameters(new ApiParameters().withRequest(requestUrl.toString()));
-		entry.getContext().setStatus(responseStatus.toString());
+		entry.getContext().setApiParameters(
+				 new ApiParameters()
+				.withRequest(requestUrl.toString())
+				.withStatus(responseStatus.getStatusCode()));
 		entry.getContext().setStartTime(FHIRUtilities.formatTimestamp(startTime));
 		entry.getContext().setEndTime(FHIRUtilities.formatTimestamp(endTime));
-		if (resource != null && resource.getId() != null) {
-			entry.getContext().setData(new Data().withId(resource.getId().getValue()));
+		if (resource!= null) {
+			resourceId.append(resource.getClass().getSimpleName());
+			if (resource.getId() != null) {
+				resourceId.append("/").append(resource.getId().getValue());
+			}
+			entry.getContext().setData(new Data().withId(resourceId.toString()));
 			if (resource.getMeta() != null && resource.getMeta().getVersionId() != null) {
 				entry.getContext().getData().setVersionId(resource.getMeta().getVersionId().getValue());
 			}
 		}
-		
+		 
 		entry.setClientCertCn(request.getHeader(HEADER_CLIENT_CERT_CN));
 		entry.setClientCertIssuerOu(request.getHeader(HEADER_CLIENT_CERT_ISSUER_OU));
 		entry.setCorrelationId(request.getHeader(HEADER_CORRELATION_ID));
@@ -437,30 +414,4 @@ public class RestAuditLogger {
 		return entry;
 	}
 	
-	/**
-	 * Converts the passed FHIR Resource object to a GSON Json object
-	 * @param resource - The Resource to be converted
-	 * @return JSONObject - The JSONObject equivalent of the passed Resource
-	 * @throws JAXBException
-	 */
-	private static JsonObject convertToJsonObject(Resource resource) throws JAXBException {
-		
-		final String METHODNAME = "convertToJsonObject(Resource)";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		// serialize FHIR Resource object to String
-		StringWriter writer = new StringWriter();
-		FHIRUtil.write(resource, Format.JSON, writer);
-		String jsonString = writer.toString();
-		
-		// convert String into GSON JsonObject
-		Gson gson = new Gson();
-		JsonElement jsonElement = gson.fromJson(jsonString, JsonElement.class);
-		JsonObject jsonObject = jsonElement.getAsJsonObject();
-		
-		log.exiting(CLASSNAME, METHODNAME);
-		return jsonObject;
-		
-	}
-
 }

@@ -69,10 +69,9 @@ CODE_REMOVED
 			}
 		},
 		"audit": {
-		    "_comment": "Valid values for logServiceType are 'javaLogger' or 'whcLogger'. ",
-		    "logServiceType": "javaLogger",
-			"logPath": "logs/",
-			"logMaxSize": 20
+		    "logPath": "logs/",
+			"logMaxSize": 20,
+			"logMaxFileCount": 50
 		},
 		"persistence": {
 			"factoryClassname": "com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.audit.logging.api;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_AUDIT_LOGPATH;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_AUDIT_LOG_MAXSIZE;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_AUDIT_LOG_MAX_FILE_COUNT;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,11 +16,11 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService;
 import com.ibm.watsonhealth.fhir.audit.logging.impl.LoggerAuditLogService;
 import com.ibm.watsonhealth.fhir.audit.logging.impl.WhcAuditLogService;
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+CODE_REMOVED
 
 /**
  * Instantiates and returns an implementation of the FHIR server audit log service.
@@ -34,8 +35,8 @@ public class AuditLogServiceFactory {
 	private static final String AUDIT_LOG_FILENAME_PREFIX = "fhiraudit.";
 	private static final String AUDIT_LOG_FILENAME_SUFFIX = ".log";
 	private static final long AUDIT_LOG_MAX_SIZE_DEFAULT = 20;
-	private static final String AUDIT_LOG_SERVICE_TYPE_JAVA = "javaLogger";
-	private static final String AUDIT_LOG_SERVICE_TYPE_WHC = "whcLogger";
+	private static final int  AUDIT_LOG_MAX_FILES_DEFAULT = 50;
+	private static final String DEFAULT_AUDIT_LOG_PATH = "logs/";
 	private static AuditLogService serviceInstance = null;
 
 	
@@ -45,21 +46,12 @@ public class AuditLogServiceFactory {
 	 * @throws AuditLoggingException 
 	 */
 	public static AuditLogService getService() {
-		String logServiceType;
-		
+				
 		if (serviceInstance == null) {
-			logServiceType = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_LOG_SERVICE_TYPE, 
-																AUDIT_LOG_SERVICE_TYPE_JAVA);
-			if (AUDIT_LOG_SERVICE_TYPE_JAVA.equals(logServiceType)) {
-				buildLoggerAuditLogService();
-			}
-			else if (AUDIT_LOG_SERVICE_TYPE_WHC.equals(logServiceType)) {
+			if (serviceInstance == null) {
 				buildWhcAuditLogService();
 			}
-			else {
-				log.log(Level.SEVERE, "AuditLogServiceFactory: Unknown logServiceType: " + logServiceType);
-				serviceInstance = new DisabledAuditLogService();
-			}
+			return serviceInstance;
 		}
 		return serviceInstance;
 	}
@@ -80,7 +72,9 @@ public class AuditLogServiceFactory {
 		return newService;
 	}
 	
+	@Deprecated
 	/**
+	 * @deprecated - the correct method to call is now buildWhcAuditLogService()
 	 * Builds and returns a singleton LoggerAuditLogService implementation object that will be cached by this factory class.
 	 * @return AuditLogService - A LoggerAuditLogService implementation.
 	 */
@@ -127,21 +121,24 @@ public class AuditLogServiceFactory {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		String auditLogPath;
-		long maxAuditLogSize;
-		Logger javaLogger = null;
-		FileHandler auditLogFileHandler = null;
-		
+		int maxAuditLogSize;
+		int maxFileCount;
+		AuditLogger whcLogger;
+		final String fileNamePattern = "fhiraudit.%g-%u.log";
+				
 		if (serviceInstance == null) {
 			try {
-				auditLogPath = buildLoggerAuditLogPath();
-				maxAuditLogSize = acquireMaxAuditLogSize();
+				auditLogPath = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_LOGPATH, DEFAULT_AUDIT_LOG_PATH);
+				maxAuditLogSize =  (int)acquireMaxAuditLogSize();
+				maxFileCount = acquireMaxAuditLogFileCount();
 							 
-				//TODO This needs to be fleshed out.
-				serviceInstance = new WhcAuditLogService();
+				whcLogger = new AuditLogger(auditLogPath, fileNamePattern, maxAuditLogSize, maxFileCount);
+				serviceInstance = new WhcAuditLogService(whcLogger);
 CODE_REMOVED
+						  " maxAuditLogSize=" + maxAuditLogSize + " maxFileCount=" + maxFileCount);
 			}
 			catch (Throwable e) {
-				log.severe("Failure creating WhcAuditLog: " + e.getMessage());
+CODE_REMOVED
 				serviceInstance = new WhcAuditLogService();
 			}  
 		}
@@ -153,6 +150,7 @@ CODE_REMOVED
 	 * Builds and returns the complete path name of the audit log file to be used by the java logger audit log service.
 	 * @return String the audit log file path.
 	 */
+	@Deprecated
 	private static String buildLoggerAuditLogPath() {
 		final String METHODNAME = "buildLoggerAuditLogPath";
 		log.entering(CLASSNAME, METHODNAME);
@@ -188,7 +186,7 @@ CODE_REMOVED
 	}
 	
 	/**
-	 * Acquire the maximum audit log size via a JNDI lookup. If the max log size is not specified or is not a valid
+	 * Acquire the maximum audit log size via a configuration lookup. If the max log size is not specified or is not a valid
 	 * integer, return a default value.
 	 * @return long - The maximum audit log size, in bytes.
 	 */
@@ -211,6 +209,30 @@ CODE_REMOVED
 		
 		log.exiting(CLASSNAME, METHODNAME, maxAuditLogSize);
 		return maxAuditLogSize;
+	}
+	
+	/**
+	 * Acquire the maximum number of audit log files via a configuration lookup. If the max audit log file count is not specified or is not a valid
+	 * integer, return a default value.
+	 * When the maximum number of audit log files is reached, log recording reuses the oldest audit log file previously allocated.
+	 * @return long - The audit log file count.
+	 */
+	private static int acquireMaxAuditLogFileCount() {
+		final String METHODNAME = "acquireMaxAuditLogFileCount";
+		log.entering(CLASSNAME, METHODNAME);
+		
+		int maxFileCount = AUDIT_LOG_MAX_FILES_DEFAULT;
+		
+		try {
+			maxFileCount = FHIRConfigHelper.getIntProperty(PROPERTY_AUDIT_LOG_MAX_FILE_COUNT, AUDIT_LOG_MAX_FILES_DEFAULT);
+		}
+		catch(Throwable t) {
+			log.fine("Could not obtain audit log max file count via configuration.");
+		}
+		
+		
+		log.exiting(CLASSNAME, METHODNAME, maxFileCount);
+		return maxFileCount;
 	}
 
 }
