@@ -220,10 +220,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("type") String type, 
         Resource resource) {
     	
-    	Date startTime = new Date();
-    	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
-
-        log.entering(this.getClass().getName(), "create(Resource)");
+    	log.entering(this.getClass().getName(), "create(Resource)");
 
         try {
             checkInitComplete();
@@ -233,22 +230,18 @@ public class FHIRResource implements FHIRResourceHelpers {
         	FHIRRestOperationResponse ior = doCreate(type, resource, ifNoneExist);
                        
             ResponseBuilder response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
-            status = ior.getStatus();
             resource = ior.getResource();
             response = addHeaders(response, resource);
             response.status(ior.getStatus());
             return response.build();
         } catch (FHIRRestException e) {
-        	status = e.getHttpStatus();
-            return exceptionResponse(e);
+        	return exceptionResponse(e);
         } catch (FHIRException e) {
-        	status = e.getHttpStatus();
-            return exceptionResponse(e);
+        	return exceptionResponse(e);
         } catch (Exception e) {
-        	return exceptionResponse(e, status);
+        	return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "create(Resource)");
+        	log.exiting(this.getClass().getName(), "create(Resource)");
         }
     }
 
@@ -259,20 +252,14 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("id") String id, 
         Resource resource) {
 
-    	Date startTime = new Date();
-    	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+    	Response.Status status;
     	
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         FHIRRestOperationResponse ior = null;
         try {
             checkInitComplete();
 
-        	// Make sure the resource has an 'id' attribute.
-            if (resource.getId() == null) {
-                throw new FHIRException("Input resource must contain an 'id' attribute.");
-            }
-            
-            ior = doUpdate(type, id, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null);
+        	ior = doUpdate(type, id, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null);
             
             ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -290,13 +277,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, status);
         } finally {
-            if (status == Response.Status.CREATED) {
-                RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-            } else {
-                RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-            }
             log.exiting(this.getClass().getName(), "update(String,String,Resource)");
         }
     }
@@ -313,17 +296,14 @@ public class FHIRResource implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         
         FHIRRestOperationResponse ior = null;
+        boolean createAuditLogRecord = false;
 
         try {
             checkInitComplete();
 
-            // Make sure the resource has an 'id' attribute.
-            if (resource.getId() == null) {
-                throw new FHIRException("Input resource must contain an 'id' attribute.");
-            }
-            
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
+            	createAuditLogRecord = true;
                 throw new FHIRException("A search query string is required for a conditional update operation.");
             }
             
@@ -347,11 +327,13 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-            if (status == Response.Status.CREATED) {
-                RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-            } else {
-                RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-            }
+        	if (createAuditLogRecord) {
+        		if (status == Response.Status.CREATED) {
+        			RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+        		} else {
+        			RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+        		}
+        	}
             log.exiting(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         }
     }
@@ -363,8 +345,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "delete(String,String)");
         
-        Date startTime = new Date();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
 
         FHIRRestOperationResponse ior = null;
         
@@ -373,7 +354,6 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             ior = doDelete(type, id, null);
             ResponseBuilder response = Response.noContent();
-            status = ior.getStatus();
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }
@@ -391,9 +371,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, status);
         } finally {
-            RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
@@ -406,12 +386,14 @@ public class FHIRResource implements FHIRResourceHelpers {
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
         FHIRRestOperationResponse ior = null;
+        boolean createAuditLogRecord = false;
         
         try {
             checkInitComplete();
             
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
+            	createAuditLogRecord = true;
                 throw new FHIRException("A search query string is required for a conditional delete operation.");
             }
             
@@ -437,7 +419,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-            RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
+        	if (createAuditLogRecord) {
+        		RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
+        	}
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
@@ -449,8 +433,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "read(String,String)");
         
-        Date startTime = new Date();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
     	Resource resource = null;
     	
         try {
@@ -474,9 +457,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
         	return exceptionResponse(e, status);
         } finally {
-        	RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
         	log.exiting(this.getClass().getName(), "read(String,String)");
         }
     }
@@ -490,8 +473,7 @@ public class FHIRResource implements FHIRResourceHelpers {
       
         log.entering(this.getClass().getName(), "vread(String,String,String)");
         
-        Date startTime = new Date();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
     	Resource resource = null;
     	
         try {
@@ -516,10 +498,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
         	return exceptionResponse(e, status);
         } finally {
-        	RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "vread(String,String,String)");
+        	log.exiting(this.getClass().getName(), "vread(String,String,String)");
         }
     }
 
@@ -530,8 +512,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)");
         
-        Date startTime = new Date();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
     	Bundle bundle= null;
     	
         try {
@@ -547,10 +528,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
         	return exceptionResponse(e, status);
         } finally {
-        	RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "history(String,String)");
+        	log.exiting(this.getClass().getName(), "history(String,String)");
         }
     }
 
@@ -559,8 +540,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Response search(
         @PathParam("type") String type) {
         log.entering(this.getClass().getName(), "search(String,UriInfo)");
-        Date startTime = new Date();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
     	MultivaluedMap<String, String> queryParameters = null;
     	Bundle bundle = null;
     	
@@ -578,10 +558,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
         	return exceptionResponse(e, status);
         } finally {
-        	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "search(String)");
+        	log.exiting(this.getClass().getName(), "search(String)");
         }
     }
     
@@ -593,8 +573,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("type") String type) {
     	
         log.entering(this.getClass().getName(), "search(String, String, String)");
-        Date startTime = new Date();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
     	MultivaluedMap<String, String> queryParameters = null;
     	Bundle bundle = null;
     	
@@ -612,10 +591,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         	status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
         	return exceptionResponse(e, status);
         } finally {
-        	RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "search(String)");
+        	log.exiting(this.getClass().getName(), "search(String)");
         }
     }
     
@@ -654,8 +633,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     @Path("_search")
     public Response searchAll() {
         log.entering(this.getClass().getName(), "searchAll()");
-        Date startTime = new Date();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
         MultivaluedMap<String, String> queryParameters = null;
         Bundle bundle = null;
         
@@ -673,9 +651,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (Exception e) {
+        	status = Response.Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, status);
         } finally {
-            RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "searchAll()");
         }
     }
@@ -868,8 +846,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Response bundle(Bundle bundle) {
 
         log.entering(this.getClass().getName(), "bundle(Bundle)");
-        Date startTime = new Date();
-    	Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        Response.Status status;
     	Bundle responseBundle = null;
 
         try {
@@ -894,8 +871,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         	log.log(Level.SEVERE, "Error encountered during bundle request processing: ", e);
             return exceptionResponse(e, status);
         } finally {
-        	RestAuditLogger.logBundle(httpServletRequest, bundle, startTime, new Date(), status);
-            log.exiting(this.getClass().getName(), "bundle(Bundle)");
+        	log.exiting(this.getClass().getName(), "bundle(Bundle)");
         }
     }
 
@@ -910,6 +886,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        Date startTime = new Date();
+        Response.Status status = null;
+        String errMsg = "Caught exception while processing 'create' request.";
         
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
         
@@ -954,7 +933,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     ior.setStatus(Response.Status.OK);
                     ior.setResource(matchedResource);
                     log.fine("Returning location URI of matched resource: " + ior.getLocationURI());
-
+                    status = ior.getStatus();
                     return ior;
                 } else {
                     String msg = "The search criteria specified for a conditional create operation returned multiple matches.";
@@ -1008,10 +987,15 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txnStarted = false;
             }
 
+            status = ior.getStatus();
             return ior;
+        } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
+            status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'create' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
@@ -1023,6 +1007,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
+            RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doCreate");
         }
     }
@@ -1043,6 +1028,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        Date startTime = new Date();
+        Response.Status status = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1161,11 +1148,19 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-
+            status = ior.getStatus();
+            
             return ior;
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.METHOD_NOT_ALLOWED;
+            throw e;
+        } catch (FHIRException e) {
+            status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'update' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
@@ -1176,6 +1171,11 @@ public class FHIRResource implements FHIRResourceHelpers {
                 rollback(txn, "update");
                 txn = null;
                 txnStarted = false;
+            }
+            if (status == Response.Status.CREATED) {
+                RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+            } else {
+                RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
             }
             log.exiting(this.getClass().getName(), "doUpdate");
         }
@@ -1195,6 +1195,8 @@ public class FHIRResource implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        Date startTime = new Date();
+        Response.Status status = null;
         
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
@@ -1269,10 +1271,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id);
             if (resource != null) {
                 ior.setResource(resource);
-                ior.setStatus(Response.Status.NO_CONTENT);
                 event.setFhirResource(resource);
             }
-
+            ior.setStatus(Response.Status.NO_CONTENT);
+            
             // Invoke the 'afterDelete' interceptor methods.
             getInterceptorMgr().fireAfterDeleteEvent(event);
             
@@ -1283,11 +1285,22 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
+            status = ior.getStatus();
             
             return ior;
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.NOT_FOUND;
+            throw e;
+        } catch (FHIRPersistenceNotSupportedException e) {
+            status = Response.Status.METHOD_NOT_ALLOWED;
+            throw e;
+        } catch (FHIRException e) {
+            status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'delete' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
@@ -1299,7 +1312,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-            
+            RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doDelete");
         }
     }
@@ -1316,6 +1329,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        Resource resource = null;
+        Date startTime = new Date();
+        Response.Status status = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1348,7 +1364,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeReadEvent(event);
             
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted);
-            Resource resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
+            resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
             if (resource == null && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
             }
@@ -1365,13 +1381,22 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-
+            status = Response.Status.OK;
+            
             return resource;
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+        	status = Response.Status.NOT_FOUND;
+            throw e;
         } catch (FHIRPersistenceResourceDeletedException e) {
+            status = Response.Status.GONE;
+            throw e;
+        } catch (FHIRException e) {
+        	status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'read' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
@@ -1383,7 +1408,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-            
+            RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doRead");
         }
     }
@@ -1400,6 +1425,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        Resource resource = null;
+        Date startTime = new Date();
+        Response.Status status = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1432,7 +1460,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeVreadEvent(event);
             
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            Resource resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId);
+            resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId);
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + versionId + " not found.");
             }
@@ -1449,11 +1477,22 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-
+            status = Response.Status.OK;
+            
             return resource;
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+        	status = Response.Status.NOT_FOUND;
+            throw e;
+        } catch (FHIRPersistenceResourceDeletedException e) {
+            status = Response.Status.GONE;
+            throw e;
+        } catch (FHIRException e) {
+        	status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'vread' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
@@ -1465,6 +1504,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
+            RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
             
             log.exiting(this.getClass().getName(), "doVRead");
         }
@@ -1487,6 +1527,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        Bundle bundle = null;
+        Date startTime = new Date();
+        Response.Status status = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1521,7 +1564,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, historyContext);
             List<Resource> resources = getPersistenceImpl().history(persistenceContext, resourceType, id);
-            Bundle bundle = createHistoryBundle(resources, historyContext);
+            bundle = createHistoryBundle(resources, historyContext);
             addLinks(historyContext, bundle, requestUri);
             
             event.setFhirResource(bundle);
@@ -1536,11 +1579,15 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-
+            status = Response.Status.OK;
             return bundle;
+        } catch (FHIRException e) {
+        	status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'history' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
@@ -1552,7 +1599,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-            
+            RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doHistory");
         }
     }
@@ -1569,6 +1616,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         
         FHIRPersistenceTransaction txn = null;
         boolean txnStarted = false;
+        Bundle bundle = null;
+        Date startTime = new Date();
+        Response.Status status = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1609,7 +1659,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             List<Resource> resources = getPersistenceImpl().search(persistenceContext, resourceType);
-            Bundle bundle = createSearchBundle(resources, searchContext);
+            bundle = createSearchBundle(resources, searchContext);
             if (requestUri != null) {
                 addLinks(searchContext, bundle, requestUri);
             }
@@ -1625,11 +1675,16 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
+            status = Response.Status.OK;
             
             return bundle;
+        } catch (FHIRException e) {
+        	status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'search' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
@@ -1641,7 +1696,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 txn = null;
                 txnStarted = false;
             }
-            
+            RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doSearch");
         }
     }
@@ -1723,6 +1778,9 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Bundle doBundle(Bundle bundle) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
 
+        Date startTime = new Date();
+        Response.Status status = null;
+        
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
@@ -1732,16 +1790,21 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Next, process each of the entries in the bundle.
             processBundleEntries(bundle, responseBundle);
+            status = Response.Status.OK;
             
             return responseBundle;
+        } catch (FHIRException e) {
+        	status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'bundle' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
-            
+            RestAuditLogger.logBundle(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doBundle");
         }
     }
