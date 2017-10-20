@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 
 
@@ -15,16 +16,23 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author markd
  *
  */
+@JsonPropertyOrder({"request_unique_id", "action", "operation_name", "purpose", "start_time", "end_time", "api_parameters", "query", "data", "batch" })
 public class Context {
 	
+    @JsonProperty("request_unique_id")
+    private String requestUniqueId;
+    
 	@JsonProperty("data")
 	private Data data;
 	
 	@JsonProperty("action")
 	private String action;
 	
-	@JsonProperty("query")
-	private String query;
+	@JsonProperty("operation_name")
+	private String operationName;
+	
+	@JsonProperty("query_parameters")
+	private String queryParameters;
 	
 	@JsonProperty("purpose")
 	private String purpose;
@@ -67,13 +75,13 @@ public class Context {
 	}
 
 
-	public String getQuery() {
-		return query;
+	public String getQueryParameters() {
+		return queryParameters;
 	}
 
 
-	public void setQuery(String query) {
-		this.query = query;
+	public void setQueryParameters(String queryParms) {
+		this.queryParameters = queryParms;
 	}
 
 
@@ -125,5 +133,25 @@ public class Context {
 	public void setPurpose(String purpose) {
 		this.purpose = purpose;
 	}
+
+
+    public String getOperationName() {
+        return operationName;
+    }
+
+
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
+
+
+    public String getRequestUniqueId() {
+        return requestUniqueId;
+    }
+
+
+    public void setRequestUniqueId(String requestUniqueId) {
+        this.requestUniqueId = requestUniqueId;
+    }
 
 }

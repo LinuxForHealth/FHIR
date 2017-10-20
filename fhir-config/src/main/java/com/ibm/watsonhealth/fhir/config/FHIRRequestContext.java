@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.config;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +23,7 @@ public class FHIRRequestContext {
 
     private String tenantId;
     private String dataStoreId;
+    private String requestUniqueId;
     
     private static ThreadLocal<FHIRRequestContext> contexts = new ThreadLocal<FHIRRequestContext>() {
         @Override
@@ -31,9 +33,12 @@ public class FHIRRequestContext {
     };
     
     public FHIRRequestContext() {
+        super();
+        this.requestUniqueId = UUID.randomUUID().toString();
     }
     
     public FHIRRequestContext(String tenantId) {
+        this();
         setTenantId(tenantId);
     }
     
@@ -91,6 +96,10 @@ public class FHIRRequestContext {
     public String toString() {
         return "FHIRRequestContext [tenantId=" + tenantId + ", dataStoreId=" + dataStoreId 
                 + ", this="+ objectHandle(this) + "]";
+    }
+    
+    public String getRequestUniqueId() {
+        return this.requestUniqueId;
     }
     
     private static String objectHandle(Object obj) {

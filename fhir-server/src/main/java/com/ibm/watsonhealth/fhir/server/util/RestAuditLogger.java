@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.server.util;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +27,13 @@ import com.ibm.watsonhealth.fhir.audit.logging.beans.Context;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Data;
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.HTTPVerb;
+import com.ibm.watsonhealth.fhir.model.Meta;
+import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
@@ -287,7 +291,7 @@ public class RestAuditLogger {
 		long totalSearch = 0;
 		
 		if (queryParms != null && !queryParms.isEmpty()) {
-			entry.getContext().setQuery(queryParms.toString());
+			entry.getContext().setQueryParameters(queryParms.toString());
 		}
 		if (bundle != null) {
 			if (bundle.getTotal() != null) {
@@ -342,6 +346,57 @@ public class RestAuditLogger {
 		log.exiting(METHODNAME, METHODNAME);
 		
 	}
+	
+	/**
+	 * Builds an audit log entry for an 'operation' REST service invocation.
+	 * @param request - The HttpServletRequest representation of the REST request.
+	 * @param operationName - The name of the operation being executed.
+	 * @param resourceTypeName - The name of the resource type that is the target of the operation.
+	 * @param logicalId - The logical id of the target resource.
+	 * @param versionId - The version id of the target resource.
+	 * @param startTime - The start time of the metadata request execution.
+     * @param endTime - The end time of the metadata request execution.
+     * @param responseStatus - The response status.
+	 */
+	public static void logOperation(HttpServletRequest request, String operationName, String resourceTypeName, String logicalId, 
+	                                String versionId, Date startTime, Date endTime, Response.Status responseStatus) {
+        final String METHODNAME = "logOperation";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Class<? extends Resource> resourceType;
+        Resource tempResource = null;
+        Meta meta;
+        ObjectFactory objFactory;
+        AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
+        AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_OPERATION);
+        
+        try {
+            if (resourceTypeName != null) {
+                resourceType = FHIRUtil.getResourceType(resourceTypeName);
+                tempResource = FHIRUtil.createResource(resourceType);
+                if (logicalId != null) {
+                    tempResource.setId(FHIRUtil.id(logicalId));
+                }
+                if (versionId != null) {
+                    objFactory = new ObjectFactory();
+                    meta = objFactory.createMeta().withVersionId(FHIRUtil.id(versionId));
+                    tempResource.setMeta(meta);
+                }
+            }
+            populateAuditLogEntry(entry, request, tempResource, startTime, endTime, responseStatus);
+            entry.getContext().setAction("O");
+            entry.setDescription("FHIR Operation request");
+            entry.getContext().setOperationName(operationName);
+            
+            auditLogSvc.logEntry(entry);
+             
+        }
+        catch(Throwable e) {
+            log.log(Level.SEVERE, "Failure recording operation audit log entry ", e);
+        }
+         
+        log.exiting(CLASSNAME, METHODNAME);
+    }
 
 	
 	/**
@@ -363,8 +418,7 @@ public class RestAuditLogger {
 		StringBuffer requestUrl;
 		String subjectIdExtUrl;
 		List<String> userList = new ArrayList<>();
-		StringBuilder resourceId = new StringBuilder();
-		
+				
 		// Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
 		userList.add(request.getHeader(HEADER_IBM_APP_USER));
 		userList.add(request.getHeader(HEADER_CLIENT_CERT_CN));
@@ -393,11 +447,10 @@ public class RestAuditLogger {
 		entry.getContext().setStartTime(FHIRUtilities.formatTimestamp(startTime));
 		entry.getContext().setEndTime(FHIRUtilities.formatTimestamp(endTime));
 		if (resource!= null) {
-			resourceId.append(resource.getClass().getSimpleName());
+		    entry.getContext().setData(new Data().withResourceType(resource.getClass().getSimpleName()));
 			if (resource.getId() != null) {
-				resourceId.append("/").append(resource.getId().getValue());
+				entry.getContext().getData().setId(resource.getId().getValue());
 			}
-			entry.getContext().setData(new Data().withId(resourceId.toString()));
 			if (resource.getMeta() != null && resource.getMeta().getVersionId() != null) {
 				entry.getContext().getData().setVersionId(resource.getMeta().getVersionId().getValue());
 			}
@@ -409,6 +462,7 @@ public class RestAuditLogger {
 		
 		subjectIdExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_SUBJECT_ID_EXTURL, null);
 		entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, subjectIdExtUrl));
+		entry.getContext().setRequestUniqueId(FHIRRequestContext.get().getRequestUniqueId());
 				
 		log.exiting(CLASSNAME, METHODNAME);
 		return entry;

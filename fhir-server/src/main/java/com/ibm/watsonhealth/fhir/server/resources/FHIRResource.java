@@ -1716,6 +1716,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         Resource resource) throws Exception {
         log.entering(this.getClass().getName(), "doInvoke");
 
+        Date startTime = new Date();
+        Response.Status status = null;
+        
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
@@ -1749,21 +1752,27 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Returned from invocation of operation '" + operationName + "'...");
             }
-
+            
+            status = Response.Status.OK;
+            
             // if single resource output parameter, return the resource
             if (FHIROperationUtil.hasSingleResourceOutputParameter(result)) {
                 return FHIROperationUtil.getSingleResourceOutputParameter(result);
             }
-
+                        
             return result;
+        } catch (FHIRException e) {
+            status = e.getHttpStatus();
+            throw e;
         } catch (Throwable t) {
             String msg = "Caught exception while processing 'invoke' request.";
             log.log(Level.SEVERE, msg, t);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
        } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
-            
+            RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, versionId, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doInvoke");
         }
     }
