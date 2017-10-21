@@ -1030,6 +1030,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         boolean txnStarted = false;
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'update' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1155,11 +1156,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.METHOD_NOT_ALLOWED;
             throw e;
         } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'update' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
@@ -1197,6 +1198,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         boolean txnStarted = false;
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'delete' request.";
         
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
@@ -1295,11 +1297,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.METHOD_NOT_ALLOWED;
             throw e;
         } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'delete' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
@@ -1332,6 +1334,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Resource resource = null;
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'read' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1391,11 +1394,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.GONE;
             throw e;
         } catch (FHIRException e) {
-        	status = e.getHttpStatus();
+            log.log(Level.SEVERE, errMsg, e);
+            status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'read' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
@@ -1428,6 +1431,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Resource resource = null;
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'vread' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1487,11 +1491,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.GONE;
             throw e;
         } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
         	status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'vread' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
@@ -1530,6 +1534,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Bundle bundle = null;
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'history' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1582,11 +1587,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.OK;
             return bundle;
         } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
         	status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'history' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
@@ -1619,6 +1624,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Bundle bundle = null;
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'search' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1679,11 +1685,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             return bundle;
         } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
         	status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'search' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
@@ -1718,6 +1724,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'invoke' request.";
         
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1762,11 +1769,11 @@ public class FHIRResource implements FHIRResourceHelpers {
                         
             return result;
         } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'invoke' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
        } finally {
@@ -1789,6 +1796,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         Date startTime = new Date();
         Response.Status status = null;
+        String errMsg = "Caught exception while processing 'bundle' request.";
         
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1803,11 +1811,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             return responseBundle;
         } catch (FHIRException e) {
+            log.log(Level.SEVERE, errMsg, e);
         	status = e.getHttpStatus();
             throw e;
         } catch (Throwable t) {
-            String msg = "Caught exception while processing 'bundle' request.";
-            log.log(Level.SEVERE, msg, t);
+            log.log(Level.SEVERE, errMsg, t);
             status = Response.Status.INTERNAL_SERVER_ERROR;
             throw t;
         } finally {
