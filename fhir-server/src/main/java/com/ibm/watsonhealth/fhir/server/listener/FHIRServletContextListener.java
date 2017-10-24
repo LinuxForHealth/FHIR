@@ -39,10 +39,8 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
-import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.DerbyBootstrapper;
-import com.ibm.watsonhealth.fhir.replication.api.impl.ReplicationInfoInterceptor;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 @WebListener("IBM Watson Health Cloud FHIR Server Servlet Context Listener")
@@ -113,10 +111,6 @@ public class FHIRServletContextListener implements ServletContextListener {
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
-            
-            // Register our "replication info" interceptor.
-            FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(new ReplicationInfoInterceptor());
-            log.info("Registered replication info interceptor.");
             
             bootstrapDerbyDatabases(fhirConfig);
             

@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.replication.api.util;
 
 import java.util.List;
 
-import static com.ibm.watsonhealth.fhir.replication.api.impl.ReplicationInfoInterceptor.*;
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.model.DomainResource;
@@ -25,6 +24,10 @@ import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
  *
  */
 public class ReplicationUtil {
+    
+    private static final String EXTURL_STUDY_ID = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/studyid";
+    private static final String EXTURL_PATIENT_ID = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid";
+    private static final String EXTURL_SITE_ID = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/siteid";
 	
 	/**
 	 * Adds the patientId, siteId and studyId contained in the passed Resource to the ReplicationInfo contained in the 
@@ -42,16 +45,16 @@ public class ReplicationUtil {
 		repInfo = (ReplicationInfo)context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
 		if (repInfo != null) {
 			if (isStudyScopedResourceType(resource)) {
-				patientId = FHIRUtil.getExtensionStringValue(resource, getSubjectIdExtensionUrl());
+				patientId = FHIRUtil.getExtensionStringValue(resource, EXTURL_PATIENT_ID);
 				repInfo.setPatientId(patientId);
-				siteId = FHIRUtil.getExtensionStringValue(resource, getSiteIdExtensionUrl());
+				siteId = FHIRUtil.getExtensionStringValue(resource, EXTURL_SITE_ID);
 				repInfo.setSiteId(siteId);
-				studyId = FHIRUtil.getExtensionStringValue(resource, getStudyIdExtensionUrl());
+				studyId = FHIRUtil.getExtensionStringValue(resource, EXTURL_STUDY_ID);
 				repInfo.setStudyId(studyId);
 			}
 			else {
 				if (isPatientRelatedResourceType(resource)) {
-					patientId = FHIRUtil.getExtensionStringValue(resource, getSubjectIdExtensionUrl());
+					patientId = FHIRUtil.getExtensionStringValue(resource, EXTURL_PATIENT_ID);
 					repInfo.setPatientId(patientId);
 				}
 			}
@@ -75,13 +78,13 @@ public class ReplicationUtil {
             
             for (Extension extension : copyFromDomainResource.getExtension()) {
 				if (isStudyScopedResourceType(copyFromDomainResource) && 
-					  (extension.getUrl().equals(getSiteIdExtensionUrl()) || 
-						extension.getUrl().equals(getStudyIdExtensionUrl()) ||
-					    extension.getUrl().equals(getSubjectIdExtensionUrl()))) {
+					  (extension.getUrl().equals(EXTURL_SITE_ID) || 
+						extension.getUrl().equals(EXTURL_STUDY_ID) ||
+					    extension.getUrl().equals(EXTURL_PATIENT_ID))) {
 						copyToDomainResource.getExtension().add(extension);
 				}
 				else if (isPatientRelatedResourceType(copyFromDomainResource) &&  
-					     extension.getUrl().equals(getSubjectIdExtensionUrl())) {
+					     extension.getUrl().equals(EXTURL_PATIENT_ID)) {
 						copyToDomainResource.getExtension().add(extension);
 				}
 			}
@@ -99,7 +102,7 @@ public class ReplicationUtil {
 		
 		studyScopedResourceTypes = FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_STUDY_SCOPED_RESOURCES);
 		isStudyScopedResourceType = (studyScopedResourceTypes != null) && 
-							   	    (studyScopedResourceTypes.contains(resource.getClass().getSimpleName()));
+							   	    (studyScopedResourceTypes.contains(FHIRUtil.getResourceTypeName(resource)));
 		
 		return isStudyScopedResourceType;
 		
@@ -116,7 +119,7 @@ public class ReplicationUtil {
 		
 		patientRelatedResourceTypes = FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID);
 		isPatientRelatedResourceType = (patientRelatedResourceTypes != null) && 
-			   	   					   (patientRelatedResourceTypes.contains(resource.getClass().getSimpleName()));
+			   	   					   (patientRelatedResourceTypes.contains(FHIRUtil.getResourceTypeName(resource)));
 		
 		return isPatientRelatedResourceType;
 		
