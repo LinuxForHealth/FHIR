@@ -133,22 +133,7 @@ CODE_REMOVED
 		},
 		"whclsfRouter": {
             "replicationInterceptor": {
-                "enabled": false,
-                "subjectIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid",
-                "resourceTypesRequiringSubjectId": [
-                    "Patient"
-                ],
-                "studyScopedResourceTypes": [
-                    "Contract",
-                    "CarePlan",
-                    "Device",
-                    "DeviceComponent",
-                    "DeviceMetric",
-                    "MedicationOrder",
-                    "Observation",
-                    "MedicationAdministration",
-                    "QuestionnaireResponse"
-                ]
+                "enabled": false
             }
 		}
 	}
