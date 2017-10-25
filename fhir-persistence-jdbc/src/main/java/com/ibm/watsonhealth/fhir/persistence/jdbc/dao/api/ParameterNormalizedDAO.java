@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api;
 
 import java.util.Map;
 
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -57,5 +56,20 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
 	 * @throws FHIRPersistenceDataAccessException
 	 */
 	Integer readCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+	
+	   /**
+     * Returns a collection of new parameter name/id pairs that were created during the execution of the last transaction that
+     * the DAO instance participated in.
+     * @return Map<String, Integer> - A map of parameter name/id pairs.
+     */
+    Map<String, Integer> getNewParameterNameIds();
+    
+    
+    /**
+     * Returns a collection of new code system name/id pairs that were created during the execution of the last transaction that
+     * the DAO instance participated in.
+     * @return Map<String, Integer> - A map of code system name/id pairs.
+     */
+    Map<String, Integer> getNewCodeSystemIds();
 
 }

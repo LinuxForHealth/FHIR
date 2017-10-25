@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ public class ParameterNamesCache {
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws FHIRPersistenceDataAccessException
 	 */
-	public static synchronized void initCache(ParameterNormalizedDAO parameterDao) 
+	public static void initCacheIfEmpty(ParameterNormalizedDAO parameterDao) 
 										throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
 		final String METHODNAME = "initCache";
 		log.entering(CLASSNAME, METHODNAME);
@@ -52,10 +53,11 @@ public class ParameterNamesCache {
 			currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
 			if (currentDsMap.isEmpty()) {
 				currentDsMap.putAll(parameterDao.readAllSearchParameterNames());
+				if (log.isLoggable(Level.FINE)) {
+					log.fine("Initialized Parameter name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+				}
 			}
-			if (log.isLoggable(Level.FINE)) {
-				log.fine("Initialized Parameter name/id cache for tenant datasore: " + tenantDatstoreCacheName);
-			}
+			
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -66,13 +68,11 @@ public class ParameterNamesCache {
 	 * Retrieves the id for the name contained in the passed Parameter, for the current tenant-datastore. 
 	 * If not found, null is returned.
 	 * @param parameterName A valid FHIR search parameter name.
-	 * @param dao - A DAO used to access Search Parameter related data.
 	 * @return Integer The id corresponding to the parameter name.
 	 * @throws FHIRPersistenceDataAccessException 
 	 * @throws FHIRPersistenceDBConnectException 
 	 */
-	public static Integer getParameterNameId(String parameterName, ParameterNormalizedDAO dao) 
-					throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+	public static Integer getParameterNameId(String parameterName) {
 		
 		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
 		ConcurrentHashMap<String,Integer> currentDsMap;
@@ -81,15 +81,39 @@ public class ParameterNamesCache {
 		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
 		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
 		parameterNameId = currentDsMap.get(parameterName);
-		// If parameter name/id not found in datastore cache map, retrieve it from the database.
-		if (parameterNameId == null) {
-			parameterNameId = dao.readParameterNameId(parameterName);
-			currentDsMap.putIfAbsent(parameterName, parameterNameId);
-		}
-		
+						
 		return parameterNameId;
 		 
 	}
+	
+	/**
+	 * Adds the passed parameter name and id to the current tenant-datastore cache.
+	 * @param parameterName A valid search parameter name.
+	 * @param parameterId The id associated with the passed parameter name.
+	 */
+	public static void putParameterNameId(String parameterName, Integer parameterId) {
+
+		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+		ConcurrentHashMap<String,Integer> currentDsMap;
+		
+		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
+		currentDsMap.putIfAbsent(parameterName, parameterId);
+	}
+	
+	/**
+	 * Adds the passed search parameter name/id pairs to the the current tenant-datastore cache.
+	 * @param newParameters A Map containing parameter name/id pairs.
+	 */
+	public static void putParameterNameIds(Map<String, Integer> newParameters) {
+		
+		for (Map.Entry<String, Integer> entry : newParameters.entrySet()) {
+			 putParameterNameId(entry.getKey(), entry.getValue());
+		}
+		    
+	}
+	
+	
 	
 	/**
 	 * Returns a String containing a combination of the current tenantId and datastoreId.

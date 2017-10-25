@@ -48,7 +48,9 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalize
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -82,9 +84,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.resourceDao = new ResourceDAONormalizedImpl();
 		this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.FALSE));
 		this.parameterDao = new ParameterDAONormalizedImpl();
-		
-		// This cache must be pre-initialized in order for certain types of searches to work correctly.
-		ResourceTypesCache.initCache(this.resourceDao);
+		ParameterNamesCache.initCacheIfEmpty(this.parameterDao);
+        CodeSystemsCache.initCacheIfEmpty(this.parameterDao);
+        ResourceTypesCache.initCacheIfEmpty(this.resourceDao);
 							
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -106,9 +108,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
 		this.resourceDao.setRepInfoRequired(false);
 		this.parameterDao = new ParameterDAONormalizedImpl(this.getManagedConnection());
-		
-		// This cache must be pre-initialized in order for certain types of searches to work correctly.
-		ResourceTypesCache.initCache(this.resourceDao);
+		ParameterNamesCache.initCacheIfEmpty(this.parameterDao);
+        CodeSystemsCache.initCacheIfEmpty(this.parameterDao);
+        ResourceTypesCache.initCacheIfEmpty(this.resourceDao);
 		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
@@ -559,5 +561,45 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		 
 		return this.getResourceDao().searchByIds(resourceType.getSimpleName(), sortedIdList);
 	}
+	
+   @Override
+    public void commit() throws FHIRPersistenceException {
+        final String METHODNAME = "commit";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        try {
+            super.commit();
+            // After a successful trx commit, add the cache entries created during the trx execution
+            // to the appropriate cache.
+            ParameterNamesCache.putParameterNameIds(this.parameterDao.getNewParameterNameIds());
+            this.parameterDao.getNewParameterNameIds().clear();
+            CodeSystemsCache.putCodeSystemIds(this.parameterDao.getNewCodeSystemIds());
+            this.parameterDao.getNewCodeSystemIds().clear();
+            ResourceTypesCache.putResourceTypeIds(this.resourceDao.getNewResourceTypeIds());
+            this.resourceDao.getNewResourceTypeIds().clear();
+        } 
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    
+    }
+
+    @Override
+    public void rollback() throws FHIRPersistenceException {
+        final String METHODNAME = "rollback";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        try {
+             super.rollback();
+             // After a failed trx is rolled back, remove the cache entries created during the trx execution.
+             this.parameterDao.getNewParameterNameIds().clear();
+             this.parameterDao.getNewCodeSystemIds().clear();
+             this.resourceDao.getNewResourceTypeIds().clear();
+        } 
+        
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+            }
+    }
 
 }

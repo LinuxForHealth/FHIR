@@ -87,6 +87,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private FHIRPersistenceContext context;
 	private ReplicationInfo replicationInfo;
 	private boolean isRepInfoRequired;
+	private Map<String, Integer> newResourceTypeIds = new HashMap<>();
 	
 	/**
 	 * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
@@ -121,13 +122,14 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		try {
 			connection = this.getConnection();
 			
-			// The Resource Type Id must be populated into the cache by calling the following method.
-			// This also causes the store procedure that is called by the cache to persist the resource type and id
-			// in the resource_types table, if it does not already exist.
-			resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType(), this);
-			if (log.isLoggable(Level.FINE)) {
-				log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId);
-			}
+			resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            if (resourceTypeId == null) {
+                resourceTypeId = this.readResourceTypeId(resource.getResourceType());
+                this.getNewResourceTypeIds().put(resource.getResourceType(), resourceTypeId);
+            }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId);
+            }
 						
 			currentSchema = connection.getSchema().trim();
 			stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType());
@@ -611,5 +613,10 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		stmtString = String.format(SQL_SEARCH_BY_IDS, resourceType, resourceType);
 		return stmtString;
 	}	
+	
+    @Override
+    public Map<String, Integer> getNewResourceTypeIds() {
+        return newResourceTypeIds;
+    }
 
 }

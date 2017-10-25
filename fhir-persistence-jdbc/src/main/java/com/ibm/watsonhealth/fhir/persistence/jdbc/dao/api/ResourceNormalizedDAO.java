@@ -101,7 +101,13 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
 	 */
 	List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
-	
+	/**
+     * Returns a collection of resource type name/id pairs that were created during the execution of the last transaction that
+     * the DAO instance participated in.
+     * @return Map<String, Integer> - A map of resource type name/id pairs.
+     */
+    Map<String, Integer> getNewResourceTypeIds();
+
 	
 
 }

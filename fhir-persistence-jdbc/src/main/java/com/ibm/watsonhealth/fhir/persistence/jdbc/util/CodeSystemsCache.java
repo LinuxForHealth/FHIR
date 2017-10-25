@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ public class CodeSystemsCache {
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws FHIRPersistenceDataAccessException
 	 */
-	public static synchronized void initCache(ParameterNormalizedDAO parameterDao) 
+	public static void initCacheIfEmpty(ParameterNormalizedDAO parameterDao) 
 										throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
 		final String METHODNAME = "initCache";
 		log.entering(CLASSNAME, METHODNAME);
@@ -52,9 +53,9 @@ public class CodeSystemsCache {
 			currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
 			if (currentDsMap.isEmpty()) {
 				currentDsMap.putAll(parameterDao.readAllCodeSystems());
-			}
-			if (log.isLoggable(Level.FINE)) {
-				log.fine("Initialized Code System name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+				if (log.isLoggable(Level.FINE)) {
+					log.fine("Initialized Code System name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+				}
 			}
 		}
 		finally {
@@ -66,12 +67,9 @@ public class CodeSystemsCache {
 	 * Retrieves the id for the passed system, for the current tenant-datastore. 
 	 * If not found, null is returned.
 	 * @param parameter The name of a code system
-	 * @param dao - A DAO used to access Search Parameter related data.
 	 * @return Integer The id corresponding to the passed code system
-	 * @throws FHIRPersistenceDataAccessException 
-	 * @throws FHIRPersistenceDBConnectException 
 	 */
-	public static Integer getCodeSystemId(String systemName, ParameterNormalizedDAO dao) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+	public static Integer getCodeSystemId(String systemName) {
 		
 		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
 		ConcurrentHashMap<String,Integer> currentDsMap;
@@ -81,13 +79,37 @@ public class CodeSystemsCache {
 		codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
 		currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
 		systemId = currentDsMap.get(encodedSysName);
-		// If code system name/id not found in datastore cache map, retrieve it from the database.
-		if (systemId == null) {
-			systemId = dao.readCodeSystemId(encodedSysName);
-			currentDsMap.putIfAbsent(encodedSysName, systemId);
-		}
+		
 		return systemId;
 		 
+	}
+	
+	/**
+	 * Adds the passed code system name and id to the current tenant-datastore cache.
+	 * @param systemName A valid code system name.
+	 * @param systemId The id associated with the passed code system name.
+	 */
+	public static void putCodeSystemId(String systemName, Integer systemId) {
+		
+		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+		ConcurrentHashMap<String,Integer> currentDsMap;
+		String encodedSysName = SQLParameterEncoder.encode(systemName);
+		
+		codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+		currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
+		currentDsMap.putIfAbsent(encodedSysName, systemId);
+		systemId = currentDsMap.get(encodedSysName);
+	}
+	
+	/**
+	 * Adds the passed code system name/id pairs to the the current tenant-datastore cache.
+	 * @param newParameters A Map containing code system name/id pairs.
+	 */
+	public static void putCodeSystemIds(Map<String, Integer> newCodeSystems) {
+		
+		for (Map.Entry<String, Integer> entry : newCodeSystems.entrySet()) {
+			 putCodeSystemId(entry.getKey(), entry.getValue());
+		}
 	}
 	
 	/**

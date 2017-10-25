@@ -24,6 +24,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCon
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SQLParameterEncoder;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -51,6 +52,10 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 	private static final String SQL_READ_PARAMETER_NAME = "CALL %s.add_parameter_name(?, ?)";
 	
 	private static final String SQL_READ_CODE_SYSTEM_ID = "CALL %s.add_code_system(?, ?)";
+	
+	private Map<String, Integer> newParameterNameIds = new HashMap<>();
+	    
+	private Map<String, Integer> newCodeSystemIds = new HashMap<>();
 	
 	
 	/**
@@ -88,14 +93,23 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
+		String parameterName;
+        Integer parameterId;
 		String tokenSystem;
+		Integer tokenSystemId;
 						
 		try {
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(SQL_INSERT);
 			
 			for (Parameter parameter: parameters) {
-				stmt.setInt(1, ParameterNamesCache.getParameterNameId(parameter.getName(), this));
+			    parameterName = parameter.getName();
+                parameterId = ParameterNamesCache.getParameterNameId(parameterName);
+                if (parameterId == null) {
+                    parameterId = this.readParameterNameId(parameterName);
+                    this.getNewParameterNameIds().put(parameterName, parameterId);
+                }
+                stmt.setInt(1, parameterId);
 				stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
 				stmt.setString(3, parameter.getValueString());
 				stmt.setString(4, SearchUtil.normalizeForSearch(parameter.getValueString()));
@@ -114,8 +128,14 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 						tokenSystem = DEFAULT_TOKEN_SYSTEM;
 				}
 				if(tokenSystem != null) {
-					stmt.setInt(14, CodeSystemsCache.getCodeSystemId(tokenSystem, this));
-				}
+                    tokenSystemId = CodeSystemsCache.getCodeSystemId(tokenSystem);
+                    if (tokenSystemId == null) {
+                        tokenSystem = SQLParameterEncoder.encode(tokenSystem);
+                        tokenSystemId = this.readCodeSystemId(tokenSystem);
+                        this.getNewCodeSystemIds().put(tokenSystem, tokenSystemId);
+                    }
+                    stmt.setInt(14, tokenSystemId);
+                }
 				else {
 					stmt.setObject(14, null, Types.INTEGER);
 				}
@@ -159,7 +179,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 			resultSet = stmt.executeQuery();
 			while (resultSet.next()) {
 				parameterName = resultSet.getString("PARAMETER_NAME");
-				parameterId = resultSet.getInt("PARAMETER_ID");
+				parameterId = resultSet.getInt("PARAMETER_NAME_ID");
 				parameterMap.put(parameterName, parameterId);
 			}
 		}
@@ -336,5 +356,15 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		}
 		return systemId;
 	}
+	
+    @Override
+     public Map<String, Integer> getNewParameterNameIds() {
+         return newParameterNameIds;
+    }
+
+    @Override
+    public Map<String, Integer> getNewCodeSystemIds() {
+        return newCodeSystemIds;
+    }
 	 
 }

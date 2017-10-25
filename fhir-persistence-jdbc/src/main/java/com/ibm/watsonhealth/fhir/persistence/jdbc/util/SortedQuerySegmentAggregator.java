@@ -235,20 +235,25 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		StringBuilder joinBuffer = new StringBuilder();
-		int sortParameterNameId;
+		Integer sortParameterNameId;
 		
 				
 		// Build the LEFT OUTER JOINs needed to access the required sort parameters.
 		int sortParmIndex = 1;
 		for (SortParameter sortParm: this.sortParameters) {
-			sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getName(), this.dao);
+			sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getName());
+            if (sortParameterNameId == null) {
+                // When parameterNameId is null, it means that the parameter name is valid, but no parameter with that 
+                // name has yet been persisted to the DB. 
+                sortParameterNameId = new Integer(JDBCNormalizedQueryBuilder.DEFAULT_CACHE_ID);
+            }
 			joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(" ")
 			          .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
 			          .append(ON)
 			          .append("(")
-			          	.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".PARAMETER_NAME_ID=").append(sortParameterNameId)
-			          	.append(" AND ")
-			          	.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".RESOURCE_ID = R.RESOURCE_ID")
+			          .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".PARAMETER_NAME_ID=").append(sortParameterNameId)
+			          .append(" AND ")
+			          .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".RESOURCE_ID = R.RESOURCE_ID")
 			          .append(") ");
 					
 			sortParmIndex++;

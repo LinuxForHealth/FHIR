@@ -42,7 +42,7 @@ public class ResourceTypesCache {
 	 * @throws FHIRPersistenceDBConnectException
 	 * @throws FHIRPersistenceDataAccessException
 	 */
-	public static synchronized void initCache(ResourceNormalizedDAO resourceDao) 
+	public static synchronized void initCacheIfEmpty(ResourceNormalizedDAO resourceDao) 
 										throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
 		final String METHODNAME = "initCache";
 		log.entering(CLASSNAME, METHODNAME);
@@ -66,34 +66,24 @@ public class ResourceTypesCache {
 		}
 	}
 	
-	/**
-	 * Retrieves the id for the name contained in the passed resource type, for the current tenant-datastore. 
-	 * If not found, null is returned.
-	 * @param parameterName A valid FHIR search parameter name.
-	 * @param dao - A DAO used to access Resource type related data.
-	 * @return Integer The id corresponding to the parameter name.
-	 * @throws FHIRPersistenceDataAccessException 
-	 * @throws FHIRPersistenceDBConnectException 
-	 */
-	public static Integer getResourceTypeId(String resourceType, ResourceNormalizedDAO dao) 
-					throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		
-		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-		ConcurrentHashMap<String,Integer> currentDsMap;
-		Integer resourceTypeId = null;
-		
-		resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-		currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-		resourceTypeId = currentDsMap.get(resourceType);
-		// If resource type/id not found in datastore cache map, retrieve it from the database.
-		if (resourceTypeId == null) {
-			resourceTypeId = dao.readResourceTypeId(resourceType);
-			currentDsMap.putIfAbsent(resourceType, resourceTypeId);
-		}
-		
-		return resourceTypeId;
-		 
-	}
+    /**
+     * Retrieves the id for the name contained in the passed resource type, for the current tenant-datastore. 
+     * If not found, null is returned.
+     * @param parameterName A valid FHIR search parameter name.
+     * @return Integer The id corresponding to the parameter name.
+     */
+    public static Integer getResourceTypeId(String resourceType) {
+        
+        String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+        ConcurrentHashMap<String,Integer> currentDsMap;
+        Integer resourceTypeId = null;
+        
+        resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+        currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+        resourceTypeId = currentDsMap.get(resourceType);
+        
+        return resourceTypeId;
+    }
 	
 	/**
 	 * Returns a String containing a combination of the current tenantId and datastoreId.
@@ -147,5 +137,32 @@ public class ResourceTypesCache {
 		}
 		return resourceTypeName;
 	}
+	
+	   /**
+     * Adds the passed resource type name and id to the current tenant-datastore cache.
+     * @param resourceType A valid resource type name.
+     * @param resourceTypeId The id associated with the passed resource type name.
+     */
+    public static void putResourceTypeId(String resourceType, Integer resourceTypeId) {
+
+        String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+        ConcurrentHashMap<String,Integer> currentDsMap;
+        
+        resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+        currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+        currentDsMap.putIfAbsent(resourceType, resourceTypeId);
+    }
+    
+    /**
+     * Adds the passed resource type name/id pairs to the the current tenant-datastore cache.
+     * @param newParameters A Map containing resource type name/id pairs.
+     */
+    public static void putResourceTypeIds(Map<String, Integer> newResourceTypes) {
+        
+        for (Map.Entry<String, Integer> entry : newResourceTypes.entrySet()) {
+            putResourceTypeId(entry.getKey(), entry.getValue());
+        }
+            
+    }
 
 }
