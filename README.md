@@ -21,4 +21,4 @@ by running this command prior to pushing your changes to the server:
 
         git commit --amend  
         (this will open up your editor and allow you to change the commit message)
-        
+         
