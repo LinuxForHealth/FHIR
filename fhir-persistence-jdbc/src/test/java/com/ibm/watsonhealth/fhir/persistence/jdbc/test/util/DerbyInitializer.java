@@ -119,7 +119,7 @@ public class DerbyInitializer {
 				this.runDDL(connection);
 			} else if(schemaType.equalsIgnoreCase("normalized")) {
 				String derbySprocJarDir = "../fhir-derby-sproc/target";
-			    Collection<File> derbyJarFiles = FileUtils.listFiles(new File(derbySprocJarDir), new WildcardFileFilter("fhir-derby-sproc*SNAPSHOT.jar"), null);
+			    Collection<File> derbyJarFiles = FileUtils.listFiles(new File(derbySprocJarDir), new WildcardFileFilter("fhir-derby-sproc-*.jar"), null);
 			    
 			    if(!derbyJarFiles.isEmpty()) {
 			    	StringBuilder sb = new StringBuilder();
