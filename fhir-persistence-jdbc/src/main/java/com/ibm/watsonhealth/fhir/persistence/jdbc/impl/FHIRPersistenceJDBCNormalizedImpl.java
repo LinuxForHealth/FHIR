@@ -53,6 +53,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilde
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.watsonhealth.fhir.replication.api.util.ReplicationUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
 /**
@@ -353,6 +354,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		log.entering(CLASSNAME, METHODNAME);
 		
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
+		Resource existingResource = null;
 		Resource deletedResource = null;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		
@@ -364,10 +366,19 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 					deletedResource = this.convertResourceDTO(existingResourceDTO, resourceType);
 				}
 				else {
+				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType);
+				    
 					// Create a soft-delete Resource instance with minimal data
 	            	deletedResource = FHIRUtil.createResource(resourceType);
 	            	deletedResource.setMeta(objectFactory.createMeta());
 	            	deletedResource.setId(objectFactory.createId().withValue(logicalId));
+	            	
+	            	// If replication info is required, add the value of the patientId, siteId, and subjectId extensions 
+                    // to the RepInfo and to the deletedResource.
+                    if (this.resourceDao.isRepInfoRequired()) {
+                        ReplicationUtil.addExtensionDataToRepInfo(context, existingResource);
+                        ReplicationUtil.addExtensionDataToResource(existingResource, deletedResource);
+                    }
 	
 	                int newVersionNumber = existingResourceDTO.getVersionId() + 1;
 	                Instant lastUpdated = instant(System.currentTimeMillis());
