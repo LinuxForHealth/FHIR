@@ -28,6 +28,8 @@ public class ReplicationUtil {
     private static final String EXTURL_STUDY_ID = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/studyid";
     private static final String EXTURL_PATIENT_ID = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid";
     private static final String EXTURL_SITE_ID = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/siteid";
+    private static final String EXTURL_APP_NAME = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/appName";
+    private static final String EXTURL_APP_VERSION = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/appVersionNumber";
 	
 	/**
 	 * Adds the patientId, siteId and studyId contained in the passed Resource to the ReplicationInfo contained in the 
@@ -80,7 +82,9 @@ public class ReplicationUtil {
 				if (isStudyScopedResourceType(copyFromDomainResource) && 
 					  (extension.getUrl().equals(EXTURL_SITE_ID) || 
 						extension.getUrl().equals(EXTURL_STUDY_ID) ||
-					    extension.getUrl().equals(EXTURL_PATIENT_ID))) {
+					    extension.getUrl().equals(EXTURL_PATIENT_ID) ||
+					    extension.getUrl().equals(EXTURL_APP_NAME) ||
+					    extension.getUrl().equals(EXTURL_APP_VERSION))) {
 						copyToDomainResource.getExtension().add(extension);
 				}
 				else if (isPatientRelatedResourceType(copyFromDomainResource) &&  
