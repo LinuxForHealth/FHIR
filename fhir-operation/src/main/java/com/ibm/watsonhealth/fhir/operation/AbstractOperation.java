@@ -163,7 +163,12 @@ public abstract class AbstractOperation implements FHIROperation {
     
     protected void validateParameters(Parameters parameters, OperationParameterUseList use) throws FHIROperationException {        
         String direction = OperationParameterUseList.IN.equals(use) ? "input" : "output";
-        for (OperationDefinitionParameter parameterDefinition : getParameterDefinitions(use)) {
+
+        // Retrieve the set of parameters from the OperationDefinition matching the specified use (in/out).
+        List<OperationDefinitionParameter> opDefParameters = getParameterDefinitions(use);
+
+        // Verify that each defined parameter is specified appropriately in the Parameters object.
+        for (OperationDefinitionParameter parameterDefinition : opDefParameters) {
             String name = parameterDefinition.getName().getValue();
             int min = parameterDefinition.getMin().getValue();
             String max = parameterDefinition.getMax().getValue();
@@ -200,5 +205,31 @@ public abstract class AbstractOperation implements FHIROperation {
                 }
             }
         }
+        
+        // Next, verify that each parameter contained in the Parameters object is defined
+        // in the OperationDefinition.   This will root out any extaneous parameters included
+        // in the Parameters object.
+        for (ParametersParameter p : parameters.getParameter()) {
+            String name = p.getName().getValue();
+            OperationDefinitionParameter opDefParameter = findOpDefParameter(opDefParameters, name);
+            if (opDefParameter == null) {
+                throw new FHIROperationException("Unexpected " + direction + " parameter found: " + name);
+            }
+        }
+    }
+
+    /**
+     * Returns the OperationDefinitionParameter with the specified name or null if it wasn't found.
+     * @param opDefParameters the list of parameters from the OperationDefinition
+     * @param name the name of the parameter to find
+     * @return
+     */
+    protected OperationDefinitionParameter findOpDefParameter(List<OperationDefinitionParameter> parameters, String name) {
+        for (OperationDefinitionParameter p : parameters) {
+            if (p.getName().getValue().equals(name)) {
+                return p;
+            }
+        }
+        return null;
     }
 }
