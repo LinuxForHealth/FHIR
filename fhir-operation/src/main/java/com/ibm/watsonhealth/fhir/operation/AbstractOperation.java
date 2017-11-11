@@ -211,9 +211,14 @@ public abstract class AbstractOperation implements FHIROperation {
         // in the Parameters object.
         for (ParametersParameter p : parameters.getParameter()) {
             String name = p.getName().getValue();
-            OperationDefinitionParameter opDefParameter = findOpDefParameter(opDefParameters, name);
-            if (opDefParameter == null) {
-                throw new FHIROperationException("Unexpected " + direction + " parameter found: " + name);
+            
+            // If we're validating output parameters and the operation is returning the
+            // "return" output parameter, then we'll need to bypass our validation.
+            if (OperationParameterUseList.OUT.equals(use) && !"return".equals(name)) {
+                OperationDefinitionParameter opDefParameter = findOpDefParameter(opDefParameters, name);
+                if (opDefParameter == null) {
+                    throw new FHIROperationException("Unexpected " + direction + " parameter found: " + name);
+                }
             }
         }
     }
