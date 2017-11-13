@@ -50,11 +50,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     // queryString that is built if form usage is detected
     private String queryString = null;
 
-    // This map will store specific query parameters that are found in a
-    // particular request URI.
-    private Map<String, String> queryParameters;
+    // This map contains header values that were specified as part of the query string.
+    private Map<String, String> headerQueryParameters;
 
     // This map will map http header names to query parameter names.
+    // This allows us to support certain http headers to be specified via the query string.
     private static Map<String, String> headerNameMappings;
 
     // This map allows us to use default values for selected HTTP headers.
@@ -73,8 +73,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         super(req);
         delegate = req;
 
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " + req.toString());
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " + req.toString());
         }
 
         // Extra query parameters that can override HTTP headers.
@@ -119,13 +119,18 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * Map for use later by our "getHeader" type methods.
      */
     private void initQueryParameterValues(HttpServletRequest req) {
-        queryParameters = new HashMap<>();
-        queryParameters.put("_format", req.getParameter("_format"));
-        queryParameters.put("x-method-override", req.getParameter("x-method-override"));
-        queryParameters.put("x-http-method-override", req.getParameter("x-http-method-override"));
-
+        headerQueryParameters = new HashMap<>();
+        for (Map.Entry<String,String> mapEntry : headerNameMappings.entrySet()) {
+            String headerName = mapEntry.getKey();
+            String queryParameterName = mapEntry.getValue();
+            String headerValue = req.getParameter(queryParameterName);
+            if (headerValue != null) {
+                headerQueryParameters.put(headerName, headerValue);
+            }
+        }
+        
         if (log.isLoggable(Level.FINER)) { 
-            log.finer("Retrieved these query parameters from the request URI: " + queryParameters.toString());
+            log.finer("Retrieved these 'header' query parameters from the request URI: " + headerQueryParameters.toString());
         }
     }
 
@@ -158,7 +163,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private void formParameters(HttpServletRequest req) {
         // Get the original queury String
         String originalQueryString = req.getQueryString();
-        log.finer("Processing form parameters, original queryString is " + originalQueryString);
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("Processing form parameters, original queryString is " + originalQueryString);
+        }
 
         // Append each parameter to the end of the new queryString
         // Note that the parameter map contains the form values and the query
@@ -192,7 +199,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             throw new RuntimeException(e);
         }
 
-        log.finer("After processing form parameters, queryString is " + queryString);
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("After processing form parameters, queryString is " + queryString);
+        }
     }
 
     /**
@@ -210,7 +219,6 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @see javax.servlet.http.HttpServletRequest#getHeader(java.lang.String)
      */
     public String getHeader(String headerName) {
-
         if (headerName == null) {
             throw new IllegalArgumentException();
         }
@@ -219,19 +227,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         String s = null;
 
-        // First, check to see if this header is one that we also support as a
-        // query parameter.
-        String queryParamName = headerNameMappings.get(headerNameLC);
-
-        // If we found this header name in our header name map,
-        // then check to see if the user specified a value for it in the query
-        // string.
-        if (queryParamName != null) {
-            String queryValue = queryParameters.get(queryParamName);
-            if (queryValue != null && !queryValue.isEmpty()) {
-                s = queryValue;
-                s = possiblyMapQueryParameterValue(queryParamName, s);
-            }
+        // First, check to see if the user specified this header as a query parameter.
+        String queryValue = headerQueryParameters.get(headerNameLC);
+        if (queryValue != null && !queryValue.isEmpty()) {
+            s = queryValue;
+            s = possiblyMapQueryParameterValue(headerNameLC, s);
         }
 
         // If we didn't find an override value via the query string, then call
@@ -248,22 +248,26 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 s = defaultValue;
             }
         }
+        
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("getHeader(\"" + headerName + "\") : " + s);
+        }
 
         return s;
     }
 
     /**
-     * For specific query parameters (e.g. "_format"), we'll attempt to map the input value (specified by the user in
-     * the URI string) to a more official value.
+     * For specific request headers specified as a query parameter (e.g. "accept/_format"), we'll attempt 
+     * to map the input value (specified by the user in the URI string) to a more official value.
      * 
-     * @param queryParamName
-     *            the name of the query parameter that we're dealing with
+     * @param headerName
+     *            the name of the request header that was specified as a query parameter
      * @param value
-     *            the value of the query parameter
+     *            the value of the query parameter (header value)
      * @return a possibly mapped value or the original value if no mapping exists
      */
-    private String possiblyMapQueryParameterValue(String queryParamName, String value) {
-        if (queryParamName.equals("_format")) {
+    private String possiblyMapQueryParameterValue(String headerName, String value) {
+        if (headerName.equals("accept")) {
             String mappedValue = _formatShortcuts.get(value);
             if (mappedValue != null) {
                 value = mappedValue;
@@ -279,28 +283,53 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
      */
     public Enumeration<String> getHeaderNames() {
+        
         // Retrieve the header names from our delegate.
+        // If the delegate returns null, that means the servlet container does not want
+        // this method to be used.
         Enumeration<String> e = delegate.getHeaderNames();
-
-        // Copy all the header names into a Vector and remember
-        // whether or not we found the Accept header.
-        Vector<String> v = new Vector<String>();
-        boolean foundAccept = false;
-        while (e.hasMoreElements()) {
-            String s = (String) e.nextElement();
-            if (s.equalsIgnoreCase(HttpHeaders.ACCEPT)) {
-                foundAccept = true;
-            }
-            v.add(s);
+        if (e == null) {
+            return null;
         }
 
-        // If we didn't find the Accept header, then add it to our Vector
-        // before returning.
-        if (!foundAccept) {
-            v.add(HttpHeaders.ACCEPT);
+        // Copy all the header names into a Vector, then
+        // add to it any headers that were specified via the query string.
+        Vector<String> v = new Vector<String>();
+        while (e.hasMoreElements()) {
+            v.add(e.nextElement());
+        }
+        
+        // Make sure the ACCEPT header is in the returned list since we
+        // have a default value for that one.
+        addHeaderNameIfNotPresent(v, HttpHeaders.ACCEPT);
+        
+        // Next, add names of headers that were specified via the query string.
+        for (String s : headerQueryParameters.keySet()) {
+            addHeaderNameIfNotPresent(v, s);
+        }
+        
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("getHeaderNames() returning: " + v.toString());
         }
 
         return v.elements();
+    }
+
+    private void addHeaderNameIfNotPresent(Vector<String> v, String value) {
+        // Walk through the vecter 'v', looking for 'value'.
+        boolean foundIt = false;
+        for (int i = 0; i < v.size(); i++) {
+            String element = v.get(i);
+            if (value.equalsIgnoreCase(element)) {
+                foundIt = true;
+                break;
+            }
+        }
+        
+        // If we didn't find it, then add it to the vector.
+        if (!foundIt) {
+            v.add(value);
+        }
     }
 
     /**
@@ -324,16 +353,13 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         // If this is one of the headers that we allow to be overridden, then
         // use the query string value instead.
-        String queryParamName = headerNameMappings.get(headerNameLC);
-        if (queryParamName != null) {
-            String queryValue = queryParameters.get(queryParamName);
-            if (queryValue != null && !queryValue.isEmpty()) {
-                v = new Vector<String>();
-                s = queryValue;
-                s = possiblyMapQueryParameterValue(queryParamName, s);
-                v.add(s);
-                e = v.elements();
-            }
+        String queryValue = headerQueryParameters.get(headerNameLC);
+        if (queryValue != null && !queryValue.isEmpty()) {
+            v = new Vector<String>();
+            s = queryValue;
+            s = possiblyMapQueryParameterValue(headerNameLC, s);
+            v.add(s);
+            e = v.elements();
         }
 
         // If we haven't retrieved a value yet, then call our delegate.
@@ -352,7 +378,21 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 e = v.elements();
             }
         }
-
+        
+        // In order to display the header values in a trace message, we actually need to
+        // get at the vector containing the individual values.  Otherwise if we visit the values
+        // in the returned Enumeration, the caller won't be able to see the values.
+        if (log.isLoggable(Level.FINER)) {
+            if (v == null) {
+                v = new Vector<String>();
+                while (e.hasMoreElements()) {
+                    v.add(e.nextElement());
+                }
+                e = v.elements();
+            }
+            log.finer("getHeaders(\"" + headerName + "\") : " + v.toString());
+        }
+        
         return e;
     }
 
