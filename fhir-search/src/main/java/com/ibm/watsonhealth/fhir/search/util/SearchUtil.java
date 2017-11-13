@@ -750,7 +750,7 @@ public class SearchUtil {
 
         for (String name : queryParameters.keySet()) {
             try {
-                if (isFormatParameter(name) || isSearchResultParameter(name)) {
+                if (queryParameterShouldBeExcluded(name) || isSearchResultParameter(name)) {
                     if (isSearchResultParameter(name)) {
                         parseSearchResultParameter(resourceType, context, name, queryParameters.get(name), queryString);
                     }
@@ -977,8 +977,12 @@ public class SearchUtil {
         return returnPrefix;
     }
 
-    private static boolean isFormatParameter(String name) {
-        return "_format".equals(name);
+    private static boolean queryParameterShouldBeExcluded(String name) {
+        if ("_format".equals(name) || name.startsWith("x-whc-lsf-")) {
+            return true;
+        }
+        
+        return false;
     }
 
     private static boolean isSearchResultParameter(String name) {

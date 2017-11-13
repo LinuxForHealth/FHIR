@@ -877,6 +877,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs the heavy lifting associated with a 'create' interaction.
+     * @param type the resource type specified as part of the request URL
      * @param resource the Resource to be stored.
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception

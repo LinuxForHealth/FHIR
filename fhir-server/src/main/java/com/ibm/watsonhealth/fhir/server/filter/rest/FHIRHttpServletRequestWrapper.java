@@ -136,9 +136,17 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private static void initHeaderNameMappings() {
         headerNameMappings = new HashMap<>();
 
+        //                  header name, query parameter name
         headerNameMappings.put("accept", "_format");
         headerNameMappings.put("x-method-override", "x-method-override");
         headerNameMappings.put("x-http-method-override", "x-http-method-override");
+        headerNameMappings.put("x-whc-lsf-resourcename", "x-whc-lsf-resourcename");
+        headerNameMappings.put("x-whc-lsf-patientid", "x-whc-lsf-patientid");
+        headerNameMappings.put("x-whc-lsf-studyid", "x-whc-lsf-studyid");
+        headerNameMappings.put("x-whc-lsf-siteid", "x-whc-lsf-siteid");
+        headerNameMappings.put("x-whc-lsf-appname", "x-whc-lsf-appname");
+        headerNameMappings.put("x-whc-lsf-appversion", "x-whc-lsf-appversion");
+        headerNameMappings.put("x-whc-lsf-rolename", "x-whc-lsf-rolename");
     }
 
     /**
