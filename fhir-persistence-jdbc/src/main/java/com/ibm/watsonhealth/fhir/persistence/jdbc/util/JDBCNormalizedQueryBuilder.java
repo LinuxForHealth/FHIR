@@ -80,10 +80,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
     protected static final String LATITUDE_VALUE = "LATITUDE_VALUE";
     protected static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
     
-    protected static final Integer DEFAULT_CACHE_ID = new Integer(-1);
     
-		 
-	
+    
 	/**
 	 * An enumeration of SQL query operators.
 	 */
@@ -530,9 +528,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 					// Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.STR_VALUE IN
 				    parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getName());
 			        if (parameterNameId == null) {
-			            // When parameterNameId is null, it means that the parameter name is valid, but no parameter with that 
-			            // name has yet been persisted to the DB. 
-			            parameterNameId = new Integer(DEFAULT_CACHE_ID);
+			            parameterNameId = this.parameterDao.readParameterNameId(currentParm.getName());
+			            this.parameterDao.getNewParameterNameIds().put(currentParm.getName(), parameterNameId);
 			        }
 					whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID")
 				  	  				  .append(JDBCOperator.EQ.value())
@@ -580,9 +577,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				// Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
 			    parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getName());
                 if (parameterNameId == null) {
-                    // When parameterNameId is null, it means that the parameter name is valid, but no parameter with that 
-                    // name has yet been persisted to the DB. 
-                    parameterNameId = new Integer(DEFAULT_CACHE_ID);
+                    parameterNameId = this.parameterDao.readParameterNameId(currentParm.getName());
+                    this.parameterDao.getNewParameterNameIds().put(currentParm.getName(), parameterNameId);
                 }
 				whereClauseSegment.append(chainedParmVar).append(".PARAMETER_NAME_ID=")
 								  .append(parameterNameId).append(AND)
@@ -658,9 +654,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			// Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
 			parameterNameId = ParameterNamesCache.getParameterNameId(lastParm.getName());
             if (parameterNameId == null) {
-                // When parameterNameId is null, it means that the parameter name is valid, but no parameter with that 
-                // name has yet been persisted to the DB. 
-                parameterNameId = new Integer(DEFAULT_CACHE_ID);
+                parameterNameId = this.parameterDao.readParameterNameId(lastParm.getName());
+                this.parameterDao.getNewParameterNameIds().put(lastParm.getName(), parameterNameId);
             }
 			whereClauseSegment.append(chainedParmVar).append(".PARAMETER_NAME_ID=")
 							  .append(parameterNameId).append(AND)
@@ -925,9 +920,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			   		.append(operator.value()).append(BIND_VAR);
 				codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
                 if (codeSystemId == null) {
-                    // When codeSystemId is null, it means that the codeSystem name is valid, but no codeSystem with that 
-                    // name has yet been persisted to the DB. 
-                    codeSystemId = new Integer(DEFAULT_CACHE_ID);
+                    codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
+                    this.parameterDao.getNewCodeSystemIds().put(value.getValueSystem(), codeSystemId);
                 }
                 bindVariables.add(codeSystemId);
 			}
@@ -1027,9 +1021,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
 			    systemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
                 if (systemId == null) {
-                    // When systemId is null, it means that the system name is valid, but no system with that 
-                    // name has yet been persisted to the DB. 
-                    systemId = new Integer(DEFAULT_CACHE_ID);
+                    systemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
+                    this.parameterDao.getNewCodeSystemIds().put(value.getValueSystem(), systemId);
                 }
                 whereClauseSegment.append(JDBCOperator.AND.value())
                                   .append(PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
@@ -1117,9 +1110,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		//(P1.PARAMETER_NAME_ID = x 
 		parameterNameId = ParameterNamesCache.getParameterNameId(queryParmName);
         if (parameterNameId == null) {
-            // When parameterNameId is null, it means that the parameter name is valid, but no parameter with that 
-            // name has yet been persisted to the DB. 
-            parameterNameId = new Integer(DEFAULT_CACHE_ID);
+            parameterNameId = this.parameterDao.readParameterNameId(queryParmName);
+            this.parameterDao.getNewParameterNameIds().put(queryParmName, parameterNameId);
         }
 		whereClauseSegment.append(LEFT_PAREN);
 		whereClauseSegment.append(parameterTableAlias).append("PARAMETER_NAME_ID=").append(parameterNameId);

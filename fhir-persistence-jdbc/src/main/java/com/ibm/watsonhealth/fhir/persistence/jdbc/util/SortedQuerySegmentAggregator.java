@@ -243,9 +243,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 		for (SortParameter sortParm: this.sortParameters) {
 			sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getName());
             if (sortParameterNameId == null) {
-                // When parameterNameId is null, it means that the parameter name is valid, but no parameter with that 
-                // name has yet been persisted to the DB. 
-                sortParameterNameId = new Integer(JDBCNormalizedQueryBuilder.DEFAULT_CACHE_ID);
+                sortParameterNameId = this.dao.readParameterNameId(sortParm.getName());
+                this.dao.getNewParameterNameIds().put(sortParm.getName(), sortParameterNameId);
             }
 			joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(" ")
 			          .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
