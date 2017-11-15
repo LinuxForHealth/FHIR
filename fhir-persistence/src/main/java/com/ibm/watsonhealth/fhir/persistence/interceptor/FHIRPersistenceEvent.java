@@ -56,13 +56,16 @@ public class FHIRPersistenceEvent {
     
     /**
      * This property is of type String and contains the resource type associated with a
-     * read, vread, history or search operation.   For other operations, this property will be null.
+     * create, update, read, vread, history, search, or delete operation.
+     * For other operations, this property will be null.
      */
     public static final String PROPNAME_RESOURCE_TYPE = "RESOURCE_TYPE";
     
     /**
-     * This property is of type String and contains the resource id associated with a
-     * read, vread, or history operation.   For other operations, this property will be null.
+     * This property is of type String and contains the resource id associated with an
+     * update, read, vread, history, or delete operation.
+     * For update and delete it may be null (i.e. for conditional updates/deletes)
+     * For other operations, this property will be null.
      */
     public static final String PROPNAME_RESOURCE_ID = "RESOURCE_ID";
     
@@ -143,7 +146,8 @@ public class FHIRPersistenceEvent {
     
     /**
      * Returns the resource type associated with the FHIR REST API request that triggered the
-     * interceptor invocation.   This will be non-null for a create, update, read, vread, history or search operation.
+     * interceptor invocation.   This will be non-null for a 
+     * create, update, read, vread, history, search, or delete operation.
      */
     public String getFhirResourceType() {
         return (String) getProperty(PROPNAME_RESOURCE_TYPE);
@@ -151,7 +155,7 @@ public class FHIRPersistenceEvent {
     
     /**
      * Returns the resource id associated with the FHIR REST API request that triggered the
-     * interceptor invocation.   This will be non-null for an update, read, vread or history operation.
+     * interceptor invocation.   This will be non-null for a read, vread, history, or non-conditional update/delete operation.
      */
     public String getFhirResourceId() {
         return (String) getProperty(PROPNAME_RESOURCE_ID);
