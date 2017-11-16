@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ibm.watsonhealth.fhir</groupId>
 	<artifactId>fhir-parent</artifactId>
-	<version>99-SNAPSHOT</version>
+	<version>2.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>IBM Watson Platform for Health FHIR Server</name>
 
@@ -445,7 +445,7 @@ CODE_REMOVED
 	<distributionManagement>
 		<repository>
 			<id>wh-releases</id>
-			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/releases/</url>
+			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/stages/</url>
 		</repository>
 		<snapshotRepository>
 			<id>wh-snapshots</id>
