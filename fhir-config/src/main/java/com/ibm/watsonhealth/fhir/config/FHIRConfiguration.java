@@ -59,6 +59,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
     public static final String PROPERTY_COMPOUND_KEY_SEARCH_PARAMETER_NAMES = "fhirServer/persistence/hbase/compoundKeyExtensionUrls";
+    public static final String PROPERTY_PROPERTY_RESOURCE_NAMES = "fhirServer/persistence/hbase/resourceNames";
+    public static final String PROPERTY_PROPERTY_EXPIRE_TIME_EXTENSION_URL = "fhirServer/persistence/hbase/expireTimeExtUrl";
+    public static final String PROPERTY_WEATHER_CODE_URL = "fhirServer/persistence/hbase/weatherCodeUrl";
     public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/authFilter/enabled";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/authFilter/authorizedClientCertClientCN";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/authFilter/authorizedClientCertIssuerOU";
