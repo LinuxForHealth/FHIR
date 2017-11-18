@@ -24,9 +24,6 @@ public class ReplicationInfo {
     private String siteId;
     private String studyId;
     private String patientId;
-    private String resourceName;
-    private String appName;
-    private String appVersion;
     
     private String resourceRef;
     private String previousResourceRef;
@@ -114,24 +111,6 @@ public class ReplicationInfo {
 	}
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
-	}
-	public String getResourceName() {
-		return resourceName;
-	}
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
-	public String getAppName() {
-		return appName;
-	}
-	public void setAppName(String appName) {
-		this.appName = appName;
-	}
-	public String getAppVersion() {
-		return appVersion;
-	}
-	public void setAppVersion(String appVersion) {
-		this.appVersion = appVersion;
 	}
 	public String getResourceRef() {
 		return resourceRef;
