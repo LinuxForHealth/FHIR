@@ -416,7 +416,8 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		StringBuffer requestUrl;
-		String subjectIdExtUrl;
+		String patientIdExtUrl;
+		String resourceNameExtUrl;
 		List<String> userList = new ArrayList<>();
 				
 		// Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
@@ -460,8 +461,10 @@ public class RestAuditLogger {
 		entry.setClientCertIssuerOu(request.getHeader(HEADER_CLIENT_CERT_ISSUER_OU));
 		entry.setCorrelationId(request.getHeader(HEADER_CORRELATION_ID));
 		
-		subjectIdExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_SUBJECT_ID_EXTURL, null);
-		entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, subjectIdExtUrl));
+		patientIdExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_PATIENT_ID_EXTURL, null);
+		entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, patientIdExtUrl));
+		resourceNameExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_RESOURCE_NAME_EXTURL, null);
+		entry.getContext().setResourceName((FHIRUtil.getExtensionStringValue(resource, resourceNameExtUrl)));
 		entry.getContext().setRequestUniqueId(FHIRRequestContext.get().getRequestUniqueId());
 				
 		log.exiting(CLASSNAME, METHODNAME);

@@ -35,6 +35,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_AUDIT_LOGPATH = "fhirServer/audit/logPath";
     public static final String PROPERTY_AUDIT_LOG_MAXSIZE = "fhirServer/audit/logMaxSize";
     public static final String PROPERTY_AUDIT_LOG_MAX_FILE_COUNT = "fhirServer/audit/logMaxFileCount";
+    public static final String PROPERTY_AUDIT_PATIENT_ID_EXTURL = "fhirServer/audit/patientIdExtensionUrl";
+    public static final String PROPERTY_AUDIT_RESOURCE_NAME_EXTURL = "fhirServer/audit/resourceNameExtensionUrl";
     public static final String PROPERTY_ENCRYPTION = "fhirServer/encryption";
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
     public static final String PROPERTY_USE_UUIDS = "fhirServer/persistence/jpa/useUUIDs";
@@ -66,8 +68,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_REPL_INTERCEPTOR_ENABLED = "fhirServer/whclsfRouter/replicationInterceptor/enabled";
     public static final String PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID = "fhirServer/whclsfRouter/replicationInterceptor/resourceTypesRequiringSubjectId";
     public static final String PROPERTY_STUDY_SCOPED_RESOURCES = "fhirServer/whclsfRouter/replicationInterceptor/studyScopedResourceTypes";
-    public static final String PROPERTY_SUBJECT_ID_EXTURL = "fhirServer/whclsfRouter/replicationInterceptor/subjectIdExtensionUrl";
-    
+       
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
     public static final String DEFAULT_DATASTORE_ID_HEADER_NAME = "X-FHIR-DSID";
 

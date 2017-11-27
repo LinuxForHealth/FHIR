@@ -16,7 +16,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
  * @author markd
  *
  */
-@JsonPropertyOrder({"request_unique_id", "action", "operation_name", "purpose", "start_time", "end_time", "api_parameters", "query", "data", "batch" })
+@JsonPropertyOrder({"request_unique_id", "action", "operation_name", "purpose", "resource_name", "start_time", "end_time", "api_parameters", "query", "data", "batch" })
 public class Context {
 	
     @JsonProperty("request_unique_id")
@@ -36,6 +36,9 @@ public class Context {
 	
 	@JsonProperty("purpose")
 	private String purpose;
+	
+	@JsonProperty("resource_name")
+	private String resourceName;
 	
 	@JsonProperty("start_time")
 	private String startTime;
@@ -152,6 +155,16 @@ public class Context {
 
     public void setRequestUniqueId(String requestUniqueId) {
         this.requestUniqueId = requestUniqueId;
+    }
+
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
     }
 
 }
