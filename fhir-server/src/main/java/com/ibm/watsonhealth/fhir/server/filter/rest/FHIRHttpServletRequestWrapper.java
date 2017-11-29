@@ -249,8 +249,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             }
         }
         
-        if (log.isLoggable(Level.FINER)) {
-            log.finer("getHeader(\"" + headerName + "\") : " + s);
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("getHeader(\"" + headerName + "\") : " + s);
         }
 
         return s;
@@ -308,8 +308,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             addHeaderNameIfNotPresent(v, s);
         }
         
-        if (log.isLoggable(Level.FINER)) {
-            log.finer("getHeaderNames() returning: " + v.toString());
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("getHeaderNames() returning: " + v.toString());
         }
 
         return v.elements();
@@ -382,7 +382,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         // In order to display the header values in a trace message, we actually need to
         // get at the vector containing the individual values.  Otherwise if we visit the values
         // in the returned Enumeration, the caller won't be able to see the values.
-        if (log.isLoggable(Level.FINER)) {
+        if (log.isLoggable(Level.FINEST)) {
             if (v == null) {
                 v = new Vector<String>();
                 while (e.hasMoreElements()) {
@@ -390,7 +390,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 }
                 e = v.elements();
             }
-            log.finer("getHeaders(\"" + headerName + "\") : " + v.toString());
+            log.finest("getHeaders(\"" + headerName + "\") : " + v.toString());
         }
         
         return e;
@@ -551,7 +551,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (override != null) {
             override = override.trim();
             if (log.isLoggable(Level.FINER)) {
-                log.finer("The HTTP method is overridden by the " + HEADER_X_METHOD_OVERRIDE + " header.  The value is (" + override + ")");
+                log.finest("The HTTP method is overridden by the " + HEADER_X_METHOD_OVERRIDE + " header.  The value is (" + override + ")");
             }
             return override;
         }
