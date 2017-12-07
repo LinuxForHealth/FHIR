@@ -1221,6 +1221,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Next, if a conditional delete was invoked then use the search criteria to find the
             // resource to be deleted.   Otherwise, we'll use the id value to identify the resource
             // to be deleted.
+            Resource resourceToDelete = null;
             if (searchQueryString != null) {
                 log.fine("Performing conditional delete with search criteria: " + searchQueryString);
                 Bundle responseBundle = null;
@@ -1245,6 +1246,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     // If we found a single match, then we'll delete this one.
                     Resource resource = FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
                     id = resource.getId().getValue();
+                    resourceToDelete = resource;
                 } else {
                     String msg = "The search criteria specified for a conditional delete operation returned multiple matches.";
                     throw new FHIRException(msg, Response.Status.PRECONDITION_FAILED, null);
@@ -1254,6 +1256,9 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (id == null) {
                     throw new FHIRException("The 'id' parameter is required for a delete operation.");
                 }
+                
+                // Read the resource so it will be available to the beforeDelete interceptor methods.
+                resourceToDelete = doRead(type, id, false, false);
             }
             
             
@@ -1267,15 +1272,14 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // First, invoke the 'beforeDelete' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null));
+            event.setFhirResource(resourceToDelete);
             getInterceptorMgr().fireBeforeDeleteEvent(event);
             
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
 
             Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id);
-            if (resource != null) {
-                ior.setResource(resource);
-                event.setFhirResource(resource);
-            }
+            ior.setResource(resource);
+            event.setFhirResource(resource);
             ior.setStatus(Response.Status.NO_CONTENT);
             
             // Invoke the 'afterDelete' interceptor methods.
