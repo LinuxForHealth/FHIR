@@ -1258,9 +1258,13 @@ public class FHIRResource implements FHIRResourceHelpers {
                 }
                 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
-                resourceToDelete = doRead(type, id, false, false);
+                try {
+                    resourceToDelete = doRead(type, id, false, false);
+                } catch (FHIRPersistenceResourceDeletedException e) {
+                    // Absorb this exception.
+                    resourceToDelete = null;
+                }
             }
-            
             
             // Start a new txn in the persistence layer if one is not already active.
             txn = getTransaction();
