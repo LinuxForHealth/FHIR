@@ -8,12 +8,18 @@ package com.ibm.watsonhealth.fhir.server;
 
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
 
 /**
  * This class is used to manage access to build-related information stored
  * during the build in buildinfo.properties.
  */
 public class FHIRBuildIdentifier {
+    private static final String CLASSNAME = FHIRBuildIdentifier.class.getName();
+    private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
     
     private static final String BUILD_PROPS_FILENAME = "buildinfo.properties";
     private static final String BUILD_PROP_VERSION = "fhir.server.build.version";
@@ -30,7 +36,7 @@ public class FHIRBuildIdentifier {
             if(is == null) {
                 is = FHIRBuildIdentifier.class.getResourceAsStream(BUILD_PROPS_FILENAME);
                 if(is == null) {
-                    // throw new FHIRException("Failed to read build information: '" + BUILD_PROPS_FILENAME + "' not found");
+                    log.severe("All attempts to open input stream to " + BUILD_PROPS_FILENAME + " have failed." );
                 }
             }
         }
@@ -38,8 +44,10 @@ public class FHIRBuildIdentifier {
         if (is != null) {
             try {
                 buildProperties.load(is);
-            } catch (Exception e) {
-                // throw new FHIRException("Failed to read build information: " + e.getMessage(), e);
+                log.info("Build properties file successfully loaded: " + BUILD_PROPS_FILENAME);
+            } catch (Throwable e) {
+                FHIRException fe = new FHIRException(e);
+                log.log(Level.SEVERE, "Attempt to load build properties from input stream failed.", fe);
             }
         }
     }
