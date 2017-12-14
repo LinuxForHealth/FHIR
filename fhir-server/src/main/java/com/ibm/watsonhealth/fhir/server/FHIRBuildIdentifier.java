@@ -45,6 +45,7 @@ public class FHIRBuildIdentifier {
             try {
                 buildProperties.load(is);
                 log.info("Build properties file successfully loaded: " + BUILD_PROPS_FILENAME);
+                log.info("Build properties file contains: \n" + buildProperties.toString());
             } catch (Throwable e) {
                 FHIRException fe = new FHIRException(e);
                 log.log(Level.SEVERE, "Attempt to load build properties from input stream failed.", fe);
