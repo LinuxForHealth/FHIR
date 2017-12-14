@@ -50,7 +50,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
  */
 public class BundleTest extends FHIRServerTestBase {
     // Set this to true to have the request and response bundles displayed on the console.
-    private boolean debug = true;
+    private boolean debug = false;
 
     // Variables used by the batch tests.
     private Patient patientB1 = null;
