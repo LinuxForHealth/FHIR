@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.rest;
 
+import java.util.Map;
+
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.watsonhealth.fhir.model.Bundle;
@@ -25,7 +27,7 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist) throws Exception;
+    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Performs an update operation (a new version of the Resource will be stored).
@@ -37,7 +39,7 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString) throws Exception;
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Performs a 'delete' operation on the specified resource.
@@ -46,7 +48,7 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString) throws Exception;
+    public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Performs a 'read' operation to retrieve a Resource.
@@ -55,7 +57,7 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted) throws Exception;
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource) throws Exception;
 
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource.
@@ -65,7 +67,7 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    public Resource doVRead(String type, String id, String versionId) throws Exception;
+    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Performs the work of retrieving versions of a Resource.
@@ -79,7 +81,7 @@ public interface FHIRResourceHelpers {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
+    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Performs heavy lifting associated with a 'search' operation.
@@ -88,7 +90,7 @@ public interface FHIRResourceHelpers {
      * @return a Bundle containing the search result set
      * @throws Exception
      */
-    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri)
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties, Resource contextResource)
         throws Exception;
 
     
@@ -104,7 +106,7 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-        Resource resource) throws Exception;
+        Resource resource, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Processes a bundled request (batch or transaction type).
@@ -113,7 +115,7 @@ public interface FHIRResourceHelpers {
      *            the request Bundle
      * @return the response Bundle
      */
-    public Bundle doBundle(Bundle bundle) throws Exception;
+    public Bundle doBundle(Bundle bundle, Map<String, String> requestProperties) throws Exception;
     
     public FHIRPersistenceTransaction getTransaction() throws Exception;
 }

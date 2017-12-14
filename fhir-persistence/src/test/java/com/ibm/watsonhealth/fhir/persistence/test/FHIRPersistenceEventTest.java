@@ -35,6 +35,7 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         assertNull(pe.getFhirVersionId());
         assertFalse(pe.isStandardResourceType());
         assertNull(pe.getHttpHeaders());
+        assertNull(pe.getRequestProperties());
         assertNull(pe.getSecurityContext());
         assertNull(pe.getUriInfo());
         assertNull(pe.getTransactionCorrelationId());
@@ -81,5 +82,23 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         assertNotNull(actualRC);
         assertEquals(expectedRC.getVersionId(), actualRC.getVersionId());
         assertEquals(expectedRC.getLastUpdated(), actualRC.getLastUpdated());
+    }
+    
+    @Test
+    public void testGetHeaderString() throws Exception {
+        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Map<String, Object> properties = new HashMap<>();
+        
+        Map<String, String> reqProps = new HashMap<String, String>();
+        reqProps.put("X-WHC-LSF-resourcename", "ResourceName1");
+        reqProps.put("X-WHC-LSF-rolename", "role1");
+        
+        properties.put(FHIRPersistenceEvent.PROPNAME_REQUEST_PROPERTIES, reqProps);
+        
+        FHIRPersistenceEvent pe = new FHIRPersistenceEvent(patient, properties);
+        
+        assertEquals("ResourceName1", pe.getHeaderString("X-WHC-LSF-resourcename"));
+        assertEquals("role1", pe.getHeaderString("X-WHC-LSF-rolename"));
+        assertNull(pe.getHeaderString("X-WHC-LSF-studyid"));
     }
 }

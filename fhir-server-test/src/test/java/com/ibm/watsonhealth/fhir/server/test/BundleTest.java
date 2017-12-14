@@ -10,6 +10,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Extension;
 import com.ibm.watsonhealth.fhir.model.HTTPVerbList;
 import com.ibm.watsonhealth.fhir.model.HumanName;
+import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Organization;
@@ -48,7 +50,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
  */
 public class BundleTest extends FHIRServerTestBase {
     // Set this to true to have the request and response bundles displayed on the console.
-    private boolean debug = false;
+    private boolean debug = true;
 
     // Variables used by the batch tests.
     private Patient patientB1 = null;
@@ -86,6 +88,7 @@ public class BundleTest extends FHIRServerTestBase {
 
     private static final String ORG_EXTENSION_URL = "http://my.url.domain.com/acme-healthcare/lab-collection-org";
     private static final String PATIENT_EXTENSION_URL = "http://my.url.domain.com/acme-healthcare/related-patient";
+    private static final String HEADER_EXTENSION_URL = "http://www.ibm.com/watsohealth/fhir/extensions/http-request-header";
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
@@ -2056,6 +2059,71 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
     }
     
+    @Test(groups = { "batch" })
+    public void testRequestProperties() throws Exception {
+        String method = "testRequestProperties1";
+        
+        String patientId = UUID.randomUUID().toString();
+        String urlString = "Patient?_id=" + patientId;
+
+        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        
+        ObjectFactory of = getObjectFactory();
+        List<Extension> extensions;
+        Extension extension;
+        
+        // 1) Add a request with some valid request header extensions.
+        extensions = new ArrayList<>();
+        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
+                .withValueString(of.createString().withValue("X-WHC-LSF-resourcename: Participant"));
+        extensions.add(extension);
+        extension = of.createExtension().withUrl("urn:some-url")
+                .withValueString(of.createString().withValue("Some string value..."));
+        extensions.add(extension);
+        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
+                .withValueString(of.createString().withValue("X-WHC-LSF-studyid: study001"));
+        extensions.add(extension);
+
+        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
+        
+        // 2) Add a request with an invalid request header extension.
+        extensions = new ArrayList<>();
+        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
+                .withValueString(of.createString().withValue("FOO"));
+        extensions.add(extension);
+
+        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
+
+        // 3) Add a request with an invalid request header extension.
+        extensions = new ArrayList<>();
+        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
+                .withValueString(of.createString().withValue("Header1:"));
+        extensions.add(extension);
+
+        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
+       
+        // 4) Add a request with an invalid request header extension.
+        extensions = new ArrayList<>();
+        extension = of.createExtension().withUrl(HEADER_EXTENSION_URL)
+                .withValueBoolean(of.createBoolean().withValue(Boolean.TRUE));
+        extensions.add(extension);
+
+        addRequestToBundle(bundle, HTTPVerbList.GET, urlString, null, null, extensions);
+
+        printBundle(method, "request", bundle);
+
+        FHIRResponse response = client.batch(bundle);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.getResource(Bundle.class);
+        printBundle(method, "response", responseBundle);
+        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
+        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(), "The proper syntax for");
+        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(), "The proper syntax for");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "The valueString field is required");
+    }
+    
     /**
      * Helper function to create a set of Observations, and return them in a response bundle.
      */
@@ -2209,8 +2277,11 @@ public class BundleTest extends FHIRServerTestBase {
         bundle.getEntry().add(requestEntry);
         return requestEntry;
     }
-
     private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource) throws Exception {
+        return addRequestToBundle(bundle, method, url, ifMatch, resource, null, null);
+    }
+
+    private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource, List<Extension> requestExtensions) throws Exception {
         BundleEntry entry = addRequestEntryToBundle(bundle);
         BundleRequest request = entry.getRequest();
         if (method != null) {
@@ -2227,13 +2298,21 @@ public class BundleTest extends FHIRServerTestBase {
             FHIRUtil.setResourceContainerResource(container, resource);
             entry.setResource(container);
         }
+        if (requestExtensions != null) {
+            request.withExtension(requestExtensions);
+        }
 
         return entry;
     }
 
     private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource, String fullUrl) throws Exception {
-        BundleEntry entry = addRequestToBundle(bundle, method, url, ifMatch, resource);
-        if (entry != null) {
+        return addRequestToBundle(bundle, method, url, ifMatch, resource, fullUrl, null);
+    }
+
+    private BundleEntry addRequestToBundle(Bundle bundle, HTTPVerbList method, String url, String ifMatch, Resource resource, String fullUrl,
+        List<Extension> requestExtensions) throws Exception {
+        BundleEntry entry = addRequestToBundle(bundle, method, url, ifMatch, resource, requestExtensions);
+        if (entry != null && fullUrl != null) {
             entry.setFullUrl(getObjectFactory().createUri().withValue(fullUrl));
         }
 

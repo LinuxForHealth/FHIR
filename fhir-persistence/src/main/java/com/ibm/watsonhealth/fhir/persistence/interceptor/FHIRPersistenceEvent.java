@@ -41,6 +41,13 @@ public class FHIRPersistenceEvent {
      * associated with the REST API request for which the interceptor is being invoked.
      */
     public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
+    
+    /**
+     * This property is of type java.util.Map<String, String> and contains the
+     * set of additional request properties associated with the REST API request for which the interceptor 
+     * is being invoked.
+     */
+    public static final String PROPNAME_REQUEST_PROPERTIES = "REQUEST_PROPERTIES";
 
     /**
      * This property is of type javax.ws.rs.core.SecurityContext and contains security-related information
@@ -187,6 +194,15 @@ public class FHIRPersistenceEvent {
     }
     
     /**
+     * Returns the Map containing additional request properties associated with the 
+     * FHIR REST API request that triggered the interceptor invocation.
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, String> getRequestProperties() {
+        return (Map<String, String>) getProperty(PROPNAME_REQUEST_PROPERTIES);
+    }
+   
+    /**
      * Returns the SecurityContext instance associated with the FHIR REST API request that triggered the
      * interceptor invocation.
      * Note that this SecurityContext instance is only valid within the scope of the REST API request.
@@ -253,5 +269,23 @@ public class FHIRPersistenceEvent {
             properties = new HashMap<String, Object>();
         }
         return properties;
+    }
+    
+    /**
+     * Retrieves the specified header from the combined list of request headers
+     * and additional request properties associated with the request.
+     * @param headerName the name of the header to retrieve
+     * @return the value of the request header or null if not present
+     */
+    public String getHeaderString(String headerName) {
+        String value = null;
+        Map<String, String> props = getRequestProperties();
+        if (props != null) {
+            value = props.get(headerName);
+        }
+        if (value == null && getHttpHeaders() != null) {
+            value = getHttpHeaders().getHeaderString(headerName);
+        }
+        return value;
     }
 }
