@@ -66,8 +66,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/authFilter/authorizedClientCertIssuerOU";
 
     public static final String PROPERTY_REPL_INTERCEPTOR_ENABLED = "fhirServer/whclsfRouter/replicationInterceptor/enabled";
-    public static final String PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID = "fhirServer/whclsfRouter/replicationInterceptor/resourceTypesRequiringSubjectId";
-    public static final String PROPERTY_STUDY_SCOPED_RESOURCES = "fhirServer/whclsfRouter/replicationInterceptor/studyScopedResourceTypes";
+    public static final String PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID = "fhirServer/whclsfRouter/resourceNamesRequiringConsentEnforcement";
+    public static final String PROPERTY_STUDY_SCOPED_RESOURCES = "fhirServer/whclsfRouter/resourceNamesRequiringPatientId";
        
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
     public static final String DEFAULT_DATASTORE_ID_HEADER_NAME = "X-FHIR-DSID";

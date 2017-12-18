@@ -30,6 +30,7 @@ public class ReplicationUtil {
     private static final String EXTURL_SITE_ID = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/siteid";
     private static final String EXTURL_APP_NAME = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/appName";
     private static final String EXTURL_APP_VERSION = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/appVersionNumber";
+    private static final String EXTURL_RESOURCENAME = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/resourceName";
 	
 	/**
 	 * Adds the patientId, siteId and studyId contained in the passed Resource to the ReplicationInfo contained in the 
@@ -85,11 +86,13 @@ public class ReplicationUtil {
 					    extension.getUrl().equals(EXTURL_PATIENT_ID) ||
 					    extension.getUrl().equals(EXTURL_APP_NAME) ||
 					    extension.getUrl().equals(EXTURL_APP_VERSION))) {
-						copyToDomainResource.getExtension().add(extension);
+					copyToDomainResource.getExtension().add(extension);
 				}
 				else if (isPatientRelatedResourceType(copyFromDomainResource) &&  
 					     extension.getUrl().equals(EXTURL_PATIENT_ID)) {
-						copyToDomainResource.getExtension().add(extension);
+					copyToDomainResource.getExtension().add(extension);
+				} else if (extension.getUrl().equals(EXTURL_RESOURCENAME)) {
+					copyToDomainResource.getExtension().add(extension);
 				}
 			}
         }
@@ -101,14 +104,14 @@ public class ReplicationUtil {
 	 * @return boolean - true if the passed resource is a study-scoped type; false otherwise.
 	 */
 	private static boolean isStudyScopedResourceType(Resource resource) {
-		boolean isStudyScopedResourceType = false;
-		List<String> studyScopedResourceTypes;
+		boolean isStudyScopedResourceName = false;
+		List<String> studyScopedResourceNames;
 		
-		studyScopedResourceTypes = FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_STUDY_SCOPED_RESOURCES);
-		isStudyScopedResourceType = (studyScopedResourceTypes != null) && 
-							   	    (studyScopedResourceTypes.contains(FHIRUtil.getResourceTypeName(resource)));
+		studyScopedResourceNames = FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_STUDY_SCOPED_RESOURCES);
+		isStudyScopedResourceName = (studyScopedResourceNames != null) && 
+							   	    (studyScopedResourceNames.contains(FHIRUtil.getResourceTypeName(resource)));
 		
-		return isStudyScopedResourceType;
+		return isStudyScopedResourceName;
 		
 	}
 	
