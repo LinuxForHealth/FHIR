@@ -21,7 +21,7 @@ public class FHIRBuildIdentifier {
     private static final String CLASSNAME = FHIRBuildIdentifier.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
     
-    private static final String BUILD_PROPS_FILENAME = "buildinfo.properties";
+    private static final String BUILD_PROPS_FILENAME = "buildinfo.fhirserver.properties";
     private static final String BUILD_PROP_VERSION = "fhir.server.build.version";
     private static final String BUILD_PROP_BUILDID = "fhir.server.build.id";
     
