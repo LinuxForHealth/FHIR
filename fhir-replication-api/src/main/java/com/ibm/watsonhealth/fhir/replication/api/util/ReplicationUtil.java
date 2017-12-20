@@ -109,7 +109,7 @@ public class ReplicationUtil {
 		
 		studyScopedResourceNames = FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_STUDY_SCOPED_RESOURCES);
 		isStudyScopedResourceName = (studyScopedResourceNames != null) && 
-							   	    (studyScopedResourceNames.contains(FHIRUtil.getResourceTypeName(resource)));
+							   	    (studyScopedResourceNames.contains(FHIRUtil.getExtensionStringValue(resource, EXTURL_RESOURCENAME)));
 		
 		return isStudyScopedResourceName;
 		
@@ -126,7 +126,7 @@ public class ReplicationUtil {
 		
 		patientRelatedResourceTypes = FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID);
 		isPatientRelatedResourceType = (patientRelatedResourceTypes != null) && 
-			   	   					   (patientRelatedResourceTypes.contains(FHIRUtil.getResourceTypeName(resource)));
+			   	   					   (patientRelatedResourceTypes.contains(FHIRUtil.getExtensionStringValue(resource, EXTURL_RESOURCENAME)));
 		
 		return isPatientRelatedResourceType;
 		
