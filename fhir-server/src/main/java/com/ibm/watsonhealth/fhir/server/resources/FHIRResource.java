@@ -112,6 +112,7 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupport
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
+import com.ibm.watsonhealth.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.watsonhealth.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
@@ -886,8 +887,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
 
-        FHIRPersistenceTransaction txn = null;
-        boolean txnStarted = false;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Date startTime = new Date();
         Response.Status status = null;
         String errMsg = "Caught exception while processing 'create' request.";
@@ -958,12 +958,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // If there were no validation errors, then create the resource and return the location header.
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getTransaction();
-            if (txn != null && !txn.isActive()) {
-                txn.begin();
-                txnStarted = true;
-                log.fine("Started new transaction for 'create' operation.");
-            }
+            txn.begin();
 
             // First, invoke the 'beforeCreate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, requestProperties));
@@ -982,12 +977,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireAfterCreateEvent(event);
             
             // Commit our transaction if we started one before.
-            if (txnStarted) {
-                log.fine("Committing transaction for 'create' operation.");
-                txn.commit();
-                txn = null;
-                txnStarted = false;
-            }
+            txn.commit();
 
             status = ior.getStatus();
             return ior;
@@ -1004,11 +994,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            if (txnStarted) {
-                rollback(txn, "create");
-                txn = null;
-                txnStarted = false;
-            }
+            txn.rollback();
+            
             RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doCreate");
         }
@@ -1028,8 +1015,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
 
-        FHIRPersistenceTransaction txn = null;
-        boolean txnStarted = false;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Date startTime = new Date();
         Response.Status status = null;
         String errMsg = "Caught exception while processing 'update' request.";
@@ -1111,12 +1097,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getTransaction();
-            if (txn != null && !txn.isActive()) {
-                txn.begin();
-                txnStarted = true;
-                log.fine("Started new transaction for 'update' operation.");
-            }
+            txn.begin();
             
             // First, invoke the 'beforeUpdate' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null, requestProperties));
@@ -1145,12 +1126,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
             
             // Commit our transaction if we started one before.
-            if (txnStarted) {
-                log.fine("Committing transaction for 'update' operation.");
-                txn.commit();
-                txn = null;
-                txnStarted = false;
-            }
+            txn.commit();
+            
             status = ior.getStatus();
             
             return ior;
@@ -1170,11 +1147,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
 
             // If we still have a transaction at this point, we need to rollback due to an error.
-            if (txnStarted) {
-                rollback(txn, "update");
-                txn = null;
-                txnStarted = false;
-            }
+            txn.rollback();
+
             if (status == Response.Status.CREATED) {
                 RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
             } else {
@@ -1196,8 +1170,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
-        FHIRPersistenceTransaction txn = null;
-        boolean txnStarted = false;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Date startTime = new Date();
         Response.Status status = null;
         String errMsg = "Caught exception while processing 'delete' request.";
@@ -1268,12 +1241,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getTransaction();
-            if (txn != null && !txn.isActive()) {
-                txn.begin();
-                txnStarted = true;
-                log.fine("Started new transaction for 'delete' operation.");
-            }
+            txn.begin();
             
             // First, invoke the 'beforeDelete' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, requestProperties));
@@ -1291,12 +1259,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireAfterDeleteEvent(event);
             
             // Commit our transaction if we started one before.
-            if (txnStarted) {
-                log.fine("Committing transaction for 'delete' operation.");
-                txn.commit();
-                txn = null;
-                txnStarted = false;
-            }
+            txn.commit();
             status = ior.getStatus();
             
             return ior;
@@ -1319,11 +1282,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            if (txnStarted) {
-                rollback(txn, "delete");
-                txn = null;
-                txnStarted = false;
-            }
+            txn.rollback();
+            
             RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doDelete");
         }
@@ -1339,8 +1299,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
         
-        FHIRPersistenceTransaction txn = null;
-        boolean txnStarted = false;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Resource resource = null;
         Date startTime = new Date();
         Response.Status status = null;
@@ -1365,12 +1324,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getTransaction();
-            if (txn != null && !txn.isActive()) {
-                txn.begin();
-                txnStarted = true;
-                log.fine("Started new transaction for 'read' operation.");
-            }
+            txn.begin();
             
             // First, invoke the 'beforeRead' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, id, null, requestProperties));
@@ -1388,12 +1342,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireAfterReadEvent(event);
             
             // Commit our transaction if we started one before.
-            if (txnStarted) {
-                log.fine("Committing transaction for 'read' operation.");
-                txn.commit();
-                txn = null;
-                txnStarted = false;
-            }
+            txn.commit();
+                
             status = Response.Status.OK;
             
             return resource;
@@ -1416,11 +1366,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            if (txnStarted) {
-                rollback(txn, "read");
-                txn = null;
-                txnStarted = false;
-            }
+            txn.rollback();
+            
             RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doRead");
         }
@@ -1436,8 +1383,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
         
-        FHIRPersistenceTransaction txn = null;
-        boolean txnStarted = false;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Resource resource = null;
         Date startTime = new Date();
         Response.Status status = null;
@@ -1462,12 +1408,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getTransaction();
-            if (txn != null && !txn.isActive()) {
-                txn.begin();
-                txnStarted = true;
-                log.fine("Started new transaction for 'vread' operation.");
-            }
+            txn.begin();
             
             // First, invoke the 'beforeVread' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId, requestProperties));
@@ -1485,12 +1426,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireAfterVreadEvent(event);
             
             // Commit our transaction if we started one before.
-            if (txnStarted) {
-                log.fine("Committing transaction for 'vread' operation.");
-                txn.commit();
-                txn = null;
-                txnStarted = false;
-            }
+            txn.commit();
+            
             status = Response.Status.OK;
             
             return resource;
@@ -1513,11 +1450,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            if (txnStarted) {
-                rollback(txn, "vread");
-                txn = null;
-                txnStarted = false;
-            }
+            txn.rollback();
+            
             RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
             
             log.exiting(this.getClass().getName(), "doVRead");
@@ -1539,8 +1473,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
         
-        FHIRPersistenceTransaction txn = null;
-        boolean txnStarted = false;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Bundle bundle = null;
         Date startTime = new Date();
         Response.Status status = null;
@@ -1566,12 +1499,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRHistoryContext historyContext = FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getTransaction();
-            if (txn != null && !txn.isActive()) {
-                txn.begin();
-                txnStarted = true;
-                log.fine("Started new transaction for 'history' operation.");
-            }
+            txn.begin();
             
             // First, invoke the 'beforeHistory' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, requestProperties));
@@ -1588,12 +1516,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireAfterHistoryEvent(event);
             
             // Commit our transaction if we started one before.
-            if (txnStarted) {
-                log.fine("Committing transaction for 'history' operation.");
-                txn.commit();
-                txn = null;
-                txnStarted = false;
-            }
+            txn.commit();
+            
             status = Response.Status.OK;
             return bundle;
         } catch (FHIRException e) {
@@ -1609,11 +1533,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            if (txnStarted) {
-                rollback(txn, "history");
-                txn = null;
-                txnStarted = false;
-            }
+            txn.rollback();
+            
             RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doHistory");
         }
@@ -1629,8 +1550,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties, Resource contextResource) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
         
-        FHIRPersistenceTransaction txn = null;
-        boolean txnStarted = false;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Bundle bundle = null;
         Date startTime = new Date();
         Response.Status status = null;
@@ -1656,12 +1576,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
             // Start a new txn in the persistence layer if one is not already active.
-            txn = getTransaction();
-            if (txn != null && !txn.isActive()) {
-                txn.begin();
-                txnStarted = true;
-                log.fine("Started new transaction for 'search' operation.");
-            }
+            txn.begin();
             
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, requestProperties));
@@ -1685,12 +1600,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireAfterSearchEvent(event);
             
             // Commit our transaction if we started one before.
-            if (txnStarted) {
-                log.fine("Committing transaction for 'search' operation.");
-                txn.commit();
-                txn = null;
-                txnStarted = false;
-            }
+            txn.commit();
+            
             status = Response.Status.OK;
             
             return bundle;
@@ -1707,11 +1618,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            if (txnStarted) {
-                rollback(txn, "search");
-                txn = null;
-                txnStarted = false;
-            }
+            txn.rollback();
+            
             RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doSearch");
         }
@@ -1857,27 +1765,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
         operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
         operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_PROPERTIES, requestProperties);
-    }
-    
-    /**
-     * This method will perform a rollback for the specified REST API operation and then
-     * log any exception caught as a result.
-     * Note: we'll absorb any exception caught while doing the rollback because the assumption
-     * is that the rollback is being performed due an exception that occurred during a commit, 
-     * and we'll want to report that exception in the REST API response, not the exception that
-     * resulted from the rollback.
-     * 
-     * @param txn the transaction to be rolled back
-     * @param operation the operation being processed when the rollback was requested
-     */
-    private void rollback(FHIRPersistenceTransaction txn, String operation) {
-        log.fine("Rolling back transaction for '" + operation + "' operation.");
-        try {
-            txn.rollback();
-        } catch (Throwable t) {
-            String msg = "Unexpected exception while trying to rollback a transaction";
-            log.log(Level.SEVERE, msg, t);
-        }
     }
     
     /**
@@ -2092,7 +1979,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     private void processBundleEntries(Bundle requestBundle, Bundle responseBundle, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "processBundleEntries");
         
-        FHIRPersistenceTransaction txn = null;
+        FHIRTransactionHelper txn = null;
         
         // Generate a request correlation id for this request bundle.
         bundleRequestCorrelationId = UUID.randomUUID().toString();
@@ -2103,7 +1990,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // and sort the request bundle entries by their "url" field.
             if (responseBundle.getType().getValue() == BundleTypeList.TRANSACTION_RESPONSE) {
                 bundleTransactionCorrelationId = bundleRequestCorrelationId;
-                txn = getTransaction();
+                txn = new FHIRTransactionHelper(getTransaction());
                 txn.begin();
                 log.fine("Started new transaction for transaction bundle, txn-correlation-id=" + bundleTransactionCorrelationId);
             } 
@@ -2130,7 +2017,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             bundleTransactionCorrelationId = null;
             
             if (txn != null) {
-                rollback(txn, "transaction");
+                txn.rollback();
                 txn = null;
             }
             log.exiting(this.getClass().getName(), "processBundleEntries");

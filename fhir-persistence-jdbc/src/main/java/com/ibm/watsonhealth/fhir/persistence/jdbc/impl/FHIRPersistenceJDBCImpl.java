@@ -869,5 +869,35 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	        }
 	    }
 	}
-
+	
+	@Override
+	public void setRollbackOnly() throws FHIRPersistenceException {
+        final String METHODNAME = "setRrollbackOnly";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        try {
+            if (userTransaction != null) {
+                userTransaction.setRollbackOnly();
+            } 
+            else if (this.getManagedConnection() != null) {
+                this.getManagedConnection().rollback();
+            }
+        } 
+        catch (Throwable e) {
+            String msg = "An unexpected error occurred while rolling back a transaction.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+        } 
+        finally {
+            if (sharedConnection != null) {
+                try {
+                    sharedConnection.close();
+                } 
+                catch (SQLException e) {
+                    throw new FHIRPersistenceException("Failure closing DB Conection", Response.Status.INTERNAL_SERVER_ERROR, e);
+                }
+                sharedConnection = null;
+            }
+        }
+	}
 }

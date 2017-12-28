@@ -35,4 +35,11 @@ public interface FHIRPersistenceTransaction {
      * @throws Exception
      */
     void rollback() throws FHIRPersistenceException;
+    
+    /**
+     * Modify the transaction associated with the current thread such that the only possible outcome of the transaction 
+     * is to roll back the transaction. 
+     * @throws FHIRPersistenceException
+     */
+    void setRollbackOnly() throws FHIRPersistenceException;
 }
