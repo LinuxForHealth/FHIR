@@ -61,13 +61,14 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
     public static final String PROPERTY_COMPOUND_KEY_SEARCH_PARAMETER_NAMES = "fhirServer/persistence/hbase/compoundKeyExtensionUrls";
+    public static final String PROPERTY_MANDATORY_COMPOUND_KEY_SEARCH_PARAMETER_NAMES = "fhirServer/persistence/hbase/globalRequiredCompoundKeyUrls";
     public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/authFilter/enabled";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/authFilter/authorizedClientCertClientCN";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/authFilter/authorizedClientCertIssuerOU";
 
-    public static final String PROPERTY_REPL_INTERCEPTOR_ENABLED = "fhirServer/whclsfRouter/replicationInterceptor/enabled";
-    public static final String PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID = "fhirServer/whclsfRouter/resourceNamesRequiringConsentEnforcement";
-    public static final String PROPERTY_STUDY_SCOPED_RESOURCES = "fhirServer/whclsfRouter/resourceNamesRequiringPatientId";
+    public static final String PROPERTY_REPL_INTERCEPTOR_ENABLED = "fhirServer/whclsfRouter/replicationInterceptorEnabled";
+    public static final String PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID = "fhirServer/whclsfRouter/resourceNamesRequiringPatientId";
+    public static final String PROPERTY_STUDY_SCOPED_RESOURCES = "fhirServer/whclsfRouter/resourceNamesRequiringConsentEnforcement";
        
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
     public static final String DEFAULT_DATASTORE_ID_HEADER_NAME = "X-FHIR-DSID";
