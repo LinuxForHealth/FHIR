@@ -142,6 +142,13 @@ public class FHIRUtil {
 	private static final DocumentBuilderFactory documentBuilderFactory = createDocumentBuilderFactory();
 	private static final XMLInputFactory inputFactory = createInputFactory();
 	
+	private static final ThreadLocal<FHIRJsonParser> threadLocalFHIRJsonParser = new ThreadLocal<FHIRJsonParser>() {
+	    @Override
+	    protected FHIRJsonParser initialValue() {
+	        return FHIRJsonParser.createLenientParser();
+	    }
+	};
+	
 	private FHIRUtil() { }
 	
 	public static void init() {
@@ -249,9 +256,9 @@ public class FHIRUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream) throws JAXBException {
-		Unmarshaller unmarshaller = createUnmarshaller(format);
-		if (Format.XML.equals(format)) {    
+		if (Format.XML.equals(format)) {
 	        try {
+				Unmarshaller unmarshaller = createUnmarshaller(format);
                 return (T) unmarshaller.unmarshal(inputFactory.createXMLStreamReader(stream));
 	        } catch (JAXBException e) {
 	            throw e;
@@ -259,16 +266,22 @@ public class FHIRUtil {
                 throw new JAXBException(e);
             }
 		} else {
-			JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(stream), resourceType);
-			return element.getValue();
+		    // Format.JSON.equals(format)
+		    try {
+		        FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+		        parser.reset();
+		        return (T) parser.parse(stream);
+		    } catch (FHIRException e) {
+		        throw new JAXBException(e);
+		    }
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws JAXBException {
-		Unmarshaller unmarshaller = createUnmarshaller(format);
 		if (Format.XML.equals(format)) {
 		    try {
+		    		Unmarshaller unmarshaller = createUnmarshaller(format);
                 return (T) unmarshaller.unmarshal(inputFactory.createXMLStreamReader(reader));
 		    } catch (JAXBException e) {
 		        throw e;
@@ -276,8 +289,14 @@ public class FHIRUtil {
                 throw new JAXBException(e);
             }
 		} else {
-			JAXBElement<T> element = unmarshaller.unmarshal(new StreamSource(reader), resourceType);
-			return element.getValue();
+		    // Format.JSON.equals(format)
+            try {
+                FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+                parser.reset();
+                return (T) parser.parse(reader);
+            } catch (FHIRException e) {
+                throw new JAXBException(e);
+            }
 		}
 	}
 	
