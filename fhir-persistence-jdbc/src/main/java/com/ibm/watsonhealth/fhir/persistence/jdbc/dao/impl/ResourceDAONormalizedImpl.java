@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
@@ -118,17 +120,23 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		String stmtString = null;
 		Integer resourceTypeId;
 		Timestamp lastUpdated, replicationLastUpdated;
+		boolean acquiredFromCache;
 				
 		try {
 			connection = this.getConnection();
 			
 			resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
             if (resourceTypeId == null) {
+                acquiredFromCache = false;
                 resourceTypeId = this.readResourceTypeId(resource.getResourceType());
                 this.getNewResourceTypeIds().put(resource.getResourceType(), resourceTypeId);
             }
+            else {
+                acquiredFromCache = true;
+            }
             if (log.isLoggable(Level.FINE)) {
-                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId);
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
+                         "  acquiredFromCache=" + acquiredFromCache);
             }
 						
 			currentSchema = connection.getSchema().trim();
@@ -167,6 +175,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		}
 		catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
 			throw e;
+		}
+		catch(SQLIntegrityConstraintViolationException e) {
+		    throw new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.", e);
 		}
 		catch(Throwable e) {
 			throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);

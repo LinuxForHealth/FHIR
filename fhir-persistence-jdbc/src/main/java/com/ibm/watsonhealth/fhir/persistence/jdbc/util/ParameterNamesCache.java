@@ -127,5 +127,39 @@ public class ParameterNamesCache {
 				 .append(FHIRRequestContext.get().getDataStoreId());
 		return cacheName.toString();
 	}
+	
+    /**
+     * 
+     * @return String - A formatted representation of the entire cache managed by this class.
+     */
+    public static String dumpCacheContents() {
+        
+        return CacheUtil.dumpCacheContents("ParameterNamesCache", parameterNameIdMaps);
+    }
+    
+    
+    /**
+     * Determines and reports any discrepancies between the current thread's Parameter Names cache and the contents of the database PARAMETER_NAMES table.
+     * @param dao A Parameter DAO instance
+     * @return String - A report detailing cache/db discrepancies.
+     */
+    public static String reportCacheDiscrepancies(ParameterNormalizedDAO dao) {
+        
+        String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+        ConcurrentHashMap<String,Integer> cachedMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
+        Map<String, Integer> dbMap;
+        String discrepancies;
+        
+        try {
+            dbMap = dao.readAllSearchParameterNames();
+            discrepancies = CacheUtil.reportCacheDiscrepancies("ParameterNamesCache", cachedMap, dbMap);
+        } 
+        catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            log.log(Level.SEVERE, "Failure obtaining  all search parameter names." , e);
+            discrepancies = CacheUtil.NEWLINE + "Could not report on ParameterNames cache discrepancies." + CacheUtil.NEWLINE;
+        }
+        
+        return discrepancies;
+    }
 
 }

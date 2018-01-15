@@ -124,5 +124,36 @@ public class CodeSystemsCache {
 				 .append(FHIRRequestContext.get().getDataStoreId());
 		return cacheName.toString();
 	}
-
+	
+	/**
+	 * 
+	 * @return String - A formatted representation of the entire cache managed by this class.
+	 */
+	public static String dumpCacheContents() {
+	    
+	    return CacheUtil.dumpCacheContents("CodeSystemsCache", codeSystemIdMaps);
+	}
+	
+    /**
+     * Determines and reports any discrepancies between the current thread's Code Systems cache and the contents of the database CODE_SYSTEMS table.
+     * @param dao A Parameter DAO instance
+     * @return String - A report detailing cache/db discrepancies.
+     */
+    public static String reportCacheDiscrepancies(ParameterNormalizedDAO dao) {
+        
+        String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+        Map<String, Integer> dbMap;
+        ConcurrentHashMap<String,Integer> cachedMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
+        String discrepancies;
+        
+        try {
+            dbMap = dao.readAllCodeSystems();
+            discrepancies = CacheUtil.reportCacheDiscrepancies("CodeSystemsCache", cachedMap, dbMap);
+        } catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            log.log(Level.SEVERE, "Failure obtaining  all code systems." , e);
+            discrepancies = CacheUtil.NEWLINE + "Could not report on CodeSystems cache discrepancies." + CacheUtil.NEWLINE;
+        }
+        
+        return discrepancies;
+    }
 }

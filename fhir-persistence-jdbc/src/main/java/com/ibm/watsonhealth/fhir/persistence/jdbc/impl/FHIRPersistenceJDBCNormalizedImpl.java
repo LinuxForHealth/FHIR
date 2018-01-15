@@ -48,6 +48,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalize
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
@@ -181,11 +182,17 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        				+ ", version=" + resourceDTO.getVersionId());
 	        }
 	    }
-		catch(Throwable e) {
-			String msg = "Unexpected error while performing a create operation.";
+		catch(FHIRPersistenceFKVException e) {
+			String msg = "Unexpected FK Violation while performing a create operation.";
 	        log.log(Level.SEVERE, msg, e);
+	        log.log(Level.SEVERE, this.performCacheDiagnostics());
 	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
 		}
+		catch(Throwable e) {
+            String msg = "Unexpected error while performing a create operation.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+        }
 		finally {
 		   log.exiting(CLASSNAME, METHODNAME);
 		}
@@ -266,6 +273,12 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		catch(FHIRPersistenceResourceNotFoundException e) {
 			throw e;
 		}
+        catch(FHIRPersistenceFKVException e) {
+            String msg = "Unexpected FK Violation while performing an update operation.";
+            log.log(Level.SEVERE, msg, e);
+            log.log(Level.SEVERE, this.performCacheDiagnostics());
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+        }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing an update operation.";
 	        log.log(Level.SEVERE, msg, e);
@@ -416,6 +429,12 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			        
 	        return deletedResource;
 		}
+		catch(FHIRPersistenceFKVException e) {
+            String msg = "Unexpected FK Violation while performing a delete operation.";
+            log.log(Level.SEVERE, msg, e);
+            log.log(Level.SEVERE, this.performCacheDiagnostics());
+            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+        }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a delete operation.";
 	        log.log(Level.SEVERE, msg, e);
@@ -611,6 +630,20 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         finally {
             log.exiting(CLASSNAME, METHODNAME);
             }
+    }
+    
+    /**
+     * Calls some cache analysis methods and aggregates the output into a single String.
+     * @return
+     */
+    private String performCacheDiagnostics() {
+        
+        StringBuffer diags = new StringBuffer();
+        diags.append(ParameterNamesCache.dumpCacheContents()).append(ParameterNamesCache.reportCacheDiscrepancies(this.parameterDao));
+        diags.append(CodeSystemsCache.dumpCacheContents()).append(CodeSystemsCache.reportCacheDiscrepancies(this.parameterDao));
+        diags.append(ResourceTypesCache.dumpCacheContents()).append(ResourceTypesCache.reportCacheDiscrepancies(this.resourceDao));
+        
+        return diags.toString();
     }
 
 }

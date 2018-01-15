@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -97,6 +98,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         Integer parameterId;
 		String tokenSystem;
 		Integer tokenSystemId;
+		boolean acquiredFromCache;
 						
 		try {
 			connection = this.getConnection();
@@ -104,10 +106,18 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 			
 			for (Parameter parameter: parameters) {
 			    parameterName = parameter.getName();
-                parameterId = ParameterNamesCache.getParameterNameId(parameterName);
+			    parameterId = ParameterNamesCache.getParameterNameId(parameterName);
                 if (parameterId == null) {
+                    acquiredFromCache = false;
                     parameterId = this.readParameterNameId(parameterName);
                     this.getNewParameterNameIds().put(parameterName, parameterId);
+                }
+                else {
+                    acquiredFromCache = true;
+                }
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("paramenterName=" + parameterName + "  parameterId=" + parameterId + 
+                              "  acquiredFromCache=" + acquiredFromCache);
                 }
                 stmt.setInt(1, parameterId);
 				stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
@@ -128,13 +138,21 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 						tokenSystem = DEFAULT_TOKEN_SYSTEM;
 				}
 				if(tokenSystem != null) {
-                    tokenSystemId = CodeSystemsCache.getCodeSystemId(tokenSystem);
+				    tokenSystemId = CodeSystemsCache.getCodeSystemId(tokenSystem);
                     if (tokenSystemId == null) {
+                        acquiredFromCache = false;
                         tokenSystem = SQLParameterEncoder.encode(tokenSystem);
                         tokenSystemId = this.readCodeSystemId(tokenSystem);
                         this.getNewCodeSystemIds().put(tokenSystem, tokenSystemId);
                     }
+                    else {
+                        acquiredFromCache = true;
+                    }
                     stmt.setInt(14, tokenSystemId);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("tokenSystem=" + tokenSystem + "  tokenSystemId=" + tokenSystemId + 
+                                  "  acquiredFromCache=" + acquiredFromCache);
+                    }
                 }
 				else {
 					stmt.setObject(14, null, Types.INTEGER);
@@ -144,7 +162,6 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 			}
 			
 			stmt.executeBatch();
-			
 		}
 		catch(FHIRPersistenceDBConnectException e) {
 			throw e;
