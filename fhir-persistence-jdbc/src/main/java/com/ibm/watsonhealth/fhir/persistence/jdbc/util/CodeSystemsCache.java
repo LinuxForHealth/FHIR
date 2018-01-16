@@ -26,6 +26,8 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 public class CodeSystemsCache {
 	private static final String CLASSNAME = CodeSystemsCache.class.getName(); 
 	private static final Logger log = Logger.getLogger(CLASSNAME);
+	
+	private static boolean enabled = true;
 
 	/**
 	 * The following is a map of parameter name maps. Each FHIR tenant/datastore combination will have its own
@@ -47,8 +49,8 @@ public class CodeSystemsCache {
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		String tenantDatstoreCacheName;
 		
-		try {
-			tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+		if (enabled) {
+		    tenantDatstoreCacheName = getCacheNameForTenantDatastore();
 			codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
 			currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
 			if (currentDsMap.isEmpty()) {
@@ -57,9 +59,6 @@ public class CodeSystemsCache {
 					log.fine("Initialized Code System name/id cache for tenant datasore: " + tenantDatstoreCacheName);
 				}
 			}
-		}
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
 		}
 	}
 	
@@ -76,12 +75,12 @@ public class CodeSystemsCache {
 		Integer systemId = null;
 		String encodedSysName = SQLParameterEncoder.encode(systemName);
 		
-		codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-		currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
-		systemId = currentDsMap.get(encodedSysName);
-		
+		if (enabled) {
+		    codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+	        currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
+	        systemId = currentDsMap.get(encodedSysName);
+		}
 		return systemId;
-		 
 	}
 	
 	/**
@@ -95,11 +94,13 @@ public class CodeSystemsCache {
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		String encodedSysName = SQLParameterEncoder.encode(systemName);
 		
-		codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-		currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
-		currentDsMap.putIfAbsent(encodedSysName, systemId);
-		systemId = currentDsMap.get(encodedSysName);
-	}
+		if (enabled) {
+			codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+    		currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
+    		currentDsMap.putIfAbsent(encodedSysName, systemId);
+    		systemId = currentDsMap.get(encodedSysName);
+		}
+    }
 	
 	/**
 	 * Adds the passed code system name/id pairs to the the current tenant-datastore cache.
@@ -107,9 +108,11 @@ public class CodeSystemsCache {
 	 */
 	public static void putCodeSystemIds(Map<String, Integer> newCodeSystems) {
 		
-		for (Map.Entry<String, Integer> entry : newCodeSystems.entrySet()) {
-			 putCodeSystemId(entry.getKey(), entry.getValue());
-		}
+	    if (enabled) {
+    		for (Map.Entry<String, Integer> entry : newCodeSystems.entrySet()) {
+    			 putCodeSystemId(entry.getKey(), entry.getValue());
+    		}
+	    }
 	}
 	
 	/**
@@ -144,16 +147,36 @@ public class CodeSystemsCache {
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         Map<String, Integer> dbMap;
         ConcurrentHashMap<String,Integer> cachedMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
-        String discrepancies;
+        String discrepancies = "";
         
-        try {
-            dbMap = dao.readAllCodeSystems();
-            discrepancies = CacheUtil.reportCacheDiscrepancies("CodeSystemsCache", cachedMap, dbMap);
-        } catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
-            log.log(Level.SEVERE, "Failure obtaining  all code systems." , e);
-            discrepancies = CacheUtil.NEWLINE + "Could not report on CodeSystems cache discrepancies." + CacheUtil.NEWLINE;
+        if (enabled) {
+            try {
+                dbMap = dao.readAllCodeSystems();
+                discrepancies = CacheUtil.reportCacheDiscrepancies("CodeSystemsCache", cachedMap, dbMap);
+            } 
+            catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+                log.log(Level.SEVERE, "Failure obtaining  all code systems." , e);
+                discrepancies = CacheUtil.NEWLINE + "Could not report on CodeSystems cache discrepancies." + CacheUtil.NEWLINE;
+            }
         }
         
         return discrepancies;
+    }
+
+    public static boolean isEnabled() {
+        return enabled;
+    }
+
+    public static void setEnabled(boolean newEnabled) {
+        
+        if (newEnabled != enabled) {
+            synchronized(CodeSystemsCache.class) {
+                enabled = newEnabled;
+                // When enabling the cache, clear out any old stuff.
+                if (newEnabled) {
+                    codeSystemIdMaps.clear();
+                }
+            }
+        }
     }
 }

@@ -26,6 +26,8 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 public class ParameterNamesCache {
 	private static final String CLASSNAME = ParameterNamesCache.class.getName(); 
 	private static final Logger log = Logger.getLogger(CLASSNAME);
+	
+	private static boolean enabled = true;
 
 	/**
 	 * The following is a map of parameter name maps. Each FHIR tenant/datastore combination will have its own
@@ -47,20 +49,16 @@ public class ParameterNamesCache {
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		String tenantDatstoreCacheName;
 		
-		try {
-			tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-			parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-			currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
-			if (currentDsMap.isEmpty()) {
-				currentDsMap.putAll(parameterDao.readAllSearchParameterNames());
-				if (log.isLoggable(Level.FINE)) {
-					log.fine("Initialized Parameter name/id cache for tenant datasore: " + tenantDatstoreCacheName);
-				}
-			}
-			
-		}
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
+		if (enabled) { 
+    		tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+    		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+    		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
+    		if (currentDsMap.isEmpty()) {
+    			currentDsMap.putAll(parameterDao.readAllSearchParameterNames());
+    			if (log.isLoggable(Level.FINE)) {
+    				log.fine("Initialized Parameter name/id cache for tenant datasore: " + tenantDatstoreCacheName);
+    			}
+    		}
 		}
 	}
 	
@@ -78,9 +76,11 @@ public class ParameterNamesCache {
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		Integer parameterNameId = null;
 		
-		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
-		parameterNameId = currentDsMap.get(parameterName);
+		if (enabled) {
+    		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+    		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
+    		parameterNameId = currentDsMap.get(parameterName);
+		}
 						
 		return parameterNameId;
 		 
@@ -96,9 +96,11 @@ public class ParameterNamesCache {
 		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		
-		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
-		currentDsMap.putIfAbsent(parameterName, parameterId);
+		if (enabled) {
+    		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+    		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
+    		currentDsMap.putIfAbsent(parameterName, parameterId);
+		}
 	}
 	
 	/**
@@ -107,10 +109,11 @@ public class ParameterNamesCache {
 	 */
 	public static void putParameterNameIds(Map<String, Integer> newParameters) {
 		
-		for (Map.Entry<String, Integer> entry : newParameters.entrySet()) {
-			 putParameterNameId(entry.getKey(), entry.getValue());
-		}
-		    
+	    if (enabled) {
+    		for (Map.Entry<String, Integer> entry : newParameters.entrySet()) {
+    			 putParameterNameId(entry.getKey(), entry.getValue());
+    		}
+	    }
 	}
 	
 	
@@ -148,18 +151,37 @@ public class ParameterNamesCache {
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         ConcurrentHashMap<String,Integer> cachedMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
         Map<String, Integer> dbMap;
-        String discrepancies;
+        String discrepancies = "";
         
-        try {
-            dbMap = dao.readAllSearchParameterNames();
-            discrepancies = CacheUtil.reportCacheDiscrepancies("ParameterNamesCache", cachedMap, dbMap);
-        } 
-        catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
-            log.log(Level.SEVERE, "Failure obtaining  all search parameter names." , e);
-            discrepancies = CacheUtil.NEWLINE + "Could not report on ParameterNames cache discrepancies." + CacheUtil.NEWLINE;
+        if (enabled) {
+            try {
+                dbMap = dao.readAllSearchParameterNames();
+                discrepancies = CacheUtil.reportCacheDiscrepancies("ParameterNamesCache", cachedMap, dbMap);
+            } 
+            catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+                log.log(Level.SEVERE, "Failure obtaining  all search parameter names." , e);
+                discrepancies = CacheUtil.NEWLINE + "Could not report on ParameterNames cache discrepancies." + CacheUtil.NEWLINE;
+            }
         }
         
         return discrepancies;
+    }
+    
+    public static boolean isEnabled() {
+        return enabled;
+    }
+
+    public static void setEnabled(boolean newEnabled) {
+        
+        if (newEnabled != enabled) {
+            synchronized(CodeSystemsCache.class) {
+                enabled = newEnabled;
+                // When enabling the cache, clear out any old stuff.
+                if (newEnabled) {
+                    parameterNameIdMaps.clear();
+                }
+            }
+        }
     }
 
 }

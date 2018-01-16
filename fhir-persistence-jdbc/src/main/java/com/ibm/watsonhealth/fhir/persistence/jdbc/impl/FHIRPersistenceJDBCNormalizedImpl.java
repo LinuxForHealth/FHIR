@@ -8,6 +8,8 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_REPL_INTERCEPTOR_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
@@ -86,7 +88,11 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.resourceDao = new ResourceDAONormalizedImpl();
 		this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.FALSE));
 		this.parameterDao = new ParameterDAONormalizedImpl();
+		ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE, 
+                Boolean.TRUE.booleanValue()));
 		ParameterNamesCache.initCacheIfEmpty(this.parameterDao);
+		CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE, 
+		                            Boolean.TRUE.booleanValue()));
         CodeSystemsCache.initCacheIfEmpty(this.parameterDao);
         ResourceTypesCache.initCacheIfEmpty(this.resourceDao);
 							
