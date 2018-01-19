@@ -136,7 +136,9 @@ CODE_REMOVED
 			}
 		},
 		"whclsfRouter": {
-            "replicationInterceptorEnabled": false
+            "replicationInterceptor": {
+                "enabled": false
+            }
 		}
 	}
 }
