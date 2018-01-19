@@ -21,6 +21,7 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.search.SortParameter;
 import com.ibm.watsonhealth.fhir.search.SortParameter.SortDirection;
 
@@ -47,8 +48,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 	 * @param FHIRDBDAO - A basic FHIR DB Data Access Object
 	 * @param sortParms - A list of SortParameters
 	 */
-	protected SortedQuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, ParameterNormalizedDAO dao, List<SortParameter> sortParms) {
-		super(resourceType, offset, pageSize, dao);
+	protected SortedQuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, ParameterNormalizedDAO parameterDao, 
+	                                        ResourceNormalizedDAO resourceDao, List<SortParameter> sortParms) {
+		super(resourceType, offset, pageSize, parameterDao, resourceDao);
 		this.sortParameters = sortParms;
 		 
 	}
@@ -243,8 +245,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 		for (SortParameter sortParm: this.sortParameters) {
 			sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getName());
             if (sortParameterNameId == null) {
-                sortParameterNameId = this.dao.readParameterNameId(sortParm.getName());
-                this.dao.getNewParameterNameIds().put(sortParm.getName(), sortParameterNameId);
+                sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getName());
+                this.parameterDao.getNewParameterNameIds().put(sortParm.getName(), sortParameterNameId);
             }
 			joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(" ")
 			          .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)

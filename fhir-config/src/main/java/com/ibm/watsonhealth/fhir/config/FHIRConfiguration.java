@@ -57,6 +57,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
+    public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
     public static final String PROPERTY_TENANT_ID_HEADER_NAME = "fhirServer/core/tenantIdHeaderName";
     public static final String PROPERTY_DATASTORE_ID_HEADER_NAME = "fhirServer/core/datastoreIdHeaderName";
     public static final String PROPERTY_DEFAULT_TENANT_ID = "fhirServer/core/defaultTenantId";

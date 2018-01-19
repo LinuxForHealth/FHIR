@@ -29,6 +29,8 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 public class ResourceTypesCache {
 	private static final String CLASSNAME = ResourceTypesCache.class.getName(); 
 	private static final Logger log = Logger.getLogger(CLASSNAME);
+	
+	private static boolean enabled = true;
 
 	/**
 	 * The following is a map of resource type maps. Each FHIR tenant/datastore combination will have its own
@@ -50,19 +52,16 @@ public class ResourceTypesCache {
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		String tenantDatstoreCacheName;
 		
-		try {
-			tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-			resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-			currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-			if (currentDsMap.isEmpty()) {
-				currentDsMap.putAll(resourceDao.readAllResourceTypeNames());
-			}
-			if (log.isLoggable(Level.FINE)) {
-				log.fine("Initialized Resource type/id cache for tenant datasore: " + tenantDatstoreCacheName);
-			}
-		}
-		finally {
-			log.exiting(CLASSNAME, METHODNAME);
+		if (enabled) {
+    		tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+    		resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+    		currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+    		if (currentDsMap.isEmpty()) {
+    			currentDsMap.putAll(resourceDao.readAllResourceTypeNames());
+    		}
+    		if (log.isLoggable(Level.FINE)) {
+    			log.fine("Initialized Resource type/id cache for tenant datasore: " + tenantDatstoreCacheName);
+    		}
 		}
 	}
 	
@@ -78,9 +77,11 @@ public class ResourceTypesCache {
         ConcurrentHashMap<String,Integer> currentDsMap;
         Integer resourceTypeId = null;
         
-        resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-        currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-        resourceTypeId = currentDsMap.get(resourceType);
+        if (enabled) {
+            resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+            currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+            resourceTypeId = currentDsMap.get(resourceType);
+        }
         
         return resourceTypeId;
     }
@@ -109,9 +110,11 @@ public class ResourceTypesCache {
 		ConcurrentHashMap<String,Integer> currentDsMap;
 		Collection<Integer> resourceTypeIds = new ArrayList<>();
 		
-		currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-		if (currentDsMap != null) {
-			resourceTypeIds = currentDsMap.values();
+		if (enabled) {
+    		currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+    		if (currentDsMap != null) {
+    			resourceTypeIds = currentDsMap.values();
+    		}
 		}
 		 
 		return resourceTypeIds;
@@ -129,11 +132,13 @@ public class ResourceTypesCache {
 		String resourceTypeName = null;
 		Map<Integer, String> inversedDsMap;
 		
+		if (enabled) {
 		currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-		if (currentDsMap != null) {
-			// This map inversion should not be costly from a performance perspective, since there will be less than 100 resource types.
-			inversedDsMap = currentDsMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
-			resourceTypeName = inversedDsMap.get(resourceTypeId);
+    		if (currentDsMap != null) {
+    			// This map inversion should not be costly from a performance perspective, since there will be less than 100 resource types.
+    			inversedDsMap = currentDsMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+    			resourceTypeName = inversedDsMap.get(resourceTypeId);
+    		}
 		}
 		return resourceTypeName;
 	}
@@ -148,9 +153,11 @@ public class ResourceTypesCache {
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         ConcurrentHashMap<String,Integer> currentDsMap;
         
-        resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-        currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-        currentDsMap.putIfAbsent(resourceType, resourceTypeId);
+        if (enabled) {
+            resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+            currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
+            currentDsMap.putIfAbsent(resourceType, resourceTypeId);
+        }
     }
     
     /**
@@ -159,10 +166,11 @@ public class ResourceTypesCache {
      */
     public static void putResourceTypeIds(Map<String, Integer> newResourceTypes) {
         
-        for (Map.Entry<String, Integer> entry : newResourceTypes.entrySet()) {
-            putResourceTypeId(entry.getKey(), entry.getValue());
+        if (enabled) {
+            for (Map.Entry<String, Integer> entry : newResourceTypes.entrySet()) {
+                putResourceTypeId(entry.getKey(), entry.getValue());
+            }
         }
-            
     }
     
     /**
@@ -184,18 +192,28 @@ public class ResourceTypesCache {
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         Map<String, Integer> dbMap;
         ConcurrentHashMap<String,Integer> cachedMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-        String discrepancies;
+        String discrepancies = "";
         
-        try {
-            dbMap = dao.readAllResourceTypeNames();
-            discrepancies = CacheUtil.reportCacheDiscrepancies("ResourceTypesCache", cachedMap, dbMap);
-        } 
-        catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
-            log.log(Level.SEVERE, "Failure obtaining  all resource type names." , e);
-            discrepancies = CacheUtil.NEWLINE + "Could not report on ResourceTypes cache discrepancies." + CacheUtil.NEWLINE;
+        if (enabled) {
+            try {
+                dbMap = dao.readAllResourceTypeNames();
+                discrepancies = CacheUtil.reportCacheDiscrepancies("ResourceTypesCache", cachedMap, dbMap);
+            } 
+            catch (FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+                log.log(Level.SEVERE, "Failure obtaining  all resource type names." , e);
+                discrepancies = CacheUtil.NEWLINE + "Could not report on ResourceTypes cache discrepancies." + CacheUtil.NEWLINE;
+            }
         }
         
         return discrepancies;
+    }
+
+    public static boolean isEnabled() {
+        return enabled;
+    }
+
+    public static void setEnabled(boolean enabled) {
+        ResourceTypesCache.enabled = enabled;
     }
 
 }

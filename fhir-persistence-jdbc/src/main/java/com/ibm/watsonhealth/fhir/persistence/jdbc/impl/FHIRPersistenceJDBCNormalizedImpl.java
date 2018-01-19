@@ -10,6 +10,7 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_REPL_I
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
@@ -94,6 +95,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE, 
 		                            Boolean.TRUE.booleanValue()));
         CodeSystemsCache.initCacheIfEmpty(this.parameterDao);
+        ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE, 
+                Boolean.TRUE.booleanValue()));
         ResourceTypesCache.initCacheIfEmpty(this.resourceDao);
 							
 		log.exiting(CLASSNAME, METHODNAME);
@@ -316,7 +319,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	    SqlQueryData query;
 	    	    
 	    try {
-	    	queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao());
+	    	queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao(),
+	    	                                              (ResourceNormalizedDAO)this.getResourceDao());
 	         
 	        countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
 	        if (countQuery != null) {

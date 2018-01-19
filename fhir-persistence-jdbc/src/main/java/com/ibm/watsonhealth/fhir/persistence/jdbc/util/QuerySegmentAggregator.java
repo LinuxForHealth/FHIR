@@ -10,11 +10,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 
@@ -51,7 +54,8 @@ class QuerySegmentAggregator {
 	private List<Parameter> searchQueryParameters;
 	private int offset;
 	private int pageSize;
-	protected ParameterNormalizedDAO dao;
+	protected ParameterNormalizedDAO parameterDao;
+	protected ResourceNormalizedDAO resourceDao;
 	
 
 	/**
@@ -60,12 +64,14 @@ class QuerySegmentAggregator {
 	 * @param offset - The beginning index of the first search result.
 	 * @param pageSize - The max number of requested search results.
 	 */
-	protected QuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, ParameterNormalizedDAO dao) {
+	protected QuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, 
+	                                ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao) {
 		super();
 		this.resourceType = resourceType;
 		this.offset = offset;
 		this.pageSize = pageSize;
-		this.dao = dao;
+		this.parameterDao = parameterDao;
+		this.resourceDao = resourceDao;
 		this.querySegments = new ArrayList<>();
 		this.searchQueryParameters = new ArrayList<>();
 		 
@@ -216,11 +222,26 @@ class QuerySegmentAggregator {
 		String tempFromClause;
 		String resourceTypeName;
 		boolean resourceTypeProcessed = false;
+		Map<String, Integer> resourceNameIdMap = null;
+        Map<Integer, String> resourceIdNameMap = null;
 		
 		queryString.append(selectRoot).append(FROM).append("(");
-		resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
+		if (ResourceTypesCache.isEnabled()) {
+            resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
+        }
+        else {
+            resourceNameIdMap = this.resourceDao.readAllResourceTypeNames();
+            resourceTypeIds = resourceNameIdMap.values();
+            resourceIdNameMap = resourceNameIdMap.entrySet().stream()
+                               .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        }
 		for(Integer resourceTypeId : resourceTypeIds) {
-			resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId) + "_";
+			if (ResourceTypesCache.isEnabled()) {
+                resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId) + "_";
+            }
+            else {
+                resourceTypeName =  resourceIdNameMap.get(resourceTypeId) + "_";
+            }
 			tempFromClause = this.buildFromClause();
 			tempFromClause = tempFromClause.replaceAll("Resource_", resourceTypeName);
 			if (resourceTypeProcessed) {
@@ -350,7 +371,7 @@ class QuerySegmentAggregator {
 	 */
 	protected void addPaginationClauses(StringBuilder queryString) throws Exception {
 		
-		if(this.dao.isDb2Database()) {
+		if(this.parameterDao.isDb2Database()) {
 			queryString.append(" LIMIT ").append(this.pageSize).append(" OFFSET ").append(this.offset);
 		}
 		else {

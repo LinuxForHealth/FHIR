@@ -13,9 +13,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -31,6 +33,7 @@ import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.JDBCOperator;
@@ -147,6 +150,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	private Class<? extends Resource> resourceType = null;
 	
 	private ParameterNormalizedDAO parameterDao;
+	private ResourceNormalizedDAO resourceDao;
 	
 	public static final boolean isRangeSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
 		return (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class));
@@ -164,9 +168,10 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	}
 	
 	
-	public JDBCNormalizedQueryBuilder(ParameterNormalizedDAO parameterDao) {
+	public JDBCNormalizedQueryBuilder(ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao) {
 		super();
 		this.parameterDao = parameterDao;
+		this.resourceDao = resourceDao;
 	}
 	
 	/**
@@ -235,10 +240,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		
 		this.resourceType = resourceType;
 		if (searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty()) {
-			helper = new QuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao);
+			helper = new QuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, this.resourceDao);
 		}
 		else {
-			helper = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, searchContext.getSortParameters());
+			helper = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, 
+			                this.resourceDao, searchContext.getSortParameters());
 		}
 		
 		
@@ -614,11 +620,21 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		Parameter lastParm;
 		boolean selectGenerated = false;
 		Integer parameterNameId;
-		
+		Map<String, Integer> resourceNameIdMap = null;
+		Map<Integer, String> resourceIdNameMap = null;
+						
 		lastParm = currentParm.getNextParameter();
 		
 		// Acquire ALL Resource Type Ids
-		resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
+		if (ResourceTypesCache.isEnabled()) {
+		    resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
+		}
+		else {
+		    resourceNameIdMap = resourceDao.readAllResourceTypeNames();
+		    resourceTypeIds = resourceNameIdMap.values();
+		    resourceIdNameMap = resourceNameIdMap.entrySet().stream()
+		                       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+		}
 		
 		// Build a sub-SELECT for each resource type, and put them together in a UNION.
 		for (Integer resourceTypeId : resourceTypeIds) {
@@ -626,7 +642,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				whereClauseSegment.append(" UNION ");
 			}
 			// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
-			resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId);
+			if (ResourceTypesCache.isEnabled()) {
+			    resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId);
+			}
+			else {
+			    resourceTypeName =  resourceIdNameMap.get(resourceTypeId);
+			}
 			if (!selectGenerated) {
 				whereClauseSegment.append(LEFT_PAREN);
 			}
