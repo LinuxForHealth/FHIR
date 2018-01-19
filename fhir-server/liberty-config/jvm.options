@@ -11,9 +11,6 @@
 -Dorg.apache.xml.dtm.DTMManager=org.apache.xml.dtm.ref.DTMManagerDefault
 -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl
 
-# this allows schematron to access all external xsd files - fixes local build issues 
--Djavax.xml.accessExternalSchema=all
-
 # Initial heap size (same as max so no reallocations will occur)
 -Xms4096M
 
