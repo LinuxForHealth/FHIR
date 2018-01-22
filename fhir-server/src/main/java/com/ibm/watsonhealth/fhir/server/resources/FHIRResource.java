@@ -1998,10 +1998,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             Map<String, String> localRefMap = new HashMap<>();
             
             // Next, process entries in the correct order.
-            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.DELETE, txn != null, localRefMap, requestProperties);
-            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.POST, txn != null, localRefMap, requestProperties);
-            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.PUT, txn != null, localRefMap, requestProperties);
-            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.GET, txn != null, localRefMap, requestProperties);
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.DELETE, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.POST, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.PUT, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            processEntriesForMethod(requestBundle, responseBundle, HTTPVerbList.GET, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
             
             if (txn != null) {
                 log.fine("Committing transaction for transaction bundle, txn-correlation-id=" + bundleTransactionCorrelationId);
@@ -2035,7 +2035,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            the HTTP method (GET, POST, PUT, etc.) to be processed
      */
     private void processEntriesForMethod(Bundle requestBundle, Bundle responseBundle, HTTPVerbList httpMethod, boolean failFast,
-        Map<String, String> localRefMap, Map<String, String> bundleRequestProperties) throws Exception {
+        Map<String, String> localRefMap, Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId) throws Exception {
         log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {
                 "httpMethod", httpMethod
         });
@@ -2079,6 +2079,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 BundleRequest request = requestEntry.getRequest();
                 BundleResponse response = responseEntry.getResponse();
                 
+                StringBuffer requestDescription = new StringBuffer();
+                long initialTime = System.currentTimeMillis();
                 try {
                     FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
 
@@ -2090,6 +2092,19 @@ public class FHIRResource implements FHIRResourceHelpers {
                         log.finer("--> path: " + path);
                         log.finer("--> query: " + query);
                     }
+                    
+                    // Log our initial info message for this request.
+                    requestDescription.append("entryIndex:[");
+                    requestDescription.append(entryIndex);
+                    requestDescription.append("] correlationId:[");
+                    requestDescription.append(bundleRequestCorrelationId);
+                    requestDescription.append("] method:[");
+                    requestDescription.append(request.getMethod().getValue().value());
+                    requestDescription.append("] uri:[");
+                    requestDescription.append(request.getUrl().getValue());
+                    requestDescription.append("]");
+                    log.info("Received bundle request: " + requestDescription.toString());
+                    
                     String[] pathTokens = requestURL.getPathTokens();
                     MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
 
@@ -2123,13 +2138,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                         } else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
                             // This is a 'vread' request.
                             resource = doVRead(pathTokens[0], pathTokens[1], pathTokens[3], requestProperties);
-                            setBundleEntryResource(responseEntry, resource);
                         } else {
                             throw new FHIRException("Unrecognized path in request URL: " + path);
                         }
 
                         // Save the results of the operation in the bundle response field.
-                        setBundleResponseStatus(response, httpStatus);
+                        setBundleResponseStatus(response, httpStatus, requestDescription.toString(), initialTime);
                         setBundleEntryResource(responseEntry, resource);
                     }
                         break;
@@ -2153,7 +2167,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         // Perform the 'create' operation.
                         String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
                         FHIRRestOperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist, requestProperties);
-                        setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode());
+                        setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
                         // Next, if a local identifier was present, we'll need to map this to the
                         // correct external identifier (e.g. Patient/12345).
@@ -2194,7 +2208,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             ifMatchBundleValue = request.getIfMatch().getValue();
                         }
                         FHIRRestOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, query, requestProperties);
-                        setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode());
+                        setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
                     }
                         break;
 
@@ -2218,7 +2232,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         // Perform the 'delete' operation.
                         FHIRRestOperationResponse ior = doDelete(type, id, query, requestProperties);
-                        setBundleResponseFields(responseEntry, ior.getResource(), null, ior.getStatus().getStatusCode());
+                        setBundleResponseFields(responseEntry, ior.getResource(), null, ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
                     }
                         break;
 
@@ -2227,26 +2241,26 @@ public class FHIRResource implements FHIRResourceHelpers {
                         throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
                     }
                 } catch (FHIRRestException e) {
-                    setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
+                    setBundleResponseStatus(response, e.getHttpStatus().getStatusCode(), requestDescription.toString(), initialTime);
                     setBundleEntryResource(responseEntry, (e.getOperationOutcome() == null) ? FHIRUtil.buildOperationOutcome(e, false)
                             : e.getOperationOutcome());
                     if (failFast) {
                         throw new FHIRRestBundledRequestException("Error while processing request bundle.", e.getOperationOutcome(), Response.Status.BAD_REQUEST, responseBundle, e);
                     }
                 } catch (FHIRPersistenceResourceNotFoundException e) {
-                    setBundleResponseStatus(response, SC_NOT_FOUND);
+                    setBundleResponseStatus(response, SC_NOT_FOUND, requestDescription.toString(), initialTime);
                     setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                     if (failFast) {
                         throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.NOT_FOUND, responseBundle, e);
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
-                    setBundleResponseStatus(response, SC_GONE);
+                    setBundleResponseStatus(response, SC_GONE, requestDescription.toString(), initialTime);
                     setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                     if (failFast) {
                         throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), Response.Status.GONE, responseBundle, e);
                     }
                 } catch (FHIRException e) {
-                    setBundleResponseStatus(response, e.getHttpStatus().getStatusCode());
+                    setBundleResponseStatus(response, e.getHttpStatus().getStatusCode(), requestDescription.toString(), initialTime);
                     setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                     if (failFast) {
                         throw new FHIRRestBundledRequestException("Error while processing request bundle.", FHIRUtil.buildOperationOutcome(e, false), e.getHttpStatus(), responseBundle, e);
@@ -2499,7 +2513,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         return fullUri.toString();
     }
 
-    private void setBundleResponseFields(BundleEntry responseEntry, Resource resource, URI locationURI, int httpStatus) throws FHIRException {
+    private void setBundleResponseFields(BundleEntry responseEntry, Resource resource, URI locationURI, int httpStatus, String requestDescription, long initialTime) throws FHIRException {
         BundleResponse response = responseEntry.getResponse();
         response.setStatus(objectFactory.createString().withValue(Integer.toString(httpStatus)));
         if (resource != null) {
@@ -2511,10 +2525,19 @@ public class FHIRResource implements FHIRResourceHelpers {
         if (locationURI != null) {
             response.setLocation(objectFactory.createUri().withValue(locationURI.toString()));
         }
+        logBundleRequestCompletedMsg(requestDescription, initialTime, httpStatus);
     }
 
-    private void setBundleResponseStatus(BundleResponse response, int httpStatus) {
+    private void setBundleResponseStatus(BundleResponse response, int httpStatus, String requestDescription, long initialTime) {
         response.setStatus(objectFactory.createString().withValue(Integer.toString(httpStatus)));
+        logBundleRequestCompletedMsg(requestDescription, initialTime, httpStatus);
+    }
+
+    private void logBundleRequestCompletedMsg(String requestDescription, long initialTime, int httpStatus) {
+        StringBuffer statusMsg = new StringBuffer();
+        statusMsg.append(" status:[" + httpStatus + "]");
+        double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
+        log.info("Completed bundle request[" + elapsedSecs + " secs]: " + requestDescription.toString() + statusMsg.toString());
     }
     
     /**
