@@ -226,22 +226,16 @@ class QuerySegmentAggregator {
         Map<Integer, String> resourceIdNameMap = null;
 		
 		queryString.append(selectRoot).append(FROM).append("(");
-		if (ResourceTypesCache.isEnabled()) {
-            resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
-        }
-        else {
-            resourceNameIdMap = this.resourceDao.readAllResourceTypeNames();
-            resourceTypeIds = resourceNameIdMap.values();
-            resourceIdNameMap = resourceNameIdMap.entrySet().stream()
-                               .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
-        }
+		 
+        resourceNameIdMap = this.resourceDao.readAllResourceTypeNames();
+        resourceTypeIds = resourceNameIdMap.values();
+        resourceIdNameMap = resourceNameIdMap.entrySet().stream()
+                           .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+         
 		for(Integer resourceTypeId : resourceTypeIds) {
-			if (ResourceTypesCache.isEnabled()) {
-                resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId) + "_";
-            }
-            else {
-                resourceTypeName =  resourceIdNameMap.get(resourceTypeId) + "_";
-            }
+			 
+            resourceTypeName =  resourceIdNameMap.get(resourceTypeId) + "_";
+            
 			tempFromClause = this.buildFromClause();
 			tempFromClause = tempFromClause.replaceAll("Resource_", resourceTypeName);
 			if (resourceTypeProcessed) {

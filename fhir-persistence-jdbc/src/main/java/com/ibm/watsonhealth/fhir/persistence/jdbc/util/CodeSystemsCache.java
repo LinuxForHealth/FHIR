@@ -36,33 +36,6 @@ public class CodeSystemsCache {
 	private static ConcurrentHashMap<String,ConcurrentHashMap<String,Integer>> codeSystemIdMaps = new ConcurrentHashMap<>();
 	
 	/**
-	 * Initializes the code system to id map for the current tenant and datastore.
-	 * @param parameterDao A parameter data access object used to access the contents of the code systems table.
-	 * @throws FHIRPersistenceDBConnectException
-	 * @throws FHIRPersistenceDataAccessException
-	 */
-	public static void initCacheIfEmpty(ParameterNormalizedDAO parameterDao) 
-										throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		final String METHODNAME = "initCache";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		ConcurrentHashMap<String,Integer> currentDsMap;
-		String tenantDatstoreCacheName;
-		
-		if (enabled) {
-		    tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-			codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-			currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
-			if (currentDsMap.isEmpty()) {
-				currentDsMap.putAll(parameterDao.readAllCodeSystems());
-				if (log.isLoggable(Level.FINE)) {
-					log.fine("Initialized Code System name/id cache for tenant datasore: " + tenantDatstoreCacheName);
-				}
-			}
-		}
-	}
-	
-	/**
 	 * Retrieves the id for the passed system, for the current tenant-datastore. 
 	 * If not found, null is returned.
 	 * @param parameter The name of a code system

@@ -626,15 +626,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		lastParm = currentParm.getNextParameter();
 		
 		// Acquire ALL Resource Type Ids
-		if (ResourceTypesCache.isEnabled()) {
-		    resourceTypeIds = ResourceTypesCache.getAllResourceTypeIds();
-		}
-		else {
-		    resourceNameIdMap = resourceDao.readAllResourceTypeNames();
-		    resourceTypeIds = resourceNameIdMap.values();
-		    resourceIdNameMap = resourceNameIdMap.entrySet().stream()
-		                       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
-		}
+		resourceNameIdMap = resourceDao.readAllResourceTypeNames();
+	    resourceTypeIds = resourceNameIdMap.values();
+	    resourceIdNameMap = resourceNameIdMap.entrySet().stream()
+	                       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+		 
 		
 		// Build a sub-SELECT for each resource type, and put them together in a UNION.
 		for (Integer resourceTypeId : resourceTypeIds) {
@@ -642,12 +638,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				whereClauseSegment.append(" UNION ");
 			}
 			// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
-			if (ResourceTypesCache.isEnabled()) {
-			    resourceTypeName = ResourceTypesCache.getResourceTypeName(resourceTypeId);
-			}
-			else {
-			    resourceTypeName =  resourceIdNameMap.get(resourceTypeId);
-			}
+			resourceTypeName =  resourceIdNameMap.get(resourceTypeId);
+			  
 			if (!selectGenerated) {
 				whereClauseSegment.append(LEFT_PAREN);
 			}

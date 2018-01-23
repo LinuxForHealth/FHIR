@@ -36,33 +36,6 @@ public class ParameterNamesCache {
 	private static ConcurrentHashMap<String,ConcurrentHashMap<String,Integer>> parameterNameIdMaps = new ConcurrentHashMap<>();
 	
 	/**
-	 * Initializes the Parameter name to id map for the current tenant and datastore.
-	 * @param parameterDao A parameter data access object used to access the contents of the parameter names table.
-	 * @throws FHIRPersistenceDBConnectException
-	 * @throws FHIRPersistenceDataAccessException
-	 */
-	public static void initCacheIfEmpty(ParameterNormalizedDAO parameterDao) 
-										throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		final String METHODNAME = "initCache";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		ConcurrentHashMap<String,Integer> currentDsMap;
-		String tenantDatstoreCacheName;
-		
-		if (enabled) { 
-    		tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-    		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-    		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
-    		if (currentDsMap.isEmpty()) {
-    			currentDsMap.putAll(parameterDao.readAllSearchParameterNames());
-    			if (log.isLoggable(Level.FINE)) {
-    				log.fine("Initialized Parameter name/id cache for tenant datasore: " + tenantDatstoreCacheName);
-    			}
-    		}
-		}
-	}
-	
-	/**
 	 * Retrieves the id for the name contained in the passed Parameter, for the current tenant-datastore. 
 	 * If not found, null is returned.
 	 * @param parameterName A valid FHIR search parameter name.

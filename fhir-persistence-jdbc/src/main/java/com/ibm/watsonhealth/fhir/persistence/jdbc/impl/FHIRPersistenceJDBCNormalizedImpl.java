@@ -91,14 +91,11 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.parameterDao = new ParameterDAONormalizedImpl();
 		ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE, 
                 Boolean.TRUE.booleanValue()));
-		ParameterNamesCache.initCacheIfEmpty(this.parameterDao);
 		CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE, 
 		                            Boolean.TRUE.booleanValue()));
-        CodeSystemsCache.initCacheIfEmpty(this.parameterDao);
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE, 
                 Boolean.TRUE.booleanValue()));
-        ResourceTypesCache.initCacheIfEmpty(this.resourceDao);
-							
+        							
 		log.exiting(CLASSNAME, METHODNAME);
 	}
 	
@@ -119,10 +116,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
 		this.resourceDao.setRepInfoRequired(false);
 		this.parameterDao = new ParameterDAONormalizedImpl(this.getManagedConnection());
-		ParameterNamesCache.initCacheIfEmpty(this.parameterDao);
-        CodeSystemsCache.initCacheIfEmpty(this.parameterDao);
-        ResourceTypesCache.initCacheIfEmpty(this.resourceDao);
-		
+				
 		log.exiting(CLASSNAME, METHODNAME);
 	}
 
