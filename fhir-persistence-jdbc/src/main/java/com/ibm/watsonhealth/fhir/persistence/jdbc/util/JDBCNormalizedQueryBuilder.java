@@ -535,7 +535,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				    parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getName());
 			        if (parameterNameId == null) {
 			            parameterNameId = this.parameterDao.readParameterNameId(currentParm.getName());
-			            this.parameterDao.getNewParameterNameIds().put(currentParm.getName(), parameterNameId);
+			            this.parameterDao.addParameterNamesCacheCandidate(currentParm.getName(), parameterNameId);
 			        }
 					whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID")
 				  	  				  .append(JDBCOperator.EQ.value())
@@ -584,7 +584,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			    parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getName());
                 if (parameterNameId == null) {
                     parameterNameId = this.parameterDao.readParameterNameId(currentParm.getName());
-                    this.parameterDao.getNewParameterNameIds().put(currentParm.getName(), parameterNameId);
+                    this.parameterDao.addParameterNamesCacheCandidate(currentParm.getName(), parameterNameId);
                 }
 				whereClauseSegment.append(chainedParmVar).append(".PARAMETER_NAME_ID=")
 								  .append(parameterNameId).append(AND)
@@ -609,9 +609,10 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	/**
 	 * This method handles the processing of a wildcard chained reference parameter. The wildcard represents ALL FHIR resource types stored 
 	 * in the FHIR database.
+	 * @throws FHIRPersistenceException 
 	 */
 	private void processWildcardChainedRefParm(Parameter currentParm, String chainedResourceVar,
-			String chainedLogicalResourceVar, String chainedParmVar, StringBuilder whereClauseSegment, List<Object> bindVariables) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+			String chainedLogicalResourceVar, String chainedParmVar, StringBuilder whereClauseSegment, List<Object> bindVariables) throws FHIRPersistenceException {
 		final String METHODNAME = "processChainedReferenceParm";
 		log.entering(CLASSNAME, METHODNAME, currentParm.toString());
 		
@@ -668,7 +669,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			parameterNameId = ParameterNamesCache.getParameterNameId(lastParm.getName());
             if (parameterNameId == null) {
                 parameterNameId = this.parameterDao.readParameterNameId(lastParm.getName());
-                this.parameterDao.getNewParameterNameIds().put(lastParm.getName(), parameterNameId);
+                this.parameterDao.addParameterNamesCacheCandidate(lastParm.getName(), parameterNameId);
             }
 			whereClauseSegment.append(chainedParmVar).append(".PARAMETER_NAME_ID=")
 							  .append(parameterNameId).append(AND)
@@ -934,7 +935,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
                 if (codeSystemId == null) {
                     codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
-                    this.parameterDao.getNewCodeSystemIds().put(value.getValueSystem(), codeSystemId);
+                    this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
                 }
                 bindVariables.add(codeSystemId);
 			}
@@ -1035,7 +1036,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			    systemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
                 if (systemId == null) {
                     systemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
-                    this.parameterDao.getNewCodeSystemIds().put(value.getValueSystem(), systemId);
+                    this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), systemId);
                 }
                 whereClauseSegment.append(JDBCOperator.AND.value())
                                   .append(PARAMETER_TABLE_ALIAS).append(CODE_SYSTEM_ID)
@@ -1064,7 +1065,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	}
 
 	@Override
-	protected SqlQueryData buildLocationQuerySegment(String parmName, BoundingBox boundingBox) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+	protected SqlQueryData buildLocationQuerySegment(String parmName, BoundingBox boundingBox) throws FHIRPersistenceException {
 		final String METHODNAME = "buildLocationQuerySegment";
 		log.entering(CLASSNAME, METHODNAME, parmName);
 		
@@ -1110,10 +1111,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	 * Populates the parameter name sub-segment of the passed where clause segment.
 	 * @param whereClauseSegment
 	 * @param queryParmName
-	 * @throws FHIRPersistenceDBConnectException
-	 * @throws FHIRPersistenceDataAccessException
+	 * @throws FHIRPersistenceException
 	 */
-	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, String queryParmName, String parameterTableAlias) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+	private void populateNameIdSubSegment(StringBuilder whereClauseSegment, String queryParmName, String parameterTableAlias) throws FHIRPersistenceException {
 		final String METHODNAME = "populateNameIdSubSegment";
 		log.entering(CLASSNAME, METHODNAME, queryParmName);
 		
@@ -1124,7 +1124,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		parameterNameId = ParameterNamesCache.getParameterNameId(queryParmName);
         if (parameterNameId == null) {
             parameterNameId = this.parameterDao.readParameterNameId(queryParmName);
-            this.parameterDao.getNewParameterNameIds().put(queryParmName, parameterNameId);
+            this.parameterDao.addParameterNamesCacheCandidate(queryParmName, parameterNameId);
         }
 		whereClauseSegment.append(LEFT_PAREN);
 		whereClauseSegment.append(parameterTableAlias).append("PARAMETER_NAME_ID=").append(parameterNameId);

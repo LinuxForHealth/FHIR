@@ -6,11 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_REPL_INTERCEPTOR_ENABLED;
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_REPL_INTERCEPTOR_ENABLED;
+import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
@@ -26,7 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPOutputStream;
 
+import javax.naming.InitialContext;
+import javax.transaction.TransactionSynchronizationRegistry;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
@@ -71,9 +74,12 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	private static final String CLASSNAME = FHIRPersistenceJDBCNormalizedImpl.class.getName();
 	private static final Logger log = Logger.getLogger(CLASSNAME);
 	
+	public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
+	
 	
 	private ResourceNormalizedDAO resourceDao;
-	private ParameterNormalizedDAO parameterDao;		
+	private ParameterNormalizedDAO parameterDao;
+	private TransactionSynchronizationRegistry trxSynchRegistry;
 
 	/**
 	 * Constructor for use when running as web application in WLP. 
@@ -86,16 +92,16 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
-		this.resourceDao = new ResourceDAONormalizedImpl();
-		this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.FALSE));
-		this.parameterDao = new ParameterDAONormalizedImpl();
-		ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE, 
-                Boolean.TRUE.booleanValue()));
-		CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE, 
-		                            Boolean.TRUE.booleanValue()));
+        ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE, 
+                                       Boolean.TRUE.booleanValue()));
+        CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE, 
+                                    Boolean.TRUE.booleanValue()));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE, 
-                Boolean.TRUE.booleanValue()));
-        							
+                                      Boolean.TRUE.booleanValue()));
+		this.resourceDao = new ResourceDAONormalizedImpl(this.getTrxSynchRegistry());
+		this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.FALSE));
+		this.parameterDao = new ParameterDAONormalizedImpl(this.getTrxSynchRegistry());
+		
 		log.exiting(CLASSNAME, METHODNAME);
 	}
 	
@@ -596,47 +602,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		return this.getResourceDao().searchByIds(resourceType.getSimpleName(), sortedIdList);
 	}
 	
-   @Override
-    public void commit() throws FHIRPersistenceException {
-        final String METHODNAME = "commit";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        try {
-            super.commit();
-            // After a successful trx commit, add the cache entries created during the trx execution
-            // to the appropriate cache.
-            ParameterNamesCache.putParameterNameIds(this.parameterDao.getNewParameterNameIds());
-            this.parameterDao.getNewParameterNameIds().clear();
-            CodeSystemsCache.putCodeSystemIds(this.parameterDao.getNewCodeSystemIds());
-            this.parameterDao.getNewCodeSystemIds().clear();
-            ResourceTypesCache.putResourceTypeIds(this.resourceDao.getNewResourceTypeIds());
-            this.resourceDao.getNewResourceTypeIds().clear();
-        } 
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-    
-    }
-
-    @Override
-    public void rollback() throws FHIRPersistenceException {
-        final String METHODNAME = "rollback";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        try {
-             super.rollback();
-             // After a failed trx is rolled back, remove the cache entries created during the trx execution.
-             this.parameterDao.getNewParameterNameIds().clear();
-             this.parameterDao.getNewCodeSystemIds().clear();
-             this.resourceDao.getNewResourceTypeIds().clear();
-        } 
-        
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-            }
-    }
-    
-    /**
+   /**
      * Calls some cache analysis methods and aggregates the output into a single String.
      * @return
      */
@@ -648,6 +614,29 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         diags.append(ResourceTypesCache.dumpCacheContents()).append(ResourceTypesCache.reportCacheDiscrepancies(this.resourceDao));
         
         return diags.toString();
+    }
+    
+    /**
+     * Looks up and returns an instance of TransactionSynchronizationRegistry, which is used in support of writing committed
+     * data to JDBC PL in-memory caches.
+     * @return TransactionSynchronizationRegistry
+     * @throws FHIRPersistenceException
+     */
+    private TransactionSynchronizationRegistry getTrxSynchRegistry() throws FHIRPersistenceException {
+        
+        InitialContext ctxt;
+        
+        if (this.trxSynchRegistry == null) {
+            try {
+                ctxt = new InitialContext();
+                this.trxSynchRegistry = (TransactionSynchronizationRegistry) ctxt.lookup(TRX_SYNCH_REG_JNDI_NAME);
+            }
+            catch(Throwable e) {
+                throw new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service", Status.INTERNAL_SERVER_ERROR, e);
+            }
+        }
+        
+        return this.trxSynchRegistry;
     }
 
 }

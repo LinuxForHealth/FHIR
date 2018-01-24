@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api;
 
 import java.util.Map;
 
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -57,19 +58,21 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
 	 */
 	Integer readCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 	
-	   /**
-     * Returns a collection of new parameter name/id pairs that were created during the execution of the last transaction that
-     * the DAO instance participated in.
-     * @return Map<String, Integer> - A map of parameter name/id pairs.
-     */
-    Map<String, Integer> getNewParameterNameIds();
-    
+	/**
+	 * Adds a code system name / code system id pair to a candidate collection for population into the CodeSystemsCache.
+	 * This pair must be present as a row in the FHIR DB CODE_SYSTEMS table.
+	 * @param codeSystemName A valid code system name.
+	 * @param codeSystemId The id corresponding to the code system name.
+	 * @throws FHIRPersistenceException
+	 */
+    void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId) throws FHIRPersistenceException;    
     
     /**
-     * Returns a collection of new code system name/id pairs that were created during the execution of the last transaction that
-     * the DAO instance participated in.
-     * @return Map<String, Integer> - A map of code system name/id pairs.
+     * Adds a parameter name / parameter id pair to a candidate collection for population into the ParameterNamesCache.
+     * This pair must be present as a row in the FHIR DB PARAMETER_NAMES table.
+     * @param parameterName A valid search or sort parameter name.
+     * @param parameterId The id corresponding to the parameter name.
+     * @throws FHIRPersistenceException
      */
-    Map<String, Integer> getNewCodeSystemIds();
-
+    void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException;
 }

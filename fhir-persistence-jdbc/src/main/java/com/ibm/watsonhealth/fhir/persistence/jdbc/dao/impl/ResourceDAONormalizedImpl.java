@@ -26,6 +26,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.transaction.TransactionSynchronizationRegistry;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -39,6 +41,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCon
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
 
@@ -90,12 +93,17 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	private ReplicationInfo replicationInfo;
 	private boolean isRepInfoRequired;
 	private Map<String, Integer> newResourceTypeIds = new HashMap<>();
+	private boolean runningInTrx = false;
+	private ResourceTypesCacheUpdater rtCacheUpdater = null;
+	private TransactionSynchronizationRegistry trxSynchRegistry;
 	
 	/**
 	 * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
 	 */
-	public ResourceDAONormalizedImpl() {
+	public ResourceDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
 		super();
+		this.runningInTrx = true;
+		this.trxSynchRegistry = trxSynchRegistry;
 	}
 	
 	/**
@@ -129,7 +137,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
                 resourceTypeId = this.readResourceTypeId(resource.getResourceType());
-                this.getNewResourceTypeIds().put(resource.getResourceType(), resourceTypeId);
+                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
             }
             else {
                 acquiredFromCache = true;
@@ -625,9 +633,36 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		return stmtString;
 	}	
 	
+	 /**
+     * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache. 
+     * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
+     * @param resourceType A valid FHIR resource type.
+     * @param resourceTypeId The corresponding id for the resource type.
+     * @throws FHIRPersistenceException
+     */
     @Override
-    public Map<String, Integer> getNewResourceTypeIds() {
-        return newResourceTypeIds;
+    public void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException {
+        final String METHODNAME = "addResourceTypeCacheCandidate";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        if (this.runningInTrx && ResourceTypesCache.isEnabled()) {
+            if (this.rtCacheUpdater == null) {
+                // Register a new ResourceTypeCacheUpdater for this thread/trx, if one hasn't been already registered.
+                this.rtCacheUpdater = new ResourceTypesCacheUpdater(this.newResourceTypeIds);
+                try {
+                    trxSynchRegistry.registerInterposedSynchronization(rtCacheUpdater);
+                    log.fine("Registered ResourceTypeCacheUpdater.");
+                }
+                catch(Throwable e) {
+                    throw new FHIRPersistenceException("Failure registering ResourceTypesCacheUpdater", Status.INTERNAL_SERVER_ERROR, e);
+                }
+            }
+            this.newResourceTypeIds.put(resourceType, resourceTypeId);
+        }
+        
+            
+        log.exiting(CLASSNAME, METHODNAME);
+        
     }
 
 }

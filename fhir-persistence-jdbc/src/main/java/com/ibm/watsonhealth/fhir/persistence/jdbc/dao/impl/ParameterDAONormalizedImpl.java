@@ -14,9 +14,11 @@ import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.transaction.TransactionSynchronizationRegistry;
+import javax.ws.rs.core.Response.Status;
 
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
@@ -24,7 +26,9 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCache;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCacheUpdater;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SQLParameterEncoder;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
@@ -58,22 +62,21 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 	    
 	private Map<String, Integer> newCodeSystemIds = new HashMap<>();
 	
+	private boolean runningInTrx = false;
+    private CodeSystemsCacheUpdater csCacheUpdater = null;
+    private ParameterNamesCacheUpdater pnCacheUpdater = null;
+    private TransactionSynchronizationRegistry trxSynchRegistry;
+	
 	
 	/**
 	 * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
 	 */
-	public ParameterDAONormalizedImpl() {
+	public ParameterDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
 		super();
+		this.runningInTrx = true;
+		this.trxSynchRegistry = trxSynchRegistry;
 	}
 	
-	/**
-	 * Constructs a DAO instance suitable for acquiring connections based on the passed database type specific properties.
-	 * @param dbProperties
-	 */
-	public ParameterDAONormalizedImpl(Properties dbProperties) {
-		super(dbProperties);
-	}
-
 	/**
 	 * Constructs a DAO using the passed externally managed database connection.
 	 * The connection used by this instance for all DB operations will be the passed connection.
@@ -110,7 +113,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                 if (parameterId == null) {
                     acquiredFromCache = false;
                     parameterId = this.readParameterNameId(parameterName);
-                    this.getNewParameterNameIds().put(parameterName, parameterId);
+                    this.addParameterNamesCacheCandidate(parameterName, parameterId);
                 }
                 else {
                     acquiredFromCache = true;
@@ -143,7 +146,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                         acquiredFromCache = false;
                         tokenSystem = SQLParameterEncoder.encode(tokenSystem);
                         tokenSystemId = this.readCodeSystemId(tokenSystem);
-                        this.getNewCodeSystemIds().put(tokenSystem, tokenSystemId);
+                        this.addCodeSystemsCacheCandidate(tokenSystem, tokenSystemId);
                     }
                     else {
                         acquiredFromCache = true;
@@ -373,15 +376,67 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		}
 		return systemId;
 	}
-	
+
+	/**
+     * Adds a code system name / code system id pair to a candidate collection for population into the CodeSystemsCache.
+     * This pair must be present as a row in the FHIR DB CODE_SYSTEMS table.
+     * @param codeSystemName A valid code system name.
+     * @param codeSystemId The id corresponding to the code system name.
+     * @throws FHIRPersistenceException
+     */
     @Override
-     public Map<String, Integer> getNewParameterNameIds() {
-         return newParameterNameIds;
+    public void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId)  throws FHIRPersistenceException {
+        final String METHODNAME = "addCodeSystemsCacheCandidate";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        if (this.runningInTrx && CodeSystemsCache.isEnabled()) {
+            if (this.csCacheUpdater == null) {
+                // Register a new CodeSystemsCacheUpdater for this thread/trx, if one hasn't been already registered.
+                this.csCacheUpdater = new CodeSystemsCacheUpdater(this.newCodeSystemIds);
+                try {
+                    trxSynchRegistry.registerInterposedSynchronization(csCacheUpdater);
+                    log.fine("Registered CodeSystemsCacheUpdater.");
+                }
+                catch(Throwable e) {
+                    throw new FHIRPersistenceException("Failure registering CodeSystemsCacheUpdater", Status.INTERNAL_SERVER_ERROR, e);
+                }
+            }
+            this.newCodeSystemIds.put(codeSystemName, codeSystemId);
+        }
+        
+        log.exiting(CLASSNAME, METHODNAME);
+        
     }
 
+    /**
+     * Adds a parameter name / parameter id pair to a candidate collection for population into the ParameterNamesCache.
+     * This pair must be present as a row in the FHIR DB PARAMETER_NAMES table.
+     * @param parameterName A valid search or sort parameter name.
+     * @param parameterId The id corresponding to the parameter name.
+     * @throws FHIRPersistenceException
+     */
     @Override
-    public Map<String, Integer> getNewCodeSystemIds() {
-        return newCodeSystemIds;
+    public void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException {
+        final String METHODNAME = "addParameterNamesCacheCandidate";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        if (this.runningInTrx && ParameterNamesCache.isEnabled()) {
+            if (this.pnCacheUpdater == null) {
+                // Register a new ParameterNamesCacheUpdater for this thread/trx, if one hasn't been already registered.
+                this.pnCacheUpdater = new ParameterNamesCacheUpdater(this.newParameterNameIds);
+                try {
+                    trxSynchRegistry.registerInterposedSynchronization(pnCacheUpdater);
+                    log.fine("Registered ParameterNamesCacheUpdater.");
+                }
+                catch(Throwable e) {
+                    throw new FHIRPersistenceException("Failure registering ParameterNamesCacheUpdater", Status.INTERNAL_SERVER_ERROR, e);
+                }
+            }
+            this.newParameterNameIds.put(parameterName, parameterId);
+        }
+        
+        log.exiting(CLASSNAME, METHODNAME);
+        
     }
 	 
 }

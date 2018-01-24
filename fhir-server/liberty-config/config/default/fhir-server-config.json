@@ -128,16 +128,18 @@ CODE_REMOVED
 				"schemaType": "normalized",
 				"__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
 				"dataSourceJndiName": "jdbc/fhirProxyDataSource",
-				"enableCodeSystemsCache": false,
-				"enableParameterNamesCache": false,
-				"enableResourceTypesCache": false
+				"enableCodeSystemsCache": true,
+				"enableParameterNamesCache": true,
+				"enableResourceTypesCache": true
 			},
 			"audit": {
 				"bootstrapDb": true
 			}
 		},
 		"whclsfRouter": {
-            "replicationInterceptorEnabled": false
+            "replicationInterceptor": {
+                "enabled": false
+            }
 		}
 	}
 }

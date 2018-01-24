@@ -246,7 +246,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 			sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getName());
             if (sortParameterNameId == null) {
                 sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getName());
-                this.parameterDao.getNewParameterNameIds().put(sortParm.getName(), sortParameterNameId);
+                this.parameterDao.addParameterNamesCacheCandidate(sortParm.getName(), sortParameterNameId);
             }
 			joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(" ")
 			          .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)

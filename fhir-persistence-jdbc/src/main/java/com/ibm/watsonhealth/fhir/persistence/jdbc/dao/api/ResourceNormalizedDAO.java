@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -101,12 +102,15 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
 	 */
 	List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
+	
 	/**
-     * Returns a collection of resource type name/id pairs that were created during the execution of the last transaction that
-     * the DAO instance participated in.
-     * @return Map<String, Integer> - A map of resource type name/id pairs.
-     */
-    Map<String, Integer> getNewResourceTypeIds();
+	 * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache. 
+	 * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
+	 * @param resourceType A valid FHIR resource type.
+	 * @param resourceTypeId The corresponding id for the resource type.
+	 * @throws FHIRPersistenceException
+	 */
+	void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException;
 
 	
 
