@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
@@ -80,7 +81,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         					createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource deserialization")
         			)
         	);
-        	//          throw new WebApplicationException(e);
+        	log.log(Level.WARNING, "an error occurred during resource deserialization", e);
         	throw new WebApplicationException(response);
         } 
         finally {
@@ -112,7 +113,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         								createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource serialization")
         							)
         						);
-        	//          throw new WebApplicationException(e);
+        	log.log(Level.WARNING, "an error occurred during resource serialization", e);
         	throw new WebApplicationException(response);
         } 
         finally {
