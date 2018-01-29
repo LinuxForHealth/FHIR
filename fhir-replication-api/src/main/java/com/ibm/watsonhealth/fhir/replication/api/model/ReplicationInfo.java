@@ -24,6 +24,7 @@ public class ReplicationInfo {
     private String siteId;
     private String studyId;
     private String patientId;
+    private String resourceName;
     
     private String resourceRef;
     private String previousResourceRef;
@@ -123,5 +124,11 @@ public class ReplicationInfo {
 	}
 	public void setPreviousResourceRef(String previousResourceRef) {
 		this.previousResourceRef = previousResourceRef;
+	}
+	public String getResourceName() {
+		return resourceName;
+	}
+	public void setResourceName(String resourceName) {
+		this.resourceName = resourceName;
 	}
 }
