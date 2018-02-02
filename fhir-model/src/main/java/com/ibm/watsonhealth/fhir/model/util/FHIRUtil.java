@@ -1029,7 +1029,7 @@ public class FHIRUtil {
 	 * the specified resource.
 	 * @param resource
 	 * @param extensionUrl
-	 * @return
+	 * @return the value of the first such extension with a valueString or null if the resource has no such extensions
 	 */
 	public static String getExtensionStringValue(Resource resource, String extensionUrl) {
 		if (Objects.nonNull(resource) && Objects.nonNull(extensionUrl)) {
