@@ -141,7 +141,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     private static final String FHIR_SPEC_VERSION = "1.0.2 - DSTU2";
     private static final String EXTENSION_URL = "http://ibm.com/watsonhealth/fhir/extension";
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
-    private static final String REQUEST_HEADER_URL = "http://www.ibm.com/watsohealth/fhir/extensions/http-request-header";
+    private static final String REQUEST_HEADER_URL = "http://www.ibm.com/watsonhealth/fhir/extensions/http-request-header";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";

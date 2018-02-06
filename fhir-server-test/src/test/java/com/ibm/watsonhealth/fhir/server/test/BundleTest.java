@@ -88,7 +88,7 @@ public class BundleTest extends FHIRServerTestBase {
 
     private static final String ORG_EXTENSION_URL = "http://my.url.domain.com/acme-healthcare/lab-collection-org";
     private static final String PATIENT_EXTENSION_URL = "http://my.url.domain.com/acme-healthcare/related-patient";
-    private static final String HEADER_EXTENSION_URL = "http://www.ibm.com/watsohealth/fhir/extensions/http-request-header";
+    private static final String HEADER_EXTENSION_URL = "http://www.ibm.com/watsonhealth/fhir/extensions/http-request-header";
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
