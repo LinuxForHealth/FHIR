@@ -120,7 +120,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                 }
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("paramenterName=" + parameterName + "  parameterId=" + parameterId + 
-                              "  acquiredFromCache=" + acquiredFromCache);
+                              "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ParameterNamesCache.getCacheNameForTenantDatastore());
                 }
                 stmt.setInt(1, parameterId);
 				stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
@@ -154,7 +154,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                     stmt.setInt(14, tokenSystemId);
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("tokenSystem=" + tokenSystem + "  tokenSystemId=" + tokenSystemId + 
-                                  "  acquiredFromCache=" + acquiredFromCache);
+                                  "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + CodeSystemsCache.getCacheNameForTenantDatastore());
                     }
                 }
 				else {
@@ -392,7 +392,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         if (this.runningInTrx && CodeSystemsCache.isEnabled()) {
             if (this.csCacheUpdater == null) {
                 // Register a new CodeSystemsCacheUpdater for this thread/trx, if one hasn't been already registered.
-                this.csCacheUpdater = new CodeSystemsCacheUpdater(this.newCodeSystemIds);
+                this.csCacheUpdater = new CodeSystemsCacheUpdater(CodeSystemsCache.getCacheNameForTenantDatastore(), this.newCodeSystemIds);
                 try {
                     trxSynchRegistry.registerInterposedSynchronization(csCacheUpdater);
                     log.fine("Registered CodeSystemsCacheUpdater.");
@@ -423,7 +423,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         if (this.runningInTrx && ParameterNamesCache.isEnabled()) {
             if (this.pnCacheUpdater == null) {
                 // Register a new ParameterNamesCacheUpdater for this thread/trx, if one hasn't been already registered.
-                this.pnCacheUpdater = new ParameterNamesCacheUpdater(this.newParameterNameIds);
+                this.pnCacheUpdater = new ParameterNamesCacheUpdater(ParameterNamesCache.getCacheNameForTenantDatastore(), this.newParameterNameIds);
                 try {
                     trxSynchRegistry.registerInterposedSynchronization(pnCacheUpdater);
                     log.fine("Registered ParameterNamesCacheUpdater.");

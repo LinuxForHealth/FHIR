@@ -18,8 +18,8 @@ public class CodeSystemsCacheUpdater extends CacheUpdater {
     private static final String CLASSNAME = CodeSystemsCacheUpdater.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
-    public CodeSystemsCacheUpdater(Map<String, Integer> newCacheCandidates) {
-        super(newCacheCandidates);
+    public CodeSystemsCacheUpdater(String tenantDatastoreCacheName, Map<String, Integer> newCacheCandidates) {
+        super(tenantDatastoreCacheName, newCacheCandidates);
     }
 
     
@@ -28,7 +28,7 @@ public class CodeSystemsCacheUpdater extends CacheUpdater {
         final String METHODNAME = "commitCacheCandidates";
         log.entering(CLASSNAME, METHODNAME);
         
-        CodeSystemsCache.putCodeSystemIds(this.getCacheCandidates());
+        CodeSystemsCache.putCodeSystemIds(this.getTenantDatastoreCacheName(), this.getCacheCandidates());
         
         log.exiting(CLASSNAME, METHODNAME);
     }

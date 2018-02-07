@@ -49,7 +49,10 @@ public class CodeSystemsCache {
 		String encodedSysName = SQLParameterEncoder.encode(systemName);
 		
 		if (enabled) {
-		    codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+		    currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+		    if (currentDsMap == null) {
+                log.fine("getCodeSystemId() - Added new cache map for tennantDatastore=" + tenantDatstoreCacheName);
+            }
 	        currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
 	        systemId = currentDsMap.get(encodedSysName);
 		}
@@ -57,42 +60,49 @@ public class CodeSystemsCache {
 	}
 	
 	/**
-	 * Adds the passed code system name and id to the current tenant-datastore cache.
-	 * @param systemName A valid code system name.
-	 * @param systemId The id associated with the passed code system name.
-	 */
-	public static void putCodeSystemId(String systemName, Integer systemId) {
-		
-		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-		ConcurrentHashMap<String,Integer> currentDsMap;
-		String encodedSysName = SQLParameterEncoder.encode(systemName);
-		
-		if (enabled) {
-			codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-    		currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
-    		currentDsMap.putIfAbsent(encodedSysName, systemId);
-    		systemId = currentDsMap.get(encodedSysName);
-		}
+     * Adds the passed code system name and id to the current tenant-datastore cache.
+     * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
+     * @param systemName A valid code system name.
+     * @param systemId The id associated with the passed code system name.
+     */
+    public static void putCodeSystemId(String tenantDatastoreCacheName, String systemName, Integer systemId) {
+        
+        ConcurrentHashMap<String,Integer> currentDsMap;
+        Integer tempValue;
+        String encodedSysName = SQLParameterEncoder.encode(systemName);
+        
+        if (enabled) {
+            currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatastoreCacheName, new ConcurrentHashMap<String,Integer>());
+            if (currentDsMap == null) {
+                log.fine("putCodeSystemId() - Added new cache map for tennantDatastore=" + tenantDatastoreCacheName);
+            }
+            currentDsMap = codeSystemIdMaps.get(tenantDatastoreCacheName);
+            tempValue = currentDsMap.putIfAbsent(encodedSysName, systemId);
+            if (tempValue == null) {
+                log.fine("putCodeSystemId() - Added new cache entry, key=" + encodedSysName + "  value=" + systemId + "  tenantDatstoreCacheName=" + tenantDatastoreCacheName);
+            }
+        }
     }
 	
 	/**
-	 * Adds the passed code system name/id pairs to the the current tenant-datastore cache.
-	 * @param newParameters A Map containing code system name/id pairs.
-	 */
-	public static void putCodeSystemIds(Map<String, Integer> newCodeSystems) {
-		
-	    if (enabled) {
-    		for (Map.Entry<String, Integer> entry : newCodeSystems.entrySet()) {
-    			 putCodeSystemId(entry.getKey(), entry.getValue());
-    		}
-	    }
-	}
+     * Adds the passed code system name/id pairs to the the current tenant-datastore cache.
+     * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
+     * @param newParameters A Map containing code system name/id pairs.
+     */
+    public static void putCodeSystemIds(String tenantDatastoreCacheName, Map<String, Integer> newCodeSystems) {
+        
+        if (enabled) {
+            for (Map.Entry<String, Integer> entry : newCodeSystems.entrySet()) {
+                 putCodeSystemId(tenantDatastoreCacheName, entry.getKey(), entry.getValue());
+            }
+        }
+    }
 	
 	/**
 	 * Returns a String containing a combination of the current tenantId and datastoreId.
 	 * @return
 	 */
-	private static String getCacheNameForTenantDatastore() {
+	public static String getCacheNameForTenantDatastore() {
 		
 		StringBuilder cacheName = new StringBuilder();
 		cacheName.append(FHIRRequestContext.get().getTenantId())

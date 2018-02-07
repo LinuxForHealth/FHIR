@@ -50,7 +50,10 @@ public class ParameterNamesCache {
 		Integer parameterNameId = null;
 		
 		if (enabled) {
-    		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+    		currentDsMap = parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+    		if (currentDsMap == null) {
+                log.fine("getParameterNameId() - Added new cache map for tennantDatastore=" + tenantDatstoreCacheName);
+            }
     		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
     		parameterNameId = currentDsMap.get(parameterName);
 		}
@@ -60,34 +63,42 @@ public class ParameterNamesCache {
 	}
 	
 	/**
-	 * Adds the passed parameter name and id to the current tenant-datastore cache.
-	 * @param parameterName A valid search parameter name.
-	 * @param parameterId The id associated with the passed parameter name.
-	 */
-	public static void putParameterNameId(String parameterName, Integer parameterId) {
+     * Adds the passed parameter name and id to the current tenant-datastore cache.
+     * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
+     * @param parameterName A valid search parameter name.
+     * @param parameterId The id associated with the passed parameter name.
+     */
+    public static void putParameterNameId(String tenantDatastoreCacheName, String parameterName, Integer parameterId) {
 
-		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-		ConcurrentHashMap<String,Integer> currentDsMap;
-		
-		if (enabled) {
-    		parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-    		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
-    		currentDsMap.putIfAbsent(parameterName, parameterId);
-		}
-	}
+        ConcurrentHashMap<String,Integer> currentDsMap;
+        Integer tempValue;
+        
+        if (enabled) {
+            currentDsMap = parameterNameIdMaps.putIfAbsent(tenantDatastoreCacheName, new ConcurrentHashMap<String,Integer>());
+            if (currentDsMap == null) {
+                log.fine("putParameterNameId() - Added new cache map for tennantDatastore=" + tenantDatastoreCacheName);
+            }
+            currentDsMap = parameterNameIdMaps.get(tenantDatastoreCacheName);
+            tempValue = currentDsMap.putIfAbsent(parameterName, parameterId);
+            if (tempValue == null) {
+                log.fine("putParameterNameId() - Added new cache entry, key=" + parameterName + "  value=" + parameterId + "  tenantDatstoreCacheName=" + tenantDatastoreCacheName);
+            }
+        }
+    }
 	
 	/**
-	 * Adds the passed search parameter name/id pairs to the the current tenant-datastore cache.
-	 * @param newParameters A Map containing parameter name/id pairs.
-	 */
-	public static void putParameterNameIds(Map<String, Integer> newParameters) {
-		
-	    if (enabled) {
-    		for (Map.Entry<String, Integer> entry : newParameters.entrySet()) {
-    			 putParameterNameId(entry.getKey(), entry.getValue());
-    		}
-	    }
-	}
+     * Adds the passed search parameter name/id pairs to the the current tenant-datastore cache.
+     * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
+     * @param newParameters A Map containing parameter name/id pairs.
+     */
+	public static void putParameterNameIds(String tenantDatastoreCacheName, Map<String, Integer> newParameters) {
+        
+        if (enabled) {
+            for (Map.Entry<String, Integer> entry : newParameters.entrySet()) {
+                 putParameterNameId(tenantDatastoreCacheName, entry.getKey(), entry.getValue());
+            }
+        }
+    }
 	
 	
 	
@@ -95,7 +106,7 @@ public class ParameterNamesCache {
 	 * Returns a String containing a combination of the current tenantId and datastoreId.
 	 * @return
 	 */
-	private static String getCacheNameForTenantDatastore() {
+	public static String getCacheNameForTenantDatastore() {
 		
 		StringBuilder cacheName = new StringBuilder();
 		cacheName.append(FHIRRequestContext.get().getTenantId())

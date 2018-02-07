@@ -18,8 +18,8 @@ public class ResourceTypesCacheUpdater extends CacheUpdater {
     private static final String CLASSNAME = ResourceTypesCacheUpdater.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
-   public ResourceTypesCacheUpdater(Map<String, Integer> newCacheCandidates) {
-        super(newCacheCandidates);
+   public ResourceTypesCacheUpdater(String tenantDatastoreCacheName, Map<String, Integer> newCacheCandidates) {
+        super(tenantDatastoreCacheName, newCacheCandidates);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ResourceTypesCacheUpdater extends CacheUpdater {
         final String METHODNAME = "commitCacheCandidates";
         log.entering(CLASSNAME, METHODNAME);
         
-        ResourceTypesCache.putResourceTypeIds(this.getCacheCandidates());
+        ResourceTypesCache.putResourceTypeIds(this.getTenantDatastoreCacheName(), this.getCacheCandidates());
         
         log.exiting(CLASSNAME, METHODNAME);
 

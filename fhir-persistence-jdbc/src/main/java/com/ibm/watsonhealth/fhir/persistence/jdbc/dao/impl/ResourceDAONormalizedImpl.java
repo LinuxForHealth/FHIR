@@ -144,7 +144,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             }
             if (log.isLoggable(Level.FINE)) {
                 log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
-                         "  acquiredFromCache=" + acquiredFromCache);
+                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
 						
 			currentSchema = connection.getSchema().trim();
@@ -648,7 +648,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         if (this.runningInTrx && ResourceTypesCache.isEnabled()) {
             if (this.rtCacheUpdater == null) {
                 // Register a new ResourceTypeCacheUpdater for this thread/trx, if one hasn't been already registered.
-                this.rtCacheUpdater = new ResourceTypesCacheUpdater(this.newResourceTypeIds);
+                this.rtCacheUpdater = new ResourceTypesCacheUpdater(ResourceTypesCache.getCacheNameForTenantDatastore(), this.newResourceTypeIds);
                 try {
                     trxSynchRegistry.registerInterposedSynchronization(rtCacheUpdater);
                     log.fine("Registered ResourceTypeCacheUpdater.");

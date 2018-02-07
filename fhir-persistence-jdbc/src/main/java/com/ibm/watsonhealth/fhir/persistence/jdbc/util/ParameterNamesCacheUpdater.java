@@ -18,8 +18,8 @@ public class ParameterNamesCacheUpdater extends CacheUpdater {
     private static final String CLASSNAME = ParameterNamesCacheUpdater.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
-    public ParameterNamesCacheUpdater(Map<String, Integer> newCacheCandidates) {
-        super(newCacheCandidates);
+    public ParameterNamesCacheUpdater(String tenantDatastoreCacheName, Map<String, Integer> newCacheCandidates) {
+        super(tenantDatastoreCacheName, newCacheCandidates);
     }
 
     
@@ -28,7 +28,7 @@ public class ParameterNamesCacheUpdater extends CacheUpdater {
         final String METHODNAME = "commitCacheCandidates";
         log.entering(CLASSNAME, METHODNAME);
         
-        ParameterNamesCache.putParameterNameIds(this.getCacheCandidates());
+        ParameterNamesCache.putParameterNameIds(this.getTenantDatastoreCacheName(), this.getCacheCandidates());
         
         log.exiting(CLASSNAME, METHODNAME);
 

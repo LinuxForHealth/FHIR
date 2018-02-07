@@ -24,12 +24,14 @@ public abstract class CacheUpdater implements Synchronization {
     private static final Logger log = Logger.getLogger(CLASSNAME);
         
     private Map<String, Integer> cacheCandidates;
+    private String tenantDatastoreCacheName;
     
     
-    public CacheUpdater(Map<String, Integer> newCacheCandidates) {
+    public CacheUpdater(String tenantDatastoreCacheName, Map<String, Integer> newCacheCandidates) {
         super();
         Objects.requireNonNull(newCacheCandidates);
         this.setCacheCandidates(newCacheCandidates);
+        this.setTenantDatastoreCacheName(tenantDatastoreCacheName);
     }
     
      /**
@@ -80,6 +82,14 @@ public abstract class CacheUpdater implements Synchronization {
 
     public void setCacheCandidates(Map<String, Integer> cacheCandidates) {
         this.cacheCandidates = cacheCandidates;
+    }
+
+    public String getTenantDatastoreCacheName() {
+        return tenantDatastoreCacheName;
+    }
+
+    public void setTenantDatastoreCacheName(String tenantDatastoreCacheName) {
+        this.tenantDatastoreCacheName = tenantDatastoreCacheName;
     }
 
 }

@@ -48,7 +48,10 @@ public class ResourceTypesCache {
         Integer resourceTypeId = null;
         
         if (enabled) {
-            resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+            currentDsMap = resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+            if (currentDsMap == null) {
+                log.fine("getResourceTypeId() - Added new cache map for tennantDatastore=" + tenantDatstoreCacheName);
+            }
             currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
             resourceTypeId = currentDsMap.get(resourceType);
         }
@@ -60,7 +63,7 @@ public class ResourceTypesCache {
 	 * Returns a String containing a combination of the current tenantId and datastoreId.
 	 * @return
 	 */
-	private static String getCacheNameForTenantDatastore() {
+	public static String getCacheNameForTenantDatastore() {
 		
 		StringBuilder cacheName = new StringBuilder();
 		cacheName.append(FHIRRequestContext.get().getTenantId())
@@ -71,30 +74,38 @@ public class ResourceTypesCache {
 
 	/**
      * Adds the passed resource type name and id to the current tenant-datastore cache.
+     * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
      * @param resourceType A valid resource type name.
      * @param resourceTypeId The id associated with the passed resource type name.
      */
-    public static void putResourceTypeId(String resourceType, Integer resourceTypeId) {
+    public static void putResourceTypeId(String tenantDatastoreCacheName, String resourceType, Integer resourceTypeId) {
 
-        String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         ConcurrentHashMap<String,Integer> currentDsMap;
+        Integer tempValue;
         
         if (enabled) {
-            resourceTypeIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-            currentDsMap = resourceTypeIdMaps.get(tenantDatstoreCacheName);
-            currentDsMap.putIfAbsent(resourceType, resourceTypeId);
+            currentDsMap = resourceTypeIdMaps.putIfAbsent(tenantDatastoreCacheName, new ConcurrentHashMap<String,Integer>());
+            if (currentDsMap == null) {
+                log.fine("putResourceTypeId() - Added new cache map for tennantDatastore=" + tenantDatastoreCacheName);
+            }
+            currentDsMap = resourceTypeIdMaps.get(tenantDatastoreCacheName);
+            tempValue = currentDsMap.putIfAbsent(resourceType, resourceTypeId);
+            if (tempValue == null) {
+                log.fine("putResourceTypeId() - Added new cache entry, key=" + resourceType + "  value=" + resourceTypeId + "  tenantDatastoreCacheName=" + tenantDatastoreCacheName);
+            }
         }
     }
     
     /**
      * Adds the passed resource type name/id pairs to the the current tenant-datastore cache.
+     * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
      * @param newParameters A Map containing resource type name/id pairs.
      */
-    public static void putResourceTypeIds(Map<String, Integer> newResourceTypes) {
+    public static void putResourceTypeIds(String tenantDatastoreCacheName, Map<String, Integer> newResourceTypes) {
         
         if (enabled) {
             for (Map.Entry<String, Integer> entry : newResourceTypes.entrySet()) {
-                putResourceTypeId(entry.getKey(), entry.getValue());
+                putResourceTypeId(tenantDatastoreCacheName, entry.getKey(), entry.getValue());
             }
         }
     }
