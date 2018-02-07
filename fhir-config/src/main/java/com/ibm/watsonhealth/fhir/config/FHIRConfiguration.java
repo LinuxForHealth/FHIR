@@ -139,11 +139,11 @@ public class FHIRConfiguration {
      * @throws Exception
      */
     public PropertyGroup loadConfigurationForTenant(String tenantId) throws Exception {
-        log.entering(this.getClass().getName(), "loadConfigurationForTenant", tenantId);
+        // log.entering(this.getClass().getName(), "loadConfigurationForTenant", tenantId);
         try {
             return configCache.getCachedObjectForTenant(tenantId);
         } finally {
-            log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
+            // log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
         }
     }
 

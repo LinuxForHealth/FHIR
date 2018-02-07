@@ -183,14 +183,18 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
     
     public FHIRResource() throws Exception {
-        log.entering(this.getClass().getName(), "FHIRResource ctor");
+        if (log.isLoggable(Level.FINEST)) {
+            log.entering(this.getClass().getName(), "FHIRResource ctor");
+        }
         try {
             fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         } catch (Throwable t) {
             log.severe("Unexpected error during initialization: " + t);
             throw t;
         } finally {
-            log.exiting(this.getClass().getName(), "FHIRResource ctor");
+            if (log.isLoggable(Level.FINEST)) {
+                log.exiting(this.getClass().getName(), "FHIRResource ctor");
+            }
         }
     }
 

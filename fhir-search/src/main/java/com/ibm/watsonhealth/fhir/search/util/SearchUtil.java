@@ -369,10 +369,12 @@ public class SearchUtil {
      * @throws Exception
      */
     public static List<SearchParameter> getSearchParameters(String resourceType) throws Exception {
-        log.entering(CLASSNAME, "getSearchParameters(String, String)");
+        // log.entering(CLASSNAME, "getSearchParameters(String)");
         try {
             String tenantId = FHIRRequestContext.get().getTenantId();
-            log.finer("Retrieving SearchParameters for tenant-id '" + tenantId + "' and resource type '" + resourceType + "'.");
+            if (log.isLoggable(Level.FINEST)) {
+                log.finest("Retrieving SearchParameters for tenant-id '" + tenantId + "' and resource type '" + resourceType + "'.");
+            }
             List<SearchParameter> result = new ArrayList<>();
 
             // First retrieve built-in search parameters for this resource type and add them to the result.
@@ -394,7 +396,7 @@ public class SearchUtil {
 
             return result;
         } finally {
-            log.exiting(CLASSNAME, "getSearchparameters(String, String)");
+            // log.exiting(CLASSNAME, "getSearchparameters(String)");
         }
     }
 

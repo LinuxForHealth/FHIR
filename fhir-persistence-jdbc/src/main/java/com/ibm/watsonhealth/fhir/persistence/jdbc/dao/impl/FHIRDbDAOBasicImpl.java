@@ -82,7 +82,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 	@Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         final String METHODNAME = "getConnection";
-        log.entering(CLASSNAME, METHODNAME);
+        if (log.isLoggable(Level.FINEST)) {
+            log.entering(CLASSNAME, METHODNAME);
+        }
         try {
             Connection connection = null;
             String dbDriverName = null;
@@ -95,7 +97,13 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                 try {
                     String tenantId = FHIRRequestContext.get().getTenantId();
                     String dsId = FHIRRequestContext.get().getDataStoreId();
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Getting connection for tenantId/dsId: [" + tenantId + "/" + dsId + "]...");
+                    }
                     connection = getFhirDatasource().getConnection(tenantId, dsId);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Got the connection for [" + tenantId + "/" + dsId + "]!");
+                    }
                 } catch (Throwable e) {
                     throw new FHIRPersistenceDBConnectException("Failure acquiring Connection for datasource: " + getDataSourceJndiName(), e);
                 }
@@ -123,7 +131,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
         } catch (Throwable t) {
             throw new FHIRPersistenceDBConnectException("An unexpected error occurred while connecting to the database.", t);
         } finally {
-            log.exiting(CLASSNAME, METHODNAME);
+            if (log.isLoggable(Level.FINEST)) {
+                log.exiting(CLASSNAME, METHODNAME);
+            }
 
         }
     }
@@ -164,26 +174,29 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     }
     
     private static synchronized void acquireFhirDb() throws Exception {
-   	 final String METHODNAME = "acquireFhirDb";
-        log.entering(CLASSNAME, METHODNAME);
-        
+        final String METHODNAME = "acquireFhirDb";
+        if (log.isLoggable(Level.FINEST)) {
+            log.entering(CLASSNAME, METHODNAME);
+        }
+
         try {
             InitialContext ctxt;
 
             if (fhirDb == null) {
-            	try {
+                try {
                     ctxt = new InitialContext();
                     fhirDb = (DataSource) ctxt.lookup(getDataSourceJndiName());
                 } catch (Throwable e) {
                     throw new FHIRPersistenceDBConnectException("Failure acquiring Datasource for " + getDataSourceJndiName(), e);
                 }
             }
-            
+
         } finally {
-            log.exiting(CLASSNAME, METHODNAME);
+            if (log.isLoggable(Level.FINEST)) {
+                log.exiting(CLASSNAME, METHODNAME);
+            }
         }
-   	
-   }
+    }
 	
 	/**
 	 * Closes the passed PreparedStatement and Connection objects.
