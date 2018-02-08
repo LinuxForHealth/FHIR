@@ -15,6 +15,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import javax.naming.InitialContext;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.xml.bind.JAXBException;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
@@ -60,6 +62,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilde
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.replication.api.util.ReplicationUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
@@ -596,6 +599,39 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		 
 		return this.getResourceDao().searchByIds(resourceType.getSimpleName(), sortedIdList);
 	}
+	
+	/**
+     * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
+     * @param resourceDTOList
+     * @param resourceType
+     * @return
+     * @throws JAXBException
+     * @throws IOException 
+     */
+	@Override
+    protected List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
+                                throws JAXBException, IOException {
+        final String METHODNAME = "convertResourceDTO List";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        List<Resource> resources = new ArrayList<>();
+        try {
+            for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
+                Resource existingResource = this.convertResourceDTO(resourceDTO, resourceType);
+                if (resourceDTO.isDeleted()) {
+                    Resource deletedResourceMarker = FHIRPersistenceUtil.createDeletedResourceMarker(existingResource);
+                    ReplicationUtil.addExtensionDataToResource(existingResource, deletedResourceMarker);
+                    resources.add(deletedResourceMarker);
+                } else {
+                    resources.add(existingResource);
+                }
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resources;
+    }
 	
    /**
      * Calls some cache analysis methods and aggregates the output into a single String.
