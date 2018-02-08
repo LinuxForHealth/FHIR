@@ -65,7 +65,9 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
+import com.ibm.watsonhealth.fhir.replication.api.util.ReplicationUtil;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -611,17 +613,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	List<Resource> resources = new ArrayList<>();
     	try {
     		for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-    			resources.add(this.convertResourceDTO(resourceDTO, resourceType));
+    		    Resource existingResource = this.convertResourceDTO(resourceDTO, resourceType);
+    		    if (resourceDTO.isDeleted()) {
+    		        Resource deletedResourceMarker = FHIRPersistenceUtil.createDeletedResourceMarker(existingResource);
+    		        ReplicationUtil.addExtensionDataToResource(existingResource, deletedResourceMarker);
+    		        resources.add(deletedResourceMarker);
+    		    } else {
+    		        resources.add(existingResource);
+    		    }
     		}
     	}
     	finally {
     		log.exiting(CLASSNAME, METHODNAME);
     	}
     	return resources;
-    		
-    	
-    	
     }
+    
     /**
      * Converts the passed Resource Data Transfer Object to a FHIR Resource object.
      * @param resourceDTO - A valid Resource DTO

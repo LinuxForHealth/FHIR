@@ -16,6 +16,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
+import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -123,6 +125,26 @@ public class FHIRPersistenceUtil {
             return miles * 1.609344;
         } finally {
             log.exiting(FHIRPersistenceUtil.class.getName(), "convertMilesToKilometers");
+        }
+    }
+    
+    /**
+     * Create a minimal deleted resource marker from the given resource
+     * 
+     * @param deletedResource
+     * @return deletedResourceMarker
+     */
+    public static Resource createDeletedResourceMarker(Resource deletedResource) {
+        try {
+            Resource deletedResourceMarker = FHIRUtil.createResource(deletedResource.getClass());
+            deletedResourceMarker.setId(deletedResource.getId());
+            deletedResourceMarker.setMeta(objectFactory.createMeta());
+            deletedResourceMarker.getMeta().setVersionId(deletedResource.getMeta().getVersionId());
+            deletedResourceMarker.getMeta().setLastUpdated(deletedResource.getMeta().getLastUpdated());
+            return deletedResourceMarker;
+        } catch (Exception e) {
+            throw new IllegalStateException("Error while creating deletion marker for resource of type "
+                    + deletedResource.getClass().getSimpleName());
         }
     }
 }

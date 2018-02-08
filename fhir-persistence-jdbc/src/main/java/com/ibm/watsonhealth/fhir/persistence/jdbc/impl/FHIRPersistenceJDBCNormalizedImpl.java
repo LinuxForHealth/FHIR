@@ -391,7 +391,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType);
 				    
 	            	// If replication info is required, add the value of the patientId, siteId, and subjectId extensions 
-                    // to the RepInfo and to the deletedResource.
+                    // to the RepInfo
                     if (this.resourceDao.isRepInfoRequired()) {
                         ReplicationUtil.addExtensionDataToRepInfo(context, existingResource);
                     }
@@ -515,6 +515,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			pageSize = historyContext.getPageSize();
 	        lastPageNumber = (int) ((resourceCount + pageSize - 1) / pageSize);
 	        historyContext.setLastPageNumber(lastPageNumber);            
+	        
+	        
 	        
 	        if (resourceCount > 0) {
 	        	offset = (historyContext.getPageNumber() - 1) * pageSize;
