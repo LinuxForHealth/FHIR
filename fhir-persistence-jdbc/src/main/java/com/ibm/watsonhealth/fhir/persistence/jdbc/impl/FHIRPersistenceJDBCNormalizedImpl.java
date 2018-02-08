@@ -378,7 +378,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
 		Resource existingResource = null;
-		Resource deletedResource = null;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		
 		try {
@@ -386,29 +385,23 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			
 			if (existingResourceDTO != null) {
 				if (existingResourceDTO.isDeleted()) {
-					deletedResource = this.convertResourceDTO(existingResourceDTO, resourceType);
+				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType);
 				}
 				else {
 				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType);
 				    
-					// Create a soft-delete Resource instance with minimal data
-	            	deletedResource = FHIRUtil.createResource(resourceType);
-	            	deletedResource.setMeta(objectFactory.createMeta());
-	            	deletedResource.setId(objectFactory.createId().withValue(logicalId));
-	            	
 	            	// If replication info is required, add the value of the patientId, siteId, and subjectId extensions 
                     // to the RepInfo and to the deletedResource.
                     if (this.resourceDao.isRepInfoRequired()) {
                         ReplicationUtil.addExtensionDataToRepInfo(context, existingResource);
-                        ReplicationUtil.addExtensionDataToResource(existingResource, deletedResource);
                     }
 	
 	                int newVersionNumber = existingResourceDTO.getVersionId() + 1;
 	                Instant lastUpdated = instant(System.currentTimeMillis());
 	
 	                // Update the soft-delete resource to reflect the new version and lastUpdated values.
-	                deletedResource.getMeta().setVersionId(id(String.valueOf(newVersionNumber)));
-	                deletedResource.getMeta().setLastUpdated(lastUpdated);
+	                existingResource.getMeta().setVersionId(id(String.valueOf(newVersionNumber)));
+	                existingResource.getMeta().setLastUpdated(lastUpdated);
 	
 	                // Create a new Resource DTO instance to represent the deleted version.
 	                com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
@@ -417,7 +410,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	                
 	                // Serialize and compress the Resource
 	    	        GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-	    	        FHIRUtil.write(deletedResource, Format.JSON, zipStream, false);
+	    	        FHIRUtil.write(existingResource, Format.JSON, zipStream, false);
 	    	        zipStream.finish();
 	    	        resourceDTO.setData(stream.toByteArray());
 	    	        zipStream.close();
@@ -437,7 +430,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 				}
             }
 			        
-	        return deletedResource;
+	        return existingResource;
 		}
 		catch(FHIRPersistenceFKVException e) {
             String msg = "Unexpected FK Violation while performing a delete operation.";
