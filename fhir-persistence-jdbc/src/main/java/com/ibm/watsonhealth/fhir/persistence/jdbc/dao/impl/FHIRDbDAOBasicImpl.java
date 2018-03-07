@@ -288,7 +288,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			// Transform the resultSet into a collection of Data Transfer Objects
 			fhirObjects = this.createDTOs(resultSet);
 			if (log.isLoggable(Level.FINE)) {
-				log.fine("Sucessfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) + 
+				log.fine("Successfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) + 
 				         " executionTime=" + dbCallDuration + "ms");
 			}
 		} 
@@ -341,7 +341,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			if (resultSet.next()) {
 				rowCount = resultSet.getInt(1);
 				if (log.isLoggable(Level.FINE)) {
-					log.fine("Sucessfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
+					log.fine("Successfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
 								Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount + " executionTime=" + dbCallDuration + "ms");
 				}
 			}

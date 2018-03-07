@@ -181,7 +181,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			
 			resource.setId(stmt.getLong(19));
 			if (log.isLoggable(Level.FINE)) {
-				log.fine("Succesfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+				log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
 			}
 			
 		}
