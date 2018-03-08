@@ -849,7 +849,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @POST
-    public Response bundle(Bundle bundle) {
+    public Response bundle(Resource resource) {
 
         log.entering(this.getClass().getName(), "bundle(Bundle)");
         Response.Status status;
@@ -858,7 +858,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             checkInitComplete();
 
-            responseBundle = doBundle(bundle, null);
+            responseBundle = doBundle(resource, null);
                 
             ResponseBuilder response = Response.ok(responseBundle);
             status = Response.Status.OK;
@@ -1713,22 +1713,31 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            the request Bundle
      * @return the response Bundle
      */
-    public Bundle doBundle(Bundle bundle, Map<String, String> requestProperties) throws Exception {
+    public Bundle doBundle(Resource bundleResource, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
 
         Date startTime = new Date();
         Response.Status status = null;
         String errMsg = "Caught exception while processing 'bundle' request.";
+        Bundle inputBundle = null;
+        String bundleResourceTypeName;
         
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
         try {
+            bundleResourceTypeName = bundleResource.getClass().getSimpleName();
+            if (bundleResourceTypeName.equals("Bundle")) {
+                inputBundle = (Bundle) bundleResource;
+            }
+            else {
+                throw new FHIRException("A 'Bundle' resource type is required but a '" + bundleResourceTypeName + "' resource type was sent.") ;
+            }
             // First, validate the bundle and create the response bundle.
-            Bundle responseBundle = validateBundle(bundle);
+            Bundle responseBundle = validateBundle(inputBundle);
             
             // Next, process each of the entries in the bundle.
-            processBundleEntries(bundle, responseBundle, requestProperties);
+            processBundleEntries(inputBundle, responseBundle, requestProperties);
             status = Response.Status.OK;
             
             return responseBundle;
@@ -1743,7 +1752,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
-            RestAuditLogger.logBundle(httpServletRequest, bundle, startTime, new Date(), status);
+            RestAuditLogger.logBundle(httpServletRequest, inputBundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doBundle");
         }
     }

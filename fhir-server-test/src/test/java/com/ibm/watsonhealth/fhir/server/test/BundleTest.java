@@ -311,6 +311,17 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
         assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "cvc-minLength-valid");
     }
+    
+    @Test(groups = { "batch" })
+    public void testInvalidBundle() throws Exception {
+        WebTarget target = getWebTarget();
+        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+
+        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
+        Response response = target.request().post(entity, Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException: A 'Bundle' resource type is required but a 'Patient' resource type was sent.");
+    }
 
     @Test(groups = { "batch" })
     public void testResourceURLMismatch() throws Exception {
