@@ -1720,18 +1720,16 @@ public class FHIRResource implements FHIRResourceHelpers {
         Response.Status status = null;
         String errMsg = "Caught exception while processing 'bundle' request.";
         Bundle inputBundle = null;
-        String bundleResourceTypeName;
-        
+                
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
         try {
-            bundleResourceTypeName = bundleResource.getClass().getSimpleName();
-            if (bundleResourceTypeName.equals("Bundle")) {
+            if (bundleResource instanceof Bundle) {
                 inputBundle = (Bundle) bundleResource;
             }
             else {
-                throw new FHIRException("A 'Bundle' resource type is required but a '" + bundleResourceTypeName + "' resource type was sent.") ;
+                throw new FHIRException("A 'Bundle' resource type is required but a '" + bundleResource.getClass().getSimpleName() + "' resource type was sent.") ;
             }
             // First, validate the bundle and create the response bundle.
             Bundle responseBundle = validateBundle(inputBundle);
