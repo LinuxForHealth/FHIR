@@ -129,8 +129,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		Integer resourceTypeId;
 		Timestamp lastUpdated, replicationLastUpdated;
 		boolean acquiredFromCache;
-		long dbCallStartTime;
-		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
@@ -175,13 +173,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.setInt(18, 1);
 			stmt.registerOutParameter(19, Types.BIGINT);
 			
-			dbCallStartTime = System.nanoTime();
 			stmt.execute();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 			
 			resource.setId(stmt.getLong(19));
 			if (log.isLoggable(Level.FINE)) {
-				log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+				log.fine("Succesfully inserted Resource. id=" + resource.getId());
 			}
 			
 		}
@@ -480,18 +476,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		int parameterId;
 		Map<String, Integer> parameterMap = new HashMap<>();
 		String errMsg = "Failure retrieving all Resource type names.";
-		long dbCallStartTime;
-		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(SQL_READ_ALL_RESOURCE_TYPE_NAMES);
-			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-			if (log.isLoggable(Level.FINE)) {
-                log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
-            }
 			while (resultSet.next()) {
 				parameterName = resultSet.getString("RESOURCE_TYPE");
 				parameterId = resultSet.getInt("RESOURCE_TYPE_ID");
@@ -521,8 +510,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		String currentSchema;
 		String stmtString;
 		String errMsg = "Failure storing Resource type name id: name=" + resourceType;
-		long dbCallStartTime;
-		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
@@ -531,12 +518,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt = connection.prepareCall(stmtString); 
 			stmt.setString(1, resourceType);
 			stmt.registerOutParameter(2, Types.INTEGER);
-			dbCallStartTime = System.nanoTime();
 			stmt.execute();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("DB read resource type id complete. executionTime=" + dbCallDuration + "ms");
-            }
 			parameterNameId = stmt.getInt(2);
 		}
 		catch(FHIRPersistenceDBConnectException e) {
@@ -573,8 +555,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 		String errMsg;
-		long dbCallStartTime;
-		double dbCallDuration;
 		
 		try {
 			connection = this.getConnection();
@@ -583,12 +563,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			for (int i = 0; i < queryData.getBindVariables().size();  i++) {
 				stmt.setObject(i+1, queryData.getBindVariables().get(i));
 			}
-			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("DB search for ids complete. executionTime=" + dbCallDuration + "ms");
-            }
 			while(resultSet.next())	 {
 				resourceIds.add(resultSet.getLong(1));
 			}
@@ -619,8 +594,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		StringBuilder idQuery = new StringBuilder();
 		List<Resource> resources = new ArrayList<>();
 		String stmtString = null;
-		long dbCallStartTime;
-		double dbCallDuration;
 		
 		try {
 			stmtString = String.format(this.getSearchByIdsSql(resourceType));
@@ -636,12 +609,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 						
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(idQuery.toString());
-			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("DB search by ids complete. executionTime=" + dbCallDuration + "ms");
-            }
 			resources = this.createDTOs(resultSet);
 		}
 		catch(FHIRPersistenceException e) {

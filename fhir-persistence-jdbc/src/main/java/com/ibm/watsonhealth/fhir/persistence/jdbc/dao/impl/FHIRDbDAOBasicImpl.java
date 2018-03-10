@@ -272,8 +272,6 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 		String errMsg;
-		long dbCallStartTime;
-		double dbCallDuration;
 						
 		try {
 			connection = this.getConnection();
@@ -282,14 +280,11 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			for (int i = 0; i <searchArgs.length;  i++) {
 				stmt.setObject(i+1, searchArgs[i]);
 			}
-			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 			// Transform the resultSet into a collection of Data Transfer Objects
 			fhirObjects = this.createDTOs(resultSet);
 			if (log.isLoggable(Level.FINE)) {
-				log.fine("Successfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) + 
-				         " executionTime=" + dbCallDuration + "ms");
+				log.fine("Sucessfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs));
 			}
 		} 
 		catch(FHIRPersistenceException e) {
@@ -325,8 +320,6 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 		String errMsg = "Failure retrieving count. SQL=" + sql + NEWLINE + "  searchArgs=" + Arrays.toString(searchArgs);
-		long dbCallStartTime;
-		double dbCallDuration;
 						
 		try {
 			connection = this.getConnection();
@@ -335,14 +328,12 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 			for (int i = 0; i <searchArgs.length;  i++) {
 				stmt.setObject(i+1, searchArgs[i]);
 			}
-			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 			if (resultSet.next()) {
 				rowCount = resultSet.getInt(1);
 				if (log.isLoggable(Level.FINE)) {
-					log.fine("Successfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
-								Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount + " executionTime=" + dbCallDuration + "ms");
+					log.fine("Sucessfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
+								Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount);
 				}
 			}
 			else {
