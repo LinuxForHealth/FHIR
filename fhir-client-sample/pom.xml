@@ -2,13 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ibm.watsonhealth.fhir</groupId>
-	<version>2.1.1-SNAPSHOT</version>
+	<version>99-SNAPSHOT</version>
 	<artifactId>fhir-client-sample</artifactId>
 	<description>Sample application that uses the FHIR Client API</description>
 	
 	<properties>
 		<fhir.server.groupId>com.ibm.watsonhealth.fhir</fhir.server.groupId>
-		<fhir.server.version>2.1.1-SNAPSHOT</fhir.server.version>
+		<fhir.server.version>99-SNAPSHOT</fhir.server.version>
 	</properties>
 	
 	<dependencies>
