@@ -143,8 +143,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 			
 	}
 	
-	private Class<? extends Resource> resourceType = null;
-
 	public JDBCQueryBuilder(FHIRDbDAO dao) {
 		super();
 		this.fhirDbDao = dao;
@@ -185,7 +183,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		final String METHODNAME = "buildQuery";
 		log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 		
-        this.resourceType = resourceType;
         List<Parameter> searchParameters = searchContext.getSearchParameters();
        	StringBuilder sqlQuery = new StringBuilder();
 		String sqlQueryString = null;
@@ -433,7 +430,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processReferenceParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processReferenceParm(Parameter queryParm) throws Exception {
+	protected String processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
 		final String METHODNAME = "processReferenceParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -660,7 +657,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processDateParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processDateParm(Parameter queryParm) {
+	protected String processDateParm(Class<? extends Resource> resourceType, Parameter queryParm) {
 		final String METHODNAME = "processDateParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		

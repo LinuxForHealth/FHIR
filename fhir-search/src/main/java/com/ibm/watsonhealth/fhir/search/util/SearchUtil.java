@@ -121,8 +121,12 @@ public class SearchUtil {
         }
     };
 
-    private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_page");
-
+    private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList(
+        "_sort", "_sort:asc", "_sort:desc", "_count", "_page", "_include", "_revinclude"
+//        ,"_summary", "_elements"
+//        , "_contained", "_containedType"
+        );
+    
     private static void initializeCompartmentMap() {
         try {
             compartmentMap = buildCompartmentMap();
@@ -760,8 +764,11 @@ public class SearchUtil {
                 }
 
                 if (isChainedParameter(name)) {
-                    Parameter chainedParameter = parseChainedParameter(resourceType, name, queryParameters.get(name));
-                    parameters.add(chainedParameter);
+                    List<String> chainedParemeters = queryParameters.get(name);
+                    for (String chainedParameterString : chainedParemeters) {
+                        Parameter chainedParameter = parseChainedParameter(resourceType, name, chainedParameterString);
+                        parameters.add(chainedParameter);
+                    }
                     continue;
                 }
 
@@ -801,90 +808,13 @@ public class SearchUtil {
                     throw new FHIRSearchException("Unsupported type/modifier combination: " + type.value() + "/" + modifier.value());
                 }
 
-                // parse values
-                for (String value : queryParameters.get(name)) {
+                for (String queryParameterValueString : queryParameters.get(name)) {
                     Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                    List<ParameterValue> queryParameterValues = parseQueryParameterValuesString(type, queryParameterValueString);
+                    parameter.getValues().addAll(queryParameterValues);
                     parameters.add(parameter);
-                    for (String v : value.split(",")) {
-                        ParameterValue parameterValue = new ParameterValue();
-                        Prefix prefix = null;
-                        switch (type) {
-                        case DATE: {
-                            // date
-                            // [parameter]=[prefix][value]
-                            prefix = getPrefix(v);
-                            if (prefix != null) {
-                                v = v.substring(2);
-                                parameterValue.setPrefix(prefix);
-                            }
-                            parameterValue.setValueDate(FHIRUtilities.parseDateTime(v, false));
-                            break;
-                        }
-                        case NUMBER: {
-                            // number
-                            // [parameter]=[prefix][value]
-                            prefix = getPrefix(v);
-                            if (prefix != null) {
-                                v = v.substring(2);
-                                parameterValue.setPrefix(prefix);
-                            }
-                            parameterValue.setValueNumber(Double.parseDouble(v));
-                            break;
-                        }
-                        case REFERENCE: {
-                            // reference
-                            // [parameter]=[url]
-                            // [parameter]=[type]/[id]
-                            // [parameter]=[id]
-                            parameterValue.setValueString(v);
-                            break;
-                        }
-                        case QUANTITY: {
-                            // quantity
-                            // [parameter]=[prefix][number]|[system]|[code]
-                            prefix = getPrefix(v);
-                            if (prefix != null) {
-                                v = v.substring(2);
-                                parameterValue.setPrefix(prefix);
-                            }
-                            String[] parts = v.split("\\|");
-                            String number = parts[0];
-                            parameterValue.setValueNumber(Double.parseDouble(number));
-                            String system = parts[1]; // could be empty string
-                            parameterValue.setValueSystem(system);
-                            String code = parts[2];
-                            parameterValue.setValueCode(code);
-                            break;
-                        }
-                        case STRING: {
-                            // string
-                            // [parameter]=[value]
-                            parameterValue.setValueString(v);
-                            break;
-                        }
-                        case TOKEN: {
-                            // token
-                            // [parameter]=[system]|[code]
-                            String[] parts = v.split("\\|");
-                            if (parts.length == 2) {
-                                parameterValue.setValueSystem(parts[0]);
-                                parameterValue.setValueCode(parts[1]);
-                            } else {
-                                parameterValue.setValueCode(v);
-                            }
-                            break;
-                        }
-                        case URI: {
-                            // [parameter]=[value]
-                            parameterValue.setValueString(v);
-                            break;
-                        }
-                        default:
-                            break;
-                        }
-                        parameter.getValues().add(parameterValue);
-                    }
                 }
+                
             } catch (FHIRSearchException e) {
                 throw e;
             } catch (Exception e) {
@@ -899,6 +829,90 @@ public class SearchUtil {
         return context;
     }
 
+    private static List<ParameterValue> parseQueryParameterValuesString(Type type, String queryParameterValuesString) throws FHIRSearchException {
+        List<ParameterValue> parameterValues = new ArrayList<>();
+        for (String v : queryParameterValuesString.split(",")) {
+            ParameterValue parameterValue = new ParameterValue();
+            Prefix prefix = null;
+            switch (type) {
+            case DATE: {
+                // date
+                // [parameter]=[prefix][value]
+                prefix = getPrefix(v);
+                if (prefix != null) {
+                    v = v.substring(2);
+                    parameterValue.setPrefix(prefix);
+                }
+                parameterValue.setValueDate(FHIRUtilities.parseDateTime(v, false));
+                break;
+            }
+            case NUMBER: {
+                // number
+                // [parameter]=[prefix][value]
+                prefix = getPrefix(v);
+                if (prefix != null) {
+                    v = v.substring(2);
+                    parameterValue.setPrefix(prefix);
+                }
+                parameterValue.setValueNumber(Double.parseDouble(v));
+                break;
+            }
+            case REFERENCE: {
+                // reference
+                // [parameter]=[url]
+                // [parameter]=[type]/[id]
+                // [parameter]=[id]
+                parameterValue.setValueString(v);
+                break;
+            }
+            case QUANTITY: {
+                // quantity
+                // [parameter]=[prefix][number]|[system]|[code]
+                prefix = getPrefix(v);
+                if (prefix != null) {
+                    v = v.substring(2);
+                    parameterValue.setPrefix(prefix);
+                }
+                String[] parts = v.split("\\|");
+                String number = parts[0];
+                parameterValue.setValueNumber(Double.parseDouble(number));
+                String system = parts[1]; // could be empty string
+                parameterValue.setValueSystem(system);
+                String code = parts[2];
+                parameterValue.setValueCode(code);
+                break;
+            }
+            case STRING: {
+                // string
+                // [parameter]=[value]
+                parameterValue.setValueString(v);
+                break;
+            }
+            case TOKEN: {
+                // token
+                // [parameter]=[system]|[code]
+                String[] parts = v.split("\\|");
+                if (parts.length == 2) {
+                    parameterValue.setValueSystem(parts[0]);
+                    parameterValue.setValueCode(parts[1]);
+                } else {
+                    parameterValue.setValueCode(v);
+                }
+                break;
+            }
+            case URI: {
+                // [parameter]=[value]
+                parameterValue.setValueString(v);
+                break;
+            }
+            default:
+                break;
+            }
+            parameterValues.add(parameterValue);
+        }
+        return parameterValues;
+    }
+    
     private static boolean isAllowed(Type type, Modifier modifier) {
 
         return resourceTypeModifierMap.get(type).contains(modifier);
@@ -1064,7 +1078,7 @@ public class SearchUtil {
         return name.contains(".");
     }
 
-    private static Parameter parseChainedParameter(Class<? extends Resource> resourceType, String name, List<String> values) throws FHIRSearchException {
+    private static Parameter parseChainedParameter(Class<? extends Resource> resourceType, String name, String valuesString) throws Exception {
 
         Parameter rootParameter = null;
 
@@ -1073,6 +1087,8 @@ public class SearchUtil {
             int lastIndex = components.size() - 1;
             int currentIndex = 0;
 
+            Type type = null;
+            
             for (String component : components) {
                 Modifier modifier = null;
                 String modifierResourceTypeName = null;
@@ -1093,7 +1109,7 @@ public class SearchUtil {
                 }
 
                 SearchParameter searchParameter = getSearchParameter(resourceType, parameterName);
-                Type type = Type.fromValue(searchParameter.getType().getValue());
+                type = Type.fromValue(searchParameter.getType().getValue());
 
                 if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
                     throw new FHIRSearchException("Type: '" + type + "' not allowed on chained parameter");
@@ -1125,11 +1141,10 @@ public class SearchUtil {
                 }
 
                 currentIndex++;
-            }
+            } // end for loop
 
-            ParameterValue value = new ParameterValue();
-            value.setValueString(values.get(0));
-            rootParameter.getChain().getLast().getValues().add(value);
+            List<ParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
+            rootParameter.getChain().getLast().getValues().addAll(valueList);
         } catch (FHIRSearchException e) {
             throw e;
         } catch (Exception e) {

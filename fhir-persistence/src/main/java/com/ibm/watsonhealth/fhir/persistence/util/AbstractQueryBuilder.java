@@ -114,10 +114,10 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 									databaseQueryParm = this.processInclusionCriteria(queryParm);
 								}
 								else {
-									databaseQueryParm = this.processReferenceParm(queryParm);
+									databaseQueryParm = this.processReferenceParm(resourceType, queryParm);
 								}
 						break;
-				case DATE:      databaseQueryParm = this.processDateParm(queryParm);
+				case DATE:      databaseQueryParm = this.processDateParm(resourceType, queryParm);
 				        break;
 				case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm);
 						break;
@@ -175,7 +175,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 * @throws Exception 
 	 */
-	protected abstract T1 processReferenceParm(Parameter queryParm) throws Exception;
+	protected abstract T1 processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
 	
 	/**
 	 * Contains special logic for handling chained reference search parameters.
@@ -184,7 +184,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing a query segment. 
 	 * @throws FHIRPersistenceException
 	 */
-	protected abstract T1 processChainedReferenceParm(Parameter queryParm) throws FHIRPersistenceException;
+	protected abstract T1 processChainedReferenceParm(Parameter queryParm) throws Exception;
 	
 	/**
 	 * Contains special logic for handling Compartment based searches.
@@ -193,7 +193,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing a query segment. 
 	 * @throws FHIRPersistenceException
 	 */
-	protected abstract T1 processInclusionCriteria(Parameter queryParm) throws FHIRPersistenceException;
+	protected abstract T1 processInclusionCriteria(Parameter queryParm) throws Exception;
 	
 	/**
 	 * Creates a query segment for a Date type parameter.
@@ -201,7 +201,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 * @throws Exception 
 	 */
-	protected abstract T1 processDateParm(Parameter queryParm) throws Exception;
+	protected abstract T1 processDateParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
 	
 	/**
 	 * Creates a query segment for a Token type parameter.

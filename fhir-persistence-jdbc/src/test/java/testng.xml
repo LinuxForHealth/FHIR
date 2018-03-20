@@ -10,10 +10,12 @@
 	  	</groups>
        <classes>
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryAuditEventTest" />
+           <!-- <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryChainedParmTest" /> -->
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryContractTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryDeviceTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryEncounterTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryGroupTest" />
+           <!-- <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryImmunizationRecommendationTest" /> -->
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryLocationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationAdministrationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationOrderTest" />
@@ -38,10 +40,12 @@
 	  	</groups>
        <classes>   
        	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
        	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryEncounterTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryGroupTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryImmunizationRecommendationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryLocationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationAdministrationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationOrderTest" />
