@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Properties;
@@ -57,7 +58,6 @@ public class DerbyInitializer {
 		DerbyInitializer initializer = new DerbyInitializer();
 		try {
 			initializer.bootstrapDb(false);
-			
 		} 
 		catch (Throwable e) {
 			e.printStackTrace();
@@ -113,8 +113,8 @@ public class DerbyInitializer {
 	public void bootstrapDb(boolean forceRunLiquibaseUpdates) throws FHIRPersistenceDBConnectException, LiquibaseException, SQLException {
 		
 		Connection connection = this.establishDb(forceRunLiquibaseUpdates);
+		String schemaType = this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE);
 		if (this.isNewDbCreated()) {
-			String schemaType = this.dbProps.getProperty(FHIRDbDAO.PROPERTY_SCHEMA_TYPE);
 			if(schemaType.equalsIgnoreCase("basic")) {
 				this.runDDL(connection);
 			} else if(schemaType.equalsIgnoreCase("normalized")) {
@@ -130,10 +130,27 @@ public class DerbyInitializer {
 					}
 			    }
 			}
-		}
+		} else {
+		    if(schemaType.equalsIgnoreCase("basic")) {
+		        resetBasicDB(connection);
+		    }
+        }
 	}
 	
-	/**
+	private void resetBasicDB(Connection connection) throws SQLException {
+	    for (String table : new String[]{"PARAMETER", "RESOURCE"}) {
+	        try(PreparedStatement stmt = createPreparedDeleteStatement(connection, table)) {
+	            int rows = stmt.executeUpdate();
+	            System.out.println("Deleted " + rows + " rows from table " + table);
+	        }
+        }
+    }
+	
+	private PreparedStatement createPreparedDeleteStatement(Connection con, String table) throws SQLException {
+	    return con.prepareStatement("DELETE FROM " + table);
+	}
+
+    /**
 	 * Establishes a connection to a Derby fhirdb, located in the project's /target/fhirDB directoryfor basic schema or /derby/fhirDB directory for normalized schema.
 	 * If the database already exists, a connection is returned to it. If not, a new Derby fhirdb is created
 	 * and populated with the appropriate tables. 
@@ -163,6 +180,7 @@ public class DerbyInitializer {
 			} else {
 				connection = dao.getConnection();
 			}
+			
 		} 
 		catch (FHIRPersistenceDBConnectException e) {
 			if (e.getCause() != null && e.getCause() instanceof SQLException) {
