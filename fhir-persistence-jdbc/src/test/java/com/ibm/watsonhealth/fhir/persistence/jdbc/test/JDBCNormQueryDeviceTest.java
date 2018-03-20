@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.test;
 import java.util.Properties;
 
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractQueryDeviceTest;

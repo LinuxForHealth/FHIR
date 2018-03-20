@@ -51,9 +51,9 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateAuditEvent_patient() throws Exception {
-    	AuditEvent auditEvt = readResource(AuditEvent.class, "AuditEvent_patient.json");
+        AuditEvent auditEvt = readResource(AuditEvent.class, "AuditEvent_patient.json");
 
-    	persistence.create(getDefaultPersistenceContext(), auditEvt);
+        persistence.create(getDefaultPersistenceContext(), auditEvt);
         assertNotNull(auditEvt);
         assertNotNull(auditEvt.getId());
         assertNotNull(auditEvt.getId().getValue());

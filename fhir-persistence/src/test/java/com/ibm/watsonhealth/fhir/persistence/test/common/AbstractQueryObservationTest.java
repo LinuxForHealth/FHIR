@@ -876,7 +876,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
 	    assertEquals("1", patient.getMeta().getVersionId().getValue());
 	    
 	    Device device = readResource(Device.class, "Device-without-patient.json");
-    	persistence.create(getDefaultPersistenceContext(), device);
+	    persistence.create(getDefaultPersistenceContext(), device);
         assertNotNull(device);
         assertNotNull(device.getId());
         assertNotNull(device.getId().getValue());
@@ -885,7 +885,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         assertEquals("1", device.getMeta().getVersionId().getValue());
         
         Observation observation = readResource(Observation.class, "observation-without-subject.json");
-    	persistence.create(getDefaultPersistenceContext(), observation);
+        persistence.create(getDefaultPersistenceContext(), observation);
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getId().getValue());
