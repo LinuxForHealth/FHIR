@@ -8,10 +8,12 @@ package com.ibm.watsonhealth.fhir.persistence.test.common;
 
 import static org.testng.AssertJUnit.assertNotNull;
 
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.LogManager;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -56,25 +58,31 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }
     
+    @BeforeClass
+    public void configureLogging() throws Exception {
+        final InputStream inputStream = Thread.class.getResourceAsStream("/logging.unitTest.properties");
+        LogManager.getLogManager().readConfiguration(inputStream);
+    }
+    
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-    	bootstrapDatabase();
+        bootstrapDatabase();
         persistence = getPersistenceImpl();
         FHIRConfiguration.setConfigHome("target/test-classes");
     }
     
     @BeforeMethod(alwaysRun = true)
     public void startTrx() throws Exception{
-    	if (persistence.isTransactional()) {
-    		persistence.getTransaction().begin();
-    	}
+        if (persistence.isTransactional()) {
+            persistence.getTransaction().begin();
+        }
     }
     
     @AfterMethod(alwaysRun = true)
     public void commitTrx() throws Exception{
-    	if (persistence.isTransactional()) {
-    		persistence.getTransaction().commit();
-    	}
+        if (persistence.isTransactional()) {
+            persistence.getTransaction().commit();
+        }
     }
     
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
