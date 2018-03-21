@@ -210,7 +210,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		
 		// For each search parm, build a query parm that will satisfy the search. 
 		for (Parameter queryParameter : searchParameters) {
-			queryParm = this.buildQueryParm(resourceType, queryParameter);
+			queryParm = this.buildQueryParm(resourceType, queryParameter, PARAMETERS_TABLE_ALIAS);
 			if (queryParm != null) {
 				queryParms.add(queryParm);
 				parmAdded = true;
@@ -265,7 +265,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @throws Exception 
 	 */
 	@Override
-	protected String buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm) 
+	protected String buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) 
 			throws Exception {
 		final String METHODNAME = "buildQueryParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -276,7 +276,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		
 		
 		try {
-			databaseQueryParm = super.buildQueryParm(resourceType, queryParm);
+			databaseQueryParm = super.buildQueryParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
 			if (databaseQueryParm != null) {
 				returnQueryParm = databaseQueryParm;
 				if (!Resource.class.equals(resourceType)) {
@@ -373,7 +373,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processStringParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processStringParm(Parameter queryParm) {
+	protected String processStringParm(Parameter queryParm, String tableAlias) {
 		final String METHODNAME = "processStringParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -412,7 +412,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 				whereClauseSegment.append(JDBCOperator.OR.value());
 			}
 			// Build this piece: p1.valueString {operator} 'search-attribute-value'
-			whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_STRING).append(operator.value())
+			whereClauseSegment.append(tableAlias).append(VALUE_STRING).append(operator.value())
 							  .append(QUOTE).append(searchValue).append(QUOTE);
 			// Build this piece: ESCAPE '+'
 			if (appendEscape) {
@@ -430,7 +430,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processReferenceParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+	protected String processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception {
 		final String METHODNAME = "processReferenceParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -470,7 +470,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 				whereClauseSegment.append(JDBCOperator.OR.value());
 			}
 			// Build this piece: p1.valueString {operator} 'search-attribute-value'
-			whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_STRING).append(operator.value())
+			whereClauseSegment.append(tableAlias).append(VALUE_STRING).append(operator.value())
 							  .append(QUOTE).append(searchValue).append(QUOTE);
 			parmValueProcessed = true;
 		}
@@ -657,7 +657,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processDateParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processDateParm(Class<? extends Resource> resourceType, Parameter queryParm) {
+	protected String processDateParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) {
 		final String METHODNAME = "processDateParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -686,7 +686,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 			operator = getPrefixOperator(value);
 			// If the dateTime value is fully specified, go ahead and build a where clause segment for it.
 			if (FHIRUtilities.isDateTime(calendar)) {
-				whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_DATE).append(operator.value())
+				whereClauseSegment.append(tableAlias).append(VALUE_DATE).append(operator.value())
 							      .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE);
 			}
 			else if (FHIRUtilities.isPartialDate(calendar)) { 
@@ -698,14 +698,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 				// For a partial dateTime and an EQ operator, a duration is calculated and a where segment is generated to cover a range.
 				// For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
 				if (operator.equals(JDBCOperator.EQ)) { 
-					whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_DATE)
+					whereClauseSegment.append(tableAlias).append(VALUE_DATE)
 									  .append(JDBCOperator.GTE.value()).append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE)
 									  .append(JDBCOperator.AND.value())
-									  .append(PARAMETERS_TABLE_ALIAS).append(VALUE_DATE)
+									  .append(tableAlias).append(VALUE_DATE)
 									  .append(JDBCOperator.LT.value()).append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
 				}
 				else {
-					whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_DATE)
+					whereClauseSegment.append(tableAlias).append(VALUE_DATE)
 									  .append(operator.value())
 									  .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
 				}
@@ -713,11 +713,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 			}
 			// Add where clause segment to search for date range. 
 			whereClauseSegment.append(JDBCOperator.OR.value())
-							  .append(LEFT_PAREN).append(PARAMETERS_TABLE_ALIAS).append(VALUE_DATE_START)
+							  .append(LEFT_PAREN).append(tableAlias).append(VALUE_DATE_START)
 							  .append(JDBCOperator.LTE.value())
 							  .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE)
 							  .append(JDBCOperator.AND.value())
-							  .append(PARAMETERS_TABLE_ALIAS).append(VALUE_DATE_END)
+							  .append(tableAlias).append(VALUE_DATE_END)
 							  .append(JDBCOperator.GTE.value())
 							  .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE).append(RIGHT_PAREN);
 			
@@ -734,7 +734,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processTokenParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processTokenParm(Parameter queryParm) {
+	protected String processTokenParm(Parameter queryParm, String tableAlias) {
 		final String METHODNAME = "processTokenParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -756,7 +756,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 			whereClauseSegment.append(LEFT_PAREN);
 				
 			//Include code  
-		 	whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_CODE)
+		 	whereClauseSegment.append(tableAlias).append(VALUE_CODE)
 							  .append(operator.value())
 							  .append(QUOTE).append(SQLParameterEncoder.encode(value.getValueCode())).append(QUOTE);
 						
@@ -769,7 +769,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 					whereClauseSegment.append(JDBCOperator.AND.value());
 				}
 				
-			   whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_SYSTEM)
+			   whereClauseSegment.append(tableAlias).append(VALUE_SYSTEM)
 			  .append(operator.value())
 			  .append(QUOTE).append(SQLParameterEncoder.encode(value.getValueSystem())).append(QUOTE);
 			}
@@ -786,7 +786,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processNumberParm(com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processNumberParm(Parameter queryParm) {
+	protected String processNumberParm(Parameter queryParm, String tableAlias) {
 		final String METHODNAME = "processNumberParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -806,7 +806,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 				whereClauseSegment.append(JDBCOperator.OR.value());
 			}
 			// Build this piece: p1.value_string {operator} search-attribute-value
-			whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_NUMBER).append(operator.value())
+			whereClauseSegment.append(tableAlias).append(VALUE_NUMBER).append(operator.value())
 							  .append(value.getValueNumber());
 			parmValueProcessed = true;
 		}
@@ -820,7 +820,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processQuantityParm(java.lang.Class, com.ibm.watsonhealth.fhir.search.Parameter)
 	 */
 	@Override
-	protected String processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+	protected String processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception {
 		final String METHODNAME = "processQuantityParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -845,24 +845,24 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 			// If the target data type of the query is a Range, we need to build a piece of the where clause that looks like this:
 			// pX.value_number_low <= {search-attribute-value} AND pX.value_number_high >= {search-attribute-value}
 			if (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class)) {
-				whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_NUMBER_LOW)
+				whereClauseSegment.append(tableAlias).append(VALUE_NUMBER_LOW)
 								  .append(JDBCOperator.LTE.value())
 								  .append(value.getValueNumber())
 								  .append(JDBCOperator.AND.value())
-								  .append(PARAMETERS_TABLE_ALIAS).append(VALUE_NUMBER_HIGH)
+								  .append(tableAlias).append(VALUE_NUMBER_HIGH)
 								  .append(JDBCOperator.GTE.value())
 								  .append(value.getValueNumber());
 			}
 			else {
 				// Build this piece: p1.value_string {operator} search-attribute-value
-				whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_NUMBER).append(operator.value())
+				whereClauseSegment.append(tableAlias).append(VALUE_NUMBER).append(operator.value())
 								  .append(value.getValueNumber());
 			}
 			
 			//Include system if present.
 			if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
 				whereClauseSegment.append(JDBCOperator.AND.value())
-								  .append(PARAMETERS_TABLE_ALIAS).append(VALUE_SYSTEM)
+								  .append(tableAlias).append(VALUE_SYSTEM)
 								  .append(JDBCOperator.EQ.value())
 								  .append(QUOTE).append(SQLParameterEncoder.encode(value.getValueSystem())).append(QUOTE);
 			}
@@ -870,7 +870,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 			//Include code if present.
 			if (value.getValueCode() != null && !value.getValueCode().isEmpty()) {
 				whereClauseSegment.append(JDBCOperator.AND.value())
-								  .append(PARAMETERS_TABLE_ALIAS).append(VALUE_CODE)
+								  .append(tableAlias).append(VALUE_CODE)
 								  .append(JDBCOperator.EQ.value())
 								  .append(QUOTE).append(SQLParameterEncoder.encode(value.getValueCode())).append(QUOTE);
 			}
