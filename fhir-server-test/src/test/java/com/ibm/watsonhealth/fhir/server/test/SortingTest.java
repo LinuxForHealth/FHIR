@@ -27,6 +27,7 @@ import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Observation;
+import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.search.SortParameter.SortDirection;
 
@@ -397,11 +398,12 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrue(Ordering.natural().reverse().isOrdered(list));
     }
     
-    //Observation?status=final&_sort:asc=value-quantity
+    //Observation?status=final&code=http://loinc.org|55284-4&_sort:asc=value-quantity
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation5" })
     public void testSortValueQuantityAscending() {
         WebTarget target = getWebTarget();
-        Response response = target.path("Observation").queryParam("status", "final").queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity").request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path("Observation").queryParam("status", "final").queryParam("code","http://loinc.org|55284-4")
+                .queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -409,9 +411,10 @@ public class SortingTest extends FHIRServerTestBase {
         List<BigDecimal> list = new ArrayList<BigDecimal>();
         
         for(int i=0;i<bundle.getEntry().size();i++) {
-        	if(bundle.getEntry().get(i).getResource().getObservation().getComponent().size()>0) {
-        		list.add(bundle.getEntry().get(i).getResource().getObservation().getComponent().get(1).getValueQuantity().getValue().getValue());
-        	}
+            	if(bundle.getEntry().get(i).getResource().getObservation().getComponent().size()>1) {
+            	    ObservationComponent observationComponent = bundle.getEntry().get(i).getResource().getObservation().getComponent().get(1);
+            	    list.add(observationComponent.getValueQuantity().getValue().getValue());
+            	}
         }
         assertTrue(Ordering.natural().isOrdered(list));
     }
