@@ -1,5 +1,9 @@
 {
     "resourceType" : "Patient",
+    "identifier" : {
+        "system" : "http://example.com",
+        "value" : "salmonella"
+    },
     "active" : true,
     "name" : [ {
         "family" : [ "Monella" ],

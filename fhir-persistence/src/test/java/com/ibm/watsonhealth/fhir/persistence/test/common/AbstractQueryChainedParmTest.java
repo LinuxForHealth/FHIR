@@ -27,6 +27,7 @@ import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -294,12 +295,25 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     }
     
     /**
-     * Tests a chained parameter query for Observations that reference a Patient with name containing 'afeljagadf'
+     * Tests a chained parameter query for Observations that reference a Patient with a profile of 'http://fhir.org/guides/argonaut/StructureDefinition/argo-patient'
      * @throws Exception
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
     public void testObservationQuery_chained_positiveURI() throws Exception {
         List<Resource> resources = runQueryTest(Observation.class, persistence, "patient._profile", PROFILE_URI_VALUE);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        
+    }
+    
+    /**
+     * Tests a chained parameter query for Observations that reference a Subject (Device, Location, Patient, Group) with an identifier value of 'salmonella'.
+     * This should result in an FHIRSearchException because Observation.subject.identifier could reference identifiers on multiple resource types.
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" }, expectedExceptions = FHIRSearchException.class)
+    public void testObservationQuery_chained_invalidWildcardToken() throws Exception {
+        List<Resource> resources = runQueryTest(Observation.class, persistence, "subject.identifier", "salmonella");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         

@@ -550,9 +550,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 				}
 				resourceTypeName = currentParm.getModifierResourceTypeName();
 				// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID ...
+				whereClauseSegment.append(LEFT_PAREN);
 				appendInnerSelect(whereClauseSegment, currentParm, nextParmaterType, resourceTypeName,
 				                                    chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
 			} else {
+			    // This logic processes the LAST parameter in the chain.
 				// Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?                
 			    Class<? extends Resource> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
 			    SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar + ".");
@@ -594,17 +596,17 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
         String chainedLogicalResourceTableAlias = chainedLogicalResourceVar + ".";
         String chainedParmTableAlias = chainedParmVar + ".";
         
-        // Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
-        whereClauseSegment.append(LEFT_PAREN).append("SELECT ")
+        // Build this piece: SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
+        whereClauseSegment.append("SELECT ")
         				  .append("'" + resourceTypeName + "'")
         				  .append(" || ").append("'/'").append(" || ")
         				  .append(chainedLogicalResourceTableAlias).append("LOGICAL_ID");
         
         // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
         whereClauseSegment.append(" FROM ")
-        				  .append(currentParm.getModifierResourceTypeName()).append("_RESOURCES ")
+        				  .append(resourceTypeName).append("_RESOURCES ")
         				  .append(chainedResourceVar).append(", ")
-        				  .append(currentParm.getModifierResourceTypeName()).append("_LOGICAL_RESOURCES ")
+        				  .append(resourceTypeName).append("_LOGICAL_RESOURCES ")
         				  .append(chainedLogicalResourceVar).append(", ");
         
         switch(nextParmaterType) {
@@ -641,10 +643,10 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 	/**
 	 * This method handles the processing of a wildcard chained reference parameter. The wildcard represents ALL FHIR resource types stored 
 	 * in the FHIR database.
-	 * @throws FHIRPersistenceException 
+	 * @throws Exception 
 	 */
 	private void processWildcardChainedRefParm(Parameter currentParm, String chainedResourceVar,
-			String chainedLogicalResourceVar, String chainedParmVar, StringBuilder whereClauseSegment, List<Object> bindVariables) throws FHIRPersistenceException {
+			String chainedLogicalResourceVar, String chainedParmVar, StringBuilder whereClauseSegment, List<Object> bindVariables) throws Exception {
 		final String METHODNAME = "processChainedReferenceParm";
 		log.entering(CLASSNAME, METHODNAME, currentParm.toString());
 		
@@ -652,7 +654,6 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 		Collection<Integer> resourceTypeIds;
 		Parameter lastParm;
 		boolean selectGenerated = false;
-		Integer parameterNameId;
 		Map<String, Integer> resourceNameIdMap = null;
 		Map<Integer, String> resourceIdNameMap = null;
 						
@@ -670,44 +671,22 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
 			if (selectGenerated) {
 				whereClauseSegment.append(" UNION ");
 			}
-			// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID 
+			// Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID ...
 			resourceTypeName =  resourceIdNameMap.get(resourceTypeId);
 			  
 			if (!selectGenerated) {
 				whereClauseSegment.append(LEFT_PAREN);
 			}
-			whereClauseSegment.append("SELECT ")
-							  .append("'").append(resourceTypeName).append("'")
-							  .append(" || ").append("'/'").append(" || ")
-							  .append(chainedLogicalResourceVar).append(".").append("LOGICAL_ID");
 			
-			// Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
-			whereClauseSegment.append(" FROM ")
-							  .append(resourceTypeName).append("_RESOURCES ")
-							  .append(chainedResourceVar).append(", ")
-							  .append(resourceTypeName).append("_LOGICAL_RESOURCES ")
-							  .append(chainedLogicalResourceVar).append(", ")
-							  .append(resourceTypeName).append("_STR_VALUES ")
-							  .append(chainedParmVar)
-							  .append(" WHERE ");
-			// Build this piece: CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
-			whereClauseSegment.append(chainedResourceVar).append(".RESOURCE_ID = ")
-							  .append(chainedLogicalResourceVar).append(".").append("CURRENT_RESOURCE_ID").append(AND)
-							  .append(chainedResourceVar).append(".IS_DELETED").append(" <> 'Y'").append(AND)
-							  .append(chainedParmVar).append(".RESOURCE_ID = ").append(chainedResourceVar).append(".RESOURCE_ID").append(AND);
+			appendInnerSelect(whereClauseSegment, currentParm, lastParm.getType(), resourceTypeName, chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
 			
 			// This logic processes the LAST parameter in the chain.
 			// Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
-			parameterNameId = ParameterNamesCache.getParameterNameId(lastParm.getName());
-            if (parameterNameId == null) {
-                parameterNameId = this.parameterDao.readParameterNameId(lastParm.getName());
-                this.parameterDao.addParameterNamesCacheCandidate(lastParm.getName(), parameterNameId);
-            }
-			whereClauseSegment.append(chainedParmVar).append(".PARAMETER_NAME_ID=")
-							  .append(parameterNameId).append(AND)
-							  .append(chainedParmVar).append(".").append(STR_VALUE).append(" = ?");
-			bindVariables.add(lastParm.getValues().get(0).getValueString());
-				
+            Class<? extends Resource> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
+            SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, lastParm, chainedParmVar + ".");
+            whereClauseSegment.append(sqlQueryData.getQueryString());
+            bindVariables.addAll(sqlQueryData.getBindVariables());
+            
 			selectGenerated = true;
 		}
 		
