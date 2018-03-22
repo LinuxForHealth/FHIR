@@ -29,7 +29,7 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRiskAssmtTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQuerySortTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCSearchAllTest" />
-           <!-- <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCDeleteTest" /> -->
+           <!-- JDBCDeleteTest excluded because 'basic' schema doesn't yet support DELETE -->
        </classes>
     </test>
        

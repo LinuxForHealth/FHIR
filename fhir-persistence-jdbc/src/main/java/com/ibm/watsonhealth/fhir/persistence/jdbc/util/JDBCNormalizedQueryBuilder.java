@@ -37,8 +37,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.JDBCOperator;
-import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
@@ -54,23 +53,12 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  * @author markd
  *
  */
-public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOperator> {
+public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQueryData, JDBCOperator> {
 	
 	private static final Logger log = java.util.logging.Logger.getLogger(JDBCNormalizedQueryBuilder.class.getName());
 	private static final String CLASSNAME = JDBCNormalizedQueryBuilder.class.getName();
 	
-	// Constants used in SQL query string construction
-	private static final String LEFT_PAREN = "(";
-	private static final String RIGHT_PAREN = ")";
-	private static final String AND = " AND ";
-	private static final String BIND_VAR = "?";
-	private static final String PERCENT_WILDCARD = "%";
-	private static final String UNDERSCORE_WILDCARD = "_";
-	private static final String ESCAPE_CHAR = "+";
-	private static final String ESCAPE_UNDERSCORE = ESCAPE_CHAR + "_";
-	private static final String ESCAPE_PERCENT = ESCAPE_CHAR + PERCENT_WILDCARD;
-	private static final String ESCAPE_EXPR = " ESCAPE '" + ESCAPE_CHAR + "'";
-    protected static final String STR_VALUE = "STR_VALUE";
+	protected static final String STR_VALUE = "STR_VALUE";
     protected static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
     protected static final String TOKEN_VALUE = "TOKEN_VALUE";
     protected static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
@@ -85,43 +73,6 @@ public class JDBCNormalizedQueryBuilder extends AbstractQueryBuilder<SqlQueryDat
     protected static final String LATITUDE_VALUE = "LATITUDE_VALUE";
     protected static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
     
-    
-    
-	/**
-	 * An enumeration of SQL query operators.
-	 */
-	public static enum JDBCOperator {
-		EQ(" = "), 
-		LIKE(" LIKE "), 
-		IN(" IN "), 
-		LT(" < "), 
-		LTE(" <= "),
-		GT(" > "), 
-		GTE(" >= "),
-		NE(" <> "), 
-		OR(" OR "),
-		AND(" AND ");
-		
-		private String value = null;
-		
-		JDBCOperator(String value) {
-			this.value = value;
-		}
-		
-		public String value() {
-			return value;
-		}
-		
-		public static JDBCOperator fromValue(String value) {
-			for (JDBCOperator operator : JDBCOperator.values()) {
-				if (operator.value.equalsIgnoreCase(value)) {
-					return operator;
-				}
-			}
-			throw new IllegalArgumentException("No constant with value " + value + " found.");
-		}
-	}
-	
 	/**
 	 * Maps Parameter modifiers to SQL operators.
 	 */

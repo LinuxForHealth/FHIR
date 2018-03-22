@@ -26,8 +26,7 @@ import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder.JDBCOperator;
-import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
@@ -42,80 +41,30 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  * @author markd
  *
  */
-public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator> {
+public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOperator> {
 	
 	private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
 	private static final String CLASSNAME = JDBCQueryBuilder.class.getName();
 	
-	// Constants used in SQL query string construction
-	protected static final String LEFT_PAREN = "(";
-	protected static final String RIGHT_PAREN = ")";
-	protected static final String QUOTE = "'";
-	protected static final String COMMA = ",";
-	protected static final String DOT = ".";
-	protected static final String EQUALS = "=";
-	protected static final String WHERE = " WHERE ";
-	private static final String PERCENT_WILDCARD = "%";
-	private static final String UNDERSCORE_WILDCARD = "_";
-	private static final String ESCAPE_CHAR = "+";
-	private static final String ESCAPE_UNDERSCORE = ESCAPE_CHAR + "_";
-	private static final String ESCAPE_PERCENT = ESCAPE_CHAR + PERCENT_WILDCARD;
-	private static final String ESCAPE_EXPR = " ESCAPE '" + ESCAPE_CHAR + "'";
-	protected static final String PARAMETERS_TABLE_ALIAS = "pX.";
 	protected static final String DEFAULT_ORDER_BY = " ORDER BY r.id ASC";
-	protected static final String NAME = "name";
-	protected static final String VALUE_STRING = "value_string";
-	protected static final String VALUE_NUMBER = "value_number";
-	protected static final String VALUE_NUMBER_LOW = "value_number_low";
-	protected static final String VALUE_NUMBER_HIGH = "value_number_high";
-	protected static final String VALUE_SYSTEM = "value_system";
-	protected static final String VALUE_CODE = "value_code";
-	protected static final String VALUE_DATE = "value_date";
-	protected static final String VALUE_DATE_START = "value_date_start";
-	protected static final String VALUE_DATE_END = "value_date_end";
-	protected static final String VALUE_LONGITUDE = "value_longitude";
-	protected static final String VALUE_LATITUDE = "value_latitude";
-	protected static final String RESOURCE_TYPE = "resource_type";
-	protected static final String SELECT_ROOT = "SELECT r.id, r.data, r.last_updated, r.logical_id, r.resource_type, r.version_id FROM Resource r";
-	protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(*) FROM Resource r";
-	protected static final String JOIN_CLAUSE_ROOT = " JOIN Parameter p%d ON p%d.resource_id=r.id";
-	
+    protected static final String NAME = "name";
+    protected static final String VALUE_STRING = "value_string";
+    protected static final String VALUE_NUMBER = "value_number";
+    protected static final String VALUE_NUMBER_LOW = "value_number_low";
+    protected static final String VALUE_NUMBER_HIGH = "value_number_high";
+    protected static final String VALUE_SYSTEM = "value_system";
+    protected static final String VALUE_CODE = "value_code";
+    protected static final String VALUE_DATE = "value_date";
+    protected static final String VALUE_DATE_START = "value_date_start";
+    protected static final String VALUE_DATE_END = "value_date_end";
+    protected static final String VALUE_LONGITUDE = "value_longitude";
+    protected static final String VALUE_LATITUDE = "value_latitude";
+    protected static final String RESOURCE_TYPE = "resource_type";
+    protected static final String SELECT_ROOT = "SELECT r.id, r.data, r.last_updated, r.logical_id, r.resource_type, r.version_id FROM Resource r";
+    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(*) FROM Resource r";
+    protected static final String JOIN_CLAUSE_ROOT = " JOIN Parameter p%d ON p%d.resource_id=r.id";
+    
 	private FHIRDbDAO fhirDbDao;
-	
-	/**
-	 * An enumeration of SQL query operators.
-	 */
-	public static enum JDBCOperator {
-		EQ(" = "), 
-		LIKE(" LIKE "), 
-		IN(" IN "), 
-		LT(" < "), 
-		LTE(" <= "),
-		GT(" > "), 
-		GTE(" >= "),
-		NE(" <> "), 
-		OR(" OR "),
-		AND(" AND ");
-		
-		private String value = null;
-		
-		JDBCOperator(String value) {
-			this.value = value;
-		}
-		
-		public String value() {
-			return value;
-		}
-		
-		public static JDBCOperator fromValue(String value) {
-			for (JDBCOperator operator : JDBCOperator.values()) {
-				if (operator.value.equalsIgnoreCase(value)) {
-					return operator;
-				}
-			}
-			throw new IllegalArgumentException("No constant with value " + value + " found.");
-		}
-	}
 	
 	/**
 	 * Maps Parameter modifiers to SQL operators.
@@ -284,7 +233,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 					// Add this piece: pX.resourceType = 'resource-type'
 					modifiedQueryParm = new StringBuilder();
 					modifiedQueryParm.append(tableAlias).append(RESOURCE_TYPE).append(JDBCOperator.EQ.value())
-									 .append(QUOTE).append(resourceType.getSimpleName()).append(QUOTE).append(JDBCOperator.AND.value)
+									 .append(QUOTE).append(resourceType.getSimpleName()).append(QUOTE).append(JDBCOperator.AND.value())
 									 .append(LEFT_PAREN).append(databaseQueryParm).append(RIGHT_PAREN);
 					returnQueryParm = modifiedQueryParm.toString();
 				}
@@ -294,7 +243,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 			log.exiting(CLASSNAME, METHODNAME, new Object[] {returnQueryParm});
 		}
 		return returnQueryParm;
-		}
+	}
 
 	/* (non-Javadoc)
 	 * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#getOperator(com.ibm.watsonhealth.fhir.search.Parameter)

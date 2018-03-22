@@ -88,7 +88,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object representing the selector query segment for the passed search parm.
 	 * @throws Exception 
 	 */
-	protected T1 buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) 
+	protected T1 buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm) 
 			throws Exception {
 		final String METHODNAME = "buildQueryParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -104,7 +104,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 				
 				type = queryParm.getType();
 				switch(type) {
-				case STRING:    databaseQueryParm = this.processStringParm(queryParm, tableAlias);
+				case STRING:    databaseQueryParm = this.processStringParm(queryParm);
 					    break;
 				case REFERENCE: if (queryParm.isChained()) {
 									databaseQueryParm = this.processChainedReferenceParm(queryParm);
@@ -113,18 +113,18 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 									databaseQueryParm = this.processInclusionCriteria(queryParm);
 								}
 								else {
-									databaseQueryParm = this.processReferenceParm(resourceType, queryParm, tableAlias);
+									databaseQueryParm = this.processReferenceParm(resourceType, queryParm);
 								}
 						break;
-				case DATE:      databaseQueryParm = this.processDateParm(resourceType, queryParm, tableAlias);
+				case DATE:      databaseQueryParm = this.processDateParm(resourceType, queryParm);
 				        break;
-				case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm, tableAlias);
+				case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm);
 						break;
-				case NUMBER:    databaseQueryParm = this.processNumberParm(queryParm, tableAlias);
+				case NUMBER:    databaseQueryParm = this.processNumberParm(queryParm);
 						break;
-				case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm, tableAlias);
+				case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm);
 						break;
-				case URI:  		databaseQueryParm = this.processUriParm(queryParm, tableAlias);
+				case URI:  		databaseQueryParm = this.processUriParm(queryParm);
 						break;
 				
 				default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
@@ -135,7 +135,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 			log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
 		}
 		return databaseQueryParm;
-		}
+	}
 	
 	/**
 	 * Map the Modifier in the passed Parameter to a supported query operator.
@@ -166,7 +166,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
 	 */
-	protected abstract T1 processStringParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
+	protected abstract T1 processStringParm(Parameter queryParm) throws FHIRPersistenceException;
 	
 	/**
 	 * Creates a query segment for a Reference type parameter.
@@ -174,7 +174,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 * @throws Exception 
 	 */
-	protected abstract T1 processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception;
+	protected abstract T1 processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
 	
 	/**
 	 * Contains special logic for handling chained reference search parameters.
@@ -200,14 +200,14 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 * @throws Exception 
 	 */
-	protected abstract T1 processDateParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception;
+	protected abstract T1 processDateParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
 	
 	/**
 	 * Creates a query segment for a Token type parameter.
 	 * @param queryParm - The query parameter. 
 	 * @return T1 - An object containing query segment. 
 	 */
-	protected abstract T1 processTokenParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
+	protected abstract T1 processTokenParm(Parameter queryParm) throws FHIRPersistenceException;
 	
 	/**
 	 * Creates a query segment for a Number type parameter.
@@ -215,7 +215,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 * @throws FHIRPersistenceException 
 	 */
-	protected abstract T1 processNumberParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
+	protected abstract T1 processNumberParm(Parameter queryParm) throws FHIRPersistenceException;
 	
 	/**
 	 * Creates a query segment for a Quantity type parameter.
@@ -223,7 +223,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 * @throws Exception 
 	 */
-	protected abstract T1 processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception;
+	protected abstract T1 processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
 	
 	/**
 	 * Creates a query segment for a URI type parameter.
@@ -231,7 +231,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 	 * @return T1 - An object containing query segment. 
 	 * @throws FHIRPersistenceException 
 	 */
-	protected T1 processUriParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+	protected T1 processUriParm(Parameter queryParm) throws FHIRPersistenceException {
 		final String METHODNAME = "processUriParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -245,8 +245,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
 			 myQueryParm = new Parameter(queryParm.getType(), queryParm.getName(), null,
 					 			queryParm.getModifierResourceTypeName(), queryParm.getValues());
 		}
-		parmRoot = this.processStringParm(myQueryParm, tableAlias);
-								
+		parmRoot = this.processStringParm(myQueryParm);
 						
 		log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
 		return parmRoot;

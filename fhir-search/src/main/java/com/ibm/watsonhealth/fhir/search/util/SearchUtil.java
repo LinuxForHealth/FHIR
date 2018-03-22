@@ -121,11 +121,10 @@ public class SearchUtil {
         }
     };
 
+    // "_include", "_revinclude", "_summary", "_elements", "_contained", and "_containedType" are not yet supported
     private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList(
-        "_sort", "_sort:asc", "_sort:desc", "_count", "_page", "_include", "_revinclude"
-//        ,"_summary", "_elements"
-//        , "_contained", "_containedType"
-        );
+        "_sort", "_sort:asc", "_sort:desc", "_count", "_page"
+    );
     
     private static void initializeCompartmentMap() {
         try {
