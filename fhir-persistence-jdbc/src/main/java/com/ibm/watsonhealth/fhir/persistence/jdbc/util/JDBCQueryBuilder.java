@@ -23,6 +23,7 @@ import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder.JDBCOperator;
@@ -276,13 +277,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		
 		
 		try {
-			databaseQueryParm = super.buildQueryParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+			databaseQueryParm = super.buildQueryParm(resourceType, queryParm, tableAlias);
 			if (databaseQueryParm != null) {
 				returnQueryParm = databaseQueryParm;
 				if (!Resource.class.equals(resourceType)) {
 					// Add this piece: pX.resourceType = 'resource-type'
 					modifiedQueryParm = new StringBuilder();
-					modifiedQueryParm.append(PARAMETERS_TABLE_ALIAS).append(RESOURCE_TYPE).append(JDBCOperator.EQ.value())
+					modifiedQueryParm.append(tableAlias).append(RESOURCE_TYPE).append(JDBCOperator.EQ.value())
 									 .append(QUOTE).append(resourceType.getSimpleName()).append(QUOTE).append(JDBCOperator.AND.value)
 									 .append(LEFT_PAREN).append(databaseQueryParm).append(RIGHT_PAREN);
 					returnQueryParm = modifiedQueryParm.toString();
@@ -384,7 +385,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		boolean appendEscape;
 		
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName());
+		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName(), tableAlias);
 		whereClauseSegment.append(JDBCOperator.AND.value())
 		  				  .append(LEFT_PAREN);
 		  				  
@@ -440,19 +441,21 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		String searchValue;
 		
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName());
+		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName(), tableAlias);
 		whereClauseSegment.append(JDBCOperator.AND.value());
 		 
 		whereClauseSegment.append(LEFT_PAREN);
 		for (ParameterValue value : queryParm.getValues()) {
-			// Handle query parm representing this name/value pair construct:
-			// {name} = {resource-type/resource-id}
 			searchValue = SQLParameterEncoder.encode(value.getValueString());
 			
-			// Handle query parm representing this name/value pair construct:
-			// {name}:{Resource Type} = {resource-id}
-			if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-				searchValue = queryParm.getModifierResourceTypeName() + "/" + SQLParameterEncoder.encode(value.getValueString());
+			String[] referenceValueParts = searchValue.split("/");
+            if (referenceValueParts.length == 2 && FHIRUtil.isStandardResourceType(referenceValueParts[0])) {
+                // Handle query parm representing this name/value pair construct:
+                // {name} = {resource-type/resource-id}
+            } else if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
+			    // Handle query parm representing this name/value pair construct:
+	            // {name}:{Resource Type} = {resource-id}
+				searchValue = queryParm.getModifierResourceTypeName() + "/" + searchValue;
 			} else if (!isAbsoluteURL(searchValue)) {
 			    SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getName());
 			    List<Code> targets = definition.getTarget();
@@ -496,9 +499,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 *
 	 * @param queryParm - A Parameter representing a chained query.
 	 * @return String - The query segment for a chained parameter reference search.
+	 * @throws Exception 
 	 */
 	@Override
-	protected String processChainedReferenceParm(Parameter queryParm) {
+	protected String processChainedReferenceParm(Parameter queryParm) throws Exception {
 		final String METHODNAME = "processChainedReferenceParm";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -508,7 +512,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		int refParmIndex = 0;
 		String chainedResourceVar = null;
 		String chainedParmVar = null;
-		String resourceTypeName;
+		String resourceTypeName = null;
 		StringBuilder whereClauseSegment = new StringBuilder();
 		
 		currentParm = queryParm;
@@ -518,18 +522,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 					// Must build this first piece using px placeholder table alias, which will be replaced with a 
 					// generated value in the buildQuery() method.
 					// Build this piece: px.name = 'search-attribute-name' AND (px.value_string IN
-					this.populateNameQuerySegment(whereClauseSegment, currentParm.getName());
+					this.populateNameQuerySegment(whereClauseSegment, currentParm.getName(), PARAMETERS_TABLE_ALIAS);
 					whereClauseSegment.append(JDBCOperator.AND.value());
 					whereClauseSegment.append(LEFT_PAREN);
 					whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_STRING).append(JDBCOperator.IN.value());
 				}
 				else {
 					// Build this piece: CPx.name = 'search-attribute-name' AND CPx.value_string IN 
-					whereClauseSegment.append(chainedParmVar).append(DOT).append(NAME)
-				  	  				  .append(JDBCOperator.EQ.value())
-				  	  				  .append(QUOTE).append(currentParm.getName()).append(QUOTE);
-					whereClauseSegment.append(JDBCOperator.AND.value());
-					whereClauseSegment.append(chainedParmVar).append(DOT).append(VALUE_STRING).append(JDBCOperator.IN.value());
+					appendMidChainParm(whereClauseSegment, currentParm, chainedParmVar);
 				}
 			 
 				refParmIndex++;
@@ -537,40 +537,38 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 				chainedParmVar = CP + refParmIndex;
 				// Build this piece: (SELECT 'resource-type-name' || '/' || CRx.logical_id  
 				// Note that * is a wildcard for any resource type.
-				if (currentParm.getModifierResourceTypeName().equals("*")) {
-					resourceTypeName = chainedResourceVar + DOT + "resource_type";
+				resourceTypeName = currentParm.getModifierResourceTypeName();
+				String resourceTypeClause;
+				if (resourceTypeName.equals("*")) {
+				    resourceTypeClause = chainedResourceVar + DOT + "resource_type";
 				}
 				else {
-					resourceTypeName = QUOTE + currentParm.getModifierResourceTypeName() + QUOTE;
+				    resourceTypeClause = QUOTE + resourceTypeName + QUOTE;
 				}
+				
 				whereClauseSegment.append(LEFT_PAREN).append("SELECT ")
-								  .append(resourceTypeName)
-								  .append(" || ").append("'/'").append(" || ")
-								  .append(chainedResourceVar).append(DOT).append("logical_id");
+                                  .append(resourceTypeClause)
+                                  .append(" || ").append("'/'").append(" || ")
+                                  .append(chainedResourceVar).append(DOT).append("logical_id");
 				
 				// Build this piece: FROM Resource CRx JOIN Parameter CPx ON CPx.resource_id=CRx.id WHERE
 				whereClauseSegment.append(" FROM Resource ").append(chainedResourceVar).append(" JOIN Parameter ")
 							      .append(chainedParmVar).append(" ON ").append(chainedParmVar).append(DOT).append("resource_id=")
 							      .append(chainedResourceVar).append(DOT).append("id").append(WHERE);
-								  
-				// Build this piece: CRx.resource_type='resource-type-name' AND
-				// Note that if the resource type is a wildcard, we omit this piece of the where clause so that we do not
-				// restrict the search by resourceType.
-				if (!currentParm.getModifierResourceTypeName().equals("*")) {
-					whereClauseSegment.append(chainedResourceVar).append(DOT).append("resource_type").append(EQUALS)
-							      	  .append(QUOTE).append(currentParm.getModifierResourceTypeName()).append(QUOTE)
-							          .append(JDBCOperator.AND.value());
-				}
-			 
+								
 			}
 			else {
 				// This logic processes the LAST parameter in the chain.
-				// Build this piece: CPx.name = 'paramenter-name' AND CPx.value_string = 'parameter-value'
-				whereClauseSegment.append(chainedParmVar).append(DOT).append("name").append(EQUALS)
-								  .append(QUOTE).append(currentParm.getName()).append(QUOTE)
-								  .append(JDBCOperator.AND.value())
-								  .append(chainedParmVar).append(DOT).append(VALUE_STRING).append(EQUALS)
-								  .append(QUOTE).append(currentParm.getValues().get(0).getValueString()).append(QUOTE);
+			    String lastChainedParmSegment;
+			    if (resourceTypeName.equals("*")) {
+			        // Build this piece: CRx.resource_type='resource-type-name' AND CPx.name = 'parameter-name' AND CPx.value_string = 'parameter-value'
+			        lastChainedParmSegment = buildQueryParm(Resource.class, currentParm, chainedParmVar + ".");
+			    } else {
+			        // Build this piece: CPx.name = 'parameter-name' AND CPx.value_string = 'parameter-value'
+			        Class<? extends Resource> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
+			        lastChainedParmSegment = buildQueryParm(chainedResourceType, currentParm, chainedParmVar + ".");
+			    }
+			    whereClauseSegment.append(lastChainedParmSegment);
 			}
 			currentParm = currentParm.getNextParameter();
 		}
@@ -584,9 +582,17 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
 		return whereClauseSegment.toString();
 	}
+
+    private void appendMidChainParm(StringBuilder whereClauseSegment, Parameter currentParm, String chainedParmVar) {
+        whereClauseSegment.append(chainedParmVar).append(DOT).append(NAME)
+          				  .append(JDBCOperator.EQ.value())
+          				  .append(QUOTE).append(currentParm.getName()).append(QUOTE);
+        whereClauseSegment.append(JDBCOperator.AND.value());
+        whereClauseSegment.append(chainedParmVar).append(DOT).append(VALUE_STRING).append(JDBCOperator.IN.value());
+    }
 	
 	@Override
-	protected String processInclusionCriteria(Parameter queryParm) throws FHIRPersistenceException {
+	protected String processInclusionCriteria(Parameter queryParm) throws Exception {
 		final String METHODNAME = "processInclusionCriteria";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -610,7 +616,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 				currentParmValue = currentParm.getValues().get(0).getValueString();
 				// Build this piece: (p1.name = 'search-attribute-name' AND 
 				whereClauseSegment.append(LEFT_PAREN);
-				this.populateNameQuerySegment(whereClauseSegment, currentParm.getName());
+				this.populateNameQuerySegment(whereClauseSegment, currentParm.getName(), PARAMETERS_TABLE_ALIAS);
 				whereClauseSegment.append(JDBCOperator.AND.value());
 				// Build this piece: p1.value_string = 'search-attribute-value')
 				whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_STRING).append(operator.value())
@@ -635,8 +641,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @see https://www.hl7.org/fhir/compartments.html
 	 * @param queryParm - A Parameter representing chained inclusion criterion.
 	 * @return String - the where clause segment for a chained inclusion criterion.
+	 * @throws Exception 
 	 */
-	private String processChainedInclusionCriteria(Parameter queryParm) {
+	private String processChainedInclusionCriteria(Parameter queryParm) throws Exception {
 		final String METHODNAME = "processChainedInclusionCriteria";
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
@@ -669,7 +676,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		Duration duration;
 				
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName());
+		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName(), tableAlias);
 		whereClauseSegment.append(JDBCOperator.AND.value())
 		  				  .append(LEFT_PAREN);
 		  				  
@@ -743,7 +750,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		boolean parmValueProcessed = false;
 		
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName());
+		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName(), tableAlias);
 		whereClauseSegment.append(JDBCOperator.AND.value())
 		  				  .append(LEFT_PAREN);
 		  				  
@@ -795,7 +802,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		boolean parmValueProcessed = false;
 				
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName());
+		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName(), tableAlias);
 		whereClauseSegment.append(JDBCOperator.AND.value())
 		  				  .append(LEFT_PAREN);
 		  				  
@@ -830,7 +837,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		
 		
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName());
+		this.populateNameQuerySegment(whereClauseSegment, queryParm.getName(), tableAlias);
 		whereClauseSegment.append(JDBCOperator.AND.value())
 		  				  .append(LEFT_PAREN);
 		  				  
@@ -890,12 +897,12 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 	 * @param buffer StringBuilder - the buffer to be populated with the name where clause segment
 	 * @param queryParmName - The name of a query parameter.
 	 */
-	private void populateNameQuerySegment(StringBuilder buffer, String queryParmName) {
+	private void populateNameQuerySegment(StringBuilder buffer, String queryParmName, String tableAlias) {
 		final String METHODNAME = "populateNameQuerySegment";
 		log.entering(CLASSNAME, METHODNAME, queryParmName);
 		
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		buffer.append(PARAMETERS_TABLE_ALIAS).append(NAME)
+		buffer.append(tableAlias).append(NAME)
 		  	  .append(JDBCOperator.EQ.value())
 		  	  .append(QUOTE).append(queryParmName).append(QUOTE);
 		  				  
@@ -917,7 +924,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<String, JDBCOperator>
 		StringBuilder whereClauseSegment = new StringBuilder();
 				
 		// Build this piece: p1.name = 'search-attribute-name' AND (
-		this.populateNameQuerySegment(whereClauseSegment, parmName);
+		this.populateNameQuerySegment(whereClauseSegment, parmName, PARAMETERS_TABLE_ALIAS);
 		
 		// Now build the piece that compares the BoundingBox longitude and latitude values
 		// to the persisted longitude and latitude parameters.
