@@ -20,6 +20,7 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationAdministrationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationOrderTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMultiResourceTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryObservationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPatientTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPractitionerTest" />
@@ -51,6 +52,7 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationAdministrationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationOrderTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMultiResourceTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryObservationTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPatientTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPractitionerTest" />

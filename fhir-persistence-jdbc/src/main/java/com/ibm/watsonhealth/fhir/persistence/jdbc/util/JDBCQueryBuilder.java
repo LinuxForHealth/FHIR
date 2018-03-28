@@ -935,7 +935,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
 			builder.append(" r.resource_type = '");
 		    builder.append(resourceType.getSimpleName());
 		    builder.append("' AND");
-		    builder.append(" r.version_id = (SELECT MAX(r2.version_id) FROM Resource r2 WHERE r2.logical_id = r.logical_id)");
+		    builder.append(" r.version_id = (SELECT MAX(r2.version_id) FROM Resource r2 WHERE r2.logical_id = r.logical_id AND r2.resource_type = r.resource_type)");
 			
 		}
 		if (!queryParms.isEmpty() && builder.length() == 0) {

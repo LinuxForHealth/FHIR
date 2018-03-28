@@ -32,7 +32,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateEncounter() throws Exception {
-    	Encounter encounter = readResource(Encounter.class, "Encounter.json");
+    	    Encounter encounter = readResource(Encounter.class, "Encounter.json");
 
         persistence.create(getDefaultPersistenceContext(), encounter);
         assertNotNull(encounter);
@@ -50,7 +50,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateEncounter_with_relatedPerson() throws Exception {
-    	Encounter encounter = readResource(Encounter.class, "Encounter-with-RelatedPerson.json");
+        Encounter encounter = readResource(Encounter.class, "Encounter-with-RelatedPerson.json");
 
         persistence.create(getDefaultPersistenceContext(), encounter);
         assertNotNull(encounter);
@@ -60,7 +60,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
         assertNotNull(encounter.getMeta().getVersionId().getValue());
         assertEquals("1", encounter.getMeta().getVersionId().getValue());
     } 
-	
+    
 	/**
 	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
 	 * @throws Exception
@@ -73,15 +73,15 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
 	}
 	
 	/**
-	 * Tests a query for Encounters with length = '60.0' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
-	public void testEncounter_length() throws Exception {
-		List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "60.0");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-	}
+     * Tests a query for Encounters with length = '60.0' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounter" })
+    public void testEncounter_length() throws Exception {
+        List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "60.0");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+    }
 	
 	/**
 	 * Tests a query for Encounters with length = '60.0 OR 70.0' which should yield correct results
