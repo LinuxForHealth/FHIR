@@ -63,7 +63,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			   									   "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
 			   									   "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 	
-	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
 			   								  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
@@ -173,13 +173,14 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt.setObject(16, this.getReplicationVersionId(), Types.INTEGER);
 			stmt.setInt(17, 1);
 			stmt.setInt(18, 1);
-			stmt.registerOutParameter(19, Types.BIGINT);
+			stmt.setString(19, this.isRepInfoRequired() ? "Y": "N");
+			stmt.registerOutParameter(20, Types.BIGINT);
 			
 			dbCallStartTime = System.nanoTime();
 			stmt.execute();
 			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 			
-			resource.setId(stmt.getLong(19));
+			resource.setId(stmt.getLong(20));
 			if (log.isLoggable(Level.FINE)) {
 				log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
 			}
