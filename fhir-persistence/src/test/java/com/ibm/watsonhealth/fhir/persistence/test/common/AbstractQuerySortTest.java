@@ -12,6 +12,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -189,4 +191,125 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         	previousPhoneNumber = currentPhoneNumber;
         }
 	}
+    
+    /**
+     * Tests a system-level search with a sort parameter not defined for the FHIR Resource type.
+     * @throws Exception
+     */
+    @Test(groups = { "jdbc-normalized" },expectedExceptions = { FHIRSearchException.class })
+    public void testResourceInvalidSortParm1() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+                    
+        queryString = "&_lastUpdated=ge2018-03-27&_sort=bogus";
+        queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext.setPageSize(100);
+        persistenceContext = getPersistenceContextForSearch(searchContext);
+        persistence.search(persistenceContext, resourceType);
+    }
+    /**
+     * Tests a system-level search with a sort parameter that is defined for the FHIR Resource type, 
+     * but not supported by our FHIR server
+     * @throws Exception
+     */
+    @Test(groups = { "jdbc-normalized" },expectedExceptions = { FHIRSearchException.class })
+    public void testResourceInvalidSortParm2() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+                    
+        queryString = "&_lastUpdated=ge2018-03-27&_sort=_profile";
+        queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"_profile"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext.setPageSize(100);
+        persistenceContext = getPersistenceContextForSearch(searchContext);
+        persistence.search(persistenceContext, resourceType);
+    }
+    
+    /**
+     * Tests a system-level search with a valid search parameter and a valid sort parameter.  
+     * @throws Exception
+     */
+    @Test(groups = { "jdbc-normalized" })
+    public void testResourceValidSortParm1() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+                    
+        queryString = "&_lastUpdated=ge2018-03-27&_sort:asc=_id";
+        queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
+        queryParameters.put("_sort:asc", Arrays.asList(new String[] {"_id"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext.setPageSize(1000);
+        persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType);
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        String previousId = null;
+        String currentId = null;
+        // Verify that resources are sorted in ascending order of logical id.
+        for (Resource resource : resources) {
+            if (previousId == null) {
+                previousId = resource.getId().getValue();
+            }
+            else {
+                currentId = resource.getId().getValue();
+                assertTrue(previousId.compareTo(resource.getId().getValue()) <=0);
+                previousId = currentId;
+            }
+        }
+    }
+    
+    /**
+     * Tests a system-level search with a 2 valid sort parameters.  
+     * @throws Exception
+     */
+    @Test(groups = { "jdbc-normalized" })
+    public void testResourceValidSortParm2() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+                    
+        queryString = "&_sort:desc=_lastUpdated&_sort:asc=_id";
+        queryParameters.put("_sort:desc", Collections.singletonList("_lastUpdated"));
+        queryParameters.put("_sort:asc", Arrays.asList(new String[] {"_id"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext.setPageSize(1000);
+        persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType);
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        GregorianCalendar previousLastUpdated = null;
+        GregorianCalendar currentLastUpdated = null;
+        // Verify that resources are sorted in descending order of last updated date/time.
+        for (Resource resource : resources) {
+            if (previousLastUpdated == null) {
+                previousLastUpdated = resource.getMeta().getLastUpdated().getValue().toGregorianCalendar();
+            }
+            else {
+                currentLastUpdated = resource.getMeta().getLastUpdated().getValue().toGregorianCalendar();
+                assertTrue(previousLastUpdated.compareTo(currentLastUpdated) >=0);
+                previousLastUpdated = currentLastUpdated;
+            }
+        }
+    }
+    
 }
