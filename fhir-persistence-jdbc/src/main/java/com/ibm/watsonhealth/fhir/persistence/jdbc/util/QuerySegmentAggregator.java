@@ -40,7 +40,7 @@ class QuerySegmentAggregator {
 	private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
 	private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
 	private static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R JOIN {0}_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID ";
-	private static final String WHERE_CLAUSE_ROOT = "WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.IS_DELETED <> 'Y'";
+	private static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
 	private static final String PARAMETER_TABLE_VAR = "P";
 	protected static final String PARAMETER_TABLE_ALIAS = "pX.";
 	private static final String FROM = " FROM ";
