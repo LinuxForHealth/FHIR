@@ -14112,7 +14112,7 @@
         <xpath value="f:Procedure/f:subject"/>
         <xpathUsage value="normal"/>
         <target value="Patient"/>
-        <target value="Group"/>
+        <!-- LOCALMOD: removed extraneous Group target to make this search compliant with the FHIR spec. -->
       </SearchParameter>
     </resource>
   </entry>
