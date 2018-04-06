@@ -380,7 +380,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 		log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 		
 		StringBuilder whereClauseSegment = new StringBuilder();
-		JDBCOperator operator = this.getOperator(queryParm);
+		JDBCOperator operator = this.getOperator(queryParm, JDBCOperator.EQ);
 		boolean parmValueProcessed = false;
 		String searchValue;
 		SqlQueryData queryData;
