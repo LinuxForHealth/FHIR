@@ -11,10 +11,12 @@ import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
+
 
 /**
  * This Data Access Object interface defines APIs specific to the Resource DAO implementation 
@@ -111,6 +113,30 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
 	 * @throws FHIRPersistenceException
 	 */
 	void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException;
+	
+	/**@deprecated This method is replaced by method: insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
+     * Inserts the passed Resource DTO to the FHIR Resource table. 
+     * After insert, the generated primary key is acquired and set in the Resource object.
+     * @param resource
+     * @return Resource
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+	@Deprecated
+    default Resource insert(Resource resource) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException
+            {return null;};
+	
+	 /**
+     * Inserts the passed Resource DTO and its associated search parameters to the appropriate FHIR resource tables. 
+     * After insert, the generated primary key is acquired and set in the Resource object.
+     * @param resource A Resource Data Transfer Object
+     * @param parameters A collection of search parameters to be persisted along with the passed Resource
+     * @param parameterDao The Parameter DAO
+     * @return Resource The Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    Resource insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
 	
 

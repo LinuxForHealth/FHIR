@@ -39,6 +39,7 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.Meta;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -54,17 +55,22 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.watsonhealth.fhir.persistence.util.Processor;
 import com.ibm.watsonhealth.fhir.replication.api.util.ReplicationUtil;
+import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
  * This class is the JDBC implementation of the FHIRPersistence interface to support the "normalized" DB schema, 
@@ -182,13 +188,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        resourceDTO.setData(stream.toByteArray());
 	        zipStream.close();
 	        
-	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
-	        // the search parameters being persisted first (in a global temporary table).
-	        this.storeSearchParameters(resource, resourceDTO);
-	        
 	        // Persist the Resource DTO.
 	        this.getResourceDao().setPersistenceContext(context);
-	        this.getResourceDao().insert(resourceDTO);
+	        this.getResourceDao().insert(resourceDTO, this.extractSearchParameters(resource, resourceDTO), this.parameterDao);
 	        if (log.isLoggable(Level.FINE)) {
 	        	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        				+ ", version=" + resourceDTO.getVersionId());
@@ -270,13 +272,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        resourceDTO.setData(stream.toByteArray());
 	        zipStream.close();
 	        
-	        // Store search parameters BEFORE persisting the resource. Stored procedures that are called in the DAO layer depend upon
-	        // the search parameters being persisted first (in a global temporary table).
-	        this.storeSearchParameters(resource, resourceDTO);
-	        
 	        // Persist the Resource DTO.
 	        this.getResourceDao().setPersistenceContext(context);
-	        this.getResourceDao().insert(resourceDTO);
+	        this.getResourceDao().insert(resourceDTO, this.extractSearchParameters(resource, resourceDTO), this.parameterDao);
 	        if (log.isLoggable(Level.FINE)) {
 	        	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	        				+ ", version=" + resourceDTO.getVersionId());
@@ -432,7 +430,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	
 	                // Persist the logically deleted Resource DTO.
 	                this.getResourceDao().setPersistenceContext(context);
-	                this.getResourceDao().insert(resourceDTO);
+	                this.getResourceDao().insert(resourceDTO, null, null);
+	                
 	                if (log.isLoggable(Level.FINE)) {
 	                	log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
 	                        		+ ", version=" + resourceDTO.getVersionId());
@@ -675,6 +674,55 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         }
         
         return this.trxSynchRegistry;
+    }
+    
+    /**
+     * Extracts search parameters for the passed FHIR Resource.
+     * @param fhirResource - Some FHIR Resource
+     * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
+     * @throws Exception 
+     */
+    private List<Parameter> extractSearchParameters(Resource fhirResource, com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO) 
+                 throws Exception {
+        final String METHODNAME = "extractSearchParameters";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Map<SearchParameter, List<Object>> map;
+        String name, type, xpath;
+        List<Parameter> allParameters = new ArrayList<>();
+        Processor<List<Parameter>> processor = new JDBCParameterBuilder();
+        
+        try {
+            map = SearchUtil.extractParameterValues(fhirResource);
+            
+            for (SearchParameter parameter : map.keySet()) {
+                name = parameter.getName().getValue();
+                type = parameter.getType().getValue();
+                xpath = parameter.getXpath().getValue();
+                
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Processing SearchParameter name: " + name + ", type: " + type + ", xpath: " + xpath);
+                }
+                
+                List<Object> values = map.get(parameter);
+                for (Object value : values) {
+                    List<Parameter> parameters = processor.process(parameter, value);
+                    for (Parameter p : parameters) {
+                        p.setType(Type.fromValue(type));
+                        p.setResourceId(resourceDTO.getId());
+                        p.setResourceType(fhirResource.getClass().getSimpleName());
+                        allParameters.add(p);
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                        }
+                    }
+                }
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return allParameters;
     }
 
 }

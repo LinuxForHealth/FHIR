@@ -6,11 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
 
+import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Struct;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -472,6 +475,295 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         
         log.exiting(CLASSNAME, METHODNAME);
         
+    }
+    
+    /**
+     * Acquire and return the id associated with the passed parameter name.
+     * @param parameterName The name of a valid FHIR search parameter.
+     * @return Integer A parameter id.
+     * @throws FHIRPersistenceException
+     */
+    private Integer acquireParameterNameId(String parameterName) throws FHIRPersistenceException {
+        final String METHODNAME = "acquireParameterNameId";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Integer parameterNameId;
+        boolean acquiredFromCache;
+        
+        try {
+            parameterNameId = ParameterNamesCache.getParameterNameId(parameterName);
+            if (parameterNameId == null) {
+                acquiredFromCache = false;
+                parameterNameId = this.readParameterNameId(parameterName);
+                this.addParameterNamesCacheCandidate(parameterName, parameterNameId);
+            }
+            else {
+                acquiredFromCache = true;
+            }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("paramenterName=" + parameterName + "  parameterNameId=" + parameterNameId + 
+                          "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ParameterNamesCache.getCacheNameForTenantDatastore());
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return parameterNameId;
+        
+    }
+    
+    /**
+     * Acquire and return the id associated with the passed code-system name.
+     * @param codeSystemName The name of a valid code-system.
+     * @return Integer A code-system id.
+     * @throws FHIRPersistenceException
+     */
+    private Integer acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
+        final String METHODNAME = "acquireCodeSystemId";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        String myCodeSystemName = codeSystemName; 
+        Integer codeSystemId;
+        boolean acquiredFromCache;
+        
+        try {
+            if (myCodeSystemName == null || myCodeSystemName.isEmpty()) {
+                myCodeSystemName = DEFAULT_TOKEN_SYSTEM;
+            }
+            codeSystemId = CodeSystemsCache.getCodeSystemId(myCodeSystemName);
+            if (codeSystemId == null) {
+                acquiredFromCache = false;
+                myCodeSystemName = SQLParameterEncoder.encode(myCodeSystemName);
+                codeSystemId = this.readCodeSystemId(myCodeSystemName);
+                this.addCodeSystemsCacheCandidate(myCodeSystemName, codeSystemId);
+            }
+            else {
+                acquiredFromCache = true;
+            }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("codeSystemName=" + myCodeSystemName + "  codeSystemId=" + codeSystemId + 
+                          "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + CodeSystemsCache.getCacheNameForTenantDatastore());
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        
+        return codeSystemId;
+    }
+
+    @Override
+    public Array transformStringParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+        final String METHODNAME = "transformStringParameters";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Array sqlParmArray = null;
+        List<Struct> sqlParmList = new ArrayList<>();
+        Struct[] structArray;
+        Object[] rowData;
+        String structTypeName;
+        
+        try {
+            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_STR_VALUES").toString();
+            for (Parameter parameter : parameters) {
+                if (parameter.getType().equals(Type.STRING) || parameter.getType().equals(Type.REFERENCE) ||
+                    parameter.getType().equals(Type.URI)) {
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueString(), 
+                                            SearchUtil.normalizeForSearch(parameter.getValueString())}; 
+                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
+                }
+            }
+            if (!sqlParmList.isEmpty()) {
+               structArray = new Struct[sqlParmList.size()];
+               sqlParmList.toArray(structArray);
+               sqlParmArray = connection.createArrayOf(structTypeName, structArray);
+            }
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure transforming String parameters.", e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        
+        return sqlParmArray;
+    }
+    
+    @Override
+    public Array transformNumberParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+        final String METHODNAME = "transformNumberParameters";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Array sqlParmArray = null;
+        List<Struct> sqlParmList = new ArrayList<>();
+        Struct[] structArray;
+        Object[] rowData;
+        String structTypeName;
+        
+        try {
+            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_NUMBER_VALUES").toString();
+            for (Parameter parameter : parameters) {
+                if (parameter.getType().equals(Type.NUMBER)) {
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueNumber()};
+                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
+                }
+            }
+            if (!sqlParmList.isEmpty()) {
+                structArray = new Struct[sqlParmList.size()];
+                sqlParmList.toArray(structArray);
+                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
+            }
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure transforming Number parameters.", e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return sqlParmArray;
+    }
+    
+    @Override
+    public Array transformDateParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+        final String METHODNAME = "transformDateParameters";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Array sqlParmArray = null;
+        List<Struct> sqlParmList = new ArrayList<>();
+        Struct[] structArray;
+        Object[] rowData;
+        String structTypeName;
+        
+        try {
+            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_DATE_VALUES").toString();
+            for (Parameter parameter : parameters) {
+                if (parameter.getType().equals(Type.DATE)) {
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueDate(), 
+                                            parameter.getValueDateStart(), parameter.getValueDateEnd()};
+                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
+                }
+            }
+            if (!sqlParmList.isEmpty()) {
+                structArray = new Struct[sqlParmList.size()];
+                sqlParmList.toArray(structArray);
+                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
+            }
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure transforming Date parameters.", e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return sqlParmArray;
+    }
+    
+    @Override
+    public Array transformLatLongParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+        final String METHODNAME = "transformLatLongParameters";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Array sqlParmArray = null;
+        List<Struct> sqlParmList = new ArrayList<>();
+        Struct[] structArray;
+        Object[] rowData;
+        String structTypeName;
+        
+        try {
+            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_LATLNG_VALUES").toString();
+            for (Parameter parameter : parameters) {
+                if (AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
+                    AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
+                                            parameter.getValueLatitude(), parameter.getValueLongitude()};
+                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
+                }
+            }
+            if (!sqlParmList.isEmpty()) {
+                structArray = new Struct[sqlParmList.size()];
+                sqlParmList.toArray(structArray);
+                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
+            }
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure transforming Lat/Long parameters.", e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return sqlParmArray;
+    }
+    
+    @Override
+    public Array transformTokenParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+        final String METHODNAME = "transformTokenParameters";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Array sqlParmArray = null;
+        List<Struct> sqlParmList = new ArrayList<>();
+        Struct[] structArray;
+        Object[] rowData;
+        String structTypeName;
+        
+        try {
+            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_TOKEN_VALUES").toString();
+            for (Parameter parameter : parameters) {
+                if (parameter.getType().equals(Type.TOKEN)) {
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
+                                            this.acquireCodeSystemId(parameter.getValueSystem()), parameter.getValueCode()};
+                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
+                }
+            }
+            if (!sqlParmList.isEmpty()) {
+                structArray = new Struct[sqlParmList.size()];
+                sqlParmList.toArray(structArray);
+                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
+            }
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure transforming Token parameters.", e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return sqlParmArray;
+    }
+    
+    @Override
+    public Array transformQuantityParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+        final String METHODNAME = "transformQuantityParameters";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Array sqlParmArray = null;
+        List<Struct> sqlParmList = new ArrayList<>();
+        Struct[] structArray;
+        Object[] rowData;
+        String structTypeName;
+        
+        try {
+            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_QUANTITY_VALUES").toString();
+            for (Parameter parameter : parameters) {
+                if (parameter.getType().equals(Type.QUANTITY)) {
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
+                                            parameter.getValueCode(), parameter.getValueNumber(),
+                                            parameter.getValueNumberLow(), parameter.getValueNumberHigh(),
+                                            this.acquireCodeSystemId(parameter.getValueSystem())};
+                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
+                }
+            }
+            if (!sqlParmList.isEmpty()) {
+                structArray = new Struct[sqlParmList.size()];
+                sqlParmList.toArray(structArray);
+                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
+            }
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure transforming Quantity parameters.", e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return sqlParmArray;
     }
 	 
 }

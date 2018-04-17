@@ -35,7 +35,9 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -44,6 +46,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
+
 
 /**
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
@@ -64,6 +67,8 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			   									   "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 	
 	private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	
+	private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.%s_add_resource2(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
 			   								  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
@@ -113,91 +118,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 	 */
 	public ResourceDAONormalizedImpl(Connection managedConnection) {
 		super(managedConnection);
-	}
-
-	@Override
-	public Resource insert(Resource resource)
-			throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-		final String METHODNAME = "insert";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		Connection connection = null;
-		CallableStatement stmt = null;
-		ResultSet resultSet = null;
-		String currentSchema;
-		String stmtString = null;
-		Integer resourceTypeId;
-		Timestamp lastUpdated, replicationLastUpdated;
-		boolean acquiredFromCache;
-				
-		try {
-			connection = this.getConnection();
-			
-			resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = this.readResourceTypeId(resource.getResourceType());
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            }
-            else {
-                acquiredFromCache = true;
-            }
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
-						
-			currentSchema = connection.getSchema().trim();
-			stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType());
-			stmt = connection.prepareCall(stmtString);
-			stmt.setString(1, resource.getLogicalId());
-			stmt.setBytes(2, resource.getData());
-			// If there is a lastUpdated attribute in the ReplicationContext, use it.
-			replicationLastUpdated = this.getReplicationLastUpdated();
-			lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
-			stmt.setTimestamp(3, lastUpdated);
-			stmt.setString(4, resource.isDeleted() ? "Y": "N");
-			stmt.setString(5, UUID.randomUUID().toString());
-			stmt.setString(6, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
-			stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
-			stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
-			stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getTenantId());
-			stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getReason());
-			stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getEvent());
-			stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getSiteId());
-			stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getStudyId());
-			stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getServiceId());
-			stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getPatientId());
-			stmt.setObject(16, this.getReplicationVersionId(), Types.INTEGER);
-			stmt.setInt(17, 1);
-			stmt.setInt(18, 1);
-			stmt.setString(19, this.isRepInfoRequired() ? "Y": "N");
-			stmt.registerOutParameter(20, Types.BIGINT);
-			
-			stmt.execute();
-			
-			resource.setId(stmt.getLong(20));
-			if (log.isLoggable(Level.FINE)) {
-				log.fine("Succesfully inserted Resource. id=" + resource.getId());
-			}
-			
-		}
-		catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
-			throw e;
-		}
-		catch(SQLIntegrityConstraintViolationException e) {
-		    throw new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.", e);
-		}
-		catch(Throwable e) {
-			throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
-		}
-		finally {
-			this.cleanup(resultSet, stmt, connection);
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-		
-		return resource;
-		
 	}
 
 	@Override
@@ -477,11 +397,18 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		int parameterId;
 		Map<String, Integer> parameterMap = new HashMap<>();
 		String errMsg = "Failure retrieving all Resource type names.";
+		long dbCallStartTime;
+		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(SQL_READ_ALL_RESOURCE_TYPE_NAMES);
+			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+			if (log.isLoggable(Level.FINE)) {
+                log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
+            }
 			while (resultSet.next()) {
 				parameterName = resultSet.getString("RESOURCE_TYPE");
 				parameterId = resultSet.getInt("RESOURCE_TYPE_ID");
@@ -511,6 +438,8 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		String currentSchema;
 		String stmtString;
 		String errMsg = "Failure storing Resource type name id: name=" + resourceType;
+		long dbCallStartTime;
+		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
@@ -519,7 +448,12 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			stmt = connection.prepareCall(stmtString); 
 			stmt.setString(1, resourceType);
 			stmt.registerOutParameter(2, Types.INTEGER);
+			dbCallStartTime = System.nanoTime();
 			stmt.execute();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB read resource type id complete. executionTime=" + dbCallDuration + "ms");
+            }
 			parameterNameId = stmt.getInt(2);
 		}
 		catch(FHIRPersistenceDBConnectException e) {
@@ -556,6 +490,8 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 		String errMsg;
+		long dbCallStartTime;
+		double dbCallDuration;
 		
 		try {
 			connection = this.getConnection();
@@ -564,7 +500,12 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 			for (int i = 0; i < queryData.getBindVariables().size();  i++) {
 				stmt.setObject(i+1, queryData.getBindVariables().get(i));
 			}
+			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB search for ids complete. executionTime=" + dbCallDuration + "ms");
+            }
 			while(resultSet.next())	 {
 				resourceIds.add(resultSet.getLong(1));
 			}
@@ -595,6 +536,8 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 		StringBuilder idQuery = new StringBuilder();
 		List<Resource> resources = new ArrayList<>();
 		String stmtString = null;
+		long dbCallStartTime;
+		double dbCallDuration;
 		
 		try {
 			stmtString = String.format(this.getSearchByIdsSql(resourceType));
@@ -610,7 +553,12 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 						
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(idQuery.toString());
+			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB search by ids complete. executionTime=" + dbCallDuration + "ms");
+            }
 			resources = this.createDTOs(resultSet);
 		}
 		catch(FHIRPersistenceException e) {
@@ -663,6 +611,242 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         
             
         log.exiting(CLASSNAME, METHODNAME);
+        
+    }
+    
+    @Override
+    public Resource insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+            final String METHODNAME = "insert(Resource, List<Parameter>";
+            log.entering(CLASSNAME, METHODNAME); 
+            
+            try {
+                if (this.isDb2Database()) {
+                    resource = this.insertToDb2(resource, parameters, parameterDao);
+                }
+                else {
+                    resource = this.insertToDerby(resource, parameters, parameterDao);
+                }
+            }
+            catch(SQLException e) {
+                throw new FHIRPersistenceDataAccessException("Failure determining database type.",e);
+            }
+            
+            return resource;
+    }
+
+    /**
+     * Inserts the passed FHIR Resource and associated search parameters to a DB2 FHIR database.
+     * This method will call the DB2 stored procedure defined in the SQL_INSERT_WITH_PARAMETERS constant. 
+     * Both the Resource and its search parameters are stored at the same time by the stored procedure.
+     * @param resource The FHIR Resource to be inserted.
+     * @param parameters The Resource's search parameters to be inserted.
+     * @param parameterDao
+     * @return The Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
+                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "insertToDb2";
+        log.entering(CLASSNAME, METHODNAME);
+         
+        Connection connection = null;
+        CallableStatement stmt = null;
+        String currentSchema;
+        String stmtString = null;
+        Integer resourceTypeId;
+        Timestamp lastUpdated, replicationLastUpdated;
+        boolean acquiredFromCache;
+        long dbCallStartTime;
+        double dbCallDuration;
+                
+        try {
+            connection = this.getConnection();
+                        
+            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            if (resourceTypeId == null) {
+                acquiredFromCache = false;
+                resourceTypeId = this.readResourceTypeId(resource.getResourceType());
+                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
+            }
+            else {
+                acquiredFromCache = true;
+            }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
+                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+            }
+                        
+            currentSchema = connection.getSchema().trim();
+            stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, currentSchema,resource.getResourceType());
+            stmt = connection.prepareCall(stmtString);
+            stmt.setString(1, resource.getLogicalId());
+            stmt.setBytes(2, resource.getData());
+            // If there is a lastUpdated attribute in the ReplicationContext, use it.
+            replicationLastUpdated = this.getReplicationLastUpdated();
+            lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
+            stmt.setTimestamp(3, lastUpdated);
+            stmt.setString(4, resource.isDeleted() ? "Y": "N");
+            stmt.setString(5, UUID.randomUUID().toString());
+            stmt.setString(6, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
+            stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
+            stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
+            stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getTenantId());
+            stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getReason());
+            stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getEvent());
+            stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getSiteId());
+            stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getStudyId());
+            stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getServiceId());
+            stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getPatientId());
+            stmt.setObject(16, this.getReplicationVersionId(), Types.INTEGER);
+            
+            // Transform the passed search parameters into SQL parameter array structures.
+            if (parameterDao != null && parameters != null) {
+                stmt.setArray(17, parameterDao.transformStringParameters(connection, currentSchema, parameters));
+                stmt.setArray(18, parameterDao.transformNumberParameters(connection, currentSchema, parameters));
+                stmt.setArray(19, parameterDao.transformDateParameters(connection, currentSchema, parameters));
+                stmt.setArray(20, parameterDao.transformLatLongParameters(connection, currentSchema, parameters));
+                stmt.setArray(21, parameterDao.transformTokenParameters(connection, currentSchema, parameters));
+                stmt.setArray(22, parameterDao.transformQuantityParameters(connection, currentSchema, parameters));
+            }
+            else {
+                stmt.setArray(17, null);
+                stmt.setArray(18, null);
+                stmt.setArray(19, null);
+                stmt.setArray(20, null);
+                stmt.setArray(21, null);
+                stmt.setArray(22, null);
+            }
+            stmt.setString(23, this.isRepInfoRequired() ? "Y": "N");
+            stmt.registerOutParameter(24, Types.BIGINT);
+            
+            dbCallStartTime = System.nanoTime();
+            stmt.execute();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            
+            resource.setId(stmt.getLong(24));
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+            }
+            
+        }
+        catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            throw e;
+        }
+        catch(SQLIntegrityConstraintViolationException e) {
+            throw new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.", e);
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
+        }
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        
+        return resource;
+    }
+    
+    /**
+     * Inserts the passed FHIR Resource and associated search parameters to a Derby FHIR database.
+     * This method will call the Derby stored procedure defined in the SQL_INSERT constant. 
+     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
+     * by invoking the stored procedure.
+     * @param resource The FHIR Resource to be inserted.
+     * @param parameters The Resource's search parameters to be inserted.
+     * @param parameterDao
+     * @return The Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "insertToDerby";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        CallableStatement stmt = null;
+        ResultSet resultSet = null;
+        String currentSchema;
+        String stmtString = null;
+        Integer resourceTypeId;
+        Timestamp lastUpdated, replicationLastUpdated;
+        boolean acquiredFromCache;
+        long dbCallStartTime;
+        double dbCallDuration;
+                
+        try {
+            if (parameterDao != null && parameters != null) {
+                parameterDao.insert(parameters);
+            }
+            
+            connection = this.getConnection();
+            
+            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            if (resourceTypeId == null) {
+                acquiredFromCache = false;
+                resourceTypeId = this.readResourceTypeId(resource.getResourceType());
+                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
+            }
+            else {
+                acquiredFromCache = true;
+            }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
+                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+            }
+                        
+            currentSchema = connection.getSchema().trim();
+            stmtString = String.format(SQL_INSERT, currentSchema,resource.getResourceType());
+            stmt = connection.prepareCall(stmtString);
+            stmt.setString(1, resource.getLogicalId());
+            stmt.setBytes(2, resource.getData());
+            // If there is a lastUpdated attribute in the ReplicationContext, use it.
+            replicationLastUpdated = this.getReplicationLastUpdated();
+            lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
+            stmt.setTimestamp(3, lastUpdated);
+            stmt.setString(4, resource.isDeleted() ? "Y": "N");
+            stmt.setString(5, UUID.randomUUID().toString());
+            stmt.setString(6, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
+            stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
+            stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
+            stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getTenantId());
+            stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getReason());
+            stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getEvent());
+            stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getSiteId());
+            stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getStudyId());
+            stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getServiceId());
+            stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getPatientId());
+            stmt.setObject(16, this.getReplicationVersionId(), Types.INTEGER);
+            stmt.setInt(17, 1);
+            stmt.setInt(18, 1);
+            stmt.setString(19, this.isRepInfoRequired() ? "Y": "N");
+            stmt.registerOutParameter(20, Types.BIGINT);
+            
+            dbCallStartTime = System.nanoTime();
+            stmt.execute();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            
+            resource.setId(stmt.getLong(20));
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+            }
+        }
+        catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            throw e;
+        }
+        catch(SQLIntegrityConstraintViolationException e) {
+            throw new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.", e);
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
+        }
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        
+        return resource;
         
     }
 
