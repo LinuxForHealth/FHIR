@@ -34,8 +34,8 @@ class QuerySegmentAggregator {
 	private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 	
 	private static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
-	private static final String SYSTEM_LEVEL_SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
-	private static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
+	protected static final String SYSTEM_LEVEL_SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
+	protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
 	private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
 	private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
 	private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
@@ -353,7 +353,7 @@ class QuerySegmentAggregator {
 	 * 
 	 * @return true if this instance represents a FHIR system level search
 	 */
-	private boolean isSystemLevelSearch() {
+	protected boolean isSystemLevelSearch() {
 		return Resource.class.equals(this.resourceType);
 	}
 	

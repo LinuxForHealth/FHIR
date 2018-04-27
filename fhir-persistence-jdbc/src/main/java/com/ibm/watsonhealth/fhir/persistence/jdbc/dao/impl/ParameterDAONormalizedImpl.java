@@ -105,6 +105,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		String tokenSystem;
 		Integer tokenSystemId;
 		boolean acquiredFromCache;
+		long dbCallStartTime;
+		double dbCallDuration;
 						
 		try {
 			connection = this.getConnection();
@@ -166,8 +168,12 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 				stmt.setString(15, parameter.getValueCode());
 				stmt.addBatch();
 			}
-			
+			dbCallStartTime = System.nanoTime();
 			stmt.executeBatch();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+			if (log.isLoggable(Level.FINE)) {
+			    log.fine("Batch DB Parameter insert complete. executionTime=" + dbCallDuration + "ms");
+			}
 		}
 		catch(FHIRPersistenceDBConnectException e) {
 			throw e;
@@ -195,10 +201,18 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		int parameterId;
 		Map<String, Integer> parameterMap = new HashMap<>();
 		String errMsg = "Failure retrieving all Search Parameter names.";
+		long dbCallStartTime;
+		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
+			dbCallStartTime = System.nanoTime();
 			stmt = connection.prepareStatement(SQL_READ_ALL_SEARCH_PARAMETER_NAMES);
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+			if (log.isLoggable(Level.FINE)) {
+	                log.fine("DB read all search parameter names complete. executionTime=" + dbCallDuration + "ms");
+			}
+	             
 			resultSet = stmt.executeQuery();
 			while (resultSet.next()) {
 				parameterName = resultSet.getString("PARAMETER_NAME");
@@ -230,11 +244,18 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		int systemId;
 		Map<String, Integer> systemMap = new HashMap<>();
 		String errMsg = "Failure retrieving all code systems.";
+		long dbCallStartTime;
+		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
 			stmt = connection.prepareStatement(SQL_READ_ALL_CODE_SYSTEMS);
+			dbCallStartTime = System.nanoTime();
 			resultSet = stmt.executeQuery();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB read all code systems complete. executionTime=" + dbCallDuration + "ms");
+            }
 			while (resultSet.next()) {
 				systemName = resultSet.getString("CODE_SYSTEM_NAME");
 				systemId = resultSet.getInt("CODE_SYSTEM_ID");
@@ -303,7 +324,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 	 */
 	@Override
 	public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
-		final String METHODNAME = "storeParameterNameId";
+		final String METHODNAME = "readParameterNameId";
 		log.entering(CLASSNAME, METHODNAME);
 		
 		Connection connection = null;
@@ -312,6 +333,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		String currentSchema;
 		String stmtString;
 		String errMsg = "Failure storing search parameter name id: name=" + parameterName;
+		long dbCallStartTime;
+		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
@@ -320,7 +343,12 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 			stmt = connection.prepareCall(stmtString); 
 			stmt.setString(1, parameterName);
 			stmt.registerOutParameter(2, Types.INTEGER);
+			dbCallStartTime = System.nanoTime();
 			stmt.execute();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                    log.fine("DB read/store parameter name id complete. executionTime=" + dbCallDuration + "ms");
+            }
 			parameterNameId = stmt.getInt(2);
 		}
 		catch(FHIRPersistenceDBConnectException e) {
@@ -356,6 +384,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 		String currentSchema;
 		String stmtString;
 		String errMsg = "Failure storing system id: name=" + systemName;
+		long dbCallStartTime;
+		double dbCallDuration;
 				
 		try {
 			connection = this.getConnection();
@@ -364,7 +394,12 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
 			stmt = connection.prepareCall(stmtString); 
 			stmt.setString(1, systemName);
 			stmt.registerOutParameter(2, Types.INTEGER);
+			dbCallStartTime = System.nanoTime();
 			stmt.execute();
+			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                    log.fine("DB read code system id complete. executionTime=" + dbCallDuration + "ms");
+            }
 			systemId = stmt.getInt(2);
 		}
 		catch(FHIRPersistenceDBConnectException e) {

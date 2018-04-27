@@ -325,26 +325,33 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	         
 	        countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
 	        if (countQuery != null) {
-	        	searchResultCount = this.getResourceDao().searchCount(countQuery);
-	        	if (log.isLoggable(Level.FINE)) {
-	        		log.fine("searchResultCount = " + searchResultCount);
-	        	}
-	        	searchContext.setTotalCount(searchResultCount);
+	        	    searchResultCount = this.getResourceDao().searchCount(countQuery);
+        	        	if (log.isLoggable(Level.FINE)) {
+        	        		log.fine("searchResultCount = " + searchResultCount);
+        	        	}
+        	        	searchContext.setTotalCount(searchResultCount);
 	            pageSize = searchContext.getPageSize();
 	            lastPageNumber = (int) ((searchResultCount + pageSize - 1) / pageSize);
 	            searchContext.setLastPageNumber(lastPageNumber);
 	            
 	             
 	            if (searchResultCount > 0) {
-	            	query = queryBuilder.buildQuery(resourceType, searchContext);
-	            	
+	                query = queryBuilder.buildQuery(resourceType, searchContext);
+	                
 	                if (searchContext.hasSortParameters()) {
-	                	sortedIdList = this.resourceDao.searchForIds(query);
-	                	resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
+	                    // Sorting results of a system-level search is limited, and has a different logic path
+	                    // than other sorted searches.
+	                    if (resourceType.equals(Resource.class)) {
+	                       resources = this.convertResourceDTOList(this.resourceDao.search(query), resourceType);
+	                    }
+	                    else {
+	                        sortedIdList = this.resourceDao.searchForIds(query);
+	                        resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
+	                    }
 	                }
 	                else {
-	                	unsortedResultsList = this.getResourceDao().search(query);
-	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
+        	                	unsortedResultsList = this.getResourceDao().search(query);
+        	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
 	                }  
 	            }
 	        }
