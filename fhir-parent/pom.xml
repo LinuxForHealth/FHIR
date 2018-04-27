@@ -18,6 +18,7 @@
 		<maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
 		<jacoco.plugin.version>0.7.9</jacoco.plugin.version>
 		<argLine>-Dfile.encoding=UTF-8</argLine>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<modules>
@@ -209,6 +210,11 @@
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
 				<version>1.9.3</version>
+			</dependency>
+			<dependency>
+			  <groupId>commons-cli</groupId>
+			  <artifactId>commons-cli</artifactId>
+			  <version>1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-codec</groupId>
@@ -426,55 +432,56 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<id>Nexus</id>
-			<name>WHC Nexus Maven Repository</name>
-			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>Liberty</id>
-			<name>Liberty Maven Repository</name>
-			<url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/</url>
-		</repository>
+	  <repository>
+	    <id>na-artifactory-3rdparty</id>
+CODE_REMOVED
+	  </repository>
+	  <repository>
+	    <id>na-artifactory-snapshots</id>
+CODE_REMOVED
+	  </repository>
+	  <repository>
+	    <id>na-artifactory-releases</id>
+CODE_REMOVED
+	  </repository>
 	</repositories>
 
 	<scm>
-CODE_REMOVED
+	  <connection>scm:git:git@github.ibm.com:watson-health-fhir-server/fhir.git</connection>
 	</scm>
 
 	<distributionManagement>
-		<repository>
-			<id>wh-releases</id>
-			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/stages/</url>
-		</repository>
-		<snapshotRepository>
-			<id>wh-snapshots</id>
-			<url>https://watsonpow02.rch.stglabs.ibm.com/nexus/wh/content/repositories/snapshots/</url>
-		</snapshotRepository>
+	  <repository>
+            <id>fhir-releases</id>
+CODE_REMOVED
+	  </repository>
+	  <snapshotRepository>
+            <id>fhir-snapshots</id>
+CODE_REMOVED
+	  </snapshotRepository>
 	</distributionManagement>
 
-
 	<profiles>
-		<profile>
-			<id>sandbox</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<build.id>development</build.id>
-			</properties>
-		</profile>
-		<profile>
-			<id>jenkins</id>
-			<activation>
-				<property>
-					<name>profile</name>
-					<value>jenkins</value>
-				</property>
-			</activation>
-			<properties>
-				<build.id>${env.BUILD_DISPLAY_NAME}-${env.BUILD_TIMESTAMP}</build.id>
-			</properties>
-		</profile>
+	  <profile>
+	    <id>sandbox</id>
+	    <activation>
+	      <activeByDefault>true</activeByDefault>
+	    </activation>
+	    <properties>
+	      <build.id>development</build.id>
+	    </properties>
+	  </profile>
+	  <profile>
+	    <id>jenkins</id>
+	    <activation>
+	      <property>
+		<name>profile</name>
+		<value>jenkins</value>
+	      </property>
+	    </activation>
+	    <properties>
+	      <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
+	    </properties>
+	  </profile>
 	</profiles>
 </project>
