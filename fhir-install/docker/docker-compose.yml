@@ -27,7 +27,7 @@ services:
     healthcheck:
       interval: 20s
       timeout: 10s
-      retries: 40
+      retries: 60
       test: curl -v -f -k -u 'fhiruser:fhiruser' https://localhost:9443/fhir-server/api/v1/metadata
     ports:
       - 9080:9080
