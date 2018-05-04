@@ -12,7 +12,7 @@ services:
     build:
         context: .
         dockerfile: Dockerfile-fhirbasic
-    image: fhir-basic:${FHIR_DOCKER_TAG}
+    image: fhir-basic
     hostname: fhir-basic
     ports:
       - 9080:9080
@@ -22,22 +22,27 @@ services:
     build:
         context: .
         dockerfile: Dockerfile-fhirtest
-    image: fhir-test:${FHIR_DOCKER_TAG}
+    image: fhir-test
     hostname: fhir-test
     healthcheck:
-      interval: 20s
-      timeout: 10s
-      retries: 60
+      interval: 30s
+      timeout: 30s
+      retries: 80
       test: curl -v -f -k -u 'fhiruser:fhiruser' https://localhost:9443/fhir-server/api/v1/metadata
     ports:
       - 9080:9080
       - 9443:9443
+    command: |
+      bash -c "
+      su - fhir -c '/opt/ibm/fhir-server/wlp/bin/server run fhir-server';
+      tail -F -n +1 /opt/ibm/fhir-server/wlp/usr/servers/fhir-server/logs/messages.log
+      "
 
   fhir-proxy:
     build:
         context: .
         dockerfile: Dockerfile-fhirbaseos
-    image: fhir-proxy:${FHIR_DOCKER_TAG}
+    image: fhir-proxy
     depends_on:
       fhir-test:
         condition: service_healthy

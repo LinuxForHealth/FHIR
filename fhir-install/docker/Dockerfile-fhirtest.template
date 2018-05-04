@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM fhir-basic:${FHIR_DOCKER_TAG}
+FROM fhir-basic
 
 LABEL maintainer Phil Adams <phil_adams@us.ibm.com>
 
