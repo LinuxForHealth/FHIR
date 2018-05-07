@@ -6,33 +6,34 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.impl;
 
+import com.ibm.watsonhealth.fhir.audit.logging.api.AuditLogService;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.AuditLogEntry;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 
 /**
- * This log service class represents a disabled logging service. That is, one that does not write or persist any log entries.
+ * This class serves as a no-op audit service logger. It simply allows FHIR audit logging to be effectively disabled.
  * @author markd
  *
  */
-public class DisabledAuditLogService extends AbstractAuditLogService {
+public class DisabledAuditLogService implements AuditLogService {
 
-	public DisabledAuditLogService() {
-		super();
-	}
+    public DisabledAuditLogService() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.core.audit.logging.api.AuditLogService#logEntry(com.ibm.watsonhealth.fhir.core.audit.logging.beans.AuditLogEntry)
-	 */
-	@Override
-	public void logEntry(AuditLogEntry logEntry) {
-	
-	}
+    @Override
+    public void logEntry(AuditLogEntry logEntry) {
+         
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.core.audit.logging.api.AuditLogService#isEnabled()
-	 */
-	@Override
-	public boolean isEnabled() {
-		return false;
-	}
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    @Override
+    public void initialize(PropertyGroup auditLogProperties) throws Exception {
+         
+    }
 
 }

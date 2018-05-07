@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.audit.logging.api;
 
 import com.ibm.watsonhealth.fhir.audit.logging.beans.AuditLogEntry;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 
 /**
  * Defines the internal FHIR Server APIs for audit logging
@@ -16,27 +17,21 @@ import com.ibm.watsonhealth.fhir.audit.logging.beans.AuditLogEntry;
 public interface AuditLogService {
 	
 	/**
-	 * Builds and returns an AuditLogEntry with the minimum required fields populated.
-	 * @param eventType - A valid type of audit log event
-	 * @return AuditLogEntry with the minimum required fields populated.
-	 */
-	AuditLogEntry initLogEntry(AuditLogEventType eventType);
-	
-	/**
 	 * Persists the passed audit log entry in a location determined by the log service.
 	 * @param logEntry - The audit log entry to be saved.
 	 */
 	void logEntry(AuditLogEntry logEntry);
 	
 	/**
-	 * Converts the passed AuditLogEntry object to an encrypted JSON string.
-	 * @param logEntry - The audit log entry to be recorded
-	 * @return String - An encrypted json string representation of the AuditLogEntry.
-	 */
-	String convertLogEntry(AuditLogEntry logEntry);
-	
-	/**
 	 * @return true if the audit log service is enabled; false if not enabled.
 	 */
 	boolean isEnabled();
+	
+	/**
+	 * Performs any required audit log service initialization using the passed Properties file. 
+	 * @param auditLogProperties - Contains audit log related properties which are configured in fhir-server-config.json.
+	 * @throws Exception - Any non-recoverable exception thrown during audit log service initialization.
+	 *  
+	 */
+	void initialize(PropertyGroup auditLogProperties) throws Exception;
 }

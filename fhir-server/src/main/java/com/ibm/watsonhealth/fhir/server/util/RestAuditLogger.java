@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.server.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +53,8 @@ public class RestAuditLogger {
 	private static final String HEADER_CLIENT_CERT_ISSUER_OU = "IBM-App-iss-OU";
 	private static final String HEADER_CORRELATION_ID = "IBM-DP-correlationid";
 	
+	private static final String COMPONENT_ID = "fhir-server";
+	
 	/**
 	 * Builds an audit log entry for a 'create' REST service invocation.
 	 * @param request - The HttpServletRequest representation of the REST request.
@@ -64,7 +68,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_CREATE);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_CREATE);
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("C");
@@ -89,7 +93,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_UPDATE);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_UPDATE);
 		populateAuditLogEntry(entry, request, updatedResource, startTime, endTime, responseStatus);
 		
 		entry.getContext().setAction("U");
@@ -112,7 +116,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_READ);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_READ);
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
@@ -135,7 +139,7 @@ public class RestAuditLogger {
         log.entering(CLASSNAME, METHODNAME);
         
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-        AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_DELETE);
+        AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_DELETE);
         populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
                 
         entry.getContext().setAction("D");
@@ -158,7 +162,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_VREAD);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_VREAD);
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
@@ -181,7 +185,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_HISTORY);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_HISTORY);
 		long totalHistory = 0;	
 		
 		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
@@ -211,7 +215,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_VALIDATE);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_VALIDATE);
 		populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
@@ -234,7 +238,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_BUNDLE);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
 		long readCount = 0;
 		long createCount = 0;
 		long updateCount = 0;
@@ -286,7 +290,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_SEARCH);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_SEARCH);
 		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
 		long totalSearch = 0;
 		
@@ -318,7 +322,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_METADATA);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_METADATA);
 		populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
 				
 		entry.getContext().setAction("R");
@@ -337,7 +341,7 @@ public class RestAuditLogger {
 		log.entering(CLASSNAME, METHODNAME);
 		
 		AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-		AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_CONFIGDATA);
+		AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_CONFIGDATA);
 		entry.setConfigData(new ConfigData().withServerStartupParms(configData));
 		entry.setDescription("FHIR ConfigData request");
 		
@@ -368,7 +372,7 @@ public class RestAuditLogger {
         Meta meta;
         ObjectFactory objFactory;
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-        AuditLogEntry entry = auditLogSvc.initLogEntry(AuditLogEventType.FHIR_OPERATION);
+        AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_OPERATION);
         
         try {
             if (resourceTypeName != null) {
@@ -470,5 +474,33 @@ public class RestAuditLogger {
 		log.exiting(CLASSNAME, METHODNAME);
 		return entry;
 	}
+	
+	   /**
+     * Builds and returns an AuditLogEntry with the minimum required fields populated.
+     * @param eventType - A valid type of audit log event
+     * @return AuditLogEntry with the minimum required fields populated.
+     */
+    private static AuditLogEntry initLogEntry(AuditLogEventType eventType) {
+        final String METHODNAME = "initLogEntry";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        String timestamp;
+        String componentIp = null;
+        AuditLogEntry logEntry;
+        String tenantId;
+      
+        tenantId = FHIRRequestContext.get().getTenantId();
+        timestamp = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis()));
+        try {
+            componentIp = InetAddress.getLocalHost().getHostAddress();
+        }
+        catch(UnknownHostException e) {
+            log.severe("Failure acquiring host name or IP: " + e.getMessage());
+        }
+        
+        logEntry = new AuditLogEntry(COMPONENT_ID, eventType.value(), timestamp, componentIp, tenantId);
+        log.exiting(CLASSNAME, METHODNAME);
+        return logEntry;
+    }
 	
 }

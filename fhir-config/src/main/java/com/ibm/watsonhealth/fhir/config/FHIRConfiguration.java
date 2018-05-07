@@ -32,9 +32,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_OAUTH_REGURL = "fhirServer/oauth/regUrl";
     public static final String PROPERTY_OAUTH_AUTHURL = "fhirServer/oauth/authUrl";
     public static final String PROPERTY_OAUTH_TOKENURL = "fhirServer/oauth/tokenUrl";
-    public static final String PROPERTY_AUDIT_LOGPATH = "fhirServer/audit/logPath";
-    public static final String PROPERTY_AUDIT_LOG_MAXSIZE = "fhirServer/audit/logMaxSize";
-    public static final String PROPERTY_AUDIT_LOG_MAX_FILE_COUNT = "fhirServer/audit/logMaxFileCount";
+    public static final String PROPERTY_AUDIT_SERVICE_CLASS_NAME = "fhirServer/audit/serviceClassName";
+    public static final String PROPERTY_AUDIT_SERVICE_PROPERTIES = "fhirServer/audit/serviceProperties";
     public static final String PROPERTY_AUDIT_PATIENT_ID_EXTURL = "fhirServer/audit/patientIdExtensionUrl";
     public static final String PROPERTY_AUDIT_RESOURCE_NAME_EXTURL = "fhirServer/audit/resourceNameExtensionUrl";
     public static final String PROPERTY_ENCRYPTION = "fhirServer/encryption";

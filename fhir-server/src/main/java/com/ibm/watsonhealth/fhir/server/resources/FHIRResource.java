@@ -58,6 +58,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
@@ -2836,12 +2838,23 @@ public class FHIRResource implements FHIRResourceHelpers {
         conformance.getExtension().add(extension);
         
         extension = objectFactory.createExtension();
-        extension.setUrl(EXTENSION_URL + "/auditLogPath");
-        String auditLogPath = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_LOGPATH, "");
-        if ("".equals(auditLogPath)) {
-            auditLogPath = "<not specified>";
+        extension.setUrl(EXTENSION_URL + "/auditLogServiceName");
+        String auditLogServiceName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_CLASS_NAME);
+        
+        if (auditLogServiceName == null || "".equals(auditLogServiceName)) {
+            auditLogServiceName = "<not specified>";
         }
-        extension.setValueString(string(auditLogPath));
+        else {
+            auditLogServiceName = StringUtils.substringAfterLast(auditLogServiceName, ".");
+        }
+        extension.setValueString(string(auditLogServiceName));
+        conformance.getExtension().add(extension);
+        
+        extension = objectFactory.createExtension();
+        extension.setUrl(EXTENSION_URL + "/auditLogProperties");
+        PropertyGroup auditLogProperties = fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
+        String auditLogPropertiesString = auditLogProperties != null ? auditLogProperties.toString() : "<not specified>";
+        extension.setValueString(string(auditLogPropertiesString));
         conformance.getExtension().add(extension);
         
         extension = objectFactory.createExtension();
