@@ -15,6 +15,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 
 
@@ -135,8 +136,10 @@ public interface ResourceNormalizedDAO extends ResourceDAO {
      * @return Resource The Resource DTO
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
+	 * @throws FHIRPersistenceVersionIdMismatchException 
      */
-    Resource insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+    Resource insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao) 
+                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException;
 
 	
 
