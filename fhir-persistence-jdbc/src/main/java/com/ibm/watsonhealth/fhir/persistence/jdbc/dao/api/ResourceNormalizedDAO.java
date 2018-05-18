@@ -11,11 +11,11 @@ import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
 
 

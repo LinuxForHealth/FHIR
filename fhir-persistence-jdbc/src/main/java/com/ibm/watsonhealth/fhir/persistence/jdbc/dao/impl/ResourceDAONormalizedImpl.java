@@ -34,6 +34,7 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -42,7 +43,6 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
@@ -741,7 +741,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         }
         catch(SQLException e) {
             if ("99001".equals(e.getSQLState())) {
-                throw new FHIRPersistenceVersionIdMismatchException("Encounterd version id mismatch while inserting Resource", e );
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource", e );
             }
             else {
                 throw new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.", e);
