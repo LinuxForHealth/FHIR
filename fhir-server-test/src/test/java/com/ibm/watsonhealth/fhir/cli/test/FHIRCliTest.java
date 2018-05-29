@@ -121,7 +121,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
     public void testHistoryPatient() throws Exception {
         assertNotNull(patientId);
         runTest("testHistoryPatient", "-p", propsFile(), "--operation", "history", "--type", "Patient", "--resourceId", patientId);
-        verifyConsoleOutput("Status code: 200", patientId, "\"total\" : 2");
+        verifyConsoleOutput("Status code: 200", patientId, "\"total\":2");
     }
     
     @Test(dependsOnMethods={"testHistoryPatient"})
@@ -129,7 +129,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         assertNotNull(patientId);
         runTest("testSearchPatient", "-p", propsFile(), "--operation", "search", "--type", "Patient", "--queryParam", "_id=" + patientId, "-o", dirPrefix("searchPatients.json"));
         verifyConsoleOutput("Status code: 200");
-        verifyFileContents("searchPatients.json", "\"total\" : 1");
+        verifyFileContents("searchPatients.json", "\"total\":1");
     }
     
     @Test(dependsOnMethods={"testSearchPatient"})

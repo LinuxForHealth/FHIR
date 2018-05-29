@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.provider;
 
+import java.io.FilterInputStream;
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -73,7 +75,12 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
-            return FHIRUtil.read(type, getFormat(mediaType), entityStream);
+            return FHIRUtil.read(type, getFormat(mediaType), new FilterInputStream(entityStream) {
+            		@Override
+            		public void close() {
+            			// do nothing
+            		}
+            });
         } 
         catch (Exception e) {
         	Response response = buildResponse(
@@ -105,7 +112,12 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
-        	FHIRUtil.write(t, getFormat(mediaType), entityStream);
+        	FHIRUtil.write(t, getFormat(mediaType), new FilterOutputStream(entityStream) {
+        		@Override
+        		public void close() {
+        			// do nothing
+        		}
+        	});
         } 
         catch (Exception e) {
         	Response response = buildResponse(

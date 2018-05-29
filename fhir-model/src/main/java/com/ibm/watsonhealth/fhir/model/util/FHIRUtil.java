@@ -149,6 +149,13 @@ public class FHIRUtil {
 	    }
 	};
 	
+	private static final ThreadLocal<FHIRJsonGenerator> threadLocalFHIRJsonGenerator = new ThreadLocal<FHIRJsonGenerator>() {
+	    @Override
+	    protected FHIRJsonGenerator initialValue() {
+	        return new FHIRJsonGenerator();
+	    }
+	};
+	
 	private FHIRUtil() { }
 	
 	public static void init() {
@@ -366,8 +373,19 @@ public class FHIRUtil {
 	}
 	
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws JAXBException {
-        Marshaller marshaller = createMarshaller(format, formatted);
-        marshaller.marshal(resource, stream);
+        if (Format.XML.equals(format)) {
+    			Marshaller marshaller = createMarshaller(format, formatted);
+    			marshaller.marshal(resource, stream);
+        } else {
+        		// Format.JSON.equals(format)
+        		try {
+        			FHIRJsonGenerator generator = threadLocalFHIRJsonGenerator.get();
+        			generator.setPrettyPrinting(formatted);
+        			generator.generate(resource, stream);
+        		} catch (FHIRException e) {
+        			throw new JAXBException(e);
+        		}
+        }
     }
 	
 	public static <T extends Resource> void write(T resource, Format format, Writer writer) throws JAXBException {
@@ -375,8 +393,19 @@ public class FHIRUtil {
 	}
 	
     public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws JAXBException {
-        Marshaller marshaller = createMarshaller(format, formatted);
-        marshaller.marshal(resource, writer);
+        if (Format.XML.equals(format)) {
+    			Marshaller marshaller = createMarshaller(format, formatted);
+    			marshaller.marshal(resource, writer);
+        } else {
+        		// Format.JSON.equals(format)
+        		try {
+        			FHIRJsonGenerator generator = threadLocalFHIRJsonGenerator.get();
+        			generator.setPrettyPrinting(formatted);
+        			generator.generate(resource, writer);
+        		} catch (FHIRException e) {
+        			throw new JAXBException(e);
+        		}
+        }
     }
 	
 	public static <T extends Resource> void write(T resource, Node node) throws JAXBException {
