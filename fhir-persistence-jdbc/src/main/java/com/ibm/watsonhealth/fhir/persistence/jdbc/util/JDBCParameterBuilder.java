@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -452,13 +453,15 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 		log.entering(className, methodName);
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		try {
-			Parameter p = new Parameter();
-			p.setName(parameter.getName().getValue());
-			if (value.getSystem() != null) {
-				p.setValueSystem(value.getSystem().getValue());
+			if (Objects.nonNull(value) && Objects.nonNull(value.getValue())) {
+				Parameter p = new Parameter();
+				p.setName(parameter.getName().getValue());
+				if (value.getSystem() != null) {
+					p.setValueSystem(value.getSystem().getValue());
+				}
+				p.setValueCode(value.getValue().getValue());
+				parameters.add(p);
 			}
-			p.setValueCode(value.getValue().getValue());
-			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
 			throw new FHIRPersistenceProcessorException(e);
@@ -626,20 +629,22 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 		log.entering(className, methodName);
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		try {
-			Parameter p = new Parameter();
-			p.setName(parameter.getName().getValue());
-			BigDecimal bd = value.getValue().getValue();
-			p.setValueNumber(bd.doubleValue());
-			if (value.getCode() != null) {
-				p.setValueCode(value.getCode().getValue());
-			} else if (value.getUnit() != null) {
-				p.setValueCode(value.getUnit().getValue());
-
+			if (Objects.nonNull(value) && Objects.nonNull(value.getValue())) {
+				Parameter p = new Parameter();
+				p.setName(parameter.getName().getValue());
+				BigDecimal bd = value.getValue().getValue();
+				p.setValueNumber(bd.doubleValue());
+				if (value.getCode() != null) {
+					p.setValueCode(value.getCode().getValue());
+				} else if (value.getUnit() != null) {
+					p.setValueCode(value.getUnit().getValue());
+	
+				}
+				if (value.getSystem() != null) {
+					p.setValueSystem(value.getSystem().getValue());
+				}
+				parameters.add(p);
 			}
-			if (value.getSystem() != null) {
-				p.setValueSystem(value.getSystem().getValue());
-			}
-			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
 			throw new FHIRPersistenceProcessorException(e);

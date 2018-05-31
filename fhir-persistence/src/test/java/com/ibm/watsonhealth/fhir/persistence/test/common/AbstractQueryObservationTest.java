@@ -153,6 +153,24 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     }
     
     /**
+     * Test create of Observation with "partial" valueQuantity (system but no value).
+CODE_REMOVED
+     * @throws Exception
+     */
+    @Test(groups = { "jdbc-normalized" })
+    public void testCreateObservation6() throws Exception {
+        Observation observation = readResource(Observation.class, "observation-partial-quantity.json");
+
+        persistence.create(getDefaultPersistenceContext(), observation);
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+    }
+    
+    /**
      * Tests the FHIRPersistenceCloudantImpl create API for an Observation.
      * 
      * @throws Exception
