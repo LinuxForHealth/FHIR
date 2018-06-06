@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.core.context.impl.FHIRPagingContextImpl;
+import com.ibm.watsonhealth.fhir.search.InclusionParameter;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.SortParameter;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
 	
-    private List<Parameter> searchParameters = new ArrayList<>();
+    private List<Parameter> searchParameters = new ArrayList<>(); 
     private List<SortParameter> sortParameters = new ArrayList<>();
+    private List<InclusionParameter> includeParameters = new ArrayList<>();
+    private List<InclusionParameter> revIncludeParameters = new ArrayList<>();
     
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<Parameter>();
@@ -47,5 +50,25 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
 	public boolean hasSortParameters() {
 		
 		return this.sortParameters != null && !this.sortParameters.isEmpty();
+	}
+
+	@Override
+	public List<InclusionParameter> getIncludeParameters() {
+		return this.includeParameters;
+	}
+
+	@Override
+	public boolean hasIncludeParameters() {
+		return this.includeParameters != null && !this.includeParameters.isEmpty();
+	}
+	
+	@Override
+	public List<InclusionParameter> getRevIncludeParameters() {
+		return this.revIncludeParameters;
+	}
+
+	@Override
+	public boolean hasRevIncludeParameters() {
+		return this.revIncludeParameters != null && !this.revIncludeParameters.isEmpty();
 	}
 }

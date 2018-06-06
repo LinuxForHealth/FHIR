@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.search.context;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
+import com.ibm.watsonhealth.fhir.search.InclusionParameter;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.SortParameter;
 
@@ -23,4 +24,12 @@ public interface FHIRSearchContext extends FHIRPagingContext {
     void setSortParameters(List<SortParameter> sortParameters);
     
     boolean hasSortParameters();
+    
+    List<InclusionParameter> getIncludeParameters();
+    
+    boolean hasIncludeParameters();
+    
+    List<InclusionParameter> getRevIncludeParameters();
+    
+    boolean hasRevIncludeParameters();
 }

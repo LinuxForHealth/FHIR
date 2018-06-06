@@ -67,6 +67,7 @@ import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.search.InclusionParameter;
 import com.ibm.watsonhealth.fhir.search.Parameter;
 import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
@@ -121,7 +122,7 @@ public class SearchUtil {
         }
     };
 
-    private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_page");
+    private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_page", "_include", "_revinclude");
     private static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Arrays.asList("_id", "_lastUpdated");
 
     private static void initializeCompartmentMap() {
@@ -1019,6 +1020,8 @@ public class SearchUtil {
                 context.setPageNumber(pageNumber);
             } else if (name.startsWith("_sort")) {
                 parseSortParameter(resourceType, context, name, values, queryString);
+            } else if (name.startsWith("_include") || name.startsWith("_revinclude")) {
+            	parseInclusionParameter(resourceType, context, name, values, queryString);
             }
         } catch (FHIRSearchException e) {
             throw e;
@@ -1204,5 +1207,137 @@ public class SearchUtil {
         }
 
         return normalizedValue;
+    }
+    
+    /**
+     * Parses _include and _revinclude search result parameters contained in the query string, and produces InclusionParameter objects to represent those
+     * parameters. The InclusionParameter objects are included in the appropriate collections encapsulated in the passed FHIRSearchContext.
+     * @throws Exception
+     */
+    private static void parseInclusionParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, String inclusionKeyword, List<String> inclusionValues,
+            String queryString) throws Exception {
+    	
+    	String[] inclusionValueParts;
+    	String joinResourceType, searchParameterName, searchParameterTargetType;
+    	SearchParameter searchParm;
+    	InclusionParameter newInclusionParm;
+    	List<InclusionParameter> newInclusionParms;
+    	
+    	if (queryString == null) {
+            throw new FHIRSearchException("Inclusion parameters cannot be processed with null queryString.");
+        }
+    	
+    	// Make sure _sort is not present with _include and/or _revinclude. 
+    	if (queryString.contains("_sort")) {
+    		throw new FHIRSearchException("_sort search result parameter not supported with _include or _revinclude.");
+    	}
+    	    	
+    	for (String inclusionValue : inclusionValues) {
+    		
+    		// Parse value into 3 parts: joinResourceType, searchParameterName, searchParameterTargetType
+        	inclusionValueParts = inclusionValue.split(":");
+        	if (inclusionValueParts.length < 2) {
+        		throw new FHIRSearchException("A value for _include or _revinclude must have at least 2 parts separated by a colon.");
+        	}
+        	joinResourceType = inclusionValueParts[0];
+        	searchParameterName = inclusionValueParts[1];
+        	searchParameterTargetType = inclusionValueParts.length == 3 ? inclusionValueParts[2] : null;
+        	
+        	// Ensure that the Inclusion Parameter being parsed is a valid search parameter of type 'reference'.
+        	searchParm = getSearchParameter(joinResourceType, searchParameterName);
+        	if (searchParm == null) {
+        		throw new FHIRSearchException("Undefined Inclusion Parameter: " + inclusionValue);
+        	}
+        	if (!searchParm.getType().getValue().equals("reference")) {
+        		throw new FHIRSearchException("Inclusion Parameter must be of type 'reference'. " +
+        									  "The passed Inclusion Parameter is of type: " + searchParm.getType().getValue());
+        	}
+        	
+        	if (inclusionKeyword.equals("_include")) {
+        		newInclusionParms = buildIncludeParameter(resourceType, joinResourceType, searchParm, searchParameterName, searchParameterTargetType);
+        		context.getIncludeParameters().addAll(newInclusionParms);
+        	}
+        	else {
+        		newInclusionParm = buildRevIncludeParameter(resourceType, joinResourceType, searchParm, searchParameterName, searchParameterTargetType);
+        		context.getRevIncludeParameters().add(newInclusionParm);
+        	}
+        }
+    }
+    
+    /**
+     * Builds and returns a collection of InclusionParameter objects representing occurrences the _include search result parameter in the query string. 
+     *  
+     * @throws FHIRSearchException
+     */
+    private static List<InclusionParameter> buildIncludeParameter(Class<? extends Resource> resourceType, String joinResourceType, SearchParameter searchParm,
+    		                            String searchParameterName, String searchParameterTargetType) throws FHIRSearchException {
+    	
+    	List<InclusionParameter> includeParms = new ArrayList<>();
+    	
+    	if (!joinResourceType.equals(resourceType.getSimpleName())) {
+    		throw new FHIRSearchException("The join resource type must match the resource type being searched.");
+    	}
+    	
+    	// If no searchParameterTargetType was specified, create an InclusionParameter instance for each of the search parameter's 
+    	// defined target types.
+    	if (searchParameterTargetType == null) {
+    		for (Code targetType : searchParm.getTarget()) {
+    			searchParameterTargetType = targetType.getValue();
+    			includeParms.add(new InclusionParameter(joinResourceType, searchParameterName, searchParameterTargetType));
+    		}
+    	}
+    	// Validate the specified target type is correct.
+    	else {
+    		if (!isValidTargetType(searchParameterTargetType, searchParm)) {
+    			throw new FHIRSearchException("Invalid target type for the Inclusion Parameter.");
+    		}
+    		includeParms.add(new InclusionParameter(joinResourceType, searchParameterName, searchParameterTargetType));
+    	}
+    	return includeParms;
+    }
+    
+    /**
+     * Builds and returns a collection of InclusionParameter objects representing occurrences the _revinclude search result parameter in the query string. 
+     *  
+     * @throws FHIRSearchException
+     */
+    private static InclusionParameter buildRevIncludeParameter(Class<? extends Resource> resourceType, String joinResourceType, SearchParameter searchParm,
+            String searchParameterName, String searchParameterTargetType) throws FHIRSearchException {
+    	
+    	// If a target type is specified, it must refer back to the resourceType being searched.
+    	if (searchParameterTargetType != null) {
+    		if (!searchParameterTargetType.equals(resourceType.getSimpleName())) {
+    			throw new FHIRSearchException("The search parameter target type must match the resource type being searched.");
+    		}
+    	}
+    	else {
+    		searchParameterTargetType = resourceType.getSimpleName();
+    	}
+    	
+    	// Verify that the search parameter target type is correct
+    	if (!isValidTargetType(searchParameterTargetType, searchParm)) {
+    		throw new FHIRSearchException("Invalid target type for the Inclusion Parameter.");
+    	}
+    	return new InclusionParameter(joinResourceType, searchParameterName, searchParameterTargetType);
+    	
+    }
+    
+    /**
+     * Verifies that the passed searchParameterTargetType is a valid target type for the passed searchParm
+     * @param searchParameterTargetType
+     * @param searchParm
+     * @return
+     */
+    private static boolean isValidTargetType(String searchParameterTargetType, SearchParameter searchParm) {
+    	
+    	boolean validTargetType = false;
+    	
+    	for (Code targetType : searchParm.getTarget()) {
+			if (targetType.getValue().equals(searchParameterTargetType)) {
+				validTargetType = true;
+				break;
+			}
+		}
+    	return validTargetType;
     }
 }
