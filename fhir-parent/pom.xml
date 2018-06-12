@@ -8,11 +8,11 @@
     <name>IBM Watson Platform for Health FHIR Server</name>
 
     <properties>
-        <was.liberty.version>17.0.0.1</was.liberty.version>
+        <was.liberty.version>18.0.0.1</was.liberty.version>
         <eclipselink.moxy.version>2.6.4</eclipselink.moxy.version>
         <java.sdk.version>8.0-4.2-linux-x86_64-ibmjcefips</java.sdk.version>
         <derby.version>10.12.1.1</derby.version>
-        <db2.version>4.19.49</db2.version>
+        <db2.version>4.24.92</db2.version>
         <cxf.version>3.1.4</cxf.version>
         <surefire.plugin.version>2.20</surefire.plugin.version>
         <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
