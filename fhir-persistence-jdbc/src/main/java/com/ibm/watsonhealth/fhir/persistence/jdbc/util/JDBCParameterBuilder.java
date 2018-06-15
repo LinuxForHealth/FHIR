@@ -629,7 +629,9 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 		log.entering(className, methodName);
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		try {
-			if (Objects.nonNull(value) && Objects.nonNull(value.getValue())) {
+            if (Objects.nonNull(value) 
+                    && Objects.nonNull(value.getValue()) 
+                    && (Objects.nonNull(value.getCode()) || Objects.nonNull(value.getUnit()))) {
 				Parameter p = new Parameter();
 				p.setName(parameter.getName().getValue());
 				BigDecimal bd = value.getValue().getValue();
