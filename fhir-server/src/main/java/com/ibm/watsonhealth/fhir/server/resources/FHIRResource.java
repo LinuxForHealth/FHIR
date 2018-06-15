@@ -1105,8 +1105,13 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
             
-            // First, invoke the 'beforeUpdate' interceptor methods.
+            // First, create the persistence event.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null, requestProperties));
+            
+            // Next, set the "previous resource" in the persistence event.
+            event.setPrevFhirResource(ior.getPrevResource());
+            
+            // Next, invoke the 'beforeUpdate' or 'beforeCreate' interceptor methods as appropriate.
             boolean updateCreate = (ior.getPrevResource() == null); 
             if (updateCreate) {
             	getInterceptorMgr().fireBeforeCreateEvent(event);

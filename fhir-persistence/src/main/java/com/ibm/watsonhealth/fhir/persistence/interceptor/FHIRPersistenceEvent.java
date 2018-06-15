@@ -115,8 +115,10 @@ public class FHIRPersistenceEvent {
      */
     public static final String PROPNAME_REPLICATION_CONTEXT = "REPLICATION_CONTEXT";
     
-    Resource fhirResource;
-    Map<String, Object> properties;
+    private Resource fhirResource;
+    private Resource prevFhirResource = null;
+    private boolean  prevFhirResourceSet = false;
+    private Map<String, Object> properties;
     
     /**
      * Default ctor.
@@ -151,6 +153,42 @@ public class FHIRPersistenceEvent {
         this.fhirResource = resource;
     }
     
+    /**
+     * Returns the "previous" resource associated with the REST API request that triggered
+     * the interceptor invocation.  This field is set only for an "update" operation and represents
+     * the existing version of the resource prior to the new resource being stored.
+     */
+    public Resource getPrevFhirResource() {
+        return prevFhirResource;
+    }
+
+    /**
+     * Sets the "previous" resource associated with an "update" request.
+     * 
+     * @param prevFhirResource the existing most recent version of the resource 
+     * prior to the update operation being processed.
+     * 
+     */
+    public void setPrevFhirResource(Resource prevFhirResource) {
+        this.prevFhirResource = prevFhirResource;
+        this.prevFhirResourceSet = true;
+    }
+
+    /**
+     * This method returns true if and only if the "previous resource" field has in fact
+     * been set.   This flag exists so that we can differentiate between these two scenarios:
+     * <ul>
+     * <li>The "previous resource" field is explicitly set to null.</li>
+     * <li>The "previous resource" field is not explicitly set at all.</li>
+     * </ul>
+     * 
+     * @return true if the "previous resource" field is set 
+     * (including the situation where it is set to null); false otherwise
+     */
+    public boolean isPrevFhirResourceSet() {
+        return prevFhirResourceSet;
+    }
+
     /**
      * Returns the resource type associated with the FHIR REST API request that triggered the
      * interceptor invocation.   This will be non-null for a 

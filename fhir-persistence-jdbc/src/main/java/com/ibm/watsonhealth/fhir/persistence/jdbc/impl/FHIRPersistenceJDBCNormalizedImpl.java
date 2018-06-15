@@ -228,29 +228,52 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		
 		Class<? extends Resource> resourceType = resource.getClass();
 		com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
-		int newVersionNumber = 1;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		
 		try {
-			// Get the current version of the Resource.
-			existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
-	        
-	        // If this FHIR Resource doesn't exist and updateCreateEnabled is turned off, throw an exception
-	        if (existingResourceDTO == null && !updateCreateEnabled) {
-	            String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
-	            log.log(Level.SEVERE, msg);
-	            throw new FHIRPersistenceResourceNotFoundException(msg);
-	        }
-	        
-	        // If the FHIR Resource already exists, then we'll simply bump up the version #, use its logical id,
-	        // and remove its Parameter entries.
-	        if (existingResourceDTO != null) {
-	            newVersionNumber = existingResourceDTO.getVersionId() + 1;
-	            if (log.isLoggable(Level.FINE)) {
-	            	log.fine("Updating FHIR Resource '" + resource.getClass().getSimpleName() + "/" + existingResourceDTO.getLogicalId() + "', version="
-	                        	+ existingResourceDTO.getVersionId());
-	            }
-	        } 
+		    // Assume we have no existing resource.
+		    int existingVersion = 0;
+		    
+		    // Compute the new version # from the existing version #.
+		    
+            // If the "previous resource" is set in the persistence event, then get the 
+		    // existing version # from that.
+            if (context.getPersistenceEvent() != null && context.getPersistenceEvent().isPrevFhirResourceSet()) {
+                Resource existingResource = context.getPersistenceEvent().getPrevFhirResource();
+                if (existingResource != null) {
+                    log.fine("Using pre-fetched 'previous' resource.");
+                    String version = existingResource.getMeta().getVersionId().getValue();
+                    existingVersion = Integer.valueOf(version);
+                }
+            } 
+            
+            // Otherwise, go ahead and read the resource from the datastore and get the
+            // existing version # from it.
+            else {
+                log.fine("Fetching 'previous' resource for update.");
+                existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+                if (existingResourceDTO != null) {
+                    existingVersion = existingResourceDTO.getVersionId();
+                }
+            }
+            
+            // If this logical resource didn't exist and the "updateCreate" feature is not enabled,
+            // then this is an error.
+            if (existingVersion == 0 && !updateCreateEnabled) {
+                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
+                log.log(Level.SEVERE, msg);
+                throw new FHIRPersistenceResourceNotFoundException(msg);
+            }
+            
+            // Bump up the existing version # to get the new version.
+            int newVersionNumber = existingVersion + 1;
+            
+            if (log.isLoggable(Level.FINE)) {
+                if (existingVersion != 0) {
+                    log.fine("Updating FHIR Resource '" + resource.getClass().getSimpleName() + "/" + logicalId + "', version=" + existingVersion);
+                }
+                log.fine("Storing new FHIR Resource '" + resource.getClass().getSimpleName() + "/" + logicalId + "', version=" + newVersionNumber);
+            }
 	        
 	        // Create the new Resource DTO instance.
 	        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
