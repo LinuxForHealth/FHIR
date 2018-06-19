@@ -23,6 +23,7 @@ import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.Identifier;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
@@ -387,6 +388,35 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+    }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchObservationWithSubjectIncluded() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Observation")
+        		.queryParam("subject", "Patient/" + patientId)
+        		.queryParam("_include", "Observation:subject")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+        Observation observation = null;
+        Patient patient = null;
+        for (BundleEntry entry : bundle.getEntry()) {
+        	if (entry.getResource().getObservation() != null) {
+        		observation = entry.getResource().getObservation();
+        	}
+        	else if (entry.getResource().getPatient() != null) {
+        		patient = entry.getResource().getPatient();
+        	}
+        }
+        assertNotNull(observation);
+        assertNotNull(patient);
+        assertEquals(patientId, patient.getId().getValue());
+        assertEquals("Patient/" + patientId, observation.getSubject().getReference().getValue());
     }
     
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation", "retrieveConfig" })
