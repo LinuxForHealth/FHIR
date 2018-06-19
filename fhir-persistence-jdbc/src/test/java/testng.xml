@@ -62,6 +62,7 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRelatedPersonTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRiskAssmtTest" />
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQuerySortTest" />
+	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryIncludeTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
        </classes>

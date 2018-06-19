@@ -105,6 +105,14 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         return resources;
     }
     
+    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, FHIRPersistence persistence,  Map<String, List<String>> queryParms) throws Exception {
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, queryString);
+        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType);
+        assertNotNull(resources);
+        return resources;
+    }
+    
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {

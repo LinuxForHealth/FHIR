@@ -33,21 +33,22 @@ class QuerySegmentAggregator {
 	private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
 	private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 	
-	private static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
+	protected static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
 	protected static final String SYSTEM_LEVEL_SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
 	protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
 	private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
 	private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
 	private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
-	private static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R JOIN {0}_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID ";
-	private static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
+	protected static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R JOIN {0}_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID ";
+	protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
 	private static final String PARAMETER_TABLE_VAR = "P";
 	protected static final String PARAMETER_TABLE_ALIAS = "pX.";
 	private static final String FROM = " FROM ";
 	private static final String UNION = " UNION ALL ";
 	protected static final String ON = " ON ";
 	private static final String JOIN = " JOIN ";
-	private static final String COMBINED_RESULTS = " COMBINED_RESULTS";
+	protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
+	private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
 		
 	protected Class<? extends Resource> resourceType;
 	protected List<SqlQueryData> querySegments;
@@ -130,7 +131,7 @@ class QuerySegmentAggregator {
 				allBindVariables.addAll(querySegment.getBindVariables());
 			}
 			// Add default ordering
-			queryString.append(" ORDER BY R.RESOURCE_ID ASC ");
+			queryString.append(DEFAULT_ORDERING);
 			this.addPaginationClauses(queryString);		
 			queryData = new SqlQueryData(queryString.toString(), allBindVariables);
 		}

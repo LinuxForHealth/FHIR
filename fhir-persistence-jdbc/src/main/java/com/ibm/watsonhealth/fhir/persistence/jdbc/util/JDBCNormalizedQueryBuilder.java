@@ -189,15 +189,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 		QuerySegmentAggregator helper;
 		boolean isValidQuery = true;
 		
-		if (searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty()) {
-			helper = new QuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, this.resourceDao);
-		}
-		else {
-			helper = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, 
-			                this.resourceDao, searchContext.getSortParameters());
-		}
-		
-		
+		helper = QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, this.resourceDao, searchContext);
+				
 		// Special logic for handling LocationPosition queries. These queries have interdependencies between
 		// a couple of related input query parameters
 		if (Location.class.equals(resourceType)) {

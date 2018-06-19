@@ -1,0 +1,73 @@
+{
+	"resourceType": "Encounter",
+	"text": {
+		"status": "generated"
+	},
+	"identifier": [{
+		"system": "ED",
+		"value": "ED-2"
+	}],
+	"status": "finished",
+	"statusHistory": [{
+		"status": "finished",
+		"period": {
+			"start": "2016-03-25T12:00:00+01:00",
+			"end": "2016-03-25T13:00:00+01:00"
+		}
+	}],
+	"class": "emergency",
+	"priority": {
+		"coding": [{
+			"system": "http://hl7.org/fhir/encounter-priority",
+			"code": "imm",
+			"display": "Immediate"
+		}],
+		"text": "Immediate"
+	},
+	"participant": [{
+		"type": [{
+			"coding": [{
+				"system": "http://hl7.org/fhir/v3/ParticipationType",
+				"code": "PPRF",
+				"display": "primary performer"
+			}],
+			"text": "primary performer"
+		}],
+		"period": {
+			"start": "2016-03-25T12:00:00+01:00",
+			"end": "2016-03-25T13:00:00+01:00"
+		},
+		"individual": {
+			"reference": "Practitioner/26086",
+			"display": "Pier Petersson (MD)"
+		}
+	}, {
+		"type": [{
+			"coding": [{
+				"system": "http://hl7.org/fhir/v3/ParticipationType",
+				"code": "SPRF",
+				"display": "secondary performer"
+			}],
+			"text": "secondary performer"
+		}],
+		"period": {
+			"start": "2016-03-25T12:00:00+01:00",
+			"end": "2016-03-25T13:00:00+01:00"
+		},
+		"individual": {
+			"display": "Rebeka Karlsson (RN)"
+		}
+	}],
+	"period": {
+		"start": "2016-03-25T12:00:00+01:00",
+		"end": "2016-03-25T13:00:00+01:00"
+	},
+	"length": {
+		"value": 60.0,
+		"unit": "min"
+	},
+	"serviceProvider": {
+		"reference": "Organization/26085",
+		"display": "Karolinska University Hospital"
+	}
+}
