@@ -6,8 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+
+import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -20,16 +23,19 @@ import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.Identifier;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.Person;
+import com.ibm.watsonhealth.fhir.model.PersonLink;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
     private String patientId;
     private String observationId;
     private Boolean compartmentSearchSupported = null;
     
-
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
      * 
@@ -61,6 +67,84 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         assertResourceEquals(patient, responsePatient);
+    }
+    
+    @Test(groups = { "server-search" })
+    public void testCreatePersonWithManyLinks() throws Exception {
+        // Build a new Person with a single links and then call 'create-on-update'.
+        // This will ensure that the search parameters are added to the cache before we insert one with a thousand of them.
+        String identifier = UUID.randomUUID().toString(); 
+        String patientRef = "Patient/" + identifier;
+        Person person = createPersonWithIdentifierAndLink(identifier, patientRef);
+        
+        // Update the person with a bunch more links
+        addLinks(person, 256 / 4);
+        FHIRResponse updateResponse = client.update(person);
+        assertResponse(updateResponse, Response.Status.OK.getStatusCode());
+
+        // Finally, call the 'search' API to retrieve the new person via its first link and verify it.
+        FHIRResponse searchResponse = client.search("Person", new FHIRParameters().searchParam("patient", patientRef));
+        assertResponse(searchResponse, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = searchResponse.getResource(Bundle.class);
+        assertEquals(responseBundle.getEntry().size(), 1);
+        Person responsePerson = responseBundle.getEntry().get(0).getResource().getPerson();
+        assertResourceEquals(person, responsePerson);
+    }
+    
+    @Test(groups = { "server-search" })
+    public void testCreatePersonWithManyIdentifiers() throws Exception {
+        // Build a new Person with a single links and then call 'create-on-update'.
+        // This will ensure that the search parameters are added to the cache before we insert one with a thousand of them.
+        String identifier = UUID.randomUUID().toString(); 
+        String patientRef = "Patient/" + identifier;
+        Person person = createPersonWithIdentifierAndLink(identifier, patientRef);
+        
+        // Update the person with a bunch more identifiers
+        addIdentifiers(person, 256);
+        FHIRResponse updateResponse = client.update(person);
+        assertResponse(updateResponse, Response.Status.OK.getStatusCode());
+
+        // Finally, call the 'search' API to retrieve the new person via its first link and verify it.
+        FHIRResponse searchResponse = client.search("Person", new FHIRParameters().searchParam("identifier", identifier));
+        assertResponse(searchResponse, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = searchResponse.getResource(Bundle.class);
+        assertEquals(responseBundle.getEntry().size(), 1);
+        Person responsePerson = responseBundle.getEntry().get(0).getResource().getPerson();
+        assertResourceEquals(person, responsePerson);
+    }
+    
+    private Person createPersonWithIdentifierAndLink(String identifier, String patientRef) throws Exception {
+        String id = UUID.randomUUID().toString();
+        Person person = objFactory.createPerson()
+                .withId(objFactory.createId().withValue(id))
+                .withIdentifier(objFactory.createIdentifier()
+                    .withSystem(FHIRUtil.uri("test"))
+                    .withValue(FHIRUtil.string(identifier)));
+        PersonLink link = objFactory.createPersonLink()
+                .withTarget(objFactory.createReference()
+                    .withReference(FHIRUtil.string(patientRef)));
+        person.getLink().add(link);
+        FHIRResponse createResponse = client.update(person);
+        assertResponse(createResponse, Response.Status.CREATED.getStatusCode());
+        return person;
+    }
+    
+    private void addLinks(Person person, int numberOfLinks) {
+        for (int i=0; i < numberOfLinks; i++) {
+            PersonLink link = objFactory.createPersonLink()
+                    .withTarget(objFactory.createReference()
+                        .withReference(FHIRUtil.string("Patient/" + UUID.randomUUID())));
+            person.getLink().add(link);
+        }
+    }
+    
+    private void addIdentifiers(Person person, int numberOfIdentifiers) {
+        for (int i=0; i < numberOfIdentifiers; i++) {
+            Identifier identifier = objFactory.createIdentifier()
+                    .withSystem(FHIRUtil.uri("test"))
+                    .withValue(FHIRUtil.string(UUID.randomUUID().toString()));
+            person.getIdentifier().add(identifier);
+        }
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient" })

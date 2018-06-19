@@ -88,7 +88,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String websocketUrl = null;
     private String kafkaConnectionInfo = null;
     private String kafkaTopicName = null;
-    
+
 
     // These are values of FHIRClient properties that we need here also.
     private String fhirUser = null;
@@ -102,7 +102,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     protected static final String MEDIATYPE_JSON_FHIR = "application/json+fhir";
     protected static final String MEDIATYPE_XML = "application/xml";
     protected static final String MEDIATYPE_XML_FHIR = "application/xml+fhir";
-    
+
     private Conformance conformanceStmt = null;
 
     public FHIRServerTestBase() {
@@ -124,7 +124,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     public String getKafkaTopicName() {
         return kafkaTopicName;
     }
-    
+
     private String getFhirUser() {
         return fhirUser;
     }
@@ -151,7 +151,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     /**
      * We'll resolve all the supported test properties. We have two ways of setting properties: 1) store them in a file
      * called "test.properties" which is in the classpath. 2) set each individual property as a JVM system property.
-     * 
+     *
      * Supported property names: test.host test.port test.urlprefix
      */
     @BeforeClass
@@ -176,7 +176,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         // Retrieve the info needed by a Kafka consumer.
         kafkaConnectionInfo = getProperty(properties, PROPNAME_KAFKA_CONNINFO, DEFAULT_KAFKA_CONNINFO);
         kafkaTopicName = getProperty(properties, PROPNAME_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
-        
+
         fhirUser = getProperty(properties, FHIRClient.PROPNAME_CLIENT_USERNAME, DEFAULT_USERNAME);
         fhirPassword = FHIRUtilities.decode(getProperty(properties, FHIRClient.PROPNAME_CLIENT_PASSWORD, DEFAULT_PASSWORD));
         tsLocation = getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_LOCATION, DEFAULT_TRUSTSTORE_LOCATION);
@@ -188,7 +188,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     /**
      * Tries to find the property named <propertyName> first as a System property, then as a property within the
      * <properties> object. If neither are found, then the <defaultValue> is returned.
-     * 
+     *
      * @param properties
      *            Properties object containing the properties loaded from our properties file.
      * @param propertyName
@@ -212,12 +212,12 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
             return client.getWebTarget();
         } catch (Throwable t) {
             fail("Unexpected exception while retrieving WebTarget: " + t);
-            
+
             // This is here to appease the java compiler so we don't need to declare a throws clause.
             throw new RuntimeException("Shouldn't get here as the fail() will throw an exception...");
         }
     }
-    
+
     /**
      * Returns the FHIRClient instance being used for this testcase instance.
      */
@@ -272,7 +272,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         }
         return null;
     }
-    
+
     /**
      * Common function to invoke the 'metadata' operation and return the Conformance object.
      */
@@ -289,15 +289,15 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
         return conformanceStmt;
     }
-    
+
     /**
-     * Determines whether or not the server supports the "update/create" feature 
+     * Determines whether or not the server supports the "update/create" feature
      * by examining the conformance statement.
      */
     protected boolean isUpdateCreateSupported() throws Exception {
         Boolean updateCreateSupported = Boolean.FALSE;
         Conformance conf = retrieveConformanceStatement();
-        
+
         List<ConformanceRest> restList = conf.getRest();
         if (restList != null) {
             ConformanceRest rest = restList.get(0);
@@ -312,17 +312,17 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 }
             }
         }
-        
+
         return (updateCreateSupported != null ? updateCreateSupported.booleanValue() : false);
     }
-    
+
     /**
-     * Determines whether or not the server supports the "delete" operation 
+     * Determines whether or not the server supports the "delete" operation
      * by examining the conformance statement.
      */
     protected boolean isDeleteSupported() throws Exception {
         Conformance conf = retrieveConformanceStatement();
-        
+
         List<ConformanceRest> restList = conf.getRest();
         if (restList != null) {
             ConformanceRest rest = restList.get(0);
@@ -342,17 +342,17 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     protected boolean isComparmentSearchSupported() throws Exception {
         boolean compartmentSearchSupported = false;
         Conformance conf = retrieveConformanceStatement();
-        
+
         for(Extension e : conf.getExtension()) {
-        	if (e.getUrl().contains("persistenceType") && 
-        	    (e.getValueString().getValue().contains("FHIRPersistenceJDBCImpl") || 
+        	if (e.getUrl().contains("persistenceType") &&
+        	    (e.getValueString().getValue().contains("FHIRPersistenceJDBCImpl") ||
         	     e.getValueString().getValue().contains("FHIRPersistenceJDBCNormalizedImpl"))) {
         		compartmentSearchSupported = true;
         		break;
@@ -360,24 +360,24 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         }
         return compartmentSearchSupported;
     }
-    
+
     protected boolean isSearchAllSupported() throws Exception {
        return isComparmentSearchSupported();
     }
-    
+
     protected boolean isSortingSupported() throws Exception {
         return isComparmentSearchSupported();
      }
 
-    
+
     /**
-     * Determines whether or not the server supports the "update/create" feature 
+     * Determines whether or not the server supports the "update/create" feature
      * by examining the conformance statement.
      */
     protected boolean isTransactionSupported() throws Exception {
         TransactionModeList transactionMode = null;
         Conformance conf = retrieveConformanceStatement();
-        
+
         List<ConformanceRest> restList = conf.getRest();
         if (restList != null) {
             ConformanceRest rest = restList.get(0);
@@ -386,11 +386,11 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 transactionMode = rest.getTransactionMode().getValue();
             }
         }
-        
+
         if (transactionMode == null) {
             transactionMode = TransactionModeList.NOT_SUPPORTED;
         }
-        
+
         boolean txnSupported = false;
         switch (transactionMode) {
         case BOTH:
@@ -402,12 +402,12 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
             break;
         }
 
-        
+
         return txnSupported;
     }
 
-    
-    
+
+
     //
     // Some homegrown assert-type common functions.
     //
@@ -427,7 +427,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     /**
      * Verify that a FHIRClient response has the expected status code.
-     * 
+     *
      * @param response
      *            the FHIRResponse that contains the response for a FHIRClient API invocation
      * @param expectedStatusCode
@@ -440,7 +440,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     /**
      * Validate the specified OperationOutcome object to make sure it contains an exception.
-     * 
+     *
      * @param msgPart
      *            a string which should be found in the exception message.
      */
@@ -502,15 +502,15 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         }
         assertTrue("Could not find '" + msgPart + "' in OperationOutcomeIssue list!", foundIt);
     }
-    
-    // 
+
+    //
     // Misc. common functions used by testcases.
-    // 
+    //
 
     /**
      * For the specified response, this function will extract the logical id value from the response's Location header.
      * The format of a location header value should be: "[base]/<resource-type>/<id>/_history/<version>"
-     * 
+     *
      * @param response
      *            the response object for a REST API invocation
      * @return the logical id value
@@ -531,7 +531,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
         return logicalId;
     }
-    
+
     /**
      * Returns the absolute filename associated with 'filename'.
      */
@@ -549,7 +549,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
         return null;
     }
-    
+
     protected String[] getLocationURITokens(String locationURI) {
         String[] temp = locationURI.split("/");
         String[] tokens;

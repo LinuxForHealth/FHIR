@@ -34,10 +34,12 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.feature.LoggingFeature;
+
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
-import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
+import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleType;
@@ -84,6 +86,8 @@ public class FHIRClientImpl implements FHIRClient {
     private String encKeyStorePassword = null;
     private String encKeyPassword = null;
     private SecretKeySpec encryptionKey = null;
+
+    private boolean loggingEnabled = false;
 
     protected FHIRClientImpl() {
     }
@@ -167,7 +171,7 @@ public class FHIRClientImpl implements FHIRClient {
         }
         return _create(resource, resourceType, parameters, headers);
     }
-    
+
     /**
      * Common "create" implementations used by the "create()" and "conditionalCreate()" methods.
      */
@@ -191,10 +195,10 @@ public class FHIRClientImpl implements FHIRClient {
         if (ifNoneExistQuery == null) {
             return headers;
         }
-        
+
         // Create a "If-None-Exist" request header whose value is the stringified version of "ifNoneExistQuery".
         FHIRRequestHeader ifNoneExistHeader = new FHIRRequestHeader("If-None-Exist", ifNoneExistQuery.queryString(false));
-        
+
         // Create a new array that has room for the new "If-None-Exist" header.
         int headersSize = (headers != null ? headers.length : 0);
         FHIRRequestHeader[] result = new FHIRRequestHeader[headersSize + 1];
@@ -203,13 +207,13 @@ public class FHIRClientImpl implements FHIRClient {
                 result[i] = headers[i];
             }
         }
-        
+
         // Add the new header at the end.
         result[result.length - 1] = ifNoneExistHeader;
-        
+
         return result;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#update(java.lang.Object, java.lang.Class, java.lang.String)
@@ -247,7 +251,7 @@ public class FHIRClientImpl implements FHIRClient {
         }
         return _update(resource, resourceType, resourceId, null, headers);
     }
-    
+
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.client.FHIRClient#conditionalUpdate(com.ibm.watsonhealth.fhir.model.Resource, com.ibm.watsonhealth.fhir.client.FHIRParameters, com.ibm.watsonhealth.fhir.client.FHIRRequestHeader[])
      */
@@ -280,7 +284,7 @@ public class FHIRClientImpl implements FHIRClient {
         }
         return _update(resource, resourceType, null, parameters, headers);
     }
-    
+
     /**
      * Common "update" implementations used by the "update()" and "conditionalUpdate()" methods.
      */
@@ -288,7 +292,7 @@ public class FHIRClientImpl implements FHIRClient {
         WebTarget endpoint = getWebTarget();
         Entity<T> entity = Entity.entity(resource, getDefaultMimeType());
         endpoint = endpoint.path(resourceType);
-        
+
         if (resourceId != null) {
             // For a normal update operation, add the resource id to the URL pattern of the request.
             endpoint = endpoint.path(resourceId);
@@ -296,7 +300,7 @@ public class FHIRClientImpl implements FHIRClient {
             // Otherwise, for a conditional update, add the search query parameter(s) to the request.
             endpoint = addParametersToWebTarget(endpoint, parameters);
         }
-        
+
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.put(entity);
@@ -335,7 +339,7 @@ public class FHIRClientImpl implements FHIRClient {
     private FHIRResponse _delete(String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(resourceType);
-        
+
         if (resourceId != null) {
             // For a normal delete operation, add the resource id to the URL pattern of the request.
             endpoint = endpoint.path(resourceId);
@@ -481,7 +485,7 @@ public class FHIRClientImpl implements FHIRClient {
         }
         return _validate(resource, headers);
     }
-    
+
     private <T> FHIRResponse _validate(T resource, FHIRRequestHeader...headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         Entity<T> entity = Entity.entity(resource, getDefaultMimeType());
@@ -489,7 +493,7 @@ public class FHIRClientImpl implements FHIRClient {
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
-        
+
     }
 
     /*
@@ -702,7 +706,7 @@ public class FHIRClientImpl implements FHIRClient {
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }
-    
+
     private FHIRResponse _bundle(Bundle bundle, BundleTypeList bundleType, FHIRRequestHeader... headers) throws Exception {
         bundle.setType(new BundleType().withValue(bundleType));
         WebTarget endpoint = getWebTarget();
@@ -716,7 +720,7 @@ public class FHIRClientImpl implements FHIRClient {
     /**
      * This function adds each of the parameters contained in the FHIRParameters object to the specified WebTarget as a
      * query parameter.
-     * 
+     *
      * @param endpoint
      *            the WebTarget which will receive the query parameters
      * @param parameters
@@ -757,7 +761,7 @@ public class FHIRClientImpl implements FHIRClient {
 
     /**
      * This function will add each of the specified request headers to the Invocation Builder object.
-     * 
+     *
      * @param builder
      *            the Invocation.Builder used to build up the request
      * @param headers
@@ -820,9 +824,12 @@ public class FHIRClientImpl implements FHIRClient {
                 });
             }
 
+            if (isLoggingEnabled()) {
+                cb.register(LoggingFeature.class);
+            }
+
             // Save off our cached Client instance.
             client = cb.build();
-
         }
         return client;
     }
@@ -833,7 +840,6 @@ public class FHIRClientImpl implements FHIRClient {
      */
     @Override
     public WebTarget getWebTarget() throws Exception {
-
         return getClient().target(getBaseEndpointURL());
     }
 
@@ -868,7 +874,7 @@ public class FHIRClientImpl implements FHIRClient {
 
     /**
      * Process all the required properties found in the Properties object.
-     * 
+     *
      * @param props
      */
     private void initProperties(Properties props) throws Exception {
@@ -929,6 +935,8 @@ public class FHIRClientImpl implements FHIRClient {
                 setEncKeyPassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_ENCRYPTION_KEYPW)));
                 setEncryptionKey(FHIRUtilities.retrieveEncryptionKeyFromKeystore(getEncKeyStoreLocation(), getEncKeyStorePassword(), ENCRYPTION_KEY_ALIAS, getEncKeyPassword(), KEYSTORE_TYPE_JCEKS, ENCRYPTION_ALGORITHM_AES));
             }
+
+            setLoggingEnabled(Boolean.parseBoolean(getProperty(PROPNAME_LOGGING_ENABLED, "false")));
         } catch (Throwable t) {
             throw new Exception("Unexpected error while processing client properties.", t);
         }
@@ -1180,5 +1188,13 @@ public class FHIRClientImpl implements FHIRClient {
 
     public void setKeyStoreKeyPassword(String keyStoreKeyPassword) {
         this.keyStoreKeyPassword = keyStoreKeyPassword;
+    }
+
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
+    }
+
+    public void setLoggingEnabled(boolean loggingEnabled) {
+        this.loggingEnabled = loggingEnabled;
     }
 }

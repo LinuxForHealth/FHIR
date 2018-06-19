@@ -121,6 +121,12 @@ public interface FHIRClient {
      */
     public static final String ENCRYPTION_KEY_ALIAS = "fhirEncryptionKey";
     
+    /**
+     * Indicates whether or not to enable to CXF Logging feature which will log all request and response messages
+     * at a level of INFO
+     */
+    public static final String PROPNAME_LOGGING_ENABLED    = "fhirclient.logging.enabled";
+    
     
     /**
      * Returns a JAX-RS 2.0 WebTarget object associated with the REST API endpoint.

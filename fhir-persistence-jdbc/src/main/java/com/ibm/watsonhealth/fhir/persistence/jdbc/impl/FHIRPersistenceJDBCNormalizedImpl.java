@@ -208,6 +208,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             log.log(Level.SEVERE, msg, e);
             throw new FHIRPersistenceException(msg, e.getHttpStatus(), e);
         }
+		catch(FHIRPersistenceDataAccessException e) {
+            throw e;
+        }
 		catch(Throwable e) {
             String msg = "Unexpected error while performing a create operation.";
             log.log(Level.SEVERE, msg, e);
@@ -322,6 +325,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             String msg = "Unexpected version id mismatch while performing an update operation.";
             log.log(Level.SEVERE, msg, e);
             throw new FHIRPersistenceException(msg, e.getHttpStatus(), e);
+        }
+		catch(FHIRPersistenceDataAccessException e) {
+            throw e;
         }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing an update operation.";
@@ -485,6 +491,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             String msg = "Unexpected version id mismatch while performing a delete operation.";
             log.log(Level.SEVERE, msg, e);
             throw new FHIRPersistenceException(msg, e.getHttpStatus(), e);
+        }
+		catch(FHIRPersistenceDataAccessException e) {
+            throw e;
         }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a delete operation.";
