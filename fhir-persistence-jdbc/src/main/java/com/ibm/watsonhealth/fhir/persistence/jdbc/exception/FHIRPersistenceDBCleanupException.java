@@ -6,8 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.exception;
 
-import javax.ws.rs.core.Response.Status;
+import java.util.Collection;
 
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -20,10 +21,6 @@ public class FHIRPersistenceDBCleanupException extends FHIRPersistenceException 
 	private static final long serialVersionUID = -8350452448890342596L;
 
 	
-	public FHIRPersistenceDBCleanupException() {
-		super();
-	}
-
 	public FHIRPersistenceDBCleanupException(String message) {
 		super(message);
 		
@@ -34,18 +31,16 @@ public class FHIRPersistenceDBCleanupException extends FHIRPersistenceException 
 		
 	}
 
-	public FHIRPersistenceDBCleanupException(String message, Status httpStatus, Throwable cause) {
-		super(message, httpStatus, cause);
-	}
-
-	public FHIRPersistenceDBCleanupException(String message, Status httpStatus) {
-		super(message, httpStatus);
-		
-	}
-
-	public FHIRPersistenceDBCleanupException(Throwable cause) {
-		super(cause);
-		
-	}
+	@Override
+    public FHIRPersistenceDBCleanupException withIssue(OperationOutcomeIssue... issues) {
+        super.withIssue(issues);
+        return this;
+    }
+    
+    @Override
+    public FHIRPersistenceDBCleanupException withIssue(Collection<OperationOutcomeIssue> issues) {
+        super.withIssue(issues);
+        return this;
+    }
 
 }

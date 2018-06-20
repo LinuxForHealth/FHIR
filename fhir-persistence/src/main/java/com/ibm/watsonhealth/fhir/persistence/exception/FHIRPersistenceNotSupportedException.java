@@ -6,6 +6,10 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
+import java.util.Collection;
+
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+
 /**
  * Thrown for methods or features not yet fully implemented.
  * @author markd
@@ -15,10 +19,6 @@ public class FHIRPersistenceNotSupportedException extends FHIRPersistenceExcepti
 
 	private static final long serialVersionUID = 1L;
 
-	public FHIRPersistenceNotSupportedException() {
-		super();
-	}
-
 	public FHIRPersistenceNotSupportedException(String message) {
 		super(message);
 	}
@@ -27,8 +27,15 @@ public class FHIRPersistenceNotSupportedException extends FHIRPersistenceExcepti
 		super(message, cause);
 	}
 
-	public FHIRPersistenceNotSupportedException(Throwable cause) {
-		super(cause);
-	}
-
+	@Override
+    public FHIRPersistenceException withIssue(OperationOutcomeIssue... issues) {
+        super.withIssue(issues);
+        return this;
+    }
+    
+    @Override
+    public FHIRPersistenceException withIssue(Collection<OperationOutcomeIssue> issues) {
+        super.withIssue(issues);
+        return this;
+    }
 }

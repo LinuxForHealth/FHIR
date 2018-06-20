@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
@@ -31,7 +32,6 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.rest.FHIRRestOperationResponse;

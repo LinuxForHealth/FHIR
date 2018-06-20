@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.replication.api.Unmarshaller;
 import com.ibm.watsonhealth.fhir.replication.api.impl.ReplicationInfoUnmarshaller;
 import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
@@ -22,13 +22,13 @@ import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
 public class ReplicationInfoUnmarshallerTest {
 	private Unmarshaller<ReplicationInfo> unmarshaller = new ReplicationInfoUnmarshaller();
 	
-	@Test(expectedExceptions={ FHIRException.class })
-	public void unmarshall_verifyNullReplicationInfo() throws FHIRException {
+	@Test(expectedExceptions={ FHIROperationException.class })
+	public void unmarshall_verifyNullReplicationInfo() throws FHIROperationException {
 		unmarshaller.unmarshall("");
 	}
 	
 	@Test
-	public void unmarshall_verifyUnmarshalling() throws FHIRException, ParseException {
+	public void unmarshall_verifyUnmarshalling() throws FHIROperationException, ParseException {
 		final String replicationInfoJson = buidReplicationStr();
 		
 		final ReplicationInfo replicationInfo = unmarshaller.unmarshall(replicationInfoJson);

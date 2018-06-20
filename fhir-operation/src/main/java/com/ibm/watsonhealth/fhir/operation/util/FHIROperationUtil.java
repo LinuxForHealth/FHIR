@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.OperationDefinitionParameter;
@@ -24,7 +25,6 @@ import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 
 public class FHIROperationUtil {
     private static ObjectFactory factory = new ObjectFactory();

@@ -113,6 +113,35 @@ public class SearchTest extends FHIRServerTestBase {
         Person responsePerson = responseBundle.getEntry().get(0).getResource().getPerson();
         assertResourceEquals(person, responsePerson);
     }
+
+    // Uncomment in order to test the limits when using the 'normalized' model with Db2 
+//    @Test(groups = { "server-search" })
+//    public void testCreatePersonWithTooManyLinks() throws Exception {
+//        // Build a new Person with a single identifier and then call call 'create-on-update'.
+//        // This will ensure that the search parameters are added to the cache before we insert one with a thousand of them.
+//        String identifier = UUID.randomUUID().toString(); 
+//        String patientRef = "Patient/" + identifier;
+//        Person person = createPersonWithIdentifierAndLink(identifier, patientRef);
+//        
+//        // Update the person with a bunch more links to exceed the limit
+//        addLinks(person, 1024 / 4);
+//        FHIRResponse response = client.update(person);
+//        assertResponse(response, Response.Status.REQUEST_ENTITY_TOO_LARGE.getStatusCode());
+//    }
+//    
+//    @Test(groups = { "server-search" })
+//    public void testCreatePersonWithTooManyIdentifiers() throws Exception {
+//        // Build a new Person with a single identifier and then call call 'create-on-update'.
+//        // This will ensure that the search parameters are added to the cache before we insert one with a thousand of them.
+//        String identifier = UUID.randomUUID().toString(); 
+//        String patientRef = "Patient/" + identifier;
+//        Person person = createPersonWithIdentifierAndLink(identifier, patientRef);
+//        
+//        // Update the person with a bunch more links to exceed the limit
+//        addIdentifiers(person, 1024);
+//        FHIRResponse response = client.update(person);
+//        assertResponse(response, Response.Status.REQUEST_ENTITY_TOO_LARGE.getStatusCode());
+//    }
     
     private Person createPersonWithIdentifierAndLink(String identifier, String patientRef) throws Exception {
         String id = UUID.randomUUID().toString();
@@ -558,6 +587,6 @@ public class SearchTest extends FHIRServerTestBase {
         FHIRRequestHeader header = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
         FHIRResponse response = client._search("Observation", parameters, header);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.getResource(OperationOutcome.class), "FHIRSearchException:");
+        assertExceptionOperationOutcome(response.getResource(OperationOutcome.class), "Search parameter 'category' for resource type 'Observation' was not found.");
     }
 }

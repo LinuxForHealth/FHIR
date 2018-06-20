@@ -13,9 +13,8 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
@@ -29,7 +28,6 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
@@ -58,8 +56,7 @@ public class ValidateOperation extends AbstractOperation {
             Resource resource = FHIRUtil.getResourceContainerResource(container);
             List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
             if (!issues.isEmpty()) {
-                OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(issues);
-                throw new FHIROperationException("Input resource failed validation.", operationOutcome, Response.Status.BAD_REQUEST);
+                throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
             }
             return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome());
         } catch (FHIROperationException e) {

@@ -6,11 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.operation;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 public interface FHIROperation {

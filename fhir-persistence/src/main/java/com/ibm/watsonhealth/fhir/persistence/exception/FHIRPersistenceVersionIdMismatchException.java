@@ -6,9 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
-import javax.ws.rs.core.Response.Status;
-
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 /**
  * This exception class represents an occurrence of a mismatch between the version id in the resource json vs.
@@ -20,32 +19,15 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 public class FHIRPersistenceVersionIdMismatchException extends FHIRPersistenceException {
 
 	private static final long serialVersionUID = -8350452448890342596L;
-	private static final Status DEFAULT_HTTP_STATUS = Status.CONFLICT;
-
-	
-	public FHIRPersistenceVersionIdMismatchException() {
-		super();
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
-	}
 
 	public FHIRPersistenceVersionIdMismatchException(String message) {
-		super(message);
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
+	    super(message);
+	    withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
 	}
 
 	public FHIRPersistenceVersionIdMismatchException(String message, Throwable cause) {
 		super(message, cause);
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
-	}
-
-	public FHIRPersistenceVersionIdMismatchException(String message, Status httpStatus) {
-		super(message, httpStatus);
-		
-	}
-
-	public FHIRPersistenceVersionIdMismatchException(Throwable cause) {
-		super(cause);
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
+		withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
 	}
 
 }

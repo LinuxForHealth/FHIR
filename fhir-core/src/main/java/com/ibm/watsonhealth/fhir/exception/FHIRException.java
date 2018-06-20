@@ -12,8 +12,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.Response.Status;
-
 /**
  * Common FHIR Server exception base class.
  */
@@ -22,36 +20,34 @@ public class FHIRException extends Exception {
     private static final String CLASSNAME = FHIRException.class.getName();
 	private static final Logger log = Logger.getLogger(CLASSNAME);
     
-    private Status httpStatus = null;
     private String uniqueId = null;
     
+    /**
+     * @see Exception#Exception()
+     */
     public FHIRException() {
         super();
     }
 
+    /**
+     * @see Exception#Exception(String)
+     */
     public FHIRException(String message) {
         super(message);
     }
 
+    /**
+     * @see Exception#Exception(String, Throwable)
+     */
     public FHIRException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public FHIRException(String message, Status httpStatus, Throwable cause) {
-        super(message, cause);
-        this.httpStatus = httpStatus;
-    }
+    /**
+     * @see Exception#Exception(Throwable)
+     */
     public FHIRException(Throwable cause) {
         super(cause);
-    }
-
-
-    public FHIRException(String message, Status httpStatus) {
-        this(message, httpStatus, null);
-    }
-
-    public Status getHttpStatus() {
-        return (httpStatus != null ? httpStatus : Status.BAD_REQUEST);
     }
 
     /**
@@ -94,14 +90,11 @@ public class FHIRException extends Exception {
 		StringBuilder myMsg = new StringBuilder();
 				
 		if (superMsg != null && !superMsg.isEmpty()) {
-	 		 myMsg.append(super.getMessage()).append("  ");
+	 		 myMsg.append(superMsg).append("  ");
 	    }
 	 	myMsg.append("[probeId=").append(this.getUniqueId()).append("]");
 		
 		return myMsg.toString();
 	}
-
-	protected void setHttpStatus(Status httpStatus) {
-		this.httpStatus = httpStatus;
-	}
+	
 }

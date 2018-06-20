@@ -6,12 +6,13 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
+import java.util.Collection;
+
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+
 public class FHIRPersistenceResourceDeletedException extends FHIRPersistenceException {
 	private static final long serialVersionUID = 1L;
 	
-	public FHIRPersistenceResourceDeletedException() {
-	    super();
-	}
 	public FHIRPersistenceResourceDeletedException(String message) {
 		super(message);
 	}
@@ -20,7 +21,15 @@ public class FHIRPersistenceResourceDeletedException extends FHIRPersistenceExce
 	    super(message, cause);
 	}
     
-    public FHIRPersistenceResourceDeletedException(Throwable cause) {
-        super(cause);
+	@Override
+    public FHIRPersistenceException withIssue(OperationOutcomeIssue... issues) {
+        super.withIssue(issues);
+        return this;
+    }
+    
+    @Override
+    public FHIRPersistenceException withIssue(Collection<OperationOutcomeIssue> issues) {
+        super.withIssue(issues);
+        return this;
     }
 }

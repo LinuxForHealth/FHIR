@@ -10,8 +10,6 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_S
 
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.Response.Status;
-
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceFactory;
@@ -55,7 +53,7 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
         catch (Throwable t) {
             String msg = "Unexpected exception while creating JDBC persistence layer: ";
             log.severe(msg + t);
-            throw new FHIRPersistenceException(msg, Status.INTERNAL_SERVER_ERROR, t);
+            throw new FHIRPersistenceException(msg, t);
         }
     }
 }

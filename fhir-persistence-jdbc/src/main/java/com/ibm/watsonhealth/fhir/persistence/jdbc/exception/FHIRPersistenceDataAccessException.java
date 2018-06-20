@@ -6,8 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.exception;
 
-import javax.ws.rs.core.Response.Status;
+import java.util.Collection;
 
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -18,36 +19,25 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 public class FHIRPersistenceDataAccessException extends FHIRPersistenceException {
 
 	private static final long serialVersionUID = -8350452448890342596L;
-	private static final Status DEFAULT_HTTP_STATUS = Status.INTERNAL_SERVER_ERROR;
-
-	
-	public FHIRPersistenceDataAccessException() {
-		super();
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
-	}
 
 	public FHIRPersistenceDataAccessException(String message) {
 		super(message);
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
 	}
 
 	public FHIRPersistenceDataAccessException(String message, Throwable cause) {
 		super(message, cause);
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
 	}
 
-	public FHIRPersistenceDataAccessException(String message, Status httpStatus, Throwable cause) {
-		super(message, httpStatus, cause);
+	@Override
+    public FHIRPersistenceDataAccessException withIssue(OperationOutcomeIssue... issues) {
+        super.withIssue(issues);
+        return this;
+    }
+	
+	@Override
+	public FHIRPersistenceDataAccessException withIssue(Collection<OperationOutcomeIssue> issues) {
+	    super.withIssue(issues);
+	    return this;
 	}
-
-	public FHIRPersistenceDataAccessException(String message, Status httpStatus) {
-		super(message, httpStatus);
-		
-	}
-
-	public FHIRPersistenceDataAccessException(Throwable cause) {
-		super(cause);
-		this.setHttpStatus(DEFAULT_HTTP_STATUS);
-	}
-
+	
 }

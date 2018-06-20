@@ -29,8 +29,6 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.naming.InitialContext;
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBException;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -49,7 +47,6 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -198,23 +195,16 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        }
 	    }
 		catch(FHIRPersistenceFKVException e) {
-			String msg = "Unexpected FK Violation while performing a create operation.";
-	        log.log(Level.SEVERE, msg, e);
 	        log.log(Level.SEVERE, this.performCacheDiagnostics());
-	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+	        throw e;
 		}
-		catch(FHIRPersistenceVersionIdMismatchException e) {
-            String msg = "Unexpected version id mismatch while performing a create operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e.getHttpStatus(), e);
-        }
-		catch(FHIRPersistenceDataAccessException e) {
+		catch(FHIRPersistenceException e) {
             throw e;
         }
 		catch(Throwable e) {
             String msg = "Unexpected error while performing a create operation.";
             log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+            throw new FHIRPersistenceException(msg, e);
         }
 		finally {
 		   log.exiting(CLASSNAME, METHODNAME);
@@ -312,27 +302,17 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        				+ ", version=" + resourceDTO.getVersionId());
 	        }
 		}
-		catch(FHIRPersistenceResourceNotFoundException e) {
-			throw e;
-		}
         catch(FHIRPersistenceFKVException e) {
-            String msg = "Unexpected FK Violation while performing an update operation.";
-            log.log(Level.SEVERE, msg, e);
             log.log(Level.SEVERE, this.performCacheDiagnostics());
-            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+            throw e;
         }
-		catch(FHIRPersistenceVersionIdMismatchException e) {
-            String msg = "Unexpected version id mismatch while performing an update operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e.getHttpStatus(), e);
-        }
-		catch(FHIRPersistenceDataAccessException e) {
+		catch(FHIRPersistenceException e) {
             throw e;
         }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing an update operation.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
 	        log.exiting(CLASSNAME, METHODNAME);
@@ -396,10 +376,13 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            }
 	        }
 	    }
+	    catch(FHIRPersistenceException e) {
+            throw e;
+        }
 	    catch(Throwable e) {
 			String msg = "Unexpected error while performing a search operation.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -482,23 +465,16 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        return existingResource;
 		}
 		catch(FHIRPersistenceFKVException e) {
-            String msg = "Unexpected FK Violation while performing a delete operation.";
-            log.log(Level.SEVERE, msg, e);
             log.log(Level.SEVERE, this.performCacheDiagnostics());
-            throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+            throw e;
         }
-		catch(FHIRPersistenceVersionIdMismatchException e) {
-            String msg = "Unexpected version id mismatch while performing a delete operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e.getHttpStatus(), e);
-        }
-		catch(FHIRPersistenceDataAccessException e) {
+		catch(FHIRPersistenceException e) {
             throw e;
         }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a delete operation.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
 	        log.exiting(CLASSNAME, METHODNAME);
@@ -530,7 +506,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a read operation.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -588,10 +564,13 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	        	resources = this.convertResourceDTOList(resourceDTOList, resourceType);
 	        } 
 		}
+		catch(FHIRPersistenceException e) {
+            throw e;
+        }
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a history operation.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -630,7 +609,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 		catch(Throwable e) {
 			String msg = "Unexpected error while performing a version read operation.";
 	        log.log(Level.SEVERE, msg, e);
-	        throw new FHIRPersistenceException(msg, Response.Status.INTERNAL_SERVER_ERROR, e);
+	        throw new FHIRPersistenceException(msg, e);
 		}
 		finally {
 			log.exiting(CLASSNAME, METHODNAME);
@@ -717,7 +696,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 this.trxSynchRegistry = (TransactionSynchronizationRegistry) ctxt.lookup(TRX_SYNCH_REG_JNDI_NAME);
             }
             catch(Throwable e) {
-                throw new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service", Status.INTERNAL_SERVER_ERROR, e);
+                throw new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service", e);
             }
         }
         

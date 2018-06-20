@@ -23,6 +23,9 @@ import javax.sql.DataSource;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
@@ -430,4 +433,8 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 		return dbUrl.contains("db2");
 	}
 
+	protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueTypeList issueType) throws FHIRPersistenceDataAccessException {
+	    OperationOutcomeIssue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+        return new FHIRPersistenceDataAccessException(msg).withIssue(ooi);
+    }
 }

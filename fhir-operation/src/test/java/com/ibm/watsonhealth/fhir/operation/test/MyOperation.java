@@ -11,6 +11,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.code;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.integer;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.OperationDefinitionParameter;
@@ -21,7 +22,6 @@ import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 public class MyOperation extends AbstractOperation {

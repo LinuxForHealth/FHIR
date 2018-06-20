@@ -6,18 +6,18 @@
 
 package com.ibm.watsonhealth.fhir.test;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.ws.rs.core.Response.Status;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -215,7 +215,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireBeforeCreateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(Status.FORBIDDEN.getStatusCode(), e.getHttpStatus().getStatusCode());
+            assertEquals(IssueTypeList.FORBIDDEN, e.getIssues().get(0).getCode().getValue());
             throw e;
         }
     }
@@ -227,7 +227,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireAfterCreateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(Status.PAYMENT_REQUIRED.getStatusCode(), e.getHttpStatus().getStatusCode());
+            assertEquals(IssueTypeList.CODE_INVALID, e.getIssues().get(0).getCode().getValue());
             throw e;
         }
     }
@@ -239,7 +239,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireBeforeUpdateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(Status.CONFLICT.getStatusCode(), e.getHttpStatus().getStatusCode());
+            assertEquals(IssueTypeList.CONFLICT, e.getIssues().get(0).getCode().getValue());
             throw e;
         }
     }
@@ -251,7 +251,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireAfterUpdateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(Status.BAD_REQUEST.getStatusCode(), e.getHttpStatus().getStatusCode());
+            assertEquals(IssueTypeList.EXPIRED, e.getIssues().get(0).getCode().getValue());
             throw e;
         }
     }

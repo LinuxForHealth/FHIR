@@ -27,7 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.ws.rs.core.Response.Status;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -604,7 +603,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                     log.fine("Registered ResourceTypeCacheUpdater.");
                 }
                 catch(Throwable e) {
-                    throw new FHIRPersistenceException("Failure registering ResourceTypesCacheUpdater", Status.INTERNAL_SERVER_ERROR, e);
+                    throw new FHIRPersistenceException("Failure registering ResourceTypesCacheUpdater", e);
                 }
             }
             this.newResourceTypeIds.put(resourceType, resourceTypeId);

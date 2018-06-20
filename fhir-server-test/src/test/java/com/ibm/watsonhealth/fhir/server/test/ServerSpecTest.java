@@ -77,7 +77,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "A 'create' operation cannot be performed on a resource that contains an 'id' attribute.");
     }
 
     // Test: create an invalid patient
@@ -174,7 +174,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
                         .header("If-Match", ifMatchValue)
                         .put(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRRestException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Invalid ETag value specified in request");
     }
 
     @Test(groups = { "server-spec" }, dependsOnMethods={"testUpdatePatient"})
@@ -204,7 +204,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
                         .header("If-Match", ifMatchValue)
                         .put(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRRestException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Invalid ETag value specified in request");
     }
 
     @Test(groups = { "server-spec" }, dependsOnMethods={"testUpdatePatient"})
@@ -234,7 +234,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
                         .header("If-Match", ifMatchValue)
                         .put(entity, Response.class);
         assertResponse(response, Response.Status.CONFLICT.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRRestException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "does not match current latest version of resource");
     }
 
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
@@ -276,7 +276,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Entity<Observation> entity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource type 'Observation' does not match type specified in request URI: Patient");
     }
 
     // Test: include incorrect resource type in request body.
@@ -289,7 +289,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource type 'Patient' does not match type specified in request URI: Observation");
     }
 
     // Test: retrieve non-existent Patient.
@@ -298,7 +298,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient/123456789ABCDEF").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRPersistenceResourceNotFoundException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource 'Patient/123456789ABCDEF' not found.");
     }
 
     // Test: retrieve non-extent Observation.
@@ -307,7 +307,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Observation/123456789ABCDEF").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRPersistenceResourceNotFoundException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource 'Observation/123456789ABCDEF' not found.");
     }
 
     // Test: retrieve non-existent MedicationDdministration
@@ -318,7 +318,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         // Try to retrieve a bogus MedicationAdministration.
         Response response = target.path("MedicationAdministration/123456789ABCDEF").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRPersistenceResourceNotFoundException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource 'MedicationAdministration/123456789ABCDEF' not found.");
     }
 
     // Test: retrieve invalid resource type.
@@ -327,7 +327,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("BogusResourceType/1").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRVirtualResourceTypeException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
     }
 
     // Test: retrieve non-existent Patient.
@@ -336,7 +336,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient/123456789ABCDEF/_history/1").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRPersistenceResourceNotFoundException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource 'Patient/123456789ABCDEF' version 1 not found.");
     }
 
     // Test: retrieve non-existent Observation.
@@ -345,7 +345,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Observation/123456789ABCDEF/_history/1").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRPersistenceResourceNotFoundException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource 'Observation/123456789ABCDEF' version 1 not found.");
     }
 
     // Test: retrieve non-existent MedicationAdministration.
@@ -354,7 +354,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("MedicationAdministration/123456789ABCDEF/_history/1").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRPersistenceResourceNotFoundException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource 'MedicationAdministration/123456789ABCDEF' version 1 not found.");
     }
 
     // Test: retrieve invalid resource type.
@@ -363,7 +363,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("BogusResourceType/1/_history/1").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRVirtualResourceTypeException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
     }
 
     // Test: retrieve invalid version.
@@ -372,7 +372,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient/" + savedPatient.getId().getValue() + "/_history/-1").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRPersistenceResourceNotFoundException");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "version -1 not found");
     }
     
     @Test
@@ -399,7 +399,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Bogus/123456789ABCDEF/_history").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRVirtualResourceTypeException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
@@ -428,7 +428,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient").queryParam("notasearchparameter", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRSearchException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Search parameter 'notasearchparameter' for resource type 'Patient' was not found.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient", "testCreateObservation"})
@@ -447,7 +447,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Observation").queryParam("notasearchparameter", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRSearchException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Search parameter 'notasearchparameter' for resource type 'Observation' was not found.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreateObservation"})
@@ -455,7 +455,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("NotAResourceType").queryParam("notasearchparameter", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRVirtualResourceTypeException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
@@ -463,7 +463,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient").queryParam("family:xxx", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRSearchException:");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Undefined Modifier: xxx");
     }
 
     @Test(groups = { "server-spec" }, dependsOnMethods = { "testCreateObservation" })

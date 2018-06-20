@@ -6,16 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
-import javax.ws.rs.core.Response.Status;
+import java.util.Collection;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 
-public class FHIRPersistenceException extends FHIRException {
+public class FHIRPersistenceException extends FHIROperationException {
 	private static final long serialVersionUID = 1L;
 	
-	public FHIRPersistenceException() {
-	    super();
-	}
 	public FHIRPersistenceException(String message) {
 		super(message);
 	}
@@ -24,15 +22,15 @@ public class FHIRPersistenceException extends FHIRException {
 	    super(message, cause);
 	}
     
-    public FHIRPersistenceException(String message, Status httpStatus, Throwable cause) {
-        super(message, httpStatus, cause);
+    @Override
+    public FHIRPersistenceException withIssue(OperationOutcomeIssue... issues) {
+        super.withIssue(issues);
+        return this;
     }
     
-    
-    public FHIRPersistenceException(String message, Status httpStatus) {
-        super(message, httpStatus);
-    }
-    public FHIRPersistenceException(Throwable cause) {
-        super(cause);
+    @Override
+    public FHIRPersistenceException withIssue(Collection<OperationOutcomeIssue> issues) {
+        super.withIssue(issues);
+        return this;
     }
 }

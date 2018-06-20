@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.operation.test;
 
 import java.io.InputStream;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -15,7 +16,6 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 /**

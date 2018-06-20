@@ -121,7 +121,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException: Bundle parameter is missing or empty");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+            "Bundle parameter is missing or empty");
     }
 
     @Test(groups = { "batch" })
@@ -135,7 +136,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException: Bundle.type is missing");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+            "Bundle.type is missing");
     }
 
     @Test(groups = { "batch" })
@@ -149,7 +151,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException: Bundle.type must be either");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+            "Bundle.type must be either 'batch' or 'transaction'");
     }
 
     @Test(groups = { "batch" })
@@ -320,7 +323,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "FHIRException: A 'Bundle' resource type is required but a 'Patient' resource type was sent.");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+            "A 'Bundle' resource type is required but a 'Patient' resource type was sent.");
     }
 
     @Test(groups = { "batch" })
@@ -1845,7 +1849,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "error occurred while performing the search for a conditional create operation");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), 
+            "Search parameter 'BADPARAM' for resource type 'Patient' was not found.");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
@@ -1892,7 +1897,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.transaction(bundle);
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.PRECONDITION_FAILED.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
@@ -1919,7 +1924,8 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "error occurred while performing the search for a conditional create operation");
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), 
+                "Search parameter 'BADPARAM' for resource type 'Patient' was not found.");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -1951,7 +1957,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "error occurred while performing the search for a conditional update operation");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), 
+            "Search parameter 'NOTASEARCHPARAM' for resource type 'Patient' was not found.");
 
         // Next, verify that we have two versions of the Patient resource.
         response = client.history("Patient", patientId, null);
@@ -2013,7 +2020,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(0), Status.NOT_FOUND.getStatusCode(), "Search criteria for a conditional delete operation yielded no matches");
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "error occurred while performing the search for a conditional delete operation");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), 
+            "Search parameter 'NOTASEARCHPARAM' for resource type 'Patient' was not found");
 
         // Next, verify that we can't read the Patient resource.
         response = client.read("Patient", patientId);

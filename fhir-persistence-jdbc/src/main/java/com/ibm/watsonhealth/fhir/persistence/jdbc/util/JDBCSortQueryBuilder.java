@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.Response;
-
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -100,7 +98,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
 		List<SortParameter> sortParms = searchContext.getSortParameters();
 		
 		if (!searchContext.hasSortParameters()) {
-			throw new FHIRPersistenceException("No sort parameters found in passed searchContext", Response.Status.INTERNAL_SERVER_ERROR);
+			throw new FHIRPersistenceException("No sort parameters found in passed searchContext");
 		}
 		
 		// First get the query SQL generated without sort related clauses.

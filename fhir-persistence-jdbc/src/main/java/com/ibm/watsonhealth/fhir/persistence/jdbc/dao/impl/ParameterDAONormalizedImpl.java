@@ -21,8 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.ws.rs.core.Response.Status;
 
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
@@ -439,7 +439,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                     log.fine("Registered CodeSystemsCacheUpdater.");
                 }
                 catch(Throwable e) {
-                    throw new FHIRPersistenceException("Failure registering CodeSystemsCacheUpdater", Status.INTERNAL_SERVER_ERROR, e);
+                    throw new FHIRPersistenceException("Failure registering CodeSystemsCacheUpdater", e);
                 }
             }
             this.newCodeSystemIds.put(codeSystemName, codeSystemId);
@@ -470,7 +470,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                     log.fine("Registered ParameterNamesCacheUpdater.");
                 }
                 catch(Throwable e) {
-                    throw new FHIRPersistenceException("Failure registering ParameterNamesCacheUpdater", Status.INTERNAL_SERVER_ERROR, e);
+                    throw new FHIRPersistenceException("Failure registering ParameterNamesCacheUpdater", e);
                 }
             }
             this.newParameterNameIds.put(parameterName, parameterId);
@@ -578,9 +578,9 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             }
             if (!sqlParmList.isEmpty()) {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS) {
-                    throw new FHIRPersistenceDataAccessException("Resource contains too many search parameter values of type " + 
-                            "String. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS + "; " + "Actual: " + sqlParmList.size(),
-                            Status.REQUEST_ENTITY_TOO_LARGE);
+                    String msg = "Resource contains too many search parameter values of type " + 
+                            "String. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS + "; " + "Actual: " + sqlParmList.size();
+                    throw buildExceptionWithIssue(msg, IssueTypeList.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -621,9 +621,9 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             }
             if (!sqlParmList.isEmpty()) {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    throw new FHIRPersistenceDataAccessException("Resource contains too many search parameter values of type " + 
-                            "Number. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size(),
-                            Status.REQUEST_ENTITY_TOO_LARGE);
+                    String msg = "Resource contains too many search parameter values of type " + 
+                            "Number. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
+                    throw buildExceptionWithIssue(msg, IssueTypeList.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -664,9 +664,9 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             }
             if (!sqlParmList.isEmpty()) {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    throw new FHIRPersistenceDataAccessException("Resource contains too many search parameter values of type " + 
-                            "Date. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size(),
-                            Status.REQUEST_ENTITY_TOO_LARGE);
+                    String msg = "Resource contains too many search parameter values of type " + 
+                            "Date. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
+                    throw buildExceptionWithIssue(msg, IssueTypeList.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -708,9 +708,9 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             }
             if (!sqlParmList.isEmpty()) {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    throw new FHIRPersistenceDataAccessException("Resource contains too many search parameter values of type " + 
-                            "LatLong. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size(),
-                            Status.REQUEST_ENTITY_TOO_LARGE);
+                    String msg = "Resource contains too many search parameter values of type " + 
+                            "LatLong. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
+                    throw buildExceptionWithIssue(msg, IssueTypeList.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -751,9 +751,9 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             }
             if (!sqlParmList.isEmpty()) {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    throw new FHIRPersistenceDataAccessException("Resource contains too many search parameter values of type " + 
-                            "Token. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size(),
-                            Status.REQUEST_ENTITY_TOO_LARGE);
+                    String msg = "Resource contains too many search parameter values of type " + 
+                            "Token. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
+                    throw buildExceptionWithIssue(msg, IssueTypeList.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -796,9 +796,9 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             }
             if (!sqlParmList.isEmpty()) {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    throw new FHIRPersistenceDataAccessException("Resource contains too many search parameter values of type " + 
-                            "Quantity. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size(),
-                            Status.REQUEST_ENTITY_TOO_LARGE);
+                    String msg = "Resource contains too many search parameter values of type " + 
+                            "Quantity. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
+                    throw buildExceptionWithIssue(msg, IssueTypeList.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);

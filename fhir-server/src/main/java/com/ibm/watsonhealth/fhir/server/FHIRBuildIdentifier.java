@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 
 /**
  * This class is used to manage access to build-related information stored
@@ -47,8 +47,9 @@ public class FHIRBuildIdentifier {
                 log.info("Build properties file successfully loaded: " + BUILD_PROPS_FILENAME);
                 log.info("Build properties file contains: \n" + buildProperties.toString());
             } catch (Throwable e) {
-                FHIRException fe = new FHIRException(e);
-                log.log(Level.SEVERE, "Attempt to load build properties from input stream failed.", fe);
+                String msg = "Attempt to load build properties from input stream failed.";
+                FHIROperationException fe = new FHIROperationException(msg, e);
+                log.log(Level.SEVERE, msg, fe);
             }
         }
     }

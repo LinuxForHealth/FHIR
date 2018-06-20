@@ -10,17 +10,19 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.Code;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.OperationDefinitionParameter;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.OperationParameterUseList;
 import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 public abstract class AbstractOperation implements FHIROperation {
@@ -112,7 +114,8 @@ public abstract class AbstractOperation implements FHIROperation {
                 }
             }
         }
-        throw new FHIROperationException("No parameter value found for parameter: '" + parameter.getName().getValue() + "'");
+        String msg = "No parameter value found for parameter: '" + parameter.getName().getValue() + "'";
+        throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
     }
     
     protected List<String> getResourceTypeNames() {
@@ -133,23 +136,27 @@ public abstract class AbstractOperation implements FHIROperation {
         switch (operationContext.getType()) {
         case INSTANCE:
             if (definition.getInstance().isValue() == false) {
-                throw new FHIROperationException("Operation context INSTANCE is not allowed for operation: '" + getName() + "'");
+                String msg = "Operation context INSTANCE is not allowed for operation: '" + getName() + "'";
+                throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
             }
             break;
         case RESOURCE_TYPE:
             if (definition.getType().isEmpty()) {
-                throw new FHIROperationException("Operation context RESOURCE_TYPE is not allowed for operation: '" + getName() + "'");
+                String msg = "Operation context RESOURCE_TYPE is not allowed for operation: '" + getName() + "'";
+                throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
             } else {
                 String resourceTypeName = resourceType.getSimpleName();
                 List<String> resourceTypeNames = getResourceTypeNames();
                 if (!resourceTypeNames.contains(resourceTypeName) && !resourceTypeNames.contains("Resource")) {
-                    throw new FHIROperationException("Resource type: '" + resourceTypeName + "' is not allowed for operation: '" + getName() + "'");
+                    String msg = "Resource type: '" + resourceTypeName + "' is not allowed for operation: '" + getName() + "'";
+                    throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
                 }
             }
             break;
         case SYSTEM:
             if (definition.getSystem().isValue() == false) {
-                throw new FHIROperationException("Operation context SYSTEM is not allowed for operation: '" + getName() + "'");
+                String msg = "Operation context SYSTEM is not allowed for operation: '" + getName() + "'";
+                throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
             }
             break;
         default:
@@ -174,12 +181,14 @@ public abstract class AbstractOperation implements FHIROperation {
             String max = parameterDefinition.getMax().getValue();
             int count = countParameters(parameters, name);
             if (count < min) {
-                throw new FHIROperationException("Missing required " + direction + " parameter: '" + name + "'");
+                String msg = "Missing required " + direction + " parameter: '" + name + "'";
+                throw buildExceptionWithIssue(msg, IssueTypeList.REQUIRED);
             }
             if (!"*".equals(max)) {
                 int maxValue = Integer.parseInt(max);                
                 if (count > maxValue) {
-                    throw new FHIROperationException("Number of occurrences of " + direction + " parameter: '" + name + "' greater than allowed maximum: " + maxValue);
+                    String msg = "Number of occurrences of " + direction + " parameter: '" + name + "' greater than allowed maximum: " + maxValue;
+                    throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
                 }
             }
             if (count > 0) {
@@ -192,10 +201,13 @@ public abstract class AbstractOperation implements FHIROperation {
                         Class<?> parameterValueType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterValueTypeName);
                         Class<?> parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterDefinitionTypeName);
                         if (!parameterDefinitionType.isAssignableFrom(parameterValueType)) {
-                            throw new FHIROperationException("Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'");
+                            String msg = "Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'";
+                            throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
                         }
+                    } catch (FHIROperationException e) {
+                        throw e;
                     } catch (Exception e) {
-                        throw new FHIROperationException("An error occurred during type checking", e);
+                        throw new FHIROperationException("An unexpected error occurred during type checking", e);
                     }
                     /*
                     if (!parameterValueTypeName.equalsIgnoreCase(parameterDefinition.getType().getValue())) {
@@ -216,7 +228,8 @@ public abstract class AbstractOperation implements FHIROperation {
             if (opDefParameter == null) {
                 // Avoid throwing the exception for an OUT parameter called "return".
                 if (!(OperationParameterUseList.OUT.equals(use) && "return".equals(name))) {
-                    throw new FHIROperationException("Unexpected " + direction + " parameter found: " + name);
+                    String msg = "Unexpected " + direction + " parameter found: " + name;
+                    throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
                 }
             }
         }
@@ -235,5 +248,14 @@ public abstract class AbstractOperation implements FHIROperation {
             }
         }
         return null;
+    }
+    
+    protected FHIROperationException buildExceptionWithIssue(String msg, IssueTypeList issueType) throws FHIROperationException {
+        return buildExceptionWithIssue(msg, issueType, null);
+    }
+    
+    protected FHIROperationException buildExceptionWithIssue(String msg, IssueTypeList issueType, Throwable cause) throws FHIROperationException {
+        OperationOutcomeIssue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+        return new FHIROperationException(msg, cause).withIssue(ooi);
     }
 }

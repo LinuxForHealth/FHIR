@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.replication.api;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 
 /**
  * This interface defines a Marshaller for replication API.
@@ -19,5 +19,5 @@ public interface Marshaller<T> {
      * Returns string version of obj.
      * @throws FHIRPersistenceException
      */
-	String marshall(T obj) throws FHIRException;;
+	String marshall(T obj) throws FHIROperationException;;
 }

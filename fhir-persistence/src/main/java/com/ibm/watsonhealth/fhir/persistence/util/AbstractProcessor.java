@@ -41,7 +41,11 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 		}
 		catch(NoSuchMethodException | IllegalAccessException e) 
 		{
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
+		    if (parameter != null) {
+		        sb.append(" " + parameter.getName());
+		    }
+			throw new FHIRPersistenceProcessorException(sb.toString(), e);
 		}
 		catch(InvocationTargetException e) {
 			Throwable targetException = e.getCause();
@@ -50,7 +54,11 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
 				throw spe;
 			}
 			else {
-				throw new FHIRPersistenceProcessorException(targetException);
+			    StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
+	            if (parameter != null) {
+	                sb.append(" " + parameter.getName());
+	            }
+	            throw new FHIRPersistenceProcessorException(sb.toString(), e);
 			}
 		}
 	}

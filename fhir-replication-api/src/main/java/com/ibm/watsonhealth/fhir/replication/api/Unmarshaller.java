@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.replication.api;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 
 @FunctionalInterface
 public interface Unmarshaller<T> {
@@ -16,5 +16,5 @@ public interface Unmarshaller<T> {
      * Unmarshalls json string to object T.
      * @throws FHIRPersistenceException
      */
-	T unmarshall(String json) throws FHIRException;
+	T unmarshall(String json) throws FHIROperationException;
 }

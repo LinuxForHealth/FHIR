@@ -19,10 +19,10 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationNotFoundException;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.validation.exception.FHIRValidationException;

@@ -447,11 +447,6 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     protected void assertExceptionOperationOutcome(OperationOutcome oo, String msgPart) {
         assertNotNull(oo);
 
-        // Verify the id attribute.
-        assertNotNull(oo.getId());
-        assertNotNull(oo.getId().getValue());
-        assertEquals("exception", oo.getId().getValue());
-
         // Make sure the OperationOutcomeIssue has a message containing 'msgPart'.
         assertNotNull(oo.getIssue());
         assertEquals(1, oo.getIssue().size());
@@ -459,11 +454,9 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         assertNotNull(ooi);
         assertNotNull(ooi.getCode());
         assertNotNull(ooi.getCode().getValue());
-        assertEquals(IssueTypeList.EXCEPTION, ooi.getCode().getValue());
 
         assertNotNull(ooi.getSeverity());
         assertNotNull(ooi.getSeverity().getValue());
-        assertEquals(IssueSeverityList.FATAL, ooi.getSeverity().getValue());
 
         assertNotNull(ooi.getDiagnostics());
         String msg = ooi.getDiagnostics().getValue();
@@ -473,11 +466,6 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     protected void assertValidationOperationOutcome(OperationOutcome oo, String msgPart) {
         assertNotNull(oo);
-
-        // Verify the id attribute.
-        assertNotNull(oo.getId());
-        assertNotNull(oo.getId().getValue());
-        assertEquals("validationfail", oo.getId().getValue());
 
         // Make sure that we can find the 'msgPart' in one of the OperationOutcomeIssue objects.
         boolean foundIt = false;

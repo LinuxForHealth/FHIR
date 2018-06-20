@@ -6,6 +6,10 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
+import java.util.Collection;
+
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+
 /**
  * Thrown when a failure is found processing search parameters.
  * @author markd
@@ -15,10 +19,6 @@ public class FHIRPersistenceProcessorException extends FHIRPersistenceException 
 
 	private static final long serialVersionUID = 1L;
 
-	public FHIRPersistenceProcessorException() {
-		super();
-	}
-
 	public FHIRPersistenceProcessorException(String message) {
 		super(message);
 	}
@@ -27,8 +27,15 @@ public class FHIRPersistenceProcessorException extends FHIRPersistenceException 
 		super(message, cause);
 	}
 
-	public FHIRPersistenceProcessorException(Throwable cause) {
-		super(cause);
-	}
-
+	@Override
+    public FHIRPersistenceException withIssue(OperationOutcomeIssue... issues) {
+        super.withIssue(issues);
+        return this;
+    }
+    
+    @Override
+    public FHIRPersistenceException withIssue(Collection<OperationOutcomeIssue> issues) {
+        super.withIssue(issues);
+        return this;
+    }
 }

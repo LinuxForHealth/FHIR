@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.Response;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -553,7 +552,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
 		currentParm = queryParm;
 		while(currentParm != null) {
 			if (currentParm.getValues() == null || currentParm.getValues().isEmpty()) {
-				throw new FHIRPersistenceException("No Paramter values found when processing inclusion criteria.", Response.Status.INTERNAL_SERVER_ERROR);
+				throw new FHIRPersistenceException("No Paramter values found when processing inclusion criteria.");
 			}
 			// Handle the special case of chained inclusion criteria.
 			if (currentParm.getName().contains(".")) {

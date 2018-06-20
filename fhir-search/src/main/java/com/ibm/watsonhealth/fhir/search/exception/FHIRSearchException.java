@@ -6,14 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.search.exception;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import java.util.Collection;
 
-public class FHIRSearchException extends FHIRException {
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+
+public class FHIRSearchException extends FHIROperationException {
     private static final long serialVersionUID = 1L;
     
-    public FHIRSearchException() {
-        super();
-    }
     public FHIRSearchException(String message) {
         super(message);
     }
@@ -22,7 +22,15 @@ public class FHIRSearchException extends FHIRException {
         super(message, cause);
     }
     
-    public FHIRSearchException(Throwable cause) {
-        super(cause);
+    @Override
+    public FHIRSearchException withIssue(OperationOutcomeIssue... issues) {
+        super.withIssue(issues);
+        return this;
+    }
+    
+    @Override
+    public FHIRSearchException withIssue(Collection<OperationOutcomeIssue> issues) {
+        super.withIssue(issues);
+        return this;
     }
 }

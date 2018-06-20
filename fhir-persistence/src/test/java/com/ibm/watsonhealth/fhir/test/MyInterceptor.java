@@ -8,8 +8,11 @@ package com.ibm.watsonhealth.fhir.test;
 
 import javax.ws.rs.core.Response.Status;
 
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
@@ -39,13 +42,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null) {
             beforeCreateCount++;
         }
-        possiblyThrowException(event.getFhirResource(), Status.FORBIDDEN);
+        possiblyThrowException(event.getFhirResource(), IssueTypeList.FORBIDDEN);
     }
 
     @Override
     public void afterCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterCreateCount++;
-        possiblyThrowException(event.getFhirResource(), Status.PAYMENT_REQUIRED);
+        possiblyThrowException(event.getFhirResource(), IssueTypeList.CODE_INVALID);
     }
 
     @Override
@@ -53,13 +56,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
             beforeUpdateCount++;
         }
-        possiblyThrowException(event.getFhirResource(), Status.CONFLICT);
+        possiblyThrowException(event.getFhirResource(), IssueTypeList.CONFLICT);
     }
 
     @Override
     public void afterUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterUpdateCount++;
-        possiblyThrowException(event.getFhirResource(), Status.BAD_REQUEST);
+        possiblyThrowException(event.getFhirResource(), IssueTypeList.EXPIRED);
     }
     
     @Override
@@ -166,11 +169,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         return afterSearchCount;
     }
     
-    private void possiblyThrowException(Resource resource, Status status) throws FHIRPersistenceInterceptorException {
+    private void possiblyThrowException(Resource resource, IssueTypeList issueType) throws FHIRPersistenceInterceptorException {
         if (resource instanceof Patient) {
             Patient patient = (Patient) resource;
             if (patient.getName().get(0).getFamily().get(0).getValue().equals("Exception")) {
-                throw new FHIRPersistenceInterceptorException("Detected invalid patient", status);
+                String msg = "Detected invalid patient";
+                OperationOutcomeIssue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+                throw new FHIRPersistenceInterceptorException(msg).withIssue(ooi);
             }
         }
         
@@ -178,7 +183,7 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
     
     private void possiblyThrowException(String resourceType, Status status) throws FHIRPersistenceInterceptorException {
         if ("Exception".equals(resourceType)) {
-            throw new FHIRPersistenceInterceptorException("Detected invalid resource type", status);
+            throw new FHIRPersistenceInterceptorException("Detected invalid resource type");
         }
         
     }

@@ -79,7 +79,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+		    if (parameter != null) {
+		        msg.append(" " + parameter.getName());
+		    }
+		    msg.append(" with value " + value);
+			throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -98,7 +103,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -182,7 +191,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -222,7 +235,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -240,7 +257,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -281,7 +302,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			}
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -314,7 +339,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -333,7 +362,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -352,7 +385,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -370,7 +407,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -423,7 +464,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			return parameters;
 			
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -441,7 +486,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -464,7 +513,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			}
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -484,7 +537,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -502,7 +559,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -532,7 +593,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -550,7 +615,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -574,7 +643,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -599,7 +672,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -617,7 +694,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -649,7 +730,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			}
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -676,7 +761,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -701,7 +790,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			}
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}
@@ -748,7 +841,11 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 			parameters.add(p);
 			return parameters;
 		} catch (Throwable e) {
-			throw new FHIRPersistenceProcessorException(e);
+		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                msg.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(msg.toString(), e);
 		} finally {
 			log.exiting(className, methodName);
 		}

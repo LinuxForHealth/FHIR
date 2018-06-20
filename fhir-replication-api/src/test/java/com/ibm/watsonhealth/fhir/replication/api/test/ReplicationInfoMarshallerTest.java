@@ -12,7 +12,7 @@ import java.util.Date;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.replication.api.Marshaller;
 import com.ibm.watsonhealth.fhir.replication.api.impl.ReplicationInfoMarshaller;
 import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
@@ -20,13 +20,13 @@ import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
 public class ReplicationInfoMarshallerTest {
 	private Marshaller<ReplicationInfo> marshaller = new ReplicationInfoMarshaller();
 	
-	@Test(expectedExceptions={ FHIRException.class } )
-	public void marshall_verifyNullReplicationInfo() throws FHIRException {
+	@Test(expectedExceptions={ FHIROperationException.class } )
+	public void marshall_verifyNullReplicationInfo() throws FHIROperationException {
 		marshaller.marshall(null);
 	}
 	
 	@Test
-	public void marshall_verifyMarshalling() throws FHIRException {
+	public void marshall_verifyMarshalling() throws FHIROperationException {
 		final ReplicationInfo replicationInfo = buildReplicationInfo();
 		
 		final String replicationInfoJson = marshaller.marshall(replicationInfo);

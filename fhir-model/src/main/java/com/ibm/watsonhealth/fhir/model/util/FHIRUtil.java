@@ -56,6 +56,7 @@ import org.w3c.dom.Node;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.exception.FHIRInvalidResourceTypeException;
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.Address;
 import com.ibm.watsonhealth.fhir.model.AddressUse;
 import com.ibm.watsonhealth.fhir.model.AddressUseList;
@@ -972,24 +973,59 @@ public class FHIRUtil {
         method.invoke(container, resource);
     }
     
+    public static OperationOutcomeIssue buildOperationOutcomeIssue(String msg, IssueTypeList code) {
+        return buildOperationOutcomeIssue(IssueSeverityList.FATAL, code, msg, null);
+    }
+    
+    public static OperationOutcomeIssue buildOperationOutcomeIssue(IssueSeverityList severity, IssueTypeList code, String diagnostics, String location) {
+        OperationOutcomeIssue issue = objectFactory.createOperationOutcomeIssue()
+                .withSeverity(objectFactory.createIssueSeverity().withValue(severity))
+                .withCode(objectFactory.createIssueType().withValue(code))
+                .withDiagnostics(string(diagnostics))
+                .withLocation(string(location));
+        return issue;
+    }
 
     /**
      * Build an OperationOutcome that contains the specified list of operation outcome issues.
      */
     public static OperationOutcome buildOperationOutcome(List<OperationOutcomeIssue> issues) {
         // Build an OperationOutcome and stuff the issues into it.
-        OperationOutcome oo = objectFactory.createOperationOutcome()
-                .withId(objectFactory.createId().withValue("validationfail"))
-                .withText(objectFactory.createNarrative()
-                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
-                .withIssue(issues);
+        OperationOutcome oo = objectFactory.createOperationOutcome().withIssue(issues);
         return oo;
+    }
+    
+    /**
+     * Build an OperationOutcome with an id and a list of issues from exception e.
+     */
+    public static OperationOutcome buildOperationOutcome(FHIROperationException e, boolean includeCausedByClauses) {
+        if (e.getIssues() != null && e.getIssues().size() > 0) {
+            Id id = id(e.getUniqueId());
+            return buildOperationOutcome(e.getIssues()).withId(id);
+        } else {
+            return buildOperationOutcome((FHIRException) e, includeCausedByClauses);
+        }
+    }
+    
+    /**
+     * Build an OperationOutcome with an id from exception e and a single issue of type 'exception' and severity 'fatal'.
+     */
+    public static OperationOutcome buildOperationOutcome(FHIRException e, boolean includeCausedByClauses) {
+        Id id = id(e.getUniqueId());
+        return buildOperationOutcome((Exception) e, includeCausedByClauses).withId(id);
+    }
+    
+    /**
+     * Build an OperationOutcome for the specified exception with a single issue of type 'exception' and severity 'fatal'.
+     */
+    public static OperationOutcome buildOperationOutcome(Exception exception, boolean includeCausedByClauses) {
+        return buildOperationOutcome(exception, null, null, includeCausedByClauses);
     }
     
     /**
      * Build an OperationOutcome for the specified exception.
      */
-    public static OperationOutcome buildOperationOutcome(Exception exception, boolean includeCausedByClauses) {
+    public static OperationOutcome buildOperationOutcome(Exception exception, IssueTypeList issueType, IssueSeverityList severity, boolean includeCausedByClauses) {
         // First, build a set of exception messages to be included in the OperationOutcome.
         // We'll include the exception message from each exception in the hierarchy, 
         // following the "causedBy" exceptions.
@@ -1007,18 +1043,30 @@ public class FHIRUtil {
             }
         }
         
+        return buildOperationOutcome(msgs.toString(), issueType, severity);
+    }
+    
+    /**
+     * Build an OperationOutcome for the specified exception.
+     * @param issueType defaults to IssueTypeList.EXCEPTION
+     * @param severity defaults to IssueSeverityList.FATAL
+     */
+    public static OperationOutcome buildOperationOutcome(String message, IssueTypeList issueType, IssueSeverityList severity) {
+        if (issueType == null) {
+            issueType = IssueTypeList.EXCEPTION;
+        }
+        if (severity == null) {
+            severity = IssueSeverityList.FATAL;
+        }
+        
         // Build an OperationOutcomeIssue that contains the exception messages.
         OperationOutcomeIssue ooi = objectFactory.createOperationOutcomeIssue()
-                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.EXCEPTION))
-                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.FATAL))
-                .withDiagnostics(objectFactory.createString().withValue(msgs.toString()));
+                .withCode(objectFactory.createIssueType().withValue(issueType))
+                .withSeverity(objectFactory.createIssueSeverity().withValue(severity))
+                .withDiagnostics(objectFactory.createString().withValue(message));
         
         // Next, build the OperationOutcome.
-        OperationOutcome oo = objectFactory.createOperationOutcome()
-                .withId(objectFactory.createId().withValue("exception"))
-                .withText(objectFactory.createNarrative()
-                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
-                .withIssue(ooi);
+        OperationOutcome oo = objectFactory.createOperationOutcome().withIssue(ooi);
         return oo;
     }
     
@@ -1075,4 +1123,5 @@ public class FHIRUtil {
 		    	    
 	    return null;
 	}
+
 }
