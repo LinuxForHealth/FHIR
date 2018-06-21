@@ -38,6 +38,10 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 public abstract class AbstractQueryObservationTest extends AbstractPersistenceTest {
 	
 	private static Patient savedPatient;
+	private static Observation savedObsWithDevice;
+	private static Observation savedObsWithDevice1;
+	private static Observation savedObservation2;
+	private static Observation savedObsWithPatient1;
 	
     /**
      * Tests the FHIRPersistenceCloudantImpl create API for a Patient.
@@ -96,6 +100,7 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
         assertNotNull(observation.getMeta());
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         assertNotNull(observation.getMeta().getVersionId().getValue());
+        savedObservation2 = observation;
     }
     
     /**
@@ -186,6 +191,7 @@ CODE_REMOVED
         assertNotNull(observation.getMeta());
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         assertNotNull(observation.getMeta().getVersionId().getValue());
+        savedObsWithDevice = observation;
     }
     
     /**
@@ -204,6 +210,7 @@ CODE_REMOVED
         assertNotNull(observation.getMeta());
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         assertNotNull(observation.getMeta().getVersionId().getValue());
+        savedObsWithDevice1 = observation;
     }
     
     /**
@@ -222,6 +229,7 @@ CODE_REMOVED
         assertNotNull(observation.getMeta());
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         assertNotNull(observation.getMeta().getVersionId().getValue());
+        savedObsWithPatient1 = observation;
     }
     
     /**
@@ -1168,7 +1176,7 @@ CODE_REMOVED
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
 	public void testMutiInc_ObservationQuery_noParams_DeviceCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, null, null);
+		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, null, null, Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -1179,8 +1187,8 @@ CODE_REMOVED
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("glasgow");
-		expectedIdList.add("glasgow_1");
+		expectedIdList.add(savedObsWithDevice.getId().getValue());
+		expectedIdList.add(savedObsWithDevice1.getId().getValue());
 				
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -1192,7 +1200,7 @@ CODE_REMOVED
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_with_device", "testCreateObservation_with_device_1" })
 	public void testMutiInc_ObservationQuery_source_DeviceCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "date", "2014-12-11T04:44:16Z");
+		List<Resource> resources = runQueryTest("Device", "devID", Observation.class, persistence, "date", "2014-12-11T04:44:16Z", Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -1203,8 +1211,8 @@ CODE_REMOVED
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("glasgow");
-		expectedIdList.add("glasgow_1");
+		expectedIdList.add(savedObsWithDevice.getId().getValue());
+		expectedIdList.add(savedObsWithDevice1.getId().getValue());
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -1216,7 +1224,7 @@ CODE_REMOVED
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
 	public void testMutiInc_QRQuery_noParams_PatientCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, null, null);
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, null, null, Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -1227,8 +1235,8 @@ CODE_REMOVED
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("example1");
-		expectedIdList.add("example");
+		expectedIdList.add(savedObservation2.getId().getValue());
+		expectedIdList.add(savedObsWithPatient1.getId().getValue());
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));
@@ -1240,7 +1248,7 @@ CODE_REMOVED
 	 */
 	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation2", "testCreateObservation_with_patient_1" })
 	public void testMutiInc_QRQuery_authored_PatientCompmt() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "status", "final");
+		List<Resource> resources = runQueryTest("Patient", "example", Observation.class, persistence, "status", "final", Integer.MAX_VALUE);
 		assertNotNull(resources);
 		assertTrue(resources.size() != 0);
 		//Get all the ids returned from search results
@@ -1251,8 +1259,8 @@ CODE_REMOVED
 		}
 		//Create a list of expected ids
 		List<String> expectedIdList = new ArrayList<String>();
-		expectedIdList.add("example1");
-		expectedIdList.add("example");
+		expectedIdList.add(savedObservation2.getId().getValue());
+		expectedIdList.add(savedObsWithPatient1.getId().getValue());
 		
 		//Ensure that all the expected ids were returned correctly in search results
 		assertTrue(resultSetIds.containsAll(expectedIdList));

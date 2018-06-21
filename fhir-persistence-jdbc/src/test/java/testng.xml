@@ -41,6 +41,7 @@
 	  		</run>
 	  	</groups>
        <classes>   
+       	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
        	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
        	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
