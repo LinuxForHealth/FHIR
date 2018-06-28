@@ -448,6 +448,35 @@ public class SearchTest extends FHIRServerTestBase {
         assertEquals("Patient/" + patientId, observation.getSubject().getReference().getValue());
     }
     
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchPatientWithObservationRevIncluded() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient")
+        		.queryParam("_id", patientId)
+        		.queryParam("_revinclude", "Observation:patient")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+        Observation observation = null;
+        Patient patient = null;
+        for (BundleEntry entry : bundle.getEntry()) {
+        	if (entry.getResource().getObservation() != null) {
+        		observation = entry.getResource().getObservation();
+        	}
+        	else if (entry.getResource().getPatient() != null) {
+        		patient = entry.getResource().getPatient();
+        	}
+        }
+        assertNotNull(observation);
+        assertNotNull(patient);
+        assertEquals(patientId, patient.getId().getValue());
+        assertEquals("Patient/" + patientId, observation.getSubject().getReference().getValue());
+    }
+    
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation", "retrieveConfig" })
     public void testSearchObservationWithPatientCompartment() {
         assertNotNull(compartmentSearchSupported);

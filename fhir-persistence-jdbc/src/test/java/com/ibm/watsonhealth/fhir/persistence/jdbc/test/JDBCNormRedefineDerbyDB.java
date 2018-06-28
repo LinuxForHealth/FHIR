@@ -62,7 +62,7 @@ public class JDBCNormRedefineDerbyDB extends FHIRModelTestBase {
 	    }
 	}
 
-	@Test
+	@Test(groups = { "jdbc-normalized" })
 	public void bootstrapDatabase() throws Exception {
 		DerbyInitializer derbyInit;
 		String dbDriverName = this.testProps.getProperty("dbDriverName");
