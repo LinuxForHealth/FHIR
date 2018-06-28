@@ -8394,7 +8394,8 @@
         <base value="DocumentReference"/>
         <type value="token"/>
         <description value="Master Version Specific Identifier"/>
-        <xpath value="f:DocumentReference/f:masterIdentifier"/>
+        <!-- LOCALMOD: added f:identifier to the xpath to make it FHIR spec compliant.  -->
+        <xpath value="f:DocumentReference/f:masterIdentifier | f:DocumentReference/f:identifier"/>
         <xpathUsage value="normal"/>
       </SearchParameter>
     </resource>
