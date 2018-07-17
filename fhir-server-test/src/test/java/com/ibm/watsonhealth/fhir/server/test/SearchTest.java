@@ -8,8 +8,12 @@ package com.ibm.watsonhealth.fhir.server.test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
@@ -24,6 +28,7 @@ import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleEntry;
+import com.ibm.watsonhealth.fhir.model.Coding;
 import com.ibm.watsonhealth.fhir.model.Identifier;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
@@ -356,6 +361,51 @@ public class SearchTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() >= 1);
     }
     
+    @SuppressWarnings("rawtypes")
+	@Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservationWithRange" })
+    public void test_SearchObservationObservationWithRange_filter_elements() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("value-range", "5.0|http://loinc.org|v15074-8");
+        parameters.searchParam("_elements", "status","category");
+        FHIRRequestHeader header = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
+        FHIRResponse response = client._search("Observation", parameters, header);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        
+        Coding subsettedTag = FHIRUtil.coding("http://hl7.org/fhir/v3/ObservationValue", "SUBSETTED", "subsetted");
+        assertTrue(FHIRUtil.containsTag(bundle, subsettedTag)); 
+        
+        
+        assertTrue(bundle.getEntry().size() >= 1);
+        Observation retrievedObservation = bundle.getEntry().get(0).getResource().getObservation();
+        assertNotNull(retrievedObservation);
+        assertTrue(FHIRUtil.containsTag(retrievedObservation, subsettedTag));
+        
+        // Verify that only the requested elements were returned in the Observation.
+        Method[] observationMethods = Observation.class.getMethods();
+        for (int i = 0; i < observationMethods.length; i++) {
+        	Method obsMethod = observationMethods[i];
+        	if (obsMethod.getName().startsWith("get")) {
+        		Object elementValue = obsMethod.invoke(retrievedObservation);
+        		if (obsMethod.getName().equals("getId") ||
+        		    obsMethod.getName().equals("getMeta") ||
+        		    obsMethod.getName().equals("getStatus") ||
+        		    obsMethod.getName().equals("getCategory")) {
+        			assertNotNull(elementValue);
+        		}
+        		else if (! obsMethod.getName().equals("getClass")) {
+        			 if (elementValue instanceof List) {
+        				 assertEquals(0,((List)elementValue).size());
+	        		 }
+	        		 else {
+	        			 assertNull(elementValue);
+	        		 }
+	        	}
+        	}
+        }
+    }
+    
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient" })
     public void testCreateObservation() throws Exception {
         WebTarget target = getWebTarget();
@@ -444,6 +494,66 @@ public class SearchTest extends FHIRServerTestBase {
         }
         assertNotNull(observation);
         assertNotNull(patient);
+        assertEquals(patientId, patient.getId().getValue());
+        assertEquals("Patient/" + patientId, observation.getSubject().getReference().getValue());
+    }
+    
+    @SuppressWarnings("rawtypes")
+	@Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchObservationWithSubjectIncluded_filter_elements() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Observation")
+        		.queryParam("subject", "Patient/" + patientId)
+        		.queryParam("_include", "Observation:subject")
+        		.queryParam("_elements", "status", "category", "subject")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        Coding subsettedTag = FHIRUtil.coding("http://hl7.org/fhir/v3/ObservationValue", "SUBSETTED", "subsetted");
+        assertTrue(FHIRUtil.containsTag(bundle, subsettedTag)); 
+        assertTrue(bundle.getEntry().size() == 2);
+        
+        Observation observation = null;
+        Patient patient = null;
+        for (BundleEntry entry : bundle.getEntry()) {
+        	if (entry.getResource().getObservation() != null) {
+        		observation = entry.getResource().getObservation();
+        	}
+        	else if (entry.getResource().getPatient() != null) {
+        		patient = entry.getResource().getPatient();
+        	}
+        }
+        assertNotNull(observation);
+        assertTrue(FHIRUtil.containsTag(observation, subsettedTag));
+        // Verify that only the requested elements are present in the returned Observation.
+        Method[] observationMethods = Observation.class.getMethods();
+        for (int i = 0; i < observationMethods.length; i++) {
+        	Method obsMethod = observationMethods[i];
+        	if (obsMethod.getName().startsWith("get")) {
+        		Object elementValue = obsMethod.invoke(observation);
+        		if (obsMethod.getName().equals("getId") ||
+        		    obsMethod.getName().equals("getMeta") ||
+        		    obsMethod.getName().equals("getStatus") ||
+        		    obsMethod.getName().equals("getSubject") ||
+        		    obsMethod.getName().equals("getCategory")) {
+        			assertNotNull(elementValue);
+        		}
+        		else if (! obsMethod.getName().equals("getClass")) {
+        			 if (elementValue instanceof List) {
+        				 assertEquals(0,((List)elementValue).size());
+	        		 }
+	        		 else {
+	        			 assertNull(elementValue);
+	        		 }
+	        	}
+        	}
+        }
+        
+        assertNotNull(patient);
+        assertFalse(FHIRUtil.containsTag(patient, subsettedTag));
         assertEquals(patientId, patient.getId().getValue());
         assertEquals("Patient/" + patientId, observation.getSubject().getReference().getValue());
     }

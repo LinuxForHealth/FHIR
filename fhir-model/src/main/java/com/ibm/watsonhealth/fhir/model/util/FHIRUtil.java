@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import static java.util.Objects.nonNull;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -22,7 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -130,6 +132,7 @@ public class FHIRUtil {
     private static final String NL = System.getProperty("line.separator");
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 	private static final String P_MAX_ATTRIBUTE_SIZE = "com.ctc.wstx.maxAttributeSize";
+
     
 	public static enum Format {
 		XML,
@@ -286,6 +289,20 @@ public class FHIRUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public static <T extends Resource> T read(Class<T> resourceType, InputStream stream, ElementFilter filter) throws JAXBException {
+		 
+	    try {
+	        FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+	        parser.reset();
+	        Resource resource = parser.parse(stream, filter);
+            return (T) resource;
+	    } catch (FHIRException e) {
+	        throw new JAXBException(e);
+	    }
+		 
+	}
+	
+	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws JAXBException {
 		if (Format.XML.equals(format)) {
 		    try {
@@ -306,6 +323,23 @@ public class FHIRUtil {
                 throw new JAXBException(e);
             }
 		}
+	}
+	
+	/**
+	 * Reads the contents of the passed reader, applies the passed filter, and returns an instance of a Resource.
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends Resource> T read(Class<T> resourceType, Reader reader, ElementFilter filter) throws JAXBException {
+		try {
+            FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+            parser.reset();
+            Resource resource = parser.parse(reader, filter);
+            return (T) resource;
+        } catch (FHIRException e) {
+            throw new JAXBException(e);
+        }
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -1109,7 +1143,7 @@ public class FHIRUtil {
 	 * @return the value of the first such extension with a valueString or null if the resource has no such extensions
 	 */
 	public static String getExtensionStringValue(Resource resource, String extensionUrl) {
-		if (Objects.nonNull(resource) && Objects.nonNull(extensionUrl)) {
+		if (nonNull(resource) && nonNull(extensionUrl)) {
 		    if (DomainResource.class.isAssignableFrom(resource.getClass())) {
 		        DomainResource dr = (DomainResource) resource;
 		        for (Extension ext : dr.getExtension()) {
@@ -1123,5 +1157,39 @@ public class FHIRUtil {
 		    	    
 	    return null;
 	}
+	
+	/**
+	 * A convenience method for returning the set of field names defined in the FHIRJsonParser class
+	 * for the passed resource type name.
+	 * @param resourceTypeName - The simple name of a Resource subclass.
+	 * @return Set<String> - The set of field names for the resource, as known by the FHIRJsonParser.
+	 */
+	public static Set<java.lang.String> getFieldNames(String resourceTypeName) {
+    	return FHIRJsonParser.fieldNameMap.get(resourceTypeName);
+    }
+	
+	/**
+	 * Determines if the passed Resource contains the passed Meta tag.
+	 * @param resource The Resource to be examined.
+	 * @param searchTag - The tag to be searched for.
+	 * @return boolean - true if the Resource contains the passed tag; false otherwise.
+	 */
+	public static boolean containsTag(Resource resource, Coding searchTag) {
+    	boolean tagFound = false;
+		
+    	if (nonNull(resource) && nonNull(resource.getMeta()) && nonNull(resource.getMeta().getTag())) {
+			for (Coding tag : resource.getMeta().getTag()) {
+				if (nonNull(tag.getSystem()) && tag.getSystem().getValue().equals(searchTag.getSystem().getValue()) &&
+					nonNull(tag.getCode()) && tag.getCode().getValue().equals(searchTag.getCode().getValue())) {
+					tagFound = true;
+					break;
+				}
+			}
+    	}
+		return tagFound;
+    }
+
+
+	
 
 }

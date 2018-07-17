@@ -1577,6 +1577,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             List<Resource> resources = getPersistenceImpl().search(persistenceContext, resourceType);
+            
             bundle = createSearchBundle(resources, searchContext);
             if (requestUri != null) {
                 addLinks(searchContext, bundle, requestUri);
@@ -2921,6 +2922,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                 throw new FHIROperationException("Unable to set resource in bundle entry.", e);
             }
             bundle.getEntry().add(entry);
+        }
+        
+        // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
+        // returned resources.
+        if (searchContext.hasElementsParameters()) {
+        	FHIRPersistenceUtil.addFilteredTag(bundle);
         }
 
         // Finally, set the "total" field.

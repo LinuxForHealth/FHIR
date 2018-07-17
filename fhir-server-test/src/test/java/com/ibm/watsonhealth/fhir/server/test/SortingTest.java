@@ -6,9 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,10 +28,12 @@ import org.testng.annotations.Test;
 import com.google.common.collect.Ordering;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.Coding;
 import com.ibm.watsonhealth.fhir.model.HumanName;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.ObservationComponent;
 import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.search.SortParameter.SortDirection;
 
 public class SortingTest extends FHIRServerTestBase {
@@ -261,6 +266,62 @@ public class SortingTest extends FHIRServerTestBase {
         		// whose ordering will be checked later. Since we are sorting by family name ascending, we need to pick
         		// the FIRST family name in the natural ordering to add to the list. 
         		list.add(this.getFamilyNames(patient, SortDirection.ASCENDING).get(0));
+        	}
+    	}
+        assertTrue(Ordering.natural().isOrdered(list));
+    }
+    
+    //Patient?gender=male&_sort:asc=family
+    @SuppressWarnings("rawtypes")
+	@Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
+    public void testSortAscending_filter_elements() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient")
+        					.queryParam("gender", "male")
+        					.queryParam("_count", "50")
+        					.queryParam("_sort:asc", "family")
+        					.queryParam("_elements", "gender", "name")
+        					.request(MediaType.APPLICATION_JSON_FHIR).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        Coding subsettedTag = FHIRUtil.coding("http://hl7.org/fhir/v3/ObservationValue", "SUBSETTED", "subsetted");
+        assertTrue(FHIRUtil.containsTag(bundle, subsettedTag)); 
+        assertTrue(bundle.getEntry().size() > 1);
+        List<String> list = new ArrayList<String>();
+        Patient patient;
+               
+        for(int i=0;i<bundle.getEntry().size();i++) {
+        	if(bundle.getEntry().get(i).getResource().getPatient().getName() !=null && bundle.getEntry().get(i).getResource().getPatient().getName().size() > 0) {
+        		patient = bundle.getEntry().get(i).getResource().getPatient();
+        		// Since a patient can have multiple family names, we need to pick the right one to add to the list variable,
+        		// whose ordering will be checked later. Since we are sorting by family name ascending, we need to pick
+        		// the FIRST family name in the natural ordering to add to the list. 
+        		list.add(this.getFamilyNames(patient, SortDirection.ASCENDING).get(0));
+        		
+        		// Validate Patient element filtering
+        		Method[] patientMethods = Patient.class.getMethods();
+                for (int j = 0; j < patientMethods.length; j++) {
+                	Method patientMethod = patientMethods[j];
+                	if (patientMethod.getName().startsWith("get")) {
+                		Object elementValue = patientMethod.invoke(patient);
+                		// Only these elements should be present.
+                		if (patientMethod.getName().equals("getId") ||
+                			patientMethod.getName().equals("getMeta") ||
+                			patientMethod.getName().equals("getGender") ||
+                			patientMethod.getName().equals("getName")) {
+                			assertNotNull(elementValue);
+                		}
+                		else if (! patientMethod.getName().equals("getClass")) {
+                			 if (elementValue instanceof List) {
+                				 assertEquals(0,((List)elementValue).size());
+        	        		 }
+        	        		 else {
+        	        			 assertNull(elementValue);
+        	        		 }
+        	        	}
+                	}
+                }
         	}
     	}
         assertTrue(Ordering.natural().isOrdered(list));

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
+import com.ibm.watsonhealth.fhir.model.Coding;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -26,6 +27,10 @@ public class FHIRPersistenceUtil {
     private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
     private static final ObjectFactory objectFactory = new ObjectFactory();
     private final static double EARTH_RADIUS_KILOMETERS = 6371.0; // earth radius in kilometers
+	private static final String FILTERED_TAG_SYSTEM = "http://hl7.org/fhir/v3/ObservationValue";
+	private static final String FILTERED_TAG_CODE = "SUBSETTED";
+	private static final String FILTERED_TAG_DISPLAY = "subsetted";
+	private static final Coding FILTERED_TAG = FHIRUtil.coding(FILTERED_TAG_SYSTEM, FILTERED_TAG_CODE, FILTERED_TAG_DISPLAY);
 
     // Parse history parameters into a FHIRHistoryContext
     public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters) throws FHIRPersistenceException {
@@ -147,4 +152,18 @@ public class FHIRPersistenceUtil {
                     + deletedResource.getClass().getSimpleName());
         }
     }
+    
+    /**
+     * Add a tag indicating that elements have been filtered out of the passed Resource.
+     * @param resource
+     */
+	public static void addFilteredTag(Resource resource) {
+		
+		if (resource.getMeta() == null) {
+			resource.setMeta(objectFactory.createMeta());
+		}
+		if (!FHIRUtil.containsTag(resource, FILTERED_TAG)) {
+			resource.getMeta().getTag().add(FILTERED_TAG);
+		}
+}
 }

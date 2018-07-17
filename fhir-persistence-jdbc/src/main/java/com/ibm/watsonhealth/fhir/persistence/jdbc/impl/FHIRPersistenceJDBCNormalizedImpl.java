@@ -38,6 +38,7 @@ import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.Meta;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.util.ElementFilter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -338,6 +339,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	    int lastPageNumber;
 	    SqlQueryData countQuery;
 	    SqlQueryData query;
+	    ElementFilter elementFilter = null;
 	    	    
 	    try {
 	    	queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao(),
@@ -358,20 +360,26 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 	            if (searchResultCount > 0) {
 	                query = queryBuilder.buildQuery(resourceType, searchContext);
 	                
+	                // Build element filter if search context has values for the _elements
+	                // search result parameter.
+	                if (searchContext.hasElementsParameters()) {
+	                	elementFilter = new ElementFilter(searchContext.getElementsParameters());
+	                }
+	                
 	                if (searchContext.hasSortParameters()) {
 	                    // Sorting results of a system-level search is limited, and has a different logic path
 	                    // than other sorted searches.
 	                    if (resourceType.equals(Resource.class)) {
-	                       resources = this.convertResourceDTOList(this.resourceDao.search(query), resourceType);
+	                       resources = this.convertResourceDTOList(this.resourceDao.search(query), resourceType, elementFilter);
 	                    }
 	                    else {
 	                        sortedIdList = this.resourceDao.searchForIds(query);
-	                        resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
+	                        resources = this.buildSortedFhirResources(context, resourceType, sortedIdList, elementFilter);
 	                    }
 	                }
 	                else {
         	                	unsortedResultsList = this.getResourceDao().search(query);
-        	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
+        	                	resources = this.convertResourceDTOList(unsortedResultsList, resourceType, elementFilter);
 	                }  
 	            }
 	        }
@@ -416,10 +424,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			
 			if (existingResourceDTO != null) {
 				if (existingResourceDTO.isDeleted()) {
-				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType);
+				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
 				}
 				else {
-				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType);
+				    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
 				    
 	            	// If replication info is required, add the value of the patientId, siteId, and subjectId extensions 
                     // to the RepInfo
@@ -498,7 +506,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
 			}
-			resource = this.convertResourceDTO(resourceDTO, resourceType);
+			resource = this.convertResourceDTO(resourceDTO, resourceType, null);
 		}
 		catch(FHIRPersistenceResourceDeletedException e) {
 			throw e;
@@ -598,7 +606,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 			if (resourceDTO != null && resourceDTO.isDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
 			}
-			resource = this.convertResourceDTO(resourceDTO, resourceType);
+			resource = this.convertResourceDTO(resourceDTO, resourceType, null);
 		}
 		catch(FHIRPersistenceResourceDeletedException e) {
 			throw e;
@@ -641,8 +649,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
      * @throws JAXBException
      * @throws IOException 
      */
-	@Override
-    protected List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
+	protected List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType,
+    												ElementFilter elementFilter) 
                                 throws JAXBException, IOException {
         final String METHODNAME = "convertResourceDTO List";
         log.entering(CLASSNAME, METHODNAME);
@@ -650,7 +658,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         List<Resource> resources = new ArrayList<>();
         try {
             for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-                Resource existingResource = this.convertResourceDTO(resourceDTO, resourceType);
+                Resource existingResource = this.convertResourceDTO(resourceDTO, resourceType, elementFilter);
                 if (resourceDTO.isDeleted()) {
                     Resource deletedResourceMarker = FHIRPersistenceUtil.createDeletedResourceMarker(existingResource);
                     ReplicationUtil.addExtensionDataToResource(existingResource, deletedResourceMarker);

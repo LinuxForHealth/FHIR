@@ -124,7 +124,7 @@ public class SearchUtil {
         }
     };
 
-    private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_page", "_include", "_revinclude");
+    private static final List<String> SEARCH_RESULT_PARAMETER_NAMES = Arrays.asList("_sort", "_sort:asc", "_sort:desc", "_count", "_page", "_include", "_revinclude", "_elements");
     private static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Arrays.asList("_id", "_lastUpdated");
 
     private static void initializeCompartmentMap() {
@@ -1036,7 +1036,9 @@ public class SearchUtil {
                 parseSortParameter(resourceType, context, name, values, queryString);
             } else if (name.startsWith("_include") || name.startsWith("_revinclude")) {
                 parseInclusionParameter(resourceType, context, name, values, queryString);
-             }
+            } else if ("_elements".equals(name)) {
+            	parseElementsParameter(resourceType, context, values);
+            }
         } catch (FHIRSearchException e) {
             throw e;
         } catch (Exception e) {
@@ -1362,5 +1364,22 @@ public class SearchUtil {
             }
         }
         return validTargetType;
+    }
+    
+    /**
+     * Parses _elements search result parameter contained in the query string, and produces element String objects to represent the
+     * values for _elements. Those Strings are included in the elementsParameters collection contained in the passed FHIRSearchContext.
+     * @throws Exception
+     */
+    private static void parseElementsParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, List<String> elementsList) throws Exception {
+    	
+    	Set<String> resourceFieldNames = FHIRUtil.getFieldNames(resourceType.getSimpleName());
+    	    	
+    	for (String elementName: elementsList) {
+    		if (elementName.startsWith("_") || !resourceFieldNames.contains(elementName)) {
+    			throw buildInvalidSearchException("Invalid element name: " + elementName);
+    		}
+    		context.getElementsParameters().add(elementName);
+    	}
     }
 }

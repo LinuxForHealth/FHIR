@@ -44,6 +44,7 @@ import com.ibm.watsonhealth.fhir.model.Meta;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.util.ElementFilter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -64,6 +65,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
+import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -232,7 +234,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 				
 		try {
 			resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
-			resource = this.convertResourceDTO(resourceDTO, resourceType);
+			resource = this.convertResourceDTO(resourceDTO, resourceType, null);
 		}
 		catch(FHIRPersistenceException e) {
 			throw e;
@@ -265,7 +267,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		try {
 			version = Integer.parseInt(versionId);
 			resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
-			resource = this.convertResourceDTO(resourceDTO, resourceType);
+			resource = this.convertResourceDTO(resourceDTO, resourceType, null);
 		}
 		catch(FHIRPersistenceException e) {
 			throw e;
@@ -481,7 +483,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            	
 	                if (searchContext.hasSortParameters()) {
 	                	sortedIdList = this.getResourceDao().searchForIds(queryString);
-	                	resources = this.buildSortedFhirResources(context, resourceType, sortedIdList);
+	                	resources = this.buildSortedFhirResources(context, resourceType, sortedIdList, null);
 	                }
 	                else {
 	                	unsortedResultsList = this.getResourceDao().search(queryString);
@@ -610,7 +612,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     	List<Resource> resources = new ArrayList<>();
     	try {
             for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-                resources.add(this.convertResourceDTO(resourceDTO, resourceType));
+                resources.add(this.convertResourceDTO(resourceDTO, resourceType, null));
             }
     	}
     	finally {
@@ -623,12 +625,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Converts the passed Resource Data Transfer Object to a FHIR Resource object.
      * @param resourceDTO - A valid Resource DTO
      * @param resourceType - The FHIR type of resource to be converted.
+     * @param filter - An optional filter for including only specified elements inside a Resource.
      * @return Resource - A FHIR Resource object representation of the data portion of the passed Resource DTO.
      * @throws JAXBException
      * @throws IOException 
      */
-    protected Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType) 
-    									throws JAXBException, IOException {
+    protected Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType, 
+    									  ElementFilter elementFilter)  throws JAXBException, IOException {
     	final String METHODNAME = "convertResourceDTO";
     	log.entering(CLASSNAME, METHODNAME);
     	
@@ -649,7 +652,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	    			resource = FHIRUtil.read(resourceType, Format.XML, pushbackReader);
 	    		}
 	    		else {
-	    			resource = FHIRUtil.read(resourceType, Format.JSON, pushbackReader);
+	    			if (elementFilter != null) {
+	    				resource = FHIRUtil.read(resourceType, pushbackReader, elementFilter);
+	    			}
+	    			else {
+	    				resource = FHIRUtil.read(resourceType, Format.JSON, pushbackReader);
+	    			}
 	    		}
 	    		pushbackReader.close();
 	    		
@@ -663,6 +671,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	            meta.setLastUpdated(objectFactory.createInstant()
 		            .withValue(FHIRUtilities.convertToCalendar(lastUpdated, TimeZone.getTimeZone("UTC"))));
 	            resource.setMeta(meta);
+	            if (elementFilter != null && resource.getClass().equals(resourceType)) {
+	            	FHIRPersistenceUtil.addFilteredTag(resource);
+	            }
 			}
     	}
     	finally {
@@ -684,7 +695,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	 * @throws JAXBException 
 	 * @throws IOException 
 	 */
-	protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList) 
+	protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList, 
+													  ElementFilter filter) 
 							throws FHIRPersistenceException, JAXBException, IOException {
 		final String METHOD_NAME = "buildFhirResource";
 		log.entering(this.getClass().getName(), METHOD_NAME);
@@ -709,7 +721,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 		// Convert the returned JPA Resources to FHIR Resources, and store each FHIRResource in its proper position
 		// in the returned sorted resource list.
 		for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-			fhirResource = this.convertResourceDTO(resourceDTO, resourceType);
+			fhirResource = this.convertResourceDTO(resourceDTO, resourceType, filter);
 			if (fhirResource != null) {
 				sortIndex = idPositionMap.get(resourceDTO.getId());
 				sortedFhirResources[sortIndex] = fhirResource;

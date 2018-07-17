@@ -32,4 +32,8 @@ public interface FHIRSearchContext extends FHIRPagingContext {
     List<InclusionParameter> getRevIncludeParameters();
     
     boolean hasRevIncludeParameters();
+    
+    List<String> getElementsParameters();
+    
+    boolean hasElementsParameters();
 }
