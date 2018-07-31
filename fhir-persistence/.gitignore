@@ -1,5 +1,6 @@
 /.apt_generated/
-/.settings/
+/.settings/*
+!.settings/org.eclipse.wst.validation.prefs
 /target/
 /test-output/
 .factorypath
