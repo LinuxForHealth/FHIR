@@ -8,7 +8,8 @@
     <name>IBM Watson Platform for Health FHIR Server</name>
 
     <properties>
-        <was.liberty.version>18.0.0.1</was.liberty.version>
+        <was.liberty.runtime.version>18.0.0.2</was.liberty.runtime.version>
+        <was.liberty.tools.version>18.0.0.1</was.liberty.tools.version>
         <eclipselink.moxy.version>2.7.2</eclipselink.moxy.version>
         <java.sdk.version>8.0-4.2-linux-x86_64-ibmjcefips</java.sdk.version>
         <derby.version>10.12.1.1</derby.version>
@@ -67,14 +68,15 @@
             <dependency>
                 <groupId>net.wasdev.maven.tools.targets</groupId>
                 <artifactId>liberty-target</artifactId>
-                <version>${was.liberty.version}</version>
+                <version>${was.liberty.tools.version}</version>
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>
+            <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>
                 <groupId>com.ibm.websphere.appserver.runtime</groupId>
                 <artifactId>wlp-base-embeddable</artifactId>
-                <version>${was.liberty.version}</version>
+                <version>${was.liberty.runtime.version}</version>
                 <type>zip</type>
             </dependency>
             <dependency>

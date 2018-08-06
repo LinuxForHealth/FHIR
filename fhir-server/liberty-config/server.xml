@@ -3,17 +3,17 @@
     <!-- Enable features -->
     <featureManager>
         <feature>localConnector-1.0</feature>
-        <feature>jaxrs-2.0</feature>
+        <feature>jaxrs-2.1</feature>
         <!-- <feature>openidConnectClient-1.0</feature> -->
         <feature>openidConnectServer-1.0</feature>
         <feature>appSecurity-2.0</feature>
-        <feature>ssl-1.0</feature>
-        <feature>cdi-1.2</feature>
-        <feature>jsonp-1.0</feature>
-        <feature>jsf-2.2</feature>
-        <feature>servlet-3.1</feature>
+        <feature>transportSecurity-1.0</feature>
+        <feature>cdi-2.0</feature>
+        <feature>jsonp-1.1</feature>
+        <feature>jsf-2.3</feature>
+        <feature>servlet-4.0</feature>
         <feature>websocket-1.1</feature>
-    	<feature>jdbc-4.1</feature>
+    	<feature>jdbc-4.2</feature>
 		<feature>jaxb-2.2</feature>
 	</featureManager>
     
