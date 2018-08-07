@@ -88,6 +88,8 @@ public class FHIRClientImpl implements FHIRClient {
     private SecretKeySpec encryptionKey = null;
 
     private boolean loggingEnabled = false;
+    
+    private boolean hostnameVerificationEnabled = true;
 
     protected FHIRClientImpl() {
     }
@@ -816,7 +818,7 @@ public class FHIRClientImpl implements FHIRClient {
             }
 
             // Finally, add a hostname verifier if we're using an ssl transport.
-            if (usingSSLTransport()) {
+            if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
                 cb = cb.hostnameVerifier(new HostnameVerifier() {
                     public boolean verify(String s, SSLSession sslSession) {
                         return true;
@@ -937,6 +939,8 @@ public class FHIRClientImpl implements FHIRClient {
             }
 
             setLoggingEnabled(Boolean.parseBoolean(getProperty(PROPNAME_LOGGING_ENABLED, "false")));
+            
+            setHostnameVerificationEnabled(Boolean.parseBoolean(getProperty(PROPNAME_HOSTNAME_VERIFICATION_ENABLED, "true")));
         } catch (Throwable t) {
             throw new Exception("Unexpected error while processing client properties.", t);
         }
@@ -1196,5 +1200,13 @@ public class FHIRClientImpl implements FHIRClient {
 
     public void setLoggingEnabled(boolean loggingEnabled) {
         this.loggingEnabled = loggingEnabled;
+    }
+
+    public boolean isHostnameVerificationEnabled() {
+        return hostnameVerificationEnabled;
+    }
+
+    public void setHostnameVerificationEnabled(boolean hostnameVerficationEnabled) {
+        this.hostnameVerificationEnabled = hostnameVerficationEnabled;
     }
 }

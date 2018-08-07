@@ -127,6 +127,11 @@ public interface FHIRClient {
      */
     public static final String PROPNAME_LOGGING_ENABLED    = "fhirclient.logging.enabled";
     
+    /**
+     * Indicates whether or not to enable hostname verification when connecting over TLS
+     */
+    public static final String PROPNAME_HOSTNAME_VERIFICATION_ENABLED = "fhirclient.hostnameVerification.enabled";
+    
     
     /**
      * Returns a JAX-RS 2.0 WebTarget object associated with the REST API endpoint.

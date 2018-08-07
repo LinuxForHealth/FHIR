@@ -4,6 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
+# Uncomment to turn on verbose classloading
+#-verbose:class
+
 # WebSphere Application Server Liberty
 # This file contains options that are passed directly to the JVM on startup
 # See the InfoCenter for full documentation
