@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence;
 
 import java.util.List;
 
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -98,7 +99,14 @@ public interface FHIRPersistence {
 	 * Returns true iff the persistence layer implementation supports transactions.
 	 */
 	boolean isTransactional();
-	
+
+	/**
+	 * Returns an OperationOutcome indicating the current status of the persistence store / backend
+	 * @return a list of OperationalOutcomeIssue indicating the status of the underlying datastore
+	 * @throws FHIRPersistenceException
+	 */
+	OperationOutcome getHealth() throws FHIRPersistenceException;
+
 	/**
 	 * Returns a FHIRPersistenceTransaction object associated with the persistence layer implementation in use.
 	 * This can then be used to control transactional boundaries.

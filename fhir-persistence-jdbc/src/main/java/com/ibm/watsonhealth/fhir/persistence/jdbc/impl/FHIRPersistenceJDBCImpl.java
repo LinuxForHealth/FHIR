@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,8 +41,12 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Instant;
+import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.Meta;
+import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.ElementFilter;
@@ -86,7 +91,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	private FHIRDbDAO baseDao;
 	private ResourceDAO resourceDao;
 	private ParameterDAO parameterDao;
+	
+	// only used outside a web container
 	private Connection managedConnection;
+	
 	private Connection sharedConnection = null;
 	protected UserTransaction userTransaction = null;
 	protected Boolean updateCreateEnabled = null;
@@ -908,5 +916,44 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 sharedConnection = null;
             }
         }
+	}
+
+	@Override
+	public OperationOutcome getHealth() throws FHIRPersistenceException {
+	    try (Connection connection = createConnection()){
+	        if (connection.isValid(10)) {
+	            return buildOKOperationOutcome();
+	        } else {
+	            return buildErrorOperationOutcome();
+	        }
+	    } catch (SQLException e) {
+	        throw new FHIRPersistenceDataAccessException("Error while validating the database connection", e);
+	    }
+	}
+
+	private OperationOutcome buildOKOperationOutcome() {
+	    OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
+	            .withId(id("allok"))
+	            .withText(objectFactory.createNarrative()
+	                .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.ADDITIONAL))
+	                .withDiv(FHIRUtil.div("<div><p>All OK</p></div>")))
+	            .withIssue(objectFactory.createOperationOutcomeIssue()
+	                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.INFORMATION))
+	                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.INFORMATIONAL))
+	                .withDetails(objectFactory.createCodeableConcept().withText(string("All OK"))));
+	    return operationOutcome;
+	}
+
+	private OperationOutcome buildErrorOperationOutcome() {
+	    OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
+	            .withId(id("error"))
+	            .withText(objectFactory.createNarrative()
+	                .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.ADDITIONAL))
+	                .withDiv(FHIRUtil.div("<div><p>The database connection was not valid</p></div>")))
+	            .withIssue(objectFactory.createOperationOutcomeIssue()
+	                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.ERROR))
+	                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.NO_STORE))
+	                .withDetails(objectFactory.createCodeableConcept().withText(string("The database connection was not valid"))));
+	    return operationOutcome;
 	}
 }

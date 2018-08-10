@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.test;
 
 import java.util.List;
 
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
@@ -58,6 +59,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public FHIRPersistenceTransaction getTransaction() {
+        return null;
+    }
+
+    @Override
+    public OperationOutcome getHealth() throws FHIRPersistenceException {
         return null;
     }
 }

@@ -46,6 +46,8 @@ public class IssueTypeToHttpStatusMapper {
     
     public static Status issueTypeToResponseCode(IssueTypeList value) {
         switch (value) {
+        case INFORMATIONAL:
+            return Status.OK;
         case FORBIDDEN:
         case SUPPRESSED:
         case SECURITY:
