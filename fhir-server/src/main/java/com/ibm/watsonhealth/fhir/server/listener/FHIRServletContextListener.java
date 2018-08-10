@@ -38,6 +38,7 @@ import com.ibm.watsonhealth.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.watsonhealth.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
+import com.ibm.watsonhealth.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.watsonhealth.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.DerbyBootstrapper;
@@ -70,6 +71,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 		    
 		    log.fine("Initializing SearchUtil...");
 		    SearchUtil.init();
+		    
+		    log.fine("Initializing FHIROperationRegistry...");
+		    FHIROperationRegistry.getInstance();
 		    
 			// For any singleton resources that need to be shared among our resource class instances,
 		    // we'll add them to our servlet context so that the resource class can easily retrieve them.

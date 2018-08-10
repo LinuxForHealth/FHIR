@@ -44,7 +44,6 @@ import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.Meta;
-import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Resource;
@@ -921,7 +920,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 	@Override
 	public OperationOutcome getHealth() throws FHIRPersistenceException {
 	    try (Connection connection = createConnection()){
-	        if (connection.isValid(10)) {
+	        if (connection.isValid(2)) {
 	            return buildOKOperationOutcome();
 	        } else {
 	            return buildErrorOperationOutcome();
@@ -933,10 +932,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
 	private OperationOutcome buildOKOperationOutcome() {
 	    OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
-	            .withId(id("allok"))
-	            .withText(objectFactory.createNarrative()
-	                .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.ADDITIONAL))
-	                .withDiv(FHIRUtil.div("<div><p>All OK</p></div>")))
 	            .withIssue(objectFactory.createOperationOutcomeIssue()
 	                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.INFORMATION))
 	                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.INFORMATIONAL))
@@ -946,10 +941,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
 	private OperationOutcome buildErrorOperationOutcome() {
 	    OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
-	            .withId(id("error"))
-	            .withText(objectFactory.createNarrative()
-	                .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.ADDITIONAL))
-	                .withDiv(FHIRUtil.div("<div><p>The database connection was not valid</p></div>")))
 	            .withIssue(objectFactory.createOperationOutcomeIssue()
 	                .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.ERROR))
 	                .withCode(objectFactory.createIssueType().withValue(IssueTypeList.NO_STORE))
