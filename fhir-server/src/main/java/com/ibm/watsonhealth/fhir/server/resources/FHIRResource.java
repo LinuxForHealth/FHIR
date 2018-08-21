@@ -58,8 +58,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
@@ -2867,7 +2865,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             auditLogServiceName = "<not specified>";
         }
         else {
-            auditLogServiceName = StringUtils.substringAfterLast(auditLogServiceName, ".");
+            int lastDelimeter = auditLogServiceName.lastIndexOf(".");
+            auditLogServiceName = auditLogServiceName.substring(lastDelimeter + 1);
         }
         extension.setValueString(string(auditLogServiceName));
         conformance.getExtension().add(extension);
@@ -2884,7 +2883,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         extension.setValueString(string(getPersistenceImpl().getClass().getSimpleName()));
         conformance.getExtension().add(extension);
     }
-
+    
     private String getNotificationResourceTypes() throws Exception {
         Object[] notificationResourceTypes = fhirConfig.getArrayProperty(FHIRConfiguration.PROPERTY_NOTIFICATION_RESOURCE_TYPES);
         if (notificationResourceTypes == null) {

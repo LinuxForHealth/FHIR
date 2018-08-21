@@ -32,7 +32,6 @@
         <module>../fhir-replication-api</module>
         <module>../fhir-persistence-proxy</module>
         <module>../fhir-persistence-jdbc</module>
-        <module>../fhir-persistence-hbase</module>
         <module>../fhir-provider</module>
         <module>../fhir-operation</module>
         <module>../fhir-operation-validate</module>
@@ -244,11 +243,6 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-core</artifactId>
                 <version>3.5.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.hbase</groupId>
-                <artifactId>hbase-client</artifactId>
-                <version>1.3.1</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>

@@ -52,11 +52,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-persistence-hbase</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-replication-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
