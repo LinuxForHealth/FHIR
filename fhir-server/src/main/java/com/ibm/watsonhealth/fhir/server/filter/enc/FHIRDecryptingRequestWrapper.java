@@ -14,6 +14,7 @@ import java.security.AlgorithmParameters;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.cxf.jaxrs.utils.HttpUtils;
+import org.owasp.encoder.Encode;
 
 /**
  * This is a wrapper for an incoming HTTP servlet request, which is responsible for decrypting the request body and
@@ -257,7 +259,7 @@ public class FHIRDecryptingRequestWrapper extends HttpServletRequestWrapper {
         log.entering(this.getClass().getName(), "parseQueryParameters");
         try {
             String queryString = getQueryString();
-            log.finer("Query string: " + (queryString != null ? queryString : "<null>"));
+            log.finer("Query string: " + (queryString != null ? Encode.forHtml(queryString) : "<null>"));
             parseParametersInString(queryString);
         } finally {
             log.exiting(this.getClass().getName(), "parseQueryParameters");
@@ -274,7 +276,9 @@ public class FHIRDecryptingRequestWrapper extends HttpServletRequestWrapper {
         log.entering(this.getClass().getName(), "parseParametersInString");
         try {
             if (queryString != null && !queryString.isEmpty()) {
-                log.finer("Parsing parameter string: " + queryString);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer("Parsing parameter string: " + Encode.forHtml(queryString));
+                }
                 String[] attrValuePairs = queryString.split(PARAMETER_DELIM);
                 if (attrValuePairs != null && attrValuePairs.length > 0) {
                     for (String attrValuePair : attrValuePairs) {
@@ -283,7 +287,9 @@ public class FHIRDecryptingRequestWrapper extends HttpServletRequestWrapper {
                             String name = HttpUtils.urlDecode(tokens[0]);
                             String value = HttpUtils.urlDecode(tokens[1]);
                             addParameterValue(_parameters, name, value);
-                            log.finer("Added query parameter to _parameters map: " + name + "=" + value);
+                            if (log.isLoggable(Level.FINER)) {
+                                log.finer("Added query parameter to _parameters map: " + name + "=" + value);
+                            }
                         }
                     }
                 }

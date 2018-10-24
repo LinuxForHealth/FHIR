@@ -8,6 +8,8 @@ package com.ibm.watsonhealth.fhir.audit.logging.api;
 
 import java.util.logging.Logger;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService;
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -87,7 +89,7 @@ public class AuditLogServiceFactory {
             }
             if (errMsg.length() > 0) {
                 errMsg.append("   ").append("Audit logging is disabled.");
-                log.severe(errMsg.toString());
+                log.severe(Encode.forHtml(errMsg.toString()));
                 serviceInstance = new DisabledAuditLogService();
             }
         }

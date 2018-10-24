@@ -29,6 +29,7 @@ import javax.websocket.server.ServerContainer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.owasp.encoder.Encode;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
@@ -64,7 +65,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             
 		    PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
 		    
-		    log.fine("Current working directory: " + System.getProperty("user.dir"));
+		    log.fine("Current working directory: " + Encode.forHtml(System.getProperty("user.dir")));
 		    
 		    log.fine("Initializing FHIRUtil...");
 		    FHIRUtil.init();

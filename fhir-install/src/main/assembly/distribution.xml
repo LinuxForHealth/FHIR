@@ -16,16 +16,6 @@
 			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
-			<directory>../fhir-schemaddl/scripts</directory>
-			<outputDirectory>fhir/server/fhir/bin</outputDirectory>
-			<fileMode>0755</fileMode>
-		</fileSet>
-		<fileSet>
-			<directory>../fhir-schemaddl/src/main/resources/liquibase</directory>
-			<outputDirectory>fhir/server/fhir/bin/schemaddl</outputDirectory>
-			<fileMode>0755</fileMode>
-		</fileSet>
-		<fileSet>
 			<directory>src/main/resources/scripts</directory>
 			<outputDirectory></outputDirectory>
 			<fileMode>0755</fileMode>
@@ -33,12 +23,7 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>src/main/resources/docs/FHIRServerUsersGuide.pdf</source>
-			<outputDirectory>fhir/server/fhir/docs</outputDirectory>
-			<fileMode>0755</fileMode>
-		</file>
-		<file>
-			<source>src/main/resources/docs/FHIRServerUsersGuide.html</source>
+			<source>src/main/resources/docs/README.txt</source>
 			<outputDirectory>fhir/server/fhir/docs</outputDirectory>
 			<fileMode>0755</fileMode>
 		</file>
@@ -47,13 +32,13 @@
 			<outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
 			<fileMode>0755</fileMode>
 		</file>
-        <file>
-            <source>../fhir-audit-trail/target/fhir-audit-trail.war</source>
-            <outputDirectory>fhir/server/fhir/apps</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
 		<file>
-			<source>../fhir-swagger-ui/target/fhir-swagger-ui.war</source>
+			<source>../fhir-audit-trail/target/fhir-audit-trail.war</source>
+			<outputDirectory>fhir/server/fhir/apps</outputDirectory>
+			<fileMode>0755</fileMode>
+		</file>
+		<file>
+			<source>../fhir-openapi/target/fhir-openapi.war</source>
 			<outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
 			<fileMode>0755</fileMode>
 		</file>
@@ -83,21 +68,21 @@
 				<include>com.ibm.websphere.appserver.runtime:wlp-base-embeddable:*</include>
 			</includes>
 		</dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <useTransitiveDependencies>true</useTransitiveDependencies>
-            <useTransitiveFiltering>true</useTransitiveFiltering>
-            <outputDirectory>fhir/server/usr/shared/resources/lib/fhir</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>${project.groupId}:fhir-persistence-proxy:*</include>
-            </includes>
-            <excludes>
-                <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
-            </excludes>
-        </dependencySet>
-<!--        
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<useTransitiveFiltering>true</useTransitiveFiltering>
+			<outputDirectory>fhir/server/usr/shared/resources/lib/fhir</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>${project.groupId}:fhir-persistence-proxy:*</include>
+			</includes>
+			<excludes>
+				<exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
+			</excludes>
+		</dependencySet>
+<!--
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
             <useTransitiveDependencies>false</useTransitiveDependencies>
@@ -109,18 +94,18 @@
                 <include>${project.groupId}:fhir-operation-validate:*</include>
             </includes>
         </dependencySet>
- --> 
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <useTransitiveDependencies>true</useTransitiveDependencies>
-            <useTransitiveFiltering>true</useTransitiveFiltering>
-            <outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>${project.groupId}:fhir-derby-sproc:*</include>
-            </includes>
-        </dependencySet>
+ -->
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<useTransitiveFiltering>true</useTransitiveFiltering>
+			<outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+			<includes>
+				<include>${project.groupId}:fhir-derby-sproc:*</include>
+			</includes>
+		</dependencySet>
 		<dependencySet>
 			<useProjectArtifact>false</useProjectArtifact>
 			<outputDirectory>fhir/server/usr/shared/resources/lib/derby</outputDirectory>
@@ -142,12 +127,12 @@
 		</dependencySet>
 		<dependencySet>
 			<useProjectArtifact>false</useProjectArtifact>
-			<outputDirectory>fhir/server/fhir/bin/schemaddl/lib</outputDirectory>
+			<outputDirectory>fhir/server/</outputDirectory>
+			<unpack>true</unpack>
 			<directoryMode>0755</directoryMode>
 			<fileMode>0755</fileMode>
 			<includes>
-				<include>com.ibm.db2:db2jcc4:*</include>
-                <include>org.apache.derby:derby:*</include>
+				<include>com.ibm.watsonhealth.fhir:fhir-schemaddl-dist:*</include>
 			</includes>
 		</dependencySet>
 		<dependencySet>

@@ -29,6 +29,7 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource;
 
 /**
@@ -659,7 +660,12 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                 log.fine("Looking for datasources belonging to tenant id: " + tenantId);
                 
                 // Set the tenantId on thread local and then retrieve the datasources property group for it.
-                FHIRRequestContext.set(new FHIRRequestContext(tenantId));
+                try {
+                    FHIRRequestContext.set(new FHIRRequestContext(tenantId));
+                } catch (FHIRException e) {
+                    log.log(Level.WARNING, "Error initializing the FHIRRequestContext for tenantId '" + tenantId + "'", e);
+                    continue;
+                }
                 
                 // Retrieve and process each datasource entry found under "fhirServer/persistence/datasources".
                 PropertyGroup datasourcesPG = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);

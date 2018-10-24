@@ -7,7 +7,6 @@
 package com.ibm.watsonhealth.fhir.server.filter.rest;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +19,19 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
+
+import org.owasp.encoder.Encode;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
+import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
 /**
  * This class is a servlet filter which is registered with the REST API's servlet. The main purpose of the class is to
@@ -37,6 +46,7 @@ public class FHIRRestServletFilter implements Filter {
     private static String datastoreIdHeaderName = null;
     
     private static String defaultTenantId = null;
+    
 
     /*
      * (non-Javadoc)
@@ -49,58 +59,88 @@ public class FHIRRestServletFilter implements Filter {
             log.entering(this.getClass().getName(), "doFilter");
         }
 
-        try {
-            String tenantId = defaultTenantId;
-            String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
-            
-            // Wrap the incoming servlet request with our own implementation.
-            if (request instanceof HttpServletRequest) {
-                FHIRHttpServletRequestWrapper requestWrapper = new FHIRHttpServletRequestWrapper((HttpServletRequest) request);
-                request = requestWrapper;
-                if (log.isLoggable(Level.FINEST)) {
-                    log.finest("Wrapped HttpServletRequest object...");
-                }
-                
-                String t = ((HttpServletRequest) request).getHeader(tenantIdHeaderName);
-                if (t != null) {
-                    tenantId = t;
-                }
-                
-                t = ((HttpServletRequest) request).getHeader(datastoreIdHeaderName);
-                if (t != null) {
-                    dsId = t;
-                }
+        long initialTime = System.currentTimeMillis();
+        
+        String tenantId = defaultTenantId;
+        String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
+        
+        // Wrap the incoming servlet request with our own implementation.
+        if (request instanceof HttpServletRequest) {
+            FHIRHttpServletRequestWrapper requestWrapper = new FHIRHttpServletRequestWrapper((HttpServletRequest) request);
+            request = requestWrapper;
+            if (log.isLoggable(Level.FINEST)) {
+                log.finest("Wrapped HttpServletRequest object...");
             }
-
-            // Log a "request received" message.
-            StringBuffer requestDescription = new StringBuffer();
-            requestDescription.append("tenantId[");
-            requestDescription.append(tenantId);
-            requestDescription.append("] dsId:[");
-            requestDescription.append(dsId);
-            requestDescription.append("] user:[");
-            requestDescription.append(getRequestUserPrincipal(request));
-            requestDescription.append("] method:[");
-            requestDescription.append(getRequestMethod(request));
-            requestDescription.append("] uri:[");
-            requestDescription.append(getRequestURL(request));
-            requestDescription.append("]");
-
-            log.info("Received request: " + requestDescription.toString());
-
-            long initialTime = System.currentTimeMillis();
-
-            // Display the contents of the HTTP request body
-            // Uncomment this ONLY for debugging when all else fails!
-            // displayRequestBody(request);
             
+            String t = ((HttpServletRequest) request).getHeader(tenantIdHeaderName);
+            if (t != null) {
+                tenantId = t;
+            }
+            
+            t = ((HttpServletRequest) request).getHeader(datastoreIdHeaderName);
+            if (t != null) {
+                dsId = t;
+            }
+        }
+
+        // Log a "request received" message.
+        StringBuffer requestDescription = new StringBuffer();
+        requestDescription.append("tenantId:[");
+        requestDescription.append(tenantId);
+        requestDescription.append("] dsId:[");
+        requestDescription.append(dsId);
+        requestDescription.append("] user:[");
+        requestDescription.append(getRequestUserPrincipal(request));
+        requestDescription.append("] method:[");
+        requestDescription.append(getRequestMethod(request));
+        requestDescription.append("] uri:[");
+        requestDescription.append(getRequestURL(request));
+        final String encodedRequestDescription = Encode.forHtml(requestDescription.toString());
+
+        log.info("Received request: " + encodedRequestDescription);
+        
+        try {
             // Create a new FHIRRequestContext and set it on the current thread.
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
             FHIRRequestContext.set(context);
 
             // Pass the request through to the next filter in the chain.
             chain.doFilter(request, response);
-
+        } catch (FHIRException e) {
+            log.log(Level.INFO, "Error while setting request context or processing request", e);
+            
+            OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueTypeList.INVALID, IssueSeverityList.FATAL, false);
+            
+            if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+                HttpServletRequest httpRequest = (HttpServletRequest) request;
+                HttpServletResponse httpResponse = (HttpServletResponse) response;
+                
+                httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                
+                FHIRUtil.Format format = chooseResponseFormat(httpRequest.getHeader("Accept"));
+                switch (format) {
+                case XML:
+                    httpResponse.setContentType(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR);
+                    break;
+                case JSON:
+                default:
+                    httpResponse.setContentType(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR);
+                    break;
+                }
+                
+                try {
+                    FHIRUtil.write(outcome, format, httpResponse.getWriter());
+                } catch (JAXBException e1) {
+                    throw new ServletException(e1);
+                }
+            } else {
+                try {
+                    FHIRUtil.write(outcome, Format.JSON, response.getWriter());
+                } catch (JAXBException e1) {
+                    throw new ServletException(e1);
+                }
+            }
+        } finally {
             // If possible, include the status code in the "completed" message.
             StringBuffer statusMsg = new StringBuffer();
             if (response instanceof HttpServletResponse) {
@@ -111,36 +151,26 @@ public class FHIRRestServletFilter implements Filter {
             }
 
             double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
-            log.info("Completed request[" + elapsedSecs + " secs]: " + requestDescription.toString() + statusMsg.toString());
-        } finally {
-            if (log.isLoggable(Level.FINE)) {
-                log.exiting(this.getClass().getName(), "doFilter");
-            }
+            log.info("Completed request[" + elapsedSecs + " secs]: " + encodedRequestDescription + statusMsg.toString());
             
             // Remove the FHIRRequestContext from the current thread.
             FHIRRequestContext.remove();
+            
+            if (log.isLoggable(Level.FINE)) {
+                log.exiting(this.getClass().getName(), "doFilter");
+            }
         }
     }
 
-    /**
-     * Displays the contents of the servlet request body. Note that this consumes the content so that downstream errors
-     * will occur. But this function is still useful in certain debug situations. TODO: If necessary, we could wrap the
-     * incoming servlet request object with our own implementation that could serve up the body contents to downstream
-     * filters/servlets to avoid this issue.
-     */
-    @SuppressWarnings("unused")
-    private void displayRequestBody(ServletRequest request) throws IOException {
-        StringBuffer sb = new StringBuffer();
-        InputStream requestBodyIS = request.getInputStream();
-        try {
-            int b = requestBodyIS.read();
-            while (b != -1) {
-                sb.append((char) b);
-                b = requestBodyIS.read();
-            }
-        } finally {
-            requestBodyIS.close();
-            log.info("Request body contents: \n<\n" + sb.toString() + "\n,> (" + sb.toString().length());
+    private FHIRUtil.Format chooseResponseFormat(String acceptableContentTypes) {
+        if (acceptableContentTypes.contains(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR) ||
+                acceptableContentTypes.contains(MediaType.APPLICATION_JSON)) {
+            return Format.JSON;
+        } else if (acceptableContentTypes.contains(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR) ||
+                acceptableContentTypes.contains(MediaType.APPLICATION_XML)) {
+            return Format.XML;
+        } else {
+            return Format.JSON;
         }
     }
 

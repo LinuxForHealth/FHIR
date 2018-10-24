@@ -54,7 +54,7 @@ public class FHIRRequestContextTest {
                 testPassed = true;
             } catch (Throwable t) {
                 t.printStackTrace();
-                throw t;
+                throw new RuntimeException(t);
             }
         }
     }

@@ -58,6 +58,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
@@ -977,7 +979,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             // resource to be updated.   Otherwise, we'll use the id value to retrieve the current
             // version of the resource.
             if (searchQueryString != null) {
-                log.fine("Performing conditional update with search criteria: " + searchQueryString);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Performing conditional update with search criteria: " + Encode.forHtml(searchQueryString));
+                }
                 Bundle responseBundle = null;
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
@@ -992,7 +996,9 @@ public class FHIRResource implements FHIRResourceHelpers {
                 
                 // Check the search results to determine whether or not to perform the update operation.
                 int resultCount = responseBundle.getEntry().size();
-                log.fine("Conditional update search yielded " + resultCount + " results.");
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Conditional update search yielded " + resultCount + " results.");
+                }
 
                 if (resultCount == 0) {
                     // Search yielded no matches, so we'll do an update/create operation below.
@@ -1148,7 +1154,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             // to be deleted.
             Resource resourceToDelete = null;
             if (searchQueryString != null) {
-                log.fine("Performing conditional delete with search criteria: " + searchQueryString);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Performing conditional delete with search criteria: " + Encode.forHtml(searchQueryString));
+                }
                 Bundle responseBundle = null;
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
@@ -1163,7 +1171,9 @@ public class FHIRResource implements FHIRResourceHelpers {
                 
                 // Check the search results to determine whether or not to perform the update operation.
                 int resultCount = responseBundle.getEntry().size();
-                log.fine("Conditional delete search yielded " + resultCount + " results.");
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Conditional delete search yielded " + resultCount + " results.");
+                }
 
                 if (resultCount == 0) {
                     // Search yielded no matches, so we'll return a 404 Not Found.

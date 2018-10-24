@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ibm.watsonhealth.fhir</groupId>
+		<artifactId>fhir-parent</artifactId>
+		<version>99-SNAPSHOT</version>
+		<relativePath>../fhir-parent</relativePath>
+	</parent>
+
+	<artifactId>fhir-openapi</artifactId>
+	
+	<packaging>war</packaging>
+
+	<build>
+		<finalName>${project.name}</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -112,7 +112,7 @@ echo    before starting the server.
 echo 4. You can start and stop the server with these commands:
 echo    %WLP_ROOT%\bin\server start fhir-server
 echo    %WLP_ROOT%\bin\server stop fhir-server
-echo 5. The FHIR Server User's Guide can be found in the %WLP_ROOT%\fhir\docs directory.
+CODE_REMOVED
 set rc=0
 goto :exit
 

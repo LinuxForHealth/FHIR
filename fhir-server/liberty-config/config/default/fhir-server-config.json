@@ -96,12 +96,15 @@ CODE_REMOVED
 					"type": "db2",
 					"connectionProperties": {
 						"serverName": "localhost",
-						"portNumber": 50000,
+						"portNumber": 50001,
 						"user": "db2inst1",
 						"password": "********",
 						"databaseName": "FHIRDB",
 						"currentSchema": "FHIR1",
-						"driverType": 4
+						"driverType": 4,
+						"sslConnection": true,
+						"sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
+CODE_REMOVED
 					}
 				},
 				"audit": {
@@ -115,12 +118,15 @@ CODE_REMOVED
 					"type": "db2",
 					"connectionProperties": {
 						"serverName": "localhost",
-						"portNumber": 50000,
+						"portNumber": 50001,
 						"user": "db2inst1",
 						"password": "********",
 						"databaseName": "AUDITDB",
 						"currentSchema": "AUDIT1",
-						"driverType": 4
+						"driverType": 4,
+						"sslConnection": true,
+						"sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
+CODE_REMOVED
 					}
 				}
 			},

@@ -13,21 +13,29 @@
         <feature>jsf-2.3</feature>
         <feature>servlet-4.0</feature>
         <feature>websocket-1.1</feature>
-    	<feature>jdbc-4.2</feature>
-		<feature>jaxb-2.2</feature>
-	</featureManager>
-    
+        <!-- db2 jdbc driver 4.24.92 doesn't fully implement jdbc-4.2 -->
+        <feature>jdbc-4.1</feature>
+        <feature>jaxb-2.2</feature>
+        <feature>mpOpenAPI-1.0</feature>
+    </featureManager>
+
     <!-- Disable welcome page so that internal server info won't be revealed in responses
-	     to requests with an invalid context root.
+         to requests with an invalid context root.
     -->
-	<httpDispatcher enableWelcomePage="false" />
+    <httpDispatcher enableWelcomePage="false" />
+    <!-- Disable X-Powered-By header to avoid leaking information and
+         override the default error pages to avoid showing stack traces
+         for nonsensical queries like requests for a JSP page that doesn't exist.
+    -->
+    <webContainer disableXPoweredBy="true" 
+        displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again." />
 
     <!-- FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
 CODE_REMOVED
 CODE_REMOVED
-    <webAppSecurity allowFailOverToBasicAuth="true" />
-    
+    <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
+
     <!-- Define a basic user registry with a few users. -->
     <basicRegistry id="basic" realm="BasicRealm"> 
 CODE_REMOVED
@@ -36,11 +44,11 @@ CODE_REMOVED
             <member name="fhiruser"/>
         </group>
         <group name="clientAdministrator">
-        	<member name="fhiruser"/>
+            <member name="fhiruser"/>
         </group>
     </basicRegistry>
 
-<!--    
+    <!--    
     <openidConnectProvider id="oidc-provider" oauthProviderRef="oauth2-provider"/> 
     
     <oauth-roles>
@@ -48,41 +56,42 @@ CODE_REMOVED
             <special-subject type="ALL_AUTHENTICATED_USERS"/>  
         </authenticated>
         <clientManager>
-			<group name="clientAdministrator" />
-			<user name="fhiruser" />
-		</clientManager>
+            <group name="clientAdministrator" />
+            <user name="fhiruser" />
+        </clientManager>
     </oauth-roles>
-	
-	<oauthProvider id="oauth2-provider" oauthOnly="false">
-		<grantType>client_credentials</grantType>
-		<databaseStore dataSourceRef="OAuthDataSource" />
-	</oauthProvider>
--->  
-	
-	<!-- Enable CORS (Cross Origin Resource Sharing) -->
-	<!--  
-	<cors allowCredentials="true" allowedMethods="GET, PUT, POST"
-		allowedHeaders="Content-Type, Authorization, Accept, Origin"
-		allowedOrigins="*" domain="/fhir-server/api/v1" maxAge="3600" />
-    -->	
     
-	<!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
-		 Update fhir-server-config.json to publish the remote provider OAuth URLs. -->
-	<!-- 
-	<openidConnectClient authorizationEndpointUrl="https://authorize-dstu2.smarthealthit.org/authorize" 
-					clientId="c6c17d9e-8633-440f-a220-4d077acce0d1" 
-					clientSecret="{xor}HhQLGx0vBW84aQYmaGgqKWooKW8+JgwtMhBpZmYUHiUOMRkcaxhtajcaPSw3MQw2LzErNzkeMTBvDy9uJwkwJToabw5nHWwNJm8dbR1qNwoLNzQ6Ey0S" 
-					id="client01" 
-					tokenEndpointUrl="https://authorize-dstu2.smarthealthit.org/token"> 	
-	</openidConnectClient> 
-	-->
+    <oauthProvider id="oauth2-provider" oauthOnly="false">
+        <grantType>client_credentials</grantType>
+        <databaseStore dataSourceRef="OAuthDataSource" />
+    </oauthProvider>
+    -->
+    
+    <!-- Enable CORS (Cross Origin Resource Sharing) -->
+    <!--  
+    <cors allowCredentials="true" allowedMethods="GET, PUT, POST"
+        allowedHeaders="Content-Type, Authorization, Accept, Origin"
+        allowedOrigins="*" domain="/fhir-server/api/v1" maxAge="3600" />
+    -->    
+    
+    <!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
+         Update fhir-server-config.json to publish the remote provider OAuth URLs. -->
+    <!-- 
+    <openidConnectClient authorizationEndpointUrl="https://authorize-dstu2.smarthealthit.org/authorize" 
+                    clientId="c6c17d9e-8633-440f-a220-4d077acce0d1" 
+                    clientSecret="{xor}HhQLGx0vBW84aQYmaGgqKWooKW8+JgwtMhBpZmYUHiUOMRkcaxhtajcaPSw3MQw2LzErNzkeMTBvDy9uJwkwJToabw5nHWwNJm8dbR1qNwoLNzQ6Ey0S" 
+                    id="client01" 
+                    tokenEndpointUrl="https://authorize-dstu2.smarthealthit.org/token">     
+    </openidConnectClient> 
+    -->
     
     <!-- This entry defines the ports that the server will listen on.
+        By default, the httpPort is disabled (set to "-1").
         Modify the port #'s as needed to satisfy your config requirements.
         Note: on Linux, the server must be running with root priviledges in order to
         listen on ports <= 1024.
      -->
-    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443" onError="FAIL"/>
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="9443" onError="FAIL"/>
 
     <!-- 
         Modify the trace string below as needed to enable/disable tracing. 
@@ -107,8 +116,8 @@ CODE_REMOVED
         </application-bnd>
     </webApplication>
 
-    <!-- This is the swagger UI for the FHIR Server -->
-    <webApplication id="fhir-swagger-ui" location="fhir-swagger-ui.war" name="fhir-swagger-ui"/>
+    <!-- This is the openapi definition for the FHIR Server -->
+    <webApplication id="fhir-openapi" location="fhir-openapi.war" name="fhir-openapi"/>
     
     <!-- 
         This library element puts a specific directory in the classpath so that it can be used

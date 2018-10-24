@@ -9,6 +9,10 @@ package com.ibm.watsonhealth.fhir.config;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
 
 /**
  * This class is used to hold FHIR REST API context information.
@@ -25,10 +29,17 @@ public class FHIRRequestContext {
     private String dataStoreId;
     private String requestUniqueId;
     
+    private Pattern validChars = Pattern.compile("[a-zA-Z0-9_\\-]+");
+    private String errorMsg = "Only [a-z], [A-Z], [0-9], '_', and '-' characters are allowed.";
+    
     private static ThreadLocal<FHIRRequestContext> contexts = new ThreadLocal<FHIRRequestContext>() {
         @Override
         public FHIRRequestContext initialValue() {
-            return new FHIRRequestContext(FHIRConfiguration.DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_DATASTORE_ID);
+            try {
+                return new FHIRRequestContext(FHIRConfiguration.DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_DATASTORE_ID);
+            } catch (FHIRException e) {
+                throw new IllegalStateException("Unexpected error while initializing FHIRRequestContext");
+            }
         }
     };
     
@@ -37,12 +48,11 @@ public class FHIRRequestContext {
         this.requestUniqueId = UUID.randomUUID().toString();
     }
     
-    public FHIRRequestContext(String tenantId) {
-        this();
+    public FHIRRequestContext(String tenantId) throws FHIRException {
         setTenantId(tenantId);
     }
     
-    public FHIRRequestContext(String tenantId, String dataStoreId) {
+    public FHIRRequestContext(String tenantId, String dataStoreId) throws FHIRException {
         this(tenantId);
         setDataStoreId(dataStoreId);
     }
@@ -50,14 +60,27 @@ public class FHIRRequestContext {
     public String getTenantId() {
         return tenantId;
     }
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+    
+    public void setTenantId(String tenantId) throws FHIRException {
+        Matcher matcher = validChars.matcher(tenantId);
+        if (matcher.matches()) {
+            this.tenantId = tenantId;
+        } else {
+            throw new FHIRException("Invalid tenantId. " + errorMsg);
+        }
     }
+    
     public String getDataStoreId() {
         return dataStoreId;
     }
-    public void setDataStoreId(String dataStoreId) {
-        this.dataStoreId = dataStoreId;
+    
+    public void setDataStoreId(String dataStoreId) throws FHIRException {
+        Matcher matcher = validChars.matcher(dataStoreId);
+        if (matcher.matches()) {
+            this.dataStoreId = dataStoreId;
+        } else {
+            throw new FHIRException("Invalid dataStoreId. " + errorMsg);
+        }
     }
     
     /**

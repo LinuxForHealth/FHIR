@@ -21,6 +21,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 
@@ -49,30 +51,30 @@ public class FHIRRestAuthorizationServletFilter implements Filter {
 
                 // Retrieve the two request headers from the incoming request.
                 String clientCertClientCN = httpServletRequest.getHeader(CLIENT_CERT_CLIENT_CN_HEADER);
-                log.fine("clientCertClientCN: " + clientCertClientCN);
+                log.fine("clientCertClientCN: " + Encode.forHtml(clientCertClientCN));
                 if (clientCertClientCN == null) {
                     log.log(Level.SEVERE, "The '" + CLIENT_CERT_CLIENT_CN_HEADER + "' request header was not specified.");
                 }
 
                 String clientCertIssuerOU = httpServletRequest.getHeader(CLIENT_CERT_ISSUER_OU_HEADER);
-                log.fine("clientCertIssuerOU: " + clientCertIssuerOU);
+                log.fine("clientCertIssuerOU: " + Encode.forHtml(clientCertIssuerOU));
                 if (clientCertIssuerOU == null) {
                     log.log(Level.SEVERE, "The '" + CLIENT_CERT_ISSUER_OU_HEADER + "' request header was not specified.");
                 }
 
                 String authorizedClientCertClientCN = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN, "");
-                log.fine("authorizedClientCertClientCN: " + authorizedClientCertClientCN);
+                log.fine("authorizedClientCertClientCN: " + Encode.forHtml(authorizedClientCertClientCN));
                 List<String> authorizedClientCertClientCNs = Arrays.asList(authorizedClientCertClientCN.split(","));
 
                 String authorizedClientCertIssuerOU = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU, "");
-                log.fine("authorizedClientCertIssuerOU: " + authorizedClientCertIssuerOU);
+                log.fine("authorizedClientCertIssuerOU: " + Encode.forHtml(authorizedClientCertIssuerOU));
 
                 // If we fail the whitelist check, then send back a FORBIDDEN response.
                 if (!authorizedClientCertClientCNs.contains(clientCertClientCN) || !authorizedClientCertIssuerOU.equals(clientCertIssuerOU)) {
                     String msg = "Incoming request failed authorization whitelist check; clientCertClientCN="
                             + (clientCertClientCN != null ? clientCertClientCN : "<null>") + ", clientCertIssuerOU="
                             + (clientCertIssuerOU != null ? clientCertIssuerOU : "<null>");
-                    log.log(Level.SEVERE, msg);
+                    log.log(Level.SEVERE, Encode.forHtml(msg));
                     HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                     httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     failedAuthCheck = true;

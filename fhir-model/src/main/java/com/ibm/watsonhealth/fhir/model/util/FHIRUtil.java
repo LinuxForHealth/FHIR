@@ -225,27 +225,22 @@ public class FHIRUtil {
 		return Format.XML.equals(format) ? xmlContext : jsonContext;
 	}
 	
-	public static <T extends Resource> Binder<Node> createBinder(T resource) {
-		Binder<Node> binder = getContext(Format.XML).createBinder();
-		try {
-		    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			binder.marshal(wrap(resource), documentBuilder.newDocument());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return binder;
-	}
+    public static <T extends Resource> Binder<Node> createBinder(T resource) throws Exception {
+        Binder<Node> binder = getContext(Format.XML).createBinder();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        binder.marshal(wrap(resource), documentBuilder.newDocument());
+        return binder;
+    }
 	
 	@SuppressWarnings("unchecked")
 	private static <T extends Resource> JAXBElement<T> wrap(T resource) {
+	    Class<? extends Resource> resourceType = resource.getClass();
 		try {
-			Class<? extends Resource> resourceType = resource.getClass();
 			Method method = objectFactory.getClass().getDeclaredMethod("create" + resourceType.getSimpleName(), resourceType);
 			return (JAXBElement<T>) method.invoke(objectFactory, resource);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException("Error wrapping resource of type " + resourceType.getSimpleName(), e);
 		}
-		return null;
 	}
 
 	private static Unmarshaller createUnmarshaller(Format format) throws JAXBException {
@@ -605,9 +600,8 @@ public class FHIRUtil {
         try {
             return new DivAdapter().unmarshal(s);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error creating div from string '" + s + "'", e);
         }
-        return null;
     }
     
     public static Extension extension(String url) {

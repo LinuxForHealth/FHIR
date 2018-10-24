@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.HttpHeaders;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
@@ -74,14 +76,15 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         delegate = req;
 
         if (log.isLoggable(Level.FINER)) {
-            log.finer("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " + req.toString());
+            log.finer("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " + 
+                    Encode.forHtml(req.toString()));
         }
 
         // Extra query parameters that can override HTTP headers.
         initQueryParameterValues(req);
 
         String contentType = req.getContentType();
-        log.finer("Content-Type is " + contentType);
+        log.finer("Content-Type is " + Encode.forHtml(contentType));
 
         // If parameters are contained in a form, then be sure to pull them out and add them to our
         // set of query parameters.
@@ -130,7 +133,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
         
         if (log.isLoggable(Level.FINER)) { 
-            log.finer("Retrieved these 'header' query parameters from the request URI: " + headerQueryParameters.toString());
+            log.finer("Retrieved these 'header' query parameters from the request URI: " + 
+                    Encode.forHtml(headerQueryParameters.toString()));
         }
     }
 
@@ -164,7 +168,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         // Get the original queury String
         String originalQueryString = req.getQueryString();
         if (log.isLoggable(Level.FINER)) {
-            log.finer("Processing form parameters, original queryString is " + originalQueryString);
+            log.finer("Processing form parameters, original queryString is " + 
+                    Encode.forHtml(originalQueryString));
         }
 
         // Append each parameter to the end of the new queryString
@@ -177,7 +182,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             for (Map.Entry<String, String[]> paramEntry : paramMap.entrySet()) {
                 String key = paramEntry.getKey();
                 key = URLEncoder.encode(key, UTF8);
-                log.finest("parameter name: " + key);
+                if (log.isLoggable(Level.FINEST)) {
+                    log.finest("parameter name: " + Encode.forHtml(key));
+                }
                 String[] values = paramEntry.getValue();
                 if (values != null) {
                     // There can be multiple values for each key.
@@ -186,7 +193,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                     // (probably the first in most cases).
                     for (String value : values) {
                         value = URLEncoder.encode(value, UTF8);
-                        log.finest("parameter value: " + value);
+                        if (log.isLoggable(Level.FINEST)) {
+                            log.finest("parameter value: " + Encode.forHtml(value));
+                        }
                         queryString += separator + key + "=" + value;
                         separator = "&";
                     }
@@ -200,7 +209,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
 
         if (log.isLoggable(Level.FINER)) {
-            log.finer("After processing form parameters, queryString is " + queryString);
+            log.finer("After processing form parameters, queryString is " + 
+                    Encode.forHtml(queryString));
         }
     }
 

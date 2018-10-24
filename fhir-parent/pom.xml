@@ -10,7 +10,7 @@
     <properties>
         <was.liberty.version>18.0.0.2</was.liberty.version>
         <eclipselink.moxy.version>2.7.2</eclipselink.moxy.version>
-        <java.sdk.version>8.0-4.2-linux-x86_64-ibmjcefips</java.sdk.version>
+        <java.sdk.version>8.0-5.20-linux-x86_64</java.sdk.version>
         <derby.version>10.12.1.1</derby.version>
         <db2.version>4.24.92</db2.version>
         <cxf.version>3.1.15</cxf.version>
@@ -48,14 +48,14 @@
         <module>../fhir-server-webapp</module>
         <module>../fhir-server-test</module>
         <module>../fhir-swagger-generator</module>
-        <module>../fhir-swagger-ui</module>
+        <module>../fhir-openapi</module>
         <module>../fhir-audit-trail</module>
         <module>../fhir-schemaddl-dist</module>
         <module>../fhir-install</module>
         <module>../fhir-coverage-reports</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of artifacts 
+    <!-- This section "enforces" that we're using consistent versions of artifacts
          within our modules -->
     <dependencyManagement>
         <dependencies>
@@ -242,7 +242,7 @@
             <dependency>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-core</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.3</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -270,6 +270,11 @@
                 <artifactId>httpcore</artifactId>
                 <version>4.3</version>
             </dependency>
+            <dependency>
+                <groupId>org.owasp.encoder</groupId>
+                <artifactId>encoder</artifactId>
+                <version>1.2.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -289,7 +294,6 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.6</version>
                     <executions>
@@ -339,6 +343,15 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                  <artifactId>maven-enforcer-plugin</artifactId>
+                  <version>3.0.0-M2</version>
+                  <configuration>
+                    <rules>
+                      <dependencyConvergence/>
+                    </rules>
+                  </configuration>
+                </plugin>
+                <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.plugin.version}</version>
                 </plugin>
@@ -348,7 +361,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -363,7 +376,7 @@
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
-                    <version>3.4.2</version>
+                    <version>3.5.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -479,5 +492,5 @@ CODE_REMOVED
                 <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
             </properties>
         </profile>
-    </profiles>  
+    </profiles>
 </project>

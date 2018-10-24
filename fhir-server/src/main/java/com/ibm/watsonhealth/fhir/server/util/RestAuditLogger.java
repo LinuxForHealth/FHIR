@@ -475,7 +475,7 @@ public class RestAuditLogger {
 		return entry;
 	}
 	
-	   /**
+    /**
      * Builds and returns an AuditLogEntry with the minimum required fields populated.
      * @param eventType - A valid type of audit log event
      * @return AuditLogEntry with the minimum required fields populated.

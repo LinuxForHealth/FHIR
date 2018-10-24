@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app id="WebApp_ID" version="3.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 	<display-name>Watson Platform for Health FHIR Server</display-name>
 	<servlet>
@@ -16,48 +17,51 @@
 		<servlet-name>FHIRRestServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Security definitions for the web app -->
 	<security-role>
-	   <role-name>FHIRUsers</role-name>
+		<role-name>FHIRUsers</role-name>
 	</security-role>
 	<security-constraint>
-	   <web-resource-collection>
-	       <web-resource-name>FHIR REST API</web-resource-name>
-	       <url-pattern>/*</url-pattern>
-	       <http-method>GET</http-method>
-	       <http-method>POST</http-method>
-	       <http-method>PUT</http-method>
-	       <http-method>DELETE</http-method>
-	       <http-method>HEAD</http-method>
-	       <http-method>TRACE</http-method>
-	   </web-resource-collection>
-	   <auth-constraint>
-	       <role-name>FHIRUsers</role-name>
-	   </auth-constraint>
+		<web-resource-collection>
+			<web-resource-name>FHIR REST API</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>TRACE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>FHIRUsers</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
 	</security-constraint>
 	<login-config>
-	   <auth-method>CLIENT-CERT</auth-method>
+		<auth-method>CLIENT-CERT</auth-method>
 	</login-config>
-    
-    <filter>
-        <filter-name>FHIRAuthFilter</filter-name>
-        <filter-class>com.ibm.watsonhealth.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FHIRAuthFilter</filter-name>
-        <servlet-name>FHIRRestServlet</servlet-name>
-    </filter-mapping>
-    
-    <filter>
-        <filter-name>FHIRAesEncryptionFilter</filter-name>
-        <filter-class>com.ibm.watsonhealth.fhir.server.filter.enc.FHIRAesEncryptionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FHIRAesEncryptionFilter</filter-name>
-        <servlet-name>FHIRRestServlet</servlet-name>
-    </filter-mapping>
-    
+
+	<filter>
+		<filter-name>FHIRAuthFilter</filter-name>
+		<filter-class>com.ibm.watsonhealth.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FHIRAuthFilter</filter-name>
+		<servlet-name>FHIRRestServlet</servlet-name>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>FHIRAesEncryptionFilter</filter-name>
+		<filter-class>com.ibm.watsonhealth.fhir.server.filter.enc.FHIRAesEncryptionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FHIRAesEncryptionFilter</filter-name>
+		<servlet-name>FHIRRestServlet</servlet-name>
+	</filter-mapping>
+
 	<filter>
 		<filter-name>FHIRRestFilter</filter-name>
 		<filter-class>com.ibm.watsonhealth.fhir.server.filter.rest.FHIRRestServletFilter</filter-class>
