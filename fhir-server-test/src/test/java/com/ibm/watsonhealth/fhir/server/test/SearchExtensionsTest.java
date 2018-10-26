@@ -11,6 +11,7 @@ import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.integer;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.quantity;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.date;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -23,6 +24,7 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.Coding;
+import com.ibm.watsonhealth.fhir.model.Date;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Quantity;
 import com.ibm.watsonhealth.fhir.model.Uri;
@@ -41,7 +43,8 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         patient.withExtension(objFactory.createExtension().withUrl(EXTENSION_BASE_URL + "favorite-code").withValueCodeableConcept(codeableConcept("http://ibm.com/fhir/system", "someCode-1234")));
         patient.withExtension(objFactory.createExtension().withUrl(EXTENSION_BASE_URL + "favorite-uri").withValueUri(uri("http://www.ibm.com")));
         patient.withExtension(objFactory.createExtension().withUrl(EXTENSION_BASE_URL + "favorite-quantity").withValueQuantity(quantity(180, "lbs")));
-
+        patient.withExtension(objFactory.createExtension().withUrl(EXTENSION_BASE_URL + "favorite-date").withValueDate(date("2018-10-25")));
+        
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().header("X-FHIR-TENANT-ID", "tenant1").post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -97,6 +100,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         Coding favoriteCode = savedCreatedPatientWithExtensions.getExtension().get(2).getValueCodeableConcept().getCoding().get(0);
         Uri favoriteUri = savedCreatedPatientWithExtensions.getExtension().get(3).getValueUri();
         Quantity favoriteQuantity = savedCreatedPatientWithExtensions.getExtension().get(4).getValueQuantity();
+        Date favoriteDate = savedCreatedPatientWithExtensions.getExtension().get(5).getValueDate();
         
         Response response = target.path("Patient")
                 .queryParam("family", family)
@@ -105,6 +109,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
                 .queryParam("favorite-code", favoriteCode.getSystem().getValue() + "|" + favoriteCode.getCode().getValue())
                 .queryParam("favorite-uri", favoriteUri.getValue())
                 .queryParam("favorite-quantity", favoriteQuantity.getValue().getValue().toString() + "||" + favoriteQuantity.getUnit().getValue())
+                .queryParam("favorite-date", favoriteDate.getValue())
                 .request(MediaType.APPLICATION_JSON_FHIR)
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .get();
