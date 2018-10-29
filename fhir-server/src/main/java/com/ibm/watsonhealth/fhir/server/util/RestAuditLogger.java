@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.server.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -427,7 +428,11 @@ public class RestAuditLogger {
 		// Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
 		userList.add(request.getHeader(HEADER_IBM_APP_USER));
 		userList.add(request.getHeader(HEADER_CLIENT_CERT_CN));
-		userList.add(request.getUserPrincipal().getName());
+		
+		Principal userPrincipal = request.getUserPrincipal();
+		if (userPrincipal != null) {
+		    userList.add(userPrincipal.getName());
+		}
 		for (String userName : userList) {
 			if (userName != null && !userName.isEmpty()) {
 				entry.setUserName(userName);
