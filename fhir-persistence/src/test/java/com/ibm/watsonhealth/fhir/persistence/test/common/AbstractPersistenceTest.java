@@ -33,18 +33,18 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  * This is a common abstract base class for all persistence-related tests.
  */
 public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
-    
-    // The persistence layer instance to be used by the tests. 
+
+    // The persistence layer instance to be used by the tests.
     protected static FHIRPersistence persistence = null;
-    
+
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
     public abstract FHIRPersistence getPersistenceImpl() throws Exception;
-    
+
     // A hook for subclasses to override and provide specific test database setup functionality if required.
     public void bootstrapDatabase() throws Exception {
-    	
+
     }
-    
+
     // The following persistence context-related methods can be overridden in subclasses to
     // provide a more specific instance of the FHIRPersistenceContext if necessary.
     // These default versions just provide the minimum required by the FHIR Server persistence layers.
@@ -57,34 +57,34 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     public FHIRPersistenceContext getPersistenceContextForHistory(FHIRHistoryContext ctxt) {
         return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }
-    
+
     @BeforeClass
     public void configureLogging() throws Exception {
         final InputStream inputStream = Thread.class.getResourceAsStream("/logging.unitTest.properties");
         LogManager.getLogManager().readConfiguration(inputStream);
     }
-    
+
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         bootstrapDatabase();
         persistence = getPersistenceImpl();
         FHIRConfiguration.setConfigHome("target/test-classes");
     }
-    
+
     @BeforeMethod(alwaysRun = true)
     public void startTrx() throws Exception{
         if (persistence.isTransactional()) {
             persistence.getTransaction().begin();
         }
     }
-    
+
     @AfterMethod(alwaysRun = true)
     public void commitTrx() throws Exception{
         if (persistence.isTransactional()) {
             persistence.getTransaction().commit();
         }
     }
-    
+
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
@@ -97,6 +97,19 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         return resources;
     }
     
+    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, int maxPageSize) throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        if (parmName != null && parmValue != null) {
+            queryParms.put(parmName, Collections.singletonList(parmValue));
+        }
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        searchContext.setPageSize(maxPageSize);
+        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType);
+        assertNotNull(resources);
+        return resources;
+    }
+
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, Map<String, List<String>> queryParms) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
@@ -104,7 +117,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         assertNotNull(resources);
         return resources;
     }
-    
+
     protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, FHIRPersistence persistence,  Map<String, List<String>> queryParms) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, queryString);
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
@@ -112,7 +125,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         assertNotNull(resources);
         return resources;
     }
-    
+
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
@@ -124,7 +137,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         assertNotNull(resources);
         return resources;
     }
-    
+
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, int maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {

@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +48,7 @@ import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.Signature;
 import com.ibm.watsonhealth.fhir.model.Time;
 import com.ibm.watsonhealth.fhir.model.Timing;
+import com.ibm.watsonhealth.fhir.model.TimingRepeat;
 import com.ibm.watsonhealth.fhir.model.UnsignedInt;
 import com.ibm.watsonhealth.fhir.model.Uri;
 import com.ibm.watsonhealth.fhir.model.Uuid;
@@ -62,6 +64,12 @@ import com.ibm.watsonhealth.fhir.persistence.util.AbstractProcessor;
 public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 	private static final Logger log = Logger.getLogger(JDBCParameterBuilder.class.getName());
 	private static final String className = JDBCParameterBuilder.class.getName();
+	
+	// Datetime Limits from 
+	// DB2:  https://www.ibm.com/support/knowledgecenter/en/SSEPGG_10.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
+	// Derby:  https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
+	private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.valueOf("0001-01-01 00:00:00.000000");
+	private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 23:59:59.999999");
 
 	@Override
 	public List<Parameter> process(SearchParameter parameter, String value) throws FHIRPersistenceProcessorException {
@@ -323,20 +331,23 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 				Parameter telecom = new Parameter();
 				telecom.setName(parameter.getName().getValue());
 				telecom.setValueCode(value.getValue().getValue());
-				if (value.getSystem() != null) {
+				if (value.getSystem() != null && value.getSystem().getValue() != null) {
+				    // XXX according to spec, this should be "http://hl7.org/fhir/contact-point-system/" + ContactPoint.use
 					telecom.setValueSystem(value.getSystem().getValue().value());
 				}
 				parameters.add(telecom);
 			}
-						
-			if (value.getSystem() != null) {
+
+			// WHY ARE WE CREATING A SECOND PARAMETER WITH NAME = ContactPoint.system ?
+			if (value.getSystem() != null && value.getValue() != null) {
 				Parameter phone = new Parameter();
+				// phone | fax | email | pager | other
 				phone.setValueCode(value.getValue().getValue());
 				phone.setName(value.getSystem().getValue().value());
 				phone.setValueSystem(value.getSystem().getValue().value());
 				parameters.add(phone);
 			}
-			
+
 			return parameters;
 		} catch (Throwable e) {
 		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
@@ -424,7 +435,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		try {
 			String paramname = parameter.getName().getValue();
-			
+
 			Parameter p = new Parameter();
 			if (value.getFamily() != null) {
 				for(com.ibm.watsonhealth.fhir.model.String family : value.getFamily()) {
@@ -442,27 +453,27 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 					parameters.add(p);
         		}
 			}
-			
+
 			if (value.getText() != null) {
 				p = new Parameter();
 				p = new Parameter();
 				p.setName(paramname);
 				p.setValueString(value.getText().getValue());
-        		
+
 				parameters.add(p);
         	}
-			
+
 			if (value.getUse() != null) {
 				p = new Parameter();
 				p = new Parameter();
 				p.setName(paramname);
 				p.setValueString(value.getUse().getValue().value());
-        		
+
 				parameters.add(p);
         	}
-			
+
 			return parameters;
-			
+
 		} catch (Throwable e) {
 		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
             if (parameter != null) {
@@ -570,10 +581,10 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 	}
 
 	/**
-	 * 
+	 *
 	 *  Parameter Name = postition
 	 *  Value = System|code = Longitude|Latitude
-	 * @throws FHIRPersistenceProcessorException 
+	 * @throws FHIRPersistenceProcessorException
 	 */
 	@Override
 	public List<Parameter> process(SearchParameter parameter, LocationPosition value) throws FHIRPersistenceProcessorException {
@@ -653,34 +664,41 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 		}
 	}
 
-	@Override
-	public List<Parameter> process(SearchParameter parameter, Period value) throws FHIRPersistenceProcessorException {
-		String methodName = "process(SearchParameter,Period)";
-		log.entering(className, methodName);
-		List<Parameter> parameters = new ArrayList<Parameter>();
-		try {
-			Parameter p = new Parameter();
-			p.setName(parameter.getName().getValue());
-			if (value.getStart() != null) {
-				XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(value.getStart().getValue(), true);
-				p.setValueDateStart(FHIRUtilities.convertToTimestamp(calendar));
-			}
-			if (value.getEnd() != null) {
-				XMLGregorianCalendar calendar1 = FHIRUtilities.parseDateTime(value.getEnd().getValue(), true);
-				p.setValueDateEnd(FHIRUtilities.convertToTimestamp(calendar1));
-			}
-			parameters.add(p);
-			return parameters;
-		} catch (Throwable e) {
-		    StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Period value) throws FHIRPersistenceProcessorException {
+        String methodName = "process(SearchParameter,Period)";
+        log.entering(className, methodName);
+        List<Parameter> parameters = new ArrayList<Parameter>();
+        try {
+            if (value.getStart() == null && value.getEnd() == null) {
+                return parameters;
+            }
+            Parameter p = new Parameter();
+            p.setName(parameter.getName().getValue());
+            if (value.getStart() == null || value.getStart().getValue() == null) {
+                p.setValueDateStart(SMALLEST_TIMESTAMP);
+            } else {
+                XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(value.getStart().getValue(), true);
+                p.setValueDateStart(FHIRUtilities.convertToTimestamp(calendar));
+            }
+            if (value.getEnd() == null || value.getEnd().getValue() == null) {
+                p.setValueDateEnd(LARGEST_TIMESTAMP);
+            } else {
+                XMLGregorianCalendar calendar1 = FHIRUtilities.parseDateTime(value.getEnd().getValue(), true);
+                p.setValueDateEnd(FHIRUtilities.convertToTimestamp(calendar1));
+            }
+            parameters.add(p);
+            return parameters;
+        } catch (Throwable e) {
+            StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");
             if (parameter != null) {
                 msg.append(" " + parameter.getName());
             }
             throw new FHIRPersistenceProcessorException(msg.toString(), e);
-		} finally {
-			log.exiting(className, methodName);
-		}
-	}
+        } finally {
+            log.exiting(className, methodName);
+        }
+    }
 
 	@Override
 	public List<Parameter> process(SearchParameter parameter, PositiveInt value) throws FHIRPersistenceProcessorException {
@@ -710,8 +728,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 		log.entering(className, methodName);
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		try {
-            if (Objects.nonNull(value) 
-                    && Objects.nonNull(value.getValue()) 
+            if (Objects.nonNull(value)
+                    && Objects.nonNull(value.getValue())
                     && (Objects.nonNull(value.getCode()) || Objects.nonNull(value.getUnit()))) {
 				Parameter p = new Parameter();
 				p.setName(parameter.getName().getValue());
@@ -721,7 +739,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 					p.setValueCode(value.getCode().getValue());
 				} else if (value.getUnit() != null) {
 					p.setValueCode(value.getUnit().getValue());
-	
+
 				}
 				if (value.getSystem() != null) {
 					p.setValueSystem(value.getSystem().getValue());
@@ -820,7 +838,21 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
 	@Override
 	public List<Parameter> process(SearchParameter parameter, Timing value) throws FHIRPersistenceProcessorException {
-		return process( parameter, value.getRepeat().getPeriod());
+	    /* The specified scheduling details are ignored and only the outer limits matter.
+	     * For instance, a schedule that specifies every second day between 31-Jan 2013 and 24-Mar 2013
+	     * includes 1-Feb 2013, even though that is on an odd day that is not specified by the period.
+	     * This is to keep the server load processing queries reasonable. */
+
+	    TimingRepeat repeat = value.getRepeat();
+	    if (repeat != null) {
+	        // XXX Timing.repeat.period is the # of times the event occurs per period.
+	        // Instead, I think this should be using the bounds[x] element if present.
+	        // If not present, how can we know the "outer limits"?
+	        // Maybe try to compute the "outer limits" from the events?
+	        return process( parameter, value.getRepeat().getPeriod());
+	    } else {
+	        return new ArrayList<Parameter>();
+	    }
 	}
 
 	@Override

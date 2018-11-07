@@ -1,0 +1,70 @@
+{
+  "resourceType": "Basic",
+  "code": {
+    "text": "test"
+  },
+  "extension": [
+    {
+      "url": "http://example.org/Quantity",
+      "valueQuantity": {
+        "value": 25,
+        "unit": "sec",
+        "system": "http://unitsofmeasure.org",
+        "code": "s"
+      }
+    },
+    {
+      "url": "http://example.org/QuantityNoDisplayUnit",
+      "valueQuantity": {
+        "value": 1,
+        "system": "http://snomed.info/sct",
+        "code": "385049006"
+      }
+    },
+    {
+      "url": "http://example.org/QuantityNoCode",
+      "valueQuantity": {
+        "value": 1,
+        "unit": "eq"
+      }
+    },
+    {
+      "url": "http://example.org/QuantityNoCodeOrUnit",
+      "valueQuantity": {
+        "value": 1
+      }
+    },
+    {
+      "url": "http://example.org/QuantityLT",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "lt",
+        "comparator": "<"
+      }
+    },
+    {
+      "url": "http://example.org/QuantityGT",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "gt",
+        "comparator": ">"
+      }
+    },
+    {
+      "url": "http://example.org/QuantityLTE",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "lte",
+        "comparator": "<="
+      }
+    },
+    {
+      "url": "http://example.org/QuantityGTE",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "gte",
+        "comparator": ">="
+      }
+    }
+  ]
+}

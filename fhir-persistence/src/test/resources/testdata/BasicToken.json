@@ -1,0 +1,193 @@
+{
+  "resourceType": "Basic",
+  "code": {
+    "text": "test"
+  },
+  "extension": [
+    {
+      "url": "http://example.org/integer",
+      "valueInteger": 12
+    },
+    {
+      "url": "http://example.org/decimal",
+      "valueDecimal": 99.99
+    },
+    {
+      "url": "http://example.org/uri",
+      "valueUri": "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7"
+    },
+    {
+      "url": "http://example.org/instant",
+      "valueInstant": "2018-10-29T17:12:44-04:00"
+    },
+    {
+      "url": "http://example.org/date",
+      "valueDate": "2018-10-29"
+    },
+    {
+      "url": "http://example.org/dateTime",
+      "valueDateTime": "2018-10-29T17:12:00-04:00"
+    },
+    {
+      "url": "http://example.org/time",
+      "valueTime": "17:12:00"
+    },
+    
+    
+    {
+      "__comment": "Token is sometimes used for string to indicate that exact matching is the correct default search stategy",
+      "url": "http://example.org/string",
+      "valueString": "testString"
+    },
+    {
+      "__comment": "The implicit system is http://hl7.org/fhir/special-values",
+      "url": "http://example.org/boolean",
+      "valueBoolean": true
+    },
+    {
+      "__comment": "The system is defined in the value set (though it's not usually needed)",
+      "url": "http://example.org/code",
+      "valueCode": "code"
+    },
+    {
+      "url": "http://example.org/Coding",
+      "valueCoding": {
+        "system": "http://example.org/codesystem",
+        "code": "code"
+      }
+    },
+    {
+      "__comment": "If the system is present, and there is no code, then this is understood to mean that there is no suitable code in the system in which to represent the code.",
+      "url": "http://example.org/CodingNoCode",
+      "valueCoding": {
+        "system": "http://example.org/codesystem"
+      }
+    },
+    {
+      "__comment": "In some cases, the system may not be known - only the code is known.",
+      "url": "http://example.org/CodingNoSystem",
+      "valueCoding": {
+        "code": "code"
+      }
+    },
+    {
+      "url": "http://example.org/CodeableConcept",
+      "valueCodeableConcept": {
+        "coding": [{
+          "system": "http://example.org/codesystem",
+          "code": "code"
+        }]
+      }
+    },
+    {
+      "url": "http://example.org/CodeableConceptMultiCoded",
+      "valueCodeableConcept": {
+        "coding": [{
+          "system": "http://example.org/othersystem",
+          "code": "code"
+        }, {
+          "system": "http://example.org/codesystem",
+          "code": "code"
+        }]
+      }
+    },
+    {
+      "__comment": "Identifier.system|Identifier.value",
+      "url": "http://example.org/Identifier",
+      "valueIdentifier": {
+        "use": "official",
+        "system": "http://example.org/identifiersystem",
+        "value": "code"
+      }
+    },
+    {
+      "__comment": "Identifier.system|Identifier.value",
+      "url": "http://example.org/IdentifierNoValue",
+      "valueIdentifier": {
+        "system": "http://example.org/identifiersystem"
+      }
+    },
+    {
+      "__comment": "Identifier.system|Identifier.value",
+      "url": "http://example.org/IdentifierNoSystem",
+      "valueIdentifier": {
+        "value": "code"
+      }
+    },
+    {
+      "__comment": [
+        "ContactPoint.use|ContactPoint.value",
+        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
+      ],
+      "url": "http://example.org/ContactPoint",
+      "valueContactPoint": {
+        "use": "home",
+        "system": "phone",
+        "value": "(555) 675 5745"
+      }
+    },
+    {
+      "__comment": [
+        "ContactPoint.use|ContactPoint.value",
+        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
+      ],
+      "url": "http://example.org/ContactPointHomeFax",
+      "valueContactPoint": {
+      	"use": "home",
+        "system": "fax",
+        "value": "(555) 675 5745"
+      }
+    },
+    {
+      "__comment": [
+        "ContactPoint.use|ContactPoint.value",
+        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
+      ],
+      "url": "http://example.org/ContactPointURI",
+      "valueContactPoint": {
+        "use": "home",
+        "system": "phone",
+        "value": "tel:+15556755745"
+      }
+    },
+    {
+      "__comment": [
+        "ContactPoint.use|ContactPoint.value",
+        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
+      ],
+      "url": "http://example.org/ContactPointNoValue",
+      "valueContactPoint": {
+        "use": "home",
+        "system": "phone",
+        "_value": {
+          "extension": [{
+            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+            "value": "masked"
+          }]
+        }
+      }
+    },
+    {
+      "__comment": [
+        "ContactPoint.use|ContactPoint.value",
+        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
+      ],
+      "url": "http://example.org/ContactPointNoSystem",
+      "valueContactPoint": {
+        "use": "home",
+        "value": "test@example.com"
+      }
+    },
+    {
+      "__comment": [
+        "ContactPoint.use|ContactPoint.value",
+        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
+      ],
+      "url": "http://example.org/ContactPointNoUse",
+      "valueContactPoint": {
+        "system": "email",
+        "value": "test@example.com"
+      }
+    }
+  ]
+}

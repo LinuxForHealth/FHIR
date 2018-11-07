@@ -66,7 +66,14 @@
 	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryIncludeTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />
            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchDateTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchNumberTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchQuantityTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchReferenceTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
+           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
        </classes>
     </test>
- 
+    
 </suite>
