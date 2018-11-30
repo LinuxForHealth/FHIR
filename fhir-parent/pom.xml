@@ -39,6 +39,7 @@
         <module>../fhir-operation-healthcheck</module>
         <module>../fhir-validation</module>
         <module>../fhir-search</module>
+        <module>../fhir-iam</module>
         <module>../fhir-client</module>
         <module>../fhir-cli</module>
         <module>../fhir-notification</module>
@@ -451,6 +452,10 @@ CODE_REMOVED
         </repository>
         <repository>
             <id>na-artifactory-releases</id>
+CODE_REMOVED
+        </repository>
+        <repository>
+            <id>na-artifactory-iam</id>
 CODE_REMOVED
         </repository>
     </repositories>
