@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -31,6 +32,11 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-operation-document</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-iam</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -85,7 +91,84 @@
 							</descriptors>
 						</configuration>
 					</execution>
+					<execution>
+						<id>fhir-server-addons</id>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<finalName>ibm-cloud-tmp</finalName>
+							<outputDirectory>${publish.dir}</outputDirectory>
+							<appendAssemblyId>false</appendAssemblyId>
+							<attach>false</attach>
+							<descriptors>
+								<descriptor>src/main/assembly/addons.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>none</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>tag</goal>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server</repository>
+							<tag>${project.version}</tag>
+						</configuration>
+					</execution>
+					<execution>
+						<id>latest</id>
+						<phase>none</phase>
+						<goals>
+							<goal>tag</goal>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server</repository>
+							<tag>latest</tag>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ibm-cloud</id>
+						<phase>none</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>tag</goal>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<contextDirectory>target/ibm-cloud-tmp</contextDirectory>
+							<repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server-ibm-cloud</repository>
+							<tag>${project.version}</tag>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ibm-cloud-latest</id>
+						<phase>none</phase>
+						<goals>
+							<goal>tag</goal>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<contextDirectory>target/ibm-cloud-tmp</contextDirectory>
+							<repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server-ibm-cloud</repository>
+							<tag>latest</tag>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
