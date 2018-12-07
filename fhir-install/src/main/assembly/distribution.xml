@@ -98,16 +98,6 @@
  -->
 		<dependencySet>
 			<useProjectArtifact>false</useProjectArtifact>
-			<useTransitiveDependencies>false</useTransitiveDependencies>
-			<outputDirectory>fhir/server/addons</outputDirectory>
-			<directoryMode>0755</directoryMode>
-			<fileMode>0755</fileMode>
-			<includes>
-				<include>${project.groupId}:fhir-iam:*</include>
-			</includes>
-		</dependencySet>
-		<dependencySet>
-			<useProjectArtifact>false</useProjectArtifact>
 			<useTransitiveDependencies>true</useTransitiveDependencies>
 			<useTransitiveFiltering>true</useTransitiveFiltering>
 			<outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
