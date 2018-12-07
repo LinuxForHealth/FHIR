@@ -398,16 +398,22 @@ public class FHIRUtil {
 		}
 	}
 	
+    /**
+     * Write a resource in XML or JSON to a given output stream, without pretty-printing.
+     */
 	public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws JAXBException {
-		write(resource, format, stream, true);
+		write(resource, format, stream, false);
 	}
 	
+    /**
+     * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output.
+     */
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws JAXBException {
         if (Format.XML.equals(format)) {
     			Marshaller marshaller = createMarshaller(format, formatted);
     			marshaller.marshal(resource, stream);
         } else {
-        		// Format.JSON.equals(format)
+        		// Format is JSON.
         		try {
         			FHIRJsonGenerator generator = threadLocalFHIRJsonGenerator.get();
         			generator.setPrettyPrinting(formatted);
@@ -418,16 +424,22 @@ public class FHIRUtil {
         }
     }
 	
+    /**
+     * Write a resource in XML or JSON using the passed writer, without pretty-printing.
+     */
 	public static <T extends Resource> void write(T resource, Format format, Writer writer) throws JAXBException {
-		write(resource, format, writer, true);
+		write(resource, format, writer, false);
 	}
 	
+    /**
+     * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output.
+     */
     public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws JAXBException {
         if (Format.XML.equals(format)) {
     			Marshaller marshaller = createMarshaller(format, formatted);
     			marshaller.marshal(resource, writer);
         } else {
-        		// Format.JSON.equals(format)
+        		// Format is JSON.
         		try {
         			FHIRJsonGenerator generator = threadLocalFHIRJsonGenerator.get();
         			generator.setPrettyPrinting(formatted);
@@ -438,10 +450,16 @@ public class FHIRUtil {
         }
     }
 	
+    /**
+     * Write a resource to a W3C DOM node, without pretty-printing.
+     */
 	public static <T extends Resource> void write(T resource, Node node) throws JAXBException {
-		write(resource, node, true);
+		write(resource, node, false);
 	}
 	
+    /**
+     * Write a resource to a W3C DOM node, with an option to pretty-print the output.
+     */
     public static <T extends Resource> void write(T resource, Node node, boolean formatted) throws JAXBException {
         Marshaller marshaller = createMarshaller(Format.XML, formatted);
         marshaller.marshal(resource, node);

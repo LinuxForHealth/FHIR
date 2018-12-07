@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +30,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
+import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
 import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
@@ -48,6 +51,8 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 
     @Context
     private UriInfo uriInfo;
+    @Context
+    private HttpHeaders requestHeaders;
     private RuntimeType runtimeType = null;
     private ObjectFactory objectFactory = new ObjectFactory();
 
@@ -111,13 +116,14 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     public void writeTo(Resource t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
         OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
+
         try {
         	FHIRUtil.write(t, getFormat(mediaType), new FilterOutputStream(entityStream) {
         		@Override
         		public void close() {
         			// do nothing
         		}
-        	});
+        	}, isPretty(requestHeaders));
         } 
         catch (Exception e) {
         	Response response = buildResponse(
@@ -131,6 +137,23 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         finally {
             log.exiting(this.getClass().getName(), "writeTo");
         }
+    }
+
+    protected static boolean isPretty(HttpHeaders httpHeaders) {
+        // Header evaluation
+        String headerValue = httpHeaders.getHeaderString(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME);
+        if (headerValue != null) {
+            if (Boolean.parseBoolean(headerValue)) {
+                //explicitly on in the header
+                return true;
+            } else if (headerValue.toLowerCase().equals("false")) {
+                //explicitly off in the header.  ignore header value if it doesn't specify "true" or false"
+                return false;
+            }
+        }
+
+        // Config evaluation (default false)
+        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_DEFAULT_PRETTY_PRINT, false);
     }
 
     @Override
