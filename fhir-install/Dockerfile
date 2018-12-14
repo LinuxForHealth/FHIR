@@ -29,4 +29,4 @@ WORKDIR /opt/ibm/wlp/usr/servers/fhir-server
 
 ENV WLP_OUTPUT_DIR=/opt/ibm/wlp/usr/servers
 
-CMD ["/opt/ibm/docker/docker-server", "run", "fhir-server"]
+CMD ["/opt/ibm/wlp/bin/server", "run", "fhir-server"]
