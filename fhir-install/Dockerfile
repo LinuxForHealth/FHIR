@@ -4,9 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM websphere-liberty:18.0.0.3-microProfile1
-
-MAINTAINER John T.E. Timm <johntimm@us.ibm.com>
+FROM websphere-liberty:18.0.0.3-microProfile1 as base
 
 ENV LICENSE accept
 
@@ -19,14 +17,27 @@ RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/ &
     /fhir-installer/fhir-server-dist/install-fhir.sh /opt/ibm/wlp && \
     /opt/ibm/wlp/bin/installUtility install fhir-server --acceptLicense
 
-USER root
-RUN rm -rf /fhir-installer
-USER 1001
 
-EXPOSE 9080 9443
+FROM websphere-liberty:18.0.0.3-microProfile1
+COPY --chown=1001:0 --from=base /opt/ibm/wlp/ /opt/ibm/wlp
 
-WORKDIR /opt/ibm/wlp/usr/servers/fhir-server
+MAINTAINER John T.E. Timm <johntimm@us.ibm.com>
 
+ENV FHIR /opt/ibm/wlp/usr/servers/fhir-server
+
+# Set the working directory to the fhir-server liberty server
+WORKDIR ${FHIR}
+
+# Set the output directory so that output will appear under the working directory
 ENV WLP_OUTPUT_DIR=/opt/ibm/wlp/usr/servers
+
+# Replace links to defaultServer with links to fhir-server
+RUN ln -sf ${FHIR} /output && \
+    ln -sf ${FHIR} /config && \
+    rm -rf /opt/ibm/wlp/output && \
+    rm -rf /opt/ibm/wlp/usr/servers/defaultServer
+
+# Tell liberty not to worry about a keystore since we provide our own at a different path
+ENV KEYSTORE_REQUIRED false
 
 CMD ["/opt/ibm/wlp/bin/server", "run", "fhir-server"]
