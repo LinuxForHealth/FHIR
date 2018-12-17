@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM websphere-liberty:18.0.0.3-microProfile1 as base
+FROM websphere-liberty:18.0.0.3-microProfile2 as base
 
 ENV LICENSE accept
 
@@ -18,7 +18,7 @@ RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/ &
     /opt/ibm/wlp/bin/installUtility install fhir-server --acceptLicense
 
 
-FROM websphere-liberty:18.0.0.3-microProfile1
+FROM websphere-liberty:18.0.0.3-microProfile2
 COPY --chown=1001:0 --from=base /opt/ibm/wlp/ /opt/ibm/wlp
 
 MAINTAINER John T.E. Timm <johntimm@us.ibm.com>
