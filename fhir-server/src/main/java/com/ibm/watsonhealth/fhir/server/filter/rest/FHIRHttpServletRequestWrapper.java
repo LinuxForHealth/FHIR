@@ -244,17 +244,19 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         if (headerName.contains(":")) {
             // If the header name contains a ":", interpret that as a request for just a part of the header
-            String[] splitHeader = headerName.split(":", 2);
-            String realHeaderName = splitHeader[0].trim();
-            String partName = splitHeader[1].trim();
+            String[] splitHeaderName = headerName.split(":", 2);
+            String realHeaderName = splitHeaderName[0].trim();
+            String partName = splitHeaderName[1].trim();
 
-            String fullHeader = delegate.getHeader(realHeaderName);
-            String[] parts = fullHeader.split(";");
-            for (int i = 0; i < parts.length; i++) {
-                String[] splitPart = parts[i].split("=", 2);
-                if (partName.equals(splitPart[0].trim()) && splitPart.length == 2) {
-                    s = splitPart[1].trim();
-                    break;
+            String fullHeaderValue = delegate.getHeader(realHeaderName);
+            if (fullHeaderValue != null) {
+                String[] parts = fullHeaderValue.split(";");
+                for (int i = 0; i < parts.length; i++) {
+                    String[] splitPart = parts[i].split("=", 2);
+                    if (partName.equals(splitPart[0].trim()) && splitPart.length == 2) {
+                        s = splitPart[1].trim();
+                        break;
+                    }
                 }
             }
         } else {
