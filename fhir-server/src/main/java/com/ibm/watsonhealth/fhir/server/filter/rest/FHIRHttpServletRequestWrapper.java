@@ -215,13 +215,20 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * This method allows us to support the overriding of HTTP headers with query parameters. For example, if this
+     * This method allows us to support overriding of HTTP headers with query parameters. For example, if this
      * method is called for the "Accept" header, we'll allow the "_format" query parameter to act as an override for the
      * HTTP header value. We support this behavior for several HTTP headers. They are inserted into the
      * "headerNameMappings" map defined above.
      * 
      * Also for selected HTTP headers, we'll support a default value in the event that no value is specified via the
      * HTTP request header or via the query string.
+     * 
+     * Finally, if headerName includes a ":" we interpret that as a request for the value of a specific part of a complex header.
+     * For example, given a header value like:
+     * <pre> 
+     * X-TEST: part1=a;part2=multipart;part3=value;
+     * </pre>
+     * getHeader("X-TEST:part2") would return "multipart".
      * 
      * @param headerName
      *            the name of the HTTP header to be retrieved
@@ -233,36 +240,54 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             throw new IllegalArgumentException();
         }
 
-        String headerNameLC = headerName.toLowerCase();
-
         String s = null;
 
-        // First, check to see if the user specified this header as a query parameter.
-        String queryValue = headerQueryParameters.get(headerNameLC);
-        if (queryValue != null && !queryValue.isEmpty()) {
-            s = queryValue;
-            s = possiblyMapQueryParameterValue(headerNameLC, s);
-        }
+        if (headerName.contains(":")) {
+            // If the header name contains a ":", interpret that as a request for just a part of the header
+            String[] splitHeader = headerName.split(":", 2);
+            String realHeaderName = splitHeader[0].trim();
+            String partName = splitHeader[1].trim();
 
-        // If we didn't find an override value via the query string, then call
-        // our delegate.
-        if (s == null) {
-            s = delegate.getHeader(headerName);
-        }
+            String fullHeader = delegate.getHeader(realHeaderName);
+            String[] parts = fullHeader.split(";");
+            for (int i = 0; i < parts.length; i++) {
+                String[] splitPart = parts[i].split("=", 2);
+                if (partName.equals(splitPart[0].trim()) && splitPart.length == 2) {
+                    s = splitPart[1].trim();
+                    break;
+                }
+            }
+        } else {
 
-        // Finally, if we still don't have a value for the requested header,
-        // then check to see if we should return a default value for this header.
-        if (s == null || s.isEmpty()) {
-            String defaultValue = defaultHeaderValues.get(headerNameLC);
-            if (defaultValue != null) {
-                s = defaultValue;
+            String headerNameLC = headerName.toLowerCase();
+
+            // First, check to see if the user specified this header as a query parameter.
+            String queryValue = headerQueryParameters.get(headerNameLC);
+            if (queryValue != null && !queryValue.isEmpty()) {
+                s = queryValue;
+                s = possiblyMapQueryParameterValue(headerNameLC, s);
+            }
+
+            // If we didn't find an override value via the query string, then call
+            // our delegate.
+            if (s == null) {
+                s = delegate.getHeader(headerName);
+            }
+
+            // Finally, if we still don't have a value for the requested header,
+            // then check to see if we should return a default value for this header.
+            if (s == null || s.isEmpty()) {
+                String defaultValue = defaultHeaderValues.get(headerNameLC);
+                if (defaultValue != null) {
+                    s = defaultValue;
+                }
             }
         }
-        
-        if (log.isLoggable(Level.FINEST)) {
-            log.finest("getHeader(\"" + headerName + "\") : " + s);
-        }
 
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("getHeader(\"" + headerName + "\"): " + s);
+        }
+        
         return s;
     }
 
