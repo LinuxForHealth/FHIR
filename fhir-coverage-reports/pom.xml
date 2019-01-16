@@ -8,8 +8,14 @@
 		<relativePath>../fhir-parent</relativePath>
 	</parent>
 	<artifactId>fhir-coverage-reports</artifactId>
+	<packaging>pom</packaging>
 
 	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-audit</artifactId>
@@ -52,7 +58,52 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-provider</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>fhir-replication-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-iam</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-notification</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-notification-kafka</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-notification-websocket</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-operation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-operation-document</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-operation-validate</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fhir-operation-healthcheck</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -70,17 +121,27 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>default-report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
 						<id>report-aggregate</id>
 						<phase>verify</phase>
 						<goals>
 							<goal>report-aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/jacoco-report.xml</descriptor>
+					</descriptors>
+					<archiveBaseDirectory>${project.reporting.outputDirectory}</archiveBaseDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>
