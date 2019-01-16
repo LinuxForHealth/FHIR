@@ -15,6 +15,8 @@
         <db2.version>4.24.92</db2.version>
         <cxf.version>3.1.15</cxf.version>
         <surefire.plugin.version>2.20.1</surefire.plugin.version>
+        <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
+        <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
         <jacoco.plugin.version>0.8.2</jacoco.plugin.version>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
