@@ -313,7 +313,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
             	createAuditLogRecord = true;
-            	String msg = "A search query string is required for a conditional update operation.";
+            	String msg = "Cannot PUT to resource type endpoint unless a search query string is provided for a conditional update.";
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueTypeList.INVALID);
             }
             

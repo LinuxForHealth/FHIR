@@ -27,7 +27,8 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("date", "2018-10-29");
         // This should return the resource but does not
 //        assertSearchReturnsSavedResource("date", "2018-10-29T17:12:00-04:00");
-        
+        // This throws an error
+//        assertSearchReturnsSavedResource("date", "2018-10-29T17:12:00");
         assertSearchDoesntReturnSavedResource("date", "2025-10-29");
     }
 
