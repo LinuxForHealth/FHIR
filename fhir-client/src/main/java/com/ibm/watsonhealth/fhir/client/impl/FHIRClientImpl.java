@@ -90,6 +90,8 @@ public class FHIRClientImpl implements FHIRClient {
     private boolean loggingEnabled = false;
     
     private boolean hostnameVerificationEnabled = true;
+    
+    private int httpTimeout;
 
     protected FHIRClientImpl() {
     }
@@ -817,7 +819,7 @@ public class FHIRClientImpl implements FHIRClient {
                 }
             }
 
-            // Finally, add a hostname verifier if we're using an ssl transport.
+            // Add a hostname verifier if we're using an ssl transport.
             if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
                 cb = cb.hostnameVerifier(new HostnameVerifier() {
                     public boolean verify(String s, SSLSession sslSession) {
@@ -825,11 +827,15 @@ public class FHIRClientImpl implements FHIRClient {
                     }
                 });
             }
+            
+            // Set the http client's receive timeout setting
+            cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
 
+            // Add request/response logging if enabled.
             if (isLoggingEnabled()) {
                 cb.register(LoggingFeature.class);
             }
-
+            
             // Save off our cached Client instance.
             client = cb.build();
         }
@@ -941,6 +947,8 @@ public class FHIRClientImpl implements FHIRClient {
             setLoggingEnabled(Boolean.parseBoolean(getProperty(PROPNAME_LOGGING_ENABLED, "false")));
             
             setHostnameVerificationEnabled(Boolean.parseBoolean(getProperty(PROPNAME_HOSTNAME_VERIFICATION_ENABLED, "true")));
+            
+            setHttpTimeout(Integer.parseUnsignedInt(getProperty(PROPNAME_HTTP_TIMEOUT, "60000")));
         } catch (Throwable t) {
             throw new Exception("Unexpected error while processing client properties.", t);
         }
@@ -1208,5 +1216,13 @@ public class FHIRClientImpl implements FHIRClient {
 
     public void setHostnameVerificationEnabled(boolean hostnameVerficationEnabled) {
         this.hostnameVerificationEnabled = hostnameVerficationEnabled;
+    }
+
+    public int getHttpTimeout() {
+        return httpTimeout;
+    }
+
+    public void setHttpTimeout(int httpTimeout) {
+        this.httpTimeout = httpTimeout;
     }
 }

@@ -132,6 +132,12 @@ public interface FHIRClient {
      */
     public static final String PROPNAME_HOSTNAME_VERIFICATION_ENABLED = "fhirclient.hostnameVerification.enabled";
     
+    /**
+     * The amount of time, in milliseconds, that the consumer will wait for a response before it times out. 0 is infinite.
+     * Defaults to 60,000ms (60s) 
+     */
+    public static final String PROPNAME_HTTP_TIMEOUT = "fhirclient.http.receive.timeout";
+    
     
     /**
      * Returns a JAX-RS 2.0 WebTarget object associated with the REST API endpoint.
