@@ -400,6 +400,7 @@ public class FHIRUtil {
 	
     /**
      * Write a resource in XML or JSON to a given output stream, without pretty-printing.
+     * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
      */
 	public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws JAXBException {
 		write(resource, format, stream, false);
@@ -407,6 +408,7 @@ public class FHIRUtil {
 	
     /**
      * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output.
+     * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
      */
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws JAXBException {
         if (Format.XML.equals(format)) {
@@ -426,6 +428,7 @@ public class FHIRUtil {
 	
     /**
      * Write a resource in XML or JSON using the passed writer, without pretty-printing.
+     * This method will close the writer after writing to it.
      */
 	public static <T extends Resource> void write(T resource, Format format, Writer writer) throws JAXBException {
 		write(resource, format, writer, false);
@@ -433,6 +436,7 @@ public class FHIRUtil {
 	
     /**
      * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output.
+     * This method will close the writer after writing to it.
      */
     public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws JAXBException {
         if (Format.XML.equals(format)) {
