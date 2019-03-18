@@ -118,8 +118,8 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
 		@Override
 		public Patient call() throws Exception {
 			FHIRResponse response = client.update(this.patient);
-			boolean goodResponse = (response.getResponse().equals(Response.Status.OK) ||
-					                response.getResponse().equals(Response.Status.CREATED));
+			boolean goodResponse = (response.getStatus() == Response.Status.OK.getStatusCode() ||
+					                response.getStatus() == Response.Status.CREATED.getStatusCode());
 			assertTrue(goodResponse);
 			return this.patient;
 		}
