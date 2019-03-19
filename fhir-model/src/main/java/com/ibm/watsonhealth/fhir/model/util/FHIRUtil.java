@@ -1052,7 +1052,6 @@ public class FHIRUtil {
 		"TestScript",
 		"ValueSet",
 		"VisionPrescription"
-
 	);
 
 	/**
@@ -1112,7 +1111,8 @@ public class FHIRUtil {
      *
      * @param container
      *            the ResourceContainer containing the resource
-     * @return
+     * @return resource
+     *            the Resource within the container or null if there is no resource
      * @throws Exception
      */
     public static Resource getResourceContainerResource(ResourceContainer container) throws Exception {
@@ -1124,8 +1124,6 @@ public class FHIRUtil {
                     return resource;
                 }
             }
-        } else {
-            throw new FHIRException("An error occured trying to get Resource from container, invalid container found");
         }
         return null;
     }

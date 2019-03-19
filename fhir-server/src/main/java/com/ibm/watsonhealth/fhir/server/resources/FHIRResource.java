@@ -1918,11 +1918,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                         }
                     }
                 } catch (FHIROperationException e) {
+                    log.log(Level.INFO, "Failed to process BundleEntry [" + bundle.getEntry().indexOf(requestEntry) + "]", e);
                     setBundleEntryResource(responseEntry, FHIRUtil.buildOperationOutcome(e, false));
                     response.setStatus(objectFactory.createString().withValue(Integer.toString(SC_BAD_REQUEST)));
                     numErrors++;
                 }
-            }
+            } // End foreach requestEntry
             
             // If this is a "transaction" interaction and we encountered any errors, then we'll
             // abort processing this request right now since a transaction interaction is supposed to be
@@ -3201,7 +3202,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             return FHIRUtil.getResourceContainerResource(entry.getResource());
         } catch (Throwable t) {
-            FHIROperationException e = new FHIROperationException("Internal error: unable to retrieve resource from BundleEntry's resource container.", t);
+            FHIROperationException e = new FHIROperationException("Unable to retrieve resource from BundleEntry's resource container.", t);
             log.log(Level.SEVERE, e.getMessage(), e);
             throw e;
         }
