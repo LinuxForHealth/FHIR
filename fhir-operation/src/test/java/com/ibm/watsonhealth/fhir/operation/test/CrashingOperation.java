@@ -6,13 +6,13 @@
 
 package com.ibm.watsonhealth.fhir.operation.test;
 
+import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.Parameters;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
-import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
+import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 /**
  * This class will test what happens if there is an Operation that fails to initialize.
@@ -29,9 +29,12 @@ public class CrashingOperation extends AbstractOperation {
         throw new RuntimeException("Testing an operation that fails to initialize");
     }
 
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.operation.AbstractOperation#doInvoke(com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext, java.lang.Class, java.lang.String, java.lang.String, com.ibm.watsonhealth.fhir.model.Parameters, com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers)
+     */
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRPersistence persistence) throws FHIROperationException {
+        Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         // do nothing
         return null;
     }

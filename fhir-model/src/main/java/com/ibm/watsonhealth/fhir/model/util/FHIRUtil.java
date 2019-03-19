@@ -682,11 +682,6 @@ public class FHIRUtil {
         return objectFactory.createTime().withValue(time);
     }
 
-    public static Time time(int hours, int minutes, int seconds) throws DatatypeConfigurationException {
-        XMLGregorianCalendar time = datatypeFactory.newXMLGregorianCalendarTime(hours, minutes, seconds, DatatypeConstants.FIELD_UNDEFINED);
-        return objectFactory.createTime().withValue(time);
-    }
-
     public static Decimal decimal(Number value) {
         return objectFactory.createDecimal().withValue(new BigDecimal(value.toString()));
     }
