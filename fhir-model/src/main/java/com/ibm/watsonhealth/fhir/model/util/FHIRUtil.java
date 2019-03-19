@@ -10,7 +10,6 @@ import static java.util.Objects.nonNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -20,8 +19,8 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.ArrayList;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.GregorianCalendar;
@@ -1293,6 +1292,9 @@ public class FHIRUtil {
         return areEqual(a, b);
     }
 
+    /**
+     * Private method: objects a and b must be either Resources or Elements
+     */
     private static boolean areEqual(Object a, Object b) throws FHIRException {
         ByteArrayOutputStream one = new ByteArrayOutputStream();
         ByteArrayOutputStream two = new ByteArrayOutputStream();
@@ -1303,8 +1305,7 @@ public class FHIRUtil {
             marshaller.marshal(b, two);
             return Arrays.equals(one.toByteArray(), two.toByteArray());
         } catch (JAXBException e) {
-            e.printStackTrace();
-            throw new FHIRException("An error occurred while comparing elements",e);
+            throw new FHIRException("An error occurred while comparing objects " + a + " and " + b, e);
         }
     }
 
@@ -1415,11 +1416,11 @@ public class FHIRUtil {
     }
 
     /**
-     * Resolve the reference @ref to an entry within @bundle and return the corresponding resource
-     * TODO If it doesn't exist, try to dereference it?
+     * Resolve the reference {@code ref} to an entry within {@code bundle} and return the corresponding resource
      * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
      * @param resourceType
      * @param bundle
+     * @param sourceEntry required to be non-null if the reference is not absolute
      * @param ref
      * @throws Exception
      */
@@ -1428,22 +1429,15 @@ public class FHIRUtil {
         BundleEntry targetEntry = resolveBundleReference(bundle, sourceEntry, ref);
         ResourceContainer container = targetEntry.getResource();
         return (T) FHIRUtil.getResourceContainerResource(container);
-
-        // TODO Didn't find the resource in the bundle or on the server, so try to retrieve it
-//        URL url = new URL(referenceUri);
-//        URLConnection connection = url.openConnection();
-//        resource = FHIRUtil.read(resourceType, Format.JSON, connection.getInputStream());
-//        return resource;
     }
 
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle}
      * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
      * @param bundle
-     * @param sourceEntry required if the reference is not absolute
+     * @param sourceEntry required to be non-null if the reference is not absolute
      * @param ref
-     * @throws IOException if the reference isn't found in the bundle and an error occurs during dereferencing
-     * @throws JAXBException if the resource cannot be parsed after dereferencing
+     * @throws FHIRException if the reference isn't found in the bundle
      * @throws URISyntaxException if @ref does not contain a valid URI it its value
      * @throws IllegalArgumentException if @ref contains a fragment reference
      */
@@ -1505,8 +1499,12 @@ public class FHIRUtil {
                 }
             }
         }
-        // If no match is found, the resource is not in the bundle, and must be found elsewhere (e.g. if an http: URL, try accessing it directly)
+        // If no match is found, the resource is not in the bundle, and must be found elsewhere (e.g. if an http URL, try accessing it directly)
         // TODO use the FHIR Client to dereference it?
+//      URL url = new URL(referenceUri);
+//      URLConnection connection = url.openConnection();
+//      resource = FHIRUtil.read(resourceType, Format.JSON, connection.getInputStream());
+//      return resource;
         throw new FHIRException("Bundle does not contain the referenced resource. Remote retrieval of referenced resources is not yet implemented.");
     }
 
@@ -1594,8 +1592,4 @@ public class FHIRUtil {
     	}
 		return tagFound;
     }
-
-
-
-
 }
