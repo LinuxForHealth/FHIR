@@ -8,6 +8,9 @@ package com.ibm.watsonhealth.fhir.model.util;
 
 import static java.util.Objects.nonNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -18,6 +21,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.GregorianCalendar;
@@ -25,6 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -49,6 +57,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
@@ -64,6 +74,8 @@ import com.ibm.watsonhealth.fhir.model.AddressUse;
 import com.ibm.watsonhealth.fhir.model.AddressUseList;
 import com.ibm.watsonhealth.fhir.model.Attachment;
 import com.ibm.watsonhealth.fhir.model.Basic;
+import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.BundleEntry;
 import com.ibm.watsonhealth.fhir.model.CarePlanParticipant;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatus;
 import com.ibm.watsonhealth.fhir.model.CarePlanStatusList;
@@ -123,49 +135,54 @@ import com.ibm.watsonhealth.fhir.model.Uri;
 import com.ibm.watsonhealth.fhir.model.adapters.DivAdapter;
 
 public class FHIRUtil {
-	private static final String HL7_FHIR_NS_URI = "http://hl7.org/fhir";	
+    private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
+	private static final String HL7_FHIR_NS_URI = "http://hl7.org/fhir";
 	private static final String DEFAULT_NS_PREFIX = "";
 	private static final String XHTML_NS_PREFIX = "xhtml";
 	private static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
-	private static final String XML_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/xml-fhir-metadata.xml";	
+	private static final String XML_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/xml-fhir-metadata.xml";
 	private static final String JSON_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/json-fhir-metadata.xml";
     private static final String NL = System.getProperty("line.separator");
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
 	private static final String P_MAX_ATTRIBUTE_SIZE = "com.ctc.wstx.maxAttributeSize";
 
-    
+	/**
+	 * https://www.hl7.org/fhir/dstu2/references.html#regex
+	 */
+	private static final Pattern REST_PATTERN = Pattern.compile("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(Account|AllergyIntolerance|Appointment|AppointmentResponse|AuditEvent|Basic|Binary|BodySite|Bundle|CarePlan|Claim|ClaimResponse|ClinicalImpression|Communication|CommunicationRequest|Composition|ConceptMap|Condition|Conformance|Contract|Coverage|DataElement|DetectedIssue|Device|DeviceComponent|DeviceMetric|DeviceUseRequest|DeviceUseStatement|DiagnosticOrder|DiagnosticReport|DocumentManifest|DocumentReference|EligibilityRequest|EligibilityResponse|Encounter|EnrollmentRequest|EnrollmentResponse|EpisodeOfCare|ExplanationOfBenefit|FamilyMemberHistory|Flag|Goal|Group|HealthcareService|ImagingObjectSelection|ImagingStudy|Immunization|ImmunizationRecommendation|ImplementationGuide|List|Location|Media|Medication|MedicationAdministration|MedicationDispense|MedicationOrder|MedicationStatement|MessageHeader|NamingSystem|NutritionOrder|Observation|OperationDefinition|OperationOutcome|Order|OrderResponse|Organization|Patient|PaymentNotice|PaymentReconciliation|Person|Practitioner|Procedure|ProcedureRequest|ProcessRequest|ProcessResponse|Provenance|Questionnaire|QuestionnaireResponse|ReferralRequest|RelatedPerson|RiskAssessment|Schedule|SearchParameter|Slot|Specimen|StructureDefinition|Subscription|Substance|SupplyDelivery|SupplyRequest|TestScript|ValueSet|VisionPrescription)\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
+
 	public static enum Format {
 		XML,
 		JSON
 	}
-	
+
 	private static final JAXBContext xmlContext = createContext(Format.XML);
 	private static final JAXBContext jsonContext = createContext(Format.JSON);
 	private static final ObjectFactory objectFactory = new ObjectFactory();
 	private static final DatatypeFactory datatypeFactory = createDatatypeFactory();
 	private static final DocumentBuilderFactory documentBuilderFactory = createDocumentBuilderFactory();
 	private static final XMLInputFactory inputFactory = createInputFactory();
-	
+
 	private static final ThreadLocal<FHIRJsonParser> threadLocalFHIRJsonParser = new ThreadLocal<FHIRJsonParser>() {
 	    @Override
 	    protected FHIRJsonParser initialValue() {
 	        return FHIRJsonParser.createLenientParser();
 	    }
 	};
-	
+
 	private static final ThreadLocal<FHIRJsonGenerator> threadLocalFHIRJsonGenerator = new ThreadLocal<FHIRJsonGenerator>() {
 	    @Override
 	    protected FHIRJsonGenerator initialValue() {
 	        return new FHIRJsonGenerator();
 	    }
 	};
-	
+
 	private FHIRUtil() { }
-	
+
 	public static void init() {
 	    // allows us to initialize this class during startup
 	}
-	
+
 	private static DocumentBuilderFactory createDocumentBuilderFactory() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -176,7 +193,7 @@ public class FHIRUtil {
 			throw new Error(e);
 		}
 	}
-	
+
 	private static DatatypeFactory createDatatypeFactory() {
 		try {
 			return DatatypeFactory.newInstance();
@@ -184,7 +201,7 @@ public class FHIRUtil {
 			throw new Error(e);
 		}
 	}
-	
+
 	private static XMLInputFactory createInputFactory() {
 	    try {
 	        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -200,7 +217,7 @@ public class FHIRUtil {
 	}
 
 	private static JAXBContext createContext(Format format) {
-		try {		
+		try {
 			Map<String, Object> properties = new HashMap<String, Object>();
 			String metadataSource = null;
 			if (Format.XML.equals(format)) {
@@ -220,18 +237,18 @@ public class FHIRUtil {
 			throw new Error(e);
 		}
 	}
-	
+
 	private static JAXBContext getContext(Format format) {
 		return Format.XML.equals(format) ? xmlContext : jsonContext;
 	}
-	
+
     public static <T extends Resource> Binder<Node> createBinder(T resource) throws Exception {
         Binder<Node> binder = getContext(Format.XML).createBinder();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         binder.marshal(wrap(resource), documentBuilder.newDocument());
         return binder;
     }
-	
+
 	@SuppressWarnings("unchecked")
 	private static <T extends Resource> JAXBElement<T> wrap(T resource) {
 	    Class<? extends Resource> resourceType = resource.getClass();
@@ -250,7 +267,7 @@ public class FHIRUtil {
 		unmarshaller.setEventHandler(new FHIRSerializationEventHandler());
 		return unmarshaller;
 	}
-	
+
 	private static void configureUnmarshaller(Unmarshaller unmarshaller, Format format) throws JAXBException {
 		unmarshaller.setEventHandler(new ValidationEventHandler() {
 			@Override
@@ -259,7 +276,7 @@ public class FHIRUtil {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream) throws JAXBException {
 		if (Format.XML.equals(format)) {
@@ -282,10 +299,10 @@ public class FHIRUtil {
 		    }
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, InputStream stream, ElementFilter filter) throws JAXBException {
-		 
+
 	    try {
 	        FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
 	        parser.reset();
@@ -294,9 +311,9 @@ public class FHIRUtil {
 	    } catch (FHIRException e) {
 	        throw new JAXBException(e);
 	    }
-		 
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws JAXBException {
 		if (Format.XML.equals(format)) {
@@ -319,10 +336,10 @@ public class FHIRUtil {
             }
 		}
 	}
-	
+
 	/**
 	 * Reads the contents of the passed reader, applies the passed filter, and returns an instance of a Resource.
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Class<T> resourceType, Reader reader, ElementFilter filter) throws JAXBException {
@@ -334,21 +351,21 @@ public class FHIRUtil {
         } catch (FHIRException e) {
             throw new JAXBException(e);
         }
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T extends Resource> T read(Node node) throws JAXBException {
 		Unmarshaller unmarshaller = createUnmarshaller(Format.XML);
 		return (T) unmarshaller.unmarshal(node);
 	}
-	
+
 	public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws JAXBException {
         // write JsonObject to String
 	    StringWriter writer = new StringWriter();
         Json.createWriter(writer).writeObject(jsonObject);
         String jsonString = writer.toString();
-        
+
         // read Resource from String
         Unmarshaller unmarshaller = createUnmarshaller(Format.JSON);
         JAXBElement<T> jaxbElement = unmarshaller.unmarshal(new StreamSource(new StringReader(jsonString)), resourceType);
@@ -360,7 +377,7 @@ public class FHIRUtil {
         StringWriter writer = new StringWriter();
         Json.createWriter(writer).writeObject(jsonObject);
         String jsonString = writer.toString();
-        
+
         // read Element from String
         Unmarshaller unmarshaller = createUnmarshaller(Format.JSON);
         JAXBElement<T> jaxbElement = unmarshaller.unmarshal(new StreamSource(new StringReader(jsonString)), elementType);
@@ -374,11 +391,11 @@ public class FHIRUtil {
 		marshaller.setEventHandler(new FHIRSerializationEventHandler());
 		return marshaller;
 	}
-	
+
 	public static ConditionVerificationStatus conditionVerificationStatus(String s) {
 		return objectFactory.createConditionVerificationStatus().withValue(ConditionVerificationStatusList.fromValue("confirmed"));
 	}
-	
+
 	private static void configureMarshaller(Marshaller marshaller, Format format, boolean formatted) throws PropertyException   {
 		// common configuration
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatted);
@@ -397,7 +414,7 @@ public class FHIRUtil {
 			marshaller.setProperty(MarshallerProperties.JSON_MARSHAL_EMPTY_COLLECTIONS, false);
 		}
 	}
-	
+
     /**
      * Write a resource in XML or JSON to a given output stream, without pretty-printing.
      * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
@@ -405,7 +422,15 @@ public class FHIRUtil {
 	public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws JAXBException {
 		write(resource, format, stream, false);
 	}
-	
+
+	/**
+	 * Write an element to a given output stream in XML format, without pretty-printing.
+	 * TODO: support writing an element to JSON.
+	 */
+	public static <T extends Element> void write(T element, OutputStream stream) throws JAXBException {
+        write(element, stream, false);
+    }
+
     /**
      * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output.
      * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
@@ -425,7 +450,16 @@ public class FHIRUtil {
         		}
         }
     }
-	
+
+	/**
+	 * Write an element to the given output stream in XML format, with an option to pretty-print the output.
+	 * TODO: support writing an element to JSON.
+	 */
+	public static <T extends Element> void write(T element, OutputStream stream, boolean formatted) throws JAXBException {
+		Marshaller marshaller = createMarshaller(Format.XML, formatted);
+		marshaller.marshal(element, stream);
+	}
+
     /**
      * Write a resource in XML or JSON using the passed writer, without pretty-printing.
      * This method will close the writer after writing to it.
@@ -433,7 +467,15 @@ public class FHIRUtil {
 	public static <T extends Resource> void write(T resource, Format format, Writer writer) throws JAXBException {
 		write(resource, format, writer, false);
 	}
-	
+
+	/**
+	 * Write an element in XML format using the passed writer, without pretty-printing.
+	 * TODO: support writing an element to JSON.
+	 */
+	public static <T extends Element> void write(T element, Writer writer) throws JAXBException {
+				write(element, writer, false);
+		}
+
     /**
      * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output.
      * This method will close the writer after writing to it.
@@ -453,14 +495,23 @@ public class FHIRUtil {
         		}
         }
     }
-	
+
     /**
-     * Write a resource to a W3C DOM node, without pretty-printing.
+     * Write an element in XML using the passed writer, with an option to pretty-print the output.
+     * TODO: support writing an element to JSON.
      */
+    public static <T extends Element> void write(T element, Writer writer, boolean formatted) throws JAXBException {
+        Marshaller marshaller = createMarshaller(Format.XML, formatted);
+        marshaller.marshal(element, writer);
+    }
+
+	/**
+	 * Write a resource to a W3C DOM node, without pretty-printing.
+	 */
 	public static <T extends Resource> void write(T resource, Node node) throws JAXBException {
 		write(resource, node, false);
 	}
-	
+
     /**
      * Write a resource to a W3C DOM node, with an option to pretty-print the output.
      */
@@ -468,17 +519,17 @@ public class FHIRUtil {
         Marshaller marshaller = createMarshaller(Format.XML, formatted);
         marshaller.marshal(resource, node);
     }
-	
+
     public static JsonObject toJsonObject(Resource resource) throws JAXBException {
         // write Resource to String
         StringWriter writer = new StringWriter();
         write(resource, Format.JSON, writer);
         String jsonString = writer.toString();
-        
+
         // read JsonObject from String
         return Json.createReader(new StringReader(jsonString)).readObject();
     }
-    
+
     public static JsonObjectBuilder toJsonObjectBuilder(Resource resource) throws JAXBException {
         return toJsonObjectBuilder(toJsonObject(resource));
     }
@@ -487,16 +538,16 @@ public class FHIRUtil {
         // write Element to String
         StringWriter writer = new StringWriter();
         Marshaller marshaller = createMarshaller(Format.JSON, false);
-        
+
         // wrap "element" in a JAXBElement to omit "type" field from output
         JAXBElement<T> jaxbElement = new JAXBElement<T>(new QName(""), elementType, element);
         marshaller.marshal(jaxbElement, writer);
         String jsonString = writer.toString();
-        
+
         // read JsonObject from String
         return Json.createReader(new StringReader(jsonString)).readObject();
     }
-    
+
     public static <T extends Element> JsonObjectBuilder toJsonObjectBuilder(Class<T> elementType, T element) throws JAXBException {
         return toJsonObjectBuilder(toJsonObject(elementType, element));
     }
@@ -516,18 +567,35 @@ public class FHIRUtil {
         return objectFactory.createAttachment().withContentType(code(contentType));
     }
 
-    public static com.ibm.watsonhealth.fhir.model.Base64Binary base64Binary(String b64Binary) {
-        return objectFactory.createBase64Binary().withValue(Base64.getDecoder().decode(b64Binary));
+    /**
+     * Create a Base64Binary object from bytes that have already been base64-encoded into a String
+     */
+    public static com.ibm.watsonhealth.fhir.model.Base64Binary base64Binary(String b64String) {
+        return objectFactory.createBase64Binary().withValue(Base64.getDecoder().decode(b64String));
+    }
+
+    /**
+     * Create a Base64Binary object from an un-encoded array of bytes
+     */
+    public static com.ibm.watsonhealth.fhir.model.Base64Binary toBase64Binary(byte[] bytesToEncode) {
+        return objectFactory.createBase64Binary().withValue(bytesToEncode);
+    }
+
+    /**
+     * Create a Base64Binary object with a value from the passed base64-encoded byte array
+     */
+    public static com.ibm.watsonhealth.fhir.model.Base64Binary toBase64Binary(String stringToEncode) {
+        return objectFactory.createBase64Binary().withValue(stringToEncode.getBytes());
     }
 
     public static com.ibm.watsonhealth.fhir.model.Boolean bool(boolean b) {
         return objectFactory.createBoolean().withValue(b);
     }
-    
+
     public static CarePlanParticipant carePlanParticipant(CodeableConcept c, Reference r) {
     	return objectFactory.createCarePlanParticipant().withRole(c).withMember(r);
     }
-    
+
     public static CarePlanStatus carePlanStatus(String s) {
     	return objectFactory.createCarePlanStatus().withValue(CarePlanStatusList.fromValue(s));
     }
@@ -575,7 +643,7 @@ public class FHIRUtil {
     public static ContactPoint contactPoint(ContactPointSystemList system, String value, ContactPointUseList use) {
         return objectFactory.createContactPoint().withSystem(objectFactory.createContactPointSystem().withValue(system)).withValue(string(value)).withUse(objectFactory.createContactPointUse().withValue(use));
     }
-    
+
     public static Address address(String city, String country, String line, String postalCode, String use) {
         return objectFactory.createAddress().withCity(string(city))
         								.withCountry(string(country))
@@ -583,7 +651,7 @@ public class FHIRUtil {
         								.withPostalCode(string(postalCode))
         								.withUse(addressUse(use));
     }
-    
+
     public static Address address(String city, String state, String line, String postalCode, String use, Extension e) {
         return objectFactory.createAddress().withCity(string(city))
         								.withState(string(state))
@@ -591,12 +659,12 @@ public class FHIRUtil {
         								.withPostalCode(string(postalCode))
         								.withUse(addressUse(use))
         								.withExtension(e);
-    }    
-    
+    }
+
     public static PatientCommunication patientCommunication(CodeableConcept c, Boolean b) {
         return objectFactory.createPatientCommunication().withLanguage(c).withPreferred(bool(b));
-    }    
-    
+    }
+
     public static AddressUse addressUse(String a) {
         return objectFactory.createAddressUse().withValue(AddressUseList.fromValue(a));
     }
@@ -607,6 +675,11 @@ public class FHIRUtil {
 
     public static DateTime dateTime(String dateTime) {
         return objectFactory.createDateTime().withValue(dateTime);
+    }
+
+    public static Time time(int hours, int minutes, int seconds) throws DatatypeConfigurationException {
+        XMLGregorianCalendar time = datatypeFactory.newXMLGregorianCalendarTime(hours, minutes, seconds, DatatypeConstants.FIELD_UNDEFINED);
+        return objectFactory.createTime().withValue(time);
     }
 
     public static Time time(int hours, int minutes, int seconds) throws DatatypeConfigurationException {
@@ -625,15 +698,15 @@ public class FHIRUtil {
             throw new RuntimeException("Error creating div from string '" + s + "'", e);
         }
     }
-    
+
     public static Extension extension(String url) {
         return objectFactory.createExtension().withUrl(url);
     }
-    
+
     public static Extension extension(String url, CodeableConcept vc) {
         return objectFactory.createExtension().withUrl(url).withValueCodeableConcept(vc);
     }
-    
+
     public static GoalStatus goalStatus(String s) {
         return objectFactory.createGoalStatus().withValue(GoalStatusList.fromValue(s));
     }
@@ -649,7 +722,7 @@ public class FHIRUtil {
     public static HumanName humanName(String given1, String given2, String family) {
         return objectFactory.createHumanName().withGiven(string(given1)).withGiven(string(given2)).withFamily(string(family));
     }
-    
+
     public static HumanName humanName(String given1, String given2, String family, String prefix, String suffix, String text, String use) {
         return objectFactory.createHumanName().withGiven(string(given1))
         									.withGiven(string(given2))
@@ -659,7 +732,7 @@ public class FHIRUtil {
         									.withText(string(text))
         									.withUse(nameUse(use));
     }
-    
+
     public static HumanName humanName(String given, String family, String prefix, String suffix, String text, String use) {
         return objectFactory.createHumanName().withGiven(string(given))
         									.withFamily(string(family))
@@ -668,15 +741,15 @@ public class FHIRUtil {
         									.withText(string(text))
         									.withUse(nameUse(use));
     }
-    
+
     public static NameUse nameUse(String use) {
         return objectFactory.createNameUse().withValue(NameUseList.fromValue(use));
     }
-    
+
     public static Period period(String d) {
         return objectFactory.createPeriod().withStart(dateTime(d));
     }
-    
+
     public static PatientAnimal patientAnimal(CodeableConcept c) {
         return objectFactory.createPatientAnimal().withBreed(c);
     }
@@ -692,7 +765,7 @@ public class FHIRUtil {
     public static Identifier identifier(String value, String system) {
         return objectFactory.createIdentifier().withValue(string(value)).withSystem(uri(system));
     }
-    
+
     public static Identifier identifier(String value, String system, String type, String use) {
         return objectFactory.createIdentifier().withValue(string(value)).withSystem(uri(system)).withType(codeableConcept(type)).withUse(identifierUse(use));
     }
@@ -704,7 +777,7 @@ public class FHIRUtil {
     public static Instant instant(long time) {
         return instant(time, true);
     }
-    
+
     public static Instant instant(long time, boolean normalize) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(time);
@@ -714,11 +787,11 @@ public class FHIRUtil {
         }
         return objectFactory.createInstant().withValue(xmlCalendar);
     }
-    
+
     public static Instant instant(String time) {
         return instant(time, true);
     }
-    
+
     public static Instant instant(String time, boolean normalize) {
         XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(time);
         if (normalize) {
@@ -726,7 +799,7 @@ public class FHIRUtil {
         }
         return objectFactory.createInstant().withValue(xmlCalendar);
     }
-    
+
     public static Integer integer(int i) {
         return objectFactory.createInteger().withValue(i);
     }
@@ -738,15 +811,15 @@ public class FHIRUtil {
     public static Meta meta(long lastUpdated) {
         return meta(lastUpdated, true);
     }
-    
+
     public static Meta meta(long lastUpdated, boolean normalize) {
         return objectFactory.createMeta().withLastUpdated(instant(lastUpdated, normalize));
     }
-    
+
     public static Meta meta(String lastUpdated) {
         return meta(lastUpdated, true);
     }
-    
+
     public static Meta meta(String lastUpdated, boolean normalize) {
         return objectFactory.createMeta().withLastUpdated(instant(lastUpdated, normalize));
     }
@@ -787,10 +860,18 @@ public class FHIRUtil {
         return objectFactory.createReference().withReference(string(reference));
     }
 
+    public static Reference reference(Uri reference) {
+        return objectFactory.createReference().withReference(string(reference.getValue()));
+    }
+
     public static Reference reference(String reference, String display) {
         return objectFactory.createReference().withReference(string(reference)).withDisplay(string(display));
     }
-    
+
+    public static Reference reference(Uri reference, String display) {
+        return objectFactory.createReference().withReference(string(reference.getValue())).withDisplay(string(display));
+    }
+
     public static PatientContact patientContact(CodeableConcept r, ContactPoint pc, HumanName h) {
         return objectFactory.createPatientContact().withRelationship(r).withTelecom(pc).withName(h);
     }
@@ -816,7 +897,7 @@ public class FHIRUtil {
     public static com.ibm.watsonhealth.fhir.model.String string(String s) {
         return objectFactory.createString().withValue(s);
     }
-    
+
     public static TimingRepeat timingRepeat(int n1, int n2, String s) {
     	return objectFactory.createTimingRepeat()
 				.withFrequency(integer(n1))
@@ -827,19 +908,19 @@ public class FHIRUtil {
     public static Uri uri(String uri) {
         return objectFactory.createUri().withValue(uri);
     }
-    
+
     public static UnitsOfTime unitsOfTime(String s) {
     	return objectFactory.createUnitsOfTime().withValue(UnitsOfTimeList.fromValue(s));
     }
-    
+
     public static boolean isStandardResourceType(String name) {
         return resourceTypeNames.contains(name);
     }
-    
+
     public static List<String> getResourceTypeNames() {
         return resourceTypeNames;
     }
-	
+
 	@SuppressWarnings("unchecked")
 	public static Class<? extends Resource> getResourceType(String name) throws FHIRException {
 		try {
@@ -848,11 +929,11 @@ public class FHIRUtil {
 			throw new FHIRInvalidResourceTypeException("'" + name + "' is not a valid resource type.");
 		}
 	}
-	
+
 	/**
 	 * Returns the resource type (as a String) of the specified resource.   For a virtual resource,
 	 * this will be the actual virtual resource type (not Basic).
-	 * @param resource the resource 
+	 * @param resource the resource
 	 * @return the name of the resource type associated with the resource
 	 */
 	public static String getResourceTypeName(Resource resource) {
@@ -873,10 +954,13 @@ public class FHIRUtil {
 	            }
 	        }
 	    }
-	    
+
 	    return resource.getClass().getSimpleName();
 	}
-	
+
+	/**
+	 * @see https://hl7.org/fhir/dstu2/valueset-resource-types.html
+	 */
 	private static final List<String> resourceTypeNames = Arrays.asList(
 		"Account",
 		"AllergyIntolerance",
@@ -974,11 +1058,64 @@ public class FHIRUtil {
 		"TestScript",
 		"ValueSet",
 		"VisionPrescription"
+
 	);
-	
+
+	/**
+	 * @see https://www.hl7.org/fhir/dstu2/valueset-data-types.html
+	 */
+	public static final List<String> dataTypeNames = Arrays.asList(
+        "Address",
+        "Age",
+        "Annotation",
+        "Attachment",
+        "BackboneElement",
+        "CodeableConcept",
+        "Coding",
+        "ContactPoint",
+        "Count",
+        "Distance",
+        "Duration",
+        "Element",
+        "ElementDefinition",
+        "Extension",
+        "HumanName",
+        "Identifier",
+        "Meta",
+        "Money",
+        "Narrative",
+        "Period",
+        "Quantity",
+        "Range",
+        "Ratio",
+        "Reference",
+        "SampledData",
+        "Signature",
+        "SimpleQuantity",
+        "Timing",
+        "Base64Binary",
+        "Boolean",
+        "Code",
+        "Date",
+        "DateTime",
+        "Decimal",
+        "Id",
+        "Instant",
+        "Integer",
+        "Markdown",
+        "Oid",
+        "PositiveInt",
+        "String",
+        "Time",
+        "UnsignedInt",
+        "Uri",
+        "Uuid",
+        "Xhtml"
+    );
+
     /**
      * Retrieves the resource contained in the specified ResourceContainer.
-     * 
+     *
      * @param container
      *            the ResourceContainer containing the resource
      * @return
@@ -993,10 +1130,12 @@ public class FHIRUtil {
                     return resource;
                 }
             }
+        } else {
+            throw new FHIRException("An error occured trying to get Resource from container, invalid container found");
         }
         return null;
     }
-    
+
     private static final List<Method> RESOURCE_CONTAINER_DECLARED_GET_METHODS = buildResourceContainerDeclaredGetMethods();
 
     private static List<Method> buildResourceContainerDeclaredGetMethods() {
@@ -1013,20 +1152,20 @@ public class FHIRUtil {
      * Sets the specified Resource within the specified ResourceContainer.
      * @param container the ResourceContainer that will hold the Resource
      * @param resource the Resource to store in the container
-     * @throws Exception 
+     * @throws Exception
      */
     public static void setResourceContainerResource(ResourceContainer container, Resource resource) throws Exception {
-        // Using reflection, call the appropriate ResourceContainer.setXXX() method, 
+        // Using reflection, call the appropriate ResourceContainer.setXXX() method,
         // depending on the resource type.
         Class<? extends Resource> resourceType = resource.getClass();
         Method method = ResourceContainer.class.getMethod("set" + resourceType.getSimpleName(), resourceType);
         method.invoke(container, resource);
     }
-    
+
     public static OperationOutcomeIssue buildOperationOutcomeIssue(String msg, IssueTypeList code) {
         return buildOperationOutcomeIssue(IssueSeverityList.FATAL, code, msg, null);
     }
-    
+
     public static OperationOutcomeIssue buildOperationOutcomeIssue(IssueSeverityList severity, IssueTypeList code, String diagnostics, String location) {
         OperationOutcomeIssue issue = objectFactory.createOperationOutcomeIssue()
                 .withSeverity(objectFactory.createIssueSeverity().withValue(severity))
@@ -1044,7 +1183,7 @@ public class FHIRUtil {
         OperationOutcome oo = objectFactory.createOperationOutcome().withIssue(issues);
         return oo;
     }
-    
+
     /**
      * Build an OperationOutcome with an id and a list of issues from exception e.
      */
@@ -1056,7 +1195,7 @@ public class FHIRUtil {
             return buildOperationOutcome((FHIRException) e, includeCausedByClauses);
         }
     }
-    
+
     /**
      * Build an OperationOutcome with an id from exception e and a single issue of type 'exception' and severity 'fatal'.
      */
@@ -1064,20 +1203,20 @@ public class FHIRUtil {
         Id id = id(e.getUniqueId());
         return buildOperationOutcome((Exception) e, includeCausedByClauses).withId(id);
     }
-    
+
     /**
      * Build an OperationOutcome for the specified exception with a single issue of type 'exception' and severity 'fatal'.
      */
     public static OperationOutcome buildOperationOutcome(Exception exception, boolean includeCausedByClauses) {
         return buildOperationOutcome(exception, null, null, includeCausedByClauses);
     }
-    
+
     /**
      * Build an OperationOutcome for the specified exception.
      */
     public static OperationOutcome buildOperationOutcome(Exception exception, IssueTypeList issueType, IssueSeverityList severity, boolean includeCausedByClauses) {
         // First, build a set of exception messages to be included in the OperationOutcome.
-        // We'll include the exception message from each exception in the hierarchy, 
+        // We'll include the exception message from each exception in the hierarchy,
         // following the "causedBy" exceptions.
         StringBuilder msgs = new StringBuilder();
         Throwable e = exception;
@@ -1086,16 +1225,16 @@ public class FHIRUtil {
             msgs.append(causedBy + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "<null message>"));
             e = e.getCause();
             causedBy = NL + "Caused by: ";
-            
+
             // Force an exit from the loop if the caller doesn't want the caused-by clauses added.
             if (!includeCausedByClauses) {
                 e = null;
             }
         }
-        
+
         return buildOperationOutcome(msgs.toString(), issueType, severity);
     }
-    
+
     /**
      * Build an OperationOutcome for the specified exception.
      * @param issueType defaults to IssueTypeList.EXCEPTION
@@ -1108,24 +1247,23 @@ public class FHIRUtil {
         if (severity == null) {
             severity = IssueSeverityList.FATAL;
         }
-        
+
         // Build an OperationOutcomeIssue that contains the exception messages.
         OperationOutcomeIssue ooi = objectFactory.createOperationOutcomeIssue()
                 .withCode(objectFactory.createIssueType().withValue(issueType))
                 .withSeverity(objectFactory.createIssueSeverity().withValue(severity))
                 .withDiagnostics(objectFactory.createString().withValue(message));
-        
+
         // Next, build the OperationOutcome.
         OperationOutcome oo = objectFactory.createOperationOutcome().withIssue(ooi);
         return oo;
     }
-    
-    
+
     /**
      * Builds a relative "Location" header value for the specified resource. This will be a string of the form
      * "<resource-type>/<id>/_history/<version>". Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
-     * 
+     *
      * @param resource
      *            the resource for which the location header value should be returned
      */
@@ -1134,10 +1272,267 @@ public class FHIRUtil {
         if (!resourceTypeName.equals(type)) {
             resourceTypeName = type;
         }
-        return URI.create(resourceTypeName + "/" + resource.getId().getValue() 
+        return URI.create(resourceTypeName + "/" + resource.getId().getValue()
             + "/_history/" + resource.getMeta().getVersionId().getValue());
     }
-    
+
+    /**
+     * Compares resources a and b for equivalence
+     * @param a
+     * @param b
+     * @return boolean null if the elements are not complete
+     * @throws FHIRException
+     */
+    public static boolean isEqual(Resource a, Resource b) throws FHIRException {
+        return areEqual(a, b);
+    }
+
+    /**
+     * Compares elements a and element b for equivalence
+     * @param a
+     * @param b
+     * @return boolean null if the elements are not complete
+     * @throws FHIRException
+     */
+    public static boolean isEqual(Element a, Element b) throws FHIRException {
+        return areEqual(a, b);
+    }
+
+    private static boolean areEqual(Object a, Object b) throws FHIRException {
+        ByteArrayOutputStream one = new ByteArrayOutputStream();
+        ByteArrayOutputStream two = new ByteArrayOutputStream();
+        try {
+            // use xml instead of json due to json missing element extensions
+            Marshaller marshaller = createMarshaller(Format.XML, false);
+            marshaller.marshal(a, one);
+            marshaller.marshal(b, two);
+            return Arrays.equals(one.toByteArray(), two.toByteArray());
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            throw new FHIRException("An error occurred while comparing elements",e);
+        }
+    }
+
+    /**
+     * Returns a deep copy of a resource via serialization + deserialization
+     * @param resource
+     * @return boolean null if the elements are not complete
+     * @throws FHIRException
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Resource> T copy(T resource) throws FHIRException {
+        try {
+            // use xml instead of json due to json missing element extensions
+            ByteArrayOutputStream tempOut = new ByteArrayOutputStream();
+            write(resource, Format.XML, tempOut);
+            ByteArrayInputStream tempIn = new ByteArrayInputStream(tempOut.toByteArray());
+            return (T) read(resource.getClass(), Format.XML, tempIn);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            throw new FHIRException("An error occurred while copying the resource",e);
+        }
+    }
+
+    /**
+     * Returns a deep copy of an element via serialization + deserialization
+     * @param a
+     * @return boolean null if the elements are not complete
+     * @throws FHIRException
+     */
+    public static <T extends Element> T copy(T element) throws FHIRException {
+        @SuppressWarnings("unchecked")
+        Class<T> elementClass = (Class<T>) element.getClass();
+
+        ByteArrayOutputStream tempOut = new ByteArrayOutputStream();
+        try {
+            // use xml instead of json due to json missing element extensions
+            QName qName = new QName("http://hl7.org/fhir","temp");
+            JAXBElement<T> root = new JAXBElement<T>(qName, elementClass, element);
+
+            Marshaller marshaller = createMarshaller(Format.XML, false);
+            marshaller.marshal(root, tempOut);
+            Unmarshaller unmarshaller = createUnmarshaller(Format.XML);
+            System.out.println(tempOut.toString());
+
+            ByteArrayInputStream tempIn = new ByteArrayInputStream(tempOut.toByteArray());
+            XMLStreamReader xmlStreamReader = inputFactory.createXMLStreamReader(tempIn);
+            root = unmarshaller.unmarshal(xmlStreamReader, elementClass);
+            return root.getValue();
+        } catch (JAXBException | XMLStreamException e) {
+            e.printStackTrace();
+            throw new FHIRException("An error occurred while copying the element",e);
+        }
+    }
+
+    /**
+     * Resolve the reference @ref to an entry within @bundle and return the corresponding resource container
+     * @see https://www.hl7.org/fhir/DSTU2/references.html#contained
+     * @param resource
+     * @param ref
+     * @throws Exception
+     */
+    public static ResourceContainer resolveReference(Reference ref, DomainResource resource, Bundle bundle, BundleEntry entry) throws Exception {
+        switch (ReferenceType.of(ref)) {
+        case INTERNAL_CONTAINED:
+            return resolveLocalReference(resource, ref);
+        case EXTERNAL_ABSOLUTE_FHIR_URL:
+        case EXTERNAL_ABSOLUTE_OID:
+        case EXTERNAL_ABSOLUTE_OTHER:
+        case EXTERNAL_ABSOLUTE_OTHER_URL:
+        case EXTERNAL_ABSOLUTE_UUID:
+        case EXTERNAL_RELATIVE_FHIR_URL:
+            BundleEntry targetEntry = resolveBundleReference(bundle, entry, ref);
+            return targetEntry.getResource();
+        case NO_REFERENCE_VALUE:
+            throw new FHIRException("Reference must have a nonempty value to be resolved");
+        case EXTERNAL_INVALID:
+        default:
+            throw new FHIRException("Cannot resolve invalid reference value " + ref.getReference().getValue());
+        }
+    }
+
+    /**
+     * Resolve the reference @ref to an entry within @bundle and return the corresponding resource container
+     * @see https://www.hl7.org/fhir/DSTU2/references.html#contained
+     * @param resource
+     * @param ref
+     * @throws Exception
+     */
+    public static ResourceContainer resolveLocalReference(DomainResource resource, Reference ref) throws Exception {
+        if (ref == null || ref.getReference() == null || ref.getReference().getValue() == null) {
+            throw new FHIRException("Reference must have a nonempty value to be resolved");
+        }
+        String referenceUriString = ref.getReference().getValue();
+        if (referenceUriString.startsWith("#")) {
+            referenceUriString = referenceUriString.substring(1);
+            List<ResourceContainer> containedResources = resource.getContained();
+            for (ResourceContainer resourceContainer : containedResources) {
+                Resource containedResource = getResourceContainerResource(resourceContainer);
+                Id id = containedResource.getId();
+                if (id != null) {
+                    if (referenceUriString.equals(id)) {
+                        return resourceContainer;
+                    }
+                }
+            }
+        }
+        throw new FHIRException("Resource does not contain the referenced resource");
+    }
+
+    /**
+     * Resolve the reference @ref to an entry within @bundle and return the corresponding resource
+     * TODO If it doesn't exist, try to dereference it?
+     * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
+     * @param resourceType
+     * @param bundle
+     * @param ref
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Resource> T resolveBundleReference(Class<T> resourceType, Bundle bundle, BundleEntry sourceEntry, Reference ref) throws Exception {
+        BundleEntry targetEntry = resolveBundleReference(bundle, sourceEntry, ref);
+        ResourceContainer container = targetEntry.getResource();
+        return (T) FHIRUtil.getResourceContainerResource(container);
+
+        // TODO Didn't find the resource in the bundle or on the server, so try to retrieve it
+//        URL url = new URL(referenceUri);
+//        URLConnection connection = url.openConnection();
+//        resource = FHIRUtil.read(resourceType, Format.JSON, connection.getInputStream());
+//        return resource;
+    }
+
+    /**
+     * Resolve the reference {@code ref} to an entry within {@code bundle}
+     * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
+     * @param bundle
+     * @param sourceEntry required if the reference is not absolute
+     * @param ref
+     * @throws IOException if the reference isn't found in the bundle and an error occurs during dereferencing
+     * @throws JAXBException if the resource cannot be parsed after dereferencing
+     * @throws URISyntaxException if @ref does not contain a valid URI it its value
+     * @throws IllegalArgumentException if @ref contains a fragment reference
+     */
+    public static BundleEntry resolveBundleReference(Bundle bundle, BundleEntry sourceEntry, Reference ref) throws FHIRException, URISyntaxException {
+        if (ref == null || ref.getReference() == null || ref.getReference().getValue() == null) {
+            throw new FHIRException("Reference must have a nonempty value to be resolved");
+        }
+
+        String referenceUriString = ref.getReference().getValue();
+        URI referenceUri = new URI(referenceUriString);
+        if (!referenceUri.isAbsolute()) {
+            if (referenceUriString.startsWith("#")) {
+                throw new IllegalArgumentException("Cannot resolve fragment reference " + referenceUriString + " to a BundleEntry. See resolveReference instead.");
+            }
+
+            // 1. If the reference is not an absolute reference, convert it
+            Uri sourceEntryFullUrl = sourceEntry.getFullUrl();
+            if (sourceEntryFullUrl != null) {
+                String sourceEntryUriString = sourceEntryFullUrl.getValue();
+                URI sourceEntryUri = new URI(sourceEntryUriString);
+                if (!sourceEntryUri.isAbsolute()) {
+                    throw new FHIRException("The Bundle entry that contains the reference must have an absolute fullUrl to resolve relative references");
+                }
+                // if the fullUrl of the resource that contains the reference is a RESTful one (see the RESTful URL regex), extract the [base], and append the reference to it
+                Matcher restUrlMatcher = REST_PATTERN.matcher(sourceEntryUriString);
+                if (restUrlMatcher.matches() && restUrlMatcher.groupCount() > 0) {
+                    String urlBase = restUrlMatcher.group(1);
+                    referenceUriString = urlBase + referenceUriString;
+                }
+            }
+            // otherwise, treat the fullUrl as a normal URL, and follow the normal method for Resolving Relative References to Absolute Form
+        }
+
+        //If the reference is version specific (either relative or absolute),
+        //then remove the version from the URL before matching fullUrl, and then match the version based on Resource.meta.versionId
+        String version = referenceUri.getFragment();
+        if (version != null) {
+            referenceUriString = referenceUriString.substring(0, referenceUriString.length() - version.length());
+        }
+        // 2. Look for an entry with a fullUrl that contains the URL in the reference
+        for (BundleEntry entry : bundle.getEntry()) {
+            Uri fullUrl = entry.getFullUrl();
+            if (fullUrl != null){
+                String fullUrlValue = entry.getFullUrl().getValue();
+                if (fullUrlValue != null && fullUrlValue.equals(referenceUriString)) {
+                    try {
+                        Resource resource = FHIRUtil.getResourceContainerResource(entry.getResource());
+                        if (version != null && resource.getMeta() != null && resource.getMeta().getVersionId() != null) {
+                            Id versionId = resource.getMeta().getVersionId();
+                            if (version.equals(versionId.getValue())) {
+                                return entry;
+                            }
+                        } else {
+                            return entry;
+                        }
+                    } catch(Exception e) {
+                        log.log(Level.SEVERE,"Unable to retrieve resource " + referenceUriString + " from the bundle", e);
+                    }
+                }
+            }
+        }
+        // If no match is found, the resource is not in the bundle, and must be found elsewhere (e.g. if an http: URL, try accessing it directly)
+        // TODO use the FHIR Client to dereference it?
+        throw new FHIRException("Bundle does not contain the referenced resource. Remote retrieval of referenced resources is not yet implemented.");
+    }
+
+    /**
+     * @param fhirDateTime
+     * @return
+     */
+    public static XMLGregorianCalendar toDate(DateTime fhirDateTime) {
+        String dateTimeString = fhirDateTime.getValue();
+        return datatypeFactory.newXMLGregorianCalendar(dateTimeString);
+    }
+
+    /**
+     * @param fhirDate
+     * @return
+     */
+    public static XMLGregorianCalendar toDate(Date fhirDate) {
+        String dateString = fhirDate.getValue();
+        return datatypeFactory.newXMLGregorianCalendar(dateString);
+    }
+
     /**
      * Creates a FHIR Resource object of the specified type.
      * @param resourceType The simple name of the type of resource instance to be created.
@@ -1163,17 +1558,17 @@ public class FHIRUtil {
 		    if (DomainResource.class.isAssignableFrom(resource.getClass())) {
 		        DomainResource dr = (DomainResource) resource;
 		        for (Extension ext : dr.getExtension()) {
-		            if (ext.getUrl() != null && ext.getValueString() != null 
+		            if (ext.getUrl() != null && ext.getValueString() != null
 		                    && ext.getUrl().equals(extensionUrl)) {
 		                return ext.getValueString().getValue();
 		            }
 		        }
 		    }
-		}   
-		    	    
+		}
+
 	    return null;
 	}
-	
+
 	/**
 	 * A convenience method for returning the set of field names defined in the FHIRJsonParser class
 	 * for the passed resource type name.
@@ -1183,7 +1578,7 @@ public class FHIRUtil {
 	public static Set<java.lang.String> getFieldNames(String resourceTypeName) {
     	return FHIRJsonParser.fieldNameMap.get(resourceTypeName);
     }
-	
+
 	/**
 	 * Determines if the passed Resource contains the passed Meta tag.
 	 * @param resource The Resource to be examined.
@@ -1192,7 +1587,7 @@ public class FHIRUtil {
 	 */
 	public static boolean containsTag(Resource resource, Coding searchTag) {
     	boolean tagFound = false;
-		
+
     	if (nonNull(resource) && nonNull(resource.getMeta()) && nonNull(resource.getMeta().getTag())) {
 			for (Coding tag : resource.getMeta().getTag()) {
 				if (nonNull(tag.getSystem()) && tag.getSystem().getValue().equals(searchTag.getSystem().getValue()) &&
@@ -1206,6 +1601,6 @@ public class FHIRUtil {
     }
 
 
-	
+
 
 }
