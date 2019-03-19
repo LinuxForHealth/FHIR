@@ -148,7 +148,7 @@ public class FHIRUtil {
 	/**
 	 * https://www.hl7.org/fhir/dstu2/references.html#regex
 	 */
-	private static final Pattern REST_PATTERN = Pattern.compile("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(Account|AllergyIntolerance|Appointment|AppointmentResponse|AuditEvent|Basic|Binary|BodySite|Bundle|CarePlan|Claim|ClaimResponse|ClinicalImpression|Communication|CommunicationRequest|Composition|ConceptMap|Condition|Conformance|Contract|Coverage|DataElement|DetectedIssue|Device|DeviceComponent|DeviceMetric|DeviceUseRequest|DeviceUseStatement|DiagnosticOrder|DiagnosticReport|DocumentManifest|DocumentReference|EligibilityRequest|EligibilityResponse|Encounter|EnrollmentRequest|EnrollmentResponse|EpisodeOfCare|ExplanationOfBenefit|FamilyMemberHistory|Flag|Goal|Group|HealthcareService|ImagingObjectSelection|ImagingStudy|Immunization|ImmunizationRecommendation|ImplementationGuide|List|Location|Media|Medication|MedicationAdministration|MedicationDispense|MedicationOrder|MedicationStatement|MessageHeader|NamingSystem|NutritionOrder|Observation|OperationDefinition|OperationOutcome|Order|OrderResponse|Organization|Patient|PaymentNotice|PaymentReconciliation|Person|Practitioner|Procedure|ProcedureRequest|ProcessRequest|ProcessResponse|Provenance|Questionnaire|QuestionnaireResponse|ReferralRequest|RelatedPerson|RiskAssessment|Schedule|SearchParameter|Slot|Specimen|StructureDefinition|Subscription|Substance|SupplyDelivery|SupplyRequest|TestScript|ValueSet|VisionPrescription)\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
+	public static final Pattern REST_PATTERN = Pattern.compile("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(Account|AllergyIntolerance|Appointment|AppointmentResponse|AuditEvent|Basic|Binary|BodySite|Bundle|CarePlan|Claim|ClaimResponse|ClinicalImpression|Communication|CommunicationRequest|Composition|ConceptMap|Condition|Conformance|Contract|Coverage|DataElement|DetectedIssue|Device|DeviceComponent|DeviceMetric|DeviceUseRequest|DeviceUseStatement|DiagnosticOrder|DiagnosticReport|DocumentManifest|DocumentReference|EligibilityRequest|EligibilityResponse|Encounter|EnrollmentRequest|EnrollmentResponse|EpisodeOfCare|ExplanationOfBenefit|FamilyMemberHistory|Flag|Goal|Group|HealthcareService|ImagingObjectSelection|ImagingStudy|Immunization|ImmunizationRecommendation|ImplementationGuide|List|Location|Media|Medication|MedicationAdministration|MedicationDispense|MedicationOrder|MedicationStatement|MessageHeader|NamingSystem|NutritionOrder|Observation|OperationDefinition|OperationOutcome|Order|OrderResponse|Organization|Patient|PaymentNotice|PaymentReconciliation|Person|Practitioner|Procedure|ProcedureRequest|ProcessRequest|ProcessResponse|Provenance|Questionnaire|QuestionnaireResponse|ReferralRequest|RelatedPerson|RiskAssessment|Schedule|SearchParameter|Slot|Specimen|StructureDefinition|Subscription|Substance|SupplyDelivery|SupplyRequest|TestScript|ValueSet|VisionPrescription)\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
 
 	public static enum Format {
 		XML,
@@ -578,13 +578,6 @@ public class FHIRUtil {
      */
     public static com.ibm.watsonhealth.fhir.model.Base64Binary toBase64Binary(byte[] bytesToEncode) {
         return objectFactory.createBase64Binary().withValue(bytesToEncode);
-    }
-
-    /**
-     * Create a Base64Binary object with a value from the passed base64-encoded byte array
-     */
-    public static com.ibm.watsonhealth.fhir.model.Base64Binary toBase64Binary(String stringToEncode) {
-        return objectFactory.createBase64Binary().withValue(stringToEncode.getBytes());
     }
 
     public static com.ibm.watsonhealth.fhir.model.Boolean bool(boolean b) {
@@ -1359,40 +1352,36 @@ public class FHIRUtil {
     }
 
     /**
-     * Resolve the reference @ref to an entry within @bundle and return the corresponding resource container
-     * @see https://www.hl7.org/fhir/DSTU2/references.html#contained
-     * @param resource
-     * @param ref
-     * @throws Exception
+     * Resolve reference {@code ref} to a bundle entry or a resource contained within {@code resource} and return the corresponding resource container.
+     * Resolving {@code ref} to a resource that exists outside of the bundle is not yet supported, but this support may be added in the future.
+     * @throws Exception if the resource could not be found, the reference has no value, or the value does not match the expected format for a reference
      */
     public static ResourceContainer resolveReference(Reference ref, DomainResource resource, Bundle bundle, BundleEntry entry) throws Exception {
         switch (ReferenceType.of(ref)) {
-        case INTERNAL_CONTAINED:
-            return resolveLocalReference(resource, ref);
-        case EXTERNAL_ABSOLUTE_FHIR_URL:
-        case EXTERNAL_ABSOLUTE_OID:
-        case EXTERNAL_ABSOLUTE_OTHER:
-        case EXTERNAL_ABSOLUTE_OTHER_URL:
-        case EXTERNAL_ABSOLUTE_UUID:
-        case EXTERNAL_RELATIVE_FHIR_URL:
+        case CONTAINED:
+            return resolveContainedReference(resource, ref);
+        case ABSOLUTE_FHIR_URL:
+        case RELATIVE_FHIR_URL:
+        case ABSOLUTE_UUID:
+        case ABSOLUTE_OID:
+        case ABSOLUTE_OTHER_URL:
+        case OTHER:
             BundleEntry targetEntry = resolveBundleReference(bundle, entry, ref);
             return targetEntry.getResource();
         case NO_REFERENCE_VALUE:
             throw new FHIRException("Reference must have a nonempty value to be resolved");
-        case EXTERNAL_INVALID:
+        case INVALID:
         default:
             throw new FHIRException("Cannot resolve invalid reference value " + ref.getReference().getValue());
         }
     }
 
     /**
-     * Resolve the reference @ref to an entry within @bundle and return the corresponding resource container
+     * Resolve the reference {@code ref} to a bundle entry and return the corresponding resource container
      * @see https://www.hl7.org/fhir/DSTU2/references.html#contained
-     * @param resource
-     * @param ref
-     * @throws Exception
+     * @throws Exception if the resource could not be found, the reference has no value, or the value does not match the expected format for a contained reference
      */
-    public static ResourceContainer resolveLocalReference(DomainResource resource, Reference ref) throws Exception {
+    public static ResourceContainer resolveContainedReference(DomainResource resource, Reference ref) throws Exception {
         if (ref == null || ref.getReference() == null || ref.getReference().getValue() == null) {
             throw new FHIRException("Reference must have a nonempty value to be resolved");
         }
@@ -1404,7 +1393,7 @@ public class FHIRUtil {
                 Resource containedResource = getResourceContainerResource(resourceContainer);
                 Id id = containedResource.getId();
                 if (id != null) {
-                    if (referenceUriString.equals(id)) {
+                    if (referenceUriString.equals(id.getValue())) {
                         return resourceContainer;
                     }
                 }
@@ -1418,9 +1407,12 @@ public class FHIRUtil {
      * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
      * @param resourceType
      * @param bundle
-     * @param sourceEntry required to be non-null if the reference is not absolute
+     * @param sourceEntry allowed to be null if and only if the reference is absolute
      * @param ref
-     * @throws Exception
+     * @throws Exception 
+     *        if the resource could not be found, the reference has no value, or the value does not match the expected format for a bundle reference
+     * @throws ClassCastException
+     *        if the referenced resource cannot be cast to type {@code resourceType}
      */
     @SuppressWarnings("unchecked")
     public static <T extends Resource> T resolveBundleReference(Class<T> resourceType, Bundle bundle, BundleEntry sourceEntry, Reference ref) throws Exception {
@@ -1433,11 +1425,11 @@ public class FHIRUtil {
      * Resolve the reference {@code ref} to an entry within {@code bundle}
      * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
      * @param bundle
-     * @param sourceEntry required to be non-null if the reference is not absolute
+     * @param sourceEntry allowed to be null if and only if the reference is absolute
      * @param ref
-     * @throws FHIRException if the reference isn't found in the bundle
-     * @throws URISyntaxException if @ref does not contain a valid URI it its value
-     * @throws IllegalArgumentException if @ref contains a fragment reference
+     * @throws FHIRException if the resource could not be found or the reference has no value
+     * @throws URISyntaxException if the {@code ref} value is not a valid URI
+     * @throws IllegalArgumentException if {@code ref} contains a fragment reference
      */
     public static BundleEntry resolveBundleReference(Bundle bundle, BundleEntry sourceEntry, Reference ref) throws FHIRException, URISyntaxException {
         if (ref == null || ref.getReference() == null || ref.getReference().getValue() == null) {
@@ -1497,13 +1489,8 @@ public class FHIRUtil {
                 }
             }
         }
-        // If no match is found, the resource is not in the bundle, and must be found elsewhere (e.g. if an http URL, try accessing it directly)
-        // TODO use the FHIR Client to dereference it?
-//      URL url = new URL(referenceUri);
-//      URLConnection connection = url.openConnection();
-//      resource = FHIRUtil.read(resourceType, Format.JSON, connection.getInputStream());
-//      return resource;
-        throw new FHIRException("Bundle does not contain the referenced resource. Remote retrieval of referenced resources is not yet implemented.");
+        // If no match is found, the resource is not in the bundle, and must be found elsewhere
+        throw new FHIRException("Bundle does not contain the referenced resource and retrieval of resources outside the bundle is not supported.");
     }
 
     /**
