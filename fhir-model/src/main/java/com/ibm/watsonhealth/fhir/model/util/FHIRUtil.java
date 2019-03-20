@@ -1339,7 +1339,9 @@ public class FHIRUtil {
             Marshaller marshaller = createMarshaller(Format.XML, false);
             marshaller.marshal(root, tempOut);
             Unmarshaller unmarshaller = createUnmarshaller(Format.XML);
-            System.out.println(tempOut.toString());
+            if (log.isLoggable(Level.FINER)) {
+                System.out.println("Copying element via serialization: " + tempOut.toString());
+            }
 
             ByteArrayInputStream tempIn = new ByteArrayInputStream(tempOut.toByteArray());
             XMLStreamReader xmlStreamReader = inputFactory.createXMLStreamReader(tempIn);
