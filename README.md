@@ -1,7 +1,7 @@
 ## IBM Watson Health FHIR Server
 
 ### Overview
-The Watson Health FHIR Server provides a modular implementation version DSTU2 (1.0.2) of the [HL7 FHIR specification](https://www.hl7.org/fhir/dstu2/http.html) with a focus on performance and configurability.
+The Watson Health FHIR Server provides a modular implementation of version DSTU2 (1.0.2) of the [HL7 FHIR specification](https://www.hl7.org/fhir/dstu2/http.html) with a focus on performance and configurability.
 
 CODE_REMOVED
 
