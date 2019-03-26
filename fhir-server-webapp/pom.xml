@@ -84,6 +84,7 @@
             <groupId>net.wasdev.maven.tools.targets</groupId>
             <artifactId>liberty-target</artifactId>
             <type>pom</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
