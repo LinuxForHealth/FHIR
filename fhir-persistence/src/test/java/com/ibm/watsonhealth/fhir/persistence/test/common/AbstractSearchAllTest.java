@@ -124,4 +124,11 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
+    
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingElements() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, persistence, "_elements", "meta");
+        assertNotNull(resources);
+        assertTrue(resources.size() > 0);
+    }
 }
