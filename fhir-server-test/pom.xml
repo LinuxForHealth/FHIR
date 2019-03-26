@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- THIS PRODUCT CONTAINS RESTRICTED MATERIALS OF IBM 5724-H88, 5724-J08, 
-	5724-I63, 5655-W65, COPYRIGHT International Business Machines Corp., 2014 
-	All Rights Reserved * Licensed Materials - Property of IBM US Government 
-	Users Restricted Rights - Use, duplication or disclosure restricted by GSA 
-	ADP Schedule Contract with IBM Corp. -->
+    5724-I63, 5655-W65, COPYRIGHT International Business Machines Corp., 2014 
+    All Rights Reserved * Licensed Materials - Property of IBM US Government 
+    Users Restricted Rights - Use, duplication or disclosure restricted by GSA 
+    ADP Schedule Contract with IBM Corp. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.ibm.watsonhealth.fhir</groupId>
-		<artifactId>fhir-parent</artifactId>
-		<version>99-SNAPSHOT</version>
-		<relativePath>../fhir-parent</relativePath>
-	</parent>
+    <parent>
+        <groupId>com.ibm.watsonhealth.fhir</groupId>
+        <artifactId>fhir-parent</artifactId>
+        <version>99-SNAPSHOT</version>
+        <relativePath>../fhir-parent</relativePath>
+    </parent>
 
-	<artifactId>fhir-server-test</artifactId>
+    <artifactId>fhir-server-test</artifactId>
 
-	<properties>
+    <properties>
 
-		<!-- We don't want maven to automatically run our tests since they require 
-			a server -->
-		<skipTests>true</skipTests>
-		<surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
-	</properties>
+        <!-- We don't want maven to automatically run our tests since they require 
+            a server -->
+        <skipTests>true</skipTests>
+        <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-model</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-notification-kafka</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-client</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-cli</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.tyrus.bundles</groupId>
-			<artifactId>tyrus-standalone-client-jdk</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.collections</groupId>
-			<artifactId>google-collections</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.skyscreamer</groupId>
-			<artifactId>jsonassert</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-model</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-notification-kafka</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-client</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-cli</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus.bundles</groupId>
+            <artifactId>tyrus-standalone-client-jdk</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.collections</groupId>
+            <artifactId>google-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

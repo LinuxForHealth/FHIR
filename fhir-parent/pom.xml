@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ibm.watsonhealth.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
@@ -58,8 +59,8 @@
         <module>../fhir-coverage-reports</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of artifacts
-         within our modules -->
+    <!-- This section "enforces" that we're using consistent versions of 
+        artifacts within our modules -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -335,7 +336,8 @@
                             </manifest>
                             <manifestEntries>
                                 <Implementation-Title>${project.name}</Implementation-Title>
-                                <Implementation-Version>${project.version} - ${build.id}</Implementation-Version>
+                                <Implementation-Version>${project.version}
+                                    - ${build.id}</Implementation-Version>
                                 <Build-Time>${maven.build.timestamp}</Build-Time>
                                 <Build-Number>${BUILD_ID}</Build-Number>
                                 <Git-Commit>${GIT_COMMIT}</Git-Commit>
@@ -346,13 +348,13 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                  <artifactId>maven-enforcer-plugin</artifactId>
-                  <version>3.0.0-M2</version>
-                  <configuration>
-                    <rules>
-                      <dependencyConvergence/>
-                    </rules>
-                  </configuration>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.0.0-M2</version>
+                    <configuration>
+                        <rules>
+                            <dependencyConvergence />
+                        </rules>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -391,29 +393,29 @@
                     <artifactId>lifecycle-mapping</artifactId>
                     <version>1.0.0</version>
                     <configuration>
-                    	<lifecycleMappingMetadata>
-                    		<pluginExecutions>
-                    			<pluginExecution>
-                    				<pluginExecutionFilter>
-                    					<groupId>
-                    						org.apache.maven.plugins
-                    					</groupId>
-                    					<artifactId>
-                    						maven-checkstyle-plugin
-                    					</artifactId>
-                    					<versionRange>
-                    						[3.0.0,)
-                    					</versionRange>
-                    					<goals>
-                    						<goal>check</goal>
-                    					</goals>
-                    				</pluginExecutionFilter>
-                    				<action>
-                    					<execute/>
-                    				</action>
-                    			</pluginExecution>
-                    		</pluginExecutions>
-                    	</lifecycleMappingMetadata>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-checkstyle-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [3.0.0,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -452,11 +454,52 @@
                     <artifactId>dockerfile-maven-plugin</artifactId>
                     <version>1.4.9</version>
                 </plugin>
-	            <plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-checkstyle-plugin</artifactId>
-				    <version>3.0.0</version>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <configLocation>checkstyle.xml</configLocation>
+                        <consoleOutput>true</consoleOutput>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>xml-maven-plugin</artifactId>
+                    <version>1.0.2</version>
+                    <configuration>
+                        <useDefaultFormatFileSet>false</useDefaultFormatFileSet>
+                        <formatFileSets>
+                            <formatFileSet>
+                                <directory>${project.basedir}</directory>
+                                <includes>
+                                    <include>pom.xml</include>
+                                    <include>src/**/*.xml</include>
+                                </includes>
+                                <excludes>
+                                    <exclude>src/test/resources/**/*.xml</exclude>
+                                </excludes>
+                            </formatFileSet>
+                        </formatFileSets>
+                        <indentSize>4</indentSize>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check-format</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -479,41 +522,16 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-checkstyle-plugin</artifactId>
-			    <configuration>
-			        <configLocation>checkstyle.xml</configLocation>
-			        <consoleOutput>true</consoleOutput>
-			    </configuration>
-			    <executions>
-			        <execution>
-			            <phase>validate</phase>
-			            <goals>
-			                <goal>check</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
-	<!-- <reporting>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.0.0</version>
-          <reportSets>
-            <reportSet>
-              <reports>
-                <report>checkstyle</report>
-              </reports>
-            </reportSet>
-          </reportSets>
-        </plugin>
-      </plugins>
-    </reporting> -->
-    
     <repositories>
         <repository>
             <id>na-artifactory-3rdparty</id>

@@ -1,93 +1,93 @@
 <Bundle xmlns="http://hl7.org/fhir">
-	<id value="virtualResourceProfiles" />
-	<type value="collection" />
-	<entry>
-		<fullUrl value="http://hl7.org/fhir/StructureDefinition/WeatherDetail" />
-		<resource>
-			<StructureDefinition xmlns="http://hl7.org/fhir"
-				xmlns:xhtml="http://www.w3.org/1999/xhtml">
-				<id value="WeatherDetail" />
-				<url value="http://hl7.org/fhir/StructureDefinition/WeatherDetail" />
-				<name value="WeatherDetail" />
-				<status value="draft" />
-				<kind value="resource" />
-				<abstract value="false" />
-				<base value="Basic" />
-				<differential>
-					<element>
-						<path value="WeatherDetail" />
-						<min value="0" />
-						<max value="*" />
-						<type>
-							<code value="Basic" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.geolocation" />
-						<min value="0" />
-						<max value="1" />
-						<type>
-							<code value="BackboneElement" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.geolocation.latitude" />
-						<min value="1" />
-						<max value="1" />
-						<type>
-							<code value="decimal" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.geolocation.longitude" />
-						<min value="1" />
-						<max value="1" />
-						<type>
-							<code value="decimal" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.references" />
-						<min value="1" />
-						<max value="1" />
-						<type>
-							<code value="Reference" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.measurements" />
-						<min value="0" />
-						<max value="*" />
-						<type>
-							<code value="BackboneElement" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.measurements.type" />
-						<min value="1" />
-						<max value="1" />
-						<type>
-							<code value="string" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.measurements.value" />
-						<min value="1" />
-						<max value="1" />
-						<type>
-							<code value="decimal" />
-						</type>
-					</element>
-					<element>
-						<path value="WeatherDetail.description" />
-						<min value="0" />
-						<max value="1" />
-						<type>
-							<code value="string" />
-						</type>
-					</element>
-				</differential>
-			</StructureDefinition>
-		</resource>
-	</entry>
+    <id value="virtualResourceProfiles" />
+    <type value="collection" />
+    <entry>
+        <fullUrl value="http://hl7.org/fhir/StructureDefinition/WeatherDetail" />
+        <resource>
+            <StructureDefinition xmlns="http://hl7.org/fhir"
+                xmlns:xhtml="http://www.w3.org/1999/xhtml">
+                <id value="WeatherDetail" />
+                <url value="http://hl7.org/fhir/StructureDefinition/WeatherDetail" />
+                <name value="WeatherDetail" />
+                <status value="draft" />
+                <kind value="resource" />
+                <abstract value="false" />
+                <base value="Basic" />
+                <differential>
+                    <element>
+                        <path value="WeatherDetail" />
+                        <min value="0" />
+                        <max value="*" />
+                        <type>
+                            <code value="Basic" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.geolocation" />
+                        <min value="0" />
+                        <max value="1" />
+                        <type>
+                            <code value="BackboneElement" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.geolocation.latitude" />
+                        <min value="1" />
+                        <max value="1" />
+                        <type>
+                            <code value="decimal" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.geolocation.longitude" />
+                        <min value="1" />
+                        <max value="1" />
+                        <type>
+                            <code value="decimal" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.references" />
+                        <min value="1" />
+                        <max value="1" />
+                        <type>
+                            <code value="Reference" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.measurements" />
+                        <min value="0" />
+                        <max value="*" />
+                        <type>
+                            <code value="BackboneElement" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.measurements.type" />
+                        <min value="1" />
+                        <max value="1" />
+                        <type>
+                            <code value="string" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.measurements.value" />
+                        <min value="1" />
+                        <max value="1" />
+                        <type>
+                            <code value="decimal" />
+                        </type>
+                    </element>
+                    <element>
+                        <path value="WeatherDetail.description" />
+                        <min value="0" />
+                        <max value="1" />
+                        <type>
+                            <code value="string" />
+                        </type>
+                    </element>
+                </differential>
+            </StructureDefinition>
+        </resource>
+    </entry>
 </Bundle>

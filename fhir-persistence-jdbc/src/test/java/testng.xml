@@ -2,78 +2,78 @@
 
 <suite name="JDBCUnitTestsSuite">
 
-	<test name="JDBCBasicTests">
-	  	<groups>
-	  		<run>
-	  			<include name="jdbc"></include>
-	  		</run>
-	  	</groups>
-       <classes>
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryAuditEventTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryChainedParmTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryContractTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryDeviceTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryEncounterTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryGroupTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryImmunizationRecommendationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryLocationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationAdministrationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationOrderTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMultiResourceTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryObservationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPatientTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPractitionerTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryQuestionnaireRespTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryQuestionnaireTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRelatedPersonTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRiskAssmtTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQuerySortTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCSearchAllTest" />
-           <!-- JDBCDeleteTest excluded because 'basic' schema doesn't yet support DELETE -->
-       </classes>
+    <test name="JDBCBasicTests">
+        <groups>
+            <run>
+                <include name="jdbc"></include>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryAuditEventTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryChainedParmTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryContractTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryDeviceTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryEncounterTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryGroupTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryImmunizationRecommendationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryLocationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationAdministrationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationOrderTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMedicationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryMultiResourceTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryObservationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPatientTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryPractitionerTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryQuestionnaireRespTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryQuestionnaireTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRelatedPersonTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQueryRiskAssmtTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCQuerySortTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCSearchAllTest" />
+            <!-- JDBCDeleteTest excluded because 'basic' schema doesn't yet support DELETE -->
+        </classes>
     </test>
-       
+
     <test name="JDBCNormalizedTests">
-	  	<groups>
-	  		<run>
-	  			<include name="jdbc-normalized"></include>
-	  		</run>
-	  	</groups>
-       <classes>   
-       	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
-       	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
-       	   <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryEncounterTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryGroupTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryImmunizationRecommendationTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryImmunizationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryLocationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationAdministrationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationOrderTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMultiResourceTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryObservationTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPatientTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPractitionerTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireRespTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRelatedPersonTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRiskAssmtTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQuerySortTest" />
-	       <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryIncludeTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchDateTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchNumberTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchQuantityTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchReferenceTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
-           <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
-       </classes>
+        <groups>
+            <run>
+                <include name="jdbc-normalized"></include>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryEncounterTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryGroupTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryImmunizationRecommendationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryImmunizationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryLocationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationAdministrationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationOrderTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMedicationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryMultiResourceTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryObservationTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPatientTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryPractitionerTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireRespTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRelatedPersonTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryRiskAssmtTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQuerySortTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormQueryIncludeTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchDateTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchNumberTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchQuantityTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchReferenceTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
+            <class name="com.ibm.watsonhealth.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
+        </classes>
     </test>
-    
+
 </suite>

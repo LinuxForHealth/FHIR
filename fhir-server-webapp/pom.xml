@@ -1,109 +1,109 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<licenses>
-		<license>
-			<name>IBM International License Agreement for Non-Warranted Programs</name>
-			<url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/</url>
-			<distribution>repo</distribution>
-			<comments>Additional notices http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/notices.html</comments>
-		</license>
-	</licenses>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <licenses>
+        <license>
+            <name>IBM International License Agreement for Non-Warranted Programs</name>
+            <url>http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/</url>
+            <distribution>repo</distribution>
+            <comments>Additional notices http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/licenses/L-JTHS-8SZMHX/HTML/notices.html</comments>
+        </license>
+    </licenses>
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.ibm.watsonhealth.fhir</groupId>
-		<artifactId>fhir-parent</artifactId>
-		<version>99-SNAPSHOT</version>
-		<relativePath>../fhir-parent</relativePath>
-	</parent>
+    <parent>
+        <groupId>com.ibm.watsonhealth.fhir</groupId>
+        <artifactId>fhir-parent</artifactId>
+        <version>99-SNAPSHOT</version>
+        <relativePath>../fhir-parent</relativePath>
+    </parent>
 
-	<artifactId>fhir-server-webapp</artifactId>
+    <artifactId>fhir-server-webapp</artifactId>
 
-	<packaging>war</packaging>
+    <packaging>war</packaging>
 
-	<name>FHIR Server REST API WebApp</name>
-	<url>http://maven.apache.org</url>
+    <name>FHIR Server REST API WebApp</name>
+    <url>http://maven.apache.org</url>
 
-	<properties>
-		<fhir.server.war.name>fhir-server</fhir.server.war.name>
-	</properties>
+    <properties>
+        <fhir.server.war.name>fhir-server</fhir.server.war.name>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-server</artifactId>
-			<version>${project.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>fhir-config</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>fhir-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>fhir-derby-sproc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.ibm.db2</groupId>
-					<artifactId>db2jcc4</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.derby</groupId>
-					<artifactId>derby</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.derby</groupId>
-					<artifactId>derbyclient</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.websocket</groupId>
-					<artifactId>javax.websocket-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-operation-document</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-operation-validate</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>fhir-operation-healthcheck</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.wasdev.maven.tools.targets</groupId>
-			<artifactId>liberty-target</artifactId>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-server</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-derby-sproc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.ibm.db2</groupId>
+                    <artifactId>db2jcc4</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derbyclient</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.websocket</groupId>
+                    <artifactId>javax.websocket-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-operation-document</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-operation-validate</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-operation-healthcheck</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.wasdev.maven.tools.targets</groupId>
+            <artifactId>liberty-target</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<warName>${fhir.server.war.name}</warName>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>${fhir.server.war.name}</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

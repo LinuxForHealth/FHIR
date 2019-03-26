@@ -2,28 +2,28 @@
 
 <suite name="FHIRServerIntegrationTests">
 
-	<test name="ServerTests">
-		<classes>
-			<class name="com.ibm.watsonhealth.fhir.server.test.Base64BinaryTest" />
+    <test name="ServerTests">
+        <classes>
+            <class name="com.ibm.watsonhealth.fhir.server.test.Base64BinaryTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.BasicServerTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.ServerSpecTest" />
-			<class name="com.ibm.watsonhealth.fhir.server.test.BundleTest" />
-			<class name="com.ibm.watsonhealth.fhir.server.test.DeleteTest" />
+            <class name="com.ibm.watsonhealth.fhir.server.test.BundleTest" />
+            <class name="com.ibm.watsonhealth.fhir.server.test.DeleteTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.UpdateTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.DuplicateResourceIdTest"/>
             <class name="com.ibm.watsonhealth.fhir.server.test.FHIRDocumentOperationTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.FHIRValidateOperationTest" />
-			<class name="com.ibm.watsonhealth.fhir.server.test.MultiDataStoreTest" />
-			<class name="com.ibm.watsonhealth.fhir.server.test.SearchTest" />
+            <class name="com.ibm.watsonhealth.fhir.server.test.MultiDataStoreTest" />
+            <class name="com.ibm.watsonhealth.fhir.server.test.SearchTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.SearchAllTest" />
-			<class name="com.ibm.watsonhealth.fhir.server.test.SearchExtensionsTest" />
-			<class name="com.ibm.watsonhealth.fhir.server.test.SortingTest" />
+            <class name="com.ibm.watsonhealth.fhir.server.test.SearchExtensionsTest" />
+            <class name="com.ibm.watsonhealth.fhir.server.test.SortingTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.VirtualResourceTest" />
-			<class name="com.ibm.watsonhealth.fhir.server.test.WebSocketNotificationsTest" />
+            <class name="com.ibm.watsonhealth.fhir.server.test.WebSocketNotificationsTest" />
 
             <class name="com.ibm.watsonhealth.fhir.client.test.FHIRClientTest" />
 
             <class name="com.ibm.watsonhealth.fhir.cli.test.FHIRCliTest" />
-		</classes>
-	</test>
+        </classes>
+    </test>
 </suite>
