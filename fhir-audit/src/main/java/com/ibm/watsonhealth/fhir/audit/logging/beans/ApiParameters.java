@@ -14,46 +14,46 @@ import org.codehaus.jackson.annotate.JsonProperty;
  *
  */
 public class ApiParameters {
-	
-	@JsonProperty("request")
-	private String request;
-	
-	@JsonProperty("response_status")
-	private int status;
+    
+    @JsonProperty("request")
+    private String request;
+    
+    @JsonProperty("response_status")
+    private int status;
 
-	
-	public ApiParameters() {
-		super();
-	}
-
-
-	public String getRequest() {
-		return request;
-	}
+    
+    public ApiParameters() {
+        super();
+    }
 
 
-	public void setRequest(String request) {
-		this.request = request;
-	}
-	
-	public ApiParameters withRequest(String request) {
-		this.request = request;
-		return this;
-	}
+    public String getRequest() {
+        return request;
+    }
 
 
-	public int getStatus() {
-		return status;
-	}
+    public void setRequest(String request) {
+        this.request = request;
+    }
+    
+    public ApiParameters withRequest(String request) {
+        this.request = request;
+        return this;
+    }
 
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	
-	public ApiParameters withStatus(int status) {
-		this.status = status;
-		return this;
-	}
+    public int getStatus() {
+        return status;
+    }
+
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
+    public ApiParameters withStatus(int status) {
+        this.status = status;
+        return this;
+    }
 
 }

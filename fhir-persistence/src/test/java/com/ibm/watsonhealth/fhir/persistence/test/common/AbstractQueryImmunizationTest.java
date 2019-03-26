@@ -22,14 +22,14 @@ CODE_REMOVED
  *  
  */
 public abstract class AbstractQueryImmunizationTest extends AbstractPersistenceTest {
-	
+    
     /**
      *  Ensures an immunization with a "partial identifier" (one without a value) can be created without a failure.
      * @throws Exception
      */
     @Test(groups = { "jdbc-normalized" })
     public void testCreateImmunization_partial_identifier() throws Exception {
-    	Immunization imm = readResource(Immunization.class, "immunization-partial-identifier.json");
+        Immunization imm = readResource(Immunization.class, "immunization-partial-identifier.json");
 
         persistence.create(getDefaultPersistenceContext(), imm);
         assertNotNull(imm);
@@ -46,7 +46,7 @@ public abstract class AbstractQueryImmunizationTest extends AbstractPersistenceT
      */
     @Test(groups = { "jdbc-normalized" })
     public void testCreateImmunization_full_identifier() throws Exception {
-    	Immunization imm = readResource(Immunization.class, "immunization.json");
+        Immunization imm = readResource(Immunization.class, "immunization.json");
 
         persistence.create(getDefaultPersistenceContext(), imm);
         assertNotNull(imm);

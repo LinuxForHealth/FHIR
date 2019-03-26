@@ -81,20 +81,20 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         log.entering(this.getClass().getName(), "readFrom");
         try {
             return FHIRUtil.read(type, getFormat(mediaType), new FilterInputStream(entityStream) {
-            		@Override
-            		public void close() {
-            			// do nothing
-            		}
+                    @Override
+                    public void close() {
+                        // do nothing
+                    }
             });
         } 
         catch (Exception e) {
-        	Response response = buildResponse(
-        			buildOperationOutcome(
-        					createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource deserialization")
-        			)
-        	);
-        	log.log(Level.WARNING, "an error occurred during resource deserialization", e);
-        	throw new WebApplicationException(response);
+            Response response = buildResponse(
+                    buildOperationOutcome(
+                            createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource deserialization")
+                    )
+            );
+            log.log(Level.WARNING, "an error occurred during resource deserialization", e);
+            throw new WebApplicationException(response);
         } 
         finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -118,21 +118,21 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         log.entering(this.getClass().getName(), "writeTo");
 
         try {
-        	FHIRUtil.write(t, getFormat(mediaType), new FilterOutputStream(entityStream) {
-        		@Override
-        		public void close() {
-        			// do nothing
-        		}
-        	}, isPretty(requestHeaders));
+            FHIRUtil.write(t, getFormat(mediaType), new FilterOutputStream(entityStream) {
+                @Override
+                public void close() {
+                    // do nothing
+                }
+            }, isPretty(requestHeaders));
         } 
         catch (Exception e) {
-        	Response response = buildResponse(
-        							buildOperationOutcome(
-        								createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource serialization")
-        							)
-        						);
-        	log.log(Level.WARNING, "an error occurred during resource serialization", e);
-        	throw new WebApplicationException(response);
+            Response response = buildResponse(
+                                    buildOperationOutcome(
+                                        createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource serialization")
+                                    )
+                                );
+            log.log(Level.WARNING, "an error occurred during resource serialization", e);
+            throw new WebApplicationException(response);
         } 
         finally {
             log.exiting(this.getClass().getName(), "writeTo");

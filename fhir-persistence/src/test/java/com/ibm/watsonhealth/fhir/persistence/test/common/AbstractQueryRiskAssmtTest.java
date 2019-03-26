@@ -103,176 +103,176 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
     }
     
     /**
-	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment1" })
-	public void testRiskAssessmentQuery_001() throws Exception {
-		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "condition", "Condition/stroke");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment2" })
-	public void testRiskAssessmentQuery_002() throws Exception {
-		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "performer", "Practitioner/f001");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with date = "2010-11-22" which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment2" })
-	public void testRiskAssessmentQuery_003() throws Exception {
-		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-11-22");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((RiskAssessment)resources.get(0)).getDate().getValue(),"2010-11-22");
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with date = "2010-00-22" which should result in a FHIRSearchException being thrown
-	 * because the date is invalid.
-	 * 
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment2" }, expectedExceptions = FHIRSearchException.class)
-	public void testRiskAssessmentQuery_004() throws Exception {
-		List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-00-22");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-	}
-	
-	/*
-	 * Pagination Testcases
-	 */
-	
-	/**
-	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
-	 * 
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
-	public void testRiskAssessmentPagination_001() throws Exception {
-		
-		Class<? extends Resource> resourceType = RiskAssessment.class;
+     * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+    public void testRiskAssessmentQuery_001() throws Exception {
+        List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "condition", "Condition/stroke");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+    public void testRiskAssessmentQuery_002() throws Exception {
+        List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "performer", "Practitioner/f001");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with date = "2010-11-22" which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment2" })
+    public void testRiskAssessmentQuery_003() throws Exception {
+        List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-11-22");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((RiskAssessment)resources.get(0)).getDate().getValue(),"2010-11-22");
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with date = "2010-00-22" which should result in a FHIRSearchException being thrown
+     * because the date is invalid.
+     * 
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment2" }, expectedExceptions = FHIRSearchException.class)
+    public void testRiskAssessmentQuery_004() throws Exception {
+        List<Resource> resources = runQueryTest(RiskAssessment.class, persistence, "date", "2010-00-22");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    /*
+     * Pagination Testcases
+     */
+    
+    /**
+     * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+     * 
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment1", "testCreateRiskAssessment2" })
+    public void testRiskAssessmentPagination_001() throws Exception {
+        
+        Class<? extends Resource> resourceType = RiskAssessment.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment1" })
-	public void testRiskAssessmentPagination_002() throws Exception {
-		
-		String parmName = "condition";
-		String parmValue = "Condition/stroke";
-		Class<? extends Resource> resourceType = RiskAssessment.class;
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with condition = 'Condition/stroke' which should yield correct results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment1" })
+    public void testRiskAssessmentPagination_002() throws Exception {
+        
+        String parmName = "condition";
+        String parmValue = "Condition/stroke";
+        Class<? extends Resource> resourceType = RiskAssessment.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
-	/*
-	 * 
-	 * Compartment search testcases
-	 * 
-	 */
-	
-	/**
-	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
-	public void testRiskAssessmentQuery_PatCompmt_1() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", RiskAssessment.class, persistence, "performer", "Practitioner/f001");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
-	public void testRiskAssessmentQuery_PatCompmt_2() throws Exception {
-		List<Resource> resources = runQueryTest("Patient", "example", RiskAssessment.class, persistence, "date", "0010-11-22");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
-	public void testRiskAssessmentQuery_PractCompmt_1() throws Exception {
-		List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "performer", "Practitioner/f001");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
-	public void testRiskAssessmentQuery_PractCompmt_2() throws Exception {
-		List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "date", "0010-11-22");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
-	public void testRiskAssessmentQuery_DevCompmt_1() throws Exception {
-		List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "performer", "Device/d001");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Device/d001");
-	}
-	
-	/**
-	 * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
-	public void testRiskAssessmentQuery_DevCompmt_2() throws Exception {
-		List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "date", "0010-11-22");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-	}
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
+    
+    /*
+     * 
+     * Compartment search testcases
+     * 
+     */
+    
+    /**
+     * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+    public void testRiskAssessmentQuery_PatCompmt_1() throws Exception {
+        List<Resource> resources = runQueryTest("Patient", "example", RiskAssessment.class, persistence, "performer", "Practitioner/f001");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+    public void testRiskAssessmentQuery_PatCompmt_2() throws Exception {
+        List<Resource> resources = runQueryTest("Patient", "example", RiskAssessment.class, persistence, "date", "0010-11-22");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+    public void testRiskAssessmentQuery_PractCompmt_1() throws Exception {
+        List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "performer", "Practitioner/f001");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Practitioner/f001");
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment3" })
+    public void testRiskAssessmentQuery_PractCompmt_2() throws Exception {
+        List<Resource> resources = runQueryTest("Practitioner", "f001", RiskAssessment.class, persistence, "date", "0010-11-22");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with performer = 'Practitioner/f001' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
+    public void testRiskAssessmentQuery_DevCompmt_1() throws Exception {
+        List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "performer", "Device/d001");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((RiskAssessment)resources.get(0)).getPerformer().getReference().getValue(),"Device/d001");
+    }
+    
+    /**
+     * Tests a query for a RiskAssessment with date = "0010-11-22" which should yield no results
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateRiskAssessment_with_device" })
+    public void testRiskAssessmentQuery_DevCompmt_2() throws Exception {
+        List<Resource> resources = runQueryTest("Device", "d001", RiskAssessment.class, persistence, "date", "0010-11-22");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
 }

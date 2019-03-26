@@ -220,10 +220,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             return exceptionResponse(e);
         } catch(Exception e) {
             log.log(Level.SEVERE, errMsg, e);
-        	return exceptionResponse(e, status);
+            return exceptionResponse(e, status);
         } finally {
-        	RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
-        	log.exiting(this.getClass().getName(), "metadata()");
+            RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
+            log.exiting(this.getClass().getName(), "metadata()");
         }
     }
 
@@ -232,15 +232,15 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Response create(
         @PathParam("type") String type, 
         Resource resource) {
-    	
-    	log.entering(this.getClass().getName(), "create(Resource)");
+        
+        log.entering(this.getClass().getName(), "create(Resource)");
 
         try {
             checkInitComplete();
             
             String ifNoneExist = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_EXIST);
 
-        	FHIRRestOperationResponse ior = doCreate(type, resource, ifNoneExist, null);
+            FHIRRestOperationResponse ior = doCreate(type, resource, ifNoneExist, null);
                        
             ResponseBuilder response = Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             resource = ior.getResource();
@@ -248,13 +248,13 @@ public class FHIRResource implements FHIRResourceHelpers {
             response.status(ior.getStatus());
             return response.build();
         } catch (FHIRHttpException e) {
-        	return exceptionResponse(e);
+            return exceptionResponse(e);
         } catch (FHIROperationException e) {
-        	return exceptionResponse(e);
+            return exceptionResponse(e);
         } catch (Exception e) {
-        	return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	log.exiting(this.getClass().getName(), "create(Resource)");
+            log.exiting(this.getClass().getName(), "create(Resource)");
         }
     }
 
@@ -265,14 +265,14 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("id") String id, 
         Resource resource) {
 
-    	Response.Status status;
-    	
+        Response.Status status;
+        
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         FHIRRestOperationResponse ior = null;
         try {
             checkInitComplete();
 
-        	ior = doUpdate(type, id, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+            ior = doUpdate(type, id, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
             
             ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -312,8 +312,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
-            	createAuditLogRecord = true;
-            	String msg = "Cannot PUT to resource type endpoint unless a search query string is provided for a conditional update.";
+                createAuditLogRecord = true;
+                String msg = "Cannot PUT to resource type endpoint unless a search query string is provided for a conditional update.";
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueTypeList.INVALID);
             }
             
@@ -337,13 +337,13 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-        	if (createAuditLogRecord) {
-        		if (status == Response.Status.CREATED) {
-        			RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-        		} else {
-        			RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-        		}
-        	}
+            if (createAuditLogRecord) {
+                if (status == Response.Status.CREATED) {
+                    RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                } else {
+                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                }
+            }
             log.exiting(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         }
     }
@@ -396,9 +396,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
-            	createAuditLogRecord = true;
-            	String msg = "A search query string is required for a conditional delete operation.";
-            	throw buildRestException(msg, status, IssueTypeList.INVALID);
+                createAuditLogRecord = true;
+                String msg = "A search query string is required for a conditional delete operation.";
+                throw buildRestException(msg, status, IssueTypeList.INVALID);
             }
             
             ior = doDelete(type, null, searchQueryString, null);
@@ -423,9 +423,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-        	if (createAuditLogRecord) {
-        		RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
-        	}
+            if (createAuditLogRecord) {
+                RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
+            }
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
@@ -453,9 +453,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
-        	return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	log.exiting(this.getClass().getName(), "read(String,String)");
+            log.exiting(this.getClass().getName(), "read(String,String)");
         }
     }
 
@@ -484,9 +484,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
-        	return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	log.exiting(this.getClass().getName(), "vread(String,String,String)");
+            log.exiting(this.getClass().getName(), "vread(String,String,String)");
         }
     }
 
@@ -507,9 +507,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
-        	return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	log.exiting(this.getClass().getName(), "history(String,String)");
+            log.exiting(this.getClass().getName(), "history(String,String)");
         }
     }
 
@@ -519,9 +519,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         @PathParam("type") String type) {
         log.entering(this.getClass().getName(), "search(String,UriInfo)");
         Response.Status status;
-    	MultivaluedMap<String, String> queryParameters = null;
-    	Bundle bundle = null;
-    	
+        MultivaluedMap<String, String> queryParameters = null;
+        Bundle bundle = null;
+        
         try {
             checkInitComplete();
 
@@ -530,28 +530,28 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.OK;
             return Response.ok(bundle).build();
         } catch (FHIRHttpException e) {
-        	status = e.getHttpStatus();
+            status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIROperationException e) {
-        	status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             return exceptionResponse(e);
         } catch (Exception e) {
-        	status = Response.Status.INTERNAL_SERVER_ERROR;
-        	return exceptionResponse(e, status);
+            status = Response.Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
-        	log.exiting(this.getClass().getName(), "search(String)");
+            log.exiting(this.getClass().getName(), "search(String)");
         }
     }
     
     @GET
     @Path("{compartment}/{compartmentId}/{type}")
     public Response searchCompartment(
-    	@PathParam("compartment") String compartment,
-    	@PathParam("compartmentId") String compartmentId,
+        @PathParam("compartment") String compartment,
+        @PathParam("compartmentId") String compartmentId,
         @PathParam("type") String type) {
-    	
+        
         log.entering(this.getClass().getName(), "search(String, String, String)");
-    	
+        
         try {
             checkInitComplete();
 
@@ -563,9 +563,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (FHIROperationException e) {
             return exceptionResponse(e);
         } catch (Exception e) {
-        	return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	log.exiting(this.getClass().getName(), "search(String)");
+            log.exiting(this.getClass().getName(), "search(String)");
         }
     }
     
@@ -802,7 +802,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-        	log.exiting(this.getClass().getName(), "bundle(Bundle)");
+            log.exiting(this.getClass().getName(), "bundle(Bundle)");
         }
     }
 
@@ -1053,9 +1053,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Next, invoke the 'beforeUpdate' or 'beforeCreate' interceptor methods as appropriate.
             boolean updateCreate = (ior.getPrevResource() == null); 
             if (updateCreate) {
-            	getInterceptorMgr().fireBeforeCreateEvent(event);
+                getInterceptorMgr().fireBeforeCreateEvent(event);
             } else {
-            	getInterceptorMgr().fireBeforeUpdateEvent(event);
+                getInterceptorMgr().fireBeforeUpdateEvent(event);
             }
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
@@ -1069,10 +1069,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Invoke the 'afterUpdate' interceptor methods.
             if (updateCreate) {
                 ior.setStatus(Response.Status.CREATED);
-            	getInterceptorMgr().fireAfterCreateEvent(event);
+                getInterceptorMgr().fireAfterCreateEvent(event);
             } else {
                 ior.setStatus(Response.Status.OK);
-            	getInterceptorMgr().fireAfterUpdateEvent(event);
+                getInterceptorMgr().fireAfterUpdateEvent(event);
             }
             
             // Commit our transaction if we started one before.
@@ -1321,7 +1321,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             return resource;
         } catch (FHIRPersistenceResourceNotFoundException e) {
             log.log(Level.SEVERE, errMsg, e);
-        	status = Response.Status.NOT_FOUND;
+            status = Response.Status.NOT_FOUND;
             throw e;
         } catch (FHIRPersistenceResourceDeletedException e) {
             log.log(Level.SEVERE, errMsg, e);
@@ -1413,7 +1413,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             return resource;
         } catch (FHIRPersistenceResourceNotFoundException e) {
             log.log(Level.SEVERE, errMsg, e);
-        	status = Response.Status.NOT_FOUND;
+            status = Response.Status.NOT_FOUND;
             throw e;
         } catch (FHIRPersistenceResourceDeletedException e) {
             log.log(Level.SEVERE, errMsg, e);
@@ -1951,8 +1951,8 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private void performVersionAwareUpdateCheck(Resource currentResource, String ifMatchValue) throws FHIRHttpException {
         if (ifMatchValue != null) {
-        	log.fine("Performing a version aware update. ETag value =  " + ifMatchValue);
-        	
+            log.fine("Performing a version aware update. ETag value =  " + ifMatchValue);
+            
             String ifMatchVersion = getVersionIdFromETagValue(ifMatchValue);
             
             // Make sure that we got a version # from the request header.
@@ -2756,12 +2756,12 @@ public class FHIRResource implements FHIRResourceHelpers {
         String authURLTemplate = null;
         String tokenURLTemplate = null;
         try {
-        	regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL, "");
-        	authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL, "");
-			tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL, "");
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
-		}
+            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL, "");
+            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL, "");
+            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL, "");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
+        }
         String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
        
         String authURL = authURLTemplate.replaceAll("<host>", actualHost);
@@ -2772,20 +2772,20 @@ public class FHIRResource implements FHIRResourceHelpers {
                 .withMode(objectFactory.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
                 .withTransactionMode(objectFactory.createTransactionMode().withValue(transactionMode))
                 .withSecurity(objectFactory.createConformanceSecurity()
-                		.withService(objectFactory.createCodeableConcept().withCoding(objectFactory.createCoding()
-                												.withCode(objectFactory.createCode().withValue("SMART-on-FHIR"))
-                												.withSystem(objectFactory.createUri().withValue("http://hl7.org/fhir/restful-security-service")))
-                											.withText(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")))
-                		.withExtension(objectFactory.createExtension().withUrl("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
-                									.withExtension(objectFactory.createExtension().withUrl("token")
-                														.withValueUri(objectFactory.createUri()
-                																.withValue(tokenURL)),
-                													objectFactory.createExtension().withUrl("authorize")
-                														.withValueUri(objectFactory.createUri()
-                																.withValue(authURL)),
-                													objectFactory.createExtension().withUrl("register")
-                														.withValueUri(objectFactory.createUri()
-                																.withValue(regURL)))))
+                        .withService(objectFactory.createCodeableConcept().withCoding(objectFactory.createCoding()
+                                                                .withCode(objectFactory.createCode().withValue("SMART-on-FHIR"))
+                                                                .withSystem(objectFactory.createUri().withValue("http://hl7.org/fhir/restful-security-service")))
+                                                            .withText(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")))
+                        .withExtension(objectFactory.createExtension().withUrl("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
+                                                    .withExtension(objectFactory.createExtension().withUrl("token")
+                                                                        .withValueUri(objectFactory.createUri()
+                                                                                .withValue(tokenURL)),
+                                                                    objectFactory.createExtension().withUrl("authorize")
+                                                                        .withValueUri(objectFactory.createUri()
+                                                                                .withValue(authURL)),
+                                                                    objectFactory.createExtension().withUrl("register")
+                                                                        .withValueUri(objectFactory.createUri()
+                                                                                .withValue(regURL)))))
                 .withResource(resources);
         
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
@@ -2937,7 +2937,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
         // returned resources.
         if (searchContext.hasElementsParameters()) {
-        	FHIRPersistenceUtil.addFilteredTag(bundle);
+            FHIRPersistenceUtil.addFilteredTag(bundle);
         }
 
         // Finally, set the "total" field.
@@ -3241,16 +3241,16 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return String The complete request URI
      */
     private String getRequestUri() {
-    	
-    	String queryString = null;
-    	StringBuilder requestUri = new StringBuilder();
-    	
-    	requestUri.append(httpServletRequest.getRequestURL());
-    	queryString = httpServletRequest.getQueryString();
-    	if (queryString != null && !queryString.isEmpty()) {
-    		requestUri.append("?").append(queryString);
-    	}
-    	return requestUri.toString();
+        
+        String queryString = null;
+        StringBuilder requestUri = new StringBuilder();
+        
+        requestUri.append(httpServletRequest.getRequestURL());
+        queryString = httpServletRequest.getQueryString();
+        if (queryString != null && !queryString.isEmpty()) {
+            requestUri.append("?").append(queryString);
+        }
+        return requestUri.toString();
     }
     
     /** 

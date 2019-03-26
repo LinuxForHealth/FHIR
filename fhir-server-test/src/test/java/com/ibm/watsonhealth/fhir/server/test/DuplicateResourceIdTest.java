@@ -42,8 +42,8 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
     @Test(groups = { "server-basic" })
     public void testCreateDupIdResources() throws Exception {
         
-    	String dupId = UUID.randomUUID().toString();
-    	
+        String dupId = UUID.randomUUID().toString();
+        
         FHIRResponse response;
         
         // Create a Device resource using the previously generated id
@@ -71,11 +71,11 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
      */
     @Test(enabled=true,groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })
     public void testReadDupIdResources() throws Exception {
-    	
-    	FHIRResponse response;
-    	    	
-    	// Call the 'read' API to retrieve the previously created Device and verify it.
-    	response = client.read("Device", this.device.getId().getValue());
+        
+        FHIRResponse response;
+                
+        // Call the 'read' API to retrieve the previously created Device and verify it.
+        response = client.read("Device", this.device.getId().getValue());
         assertResponse(response, Response.Status.OK.getStatusCode());
         Device responseDevice = response.getResource(Device.class);
         assertResourceEquals(this.device, responseDevice);
@@ -93,11 +93,11 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
      */
     @Test(enabled=true,groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })
     public void testVReadDupIdResources() throws Exception {
-    	
-    	FHIRResponse response;
-    	    	
-    	// Call the 'vread' API to retrieve the previously created Device and verify it.
-    	response = client.vread("Device", this.device.getId().getValue(),"1");
+        
+        FHIRResponse response;
+                
+        // Call the 'vread' API to retrieve the previously created Device and verify it.
+        response = client.vread("Device", this.device.getId().getValue(),"1");
         assertResponse(response, Response.Status.OK.getStatusCode());
         Device responseDevice = response.getResource(Device.class);
         assertResourceEquals(this.device, responseDevice);
@@ -115,26 +115,26 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
      */
     @Test(enabled=true,groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })
     public void testSearchDupIdResources() throws Exception {
-    	
-    	FHIRResponse response;
-    	FHIRParameters searchParms;
-    	Bundle responseBundle;
-    	
-    	// Do a search on the previously created Device. Ensure only 1 result is returned and that it validates.
-    	searchParms = new FHIRParameters();
-    	searchParms.addSinglevaluedParameter("udi", this.deviceUdi);
-		response = client.search("Device", searchParms);
-    	assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        FHIRResponse response;
+        FHIRParameters searchParms;
+        Bundle responseBundle;
+        
+        // Do a search on the previously created Device. Ensure only 1 result is returned and that it validates.
+        searchParms = new FHIRParameters();
+        searchParms.addSinglevaluedParameter("udi", this.deviceUdi);
+        response = client.search("Device", searchParms);
+        assertResponse(response, Response.Status.OK.getStatusCode());
         responseBundle = response.getResource(Bundle.class);
         assertEquals(1, responseBundle.getTotal().getValue().intValue());
         Device responseDevice = responseBundle.getEntry().get(0).getResource().getDevice();
         assertResourceEquals(this.device, responseDevice);
         
         // Do a search on the previously created Contract. Ensure only 1 result is returned and that it validates.
-    	searchParms = new FHIRParameters();
-    	searchParms.addSinglevaluedParameter("patient", this.contractSubject);
-		response = client.search("Contract", searchParms);
-    	assertResponse(response, Response.Status.OK.getStatusCode());
+        searchParms = new FHIRParameters();
+        searchParms.addSinglevaluedParameter("patient", this.contractSubject);
+        response = client.search("Contract", searchParms);
+        assertResponse(response, Response.Status.OK.getStatusCode());
         responseBundle = response.getResource(Bundle.class);
         assertEquals(1, responseBundle.getTotal().getValue().intValue());
         Contract responseContract = responseBundle.getEntry().get(0).getResource().getContract();
@@ -147,21 +147,21 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
      */
     @Test(enabled=true,groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })
     public void testHistoryDupIdResources() throws Exception {
-    	
-    	FHIRResponse response;
-    	Bundle responseBundle;
-    	
-    	// Do a history on the previously created Device. Ensure only 1 result is returned and that it validates.
-    	response = client.history("Device", this.device.getId().getValue(), null);
-    	assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        FHIRResponse response;
+        Bundle responseBundle;
+        
+        // Do a history on the previously created Device. Ensure only 1 result is returned and that it validates.
+        response = client.history("Device", this.device.getId().getValue(), null);
+        assertResponse(response, Response.Status.OK.getStatusCode());
         responseBundle = response.getResource(Bundle.class);
         assertEquals(1, responseBundle.getTotal().getValue().intValue());
         Device responseDevice = responseBundle.getEntry().get(0).getResource().getDevice();
         assertResourceEquals(this.device, responseDevice);
         
         // Do a history on the previously created Contract. Ensure only 1 result is returned and that it validates.
-    	response = client.history("Contract", this.contract.getId().getValue(), null);
-    	assertResponse(response, Response.Status.OK.getStatusCode());
+        response = client.history("Contract", this.contract.getId().getValue(), null);
+        assertResponse(response, Response.Status.OK.getStatusCode());
         responseBundle = response.getResource(Bundle.class);
         assertEquals(1, responseBundle.getTotal().getValue().intValue());
         Contract responseContract = responseBundle.getEntry().get(0).getResource().getContract();

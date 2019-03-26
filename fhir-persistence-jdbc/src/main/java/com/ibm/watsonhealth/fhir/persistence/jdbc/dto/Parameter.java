@@ -35,7 +35,7 @@ public class Parameter {
     private String valueCode;
 
     public Parameter() {
-    	super();
+        super();
     }
 
     public Timestamp getValueDateStart() {
@@ -142,27 +142,27 @@ public class Parameter {
         this.valueLatitude = valueLatitude;
     }
 
-	public String getResourceType() {
-		return resourceType;
-	}
+    public String getResourceType() {
+        return resourceType;
+    }
 
-	public void setResourceType(String resourceType) {
-		this.resourceType = resourceType;
-	}
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
 
-	public long getResourceId() {
-		return resourceId;
-	}
+    public long getResourceId() {
+        return resourceId;
+    }
 
-	public void setResourceId(long resourceId) {
-		this.resourceId = resourceId;
-	}
+    public void setResourceId(long resourceId) {
+        this.resourceId = resourceId;
+    }
 
-	public Type getType() {
-		return type;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public void setType(Type type) {
-		this.type = type;
-	}
+    public void setType(Type type) {
+        this.type = type;
+    }
 }

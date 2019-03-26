@@ -15,26 +15,26 @@ import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractQueryAuditEvent
 
 
 public class JDBCQueryAuditEventTest extends AbstractQueryAuditEventTest {
-	
-	private Properties testProps;
-	
-	public JDBCQueryAuditEventTest() throws Exception {
-		this.testProps = readTestProperties("test.basic.properties");
-	}
+    
+    private Properties testProps;
+    
+    public JDBCQueryAuditEventTest() throws Exception {
+        this.testProps = readTestProperties("test.basic.properties");
+    }
 
-	@Override
-	public void bootstrapDatabase() throws Exception {
-		DerbyInitializer derbyInit;
-		String dbDriverName = this.testProps.getProperty("dbDriverName");
-		if (dbDriverName != null && dbDriverName.contains("derby")) {
-			this.testProps.setProperty("schemaType", "basic");
-			derbyInit = new DerbyInitializer(this.testProps);
-			derbyInit.bootstrapDb(false);
-		}
-	}
-	
+    @Override
+    public void bootstrapDatabase() throws Exception {
+        DerbyInitializer derbyInit;
+        String dbDriverName = this.testProps.getProperty("dbDriverName");
+        if (dbDriverName != null && dbDriverName.contains("derby")) {
+            this.testProps.setProperty("schemaType", "basic");
+            derbyInit = new DerbyInitializer(this.testProps);
+            derbyInit.bootstrapDb(false);
+        }
+    }
+    
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-    	return new FHIRPersistenceJDBCImpl(this.testProps);
+        return new FHIRPersistenceJDBCImpl(this.testProps);
     }
 }

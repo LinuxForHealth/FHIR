@@ -19,20 +19,20 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
  */
 public interface ParameterDAO extends FHIRDbDAO {
 
-	/**
-	 * Performs a batch insert of the passed Parameter objects into the FHIR database.
-	 * @param parameters - A List of search parameters associated with a FHIR Resource.
-	 * @throws FHIRPersistenceDataAccessException
-	 * @throws FHIRPersistenceDBConnectException
-	 */
-	void insert(List<Parameter> parameters) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+    /**
+     * Performs a batch insert of the passed Parameter objects into the FHIR database.
+     * @param parameters - A List of search parameters associated with a FHIR Resource.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    void insert(List<Parameter> parameters) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
-	/**
-	 * Deletes from the Parameter table all rows associated with the passed resource id.
-	 * @param resourceId - The id of the resource for which Parameter rows should be deleted.
-	 * @throws FHIRPersistenceDBConnectException
-	 * @throws FHIRPersistenceDataAccessException 
-	 */
-	default void deleteByResource(long resourceId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {};
+    /**
+     * Deletes from the Parameter table all rows associated with the passed resource id.
+     * @param resourceId - The id of the resource for which Parameter rows should be deleted.
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceDataAccessException 
+     */
+    default void deleteByResource(long resourceId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {};
 
 }

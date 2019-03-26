@@ -18,18 +18,18 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
  */
 public class FHIRPersistenceDBConnectException extends FHIRPersistenceException {
 
-	private static final long serialVersionUID = -8350452448890342596L;
-	
+    private static final long serialVersionUID = -8350452448890342596L;
+    
 
-	public FHIRPersistenceDBConnectException(String message) {
-		super(message);
-	}
+    public FHIRPersistenceDBConnectException(String message) {
+        super(message);
+    }
 
-	public FHIRPersistenceDBConnectException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public FHIRPersistenceDBConnectException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	@Override
+    @Override
     public FHIRPersistenceDBConnectException withIssue(OperationOutcomeIssue... issues) {
         super.withIssue(issues);
         return this;

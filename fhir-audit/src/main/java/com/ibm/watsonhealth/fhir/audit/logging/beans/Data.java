@@ -16,45 +16,45 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
  */
 @JsonPropertyOrder({"resource_type", "id", "version_id" })
 public class Data {
-	
+    
     @JsonProperty("resource_type")
     private String resourceType;
     
-	@JsonProperty("id")
+    @JsonProperty("id")
     private String id;
-	
-	@JsonProperty("version_id")
-	private String versionId;
+    
+    @JsonProperty("version_id")
+    private String versionId;
 
-	public Data() {
-		super();
-	}
+    public Data() {
+        super();
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public Data withId(String id) {
-		this.id = id;
-		return this;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public Data withId(String id) {
+        this.id = id;
+        return this;
+    }
 
-	public String getVersionId() {
-		return versionId;
-	}
+    public String getVersionId() {
+        return versionId;
+    }
 
-	public void setVersionId(String versionId) {
-		this.versionId = versionId;
-	}
-	
-	public Data withVersionId(String versionId) {
-		this.versionId = versionId;
-		return this;
-	}
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+    
+    public Data withVersionId(String versionId) {
+        this.versionId = versionId;
+        return this;
+    }
 
     public String getResourceType() {
         return resourceType;

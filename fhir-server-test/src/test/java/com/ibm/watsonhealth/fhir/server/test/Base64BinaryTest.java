@@ -97,14 +97,14 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         
         // Create a DocumentReference resource and connect the attachment to it.
         DocumentReference docRef = f.createDocumentReference()
-        							.withContent(f.createDocumentReferenceContent()
-        									.withAttachment(attachment))
-        							.withType(f.createCodeableConcept()
-        									.withCoding(f.createCoding()
-        											.withCode(f.createCode().withValue("attachmentTest"))))
-        							.withIndexed(f.createInstant().withValue(indexedDateTime))
-        							.withStatus(f.createCode().withValue("current"));
-        									
+                                    .withContent(f.createDocumentReferenceContent()
+                                            .withAttachment(attachment))
+                                    .withType(f.createCodeableConcept()
+                                            .withCoding(f.createCoding()
+                                                    .withCode(f.createCode().withValue("attachmentTest"))))
+                                    .withIndexed(f.createInstant().withValue(indexedDateTime))
+                                    .withStatus(f.createCode().withValue("current"));
+                                            
         // Persist the DocumentReference
         Entity<DocumentReference> entity = Entity.entity(docRef, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("DocumentReference").request().post(entity, Response.class);
@@ -139,23 +139,23 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         
         // Create an AuditEvent with an AuditEventObject that has an AuditEventDetail with a base64 encoded value.
         AuditEvent auditEvent = f.createAuditEvent()
-        						.withEvent(f.createAuditEventEvent()
-        								.withType(f.createCoding()
-        										.withCode(f.createCode()
-        												.withValue("99")))
-        								.withDateTime(f.createInstant()
-        										.withValue(instantDateTime)))
-        						.withParticipant(f.createAuditEventParticipant()
-        								.withRequestor(f.createBoolean()
-        										.withValue(new Boolean(false))))
-        						.withSource(f.createAuditEventSource()
-        								.withIdentifier(f.createIdentifier().withValue(f.createString().withValue("Device/1"))))
-        						.withObject(f.createAuditEventObject()
-        								.withDetail(f.createAuditEventDetail()
-        										.withType(f.createString().withValue("Base64Binary test"))
-        										.withValue(f.createBase64Binary()
-        												.withValue(value))));
-        								
+                                .withEvent(f.createAuditEventEvent()
+                                        .withType(f.createCoding()
+                                                .withCode(f.createCode()
+                                                        .withValue("99")))
+                                        .withDateTime(f.createInstant()
+                                                .withValue(instantDateTime)))
+                                .withParticipant(f.createAuditEventParticipant()
+                                        .withRequestor(f.createBoolean()
+                                                .withValue(new Boolean(false))))
+                                .withSource(f.createAuditEventSource()
+                                        .withIdentifier(f.createIdentifier().withValue(f.createString().withValue("Device/1"))))
+                                .withObject(f.createAuditEventObject()
+                                        .withDetail(f.createAuditEventDetail()
+                                                .withType(f.createString().withValue("Base64Binary test"))
+                                                .withValue(f.createBase64Binary()
+                                                        .withValue(value))));
+                                        
         // Persist the AuditEvent
         Entity<AuditEvent> entity = Entity.entity(auditEvent, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("AuditEvent").request().post(entity, Response.class);
@@ -188,23 +188,23 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                 
         // Create an AuditEvent with an AuditEventObject that has an AuditEventDetail with a base64 encoded value.
         Conformance conformance = f.createConformance()
-        						   .withDescription(f.createString().withValue("conformanceTest"))
-        						   .withDate(f.createDateTime().withValue("2016-09-22T02:57:46.941Z"))
-        						   .withKind(f.createConformanceStatementKind().withValue(ConformanceStatementKindList.CAPABILITY))
-        						   .withFhirVersion(f.createId().withValue("0.6"))
-        						   .withAcceptUnknown(f.createUnknownContentCode()
-        								   .withValue(UnknownContentCodeList.ELEMENTS))
-        						   .withFormat(f.createCode().withValue("application/json+fhir"))
-        						   .withRest(f.createConformanceRest()
-        								   .withMode(f.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
-        								   .withResource(f.createConformanceResource()
-        										   .withType(f.createCode().withValue("StructureDefinition"))
-        										   .withInteraction(f.createConformanceInteraction()
-        												   .withCode(f.createTypeRestfulInteraction().withValue(TypeRestfulInteractionList.CREATE))))
-        								   .withSecurity(f.createConformanceSecurity()
-        										   .withCertificate(f.createConformanceCertificate()
-        												   .withBlob(f.createBase64Binary().withValue(value)))));
-        								
+                                   .withDescription(f.createString().withValue("conformanceTest"))
+                                   .withDate(f.createDateTime().withValue("2016-09-22T02:57:46.941Z"))
+                                   .withKind(f.createConformanceStatementKind().withValue(ConformanceStatementKindList.CAPABILITY))
+                                   .withFhirVersion(f.createId().withValue("0.6"))
+                                   .withAcceptUnknown(f.createUnknownContentCode()
+                                           .withValue(UnknownContentCodeList.ELEMENTS))
+                                   .withFormat(f.createCode().withValue("application/json+fhir"))
+                                   .withRest(f.createConformanceRest()
+                                           .withMode(f.createRestfulConformanceMode().withValue(RestfulConformanceModeList.SERVER))
+                                           .withResource(f.createConformanceResource()
+                                                   .withType(f.createCode().withValue("StructureDefinition"))
+                                                   .withInteraction(f.createConformanceInteraction()
+                                                           .withCode(f.createTypeRestfulInteraction().withValue(TypeRestfulInteractionList.CREATE))))
+                                           .withSecurity(f.createConformanceSecurity()
+                                                   .withCertificate(f.createConformanceCertificate()
+                                                           .withBlob(f.createBase64Binary().withValue(value)))));
+                                        
         // Persist the Conformance resource
         Entity<Conformance> entity = Entity.entity(conformance, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Conformance").request().post(entity, Response.class);
@@ -240,28 +240,28 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                 
         // Create a Parameters resource containing a Base64 encoded value and signature.
         Parameters parameters = f.createParameters()
-        						 .withParameter(f.createParametersParameter()
-        						     .withName(f.createString().withValue("base64BinaryParameterTest"))
-        						     .withValueBase64Binary(f.createBase64Binary().withValue(valueParameter)))
-        						 
+                                 .withParameter(f.createParametersParameter()
+                                     .withName(f.createString().withValue("base64BinaryParameterTest"))
+                                     .withValueBase64Binary(f.createBase64Binary().withValue(valueParameter)))
+                                 
                                 .withParameter(f.createParametersParameter()
                                     .withName(f.createString().withValue("resourceParameterTest"))
-        							.withResource(f.createResourceContainer()
-        								.withPerson(f.createPerson()
-        								    .withActive(f.createBoolean().withValue(new Boolean(false))))))
+                                    .withResource(f.createResourceContainer()
+                                        .withPerson(f.createPerson()
+                                            .withActive(f.createBoolean().withValue(new Boolean(false))))))
                                 
                                 .withParameter(f.createParametersParameter()
                                     .withName(f.createString().withValue("signatureParameterTest"))
                                     .withValueSignature(f.createSignature()
-										.withWhoReference(f.createReference()
-												.withReference(f.createString().withValue("Patient/777")))
-												.withType(f.createCoding()
-												.withCode(f.createCode().withValue("1.2.840.10065.1.12.1.1")))
-										.withWhen(f.createInstant()
-												.withValue(instantDateTime))
-										.withContentType(f.createCode().withValue("application/json+fhir"))
-										.withBlob(f.createBase64Binary()
-												.withValue(valueSignature))));
+                                        .withWhoReference(f.createReference()
+                                                .withReference(f.createString().withValue("Patient/777")))
+                                                .withType(f.createCoding()
+                                                .withCode(f.createCode().withValue("1.2.840.10065.1.12.1.1")))
+                                        .withWhen(f.createInstant()
+                                                .withValue(instantDateTime))
+                                        .withContentType(f.createCode().withValue("application/json+fhir"))
+                                        .withBlob(f.createBase64Binary()
+                                                .withValue(valueSignature))));
         
         if (DEBUG_JSON) {
             FHIRUtil.write(parameters, Format.JSON, System.out);
@@ -296,33 +296,33 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         byte[] valueSnapshot = valueSnapshotString.getBytes();
                
         StructureDefinition struct = f.createStructureDefinition()
-        							  .withBase(f.createUri().withValue("http://hl7.org/fhir/test"))
-        							  .withUrl(f.createUri()
-        									  .withValue("http://hl7.org/fhir/test"))
-        							  .withConstrainedType(f.createCode().withValue("/Patient"))
-        							  .withName(f.createString().withValue("createStructureDefnTest"))
-        							  .withStatus(f.createCode().withValue("draft"))
-        							  .withAbstract(f.createBoolean().withValue(new Boolean(true)))
-        							  .withKind(f.createStructureDefinitionKind()
-        									  .withValue(StructureDefinitionKindList.LOGICAL))
-        							  .withSnapshot(f.createStructureDefinitionSnapshot()
-        									  .withElement(f.createElementDefinition()
-        											  .withDefinition(f.createMarkdown().withValue("y"))
-        											  .withMin(f.createInteger().withValue(new Integer(1)))
-        											  .withMax(f.createString().withValue("1"))
-        											  .withType(f.createElementDefinitionType()
-        													  .withCode(f.createCode().withValue("x")))
-        											  .withBase(f.createElementDefinitionBase()
-        													  .withPath(f.createString().withValue("Patient/1"))
-        													  .withMin(f.createInteger().withValue(new Integer(1)))
-        													  .withMax(f.createString().withValue("1")))
-        											  .withPath(f.createString().withValue("/Patient"))
-        											  .withDefaultValueBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
-        											  .withExampleBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
-        											  .withFixedBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
-        											  .withMaxValueBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
-        											  .withMinValueBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
-        											  .withPatternBase64Binary(f.createBase64Binary().withValue(valueSnapshot))));
+                                      .withBase(f.createUri().withValue("http://hl7.org/fhir/test"))
+                                      .withUrl(f.createUri()
+                                              .withValue("http://hl7.org/fhir/test"))
+                                      .withConstrainedType(f.createCode().withValue("/Patient"))
+                                      .withName(f.createString().withValue("createStructureDefnTest"))
+                                      .withStatus(f.createCode().withValue("draft"))
+                                      .withAbstract(f.createBoolean().withValue(new Boolean(true)))
+                                      .withKind(f.createStructureDefinitionKind()
+                                              .withValue(StructureDefinitionKindList.LOGICAL))
+                                      .withSnapshot(f.createStructureDefinitionSnapshot()
+                                              .withElement(f.createElementDefinition()
+                                                      .withDefinition(f.createMarkdown().withValue("y"))
+                                                      .withMin(f.createInteger().withValue(new Integer(1)))
+                                                      .withMax(f.createString().withValue("1"))
+                                                      .withType(f.createElementDefinitionType()
+                                                              .withCode(f.createCode().withValue("x")))
+                                                      .withBase(f.createElementDefinitionBase()
+                                                              .withPath(f.createString().withValue("Patient/1"))
+                                                              .withMin(f.createInteger().withValue(new Integer(1)))
+                                                              .withMax(f.createString().withValue("1")))
+                                                      .withPath(f.createString().withValue("/Patient"))
+                                                      .withDefaultValueBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
+                                                      .withExampleBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
+                                                      .withFixedBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
+                                                      .withMaxValueBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
+                                                      .withMinValueBase64Binary(f.createBase64Binary().withValue(valueSnapshot))
+                                                      .withPatternBase64Binary(f.createBase64Binary().withValue(valueSnapshot))));
         
         if (DEBUG_JSON) {
             FHIRUtil.write(struct, Format.JSON, System.out);
@@ -363,21 +363,21 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         
         // Create an AuditEvent with an AuditEventObject that has an AuditEventDetail with a base64 encoded value.
         AuditEvent auditEvent = f.createAuditEvent()
-        						.withEvent(f.createAuditEventEvent()
-        								.withType(f.createCoding()
-        										.withCode(f.createCode()
-        												.withValue("99")))
-        								.withDateTime(f.createInstant()
-        										.withValue(instantDateTime)))
-        						.withParticipant(f.createAuditEventParticipant()
-        								.withRequestor(f.createBoolean()
-        										.withValue(new Boolean(false))))
-        						.withSource(f.createAuditEventSource()
-        								.withIdentifier(f.createIdentifier().withValue(f.createString().withValue("Device/1"))))
-        						.withExtension(f.createExtension()
-        								.withUrl("http://ibm.com/watsonhealth/fhir/AuditEvent/testExtension")
-        								.withValueBase64Binary(f.createBase64Binary().withValue(value)));
-        								
+                                .withEvent(f.createAuditEventEvent()
+                                        .withType(f.createCoding()
+                                                .withCode(f.createCode()
+                                                        .withValue("99")))
+                                        .withDateTime(f.createInstant()
+                                                .withValue(instantDateTime)))
+                                .withParticipant(f.createAuditEventParticipant()
+                                        .withRequestor(f.createBoolean()
+                                                .withValue(new Boolean(false))))
+                                .withSource(f.createAuditEventSource()
+                                        .withIdentifier(f.createIdentifier().withValue(f.createString().withValue("Device/1"))))
+                                .withExtension(f.createExtension()
+                                        .withUrl("http://ibm.com/watsonhealth/fhir/AuditEvent/testExtension")
+                                        .withValueBase64Binary(f.createBase64Binary().withValue(value)));
+                                        
         // Persist the AuditEvent
         Entity<AuditEvent> entity = Entity.entity(auditEvent, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("AuditEvent").request().post(entity, Response.class);

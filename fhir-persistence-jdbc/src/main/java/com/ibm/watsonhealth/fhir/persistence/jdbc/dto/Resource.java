@@ -25,7 +25,7 @@ public class Resource {
 
     
     public Resource() {
-    	super();
+        super();
     }
 
     public String getResourceType() {
@@ -76,19 +76,19 @@ public class Resource {
         this.data = data;
     }
 
-	public boolean isDeleted() {
-		return deleted;
-	}
+    public boolean isDeleted() {
+        return deleted;
+    }
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-	
-	@Override
-	public String toString() {
-		return "Resource [id=" + id + ", logicalId=" + logicalId + ", versionId=" + versionId + ", resourceType="
-				+ resourceType + ", lastUpdated=" + lastUpdated + ", deleted=" + deleted + "]";
-	}
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+    
+    @Override
+    public String toString() {
+        return "Resource [id=" + id + ", logicalId=" + logicalId + ", versionId=" + versionId + ", resourceType="
+                + resourceType + ", lastUpdated=" + lastUpdated + ", deleted=" + deleted + "]";
+    }
 
 }
 

@@ -30,17 +30,17 @@ public class UpdateTest extends FHIRServerTestBase {
     
     private Patient savedUCPatient = null;
     
-	/**
-	 * Retrieve the server's conformance statement to determine the status
-	 * of certain runtime options.
-	 * @throws Exception 
-	 */
-	@Test
-	public void retrieveConfig() throws Exception {
-	    updateCreateEnabled = isUpdateCreateSupported();
+    /**
+     * Retrieve the server's conformance statement to determine the status
+     * of certain runtime options.
+     * @throws Exception 
+     */
+    @Test
+    public void retrieveConfig() throws Exception {
+        updateCreateEnabled = isUpdateCreateSupported();
         System.out.println("Update/Create enabled?: " + updateCreateEnabled.toString());
-	}
-	
+    }
+    
     /**
      * Test the "update/create" behavior.
      */

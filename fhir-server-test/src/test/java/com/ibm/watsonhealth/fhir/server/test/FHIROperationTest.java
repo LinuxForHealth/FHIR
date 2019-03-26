@@ -40,7 +40,7 @@ import com.ibm.watsonhealth.fhir.model.ResourceContainer;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class FHIROperationTest extends FHIRServerTestBase {
-	private Patient savedCreatedPatient = null;
+    private Patient savedCreatedPatient = null;
     private Practitioner savedCreatedPractitioner = null;
     private Observation savedCreatedObservation = null;
     private Condition savedCreatedCondition = null;
@@ -269,12 +269,12 @@ public class FHIROperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" })
     //Testcase for "POST [baseUrl]/{resourceTypeName}/${operationName}"
     public void testPostRscValidateOperation() throws Exception {
-    	Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-    	
-    	ResourceContainer rsc = objFactory.createResourceContainer();
-    	rsc.setPatient(patient);
-    	
-    	Parameters parameters = objFactory.createParameters();
+        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        
+        ResourceContainer rsc = objFactory.createResourceContainer();
+        rsc.setPatient(patient);
+        
+        Parameters parameters = objFactory.createParameters();
         ParametersParameter parameter = objFactory.createParametersParameter();
         parameter.setName(string("resource"));
         parameter.setResource(rsc);
@@ -292,12 +292,12 @@ public class FHIROperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" })
     //Testcase for "GET [baseUrl]/{resourceTypeName}/${operationName}?resource=null"
     public void testGetRscValidateOperation() throws Exception {
-    	Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
-    	
-    	ResourceContainer rsc = objFactory.createResourceContainer();
-    	rsc.setPatient(patient);
-    	
-    	FHIRParameters parameters = new FHIRParameters();
+        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        
+        ResourceContainer rsc = objFactory.createResourceContainer();
+        rsc.setPatient(patient);
+        
+        FHIRParameters parameters = new FHIRParameters();
         parameters.queryParam("resource", null);
         
         FHIRClient client = getFHIRClient();
@@ -307,19 +307,19 @@ public class FHIROperationTest extends FHIRServerTestBase {
         OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
         String text = operationOutcome.getIssue().get(0).getDiagnostics().getValue();
         if(text.contains("An error occurred during validation")) {
-        	assertTrue(true);	//Force assertion to true
+            assertTrue(true);    //Force assertion to true
         } else {
-        	assertTrue(false);	//Force assertion to false
+            assertTrue(false);    //Force assertion to false
         }
     }
     
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePractitioner", "testCreatePatient" })
     //Testcase for "POST [baseUrl]/{resourceTypeName}/{logicalId}/${operationName}"
     public void testPostRscIdValidateOperation() throws Exception {
-    	ResourceContainer rsc = objFactory.createResourceContainer();
-    	rsc.setPatient(savedCreatedPatient);
-    	
-    	Parameters parameters = objFactory.createParameters();
+        ResourceContainer rsc = objFactory.createResourceContainer();
+        rsc.setPatient(savedCreatedPatient);
+        
+        Parameters parameters = objFactory.createParameters();
         ParametersParameter parameter = objFactory.createParametersParameter();
         parameter.setName(string("resource"));
         parameter.setResource(rsc);
@@ -374,10 +374,10 @@ public class FHIROperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePatient" })
     //Testcase for "POST [baseUrl]/{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}"
     public void testPostRscIdVersionValidateOperation() throws Exception {
-    	ResourceContainer rsc = objFactory.createResourceContainer();
-    	rsc.setPatient(savedCreatedPatient);
-    	
-    	Parameters parameters = objFactory.createParameters();
+        ResourceContainer rsc = objFactory.createResourceContainer();
+        rsc.setPatient(savedCreatedPatient);
+        
+        Parameters parameters = objFactory.createParameters();
         ParametersParameter parameter = objFactory.createParametersParameter();
         parameter.setName(string("resource"));
         parameter.setResource(rsc);

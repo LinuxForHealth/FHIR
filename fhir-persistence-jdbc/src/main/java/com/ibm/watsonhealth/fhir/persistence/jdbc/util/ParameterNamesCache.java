@@ -24,45 +24,45 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
  */
 
 public class ParameterNamesCache {
-	private static final String CLASSNAME = ParameterNamesCache.class.getName(); 
-	private static final Logger log = Logger.getLogger(CLASSNAME);
-	
-	private static boolean enabled = true;
+    private static final String CLASSNAME = ParameterNamesCache.class.getName(); 
+    private static final Logger log = Logger.getLogger(CLASSNAME);
+    
+    private static boolean enabled = true;
 
-	/**
-	 * The following is a map of parameter name maps. Each FHIR tenant/datastore combination will have its own
-	 * mapping of parameter-name to parameter-name-id.
-	 */
-	private static ConcurrentHashMap<String,ConcurrentHashMap<String,Integer>> parameterNameIdMaps = new ConcurrentHashMap<>();
-	
-	/**
-	 * Retrieves the id for the name contained in the passed Parameter, for the current tenant-datastore. 
-	 * If not found, null is returned.
-	 * @param parameterName A valid FHIR search parameter name.
-	 * @return Integer The id corresponding to the parameter name.
-	 * @throws FHIRPersistenceDataAccessException 
-	 * @throws FHIRPersistenceDBConnectException 
-	 */
-	public static Integer getParameterNameId(String parameterName) {
-		
-		String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-		ConcurrentHashMap<String,Integer> currentDsMap;
-		Integer parameterNameId = null;
-		
-		if (enabled) {
-    		currentDsMap = parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
-    		if (currentDsMap == null) {
+    /**
+     * The following is a map of parameter name maps. Each FHIR tenant/datastore combination will have its own
+     * mapping of parameter-name to parameter-name-id.
+     */
+    private static ConcurrentHashMap<String,ConcurrentHashMap<String,Integer>> parameterNameIdMaps = new ConcurrentHashMap<>();
+    
+    /**
+     * Retrieves the id for the name contained in the passed Parameter, for the current tenant-datastore. 
+     * If not found, null is returned.
+     * @param parameterName A valid FHIR search parameter name.
+     * @return Integer The id corresponding to the parameter name.
+     * @throws FHIRPersistenceDataAccessException 
+     * @throws FHIRPersistenceDBConnectException 
+     */
+    public static Integer getParameterNameId(String parameterName) {
+        
+        String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
+        ConcurrentHashMap<String,Integer> currentDsMap;
+        Integer parameterNameId = null;
+        
+        if (enabled) {
+            currentDsMap = parameterNameIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+            if (currentDsMap == null) {
                 log.fine("getParameterNameId() - Added new cache map for tennantDatastore=" + tenantDatstoreCacheName);
             }
-    		currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
-    		parameterNameId = currentDsMap.get(parameterName);
-		}
-						
-		return parameterNameId;
-		 
-	}
-	
-	/**
+            currentDsMap = parameterNameIdMaps.get(tenantDatstoreCacheName);
+            parameterNameId = currentDsMap.get(parameterName);
+        }
+                        
+        return parameterNameId;
+         
+    }
+    
+    /**
      * Adds the passed parameter name and id to the current tenant-datastore cache.
      * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
      * @param parameterName A valid search parameter name.
@@ -85,13 +85,13 @@ public class ParameterNamesCache {
             }
         }
     }
-	
-	/**
+    
+    /**
      * Adds the passed search parameter name/id pairs to the the current tenant-datastore cache.
      * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
      * @param newParameters A Map containing parameter name/id pairs.
      */
-	public static void putParameterNameIds(String tenantDatastoreCacheName, Map<String, Integer> newParameters) {
+    public static void putParameterNameIds(String tenantDatastoreCacheName, Map<String, Integer> newParameters) {
         
         if (enabled) {
             for (Map.Entry<String, Integer> entry : newParameters.entrySet()) {
@@ -99,22 +99,22 @@ public class ParameterNamesCache {
             }
         }
     }
-	
-	
-	
-	/**
-	 * Returns a String containing a combination of the current tenantId and datastoreId.
-	 * @return
-	 */
-	public static String getCacheNameForTenantDatastore() {
-		
-		StringBuilder cacheName = new StringBuilder();
-		cacheName.append(FHIRRequestContext.get().getTenantId())
-				 .append("~")
-				 .append(FHIRRequestContext.get().getDataStoreId());
-		return cacheName.toString();
-	}
-	
+    
+    
+    
+    /**
+     * Returns a String containing a combination of the current tenantId and datastoreId.
+     * @return
+     */
+    public static String getCacheNameForTenantDatastore() {
+        
+        StringBuilder cacheName = new StringBuilder();
+        cacheName.append(FHIRRequestContext.get().getTenantId())
+                 .append("~")
+                 .append(FHIRRequestContext.get().getDataStoreId());
+        return cacheName.toString();
+    }
+    
     /**
      * 
      * @return String - A formatted representation of the entire cache managed by this class.

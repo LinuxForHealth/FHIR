@@ -351,12 +351,12 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         Conformance conf = retrieveConformanceStatement();
 
         for(Extension e : conf.getExtension()) {
-        	if (e.getUrl().contains("persistenceType") &&
-        	    (e.getValueString().getValue().contains("FHIRPersistenceJDBCImpl") ||
-        	     e.getValueString().getValue().contains("FHIRPersistenceJDBCNormalizedImpl"))) {
-        		compartmentSearchSupported = true;
-        		break;
-        	}
+            if (e.getUrl().contains("persistenceType") &&
+                (e.getValueString().getValue().contains("FHIRPersistenceJDBCImpl") ||
+                 e.getValueString().getValue().contains("FHIRPersistenceJDBCNormalizedImpl"))) {
+                compartmentSearchSupported = true;
+                break;
+            }
         }
         return compartmentSearchSupported;
     }

@@ -15,14 +15,14 @@ import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
  * @param <T>
  */
 public interface QueryBuilder<T> {
-	
-	/**
-	 * Build and return query for the passed resource type and search parameters.
-	 * @param resourceType - A FHIR Resource subclass.
-	 * @param searchParameters - A search context that contains a List of search parameters to be used for constructing the query.
-	 * @return T - An instance of <T> representing the constructed query.
-	 * @throws FHIRPersistenceException - Thrown for any non-recoverable failure that occurs during query construction.
-	 * @throws Exception 
-	 */
+    
+    /**
+     * Build and return query for the passed resource type and search parameters.
+     * @param resourceType - A FHIR Resource subclass.
+     * @param searchParameters - A search context that contains a List of search parameters to be used for constructing the query.
+     * @return T - An instance of <T> representing the constructed query.
+     * @throws FHIRPersistenceException - Thrown for any non-recoverable failure that occurs during query construction.
+     * @throws Exception 
+     */
     T buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws FHIRPersistenceException, Exception;
 }

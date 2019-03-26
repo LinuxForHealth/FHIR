@@ -77,12 +77,12 @@ public class FHIRClientTest extends FHIRClientTestBase {
     public void testMetadataWebTarget() throws Exception {
 
         // Test the 'metadata' API via the low-level WebTarget object.
-    	String accessToken = client.getOAuth2AccessToken();
-    	if(accessToken == null) {
-    		System.out.println("Not using OAuth 2.0 Authorization");
-    	} else {
-    		System.out.println("Using OAuth 2.0 Authorization with Bearer token: " + accessToken);
-    	}
+        String accessToken = client.getOAuth2AccessToken();
+        if(accessToken == null) {
+            System.out.println("Not using OAuth 2.0 Authorization");
+        } else {
+            System.out.println("Using OAuth 2.0 Authorization with Bearer token: " + accessToken);
+        }
         WebTarget fhirEndpoint = client.getWebTarget();
         assertNotNull(fhirEndpoint);
 

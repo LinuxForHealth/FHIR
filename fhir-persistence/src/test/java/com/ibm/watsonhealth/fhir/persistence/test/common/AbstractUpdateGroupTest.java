@@ -44,9 +44,9 @@ import com.ibm.watsonhealth.fhir.persistence.context.impl.FHIRHistoryContextImpl
  *   This test should also run cleanly when using JPA persistence.
  */
 public abstract class AbstractUpdateGroupTest extends AbstractPersistenceTest {
-	private static final Logger log = java.util.logging.Logger.getLogger(AbstractUpdateGroupTest.class.getName());
+    private static final Logger log = java.util.logging.Logger.getLogger(AbstractUpdateGroupTest.class.getName());
 
-	 /**
+     /**
      *  This test method does the following:
      *  1. Establishes a "base" empty Group.
      *  2. Creates and simultaneously executes multiple threads, each of which create a number of Patients, and then
@@ -58,21 +58,21 @@ public abstract class AbstractUpdateGroupTest extends AbstractPersistenceTest {
     @Test(groups = { "cloudant", "jpa" })
     public void testUpdateGroup() throws Exception {
 
-    	List<Callable<Group>> concurrentUpdates = new ArrayList<>();
-		List<Future<Group>> futureResults = new ArrayList<>();
-    	int maxThreads = 10;
-    	int patientGroupSize = 10;
-    	int patientListSize = 7;
-       	List<List<Patient>> patientGroups = null;
+        List<Callable<Group>> concurrentUpdates = new ArrayList<>();
+        List<Future<Group>> futureResults = new ArrayList<>();
+        int maxThreads = 10;
+        int patientGroupSize = 10;
+        int patientListSize = 7;
+           List<List<Patient>> patientGroups = null;
 
-       	// Initialize multi-thread Executor Service.
-    	ExecutorService executor = Executors.newFixedThreadPool(maxThreads);
+           // Initialize multi-thread Executor Service.
+        ExecutorService executor = Executors.newFixedThreadPool(maxThreads);
 
-       	// Create a new group. Include timestamp in the Group's name
-    	Group group = new Group().withMember(new ArrayList<GroupMember>());
-    	group.setName(FHIRUtil.string("UpdateGroupTest-"  + FHIRUtilities.formatTimestamp(new Date())));
-    	group.setQuantity(new UnsignedInt().withValue(BigInteger.valueOf(0)));
-    	persistence.create(getDefaultPersistenceContext(), group);
+           // Create a new group. Include timestamp in the Group's name
+        Group group = new Group().withMember(new ArrayList<GroupMember>());
+        group.setName(FHIRUtil.string("UpdateGroupTest-"  + FHIRUtilities.formatTimestamp(new Date())));
+        group.setQuantity(new UnsignedInt().withValue(BigInteger.valueOf(0)));
+        persistence.create(getDefaultPersistenceContext(), group);
         assertNotNull(group);
         assertNotNull(group.getId());
         assertNotNull(group.getId().getValue());
@@ -86,7 +86,7 @@ public abstract class AbstractUpdateGroupTest extends AbstractPersistenceTest {
 
         // Prepare GroupUpdater instances for running each on its own thread.
         for (List<Patient> patientList : patientGroups) {
-        	concurrentUpdates.add(new GroupUpdater(patientList, group.getId().getValue()));
+            concurrentUpdates.add(new GroupUpdater(patientList, group.getId().getValue()));
         }
 
         // Run each GroupUpdater on its own thread.
@@ -119,11 +119,11 @@ public abstract class AbstractUpdateGroupTest extends AbstractPersistenceTest {
         int currentVersionId;
         int priorVersionId = Integer.MAX_VALUE;
         for (Resource retrievedResource : resourceHistory) {
-        	currentVersionId = Integer.valueOf((retrievedResource.getMeta().getVersionId().getValue()));
-        	Group retrievedGroup = (Group) retrievedResource;
-        	assertTrue(currentVersionId < priorVersionId);
-        	priorVersionId = currentVersionId;
-        	assertEquals(retrievedGroup.getQuantity().getValue().intValue(), retrievedGroup.getMember().size());
+            currentVersionId = Integer.valueOf((retrievedResource.getMeta().getVersionId().getValue()));
+            Group retrievedGroup = (Group) retrievedResource;
+            assertTrue(currentVersionId < priorVersionId);
+            priorVersionId = currentVersionId;
+            assertEquals(retrievedGroup.getQuantity().getValue().intValue(), retrievedGroup.getMember().size());
         }
     }
 
@@ -136,26 +136,26 @@ public abstract class AbstractUpdateGroupTest extends AbstractPersistenceTest {
      */
     private List<List<Patient>> buildPatientGroups(int groupSize, int listSize) {
 
-    	Patient patient;
-    	String givenName = "Pete";
-    	String familyName = "Clemenza-";
-    	HumanName generatedName;
-    	List<HumanName> generatedNames;
-    	List<List<Patient>> patientGroups = new ArrayList<>();
-    	List<Patient> patientList;
+        Patient patient;
+        String givenName = "Pete";
+        String familyName = "Clemenza-";
+        HumanName generatedName;
+        List<HumanName> generatedNames;
+        List<List<Patient>> patientGroups = new ArrayList<>();
+        List<Patient> patientList;
 
-    	for (int i = 0; i < groupSize; i++) {
-    		patientList = new ArrayList<>();
-    		for (int j = 0; j < listSize; j++) {
-    			generatedName = FHIRUtil.humanName(givenName, familyName + (i+1) + ":" + (j+1));
-    			generatedNames = new ArrayList<>();
-    			generatedNames.add(generatedName);
-    			patient = new Patient().withName(generatedNames);
-    			patientList.add(patient);
-    		}
-    		patientGroups.add(patientList);
-    	}
-    	return patientGroups;
+        for (int i = 0; i < groupSize; i++) {
+            patientList = new ArrayList<>();
+            for (int j = 0; j < listSize; j++) {
+                generatedName = FHIRUtil.humanName(givenName, familyName + (i+1) + ":" + (j+1));
+                generatedNames = new ArrayList<>();
+                generatedNames.add(generatedName);
+                patient = new Patient().withName(generatedNames);
+                patientList.add(patient);
+            }
+            patientGroups.add(patientList);
+        }
+        return patientGroups;
     }
 
     /**
@@ -164,53 +164,53 @@ public abstract class AbstractUpdateGroupTest extends AbstractPersistenceTest {
      */
     public class GroupUpdater implements Callable<Group> {
 
-    	private List<Patient> patients;
-    	private String groupId;
+        private List<Patient> patients;
+        private String groupId;
 
-    	public GroupUpdater(List<Patient> patients, String groupId) {
-    		this.patients = patients;
-    		this.groupId = groupId;
-    	}
+        public GroupUpdater(List<Patient> patients, String groupId) {
+            this.patients = patients;
+            this.groupId = groupId;
+        }
 
-		@Override
-		public Group call() throws Exception {
+        @Override
+        public Group call() throws Exception {
 
-			Group group;
-			com.ibm.watsonhealth.fhir.model.String patientRef;
-			com.ibm.watsonhealth.fhir.model.String patientGivenName;
-			com.ibm.watsonhealth.fhir.model.String patientFamilyName;
-			com.ibm.watsonhealth.fhir.model.String patientDisplayName;
-			UnsignedInt oldQuantity;
-			UnsignedInt newQuantity;
+            Group group;
+            com.ibm.watsonhealth.fhir.model.String patientRef;
+            com.ibm.watsonhealth.fhir.model.String patientGivenName;
+            com.ibm.watsonhealth.fhir.model.String patientFamilyName;
+            com.ibm.watsonhealth.fhir.model.String patientDisplayName;
+            UnsignedInt oldQuantity;
+            UnsignedInt newQuantity;
 
-			// First persist all of the Patients in the DB. This will populate the id attribute of each patient.
-			for (Patient patient : this.patients) {
-				persistence.create(getDefaultPersistenceContext(), patient);
-			}
+            // First persist all of the Patients in the DB. This will populate the id attribute of each patient.
+            for (Patient patient : this.patients) {
+                persistence.create(getDefaultPersistenceContext(), patient);
+            }
 
-			// Add the patients as members of the group.
-			group = (Group)persistence.read(getDefaultPersistenceContext(), Group.class, this.groupId);
-			assertNotNull(group);
-			oldQuantity = group.getQuantity();
-			for (Patient patient : this.patients) {
-				patientRef =  FHIRUtil.string("Patient/" + patient.getId().getValue());
-				patientGivenName = patient.getName().get(0).getGiven().get(0);
-				patientFamilyName = patient.getName().get(0).getFamily().get(0);
-				patientDisplayName = new com.ibm.watsonhealth.fhir.model.String()
-									.withValue(patientGivenName.getValue() + " " + patientFamilyName.getValue());
-				group.getMember().add(new GroupMember()
-									.withEntity(
-											new Reference().withReference(patientRef)
-														   .withDisplay(patientDisplayName)));
-			}
-			newQuantity = new UnsignedInt().withValue
-								(BigInteger.valueOf(oldQuantity.getValue().intValue() + this.patients.size())) ;
-			group.setQuantity(newQuantity);
-			persistence.update(getDefaultPersistenceContext(), this.groupId, group);
-			//log.info("Added patients to Group id=" + group.getId().getValue() +
-			//		 " oldQuantity=" + oldQuantity.getValue() + "  newQuantity=" + newQuantity.getValue());
-			return group;
-		}
+            // Add the patients as members of the group.
+            group = (Group)persistence.read(getDefaultPersistenceContext(), Group.class, this.groupId);
+            assertNotNull(group);
+            oldQuantity = group.getQuantity();
+            for (Patient patient : this.patients) {
+                patientRef =  FHIRUtil.string("Patient/" + patient.getId().getValue());
+                patientGivenName = patient.getName().get(0).getGiven().get(0);
+                patientFamilyName = patient.getName().get(0).getFamily().get(0);
+                patientDisplayName = new com.ibm.watsonhealth.fhir.model.String()
+                                    .withValue(patientGivenName.getValue() + " " + patientFamilyName.getValue());
+                group.getMember().add(new GroupMember()
+                                    .withEntity(
+                                            new Reference().withReference(patientRef)
+                                                           .withDisplay(patientDisplayName)));
+            }
+            newQuantity = new UnsignedInt().withValue
+                                (BigInteger.valueOf(oldQuantity.getValue().intValue() + this.patients.size())) ;
+            group.setQuantity(newQuantity);
+            persistence.update(getDefaultPersistenceContext(), this.groupId, group);
+            //log.info("Added patients to Group id=" + group.getId().getValue() +
+            //         " oldQuantity=" + oldQuantity.getValue() + "  newQuantity=" + newQuantity.getValue());
+            return group;
+        }
 
     }
 

@@ -35,31 +35,31 @@ import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
  *  There will be a subclass in each persistence project.
  */
 public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTest {
-	
-	private static final String PROFILE_URI_VALUE = "http://fhir.org/guides/argonaut/StructureDefinition/argo-patient";
+    
+    private static final String PROFILE_URI_VALUE = "http://fhir.org/guides/argonaut/StructureDefinition/argo-patient";
     private static final String TAG_CODE_VALUE = "blah";
 
     /**
-	 * Creates an Observation and Patient using the contents of json data files.
-	 * Then the Observation is chained to the Patient, by way of FHIR references.
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
-	public void testCreateObservation_chained() throws Exception {
-		
-		Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
-		Meta meta = f.createMeta()
-		        .withTag(f.createCoding().withCode(f.createCode().withValue(TAG_CODE_VALUE)))
-		        .withProfile(f.createUri().withValue(PROFILE_URI_VALUE));
-		patient.setMeta(meta);
-		persistence.create(getDefaultPersistenceContext(), patient);
-	    assertNotNull(patient);
-	    assertNotNull(patient.getId());
-	    assertNotNull(patient.getId().getValue());
-	    assertNotNull(patient.getMeta());
-	    assertNotNull(patient.getMeta().getVersionId().getValue());
-	    assertEquals("1", patient.getMeta().getVersionId().getValue());
-	    
+     * Creates an Observation and Patient using the contents of json data files.
+     * Then the Observation is chained to the Patient, by way of FHIR references.
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
+    public void testCreateObservation_chained() throws Exception {
+        
+        Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
+        Meta meta = f.createMeta()
+                .withTag(f.createCoding().withCode(f.createCode().withValue(TAG_CODE_VALUE)))
+                .withProfile(f.createUri().withValue(PROFILE_URI_VALUE));
+        patient.setMeta(meta);
+        persistence.create(getDefaultPersistenceContext(), patient);
+        assertNotNull(patient);
+        assertNotNull(patient.getId());
+        assertNotNull(patient.getId().getValue());
+        assertNotNull(patient.getMeta());
+        assertNotNull(patient.getMeta().getVersionId().getValue());
+        assertEquals("1", patient.getMeta().getVersionId().getValue());
+        
         Observation otherObservation = readResource(Observation.class, "observation-example-without-id.canonical.json");
         persistence.create(getDefaultPersistenceContext(), otherObservation);
         assertNotNull(otherObservation);
@@ -86,9 +86,9 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         observation.getRelated().add(f.createObservationRelated().withTarget(otherObservationRef));
         persistence.update(getDefaultPersistenceContext(), observation.getId().getValue(), observation);
         assertEquals("2", observation.getMeta().getVersionId().getValue());
-	}
-	
-	/**
+    }
+    
+    /**
      * Creates a Composition with a reference to a ImmunizationRecommendation because search parameter of number on doseNumber.
      * @throws Exception
      */
@@ -128,21 +128,21 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertNotNull(composition.getMeta().getVersionId().getValue());
         assertEquals("1", composition.getMeta().getVersionId().getValue()); 
     }
-	
-	/**
-	 * Tests a valid chained parameter query that retrieves all Observations associated with a Patient with 
-	 * a given or family name beginning with 'Monella'
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
-	public void testObservationQuery_chained_positiveString() throws Exception {
-		List<Resource> resources = runQueryTest(Observation.class, persistence, "patient.name", "Monella");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		
-	}
-	
-	/**
+    
+    /**
+     * Tests a valid chained parameter query that retrieves all Observations associated with a Patient with 
+     * a given or family name beginning with 'Monella'
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
+    public void testObservationQuery_chained_positiveString() throws Exception {
+        List<Resource> resources = runQueryTest(Observation.class, persistence, "patient.name", "Monella");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        
+    }
+    
+    /**
      * Tests a valid chained parameter query that retrieves all Observations associated with a Patient with 
      * a given or family name beginning with 'Sam' or 'Monella'
      * @throws Exception
@@ -156,8 +156,8 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
     }
-	
-	/**
+    
+    /**
      * Tests a valid chained parameter query that retrieves all Observations associated with a Patient with family name = 'Monella'
      * @throws Exception
      */
@@ -168,8 +168,8 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertTrue(resources.size() != 0);
         
     }
-	
-	/**
+    
+    /**
      * Tests a valid chained parameter query that retrieves all Observations associated with a Patient with tag = 'blah'
      * @throws Exception
      */
@@ -318,20 +318,20 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertTrue(resources.size() != 0);
         
     }
-	
-	/**
-	 * Tests a chained parameter query for Observations that reference a Patient with name containing 'afeljagadf' which should retrieve no Observations
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
-	public void testObservationQuery_chained_negativeString() throws Exception {
-		List<Resource> resources = runQueryTest(Observation.class, persistence, "patient.name", "afeljagadf");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-		
-	}
-	
-	/**
+    
+    /**
+     * Tests a chained parameter query for Observations that reference a Patient with name containing 'afeljagadf' which should retrieve no Observations
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
+    public void testObservationQuery_chained_negativeString() throws Exception {
+        List<Resource> resources = runQueryTest(Observation.class, persistence, "patient.name", "afeljagadf");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+        
+    }
+    
+    /**
      * Tests a chained parameter query for Observations that reference a Patient with name beginning with either 'Penn' or 'Acillin' which should retrieve no Observations
      * @throws Exception
      */
@@ -342,8 +342,8 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertTrue(resources.size() == 0);
         
     }
-	
-	/**
+    
+    /**
      * Tests a chained parameter query for Observations associated with a Patient with family name = 'Mon' which should yield no results
      * @throws Exception
      */
@@ -354,20 +354,20 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertTrue(resources.size() == 0);
         
     }
-	
-	/**
-	 * Tests a chained parameter query for Observations that reference a Patient with tag = 'afeljagadf' which should retrieve no Observations 
-	 * @throws Exception
-	 */
-	@Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
-	public void testObservationQuery_chained_negativeToken() throws Exception {
-	    List<Resource> resources = runQueryTest(Observation.class, persistence, "patient._tag", "afeljagadf");
+    
+    /**
+     * Tests a chained parameter query for Observations that reference a Patient with tag = 'afeljagadf' which should retrieve no Observations 
+     * @throws Exception
+     */
+    @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation_chained" })
+    public void testObservationQuery_chained_negativeToken() throws Exception {
+        List<Resource> resources = runQueryTest(Observation.class, persistence, "patient._tag", "afeljagadf");
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
-		 
-	}
-	
-	/**
+         
+    }
+    
+    /**
      * Tests a chained parameter query for Observations that reference a Patient with name containing 'afeljagadf' which should retrieve no Observations
      * @throws Exception
      */

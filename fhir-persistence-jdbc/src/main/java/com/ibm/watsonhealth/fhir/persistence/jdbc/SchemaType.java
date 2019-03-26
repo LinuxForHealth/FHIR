@@ -12,25 +12,25 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc;
  *
  */
 public enum SchemaType {
-	BASIC("basic"), 
-	NORMALIZED("normalized"); 
-			
-	private String value = null;
-	
-	SchemaType(String value) {
-		this.value = value;
-	}
-	
-	public String value() {
-		return value;
-	}
-	
-	public static SchemaType fromValue(String value) {
-		for (SchemaType type : SchemaType.values()) {
-			if (type.value.equalsIgnoreCase(value)) {
-				return type;
-			}
-		}
-		throw new IllegalArgumentException("No constant with value " + value + " found.");
-	}
+    BASIC("basic"), 
+    NORMALIZED("normalized"); 
+            
+    private String value = null;
+    
+    SchemaType(String value) {
+        this.value = value;
+    }
+    
+    public String value() {
+        return value;
+    }
+    
+    public static SchemaType fromValue(String value) {
+        for (SchemaType type : SchemaType.values()) {
+            if (type.value.equalsIgnoreCase(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("No constant with value " + value + " found.");
+    }
 }

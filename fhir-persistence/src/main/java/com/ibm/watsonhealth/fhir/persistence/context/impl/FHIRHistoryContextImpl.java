@@ -31,15 +31,15 @@ public class FHIRHistoryContextImpl extends FHIRPagingContextImpl implements FHI
         this.since = since;
     }
 
-	@Override
-	public Map<String, List<Integer>> getDeletedResources() {
-		return this.deletedResources;
-		
-	}
+    @Override
+    public Map<String, List<Integer>> getDeletedResources() {
+        return this.deletedResources;
+        
+    }
 
-	@Override
-	public void setDeletedResources(Map<String, List<Integer>> deletedResources) {
-		this.deletedResources = deletedResources;
-		
-	}
+    @Override
+    public void setDeletedResources(Map<String, List<Integer>> deletedResources) {
+        this.deletedResources = deletedResources;
+        
+    }
 }

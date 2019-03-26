@@ -61,20 +61,20 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
     @Test(groups = { "jdbc-normalized" })
     public void testCreateReplicatedDevice() throws Exception {
         
-    	String versionId = "22";
-    	String lastUpdated = "2017-05-10T13:01:01.000Z";
-    	// Create replication context, include that in a create event.
-    	// The version and lastUpdated attributes in the repContext should be persisted.
-    	FHIRReplicationContext repContext = new FHIRReplicationContext();
-    	repContext.setVersionId(versionId);
-    	repContext.setLastUpdated(lastUpdated);
-    	Map<String, Object> properties = new HashMap<>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_REPLICATION_CONTEXT, repContext);
-    	FHIRPersistenceEvent createEvent = new FHIRPersistenceEvent(null,properties);
-    	
-    	FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(createEvent); 
-    	    	
-    	Device device = readResource(Device.class, "Device2.json");
+        String versionId = "22";
+        String lastUpdated = "2017-05-10T13:01:01.000Z";
+        // Create replication context, include that in a create event.
+        // The version and lastUpdated attributes in the repContext should be persisted.
+        FHIRReplicationContext repContext = new FHIRReplicationContext();
+        repContext.setVersionId(versionId);
+        repContext.setLastUpdated(lastUpdated);
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_REPLICATION_CONTEXT, repContext);
+        FHIRPersistenceEvent createEvent = new FHIRPersistenceEvent(null,properties);
+        
+        FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(createEvent); 
+                
+        Device device = readResource(Device.class, "Device2.json");
         persistence.create(context, device);
         assertNotNull(device);
         assertNotNull(device.getId());
@@ -88,162 +88,162 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         XMLGregorianCalendar tempLastUpdated =  readDevice.getMeta().getLastUpdated().getValue();
         assertEquals(lastUpdated,FHIRUtilities.formatCalendarGMT(tempLastUpdated));
     }    
-	
-	/**
-	 * Tests a query for a Device with manufacturer = 'Acme Devices, Inc' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDeviceQuery_manufacturer() throws Exception {
-		List<Resource> resources = runQueryTest(Device.class, persistence, "manufacturer", "Acme Devices, Inc");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Device)resources.get(0)).getManufacturer().getValue(),"Acme Devices, Inc");
-	}
-	
-	/**
-	 * Tests a query for a Device with model = 'AB45-J' which should yield no results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDeviceQuery_model() throws Exception {
-		List<Resource> resources = runQueryTest(Device.class, persistence, "model", "AB45-J");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-	}
-	
-	/**
-	 * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDeviceQuery_udi() throws Exception {
-		List<Resource> resources = runQueryTest(Device.class, persistence, "udi", "(01)00000123000017(10)ABC123(17)120415");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Device)resources.get(0)).getUdi().getValue(),"(01)00000123000017(10)ABC123(17)120415");
-	}
-	
-	/*
-	 * Pagination Testcases
-	 */
-	
-	/**
-	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
-	 * 
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDevicePagination_001() throws Exception {
-		
-		Class<? extends Resource> resourceType = Device.class;
+    
+    /**
+     * Tests a query for a Device with manufacturer = 'Acme Devices, Inc' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDeviceQuery_manufacturer() throws Exception {
+        List<Resource> resources = runQueryTest(Device.class, persistence, "manufacturer", "Acme Devices, Inc");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Device)resources.get(0)).getManufacturer().getValue(),"Acme Devices, Inc");
+    }
+    
+    /**
+     * Tests a query for a Device with model = 'AB45-J' which should yield no results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDeviceQuery_model() throws Exception {
+        List<Resource> resources = runQueryTest(Device.class, persistence, "model", "AB45-J");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    /**
+     * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDeviceQuery_udi() throws Exception {
+        List<Resource> resources = runQueryTest(Device.class, persistence, "udi", "(01)00000123000017(10)ABC123(17)120415");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Device)resources.get(0)).getUdi().getValue(),"(01)00000123000017(10)ABC123(17)120415");
+    }
+    
+    /*
+     * Pagination Testcases
+     */
+    
+    /**
+     * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+     * 
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDevicePagination_001() throws Exception {
+        
+        Class<? extends Resource> resourceType = Device.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
-	/**
-	 * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDevicePagination_002() throws Exception {
-		
-		String parmName = "udi";
-		String parmValue = "(01)00000123000017(10)ABC123(17)120415";
-		Class<? extends Resource> resourceType = Device.class;
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
+    
+    /**
+     * Tests a query for a Device with udi = '(01)00000123000017(10)ABC123(17)120415' which should yield correct results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDevicePagination_002() throws Exception {
+        
+        String parmName = "udi";
+        String parmValue = "(01)00000123000017(10)ABC123(17)120415";
+        Class<? extends Resource> resourceType = Device.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Device)resources.get(0)).getUdi().getValue(),"(01)00000123000017(10)ABC123(17)120415");
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
-	/**
-	 * Tests a query for a Device with udi = '(01)00000123000017(10)(17)120415' which should yield no results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDevicePagination_003() throws Exception {
-		
-		String parmName = "udi";
-		String parmValue = "(01)00000123000017(10)(17)120415";
-		Class<? extends Resource> resourceType = Device.class;
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Device)resources.get(0)).getUdi().getValue(),"(01)00000123000017(10)ABC123(17)120415");
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
+    
+    /**
+     * Tests a query for a Device with udi = '(01)00000123000017(10)(17)120415' which should yield no results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDevicePagination_003() throws Exception {
+        
+        String parmName = "udi";
+        String parmValue = "(01)00000123000017(10)(17)120415";
+        Class<? extends Resource> resourceType = Device.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-		long count = context.getTotalCount();
-//		int lastPgNum = context.getLastPageNumber();
-		assertTrue((count == 0)/* && (lastPgNum == Integer.MAX_VALUE)*/);
-	}
-	
-	/**
-	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId/xxx' which should yield no results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDevicePagination_urlNoResults() throws Exception {
-		
-		String parmName = "url";
-		String parmValue = "http://www.testdevice.ibm.com/bogusDeviceId/xxx";
-		Class<? extends Resource> resourceType = Device.class;
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+        long count = context.getTotalCount();
+//        int lastPgNum = context.getLastPageNumber();
+        assertTrue((count == 0)/* && (lastPgNum == Integer.MAX_VALUE)*/);
+    }
+    
+    /**
+     * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId/xxx' which should yield no results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDevicePagination_urlNoResults() throws Exception {
+        
+        String parmName = "url";
+        String parmValue = "http://www.testdevice.ibm.com/bogusDeviceId/xxx";
+        Class<? extends Resource> resourceType = Device.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-		long count = context.getTotalCount();
-//		int lastPgNum = context.getLastPageNumber();
-		assertTrue((count == 0)/* && (lastPgNum == Integer.MAX_VALUE)*/);
-	}
-	
-	/**
-	 * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId' which should yield correct results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
-	public void testDevicePagination_url() throws Exception {
-		
-		String parmName = "url";
-		String parmValue = "http://www.testdevice.ibm.com/bogusDeviceId";
-		Class<? extends Resource> resourceType = Device.class;
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+        long count = context.getTotalCount();
+//        int lastPgNum = context.getLastPageNumber();
+        assertTrue((count == 0)/* && (lastPgNum == Integer.MAX_VALUE)*/);
+    }
+    
+    /**
+     * Tests a query for a Device with url = 'http://www.testdevice.ibm.com/bogusDeviceId' which should yield correct results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice" })
+    public void testDevicePagination_url() throws Exception {
+        
+        String parmName = "url";
+        String parmValue = "http://www.testdevice.ibm.com/bogusDeviceId";
+        Class<? extends Resource> resourceType = Device.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Device)resources.get(0)).getUrl().getValue(),"http://www.testdevice.ibm.com/bogusDeviceId");
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Device)resources.get(0)).getUrl().getValue(),"http://www.testdevice.ibm.com/bogusDeviceId");
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
 }

@@ -141,19 +141,19 @@ public abstract class FHIRClientTestBase extends FHIRModelTestBase {
      * @return the logical id value
      */
     protected String getLocationLogicalId(Response response) {
-    	String location = response.getLocation().toString();
-    	assertNotNull(location);
-    	assertFalse(location.isEmpty());
-    	// System.out.println("Location value: " + location);
-    	
-    	String[] tokens = location.split("/");
-    	assertNotNull(tokens);
-    	assertTrue(tokens.length >= 4);
+        String location = response.getLocation().toString();
+        assertNotNull(location);
+        assertFalse(location.isEmpty());
+        // System.out.println("Location value: " + location);
+        
+        String[] tokens = location.split("/");
+        assertNotNull(tokens);
+        assertTrue(tokens.length >= 4);
     
-    	String logicalId = tokens[tokens.length-3];
-    	assertNotNull(logicalId);
-    	assertFalse(logicalId.isEmpty());
+        String logicalId = tokens[tokens.length-3];
+        assertNotNull(logicalId);
+        assertFalse(logicalId.isEmpty());
     
-    	return logicalId;
+        return logicalId;
     }
 }

@@ -19,34 +19,34 @@ import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
  *
  */
 public class QuerySegmentAggregatorFactory {
-	private static final String CLASSNAME = QuerySegmentAggregatorFactory.class.getName();
-	private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
+    private static final String CLASSNAME = QuerySegmentAggregatorFactory.class.getName();
+    private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 
-	/**
-	 * Instantiates and returns a QuerySegmentAggregator instance based on the passed parameters.	
-	 *
-	 */
-	public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, 
-	                                ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao, FHIRSearchContext searchContext) {
-		final String METHODNAME = "buildQuerySegmentAggregator";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		QuerySegmentAggregator qsa;
-		
-		if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
-			qsa = new InclusionQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, 
-													  searchContext.getIncludeParameters(), searchContext.getRevIncludeParameters());
-		}
-		else if (searchContext.hasSortParameters()) {
-			qsa = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, searchContext.getSortParameters());
-		}
-		else {
-			qsa = new QuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao);
-		}
-		
-		log.exiting(CLASSNAME, METHODNAME);
-		return qsa;
-		
-	}
-	
+    /**
+     * Instantiates and returns a QuerySegmentAggregator instance based on the passed parameters.    
+     *
+     */
+    public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, 
+                                    ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao, FHIRSearchContext searchContext) {
+        final String METHODNAME = "buildQuerySegmentAggregator";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        QuerySegmentAggregator qsa;
+        
+        if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
+            qsa = new InclusionQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, 
+                                                      searchContext.getIncludeParameters(), searchContext.getRevIncludeParameters());
+        }
+        else if (searchContext.hasSortParameters()) {
+            qsa = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, searchContext.getSortParameters());
+        }
+        else {
+            qsa = new QuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao);
+        }
+        
+        log.exiting(CLASSNAME, METHODNAME);
+        return qsa;
+        
+    }
+    
 }

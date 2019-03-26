@@ -18,16 +18,16 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
  */
 public class FHIRPersistenceVersionIdMismatchException extends FHIRPersistenceException {
 
-	private static final long serialVersionUID = -8350452448890342596L;
+    private static final long serialVersionUID = -8350452448890342596L;
 
-	public FHIRPersistenceVersionIdMismatchException(String message) {
-	    super(message);
-	    withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
-	}
+    public FHIRPersistenceVersionIdMismatchException(String message) {
+        super(message);
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
+    }
 
-	public FHIRPersistenceVersionIdMismatchException(String message, Throwable cause) {
-		super(message, cause);
-		withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
-	}
+    public FHIRPersistenceVersionIdMismatchException(String message, Throwable cause) {
+        super(message, cause);
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
+    }
 
 }

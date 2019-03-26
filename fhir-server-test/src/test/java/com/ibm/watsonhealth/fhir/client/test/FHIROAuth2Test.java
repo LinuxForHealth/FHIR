@@ -40,7 +40,7 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     
     @Test
     public void testRegisterClient() throws Exception {
-    	// Open the file.
+        // Open the file.
         Reader reader = new InputStreamReader(resolveFileLocation("SampleClientForOpenIDRegistration.json"));
         
         int data = reader.read();
@@ -77,21 +77,21 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     
     @Test(dependsOnMethods = {"testRegisterClient"})
     public void testTokenRequest() throws Exception {
-    	
-		WebTarget endpoint = client.getWebTarget(tokenURL);
+        
+        WebTarget endpoint = client.getWebTarget(tokenURL);
         Form form = new Form();
         form.param("grant_type", "client_credentials")
-        	.param("client_id", clientID.replaceAll("\"", ""))
-        	.param("client_secret", clientSecret.replaceAll("\"", ""));
+            .param("client_id", clientID.replaceAll("\"", ""))
+            .param("client_secret", clientSecret.replaceAll("\"", ""));
         
         Entity<Form> entity = Entity.form(form);
         Invocation.Builder builder = endpoint.request("application/json");
         Response res = builder.post(entity);
         assertResponse(res, Response.Status.OK.getStatusCode());
-    	JsonObject resJson = res.readEntity(JsonObject.class);
-    	assertNotNull(resJson.get("access_token"));
-    	accessToken = resJson.get("access_token").toString();
-    	System.out.println("accessToken = " + accessToken);
-		
+        JsonObject resJson = res.readEntity(JsonObject.class);
+        assertNotNull(resJson.get("access_token"));
+        accessToken = resJson.get("access_token").toString();
+        System.out.println("accessToken = " + accessToken);
+        
     }
 }

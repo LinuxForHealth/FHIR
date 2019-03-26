@@ -68,9 +68,9 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
     
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingIdAndLastUpdated() throws Exception {
-    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-    	queryParms.put("_id", Collections.singletonList(patientId));
-    	queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(patientId));
+        queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
         List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
@@ -78,9 +78,9 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
     
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingInvalidIdAndLastUpdated() throws Exception {
-    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-    	queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id"));
-    	queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id"));
+        queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
         List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
@@ -88,18 +88,18 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
     
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingMultipleIds() throws Exception {
-    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-    	queryParms.put("_id", Collections.singletonList(patientId + ",a-totally-stinking-phony-id"));
-    	List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(patientId + ",a-totally-stinking-phony-id"));
+        List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingMultipleInvalidIds() throws Exception {
-    	Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-    	queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id,a-second-phony-id"));
-    	List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id,a-second-phony-id"));
+        List<Resource> resources = runQueryTest(Resource.class, persistence, queryParms);
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
     }

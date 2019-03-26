@@ -36,25 +36,25 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *
  */
 public class CompartmentParseQueryParmsTest {
-	
-	/**
-	 * This method tests parsing compartment related query parms, passing an invalid compartment.
-	 * @throws Exception
-	 */
+    
+    /**
+     * This method tests parsing compartment related query parms, passing an invalid compartment.
+     * @throws Exception
+     */
     @Test(expected = FHIRSearchException.class) 
     public void testInvalidComparmentName() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	SearchUtil.parseQueryParameters("bogusCompartmentName", "1", Observation.class, queryParameters, null);
+        SearchUtil.parseQueryParameters("bogusCompartmentName", "1", Observation.class, queryParameters, null);
     }
     
     /**
-	 * This method tests parsing compartment related query parms, passing an invalid resource type for the compartment.
-	 * @throws Exception
-	 */
+     * This method tests parsing compartment related query parms, passing an invalid resource type for the compartment.
+     * @throws Exception
+     */
     @Test(expected = FHIRSearchException.class) 
     public void testInvalidResource() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	SearchUtil.parseQueryParameters("Patient", "1", Device.class, queryParameters, null);
+        SearchUtil.parseQueryParameters("Patient", "1", Device.class, queryParameters, null);
     }
     
     /**
@@ -69,17 +69,17 @@ public class CompartmentParseQueryParmsTest {
         String compartmentName = "Patient";
         String compartmentLogicalId = "11";
         Class<? extends Resource> resourceType = Condition.class;
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
-    	
-    	assertNotNull(context);
-    	assertNotNull(context.getSearchParameters());
-    	assertEquals(1, context.getSearchParameters().size());
-    	Parameter parm1 = context.getSearchParameters().get(0);
-    	assertEquals("patient",parm1.getName());
-    	assertNull(parm1.getNextParameter());
-    	assertEquals(Type.REFERENCE, parm1.getType());
-    	assertEquals(1, parm1.getValues().size());
-    	assertEquals(compartmentName + "/" + compartmentLogicalId, parm1.getValues().get(0).getValueString());
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
+        
+        assertNotNull(context);
+        assertNotNull(context.getSearchParameters());
+        assertEquals(1, context.getSearchParameters().size());
+        Parameter parm1 = context.getSearchParameters().get(0);
+        assertEquals("patient",parm1.getName());
+        assertNull(parm1.getNextParameter());
+        assertEquals(Type.REFERENCE, parm1.getType());
+        assertEquals(1, parm1.getValues().size());
+        assertEquals(compartmentName + "/" + compartmentLogicalId, parm1.getValues().get(0).getValueString());
     }
     
     /**
@@ -94,27 +94,27 @@ public class CompartmentParseQueryParmsTest {
         String compartmentName = "RelatedPerson";
         String compartmentLogicalId = "22";
         Class<? extends Resource> resourceType = CommunicationRequest.class;
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
-    	
-    	assertNotNull(context);
-    	assertNotNull(context.getSearchParameters());
-    	assertEquals(1, context.getSearchParameters().size());
-    	
-    	Parameter searchParm = context.getSearchParameters().get(0);
-    	int parmCount = 0;
-    	while (searchParm != null) {
-    		parmCount++;
-    		assertTrue((searchParm.getName().equals("recipient") ||
-    				   searchParm.getName().equals("requester") ||
-    				   searchParm.getName().equals("sender")));
-    		assertEquals(Type.REFERENCE, searchParm.getType());
-    		assertTrue(searchParm.isInclusionCriteria());
-    		assertFalse(searchParm.isChained());
-        	assertEquals(1, searchParm.getValues().size());
-        	assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
-        	searchParm = searchParm.getNextParameter();
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
+        
+        assertNotNull(context);
+        assertNotNull(context.getSearchParameters());
+        assertEquals(1, context.getSearchParameters().size());
+        
+        Parameter searchParm = context.getSearchParameters().get(0);
+        int parmCount = 0;
+        while (searchParm != null) {
+            parmCount++;
+            assertTrue((searchParm.getName().equals("recipient") ||
+                       searchParm.getName().equals("requester") ||
+                       searchParm.getName().equals("sender")));
+            assertEquals(Type.REFERENCE, searchParm.getType());
+            assertTrue(searchParm.isInclusionCriteria());
+            assertFalse(searchParm.isChained());
+            assertEquals(1, searchParm.getValues().size());
+            assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
+            searchParm = searchParm.getNextParameter();
         }
-    	assertEquals(3, parmCount);
+        assertEquals(3, parmCount);
     }
     
     /**
@@ -131,36 +131,36 @@ public class CompartmentParseQueryParmsTest {
         Class<? extends Resource> resourceType = Observation.class;
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
-    	
-    	assertNotNull(context);
-    	assertNotNull(context.getSearchParameters());
-    	assertEquals(3, context.getSearchParameters().size());
-    	
-    	// Validate compartment related search parms.
-    	Parameter searchParm = context.getSearchParameters().get(2);
-    	int parmCount = 0;
-    	while (searchParm != null) {
-    		parmCount++;
-    		assertTrue((searchParm.getName().equals("performer") ||
-    				   searchParm.getName().equals("subject")));
-    		assertEquals(Type.REFERENCE, searchParm.getType());
-    		assertTrue(searchParm.isInclusionCriteria());
-    		assertFalse(searchParm.isChained());
-        	assertEquals(1, searchParm.getValues().size());
-        	assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
-        	searchParm = searchParm.getNextParameter();
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
+        
+        assertNotNull(context);
+        assertNotNull(context.getSearchParameters());
+        assertEquals(3, context.getSearchParameters().size());
+        
+        // Validate compartment related search parms.
+        Parameter searchParm = context.getSearchParameters().get(2);
+        int parmCount = 0;
+        while (searchParm != null) {
+            parmCount++;
+            assertTrue((searchParm.getName().equals("performer") ||
+                       searchParm.getName().equals("subject")));
+            assertEquals(Type.REFERENCE, searchParm.getType());
+            assertTrue(searchParm.isInclusionCriteria());
+            assertFalse(searchParm.isChained());
+            assertEquals(1, searchParm.getValues().size());
+            assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
+            searchParm = searchParm.getNextParameter();
         }
-    	assertEquals(2, parmCount);
-    	
-    	// Validate non-compartment related search parms.
-    	for (int i = 0; i < 2; i++) {
-    		searchParm = context.getSearchParameters().get(i);
-    		assertTrue((searchParm.getName().equals("category") ||	
-    				    searchParm.getName().equals("value-quantity")));
-    		assertNotNull(searchParm.getValues());
-    		assertEquals(1, searchParm.getValues().size());
-    	}
+        assertEquals(2, parmCount);
+        
+        // Validate non-compartment related search parms.
+        for (int i = 0; i < 2; i++) {
+            searchParm = context.getSearchParameters().get(i);
+            assertTrue((searchParm.getName().equals("category") ||    
+                        searchParm.getName().equals("value-quantity")));
+            assertNotNull(searchParm.getValues());
+            assertEquals(1, searchParm.getValues().size());
+        }
     }
     
     /**
@@ -175,20 +175,20 @@ public class CompartmentParseQueryParmsTest {
         Class<? extends Resource> resourceType = Observation.class;
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-    	FHIRSearchContext context = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, null);
-    	
-    	assertNotNull(context);
-    	assertNotNull(context.getSearchParameters());
-    	assertEquals(2, context.getSearchParameters().size());
-    	
-    	// Validate non-compartment related search parms.
-    	for (Parameter searchParm : context.getSearchParameters()) {
-    		assertTrue((searchParm.getName().equals("category") ||	
-    				    searchParm.getName().equals("value-quantity")));
-    		assertNotNull(searchParm.getValues());
-    		assertEquals(1, searchParm.getValues().size());
-    		assertNull(searchParm.getNextParameter());
-    	}
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, null);
+        
+        assertNotNull(context);
+        assertNotNull(context.getSearchParameters());
+        assertEquals(2, context.getSearchParameters().size());
+        
+        // Validate non-compartment related search parms.
+        for (Parameter searchParm : context.getSearchParameters()) {
+            assertTrue((searchParm.getName().equals("category") ||    
+                        searchParm.getName().equals("value-quantity")));
+            assertNotNull(searchParm.getValues());
+            assertEquals(1, searchParm.getValues().size());
+            assertNull(searchParm.getNextParameter());
+        }
     }
     
     /**
@@ -198,16 +198,16 @@ public class CompartmentParseQueryParmsTest {
      */
     /* @Test 
     public void testLoadCompartmentMap() {
-    	Map<String, Map<String, List<String>>> compartmentMap = SearchUtil.buildCompartmentMap();
-    	for (String compartment : compartmentMap.keySet()) {
-    		System.out.println("Compartment: " + compartment);
-    		Map<String, List<String>> map = compartmentMap.get(compartment);
-    		for (String key : map.keySet()) {
-    			List<String> inclusionCriteria = map.get(key);
-    			System.out.println("    key: " + key + ", inclusionCriteria: " + inclusionCriteria);
-    		}
-    		
-    	}
+        Map<String, Map<String, List<String>>> compartmentMap = SearchUtil.buildCompartmentMap();
+        for (String compartment : compartmentMap.keySet()) {
+            System.out.println("Compartment: " + compartment);
+            Map<String, List<String>> map = compartmentMap.get(compartment);
+            for (String key : map.keySet()) {
+                List<String> inclusionCriteria = map.get(key);
+                System.out.println("    key: " + key + ", inclusionCriteria: " + inclusionCriteria);
+            }
+            
+        }
     } */
     
 }

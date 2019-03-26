@@ -48,38 +48,38 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 @WebListener("IBM Watson Health Cloud FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
-	
-	private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
-	private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    
+    private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
+    private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.watsonhealth.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
 
-	@Override
-	public void contextInitialized(ServletContextEvent event) {
-		if (log.isLoggable(Level.FINER)) {
-			log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
-		}
-		try {
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        if (log.isLoggable(Level.FINER)) {
+            log.entering(FHIRServletContextListener.class.getName(), "contextInitialized");
+        }
+        try {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
             
-		    PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
-		    
-		    log.fine("Current working directory: " + Encode.forHtml(System.getProperty("user.dir")));
-		    
-		    log.fine("Initializing FHIRUtil...");
-		    FHIRUtil.init();
-		    
-		    log.fine("Initializing SearchUtil...");
-		    SearchUtil.init();
-		    
-		    log.fine("Initializing FHIROperationRegistry...");
-		    FHIROperationRegistry.getInstance();
-		    
-			// For any singleton resources that need to be shared among our resource class instances,
-		    // we'll add them to our servlet context so that the resource class can easily retrieve them.
-		    
-			// Set the shared FHIRPersistenceHelper.
+            PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+            
+            log.fine("Current working directory: " + Encode.forHtml(System.getProperty("user.dir")));
+            
+            log.fine("Initializing FHIRUtil...");
+            FHIRUtil.init();
+            
+            log.fine("Initializing SearchUtil...");
+            SearchUtil.init();
+            
+            log.fine("Initializing FHIROperationRegistry...");
+            FHIROperationRegistry.getInstance();
+            
+            // For any singleton resources that need to be shared among our resource class instances,
+            // we'll add them to our servlet context so that the resource class can easily retrieve them.
+            
+            // Set the shared FHIRPersistenceHelper.
             event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
             log.fine("Set shared persistence helper on servlet context.");
 
@@ -121,16 +121,16 @@ public class FHIRServletContextListener implements ServletContextListener {
             
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
-		} catch(Throwable t) {
-		    String msg = "Encountered an exception while initializing the servlet context.";
-		    log.log(Level.SEVERE, msg, t);
-		    throw new RuntimeException(msg, t);
-		} finally {
-			if (log.isLoggable(Level.FINER)) {
-				log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
-			}
-		}
-	}
+        } catch(Throwable t) {
+            String msg = "Encountered an exception while initializing the servlet context.";
+            log.log(Level.SEVERE, msg, t);
+            throw new RuntimeException(msg, t);
+        } finally {
+            if (log.isLoggable(Level.FINER)) {
+                log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
+            }
+        }
+    }
 
     /**
      * Bootstraps derby databases during server startup if requested.
@@ -145,13 +145,13 @@ public class FHIRServletContextListener implements ServletContextListener {
             DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
 
             String derbySprocJarDir = "userlib";
-		    Collection<File> derbyJarFiles = FileUtils.listFiles(new File(derbySprocJarDir), new WildcardFileFilter("fhir-derby-sproc*.jar"), null);
+            Collection<File> derbyJarFiles = FileUtils.listFiles(new File(derbySprocJarDir), new WildcardFileFilter("fhir-derby-sproc*.jar"), null);
             
-		    String derbySProcJarLocation = null;
+            String derbySProcJarLocation = null;
             if(!derbyJarFiles.isEmpty() && schemaType == SchemaType.NORMALIZED) {
-            	derbySProcJarLocation = derbySprocJarDir + "/" + derbyJarFiles.iterator().next().getName();
+                derbySProcJarLocation = derbySprocJarDir + "/" + derbyJarFiles.iterator().next().getName();
             } else {
-            	derbySProcJarLocation = "";	//The JAR file is not used while bootstrapping Derby for BASIC schema type
+                derbySProcJarLocation = "";    //The JAR file is not used while bootstrapping Derby for BASIC schema type
             }
             bootstrapDb("default", "default", ds, schemaType, derbySProcJarLocation);
             bootstrapDb("tenant1", "profile", ds, schemaType, derbySProcJarLocation);

@@ -21,42 +21,42 @@ import com.ibm.watsonhealth.fhir.config.PropertyGroup;
  *
  */
 public class AuditLogServiceFactory {
-	
-	private static final Logger log = java.util.logging.Logger.getLogger(AuditLogServiceFactory.class.getName());
-	private static final String CLASSNAME = AuditLogServiceFactory.class.getName();
-	
-	private static AuditLogService serviceInstance = null;
+    
+    private static final Logger log = java.util.logging.Logger.getLogger(AuditLogServiceFactory.class.getName());
+    private static final String CLASSNAME = AuditLogServiceFactory.class.getName();
+    
+    private static AuditLogService serviceInstance = null;
 
-	
-	/**
-	 * Returns the AuditLogService to be used by all FHIR server components.
-	 * @return AuditLogService
-	 * @throws AuditLoggingException 
-	 */
-	public static AuditLogService getService() {
-	    	    
-		if (serviceInstance == null) {
-		    createService();
-		}
-		
-		return serviceInstance;
-	}
-	
-	/**
-	 * Creates and caches a singleton instance of an audit log service, based on audit log configuration settings.
-	 */
-	private static synchronized void createService() {
-	    final String METHODNAME = "createService";
-	    log.entering(CLASSNAME, METHODNAME);
-	    
-	    	    
-	    final String NEWLINE = System.getProperty("line.separator");
+    
+    /**
+     * Returns the AuditLogService to be used by all FHIR server components.
+     * @return AuditLogService
+     * @throws AuditLoggingException 
+     */
+    public static AuditLogService getService() {
+                
+        if (serviceInstance == null) {
+            createService();
+        }
+        
+        return serviceInstance;
+    }
+    
+    /**
+     * Creates and caches a singleton instance of an audit log service, based on audit log configuration settings.
+     */
+    private static synchronized void createService() {
+        final String METHODNAME = "createService";
+        log.entering(CLASSNAME, METHODNAME);
+        
+                
+        final String NEWLINE = System.getProperty("line.separator");
         String serviceClassName;
         Class<?> serviceClass;
         StringBuilder errMsg;
         PropertyGroup auditLogProperties;
-	    
-	    if (serviceInstance == null) {
+        
+        if (serviceInstance == null) {
             errMsg = new StringBuilder();
             serviceClassName = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_CLASS_NAME, null);
             if (serviceClassName == null || serviceClassName.isEmpty()) {
@@ -93,25 +93,25 @@ public class AuditLogServiceFactory {
                 serviceInstance = new DisabledAuditLogService();
             }
         }
-	    log.exiting(CLASSNAME, METHODNAME);
+        log.exiting(CLASSNAME, METHODNAME);
     }
-	    
-	 
-	
-	/**
-	 * Nulls out the singleton instance of the audit logger service object that is cached by this factory class, 
-	 * then creates, caches, and returns a new service object instance.
-	 * @return AuditLogService - The newly cached audit log service object.
-	 * @throws AuditLoggingException 
-	 */
-	public static AuditLogService resetService() {
-		final String METHODNAME = "resetService";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		serviceInstance = null;
-		AuditLogService newService = getService();
-		log.exiting(CLASSNAME, METHODNAME);
-		return newService;
-	}
+        
+     
+    
+    /**
+     * Nulls out the singleton instance of the audit logger service object that is cached by this factory class, 
+     * then creates, caches, and returns a new service object instance.
+     * @return AuditLogService - The newly cached audit log service object.
+     * @throws AuditLoggingException 
+     */
+    public static AuditLogService resetService() {
+        final String METHODNAME = "resetService";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        serviceInstance = null;
+        AuditLogService newService = getService();
+        log.exiting(CLASSNAME, METHODNAME);
+        return newService;
+    }
 
 }

@@ -14,28 +14,28 @@ import java.util.List;
  *
  */
 public class SqlQueryData {
-	
-	private String queryString;
-	private List<Object> bindVariables;
+    
+    private String queryString;
+    private List<Object> bindVariables;
 
-	public SqlQueryData(String query, List<Object> vars) {
-		super();
-		this.queryString = query;
-		this.bindVariables = vars;
-		 
-	}
+    public SqlQueryData(String query, List<Object> vars) {
+        super();
+        this.queryString = query;
+        this.bindVariables = vars;
+         
+    }
 
-	public String getQueryString() {
-		return queryString;
-	}
+    public String getQueryString() {
+        return queryString;
+    }
 
-	public List<Object> getBindVariables() {
-		return bindVariables;
-	}
+    public List<Object> getBindVariables() {
+        return bindVariables;
+    }
 
-	@Override
-	public String toString() {
-		return "SqlQueryData [queryString=" + queryString + ", bindVariables=" + bindVariables + "]";
-	}
+    @Override
+    public String toString() {
+        return "SqlQueryData [queryString=" + queryString + ", bindVariables=" + bindVariables + "]";
+    }
 
 }

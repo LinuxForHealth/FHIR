@@ -19,31 +19,31 @@ import com.ibm.watsonhealth.fhir.persistence.search.test.AbstractSearchReference
 
 
 public class JDBCNormSearchReferenceTest extends AbstractSearchReferenceTest {
-	
-	private Properties testProps;
-	
-	public JDBCNormSearchReferenceTest() throws Exception {
-		this.testProps = readTestProperties("test.normalized.properties");
-	}
-	
+    
+    private Properties testProps;
+    
+    public JDBCNormSearchReferenceTest() throws Exception {
+        this.testProps = readTestProperties("test.normalized.properties");
+    }
+    
 
     @BeforeClass
     public void setTenant() throws FHIRException {
         FHIRRequestContext.get().setTenantId("reference");
     }
 
-	@Override
-	public void bootstrapDatabase() throws Exception {
-		DerbyInitializer derbyInit;
-		String dbDriverName = this.testProps.getProperty("dbDriverName");
-		if (dbDriverName != null && dbDriverName.contains("derby")) {
-			derbyInit = new DerbyInitializer(this.testProps);
-			derbyInit.bootstrapDb(false);
-		}
-	}
-	
+    @Override
+    public void bootstrapDatabase() throws Exception {
+        DerbyInitializer derbyInit;
+        String dbDriverName = this.testProps.getProperty("dbDriverName");
+        if (dbDriverName != null && dbDriverName.contains("derby")) {
+            derbyInit = new DerbyInitializer(this.testProps);
+            derbyInit.bootstrapDb(false);
+        }
+    }
+    
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-    	return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
+        return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
     }
 }

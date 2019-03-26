@@ -44,80 +44,80 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *
  */
 public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> implements ParameterNormalizedDAO {
-	private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
-	private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
-	
-	public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
-	
-	private static final String SQL_INSERT = "INSERT INTO PARAMETERS_GTT (PARAMETER_NAME_ID, PARAMETER_TYPE, STR_VALUE, STR_VALUE_LCASE, DATE_VALUE, DATE_START, DATE_END, " +
-			"NUMBER_VALUE, NUMBER_VALUE_LOW, NUMBER_VALUE_HIGH, LATITUDE_VALUE, LONGITUDE_VALUE, TOKEN_VALUE, CODE_SYSTEM_ID, CODE) " +
-			"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	
-	private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT = 512;
-	private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS = 1024;
-	
-	private static final String SQL_READ_ALL_SEARCH_PARAMETER_NAMES = "SELECT PARAMETER_NAME_ID, PARAMETER_NAME FROM PARAMETER_NAMES";
-	
-	private static final String SQL_READ_ALL_CODE_SYSTEMS = "SELECT CODE_SYSTEM_NAME, CODE_SYSTEM_ID FROM CODE_SYSTEMS";
-	
-	private static final String SQL_READ_PARAMETER_NAME = "CALL %s.add_parameter_name(?, ?)";
-	
-	private static final String SQL_READ_CODE_SYSTEM_ID = "CALL %s.add_code_system(?, ?)";
-	
-	private Map<String, Integer> newParameterNameIds = new HashMap<>();
-	    
-	private Map<String, Integer> newCodeSystemIds = new HashMap<>();
-	
-	private boolean runningInTrx = false;
+    private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
+    private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
+    
+    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
+    
+    private static final String SQL_INSERT = "INSERT INTO PARAMETERS_GTT (PARAMETER_NAME_ID, PARAMETER_TYPE, STR_VALUE, STR_VALUE_LCASE, DATE_VALUE, DATE_START, DATE_END, " +
+            "NUMBER_VALUE, NUMBER_VALUE_LOW, NUMBER_VALUE_HIGH, LATITUDE_VALUE, LONGITUDE_VALUE, TOKEN_VALUE, CODE_SYSTEM_ID, CODE) " +
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    
+    private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT = 512;
+    private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS = 1024;
+    
+    private static final String SQL_READ_ALL_SEARCH_PARAMETER_NAMES = "SELECT PARAMETER_NAME_ID, PARAMETER_NAME FROM PARAMETER_NAMES";
+    
+    private static final String SQL_READ_ALL_CODE_SYSTEMS = "SELECT CODE_SYSTEM_NAME, CODE_SYSTEM_ID FROM CODE_SYSTEMS";
+    
+    private static final String SQL_READ_PARAMETER_NAME = "CALL %s.add_parameter_name(?, ?)";
+    
+    private static final String SQL_READ_CODE_SYSTEM_ID = "CALL %s.add_code_system(?, ?)";
+    
+    private Map<String, Integer> newParameterNameIds = new HashMap<>();
+        
+    private Map<String, Integer> newCodeSystemIds = new HashMap<>();
+    
+    private boolean runningInTrx = false;
     private CodeSystemsCacheUpdater csCacheUpdater = null;
     private ParameterNamesCacheUpdater pnCacheUpdater = null;
     private TransactionSynchronizationRegistry trxSynchRegistry;
-	
-	
-	/**
-	 * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
-	 */
-	public ParameterDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
-		super();
-		this.runningInTrx = true;
-		this.trxSynchRegistry = trxSynchRegistry;
-	}
-	
-	/**
-	 * Constructs a DAO using the passed externally managed database connection.
-	 * The connection used by this instance for all DB operations will be the passed connection.
-	 * @param Connection - A database connection that will be managed by the caller.
-	 */
-	public ParameterDAONormalizedImpl(Connection managedConnection) {
-		super(managedConnection);
-	}
+    
+    
+    /**
+     * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
+     */
+    public ParameterDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
+        super();
+        this.runningInTrx = true;
+        this.trxSynchRegistry = trxSynchRegistry;
+    }
+    
+    /**
+     * Constructs a DAO using the passed externally managed database connection.
+     * The connection used by this instance for all DB operations will be the passed connection.
+     * @param Connection - A database connection that will be managed by the caller.
+     */
+    public ParameterDAONormalizedImpl(Connection managedConnection) {
+        super(managedConnection);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO#insert(java.util.List)
-	 */
-	@Override
-	public void insert(List<Parameter> parameters)
-					throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-		final String METHODNAME = "insert";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		String parameterName;
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO#insert(java.util.List)
+     */
+    @Override
+    public void insert(List<Parameter> parameters)
+                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "insert";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        String parameterName;
         Integer parameterId;
-		String tokenSystem;
-		Integer tokenSystemId;
-		boolean acquiredFromCache;
-		long dbCallStartTime;
-		double dbCallDuration;
-						
-		try {
-			connection = this.getConnection();
-			stmt = connection.prepareStatement(SQL_INSERT);
-			
-			for (Parameter parameter: parameters) {
-			    parameterName = parameter.getName();
-			    parameterId = ParameterNamesCache.getParameterNameId(parameterName);
+        String tokenSystem;
+        Integer tokenSystemId;
+        boolean acquiredFromCache;
+        long dbCallStartTime;
+        double dbCallDuration;
+                        
+        try {
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(SQL_INSERT);
+            
+            for (Parameter parameter: parameters) {
+                parameterName = parameter.getName();
+                parameterId = ParameterNamesCache.getParameterNameId(parameterName);
                 if (parameterId == null) {
                     acquiredFromCache = false;
                     parameterId = this.readParameterNameId(parameterName);
@@ -131,25 +131,25 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                               "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ParameterNamesCache.getCacheNameForTenantDatastore());
                 }
                 stmt.setInt(1, parameterId);
-				stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
-				stmt.setString(3, parameter.getValueString());
-				stmt.setString(4, SearchUtil.normalizeForSearch(parameter.getValueString()));
-				stmt.setTimestamp(5, parameter.getValueDate());
-				stmt.setTimestamp(6, parameter.getValueDateStart());
-				stmt.setTimestamp(7, parameter.getValueDateEnd());
-				stmt.setObject(8, parameter.getValueNumber(), Types.DOUBLE);
-				stmt.setObject(9, parameter.getValueNumberLow(), Types.DOUBLE);
-				stmt.setObject(10, parameter.getValueNumberHigh(), Types.DOUBLE);
-				stmt.setObject(11, parameter.getValueLatitude(), Types.DOUBLE);
-				stmt.setObject(12, parameter.getValueLongitude(), Types.DOUBLE);
-				stmt.setString(13, parameter.getValueCode());
-				tokenSystem = parameter.getValueSystem();
-				if ((parameter.getType().equals(Type.TOKEN) || parameter.getType().equals(Type.QUANTITY)) &&
-					(tokenSystem == null || tokenSystem.isEmpty())) {
-						tokenSystem = DEFAULT_TOKEN_SYSTEM;
-				}
-				if(tokenSystem != null) {
-				    tokenSystemId = CodeSystemsCache.getCodeSystemId(tokenSystem);
+                stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
+                stmt.setString(3, parameter.getValueString());
+                stmt.setString(4, SearchUtil.normalizeForSearch(parameter.getValueString()));
+                stmt.setTimestamp(5, parameter.getValueDate());
+                stmt.setTimestamp(6, parameter.getValueDateStart());
+                stmt.setTimestamp(7, parameter.getValueDateEnd());
+                stmt.setObject(8, parameter.getValueNumber(), Types.DOUBLE);
+                stmt.setObject(9, parameter.getValueNumberLow(), Types.DOUBLE);
+                stmt.setObject(10, parameter.getValueNumberHigh(), Types.DOUBLE);
+                stmt.setObject(11, parameter.getValueLatitude(), Types.DOUBLE);
+                stmt.setObject(12, parameter.getValueLongitude(), Types.DOUBLE);
+                stmt.setString(13, parameter.getValueCode());
+                tokenSystem = parameter.getValueSystem();
+                if ((parameter.getType().equals(Type.TOKEN) || parameter.getType().equals(Type.QUANTITY)) &&
+                    (tokenSystem == null || tokenSystem.isEmpty())) {
+                        tokenSystem = DEFAULT_TOKEN_SYSTEM;
+                }
+                if(tokenSystem != null) {
+                    tokenSystemId = CodeSystemsCache.getCodeSystemId(tokenSystem);
                     if (tokenSystemId == null) {
                         acquiredFromCache = false;
                         tokenSystem = SQLParameterEncoder.encode(tokenSystem);
@@ -165,260 +165,260 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                                   "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + CodeSystemsCache.getCacheNameForTenantDatastore());
                     }
                 }
-				else {
-					stmt.setObject(14, null, Types.INTEGER);
-				}
-				stmt.setString(15, parameter.getValueCode());
-				stmt.addBatch();
-			}
-			dbCallStartTime = System.nanoTime();
-			stmt.executeBatch();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-			if (log.isLoggable(Level.FINE)) {
-			    log.fine("Batch DB Parameter insert complete. executionTime=" + dbCallDuration + "ms");
-			}
-		}
-		catch(FHIRPersistenceDBConnectException e) {
-			throw e;
-		}
-		catch(Throwable e) {
-			throw new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.", e);
-		}
-		finally {
-			this.cleanup(stmt, connection);
-			log.exiting(CLASSNAME, METHODNAME);
-		}
+                else {
+                    stmt.setObject(14, null, Types.INTEGER);
+                }
+                stmt.setString(15, parameter.getValueCode());
+                stmt.addBatch();
+            }
+            dbCallStartTime = System.nanoTime();
+            stmt.executeBatch();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Batch DB Parameter insert complete. executionTime=" + dbCallDuration + "ms");
+            }
+        }
+        catch(FHIRPersistenceDBConnectException e) {
+            throw e;
+        }
+        catch(Throwable e) {
+            throw new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.", e);
+        }
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
 
-	}
+    }
 
-	@Override
-	public Map<String, Integer> readAllSearchParameterNames()
-										 throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		final String METHODNAME = "readAllSearchParameterNames";
-		log.entering(CLASSNAME, METHODNAME);
-				
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-		String parameterName;
-		int parameterId;
-		Map<String, Integer> parameterMap = new HashMap<>();
-		String errMsg = "Failure retrieving all Search Parameter names.";
-		long dbCallStartTime;
-		double dbCallDuration;
-				
-		try {
-			connection = this.getConnection();
-			dbCallStartTime = System.nanoTime();
-			stmt = connection.prepareStatement(SQL_READ_ALL_SEARCH_PARAMETER_NAMES);
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-			if (log.isLoggable(Level.FINE)) {
-	                log.fine("DB read all search parameter names complete. executionTime=" + dbCallDuration + "ms");
-			}
-	             
-			resultSet = stmt.executeQuery();
-			while (resultSet.next()) {
-				parameterName = resultSet.getString("PARAMETER_NAME");
-				parameterId = resultSet.getInt("PARAMETER_NAME_ID");
-				parameterMap.put(parameterName, parameterId);
-			}
-		}
-		catch (Throwable e) {
-			throw new FHIRPersistenceDataAccessException(errMsg,e);
-		}
-		finally {
-			this.cleanup(stmt, connection);
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-				
-		return parameterMap;
-	}
-	
-	@Override
-	public Map<String, Integer> readAllCodeSystems()
-			throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
-		final String METHODNAME = "readAllCodeSystems";
-		log.entering(CLASSNAME, METHODNAME);
-				
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-		String systemName;
-		int systemId;
-		Map<String, Integer> systemMap = new HashMap<>();
-		String errMsg = "Failure retrieving all code systems.";
-		long dbCallStartTime;
-		double dbCallDuration;
-				
-		try {
-			connection = this.getConnection();
-			stmt = connection.prepareStatement(SQL_READ_ALL_CODE_SYSTEMS);
-			dbCallStartTime = System.nanoTime();
-			resultSet = stmt.executeQuery();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+    @Override
+    public Map<String, Integer> readAllSearchParameterNames()
+                                         throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        final String METHODNAME = "readAllSearchParameterNames";
+        log.entering(CLASSNAME, METHODNAME);
+                
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String parameterName;
+        int parameterId;
+        Map<String, Integer> parameterMap = new HashMap<>();
+        String errMsg = "Failure retrieving all Search Parameter names.";
+        long dbCallStartTime;
+        double dbCallDuration;
+                
+        try {
+            connection = this.getConnection();
+            dbCallStartTime = System.nanoTime();
+            stmt = connection.prepareStatement(SQL_READ_ALL_SEARCH_PARAMETER_NAMES);
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                    log.fine("DB read all search parameter names complete. executionTime=" + dbCallDuration + "ms");
+            }
+                 
+            resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                parameterName = resultSet.getString("PARAMETER_NAME");
+                parameterId = resultSet.getInt("PARAMETER_NAME_ID");
+                parameterMap.put(parameterName, parameterId);
+            }
+        }
+        catch (Throwable e) {
+            throw new FHIRPersistenceDataAccessException(errMsg,e);
+        }
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+                
+        return parameterMap;
+    }
+    
+    @Override
+    public Map<String, Integer> readAllCodeSystems()
+            throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        final String METHODNAME = "readAllCodeSystems";
+        log.entering(CLASSNAME, METHODNAME);
+                
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String systemName;
+        int systemId;
+        Map<String, Integer> systemMap = new HashMap<>();
+        String errMsg = "Failure retrieving all code systems.";
+        long dbCallStartTime;
+        double dbCallDuration;
+                
+        try {
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(SQL_READ_ALL_CODE_SYSTEMS);
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             if (log.isLoggable(Level.FINE)) {
                 log.fine("DB read all code systems complete. executionTime=" + dbCallDuration + "ms");
             }
-			while (resultSet.next()) {
-				systemName = resultSet.getString("CODE_SYSTEM_NAME");
-				systemId = resultSet.getInt("CODE_SYSTEM_ID");
-				systemMap.put(systemName, systemId);
-			}
-		}
-		catch (Throwable e) {
-			throw new FHIRPersistenceDataAccessException(errMsg,e);
-		}
-		finally {
-			this.cleanup(stmt, connection);
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-				
-		return systemMap;
-	}
-	
-	/**
-	 * Examines the type of the passed parameter and maps that enumerated Type to a char that can then be persisted
-	 * in one of the parameter values tables.
-	 * @param parameter A search Parameter containing a valid Type.
-	 * @return char - A character indicating the search parameter type that can be persisted.
-	 */
-	private char determineParameterTypeChar(Parameter parameter) {
-		final String METHODNAME = "determineParameterTypeChar";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		char returnChar = 0;
-		if(AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
-		   AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
-			returnChar = 'G';
-		}
-		else {
-			switch(parameter.getType()) {
-				case REFERENCE :
-				case URI: 
-				case STRING : 	returnChar = 'S';
-							  	break;
-							  
-				case TOKEN :  	returnChar = 'C';
-							  	break;
-				
-				case QUANTITY : returnChar = 'Q';  
-							    break;
-							  
-				case NUMBER : 	returnChar = 'N';
-								break;
-					
-				case DATE : 	returnChar = 'D'; 
-								break;
-			}
-		}
-		
-		log.exiting(CLASSNAME, METHODNAME);
-		return returnChar;
-	}
-	
-	/**
-	 * Calls a stored procedure to read the name contained in the passed Parameter in the Parameter_Names table.
-	 * If it's not in the DB, it will be stored and a unique id will be returned.
-	 * @param parameter
-	 * @return Integer - The generated id of the stored system.
-	 * @throws FHIRPersistenceDBConnectException 
-	 * @throws FHIRPersistenceDataAccessException 
-	 *  
-	 */
-	@Override
-	public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
-		final String METHODNAME = "readParameterNameId";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		Connection connection = null;
-		CallableStatement stmt = null;
-		Integer parameterNameId = null;
-		String currentSchema;
-		String stmtString;
-		String errMsg = "Failure storing search parameter name id: name=" + parameterName;
-		long dbCallStartTime;
-		double dbCallDuration;
-				
-		try {
-			connection = this.getConnection();
-			currentSchema = connection.getSchema().trim();
-			stmtString = String.format(SQL_READ_PARAMETER_NAME, currentSchema);
-			stmt = connection.prepareCall(stmtString); 
-			stmt.setString(1, parameterName);
-			stmt.registerOutParameter(2, Types.INTEGER);
-			dbCallStartTime = System.nanoTime();
-			stmt.execute();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            while (resultSet.next()) {
+                systemName = resultSet.getString("CODE_SYSTEM_NAME");
+                systemId = resultSet.getInt("CODE_SYSTEM_ID");
+                systemMap.put(systemName, systemId);
+            }
+        }
+        catch (Throwable e) {
+            throw new FHIRPersistenceDataAccessException(errMsg,e);
+        }
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+                
+        return systemMap;
+    }
+    
+    /**
+     * Examines the type of the passed parameter and maps that enumerated Type to a char that can then be persisted
+     * in one of the parameter values tables.
+     * @param parameter A search Parameter containing a valid Type.
+     * @return char - A character indicating the search parameter type that can be persisted.
+     */
+    private char determineParameterTypeChar(Parameter parameter) {
+        final String METHODNAME = "determineParameterTypeChar";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        char returnChar = 0;
+        if(AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
+           AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
+            returnChar = 'G';
+        }
+        else {
+            switch(parameter.getType()) {
+                case REFERENCE :
+                case URI: 
+                case STRING :     returnChar = 'S';
+                                  break;
+                              
+                case TOKEN :      returnChar = 'C';
+                                  break;
+                
+                case QUANTITY : returnChar = 'Q';  
+                                break;
+                              
+                case NUMBER :     returnChar = 'N';
+                                break;
+                    
+                case DATE :     returnChar = 'D'; 
+                                break;
+            }
+        }
+        
+        log.exiting(CLASSNAME, METHODNAME);
+        return returnChar;
+    }
+    
+    /**
+     * Calls a stored procedure to read the name contained in the passed Parameter in the Parameter_Names table.
+     * If it's not in the DB, it will be stored and a unique id will be returned.
+     * @param parameter
+     * @return Integer - The generated id of the stored system.
+     * @throws FHIRPersistenceDBConnectException 
+     * @throws FHIRPersistenceDataAccessException 
+     *  
+     */
+    @Override
+    public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+        final String METHODNAME = "readParameterNameId";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        CallableStatement stmt = null;
+        Integer parameterNameId = null;
+        String currentSchema;
+        String stmtString;
+        String errMsg = "Failure storing search parameter name id: name=" + parameterName;
+        long dbCallStartTime;
+        double dbCallDuration;
+                
+        try {
+            connection = this.getConnection();
+            currentSchema = connection.getSchema().trim();
+            stmtString = String.format(SQL_READ_PARAMETER_NAME, currentSchema);
+            stmt = connection.prepareCall(stmtString); 
+            stmt.setString(1, parameterName);
+            stmt.registerOutParameter(2, Types.INTEGER);
+            dbCallStartTime = System.nanoTime();
+            stmt.execute();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             if (log.isLoggable(Level.FINE)) {
                     log.fine("DB read/store parameter name id complete. executionTime=" + dbCallDuration + "ms");
             }
-			parameterNameId = stmt.getInt(2);
-		}
-		catch(FHIRPersistenceDBConnectException e) {
-			throw e;
-		}
-		catch (Throwable e) {
-			throw new FHIRPersistenceDataAccessException(errMsg,e);
-		} 
-		finally {
-			this.cleanup(stmt, connection);
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-		return parameterNameId;
-	}
-	
-	/**
-	 * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
-	 * If it's not in the DB, it will be stored and a unique id will be returned.
-	 * @param parameter
-	 * @return Integer - The generated id of the stored system.
-	 * @throws FHIRPersistenceDBConnectException 
-	 * @throws FHIRPersistenceDataAccessException 
-	 * @throws FHIRPersistenceException
-	 */
-	@Override
-	public Integer readCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException   {
-		final String METHODNAME = "storeCodeSystemId";
-		log.entering(CLASSNAME, METHODNAME);
-		
-		Connection connection = null;
-		CallableStatement stmt = null;
-		Integer systemId = null;
-		String currentSchema;
-		String stmtString;
-		String errMsg = "Failure storing system id: name=" + systemName;
-		long dbCallStartTime;
-		double dbCallDuration;
-				
-		try {
-			connection = this.getConnection();
-			currentSchema = connection.getSchema().trim();
-			stmtString = String.format(SQL_READ_CODE_SYSTEM_ID, currentSchema);
-			stmt = connection.prepareCall(stmtString); 
-			stmt.setString(1, systemName);
-			stmt.registerOutParameter(2, Types.INTEGER);
-			dbCallStartTime = System.nanoTime();
-			stmt.execute();
-			dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            parameterNameId = stmt.getInt(2);
+        }
+        catch(FHIRPersistenceDBConnectException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            throw new FHIRPersistenceDataAccessException(errMsg,e);
+        } 
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return parameterNameId;
+    }
+    
+    /**
+     * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
+     * If it's not in the DB, it will be stored and a unique id will be returned.
+     * @param parameter
+     * @return Integer - The generated id of the stored system.
+     * @throws FHIRPersistenceDBConnectException 
+     * @throws FHIRPersistenceDataAccessException 
+     * @throws FHIRPersistenceException
+     */
+    @Override
+    public Integer readCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException   {
+        final String METHODNAME = "storeCodeSystemId";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        CallableStatement stmt = null;
+        Integer systemId = null;
+        String currentSchema;
+        String stmtString;
+        String errMsg = "Failure storing system id: name=" + systemName;
+        long dbCallStartTime;
+        double dbCallDuration;
+                
+        try {
+            connection = this.getConnection();
+            currentSchema = connection.getSchema().trim();
+            stmtString = String.format(SQL_READ_CODE_SYSTEM_ID, currentSchema);
+            stmt = connection.prepareCall(stmtString); 
+            stmt.setString(1, systemName);
+            stmt.registerOutParameter(2, Types.INTEGER);
+            dbCallStartTime = System.nanoTime();
+            stmt.execute();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             if (log.isLoggable(Level.FINE)) {
                     log.fine("DB read code system id complete. executionTime=" + dbCallDuration + "ms");
             }
-			systemId = stmt.getInt(2);
-		}
-		catch(FHIRPersistenceDBConnectException e) {
-			throw e;
-		}
-		catch (Throwable e) {
-			throw new FHIRPersistenceDataAccessException(errMsg,e);
-		} 
-		finally {
-			this.cleanup(stmt, connection);
-			log.exiting(CLASSNAME, METHODNAME);
-		}
-		return systemId;
-	}
+            systemId = stmt.getInt(2);
+        }
+        catch(FHIRPersistenceDBConnectException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            throw new FHIRPersistenceDataAccessException(errMsg,e);
+        } 
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return systemId;
+    }
 
-	/**
+    /**
      * Adds a code system name / code system id pair to a candidate collection for population into the CodeSystemsCache.
      * This pair must be present as a row in the FHIR DB CODE_SYSTEMS table.
      * @param codeSystemName A valid code system name.
@@ -816,5 +816,5 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         }
         return sqlParmArray;
     }
-	 
+     
 }

@@ -13,11 +13,11 @@ import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
  */
 @FunctionalInterface
 public interface Marshaller<T> {
-	static final String ISO_8601_GMT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-	
-	/**
+    static final String ISO_8601_GMT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    
+    /**
      * Returns string version of obj.
      * @throws FHIRPersistenceException
      */
-	String marshall(T obj) throws FHIROperationException;;
+    String marshall(T obj) throws FHIROperationException;;
 }

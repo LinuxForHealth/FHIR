@@ -14,21 +14,21 @@ import com.google.gson.annotations.SerializedName;
  *
  */
 public class ConfigData {
-	
-	@SerializedName("server_startup_parameters")
-	private String serverStartupParms;
+    
+    @SerializedName("server_startup_parameters")
+    private String serverStartupParms;
 
-	public String getServerStartupParms() {
-		return serverStartupParms;
-	}
+    public String getServerStartupParms() {
+        return serverStartupParms;
+    }
 
-	public void setServerStartupParms(String serverStartupParms) {
-		this.serverStartupParms = serverStartupParms;
-	}
-	
-	public ConfigData withServerStartupParms(String serverStartupParms) {
-		this.serverStartupParms = serverStartupParms;
-		return this;
-	}
+    public void setServerStartupParms(String serverStartupParms) {
+        this.serverStartupParms = serverStartupParms;
+    }
+    
+    public ConfigData withServerStartupParms(String serverStartupParms) {
+        this.serverStartupParms = serverStartupParms;
+        return this;
+    }
 
 }

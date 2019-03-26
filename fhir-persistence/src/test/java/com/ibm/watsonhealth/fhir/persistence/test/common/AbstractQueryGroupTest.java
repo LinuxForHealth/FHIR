@@ -28,7 +28,7 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *  There will be a subclass in each persistence project.
  */
 public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
-	
+    
     /**
      * Tests the FHIRPersistenceCloudantImpl create API for a Group.
      * 
@@ -36,9 +36,9 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateGroup() throws Exception {
-    	Group group = readResource(Group.class, "group-example-member.canonical.json");
+        Group group = readResource(Group.class, "group-example-member.canonical.json");
 
-    	persistence.create(getDefaultPersistenceContext(), group);
+        persistence.create(getDefaultPersistenceContext(), group);
         assertNotNull(group);
         assertNotNull(group.getId());
         assertNotNull(group.getId().getValue());
@@ -46,113 +46,113 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
         assertNotNull(group.getMeta().getVersionId().getValue());
         assertEquals("1", group.getMeta().getVersionId().getValue());
     } 
-	
-	/**
-	 * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupQuery_noParams() throws Exception {
-		List<Resource> resources = runQueryTest(Group.class, persistence, null, null);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-	}	
-	
-	/**
-	 * Tests a query for a Group with member = 'Patient/pat1' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupQuery_member1() throws Exception {
-		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat1");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Group)resources.get(0)).getMember().get(0).getEntity().getReference().getValue(),"Patient/pat1");
-	}
-	
-	/**
-	 * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupQuery_member2() throws Exception {
-		List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat4");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Group)resources.get(0)).getMember().get(3).getEntity().getReference().getValue(),"Patient/pat4");
-	}
-	
-	/*
-	 * Pagination Testcases
-	 */
-	
-	/**
-	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
-	 * 
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupPagination_001() throws Exception {
-		
-		Class<? extends Resource> resourceType = Group.class;
+    
+    /**
+     * Tests a query with a resource type but without any query parameters. This should yield all the resources created so far.
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
+    public void testGroupQuery_noParams() throws Exception {
+        List<Resource> resources = runQueryTest(Group.class, persistence, null, null);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+    }    
+    
+    /**
+     * Tests a query for a Group with member = 'Patient/pat1' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
+    public void testGroupQuery_member1() throws Exception {
+        List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat1");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Group)resources.get(0)).getMember().get(0).getEntity().getReference().getValue(),"Patient/pat1");
+    }
+    
+    /**
+     * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
+    public void testGroupQuery_member2() throws Exception {
+        List<Resource> resources = runQueryTest(Group.class, persistence, "member", "Patient/pat4");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Group)resources.get(0)).getMember().get(3).getEntity().getReference().getValue(),"Patient/pat4");
+    }
+    
+    /*
+     * Pagination Testcases
+     */
+    
+    /**
+     * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+     * 
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
+    public void testGroupPagination_001() throws Exception {
+        
+        Class<? extends Resource> resourceType = Group.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
-	/**
-	 * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupPagination_002() throws Exception {
-		
-		String parmName = "member";
-		String parmValue = "Patient/pat4";
-		Class<? extends Resource> resourceType = Group.class;
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
+    
+    /**
+     * Tests a query for a Group with member = 'Patient/pat4' which should yield correct results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
+    public void testGroupPagination_002() throws Exception {
+        
+        String parmName = "member";
+        String parmValue = "Patient/pat4";
+        Class<? extends Resource> resourceType = Group.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Group)resources.get(0)).getMember().get(3).getEntity().getReference().getValue(),"Patient/pat4");
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
-	/**
-	 * Tests a query for a Group with member = 'Patint/pat4' which should yield no results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
-	public void testGroupPagination_003() throws Exception {
-		
-		String parmName = "member";
-		String parmValue = "Patint/pat4";
-		Class<? extends Resource> resourceType = Group.class;
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Group)resources.get(0)).getMember().get(3).getEntity().getReference().getValue(),"Patient/pat4");
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
+    
+    /**
+     * Tests a query for a Group with member = 'Patint/pat4' which should yield no results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateGroup" })
+    public void testGroupPagination_003() throws Exception {
+        
+        String parmName = "member";
+        String parmValue = "Patint/pat4";
+        Class<? extends Resource> resourceType = Group.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-		long count = context.getTotalCount();
-//		int lastPgNum = context.getLastPageNumber();
-		assertTrue((count == 0)/* && (lastPgNum == Integer.MAX_VALUE)*/);
-	}
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+        long count = context.getTotalCount();
+//        int lastPgNum = context.getLastPageNumber();
+        assertTrue((count == 0)/* && (lastPgNum == Integer.MAX_VALUE)*/);
+    }
 }

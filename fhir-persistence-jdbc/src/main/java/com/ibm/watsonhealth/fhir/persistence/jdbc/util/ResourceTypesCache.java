@@ -24,18 +24,18 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
  */
 
 public class ResourceTypesCache {
-	private static final String CLASSNAME = ResourceTypesCache.class.getName(); 
-	private static final Logger log = Logger.getLogger(CLASSNAME);
-	
-	private static boolean enabled = true;
+    private static final String CLASSNAME = ResourceTypesCache.class.getName(); 
+    private static final Logger log = Logger.getLogger(CLASSNAME);
+    
+    private static boolean enabled = true;
 
-	/**
-	 * The following is a map of resource type maps. Each FHIR tenant/datastore combination will have its own
-	 * mapping of resource-type to resource-type-id.
-	 */
-	private static ConcurrentHashMap<String,ConcurrentHashMap<String,Integer>> resourceTypeIdMaps = new ConcurrentHashMap<>();
-	
-	/**
+    /**
+     * The following is a map of resource type maps. Each FHIR tenant/datastore combination will have its own
+     * mapping of resource-type to resource-type-id.
+     */
+    private static ConcurrentHashMap<String,ConcurrentHashMap<String,Integer>> resourceTypeIdMaps = new ConcurrentHashMap<>();
+    
+    /**
      * Retrieves the id for the name contained in the passed resource type, for the current tenant-datastore. 
      * If not found, null is returned.
      * @param parameterName A valid FHIR search parameter name.
@@ -58,21 +58,21 @@ public class ResourceTypesCache {
         
         return resourceTypeId;
     }
-	
-	/**
-	 * Returns a String containing a combination of the current tenantId and datastoreId.
-	 * @return
-	 */
-	public static String getCacheNameForTenantDatastore() {
-		
-		StringBuilder cacheName = new StringBuilder();
-		cacheName.append(FHIRRequestContext.get().getTenantId())
-				 .append("~")
-				 .append(FHIRRequestContext.get().getDataStoreId());
-		return cacheName.toString();
-	}
+    
+    /**
+     * Returns a String containing a combination of the current tenantId and datastoreId.
+     * @return
+     */
+    public static String getCacheNameForTenantDatastore() {
+        
+        StringBuilder cacheName = new StringBuilder();
+        cacheName.append(FHIRRequestContext.get().getTenantId())
+                 .append("~")
+                 .append(FHIRRequestContext.get().getDataStoreId());
+        return cacheName.toString();
+    }
 
-	/**
+    /**
      * Adds the passed resource type name and id to the current tenant-datastore cache.
      * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
      * @param resourceType A valid resource type name.

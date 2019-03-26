@@ -17,39 +17,39 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBCon
  */
 public interface FHIRDbDAO {
 
-	String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirDB";
-	String PROPERTY_DB_DRIVER = "dbDriverName";
-	String PROPERTY_DB_URL = "dbUrl";
-	String PROPERTY_SCHEMA_TYPE = "schemaType";
-	String PROPERTY_DB2_USER = "user";
-	String PROPERTY_DB2_PSWD = "password";
+    String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirDB";
+    String PROPERTY_DB_DRIVER = "dbDriverName";
+    String PROPERTY_DB_URL = "dbUrl";
+    String PROPERTY_SCHEMA_TYPE = "schemaType";
+    String PROPERTY_DB2_USER = "user";
+    String PROPERTY_DB2_PSWD = "password";
 
-	/**
-	 * Acquires and returns a JDBC database connection to the FHIR database.
-	 * If no DB Properties are available, an attempt is made to acquire the connection via a Datasource obtained via JNDI.
-	 * If DB Properties are present, those properties are used to build the Connection. 
-	 * @return Connection - A connection to the FHIR database.
-	 * @throws FHIRPersistenceDBConnectException
-	 */
-	Connection getConnection() throws FHIRPersistenceDBConnectException;
-	
-	/**
-	 * Returns a previously set externally managed DB connection, used by the DAO for all DB activity.
-	 * @return Connection
-	 */
-	Connection getExternalConnection();
-	
-	/**
-	 * Sets an externally managed DB connection, used by the DAO for all DB activity.
-	 * @param connection
-	 */
-	void setExternalConnection(Connection connection);
-	
-	/**
-	 * 
-	 * @return true if this DAO is connected to a DB2 database.
-	 * @throws Exception
-	 */
-	boolean isDb2Database() throws Exception;
+    /**
+     * Acquires and returns a JDBC database connection to the FHIR database.
+     * If no DB Properties are available, an attempt is made to acquire the connection via a Datasource obtained via JNDI.
+     * If DB Properties are present, those properties are used to build the Connection. 
+     * @return Connection - A connection to the FHIR database.
+     * @throws FHIRPersistenceDBConnectException
+     */
+    Connection getConnection() throws FHIRPersistenceDBConnectException;
+    
+    /**
+     * Returns a previously set externally managed DB connection, used by the DAO for all DB activity.
+     * @return Connection
+     */
+    Connection getExternalConnection();
+    
+    /**
+     * Sets an externally managed DB connection, used by the DAO for all DB activity.
+     * @param connection
+     */
+    void setExternalConnection(Connection connection);
+    
+    /**
+     * 
+     * @return true if this DAO is connected to a DB2 database.
+     * @throws Exception
+     */
+    boolean isDb2Database() throws Exception;
 
 }

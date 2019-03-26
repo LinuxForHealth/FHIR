@@ -30,7 +30,7 @@ import com.ibm.watsonhealth.fhir.model.Resource;
  *  ImmunizationRecommendation chosen because it is one of the only resources with a search parameter of type number.
  */
 public abstract class AbstractQueryImmunizationRecommendationTest extends AbstractPersistenceTest {
-	
+    
     /**
      * Creates an ImmunicationRecommendation
      * @throws Exception

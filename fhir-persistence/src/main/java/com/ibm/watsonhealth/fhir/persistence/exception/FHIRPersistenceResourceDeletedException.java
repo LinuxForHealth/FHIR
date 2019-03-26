@@ -11,17 +11,17 @@ import java.util.Collection;
 import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
 
 public class FHIRPersistenceResourceDeletedException extends FHIRPersistenceException {
-	private static final long serialVersionUID = 1L;
-	
-	public FHIRPersistenceResourceDeletedException(String message) {
-		super(message);
-	}
-	
-	public FHIRPersistenceResourceDeletedException(String message, Throwable cause) {
-	    super(message, cause);
-	}
+    private static final long serialVersionUID = 1L;
     
-	@Override
+    public FHIRPersistenceResourceDeletedException(String message) {
+        super(message);
+    }
+    
+    public FHIRPersistenceResourceDeletedException(String message, Throwable cause) {
+        super(message, cause);
+    }
+    
+    @Override
     public FHIRPersistenceException withIssue(OperationOutcomeIssue... issues) {
         super.withIssue(issues);
         return this;

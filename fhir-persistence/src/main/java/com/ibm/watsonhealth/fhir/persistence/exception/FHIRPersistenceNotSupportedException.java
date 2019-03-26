@@ -17,17 +17,17 @@ import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
  */
 public class FHIRPersistenceNotSupportedException extends FHIRPersistenceException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public FHIRPersistenceNotSupportedException(String message) {
-		super(message);
-	}
+    public FHIRPersistenceNotSupportedException(String message) {
+        super(message);
+    }
 
-	public FHIRPersistenceNotSupportedException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public FHIRPersistenceNotSupportedException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	@Override
+    @Override
     public FHIRPersistenceException withIssue(OperationOutcomeIssue... issues) {
         super.withIssue(issues);
         return this;

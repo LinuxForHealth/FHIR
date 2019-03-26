@@ -1037,7 +1037,7 @@ public class SearchUtil {
             } else if (name.startsWith("_include") || name.startsWith("_revinclude")) {
                 parseInclusionParameter(resourceType, context, name, values, queryString);
             } else if ("_elements".equals(name)) {
-            	parseElementsParameter(resourceType, context, values);
+                parseElementsParameter(resourceType, context, values);
             }
         } catch (FHIRSearchException e) {
             throw e;
@@ -1372,14 +1372,14 @@ public class SearchUtil {
      * @throws Exception
      */
     private static void parseElementsParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, List<String> elementsList) throws Exception {
-    	
-    	Set<String> resourceFieldNames = FHIRUtil.getFieldNames(resourceType.getSimpleName());
-    	    	
-    	for (String elementName: elementsList) {
-    		if (elementName.startsWith("_") || !resourceFieldNames.contains(elementName)) {
-    			throw buildInvalidSearchException("Invalid element name: " + elementName);
-    		}
-    		context.getElementsParameters().add(elementName);
-    	}
+        
+        Set<String> resourceFieldNames = FHIRUtil.getFieldNames(resourceType.getSimpleName());
+                
+        for (String elementName: elementsList) {
+            if (elementName.startsWith("_") || !resourceFieldNames.contains(elementName)) {
+                throw buildInvalidSearchException("Invalid element name: " + elementName);
+            }
+            context.getElementsParameters().add(elementName);
+        }
     }
 }

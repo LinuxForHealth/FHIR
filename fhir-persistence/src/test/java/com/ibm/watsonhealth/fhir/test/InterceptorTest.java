@@ -73,8 +73,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testBeforeRead() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
         
@@ -86,8 +86,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testAfterRead() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
         
@@ -102,8 +102,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testBeforeVread() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "1");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
@@ -116,8 +116,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testAfterVread() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "1");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
@@ -131,8 +131,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testBeforeHistory() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
         
@@ -144,8 +144,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testAfterHistory() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "123");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
         
@@ -159,8 +159,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testBeforeSearch() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
         
         mgr.fireBeforeSearchEvent(event);
@@ -171,8 +171,8 @@ public class InterceptorTest extends FHIRModelTestBase {
     
     @Test
     public void testAfterSearch() throws Exception {
-    	Map<String, Object> properties = new HashMap<String, Object>();
-    	properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient1");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
         
         mgr.fireAfterSearchEvent(event);

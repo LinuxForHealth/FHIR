@@ -33,34 +33,34 @@ public class ReplicationUtil {
     private static final String EXTURL_RESOURCENAME = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/resourceName";
     private static final String EXTURL_INTIDENTIFIER = "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/intIdentifier";
     
-	/**
-	 * Adds the first patientId, siteId, and studyId contained in the passed Resource to the ReplicationInfo contained in the 
-	 * passed persistence context. 
-	 * @param context A valid persistence context object
-	 * @param resource A valid FHIRResource
-	 */
-	public static void addExtensionDataToRepInfo(FHIRPersistenceContext context, Resource resource) {
-		ReplicationInfo repInfo;
-		String patientId = null;
-		String siteId = null;
-		String studyId = null;
-				 
-		repInfo = (ReplicationInfo)context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
-		if (repInfo != null) {
-			patientId = FHIRUtil.getExtensionStringValue(resource, EXTURL_PATIENT_ID);
-			if (patientId != null) {
-			    repInfo.setPatientId(patientId);
-			}
-			siteId = FHIRUtil.getExtensionStringValue(resource, EXTURL_SITE_ID);
-			if (siteId != null) {
-			    repInfo.setSiteId(siteId);
-			}
-			studyId = FHIRUtil.getExtensionStringValue(resource, EXTURL_STUDY_ID);
-			if (studyId != null) {
-			    repInfo.setStudyId(studyId);
-			}
-		}
-	}
+    /**
+     * Adds the first patientId, siteId, and studyId contained in the passed Resource to the ReplicationInfo contained in the 
+     * passed persistence context. 
+     * @param context A valid persistence context object
+     * @param resource A valid FHIRResource
+     */
+    public static void addExtensionDataToRepInfo(FHIRPersistenceContext context, Resource resource) {
+        ReplicationInfo repInfo;
+        String patientId = null;
+        String siteId = null;
+        String studyId = null;
+                 
+        repInfo = (ReplicationInfo)context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
+        if (repInfo != null) {
+            patientId = FHIRUtil.getExtensionStringValue(resource, EXTURL_PATIENT_ID);
+            if (patientId != null) {
+                repInfo.setPatientId(patientId);
+            }
+            siteId = FHIRUtil.getExtensionStringValue(resource, EXTURL_SITE_ID);
+            if (siteId != null) {
+                repInfo.setSiteId(siteId);
+            }
+            studyId = FHIRUtil.getExtensionStringValue(resource, EXTURL_STUDY_ID);
+            if (studyId != null) {
+                repInfo.setStudyId(studyId);
+            }
+        }
+    }
 
 
     /**

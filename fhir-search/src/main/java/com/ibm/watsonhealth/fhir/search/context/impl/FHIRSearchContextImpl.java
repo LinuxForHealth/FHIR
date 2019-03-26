@@ -16,7 +16,7 @@ import com.ibm.watsonhealth.fhir.search.SortParameter;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
-	
+    
     private List<Parameter> searchParameters = new ArrayList<>(); 
     private List<SortParameter> sortParameters = new ArrayList<>();
     private List<InclusionParameter> includeParameters = new ArrayList<>();
@@ -37,49 +37,49 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
         this.searchParameters = searchParameters;
     }
 
-	@Override
-	public List<SortParameter> getSortParameters() {
-		return this.sortParameters;
-	}
+    @Override
+    public List<SortParameter> getSortParameters() {
+        return this.sortParameters;
+    }
 
-	@Override
-	public void setSortParameters(List<SortParameter> sortParameters) {
-		this.sortParameters = sortParameters;
-	}
+    @Override
+    public void setSortParameters(List<SortParameter> sortParameters) {
+        this.sortParameters = sortParameters;
+    }
 
-	@Override
-	public boolean hasSortParameters() {
-		
-		return this.sortParameters != null && !this.sortParameters.isEmpty();
-	}
+    @Override
+    public boolean hasSortParameters() {
+        
+        return this.sortParameters != null && !this.sortParameters.isEmpty();
+    }
 
-	@Override
-	public List<InclusionParameter> getIncludeParameters() {
-		return this.includeParameters;
-	}
+    @Override
+    public List<InclusionParameter> getIncludeParameters() {
+        return this.includeParameters;
+    }
 
-	@Override
-	public boolean hasIncludeParameters() {
-		return this.includeParameters != null && !this.includeParameters.isEmpty();
-	}
-	
-	@Override
-	public List<InclusionParameter> getRevIncludeParameters() {
-		return this.revIncludeParameters;
-	}
+    @Override
+    public boolean hasIncludeParameters() {
+        return this.includeParameters != null && !this.includeParameters.isEmpty();
+    }
+    
+    @Override
+    public List<InclusionParameter> getRevIncludeParameters() {
+        return this.revIncludeParameters;
+    }
 
-	@Override
-	public boolean hasRevIncludeParameters() {
-		return this.revIncludeParameters != null && !this.revIncludeParameters.isEmpty();
-	}
+    @Override
+    public boolean hasRevIncludeParameters() {
+        return this.revIncludeParameters != null && !this.revIncludeParameters.isEmpty();
+    }
 
-	@Override
-	public List<String> getElementsParameters() {
-		return this.elementsParameters;
-	}
+    @Override
+    public List<String> getElementsParameters() {
+        return this.elementsParameters;
+    }
 
-	@Override
-	public boolean hasElementsParameters() {
-		return this.elementsParameters != null && !this.elementsParameters.isEmpty();
-	}
+    @Override
+    public boolean hasElementsParameters() {
+        return this.elementsParameters != null && !this.elementsParameters.isEmpty();
+    }
 }

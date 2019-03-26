@@ -13,7 +13,7 @@ import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 import com.ibm.watsonhealth.fhir.model.Instant;
 
 public interface FHIRHistoryContext extends FHIRPagingContext {
-	
+    
     Instant getSince();
     void setSince(Instant since);
     

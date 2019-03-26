@@ -362,7 +362,7 @@ public class SearchTest extends FHIRServerTestBase {
     }
     
     @SuppressWarnings("rawtypes")
-	@Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservationWithRange" })
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservationWithRange" })
     public void test_SearchObservationObservationWithRange_filter_elements() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("value-range", "5.0|http://loinc.org|v15074-8");
@@ -385,24 +385,24 @@ public class SearchTest extends FHIRServerTestBase {
         // Verify that only the requested elements were returned in the Observation.
         Method[] observationMethods = Observation.class.getMethods();
         for (int i = 0; i < observationMethods.length; i++) {
-        	Method obsMethod = observationMethods[i];
-        	if (obsMethod.getName().startsWith("get")) {
-        		Object elementValue = obsMethod.invoke(retrievedObservation);
-        		if (obsMethod.getName().equals("getId") ||
-        		    obsMethod.getName().equals("getMeta") ||
-        		    obsMethod.getName().equals("getStatus") ||
-        		    obsMethod.getName().equals("getCategory")) {
-        			assertNotNull(elementValue);
-        		}
-        		else if (! obsMethod.getName().equals("getClass")) {
-        			 if (elementValue instanceof List) {
-        				 assertEquals(0,((List)elementValue).size());
-	        		 }
-	        		 else {
-	        			 assertNull(elementValue);
-	        		 }
-	        	}
-        	}
+            Method obsMethod = observationMethods[i];
+            if (obsMethod.getName().startsWith("get")) {
+                Object elementValue = obsMethod.invoke(retrievedObservation);
+                if (obsMethod.getName().equals("getId") ||
+                    obsMethod.getName().equals("getMeta") ||
+                    obsMethod.getName().equals("getStatus") ||
+                    obsMethod.getName().equals("getCategory")) {
+                    assertNotNull(elementValue);
+                }
+                else if (! obsMethod.getName().equals("getClass")) {
+                     if (elementValue instanceof List) {
+                         assertEquals(0,((List)elementValue).size());
+                     }
+                     else {
+                         assertNull(elementValue);
+                     }
+                }
+            }
         }
     }
     
@@ -473,8 +473,8 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchObservationWithSubjectIncluded() {
         WebTarget target = getWebTarget();
         Response response = target.path("Observation")
-        		.queryParam("subject", "Patient/" + patientId)
-        		.queryParam("_include", "Observation:subject")
+                .queryParam("subject", "Patient/" + patientId)
+                .queryParam("_include", "Observation:subject")
                 .request(MediaType.APPLICATION_JSON_FHIR)
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .get();
@@ -485,12 +485,12 @@ public class SearchTest extends FHIRServerTestBase {
         Observation observation = null;
         Patient patient = null;
         for (BundleEntry entry : bundle.getEntry()) {
-        	if (entry.getResource().getObservation() != null) {
-        		observation = entry.getResource().getObservation();
-        	}
-        	else if (entry.getResource().getPatient() != null) {
-        		patient = entry.getResource().getPatient();
-        	}
+            if (entry.getResource().getObservation() != null) {
+                observation = entry.getResource().getObservation();
+            }
+            else if (entry.getResource().getPatient() != null) {
+                patient = entry.getResource().getPatient();
+            }
         }
         assertNotNull(observation);
         assertNotNull(patient);
@@ -499,13 +499,13 @@ public class SearchTest extends FHIRServerTestBase {
     }
     
     @SuppressWarnings("rawtypes")
-	@Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
     public void testSearchObservationWithSubjectIncluded_filter_elements() throws Exception {
         WebTarget target = getWebTarget();
         Response response = target.path("Observation")
-        		.queryParam("subject", "Patient/" + patientId)
-        		.queryParam("_include", "Observation:subject")
-        		.queryParam("_elements", "status", "category", "subject")
+                .queryParam("subject", "Patient/" + patientId)
+                .queryParam("_include", "Observation:subject")
+                .queryParam("_elements", "status", "category", "subject")
                 .request(MediaType.APPLICATION_JSON_FHIR)
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .get();
@@ -519,37 +519,37 @@ public class SearchTest extends FHIRServerTestBase {
         Observation observation = null;
         Patient patient = null;
         for (BundleEntry entry : bundle.getEntry()) {
-        	if (entry.getResource().getObservation() != null) {
-        		observation = entry.getResource().getObservation();
-        	}
-        	else if (entry.getResource().getPatient() != null) {
-        		patient = entry.getResource().getPatient();
-        	}
+            if (entry.getResource().getObservation() != null) {
+                observation = entry.getResource().getObservation();
+            }
+            else if (entry.getResource().getPatient() != null) {
+                patient = entry.getResource().getPatient();
+            }
         }
         assertNotNull(observation);
         assertTrue(FHIRUtil.containsTag(observation, subsettedTag));
         // Verify that only the requested elements are present in the returned Observation.
         Method[] observationMethods = Observation.class.getMethods();
         for (int i = 0; i < observationMethods.length; i++) {
-        	Method obsMethod = observationMethods[i];
-        	if (obsMethod.getName().startsWith("get")) {
-        		Object elementValue = obsMethod.invoke(observation);
-        		if (obsMethod.getName().equals("getId") ||
-        		    obsMethod.getName().equals("getMeta") ||
-        		    obsMethod.getName().equals("getStatus") ||
-        		    obsMethod.getName().equals("getSubject") ||
-        		    obsMethod.getName().equals("getCategory")) {
-        			assertNotNull(elementValue);
-        		}
-        		else if (! obsMethod.getName().equals("getClass")) {
-        			 if (elementValue instanceof List) {
-        				 assertEquals(0,((List)elementValue).size());
-	        		 }
-	        		 else {
-	        			 assertNull(elementValue);
-	        		 }
-	        	}
-        	}
+            Method obsMethod = observationMethods[i];
+            if (obsMethod.getName().startsWith("get")) {
+                Object elementValue = obsMethod.invoke(observation);
+                if (obsMethod.getName().equals("getId") ||
+                    obsMethod.getName().equals("getMeta") ||
+                    obsMethod.getName().equals("getStatus") ||
+                    obsMethod.getName().equals("getSubject") ||
+                    obsMethod.getName().equals("getCategory")) {
+                    assertNotNull(elementValue);
+                }
+                else if (! obsMethod.getName().equals("getClass")) {
+                     if (elementValue instanceof List) {
+                         assertEquals(0,((List)elementValue).size());
+                     }
+                     else {
+                         assertNull(elementValue);
+                     }
+                }
+            }
         }
         
         assertNotNull(patient);
@@ -562,8 +562,8 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchPatientWithObservationRevIncluded() {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient")
-        		.queryParam("_id", patientId)
-        		.queryParam("_revinclude", "Observation:patient")
+                .queryParam("_id", patientId)
+                .queryParam("_revinclude", "Observation:patient")
                 .request(MediaType.APPLICATION_JSON_FHIR)
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .get();
@@ -574,12 +574,12 @@ public class SearchTest extends FHIRServerTestBase {
         Observation observation = null;
         Patient patient = null;
         for (BundleEntry entry : bundle.getEntry()) {
-        	if (entry.getResource().getObservation() != null) {
-        		observation = entry.getResource().getObservation();
-        	}
-        	else if (entry.getResource().getPatient() != null) {
-        		patient = entry.getResource().getPatient();
-        	}
+            if (entry.getResource().getObservation() != null) {
+                observation = entry.getResource().getObservation();
+            }
+            else if (entry.getResource().getPatient() != null) {
+                patient = entry.getResource().getPatient();
+            }
         }
         assertNotNull(observation);
         assertNotNull(patient);

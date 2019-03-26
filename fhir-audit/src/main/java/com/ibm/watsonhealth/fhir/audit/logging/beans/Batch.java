@@ -14,74 +14,74 @@ import org.codehaus.jackson.annotate.JsonProperty;
  *
  */
 public class Batch {
-	
-	private String status;
-	
-	@JsonProperty("resources_read")
-	private Long resourcesRead;
-	
-	@JsonProperty("resources_created")
-	private Long resourcesCreated;
-	
-	@JsonProperty("resources_updated")
-	private Long resourcesUpdated;
-	
-	public Batch() {
-		super();
-	}
+    
+    private String status;
+    
+    @JsonProperty("resources_read")
+    private Long resourcesRead;
+    
+    @JsonProperty("resources_created")
+    private Long resourcesCreated;
+    
+    @JsonProperty("resources_updated")
+    private Long resourcesUpdated;
+    
+    public Batch() {
+        super();
+    }
 
 
-	public String getStatus() {
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 
-	public Long getResourcesRead() {
-		return resourcesRead;
-	}
+    public Long getResourcesRead() {
+        return resourcesRead;
+    }
 
-	
-	public void setResourcesRead(Long recsRead) {
-		this.resourcesRead = recsRead;
-	}
-	
-	public Batch withResourcesRead(Long recsRead) {
-		this.resourcesRead = recsRead;
-		return this;
-	}
-	
-	public Long getResourcesCreated() {
-		return resourcesCreated;
-	}
-
-
-	public void setResourcesCreated(Long recsCreated) {
-		this.resourcesCreated = recsCreated;
-	}
-	
-	public Batch withResourcesCreated(Long recsCreated) {
-		this.resourcesCreated = recsCreated;
-		return this;
-	}
+    
+    public void setResourcesRead(Long recsRead) {
+        this.resourcesRead = recsRead;
+    }
+    
+    public Batch withResourcesRead(Long recsRead) {
+        this.resourcesRead = recsRead;
+        return this;
+    }
+    
+    public Long getResourcesCreated() {
+        return resourcesCreated;
+    }
 
 
-	public Long getResourcesUpdated() {
-		return resourcesUpdated;
-	}
+    public void setResourcesCreated(Long recsCreated) {
+        this.resourcesCreated = recsCreated;
+    }
+    
+    public Batch withResourcesCreated(Long recsCreated) {
+        this.resourcesCreated = recsCreated;
+        return this;
+    }
 
 
-	public void setResourcesUpdated(Long resourcesUpdated) {
-		this.resourcesUpdated = resourcesUpdated;
-	}
-	
-	public Batch withResourcesUpdated(Long resourcesUpdated) {
-		this.resourcesUpdated = resourcesUpdated;
-		return this;
-	}
+    public Long getResourcesUpdated() {
+        return resourcesUpdated;
+    }
+
+
+    public void setResourcesUpdated(Long resourcesUpdated) {
+        this.resourcesUpdated = resourcesUpdated;
+    }
+    
+    public Batch withResourcesUpdated(Long resourcesUpdated) {
+        this.resourcesUpdated = resourcesUpdated;
+        return this;
+    }
 
 }

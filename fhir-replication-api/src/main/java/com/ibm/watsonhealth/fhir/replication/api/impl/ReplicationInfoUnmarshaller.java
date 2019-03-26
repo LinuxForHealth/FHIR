@@ -13,16 +13,16 @@ import com.ibm.watsonhealth.fhir.replication.api.Unmarshaller;
 import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
 
 public class ReplicationInfoUnmarshaller implements Unmarshaller<ReplicationInfo>{
-	@Override
-	public ReplicationInfo unmarshall(String json) throws FHIROperationException {
-		final Gson gson = new GsonBuilder()
-				   .setDateFormat(ISO_8601_GMT_DATE_FORMAT).create();
-		
-		if(json == null || json.isEmpty()) {
-			throw new FHIROperationException("Error while unmarshalling ReplicationInfo. Obj cannot be null.");
-		}
-			
-		return gson.fromJson(json, ReplicationInfo.class);
-	}
+    @Override
+    public ReplicationInfo unmarshall(String json) throws FHIROperationException {
+        final Gson gson = new GsonBuilder()
+                   .setDateFormat(ISO_8601_GMT_DATE_FORMAT).create();
+        
+        if(json == null || json.isEmpty()) {
+            throw new FHIROperationException("Error while unmarshalling ReplicationInfo. Obj cannot be null.");
+        }
+            
+        return gson.fromJson(json, ReplicationInfo.class);
+    }
 
 }

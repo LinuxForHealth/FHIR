@@ -18,124 +18,124 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
  */
 @JsonPropertyOrder({"request_unique_id", "action", "operation_name", "purpose", "resource_name", "start_time", "end_time", "api_parameters", "query", "data", "batch" })
 public class Context {
-	
+    
     @JsonProperty("request_unique_id")
     private String requestUniqueId;
     
-	@JsonProperty("data")
-	private Data data;
-	
-	@JsonProperty("action")
-	private String action;
-	
-	@JsonProperty("operation_name")
-	private String operationName;
-	
-	@JsonProperty("query_parameters")
-	private String queryParameters;
-	
-	@JsonProperty("purpose")
-	private String purpose;
-	
-	@JsonProperty("resource_name")
-	private String resourceName;
-	
-	@JsonProperty("start_time")
-	private String startTime;
-	
-	@JsonProperty("end_time")
-	private String endTime;
-	
-	@JsonProperty("api_parameters")
-	private ApiParameters apiParameters;
-	
-	@JsonProperty("batch")
-	private Batch batch;
+    @JsonProperty("data")
+    private Data data;
+    
+    @JsonProperty("action")
+    private String action;
+    
+    @JsonProperty("operation_name")
+    private String operationName;
+    
+    @JsonProperty("query_parameters")
+    private String queryParameters;
+    
+    @JsonProperty("purpose")
+    private String purpose;
+    
+    @JsonProperty("resource_name")
+    private String resourceName;
+    
+    @JsonProperty("start_time")
+    private String startTime;
+    
+    @JsonProperty("end_time")
+    private String endTime;
+    
+    @JsonProperty("api_parameters")
+    private ApiParameters apiParameters;
+    
+    @JsonProperty("batch")
+    private Batch batch;
 
 
-	public Context() {
-		super();
-	}
+    public Context() {
+        super();
+    }
 
 
-	public Data getData() {
-		return data;
-	}
+    public Data getData() {
+        return data;
+    }
 
 
-	public void setData(Data data) {
-		this.data = data;
-	}
+    public void setData(Data data) {
+        this.data = data;
+    }
 
 
-	public String getAction() {
-		return action;
-	}
+    public String getAction() {
+        return action;
+    }
 
 
-	public void setAction(String action) {
-		this.action = action;
-	}
+    public void setAction(String action) {
+        this.action = action;
+    }
 
 
-	public String getQueryParameters() {
-		return queryParameters;
-	}
+    public String getQueryParameters() {
+        return queryParameters;
+    }
 
 
-	public void setQueryParameters(String queryParms) {
-		this.queryParameters = queryParms;
-	}
+    public void setQueryParameters(String queryParms) {
+        this.queryParameters = queryParms;
+    }
 
 
-	public String getStartTime() {
-		return startTime;
-	}
+    public String getStartTime() {
+        return startTime;
+    }
 
 
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
 
 
-	public String getEndTime() {
-		return endTime;
-	}
+    public String getEndTime() {
+        return endTime;
+    }
 
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
 
-	public ApiParameters getApiParameters() {
-		return apiParameters;
-	}
+    public ApiParameters getApiParameters() {
+        return apiParameters;
+    }
 
 
-	public void setApiParameters(ApiParameters apiParameters) {
-		this.apiParameters = apiParameters;
-	}
+    public void setApiParameters(ApiParameters apiParameters) {
+        this.apiParameters = apiParameters;
+    }
 
 
-	public Batch getBatch() {
-		return batch;
-	}
+    public Batch getBatch() {
+        return batch;
+    }
 
 
-	public void setBatch(Batch batch) {
-		this.batch = batch;
-	}
+    public void setBatch(Batch batch) {
+        this.batch = batch;
+    }
 
 
-	public String getPurpose() {
-		return purpose;
-	}
+    public String getPurpose() {
+        return purpose;
+    }
 
 
-	public void setPurpose(String purpose) {
-		this.purpose = purpose;
-	}
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
 
 
     public String getOperationName() {

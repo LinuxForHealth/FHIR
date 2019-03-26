@@ -33,11 +33,11 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *   
  */
 public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
-	
-		
+    
+        
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-    	
+        
         super.setUp();
         Patient patient;
         String patientFile;
@@ -45,44 +45,44 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         // Load 5 patients
         for (int i = 1; i <=5; i++) 
         {
-        	patientFile = "sortTest.patient" + i + ".json";
-        	patient = readResource(Patient.class, patientFile);
-        	if(persistence.isTransactional()) {
-        		persistence.getTransaction().begin();
-        	}
-         	persistence.create(getDefaultPersistenceContext(), patient);
-         	if(persistence.isTransactional()) {
-        		persistence.getTransaction().commit();
-        	}
-         	assertNotNull(patient);
-         	assertNotNull(patient.getId());
+            patientFile = "sortTest.patient" + i + ".json";
+            patient = readResource(Patient.class, patientFile);
+            if(persistence.isTransactional()) {
+                persistence.getTransaction().begin();
+            }
+             persistence.create(getDefaultPersistenceContext(), patient);
+             if(persistence.isTransactional()) {
+                persistence.getTransaction().commit();
+            }
+             assertNotNull(patient);
+             assertNotNull(patient.getId());
             assertNotNull(patient.getId().getValue());
         }
         
     }
-	     
+         
     /**
      * Tests a single ascending sort parameter on a Patient search.
      * @throws Exception
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
     public void testSingleSortParmAsc() throws Exception {
-			
-		Class<Patient> resourceType = Patient.class;
-		FHIRSearchContext searchContext;
-		FHIRPersistenceContext persistenceContext;
-		Map<String, List<String>> queryParameters = new HashMap<>();
-		String queryString;
-		Patient patient;
-		String currentFamilyName;
-		String previousFamilyName;
-			
-		queryString = "&deceased=false&_sort=family";
-		queryParameters.put("deceased", Collections.singletonList("false"));
-		queryParameters.put("_sort", Arrays.asList(new String[] {"family"}));
-				
-		searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
-		searchContext.setPageSize(100);
+            
+        Class<Patient> resourceType = Patient.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+        Patient patient;
+        String currentFamilyName;
+        String previousFamilyName;
+            
+        queryString = "&deceased=false&_sort=family";
+        queryParameters.put("deceased", Collections.singletonList("false"));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"family"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);
@@ -90,16 +90,16 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         
         previousFamilyName = null;
         for (Resource resource : resources) {
-        	patient = (Patient) resource;
-        	assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
-        	currentFamilyName = patient.getName().get(0).getFamily().get(0).getValue();
-        	assertNotNull(currentFamilyName);
-        	if (previousFamilyName != null) {
-        		assertTrue(currentFamilyName.compareTo(previousFamilyName) >= 0);
-        	}
-        	previousFamilyName = currentFamilyName;
+            patient = (Patient) resource;
+            assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
+            currentFamilyName = patient.getName().get(0).getFamily().get(0).getValue();
+            assertNotNull(currentFamilyName);
+            if (previousFamilyName != null) {
+                assertTrue(currentFamilyName.compareTo(previousFamilyName) >= 0);
+            }
+            previousFamilyName = currentFamilyName;
         }
-	}
+    }
     
     /**
      * Tests a single descending sort parameter on a Patient search.
@@ -107,22 +107,22 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
     public void testSingleSortParmDesc() throws Exception {
-			
-		Class<Patient> resourceType = Patient.class;
-		FHIRSearchContext searchContext;
-		FHIRPersistenceContext persistenceContext;
-		Map<String, List<String>> queryParameters = new HashMap<>();
-		String queryString;
-		Patient patient;
-		String currentFamilyName;
-		String previousFamilyName;
-			
-		queryString = "&deceased=false&_sort:desc=family";
-		queryParameters.put("deceased", Collections.singletonList("false"));
-		queryParameters.put("_sort:desc", Arrays.asList(new String[] {"family"}));
-				
-		searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
-		searchContext.setPageSize(100);
+            
+        Class<Patient> resourceType = Patient.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+        Patient patient;
+        String currentFamilyName;
+        String previousFamilyName;
+            
+        queryString = "&deceased=false&_sort:desc=family";
+        queryParameters.put("deceased", Collections.singletonList("false"));
+        queryParameters.put("_sort:desc", Arrays.asList(new String[] {"family"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);
@@ -130,16 +130,16 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         
         previousFamilyName = null;
         for (Resource resource : resources) {
-        	patient = (Patient) resource;
-        	assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
-        	currentFamilyName = patient.getName().get(0).getFamily().get(0).getValue();
-        	assertNotNull(currentFamilyName);
-        	if (previousFamilyName != null) {
-        		assertTrue(currentFamilyName.compareTo(previousFamilyName) <= 0);
-        	}
-        	previousFamilyName = currentFamilyName;
+            patient = (Patient) resource;
+            assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
+            currentFamilyName = patient.getName().get(0).getFamily().get(0).getValue();
+            assertNotNull(currentFamilyName);
+            if (previousFamilyName != null) {
+                assertTrue(currentFamilyName.compareTo(previousFamilyName) <= 0);
+            }
+            previousFamilyName = currentFamilyName;
         }
-	}
+    }
     
     /**
      * Tests an ascending sort parameter in combination with a descending sort parameter on a Patient search.
@@ -147,26 +147,26 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
     public void testMultiSortParms() throws Exception {
-			
-		Class<Patient> resourceType = Patient.class;
-		FHIRSearchContext searchContext;
-		FHIRPersistenceContext persistenceContext;
-		Map<String, List<String>> queryParameters = new HashMap<>();
-		String queryString;
-		Patient patient;
-		String currentOrg;
-		String previousOrg;
-		String currentPhoneNumber;
-		String previousPhoneNumber;
-			
-		queryString = "&deceased=false&careprovider=Organization/TheCommission&_sort:asc=organization&_sort:desc=telecom";
-		queryParameters.put("deceased", Collections.singletonList("false"));
-		queryParameters.put("careprovider", Collections.singletonList("Organization/TheCommission"));
-		queryParameters.put("_sort:asc", Collections.singletonList("organization"));
-		queryParameters.put("_sort:desc", Collections.singletonList("telecom"));
-				
-		searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
-		searchContext.setPageSize(100);
+            
+        Class<Patient> resourceType = Patient.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+        Patient patient;
+        String currentOrg;
+        String previousOrg;
+        String currentPhoneNumber;
+        String previousPhoneNumber;
+            
+        queryString = "&deceased=false&careprovider=Organization/TheCommission&_sort:asc=organization&_sort:desc=telecom";
+        queryParameters.put("deceased", Collections.singletonList("false"));
+        queryParameters.put("careprovider", Collections.singletonList("Organization/TheCommission"));
+        queryParameters.put("_sort:asc", Collections.singletonList("organization"));
+        queryParameters.put("_sort:desc", Collections.singletonList("telecom"));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);
@@ -175,22 +175,22 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         previousOrg = null;
         previousPhoneNumber = null;
         for (Resource resource : resources) {
-        	patient = (Patient) resource;
-        	assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
-        	currentOrg = patient.getManagingOrganization().getReference().getValue();
-        	assertNotNull(currentOrg);
-        	if (previousOrg != null) {
-        		assertTrue(currentOrg.compareTo(previousOrg) >= 0);
-        	}
-           	currentPhoneNumber = patient.getTelecom().get(0).getValue().getValue();
-        	assertNotNull(currentPhoneNumber);
-        	if (previousPhoneNumber != null && currentOrg.equals(previousOrg)) {
-        		assertTrue(currentPhoneNumber.compareTo(previousPhoneNumber) <= 0);
-        	}
-        	previousOrg = currentOrg;
-        	previousPhoneNumber = currentPhoneNumber;
+            patient = (Patient) resource;
+            assertFalse(patient.getDeceasedBoolean().isValue().booleanValue());
+            currentOrg = patient.getManagingOrganization().getReference().getValue();
+            assertNotNull(currentOrg);
+            if (previousOrg != null) {
+                assertTrue(currentOrg.compareTo(previousOrg) >= 0);
+            }
+               currentPhoneNumber = patient.getTelecom().get(0).getValue().getValue();
+            assertNotNull(currentPhoneNumber);
+            if (previousPhoneNumber != null && currentOrg.equals(previousOrg)) {
+                assertTrue(currentPhoneNumber.compareTo(previousPhoneNumber) <= 0);
+            }
+            previousOrg = currentOrg;
+            previousPhoneNumber = currentPhoneNumber;
         }
-	}
+    }
     
     /**
      * Tests a system-level search with a sort parameter not defined for the FHIR Resource type.

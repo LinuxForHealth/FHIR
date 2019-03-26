@@ -18,20 +18,20 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
  */
 public class FHIRPersistenceDBCleanupException extends FHIRPersistenceException {
 
-	private static final long serialVersionUID = -8350452448890342596L;
+    private static final long serialVersionUID = -8350452448890342596L;
 
-	
-	public FHIRPersistenceDBCleanupException(String message) {
-		super(message);
-		
-	}
+    
+    public FHIRPersistenceDBCleanupException(String message) {
+        super(message);
+        
+    }
 
-	public FHIRPersistenceDBCleanupException(String message, Throwable cause) {
-		super(message, cause);
-		
-	}
+    public FHIRPersistenceDBCleanupException(String message, Throwable cause) {
+        super(message, cause);
+        
+    }
 
-	@Override
+    @Override
     public FHIRPersistenceDBCleanupException withIssue(OperationOutcomeIssue... issues) {
         super.withIssue(issues);
         return this;

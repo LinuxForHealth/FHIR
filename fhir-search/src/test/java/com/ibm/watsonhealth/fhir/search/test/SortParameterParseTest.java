@@ -34,53 +34,53 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *
  */
 public class SortParameterParseTest {
-	
-	/**
-	 *  Tests an invalid direction modifier on the _sort query parameter.
-	 * @throws Exception
-	 */
+    
+    /**
+     *  Tests an invalid direction modifier on the _sort query parameter.
+     * @throws Exception
+     */
     @Test(expected = FHIRSearchException.class) 
     public void testInvalidDirection() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	FHIRSearchContext searchContext;
-    	Class<Patient> resourceType = Patient.class;
-    	String queryString = "&_sort:xxx=birthdate";
-    	
-    	queryParameters.put("_sort:xxx", Collections.singletonList("birthdate"));
+        FHIRSearchContext searchContext;
+        Class<Patient> resourceType = Patient.class;
+        String queryString = "&_sort:xxx=birthdate";
+        
+        queryParameters.put("_sort:xxx", Collections.singletonList("birthdate"));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(searchContext);
     }
     
     /**
-	 *  Tests an invalid sort parameter value.
-	 * @throws Exception
-	 */
+     *  Tests an invalid sort parameter value.
+     * @throws Exception
+     */
     @Test(expected = FHIRSearchException.class) 
     public void testInvalidSortParm() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	FHIRSearchContext searchContext;
-    	Class<Patient> resourceType = Patient.class;
-    	String queryString = "&_sort=bogusSortParm";
-    	
-    	queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
+        FHIRSearchContext searchContext;
+        Class<Patient> resourceType = Patient.class;
+        String queryString = "&_sort=bogusSortParm";
+        
+        queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(searchContext);
     }
     
     /**
-	 *  Tests a valid sort with: asc modifier, and a valid parameter value.
-	 * @throws Exception
-	 */
+     *  Tests a valid sort with: asc modifier, and a valid parameter value.
+     * @throws Exception
+     */
     @Test 
     public void testValidSortParm() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	FHIRSearchContext searchContext;
-    	Class<Patient> resourceType = Patient.class;
-    	SortDirection direction = SortDirection.ASCENDING; 
-    	String sortParmName = "birthdate"; 
-    	String queryString = "&_sort:" + direction.value() + "=" + sortParmName;
-    	
-    	queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
+        FHIRSearchContext searchContext;
+        Class<Patient> resourceType = Patient.class;
+        SortDirection direction = SortDirection.ASCENDING; 
+        String sortParmName = "birthdate"; 
+        String queryString = "&_sort:" + direction.value() + "=" + sortParmName;
+        
+        queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(searchContext);
         
@@ -99,19 +99,19 @@ public class SortParameterParseTest {
     }
     
     /**
-	 *  Tests a valid sort with: desc modifier, and a valid parameter value.
-	 * @throws Exception
-	 */
+     *  Tests a valid sort with: desc modifier, and a valid parameter value.
+     * @throws Exception
+     */
     @Test 
     public void testValidSortParm1() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	FHIRSearchContext searchContext;
-    	Class<Patient> resourceType = Patient.class;
-    	SortDirection direction = SortDirection.DESCENDING; 
-    	String sortParmName = "birthdate"; 
-    	String queryString = "&_sort:" + direction.value() + "=" + sortParmName;
-    	
-    	queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
+        FHIRSearchContext searchContext;
+        Class<Patient> resourceType = Patient.class;
+        SortDirection direction = SortDirection.DESCENDING; 
+        String sortParmName = "birthdate"; 
+        String queryString = "&_sort:" + direction.value() + "=" + sortParmName;
+        
+        queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         
         // Do sort parameter validation
@@ -130,18 +130,18 @@ public class SortParameterParseTest {
     }
     
     /**
-	 *  Tests a valid sort with no modifier, and a valid parameter value.
-	 * @throws Exception
-	 */
+     *  Tests a valid sort with no modifier, and a valid parameter value.
+     * @throws Exception
+     */
     @Test
     public void testValidSortParm2() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-    	FHIRSearchContext searchContext;
-    	Class<Patient> resourceType = Patient.class;
-    	String sortParmName = "birthdate"; 
-    	String queryString = "&_sort" + "=" + sortParmName;
-    	
-    	queryParameters.put("_sort", Collections.singletonList(sortParmName));
+        FHIRSearchContext searchContext;
+        Class<Patient> resourceType = Patient.class;
+        String sortParmName = "birthdate"; 
+        String queryString = "&_sort" + "=" + sortParmName;
+        
+        queryParameters.put("_sort", Collections.singletonList(sortParmName));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         
         // Do sort parameter validation
@@ -165,19 +165,19 @@ public class SortParameterParseTest {
      */
     @Test
     public void testValidSortParmWithSearchParms() throws Exception {
-    	Map<String, List<String>> queryParameters = new HashMap<>();
-     	FHIRSearchContext searchContext;
-     	Class<Observation> resourceType = Observation.class;
-     	SortDirection direction = SortDirection.ASCENDING; 
-     	String sortParmName = "patient"; 
-     	String searchParmName = "performer";
-     	String searchParmValue = "Practioner/1";
-     	StringBuilder queryString = new StringBuilder().append("&").append(searchParmName).append("=").append(searchParmValue)
-     								.append("&_sort:").append(direction.value()).append("=").append(sortParmName);
-     	
-     	
-     	queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
-     	queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
+        Map<String, List<String>> queryParameters = new HashMap<>();
+         FHIRSearchContext searchContext;
+         Class<Observation> resourceType = Observation.class;
+         SortDirection direction = SortDirection.ASCENDING; 
+         String sortParmName = "patient"; 
+         String searchParmName = "performer";
+         String searchParmValue = "Practioner/1";
+         StringBuilder queryString = new StringBuilder().append("&").append(searchParmName).append("=").append(searchParmValue)
+                                     .append("&_sort:").append(direction.value()).append("=").append(sortParmName);
+         
+         
+         queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
+         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString.toString());
          
         // Do sort parameter validation
@@ -207,29 +207,29 @@ public class SortParameterParseTest {
      */
     @Test
     public void testMultipleValidSortParmsWithSearchParms() throws Exception {
-    	Map<String, List<String>> queryParameters = new HashMap<>();
-     	FHIRSearchContext searchContext;
-     	Class<Observation> resourceType = Observation.class;
-     	SortDirection directionAsc = SortDirection.ASCENDING;
-     	SortDirection directionDesc = SortDirection.DESCENDING;
-     	String sortParmName1 = "patient";
-     	String sortParmName2 = "status";
-     	String sortParmName3 = "value-string";
-     	String sortParmName4 = "value-date";
-     	String sortParmName5 = "value-quantity";
-     	String searchParmName = "performer";
-     	String searchParmValue = "Practioner/1";
-     	StringBuilder queryString = new StringBuilder().append("&").append(searchParmName).append("=").append(searchParmValue)
-					.append("&_sort:").append(directionAsc.value()).append("=").append(sortParmName1) 
-					.append("&_sort:").append(directionAsc.value()).append("=").append(sortParmName2)
-					.append("&_sort:").append(directionDesc.value()).append("=").append(sortParmName3)
-					.append("&_sort:").append(directionDesc.value()).append("=").append(sortParmName4)
-					.append("&_sort").append("=").append(sortParmName5);
-     	
-     	queryParameters.put("_sort:" + directionAsc.value(), Arrays.asList(new String[] {sortParmName2, sortParmName1}));
-     	queryParameters.put("_sort:" + directionDesc.value(), Arrays.asList(new String[] {sortParmName4, sortParmName3}));
-     	queryParameters.put("_sort", Arrays.asList(new String[] {sortParmName5}));
-     	queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
+        Map<String, List<String>> queryParameters = new HashMap<>();
+         FHIRSearchContext searchContext;
+         Class<Observation> resourceType = Observation.class;
+         SortDirection directionAsc = SortDirection.ASCENDING;
+         SortDirection directionDesc = SortDirection.DESCENDING;
+         String sortParmName1 = "patient";
+         String sortParmName2 = "status";
+         String sortParmName3 = "value-string";
+         String sortParmName4 = "value-date";
+         String sortParmName5 = "value-quantity";
+         String searchParmName = "performer";
+         String searchParmValue = "Practioner/1";
+         StringBuilder queryString = new StringBuilder().append("&").append(searchParmName).append("=").append(searchParmValue)
+                    .append("&_sort:").append(directionAsc.value()).append("=").append(sortParmName1) 
+                    .append("&_sort:").append(directionAsc.value()).append("=").append(sortParmName2)
+                    .append("&_sort:").append(directionDesc.value()).append("=").append(sortParmName3)
+                    .append("&_sort:").append(directionDesc.value()).append("=").append(sortParmName4)
+                    .append("&_sort").append("=").append(sortParmName5);
+         
+         queryParameters.put("_sort:" + directionAsc.value(), Arrays.asList(new String[] {sortParmName2, sortParmName1}));
+         queryParameters.put("_sort:" + directionDesc.value(), Arrays.asList(new String[] {sortParmName4, sortParmName3}));
+         queryParameters.put("_sort", Arrays.asList(new String[] {sortParmName5}));
+         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString.toString());
          
         // Do sort parameter validation

@@ -10,16 +10,16 @@ import com.ibm.watsonhealth.fhir.model.IssueTypeList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class FHIRPersistenceResourceNotFoundException extends FHIRPersistenceException {
-	private static final long serialVersionUID = 1L;
-	
-	public FHIRPersistenceResourceNotFoundException(String message) {
-		super(message);
-		withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueTypeList.NOT_FOUND));
-	}
-	
-	public FHIRPersistenceResourceNotFoundException(String message, Throwable cause) {
-	    super(message, cause);
-	    withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueTypeList.NOT_FOUND));
-	}
+    private static final long serialVersionUID = 1L;
+    
+    public FHIRPersistenceResourceNotFoundException(String message) {
+        super(message);
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueTypeList.NOT_FOUND));
+    }
+    
+    public FHIRPersistenceResourceNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueTypeList.NOT_FOUND));
+    }
     
 }

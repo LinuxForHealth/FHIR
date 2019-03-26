@@ -19,30 +19,30 @@ import com.ibm.watsonhealth.fhir.persistence.search.test.AbstractSearchNumberTes
 
 
 public class JDBCNormSearchNumberTest extends AbstractSearchNumberTest {
-	
-	private Properties testProps;
-	
-	public JDBCNormSearchNumberTest() throws Exception {
-		this.testProps = readTestProperties("test.normalized.properties");
-	}
-	
-	@BeforeClass
+    
+    private Properties testProps;
+    
+    public JDBCNormSearchNumberTest() throws Exception {
+        this.testProps = readTestProperties("test.normalized.properties");
+    }
+    
+    @BeforeClass
     public void setTenant() throws FHIRException {
         FHIRRequestContext.get().setTenantId("number");
     }
     
-	@Override
-	public void bootstrapDatabase() throws Exception {
-		DerbyInitializer derbyInit;
-		String dbDriverName = this.testProps.getProperty("dbDriverName");
-		if (dbDriverName != null && dbDriverName.contains("derby")) {
-			derbyInit = new DerbyInitializer(this.testProps);
-			derbyInit.bootstrapDb(false);
-		}
-	}
-	
+    @Override
+    public void bootstrapDatabase() throws Exception {
+        DerbyInitializer derbyInit;
+        String dbDriverName = this.testProps.getProperty("dbDriverName");
+        if (dbDriverName != null && dbDriverName.contains("derby")) {
+            derbyInit = new DerbyInitializer(this.testProps);
+            derbyInit.bootstrapDb(false);
+        }
+    }
+    
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-    	return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
+        return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
     }
 }

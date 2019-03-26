@@ -30,25 +30,25 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
      */
     @Override
     public FHIRPersistence getInstance() throws FHIRPersistenceException {
-    	
-    	FHIRPersistence persistenceImpl = null;
-    	
+        
+        FHIRPersistence persistenceImpl = null;
+        
         try {
-    		SchemaType schemaType = SchemaType.fromValue(FHIRConfiguration.getInstance().loadConfiguration().getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE, SchemaType.BASIC.value()));
-    		switch (schemaType) {
-    			case BASIC: 		persistenceImpl = new FHIRPersistenceJDBCImpl();
-    								break;
-    					
-    			case NORMALIZED: 	persistenceImpl = new FHIRPersistenceJDBCNormalizedImpl();
-    								break;
-    			
-    			default: throw new FHIRPersistenceNotSupportedException("Unsupported schema type: " + schemaType.value());
-    		}
-        	
-        	return persistenceImpl;
+            SchemaType schemaType = SchemaType.fromValue(FHIRConfiguration.getInstance().loadConfiguration().getStringProperty(PROPERTY_JDBC_SCHEMA_TYPE, SchemaType.BASIC.value()));
+            switch (schemaType) {
+                case BASIC:         persistenceImpl = new FHIRPersistenceJDBCImpl();
+                                    break;
+                        
+                case NORMALIZED:     persistenceImpl = new FHIRPersistenceJDBCNormalizedImpl();
+                                    break;
+                
+                default: throw new FHIRPersistenceNotSupportedException("Unsupported schema type: " + schemaType.value());
+            }
+            
+            return persistenceImpl;
         } 
         catch (FHIRPersistenceNotSupportedException e) {
-        	throw e;
+            throw e;
         }
         catch (Throwable t) {
             String msg = "Unexpected exception while creating JDBC persistence layer: ";

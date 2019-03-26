@@ -272,7 +272,7 @@ public class FHIRUtilities {
     }
     
     public static String formatCalendarGMT(XMLGregorianCalendar calendar) {
-    	return calendarSimpleDateFormatGMT.get().format(calendar.toGregorianCalendar().getTimeInMillis());
+        return calendarSimpleDateFormatGMT.get().format(calendar.toGregorianCalendar().getTimeInMillis());
     }
 
     /**
@@ -334,55 +334,55 @@ public class FHIRUtilities {
         }
     }
     
-	/**
-	 * Determines whether or not the passed byte array was previously gzip compressed.
-	 * @param inputBytes - A byte array
-	 * @return boolean - true if the input stream is gzip compressed; false otherwise.
-	 */
-	public static boolean isGzipCompressed(byte[] inputBytes) {
-		int head = ((int) inputBytes[0] & 0xff) | ((inputBytes[1] << 8) & 0xff00);
-	    return (GZIPInputStream.GZIP_MAGIC == head);
-	}
-	
-	/**
-	 * Performs a gzip compression of the passed byte array.
-	 * @param input - Any byte array
-	 * @return byte[] - A gzip'd byte array representation of the input byte array.
-	 * @throws IOException 
-	 * 
-	 */
-	public static byte[] gzipCompress(byte[] input) throws IOException {
-		
-		Objects.requireNonNull(input, "input cannot be null");
-				
-		ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-		GZIPOutputStream gzip;
-		 
-		gzip = new GZIPOutputStream(byteOutputStream);
-		gzip.write(input);
-		gzip.close();
-				
-		return byteOutputStream.toByteArray();
-	}
-	
-	/**
-	 * Decompresses a previously gzip'd compressed byte array.
-	 * If the input byte array is not gzip compressed, the input byte array is returned.
-	 * @param compressedInput - A byte array previously created by a gzip compression.
-	 * @return byte[] - The decompressed bytes.
-	 * @throws IOException 
-	 * 
-	 */
-	public static byte[] gzipDecompress(byte[] compressedInput) throws IOException {
-		byte[] output = compressedInput;
-		Objects.requireNonNull(compressedInput, "compressedInput cannot be null");
-		if (isGzipCompressed(compressedInput)) {
-			try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput))) {
-			output = IOUtils.toByteArray(gzip);
-			}
-		}
-								
-		return output;
-	}
+    /**
+     * Determines whether or not the passed byte array was previously gzip compressed.
+     * @param inputBytes - A byte array
+     * @return boolean - true if the input stream is gzip compressed; false otherwise.
+     */
+    public static boolean isGzipCompressed(byte[] inputBytes) {
+        int head = ((int) inputBytes[0] & 0xff) | ((inputBytes[1] << 8) & 0xff00);
+        return (GZIPInputStream.GZIP_MAGIC == head);
+    }
+    
+    /**
+     * Performs a gzip compression of the passed byte array.
+     * @param input - Any byte array
+     * @return byte[] - A gzip'd byte array representation of the input byte array.
+     * @throws IOException 
+     * 
+     */
+    public static byte[] gzipCompress(byte[] input) throws IOException {
+        
+        Objects.requireNonNull(input, "input cannot be null");
+                
+        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+        GZIPOutputStream gzip;
+         
+        gzip = new GZIPOutputStream(byteOutputStream);
+        gzip.write(input);
+        gzip.close();
+                
+        return byteOutputStream.toByteArray();
+    }
+    
+    /**
+     * Decompresses a previously gzip'd compressed byte array.
+     * If the input byte array is not gzip compressed, the input byte array is returned.
+     * @param compressedInput - A byte array previously created by a gzip compression.
+     * @return byte[] - The decompressed bytes.
+     * @throws IOException 
+     * 
+     */
+    public static byte[] gzipDecompress(byte[] compressedInput) throws IOException {
+        byte[] output = compressedInput;
+        Objects.requireNonNull(compressedInput, "compressedInput cannot be null");
+        if (isGzipCompressed(compressedInput)) {
+            try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput))) {
+            output = IOUtils.toByteArray(gzip);
+            }
+        }
+                                
+        return output;
+    }
 
 }

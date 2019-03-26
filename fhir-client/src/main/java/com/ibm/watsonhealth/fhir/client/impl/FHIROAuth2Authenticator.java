@@ -16,7 +16,7 @@ import javax.ws.rs.core.MultivaluedMap;
  * This class is responsible for adding the Authorization header to outbound REST API requests.
  */
 public class FHIROAuth2Authenticator implements ClientRequestFilter {
-	private String accessToken;
+    private String accessToken;
     
     // Prevent use of the default ctor.
     protected FHIROAuth2Authenticator() {

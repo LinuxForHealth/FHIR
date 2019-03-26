@@ -159,7 +159,7 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
         savedCreatedAllergyIntolerance = responseAllergyIntolerance;
         
         if(DEBUG_JSON) {
-        	System.out.println("allergyIntolernace: ");
+            System.out.println("allergyIntolernace: ");
             FHIRUtil.write(allergyIntolerance, Format.JSON, System.out);
             
             System.out.println("responseAllergyIntolerance:  ");

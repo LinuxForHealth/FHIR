@@ -19,88 +19,88 @@ import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
 public abstract class AbstractProcessor<T> implements Processor<T> {
-	@SuppressWarnings("unchecked")
-	public T process(SearchParameter parameter, Object value) throws  FHIRPersistenceProcessorException {
-		try {
-			Class<?> valueType = value.getClass();
-			if (isEnumerationWrapper(valueType)) {
-				value = getValue(value);
-				valueType = String.class;
-			} else if (valueType == Duration.class) {
-				valueType = Quantity.class;
-			}
-			else if (valueType == Extension.class) {
-				value = getValue((Extension) value);
-				valueType = value.getClass();
-			} else if ((valueType.getDeclaredFields().length == 0) || 
-			        (valueType.getDeclaredFields().length == 1 && valueType.getDeclaredFields()[0].isSynthetic())) {
-				valueType = valueType.getSuperclass();
-			}
-			Method processMethod = this.getClass().getMethod("process", SearchParameter.class, valueType);
-			return (T) processMethod.invoke(this, parameter, value);
-		}
-		catch(NoSuchMethodException | IllegalAccessException e) 
-		{
-		    StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
-		    if (parameter != null) {
-		        sb.append(" " + parameter.getName());
-		    }
-			throw new FHIRPersistenceProcessorException(sb.toString(), e);
-		}
-		catch(InvocationTargetException e) {
-			Throwable targetException = e.getCause();
-			if (targetException instanceof FHIRPersistenceProcessorException) {
-				FHIRPersistenceProcessorException spe = (FHIRPersistenceProcessorException) targetException;
-				throw spe;
-			}
-			else {
-			    StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
-	            if (parameter != null) {
-	                sb.append(" " + parameter.getName());
-	            }
-	            throw new FHIRPersistenceProcessorException(sb.toString(), e);
-			}
-		}
-	}
+    @SuppressWarnings("unchecked")
+    public T process(SearchParameter parameter, Object value) throws  FHIRPersistenceProcessorException {
+        try {
+            Class<?> valueType = value.getClass();
+            if (isEnumerationWrapper(valueType)) {
+                value = getValue(value);
+                valueType = String.class;
+            } else if (valueType == Duration.class) {
+                valueType = Quantity.class;
+            }
+            else if (valueType == Extension.class) {
+                value = getValue((Extension) value);
+                valueType = value.getClass();
+            } else if ((valueType.getDeclaredFields().length == 0) || 
+                    (valueType.getDeclaredFields().length == 1 && valueType.getDeclaredFields()[0].isSynthetic())) {
+                valueType = valueType.getSuperclass();
+            }
+            Method processMethod = this.getClass().getMethod("process", SearchParameter.class, valueType);
+            return (T) processMethod.invoke(this, parameter, value);
+        }
+        catch(NoSuchMethodException | IllegalAccessException e) 
+        {
+            StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
+            if (parameter != null) {
+                sb.append(" " + parameter.getName());
+            }
+            throw new FHIRPersistenceProcessorException(sb.toString(), e);
+        }
+        catch(InvocationTargetException e) {
+            Throwable targetException = e.getCause();
+            if (targetException instanceof FHIRPersistenceProcessorException) {
+                FHIRPersistenceProcessorException spe = (FHIRPersistenceProcessorException) targetException;
+                throw spe;
+            }
+            else {
+                StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
+                if (parameter != null) {
+                    sb.append(" " + parameter.getName());
+                }
+                throw new FHIRPersistenceProcessorException(sb.toString(), e);
+            }
+        }
+    }
 
-	protected boolean isEnumerationWrapper(Class<?> valueType) {
-		try {
-			Field valueField = valueType.getDeclaredField("value");
-			if (valueField.getType().isEnum()) {
-				return true;
-			}
-		} catch (Exception e) {
-		}
-		return false;
-	}
+    protected boolean isEnumerationWrapper(Class<?> valueType) {
+        try {
+            Field valueField = valueType.getDeclaredField("value");
+            if (valueField.getType().isEnum()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
 
-	protected String getValue(Object wrapper) {
-		try {
-			Object literal = wrapper.getClass().getMethod("getValue").invoke(wrapper);
-			return (String) literal.getClass().getMethod("value").invoke(literal);
-		} catch (Exception e) {
-		}
-		return null;
-	}
+    protected String getValue(Object wrapper) {
+        try {
+            Object literal = wrapper.getClass().getMethod("getValue").invoke(wrapper);
+            return (String) literal.getClass().getMethod("value").invoke(literal);
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
-	protected Element getValue(Extension extension) {
-		try {
-			for (Method method : Extension.class.getDeclaredMethods()) {
-				String methodName = method.getName();
-				if (methodName.startsWith("getValue")) {
-					Object value = method.invoke(extension);
-					if (value != null) {
-						return (Element) value;
-					}
-				}
-			}
-		} catch (Exception e) {
-		}
-		return null;
-	}
+    protected Element getValue(Extension extension) {
+        try {
+            for (Method method : Extension.class.getDeclaredMethods()) {
+                String methodName = method.getName();
+                if (methodName.startsWith("getValue")) {
+                    Object value = method.invoke(extension);
+                    if (value != null) {
+                        return (Element) value;
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
-	protected java.util.Date convertToDate(String str) throws ParseException {
-		TimestampUtil timestampUtil = TimestampUtil.create();
-		return timestampUtil.getTimestamp(str); 
-	}
+    protected java.util.Date convertToDate(String str) throws ParseException {
+        TimestampUtil timestampUtil = TimestampUtil.create();
+        return timestampUtil.getTimestamp(str); 
+    }
 }

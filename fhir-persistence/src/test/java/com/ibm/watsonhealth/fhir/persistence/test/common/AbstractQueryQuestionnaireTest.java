@@ -36,7 +36,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateQuestionnaire() throws Exception {
-    	Questionnaire questionnaire = readResource(Questionnaire.class, "Questionnaire.json");
+        Questionnaire questionnaire = readResource(Questionnaire.class, "Questionnaire.json");
 
         persistence.create(getDefaultPersistenceContext(), questionnaire);
         assertNotNull(questionnaire);
@@ -46,101 +46,101 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
         assertNotNull(questionnaire.getMeta().getVersionId().getValue());
         assertEquals("1", questionnaire.getMeta().getVersionId().getValue());
     }   
-	
-	/**
-	 * Tests a query for a Questionnaire with publisher = 'Team Voltron' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_publisher() throws Exception {
-		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "publisher", "Team Voltron");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Questionnaire)resources.get(0)).getPublisher().getValue(),"Team Voltron");
-	}
-	
-	/**
-	 * Tests a query for a Questionnaire with version = '10.0' which should yield no results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_version() throws Exception {
-		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "version", "10.0");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-	}
-	
-	/**
-	 * Tests a query for a Questionnaire with title = 'Non-existent' which should yield no results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_title() throws Exception {
-		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "title", "Non-existent");
-		assertNotNull(resources);
-		assertTrue(resources.size() == 0);
-	}
-	
-	/**
-	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnaireQuery_date() throws Exception {
-		List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "date", "1969-12-31T19:00:02+00:00");
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");
-	}
-	
-	/*
-	 * Pagination Testcases
-	 */
-	
-	/**
-	 * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
-	 * 
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnairePagination_001() throws Exception {
-		
-		Class<? extends Resource> resourceType = Questionnaire.class;
+    
+    /**
+     * Tests a query for a Questionnaire with publisher = 'Team Voltron' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
+    public void testQuestionnaireQuery_publisher() throws Exception {
+        List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "publisher", "Team Voltron");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Questionnaire)resources.get(0)).getPublisher().getValue(),"Team Voltron");
+    }
+    
+    /**
+     * Tests a query for a Questionnaire with version = '10.0' which should yield no results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
+    public void testQuestionnaireQuery_version() throws Exception {
+        List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "version", "10.0");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    /**
+     * Tests a query for a Questionnaire with title = 'Non-existent' which should yield no results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
+    public void testQuestionnaireQuery_title() throws Exception {
+        List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "title", "Non-existent");
+        assertNotNull(resources);
+        assertTrue(resources.size() == 0);
+    }
+    
+    /**
+     * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
+    public void testQuestionnaireQuery_date() throws Exception {
+        List<Resource> resources = runQueryTest(Questionnaire.class, persistence, "date", "1969-12-31T19:00:02+00:00");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");
+    }
+    
+    /*
+     * Pagination Testcases
+     */
+    
+    /**
+     * Tests a query with a resource type but without any query parameters. This should yield correct results using pagination
+     * 
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
+    public void testQuestionnairePagination_001() throws Exception {
+        
+        Class<? extends Resource> resourceType = Questionnaire.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
-	
-	/**
-	 * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results using pagination
-	 * @throws Exception
-	 */
-	@Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
-	public void testQuestionnairePagination_002() throws Exception {
-		
-		String parmName = "date";
-		String parmValue = "1969-12-31T19:00:02+00:00";
-		Class<? extends Resource> resourceType = Questionnaire.class;
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
+    
+    /**
+     * Tests a query for a Questionnaire with date = '1969-12-31T19:00:02+00:00' which should yield correct results using pagination
+     * @throws Exception
+     */
+    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateQuestionnaire" })
+    public void testQuestionnairePagination_002() throws Exception {
+        
+        String parmName = "date";
+        String parmValue = "1969-12-31T19:00:02+00:00";
+        Class<? extends Resource> resourceType = Questionnaire.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-		
-		queryParms.put(parmName, Collections.singletonList(parmValue));
-		FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-		context.setPageNumber(1);
-		List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
-		assertNotNull(resources);
-		assertTrue(resources.size() != 0);
-		assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");
-		long count = context.getTotalCount();
-		int pageSize = context.getPageSize();
-		int lastPgNum = context.getLastPageNumber();
-		assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
-		assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
-	}
+        
+        queryParms.put(parmName, Collections.singletonList(parmValue));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
+        context.setPageNumber(1);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");
+        long count = context.getTotalCount();
+        int pageSize = context.getPageSize();
+        int lastPgNum = context.getLastPageNumber();
+        assertEquals(context.getLastPageNumber(), (int) ((count + pageSize - 1) / pageSize));
+        assertTrue((count > 10) ? (lastPgNum > 1) : (lastPgNum == 1));
+    }
 }
