@@ -276,6 +276,9 @@ public class FHIRUtil {
         });
     }
 
+    /**
+     * Read a FHIR resource from InputStream {@code stream} in the requested {@code format}.
+     */
     @SuppressWarnings("unchecked")
     public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream) throws JAXBException {
         if (Format.XML.equals(format)) {
@@ -289,35 +292,37 @@ public class FHIRUtil {
             }
         } else {
             // Format.JSON.equals(format)
-            try {
-                FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
-                parser.reset();
-                return (T) parser.parse(stream);
-            } catch (FHIRException e) {
-                throw new JAXBException(e);
-            }
+            return readAndFilterJson(resourceType, stream, null);
         }
     }
 
+    /**
+     * Read JSON from InputStream {@code stream} and parse it into a FHIR resource.
+     * Non-mandatory elements which are not in {@code elementsToInclude} will be filtered out.
+     * @param stream
+     * @param elements a list of element names to include in the returned resource; null to skip filtering
+     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
+     */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T read(Class<T> resourceType, InputStream stream, ElementFilter filter) throws JAXBException {
-
+    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream stream, List<String> elementsToInclude) throws JAXBException {
         try {
             FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
             parser.reset();
-            Resource resource = parser.parse(stream, filter);
+            Resource resource = parser.parseAndFilter(stream, elementsToInclude);
             return (T) resource;
         } catch (FHIRException e) {
             throw new JAXBException(e);
         }
-
     }
 
+    /**
+     * Read a FHIR resource from {@code reader} in the requested {@code format}.
+     */
     @SuppressWarnings("unchecked")
     public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws JAXBException {
         if (Format.XML.equals(format)) {
             try {
-                    Unmarshaller unmarshaller = createUnmarshaller(format);
+                Unmarshaller unmarshaller = createUnmarshaller(format);
                 return (T) unmarshaller.unmarshal(inputFactory.createXMLStreamReader(reader));
             } catch (JAXBException e) {
                 throw e;
@@ -326,31 +331,27 @@ public class FHIRUtil {
             }
         } else {
             // Format.JSON.equals(format)
-            try {
-                FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
-                parser.reset();
-                return (T) parser.parse(reader);
-            } catch (FHIRException e) {
-                throw new JAXBException(e);
-            }
+            return readAndFilterJson(resourceType, reader, null);
         }
     }
 
     /**
-     * Reads the contents of the passed reader, applies the passed filter, and returns an instance of a Resource.
-     *
+     * Read JSON from {@code reader} and parse it into a FHIR resource.
+     * Non-mandatory elements which are not in {@code elementsToInclude} will be filtered out.
+     * @param reader
+     * @param elements a list of element names to include in the returned resource; null to skip filtering
+     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T read(Class<T> resourceType, Reader reader, ElementFilter filter) throws JAXBException {
+    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws JAXBException {
         try {
             FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
             parser.reset();
-            Resource resource = parser.parse(reader, filter);
+            Resource resource = parser.parseAndFilter(reader, elementsToInclude);
             return (T) resource;
         } catch (FHIRException e) {
             throw new JAXBException(e);
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -359,16 +360,12 @@ public class FHIRUtil {
         return (T) unmarshaller.unmarshal(node);
     }
 
-    public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws JAXBException {
-        // write JsonObject to String
-        StringWriter writer = new StringWriter();
-        Json.createWriter(writer).writeObject(jsonObject);
-        String jsonString = writer.toString();
-
-        // read Resource from String
-        Unmarshaller unmarshaller = createUnmarshaller(Format.JSON);
-        JAXBElement<T> jaxbElement = unmarshaller.unmarshal(new StreamSource(new StringReader(jsonString)), resourceType);
-        return jaxbElement.getValue();
+    @SuppressWarnings("unchecked")
+    public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) {
+        FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+        parser.reset();
+        Resource resource = parser.parse(jsonObject);
+        return (T) resource;
     }
 
     public static <T extends Element> T toElement(Class<T> elementType, JsonObject jsonObject) throws JAXBException {
@@ -1557,6 +1554,16 @@ public class FHIRUtil {
      */
     public static Set<java.lang.String> getFieldNames(String resourceTypeName) {
         return FHIRJsonParser.fieldNameMap.get(resourceTypeName);
+    }
+    
+    /**
+     * A convenience method for returning the set of field names required to be present 
+     * for the passed resource type name.
+     * @param resourceTypeName - The simple name of a Resource subclass.
+     * @return Set<String> - The set of field names for the resource, as known by the FHIRJsonParser.
+     */
+    public static Set<java.lang.String> getRequiredFieldNames(String resourceTypeName) {
+        return FHIRJsonParser.requiredFieldNameMap.get(resourceTypeName);
     }
 
     /**

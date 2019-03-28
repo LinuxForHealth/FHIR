@@ -33,21 +33,22 @@ public class ElementFilter {
     /**
      * Constructs an ElementFilter containing only the required elements.
      */
-    public ElementFilter() {
-        super();
+    public ElementFilter(String resourceTypeName) {
         includeElements.addAll(REQUIRED_ELEMENTS);
+        includeElements.addAll(FHIRUtil.getRequiredFieldNames(resourceTypeName));
     }
 
     /**
      * Constructs an ElementFilter contining the required elements and the passed
      * elements.
+     * @param resourceType 
      * 
      * @param elements
      *            A List of element names to be used in addition to the required
      *            elements.
      */
-    public ElementFilter(List<String> elements) {
-        this();
+    public ElementFilter(String resourceTypeName, List<String> elements) {
+        this(resourceTypeName);
         this.includeElements.addAll(elements);
     }
 

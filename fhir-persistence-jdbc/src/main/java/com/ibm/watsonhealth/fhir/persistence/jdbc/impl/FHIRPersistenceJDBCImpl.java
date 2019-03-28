@@ -638,7 +638,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws IOException 
      */
     protected Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType, 
-                                          ElementFilter elementFilter)  throws JAXBException, IOException {
+                                          List<String> elements)  throws JAXBException, IOException {
         final String METHODNAME = "convertResourceDTO";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -659,8 +659,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     resource = FHIRUtil.read(resourceType, Format.XML, pushbackReader);
                 }
                 else {
-                    if (elementFilter != null) {
-                        resource = FHIRUtil.read(resourceType, pushbackReader, elementFilter);
+                    if (elements != null) {
+                        resource = FHIRUtil.readAndFilterJson(resourceType, pushbackReader, elements);
                     }
                     else {
                         resource = FHIRUtil.read(resourceType, Format.JSON, pushbackReader);
@@ -678,7 +678,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 meta.setLastUpdated(objectFactory.createInstant()
                     .withValue(FHIRUtilities.convertToCalendar(lastUpdated, TimeZone.getTimeZone("UTC"))));
                 resource.setMeta(meta);
-                if (elementFilter != null && resource.getClass().equals(resourceType)) {
+                if (elements != null && resource.getClass().equals(resourceType)) {
                     FHIRPersistenceUtil.addFilteredTag(resource);
                 }
             }
@@ -697,13 +697,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param context - The FHIR persistence context for the current request.
      * @param resourceType - The type of Resource that each id in the passed list represents.
      * @param sortedIdList - A list of Resource ids representing the proper sort order for the list of Resources to be returned.
+     * @param elements - An optional list of element names to include in the resources. If null, filtering will be skipped.
      * @return List<Resource> - A list of Resources of the passed resourceType, sorted according the order of ids in the passed sortedIdList.
      * @throws FHIRPersistenceException
      * @throws JAXBException 
      * @throws IOException 
      */
     protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList, 
-                                                      ElementFilter filter) 
+                                                      List<String> elements) 
                             throws FHIRPersistenceException, JAXBException, IOException {
         final String METHOD_NAME = "buildFhirResource";
         log.entering(this.getClass().getName(), METHOD_NAME);
@@ -728,7 +729,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         // Convert the returned JPA Resources to FHIR Resources, and store each FHIRResource in its proper position
         // in the returned sorted resource list.
         for (com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-            fhirResource = this.convertResourceDTO(resourceDTO, resourceType, filter);
+            fhirResource = this.convertResourceDTO(resourceDTO, resourceType, elements);
             if (fhirResource != null) {
                 sortIndex = idPositionMap.get(resourceDTO.getId());
                 sortedFhirResources[sortIndex] = fhirResource;
