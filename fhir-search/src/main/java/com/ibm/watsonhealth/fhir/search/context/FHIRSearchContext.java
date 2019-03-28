@@ -33,7 +33,27 @@ public interface FHIRSearchContext extends FHIRPagingContext {
     
     boolean hasRevIncludeParameters();
     
+    /**
+     * Get the list of element names requested to be included in the returned resources.
+     * @return a list of strings or null to indicate that there is currently no elements filter associated with the search
+     */
     List<String> getElementsParameters();
     
+    /**
+     * Set the list of element names requested to be included in the returned resources.
+     * An empty list of strings will indicate that only mandatory elements should be included in the search result.
+     * Null is used to represent "no filter".
+     */
+    void setElementsParameters(List<String> elementsToInclude);
+    
+    /**
+     * @return true when the elements parameter is not null
+     */
     boolean hasElementsParameters();
+
+    /**
+     * @param elementToInclude
+     * @return
+     */
+    void addElementsParameter(String elementToInclude);
 }

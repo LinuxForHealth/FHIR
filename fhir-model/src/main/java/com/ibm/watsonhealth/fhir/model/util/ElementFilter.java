@@ -59,7 +59,12 @@ public class ElementFilter {
      * @param newElements
      */
     public void addElements(List<String> newElements) {
-        this.includeElements.addAll(newElements);
+        for (String element : newElements) {
+            includeElements.add(element);
+            // add the "_name" in case that element is a primitive
+            // see https://www.hl7.org/fhir/DSTU2/json.html#primitive for more info
+            includeElements.add("_" + newElements);
+        }
     }
 
     /**

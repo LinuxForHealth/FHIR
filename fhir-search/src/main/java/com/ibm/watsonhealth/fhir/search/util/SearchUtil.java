@@ -1379,7 +1379,7 @@ public class SearchUtil {
             if (elementName.startsWith("_") || !resourceFieldNames.contains(elementName)) {
                 throw buildInvalidSearchException("Invalid element name: " + elementName);
             }
-            context.getElementsParameters().add(elementName);
+            context.addElementsParameter(elementName);
         }
     }
 }
