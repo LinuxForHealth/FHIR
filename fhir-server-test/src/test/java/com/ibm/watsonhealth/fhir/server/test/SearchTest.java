@@ -388,10 +388,12 @@ public class SearchTest extends FHIRServerTestBase {
             Method obsMethod = observationMethods[i];
             if (obsMethod.getName().startsWith("get")) {
                 Object elementValue = obsMethod.invoke(retrievedObservation);
-                if (obsMethod.getName().equals("getId") ||
-                    obsMethod.getName().equals("getMeta") ||
-                    obsMethod.getName().equals("getStatus") ||
-                    obsMethod.getName().equals("getCategory")) {
+                if (obsMethod.getName().equals("getId") ||          //required for all returned resources
+                    obsMethod.getName().equals("getMeta") ||        //required for all returned resources
+                    obsMethod.getName().equals("getStatus") ||      //required for Observations AND included in elements filter
+                    obsMethod.getName().equals("getCategory") ||    //included in elements filter
+                    obsMethod.getName().equals("getCode")           //required for Observations
+                   ) {
                     assertNotNull(elementValue);
                 }
                 else if (! obsMethod.getName().equals("getClass")) {
@@ -528,8 +530,8 @@ public class SearchTest extends FHIRServerTestBase {
         }
         assertNotNull(observation);
         assertTrue(FHIRUtil.containsTag(observation, subsettedTag));
-        // Verify that only the requested elements are present in the returned Observation.
-        Method[] observationMethods = Observation.class.getMethods();
+        // Verify that only the requested elements (and "mandatory elements") are present in the returned Observation.
+        Method[] observationMethods = Observation.class.getDeclaredMethods();
         for (int i = 0; i < observationMethods.length; i++) {
             Method obsMethod = observationMethods[i];
             if (obsMethod.getName().startsWith("get")) {
@@ -538,16 +540,17 @@ public class SearchTest extends FHIRServerTestBase {
                     obsMethod.getName().equals("getMeta") ||
                     obsMethod.getName().equals("getStatus") ||
                     obsMethod.getName().equals("getSubject") ||
-                    obsMethod.getName().equals("getCategory")) {
+                    obsMethod.getName().equals("getCategory") ||
+                    obsMethod.getName().equals("getCode")) {
                     assertNotNull(elementValue);
                 }
-                else if (! obsMethod.getName().equals("getClass")) {
-                     if (elementValue instanceof List) {
-                         assertEquals(0,((List)elementValue).size());
-                     }
-                     else {
-                         assertNull(elementValue);
-                     }
+                else {
+                    if (elementValue instanceof List) {
+                        assertEquals(0,((List)elementValue).size());
+                    }
+                    else {
+                        assertNull(elementValue);
+                    }
                 }
             }
         }

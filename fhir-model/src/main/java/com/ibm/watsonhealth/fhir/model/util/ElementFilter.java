@@ -49,7 +49,7 @@ public class ElementFilter {
      */
     public ElementFilter(String resourceTypeName, List<String> elements) {
         this(resourceTypeName);
-        this.includeElements.addAll(elements);
+        addElements(elements);
     }
 
     /**
@@ -61,9 +61,9 @@ public class ElementFilter {
     public void addElements(List<String> newElements) {
         for (String element : newElements) {
             includeElements.add(element);
-            // add the "_name" in case that element is a primitive
+            // add a "_elementName" entry in case that element is a primitive
             // see https://www.hl7.org/fhir/DSTU2/json.html#primitive for more info
-            includeElements.add("_" + newElements);
+            includeElements.add("_" + element);
         }
     }
 
