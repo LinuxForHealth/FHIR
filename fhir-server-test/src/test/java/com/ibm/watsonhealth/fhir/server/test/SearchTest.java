@@ -366,7 +366,7 @@ public class SearchTest extends FHIRServerTestBase {
     public void test_SearchObservationObservationWithRange_filter_elements() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("value-range", "5.0|http://loinc.org|v15074-8");
-        parameters.searchParam("_elements", "status","category");
+        parameters.searchParam("_elements", "status,category");
         FHIRRequestHeader header = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
         FHIRResponse response = client._search("Observation", parameters, header);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
@@ -375,7 +375,6 @@ public class SearchTest extends FHIRServerTestBase {
         
         Coding subsettedTag = FHIRUtil.coding("http://hl7.org/fhir/v3/ObservationValue", "SUBSETTED", "subsetted");
         assertTrue(FHIRUtil.containsTag(bundle, subsettedTag)); 
-        
         
         assertTrue(bundle.getEntry().size() >= 1);
         Observation retrievedObservation = bundle.getEntry().get(0).getResource().getObservation();
@@ -397,12 +396,12 @@ public class SearchTest extends FHIRServerTestBase {
                     assertNotNull(elementValue);
                 }
                 else if (! obsMethod.getName().equals("getClass")) {
-                     if (elementValue instanceof List) {
-                         assertEquals(0,((List)elementValue).size());
-                     }
-                     else {
-                         assertNull(elementValue);
-                     }
+                    if (elementValue instanceof List) {
+                        assertEquals(0,((List)elementValue).size());
+                    }
+                    else {
+                        assertNull(elementValue);
+                    }
                 }
             }
         }

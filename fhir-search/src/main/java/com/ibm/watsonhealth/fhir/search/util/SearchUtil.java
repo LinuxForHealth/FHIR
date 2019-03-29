@@ -1371,15 +1371,19 @@ public class SearchUtil {
      * values for _elements. Those Strings are included in the elementsParameters collection contained in the passed FHIRSearchContext.
      * @throws Exception
      */
-    private static void parseElementsParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, List<String> elementsList) throws Exception {
+    private static void parseElementsParameter(Class<? extends Resource> resourceType, FHIRSearchContext context, List<String> elementLists) throws Exception {
         
         Set<String> resourceFieldNames = FHIRUtil.getFieldNames(resourceType.getSimpleName());
-                
-        for (String elementName: elementsList) {
-            if (elementName.startsWith("_") || !resourceFieldNames.contains(elementName)) {
-                throw buildInvalidSearchException("Invalid element name: " + elementName);
+        
+        for (String elements : elementLists) {
+            // For other parameters, we pass the comma-separated list of values to the PL
+            // but for elements, we need to process that here
+            for (String elementName : elements.split(",")) {
+                if (elementName.startsWith("_") || !resourceFieldNames.contains(elementName)) {
+                    throw buildInvalidSearchException("Invalid element name: " + elementName);
+                }
+                context.addElementsParameter(elementName);
             }
-            context.addElementsParameter(elementName);
         }
     }
 }
