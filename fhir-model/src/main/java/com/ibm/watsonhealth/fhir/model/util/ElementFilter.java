@@ -34,8 +34,8 @@ public class ElementFilter {
      * Constructs an ElementFilter containing only the required elements.
      */
     public ElementFilter(String resourceTypeName) {
-        includeElements.addAll(REQUIRED_ELEMENTS);
-        includeElements.addAll(FHIRUtil.getRequiredFieldNames(resourceTypeName));
+        addElements(REQUIRED_ELEMENTS);
+        addElements(new ArrayList<>(FHIRUtil.getRequiredFieldNames(resourceTypeName)));
     }
 
     /**
@@ -54,15 +54,15 @@ public class ElementFilter {
 
     /**
      * Adds the passed elements to the collection of element names to be used for
-     * filtering
+     * filtering.
      * 
      * @param newElements
      */
     public void addElements(List<String> newElements) {
         for (String element : newElements) {
             includeElements.add(element);
-            // add a "_elementName" entry in case that element is a primitive
-            // see https://www.hl7.org/fhir/DSTU2/json.html#primitive for more info
+            // Add an "_elementName" entry in case that element contains an id or extensions.
+            // See https://www.hl7.org/fhir/DSTU2/json.html for more info.
             includeElements.add("_" + element);
         }
     }
