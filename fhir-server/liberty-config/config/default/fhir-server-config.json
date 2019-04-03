@@ -6,7 +6,9 @@
 CODE_REMOVED
 			"userDefinedSchematronEnabled": false,
 			"tenantIdHeaderName": "X-FHIR-TENANT-ID",
-			"datastoreIdHeaderName": "X-FHIR-DSID"
+			"datastoreIdHeaderName": "X-FHIR-DSID",
+			"jsonParserLenient": false,
+			"jsonParserValidating": true
 		},
 		"authFilter": {
 			"enabled": false,

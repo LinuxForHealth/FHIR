@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,22 +80,20 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         log.entering(this.getClass().getName(), "readFrom");
         try {
             return FHIRUtil.read(type, getFormat(mediaType), new FilterInputStream(entityStream) {
-                    @Override
-                    public void close() {
-                        // do nothing
-                    }
-            });
-        } 
-        catch (Exception e) {
+                @Override
+                public void close() {
+                    // do nothing
+                }
+            }, isLenient(), isValidating());
+        } catch (Exception e) {
             Response response = buildResponse(
-                    buildOperationOutcome(
-                            createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource deserialization")
-                    )
+                buildOperationOutcome(
+                    createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource deserialization")
+                )
             );
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
             throw new WebApplicationException(response);
-        } 
-        finally {
+        } finally {
             log.exiting(this.getClass().getName(), "readFrom");
         }
     }
@@ -124,17 +121,19 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                     // do nothing
                 }
             }, isPretty(requestHeaders));
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             Response response = buildResponse(
-                                    buildOperationOutcome(
-                                        createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource serialization")
-                                    )
-                                );
+                buildOperationOutcome(
+                    createIssue(
+                        IssueSeverityList.FATAL, 
+                        IssueTypeList.EXCEPTION, 
+                        "FHIRProviderException: an error occurred during resource serialization"
+                    )
+                )
+            );
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             throw new WebApplicationException(response);
-        } 
-        finally {
+        } finally {
             log.exiting(this.getClass().getName(), "writeTo");
         }
     }
@@ -154,6 +153,14 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 
         // Config evaluation (default false)
         return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_DEFAULT_PRETTY_PRINT, false);
+    }
+    
+    protected static boolean isLenient() {
+        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_JSON_PARSER_LENIENT, false);
+    }
+    
+    protected static boolean isValidating() {
+        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_JSON_PARSER_VALIDATING, true);
     }
 
     @Override

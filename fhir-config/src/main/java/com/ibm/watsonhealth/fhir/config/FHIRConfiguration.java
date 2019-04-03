@@ -61,6 +61,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DATASTORE_ID_HEADER_NAME = "fhirServer/core/datastoreIdHeaderName";
     public static final String PROPERTY_DEFAULT_TENANT_ID = "fhirServer/core/defaultTenantId";
     public static final String PROPERTY_DEFAULT_PRETTY_PRINT = "fhirServer/core/defaultPrettyPrint";
+    public static final String PROPERTY_JSON_PARSER_LENIENT = "fhirServer/core/jsonParserLenient";
+    public static final String PROPERTY_JSON_PARSER_VALIDATING = "fhirServer/core/jsonParserValidating";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
     public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/authFilter/enabled";

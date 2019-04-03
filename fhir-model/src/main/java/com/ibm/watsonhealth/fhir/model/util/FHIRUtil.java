@@ -279,8 +279,15 @@ public class FHIRUtil {
     /**
      * Read a FHIR resource from InputStream {@code stream} in the requested {@code format}.
      */
-    @SuppressWarnings("unchecked")
     public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream) throws JAXBException {
+        return read(resourceType, format, stream, false, true);
+    }
+    
+    /**
+     * Read a FHIR resource from InputStream {@code stream} in the requested {@code format}.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream, boolean lenient, boolean validating) throws JAXBException {
         if (Format.XML.equals(format)) {
             try {
                 Unmarshaller unmarshaller = createUnmarshaller(format);
@@ -292,10 +299,10 @@ public class FHIRUtil {
             }
         } else {
             // Format.JSON.equals(format)
-            return readAndFilterJson(resourceType, stream, null);
+            return readAndFilterJson(resourceType, stream, null, lenient, validating);
         }
     }
-
+    
     /**
      * Read JSON from InputStream {@code stream} and parse it into a FHIR resource.
      * Non-mandatory elements which are not in {@code elementsToInclude} will be filtered out.
@@ -303,11 +310,26 @@ public class FHIRUtil {
      * @param elements a list of element names to include in the returned resource; null to skip filtering
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
-    @SuppressWarnings("unchecked")
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream stream, List<String> elementsToInclude) throws JAXBException {
+        return readAndFilterJson(resourceType, stream, elementsToInclude, false, true);
+    }
+
+    /**
+     * Read JSON from InputStream {@code stream} and parse it into a FHIR resource.
+     * Non-mandatory elements which are not in {@code elementsToInclude} will be filtered out.
+     * @param stream
+     * @param elements a list of element names to include in the returned resource; null to skip filtering
+     * @param lenient
+     * @param validating
+     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream stream, List<String> elementsToInclude, boolean lenient, boolean validating) throws JAXBException {
         try {
             FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
             parser.reset();
+            parser.setLenient(lenient);
+            parser.setValidating(validating);
             Resource resource = parser.parseAndFilter(stream, elementsToInclude);
             return (T) resource;
         } catch (FHIRException e) {
