@@ -51,6 +51,9 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 public class BundleTest extends FHIRServerTestBase {
     // Set this to true to have the request and response bundles displayed on the console.
     private boolean debug = false;
+    
+    // Set this to true to have the request and response bundles pretty printed on the console when debug = true
+    private boolean prettyPrint = true;
 
     // Variables used by the batch tests.
     private Patient patientB1 = null;
@@ -188,13 +191,6 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Missing required field: 'method'");
-        /*
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
-        printBundle(method, "response", responseBundle);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "Missing required field: 'method'");
-        */
     }
 
     @Test(groups = { "batch" })
@@ -275,13 +271,6 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Missing required field: 'url'");
-        /*
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
-        printBundle(method, "response", responseBundle);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.request is missing the 'url' field");
-        */
     }
 
     @Test(groups = { "batch" })
@@ -988,13 +977,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-//      assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
-        if (responseBundle.getEntry().size() == 1) {
-            assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        } else {
-            assertEquals(2, responseBundle.getEntry().size());
-            assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        }
+        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
         
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1028,13 +1012,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-//      assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
-        if (responseBundle.getEntry().size() == 1) {
-            assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        } else {
-            assertEquals(2, responseBundle.getEntry().size());
-            assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        }
+        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
         
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1068,13 +1047,10 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
-        /*
+        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
         boolean foundError = assertOptionalBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
         foundError = foundError || assertOptionalBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(), "If-Match version '1' does not match current latest version of resource: 2");
         assertTrue(foundError);
-        */
         
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1153,9 +1129,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-//      assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 3);
-        // response bundle will not contain entries that have an empty response
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 3);
 
         assertSearchResults(target, uniqueFamily1, 0);
         assertSearchResults(target, uniqueFamily2, 0);
@@ -1188,10 +1162,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-//      assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 3);
-        // response bundle will not contain entries that have an empty response
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.resource must contain an id field for a PUT operation");
+        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 3);
+        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(), "BundleEntry.resource must contain an id field for a PUT operation");
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1834,9 +1806,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.GONE.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-//      assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 4);
-        // response bundle will not contain entries that have an empty response
-        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
+        assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.GONE.getStatusCode());
     }
 
@@ -2277,13 +2247,12 @@ public class BundleTest extends FHIRServerTestBase {
         }
     }
 
-    @SuppressWarnings("unused")
     private boolean assertOptionalBadResponse(BundleEntry entry, int expectedStatusCode, String expectedMsg) {
         assertNotNull(entry);
         BundleResponse response = entry.getResponse();
         assertNotNull(response);
 
-        if (response.getStatus() != null) {
+        if (response.getStatus() != null && response.getStatus().getExtension().isEmpty()) {
             assertEquals(Integer.toString(expectedStatusCode), response.getStatus().getValue());
             ResourceContainer rc = entry.getResource();
             assertNotNull(rc);
@@ -2303,7 +2272,7 @@ public class BundleTest extends FHIRServerTestBase {
 
     private void printBundle(String method, String bundleType, Bundle bundle) throws JAXBException {
         if (debug) {
-            System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON));
+            System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON, prettyPrint));
         }
     }
 

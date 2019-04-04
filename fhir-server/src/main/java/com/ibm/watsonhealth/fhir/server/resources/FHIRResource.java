@@ -14,6 +14,7 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_VIRTUAL_RESOURCES_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.bool;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.code;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
@@ -33,7 +34,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -2627,11 +2627,14 @@ public class FHIRResource implements FHIRResourceHelpers {
                 log.log(Level.WARNING, msg, e);
             }
             // remove bundle entries that have an empty response
-            Iterator<BundleEntry> iterator = e.getResponseBundle().getEntry().iterator();
-            while (iterator.hasNext()) {
-                BundleEntry entry = iterator.next();
+            for (BundleEntry entry : e.getResponseBundle().getEntry()) {
                 if (entry.getResponse() != null && entry.getResponse().getStatus() == null) {
-                    iterator.remove();
+                    com.ibm.watsonhealth.fhir.model.String status = objectFactory.createString()
+                        .withExtension(objectFactory.createExtension()
+                            .withUrl("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+                            .withValueCode(code("error"))
+                        );
+                    entry.getResponse().setStatus(status);
                 }
             }
             response = Response.status(e.getHttpStatus()).entity(e.getResponseBundle()).build() ;
