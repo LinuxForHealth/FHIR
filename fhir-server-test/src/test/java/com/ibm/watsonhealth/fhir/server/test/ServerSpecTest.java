@@ -12,6 +12,8 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.codeableConcept;
+
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.UUID;
@@ -29,6 +31,7 @@ import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.BundleTypeList;
 import com.ibm.watsonhealth.fhir.model.Observation;
+import com.ibm.watsonhealth.fhir.model.ObservationStatusList;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Patient;
 
@@ -263,7 +266,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Entity<Observation> entity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "global-1");
+        assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "Missing required field: 'status'");
     }
 
     // Test: include incorrect resource type in request body.
@@ -272,7 +275,9 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build an Observation, then try to call the 'create patient' API.
-        Observation observation = getObjectFactory().createObservation();
+        Observation observation = getObjectFactory().createObservation()
+                .withStatus(getObjectFactory().createObservationStatus().withValue(ObservationStatusList.FINAL))
+                .withCode(codeableConcept("http://ibm.com/system", "someCode"));
         Entity<Observation> entity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());

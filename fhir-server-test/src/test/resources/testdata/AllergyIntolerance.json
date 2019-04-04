@@ -54,5 +54,8 @@
 		"div": "<div><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>identifier</b>: 49476534</p><p><b>recordedDate</b>: 09/10/2014 2:58:00 PM</p><p><b>recorder</b>: <a>Practitioner/example</a></p><p><b>patient</b>: <a>Patient/example</a></p><p><b>substance</b>: Cashew nuts <span>(Details : {SNOMED CT code '227493005' = '227493005', given as 'Cashew nuts'})</span></p><p><b>status</b>: confirmed</p><p><b>criticality</b>: CRITH</p><p><b>type</b>: allergy</p><p><b>category</b>: food</p><p><b>lastOccurence</b>: 01/06/2012</p><blockquote><p><b>reaction</b></p><p><b>substance</b>: cashew nut allergenic extract Injectable Product <span>(Details : {RxNorm code 'C3214954' = '??', given as 'cashew nut allergenic extract Injectable Product'})</span></p><p><b>manifestation</b>: Anaphylactic reaction <span>(Details : {SNOMED CT code '39579001' = '39579001', given as 'Anaphylactic reaction'})</span></p><p><b>description</b>: Challenge Protocol. Severe Reaction to 1/8 cashew. Epinephrine administered</p><p><b>onset</b>: 12/06/2012</p><p><b>severity</b>: severe</p></blockquote><blockquote><p><b>reaction</b></p><p><b>certainty</b>: likely</p><p><b>manifestation</b>: Urticaria <span>(Details : {SNOMED CT code '64305001' = '64305001', given as 'Urticaria'})</span></p><p><b>onset</b>: 01/01/2004</p><p><b>severity</b>: moderate</p></blockquote></div>",
 		"status": "generated"
 	},
-	"type": "allergy"
+	"type": "allergy",
+	"patient": {
+	   "reference": "Patient/pat1"
+	 }
 }

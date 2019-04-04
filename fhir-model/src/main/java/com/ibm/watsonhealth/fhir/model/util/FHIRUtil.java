@@ -333,7 +333,7 @@ public class FHIRUtil {
             Resource resource = parser.parseAndFilter(stream, elementsToInclude);
             return (T) resource;
         } catch (FHIRException e) {
-            throw new JAXBException(e);
+            throw new JAXBException(e.getMessage(), e);
         }
     }
 
@@ -372,7 +372,7 @@ public class FHIRUtil {
             Resource resource = parser.parseAndFilter(reader, elementsToInclude);
             return (T) resource;
         } catch (FHIRException e) {
-            throw new JAXBException(e);
+            throw new JAXBException(e.getMessage(), e);
         }
     }
 

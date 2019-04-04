@@ -88,7 +88,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         } catch (Exception e) {
             Response response = buildResponse(
                 buildOperationOutcome(
-                    createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProviderException: an error occurred during resource deserialization")
+                    createIssue(IssueSeverityList.ERROR, IssueTypeList.INVALID, "FHIRProvider: " + e.getMessage())
                 )
             );
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
@@ -124,11 +124,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         } catch (Exception e) {
             Response response = buildResponse(
                 buildOperationOutcome(
-                    createIssue(
-                        IssueSeverityList.FATAL, 
-                        IssueTypeList.EXCEPTION, 
-                        "FHIRProviderException: an error occurred during resource serialization"
-                    )
+                    createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProvider: an error occurred during resource serialization")
                 )
             );
             log.log(Level.WARNING, "an error occurred during resource serialization", e);

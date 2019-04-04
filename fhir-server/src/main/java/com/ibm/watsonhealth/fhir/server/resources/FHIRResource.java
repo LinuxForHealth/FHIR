@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -95,6 +96,7 @@ import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
+import com.ibm.watsonhealth.fhir.model.UnknownContentCodeList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.model.util.ReferenceFinder;
@@ -2624,6 +2626,14 @@ public class FHIRResource implements FHIRResourceHelpers {
                         + "Only the response bundle will be returned.";
                 log.log(Level.WARNING, msg, e);
             }
+            // remove bundle entries that have an empty response
+            Iterator<BundleEntry> iterator = e.getResponseBundle().getEntry().iterator();
+            while (iterator.hasNext()) {
+                BundleEntry entry = iterator.next();
+                if (entry.getResponse() != null && entry.getResponse().getStatus() == null) {
+                    iterator.remove();
+                }
+            }
             response = Response.status(e.getHttpStatus()).entity(e.getResponseBundle()).build() ;
         } else {
             response = exceptionResponse(e, e.getHttpStatus()) ;
@@ -2794,6 +2804,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         
         // Finally, create the Conformance resource itself.
         Conformance conformance = objectFactory.createConformance()
+                .withAcceptUnknown(objectFactory.createUnknownContentCode().withValue(UnknownContentCodeList.BOTH))
                 .withFormat(
                     objectFactory.createCode().withValue(MediaType.APPLICATION_JSON), 
                     objectFactory.createCode().withValue(MediaType.APPLICATION_JSON_FHIR), 
