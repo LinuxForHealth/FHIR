@@ -285,6 +285,16 @@ public class FHIRUtil {
     
     /**
      * Read a FHIR resource from InputStream {@code stream} in the requested {@code format}.
+     * @param lenient puts JSON parser into lenient mode (does nothing when format is XML).
+     *      In lenient mode, the {@code FHIRJsonParser} has the following behavior:
+     *          - If the target is a single, non-repeating field but the source is an array, then the last element of the array will be used
+     *          - If the target is a repeating field but the source is a single JSON object, then the object will be used as the first element of the repeating field
+     *          - If the target is a Number and the source is a JSON string, then the string is converted into a Number
+     *          - If the target is a Boolean and the source is a JSON string, then the string will be converted into a Boolean
+     * @param validating puts JSON parser into validating mode (does nothing when format is XML)
+     *      In validating mode, the {@code FHIRJsonParser} has the following behavior:
+     *          - Unrecognized fields will cause an exception to be thrown ({@code resourceType} and {@code fhir_comments} are excluded).
+     *          - Missing required elements will cause an exception to be thrown
      */
     @SuppressWarnings("unchecked")
     public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream stream, boolean lenient, boolean validating) throws JAXBException {
