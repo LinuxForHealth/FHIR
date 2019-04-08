@@ -340,7 +340,9 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testSearchPatientWithParams3() throws Exception {
-        FHIRParameters parameters = new FHIRParameters().searchParam("birthdate", ValuePrefix.LE, "1950-01-01");
+        FHIRParameters parameters = new FHIRParameters()
+                .searchParam("birthdate", ValuePrefix.LE, "1950-01-01")
+                .searchParam("_id", updatedPatient.getId().getValue());
                 
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
@@ -354,7 +356,9 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testSearchPatientWithParams4() throws Exception {
-        FHIRParameters parameters = new FHIRParameters().searchParam("birthdate", ValuePrefix.GE, "1970-01-01");
+        FHIRParameters parameters = new FHIRParameters()
+                .searchParam("birthdate", ValuePrefix.GE, "1970-01-01")
+                .searchParam("_id", updatedPatient.getId().getValue());
                 
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
@@ -363,7 +367,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
-        assertTrue(bundle.getEntry().size() >= 1);
+        assertTrue(bundle.getEntry().size() == 1);
     }
 
     @Test(dependsOnMethods = { "testUpdatePatient" })

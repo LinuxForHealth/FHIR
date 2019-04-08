@@ -12,6 +12,7 @@ import static org.testng.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.PrintStream;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -39,6 +40,9 @@ public class FHIRCliTest extends FHIRServerTestBase {
     private static final String dirPrefix = "target/test-classes";
     
     private static String patientId = null;
+    
+    // used to limit the number of result from searchAll to avoid timeouts for large dbs
+    private static LocalDate dateOfTest = LocalDate.now();
     
     private static final Pattern locationURIPattern = Pattern.compile("URI:\\s*(\\S*)");
 
@@ -134,7 +138,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
     
     @Test(dependsOnMethods={"testSearchPatient"})
     public void testSearchAll() throws Exception {
-        runTest("testSearchAll", "-p", propsFile(), "--operation", "search-all", "-qp", "_count=1000", "-qp", "_lastUpdated=ge1970-01-01", "-o", dirPrefix("searchAll.json"));
+        runTest("testSearchAll", "-p", propsFile(), "--operation", "search-all", "-qp", "_count=100", "-qp", "_lastUpdated=ge" + dateOfTest , "-o", dirPrefix("searchAll.json"));
         verifyConsoleOutput("Status code: 200");
     }
     
