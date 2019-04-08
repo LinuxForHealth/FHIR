@@ -67,7 +67,26 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchReference_Reference_missing() throws Exception {
+        assertSearchReturnsSavedResource("Reference:missing", "false");
+        assertSearchDoesntReturnSavedResource("Reference:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-Reference:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-Reference:missing", "false");
+    }
+    
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchReference_uri() throws Exception {
         assertSearchReturnsSavedResource("uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchReference_uri_missing() throws Exception {
+        assertSearchReturnsSavedResource("uri:missing", "false");
+        assertSearchDoesntReturnSavedResource("uri:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-uri:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
     }
 }

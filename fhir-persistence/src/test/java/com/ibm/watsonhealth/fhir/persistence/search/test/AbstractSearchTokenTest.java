@@ -30,9 +30,42 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchToken_boolean() throws Exception {
+        assertSearchReturnsSavedResource("boolean", "true");
+        assertSearchDoesntReturnSavedResource("boolean", "false");
+        
+        // FHIR boolean values have an implicit code of http://hl7.org/fhir/special-values
+        // so I think the "|true" variant should return empty 
+        // and the "http://hl7.org/fhir/special-values|true" variant should return the resource.
+//        assertSearchDoesntReturnSavedResource("boolean", "|true");
+        assertSearchDoesntReturnSavedResource("boolean", "|false");
+        
+//        assertSearchReturnsSavedResource("boolean", "http://hl7.org/fhir/special-values|true");
+        assertSearchDoesntReturnSavedResource("boolean", "http://hl7.org/fhir/special-values|false");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchToken_boolean_missing() throws Exception {
+        assertSearchReturnsSavedResource("boolean:missing", "false");
+        assertSearchDoesntReturnSavedResource("boolean:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-boolean:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-boolean:missing", "false");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_code() throws Exception {
         assertSearchReturnsSavedResource("extension-code", "code");
         assertSearchReturnsSavedResource("extension-code", "|code");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchToken_code_missing() throws Exception {
+        assertSearchReturnsSavedResource("extension-code:missing", "false");
+        assertSearchDoesntReturnSavedResource("extension-code:missing", "true");
+        
+        assertSearchReturnsSavedResource("extension-missing-code:missing", "true");
+        assertSearchDoesntReturnSavedResource("extension-missing-code:missing", "false");
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -44,6 +77,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         // This shouldn't return any results because the Coding has a system
 //        assertSearchDoesntReturnSavedResource("Coding", "|code");
     }
+    
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Coding_NoSystem() throws Exception {
         assertSearchReturnsSavedResource("Coding-noSystem", "code");
@@ -55,6 +89,15 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //    public void testSearchDate_Coding_NoCode() throws Exception {
 //        assertSearchReturnsSavedResource("Coding-noCode", "http://example.org/codesystem|");
 //    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchToken_Coding_missing() throws Exception {
+        assertSearchReturnsSavedResource("Coding:missing", "false");
+        assertSearchDoesntReturnSavedResource("Coding:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-Coding:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-Coding:missing", "false");
+    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_Identifier() throws Exception {
@@ -76,6 +119,15 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //    public void testSearchDate_Identifier_NoValue() throws Exception {
 //        assertSearchReturnsSavedResource("Identifier-noValue", "http://example.org/identifiersystem|");
 //    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchToken_Identifier_missing() throws Exception {
+        assertSearchReturnsSavedResource("Identifier:missing", "false");
+        assertSearchDoesntReturnSavedResource("Identifier:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-Identifier:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-Identifier:missing", "false");
+    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_ContactPoint() throws Exception {

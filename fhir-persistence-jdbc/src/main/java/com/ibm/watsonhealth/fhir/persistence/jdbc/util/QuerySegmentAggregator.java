@@ -20,6 +20,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 
 /**
  * This class assists the JDBCNormalizedQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
@@ -42,7 +43,7 @@ class QuerySegmentAggregator {
     protected static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R JOIN {0}_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
     private static final String PARAMETER_TABLE_VAR = "P";
-    protected static final String PARAMETER_TABLE_ALIAS = "pX.";
+    protected static final String PARAMETER_TABLE_ALIAS = "pX";
     private static final String FROM = " FROM ";
     private static final String UNION = " UNION ALL ";
     protected static final String ON = " ON ";
@@ -51,8 +52,14 @@ class QuerySegmentAggregator {
     private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
         
     protected Class<? extends Resource> resourceType;
+
+    /**
+     * querySegments and searchQueryParameters are used as parallel arrays
+     * and should be added to/removed together. 
+     */
     protected List<SqlQueryData> querySegments;
-    private List<Parameter> searchQueryParameters;
+    protected List<Parameter> searchQueryParameters;
+    
     private int offset;
     private int pageSize;
     protected ParameterNormalizedDAO parameterDao;
@@ -87,6 +94,7 @@ class QuerySegmentAggregator {
         final String METHODNAME = "addQueryData";
         log.entering(CLASSNAME, METHODNAME);
         
+        //parallel arrays
         this.querySegments.add(querySegment);
         this.searchQueryParameters.add(queryParm);
         
@@ -144,7 +152,7 @@ class QuerySegmentAggregator {
      *   Builds a complete SQL count query based upon the encapsulated query segments and bind variables.
      *   A simple example query produced by this method:
      *   
-     *      SELECT COUNT(R.RESOURCE_ID)FROM
+     *     SELECT COUNT(R.RESOURCE_ID)FROM
      *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
      *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
      *     (P1.RESOURCE_ID = R.RESOURCE_ID AND
@@ -278,27 +286,34 @@ class QuerySegmentAggregator {
         fromClause.append(MessageFormat.format(FROM_CLAUSE_ROOT, this.resourceType.getSimpleName()));
         
         for (Parameter searchQueryParm : this.searchQueryParameters) {
+            if (Modifier.MISSING.equals(searchQueryParm.getModifier())) {
+                // No need to join on the VALUES table for search params with the :missing modifier
+                continue;
+            }
+            fromClause.append(JOIN).append(resourceTypeName);
             isLocationQuery = Location.class.equals(this.resourceType) && searchQueryParm.getName().equals(AbstractQueryBuilder.NEAR);
             switch(searchQueryParm.getType()) {
                 case URI :
                 case REFERENCE : 
-                case STRING :   fromClause.append(JOIN).append(resourceTypeName).append("_STR_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+                case STRING :   fromClause.append("_STR_VALUES ");
                      break;
-                case NUMBER :   fromClause.append(JOIN).append(resourceTypeName).append("_NUMBER_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex); 
+                case NUMBER :   fromClause.append("_NUMBER_VALUES "); 
                      break;
-                case QUANTITY : fromClause.append(JOIN).append(resourceTypeName).append("_QUANTITY_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+                case QUANTITY : fromClause.append("_QUANTITY_VALUES ");
                      break;
-                case DATE :     fromClause.append(JOIN).append(resourceTypeName).append("_DATE_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
-                      break;
+                case DATE :     fromClause.append("_DATE_VALUES ");
+                     break;
                 case TOKEN :    if (isLocationQuery) {
-                                    fromClause.append(JOIN).append(resourceTypeName).append("_LATLNG_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+                                    fromClause.append("_LATLNG_VALUES ");
                                 }
                                 else {
-                                    fromClause.append(JOIN).append(resourceTypeName).append("_TOKEN_VALUES ").append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
+                                    fromClause.append("_TOKEN_VALUES ");
                                 }
                      break;
             }
+            fromClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
             fromClause.append(ON).append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".RESOURCE_ID=R.RESOURCE_ID");
+            
             parameterTableAliasIndex++;
         }
         fromClause.append(" ");
@@ -326,14 +341,19 @@ class QuerySegmentAggregator {
         whereClause.append(WHERE_CLAUSE_ROOT);
         whereClause.append(" AND ");
         if (!this.querySegments.isEmpty()) {
-            for(SqlQueryData querySegment : this.querySegments) {
-                 if (querySegmentProcessed) {
+            for(int i = 0; i < this.querySegments.size(); i++) {
+                SqlQueryData querySegment = this.querySegments.get(i);
+                Parameter param = this.searchQueryParameters.get(i);
+                
+                if (querySegmentProcessed) {
                     whereClause.append(" AND ");
                 }
                 whereClauseSegment = querySegment.getQueryString();
+                if (!Modifier.MISSING.equals(param.getModifier())) {
+                    whereClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".").append("RESOURCE_ID = R.RESOURCE_ID AND ");
+                }
                 resolvedTableAlias = PARAMETER_TABLE_VAR + parameterTableAliasIndex + ".";
-                whereClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".").append("RESOURCE_ID = R.RESOURCE_ID AND ");
-                whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS, resolvedTableAlias);
+                whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", resolvedTableAlias);
                 whereClause.append(whereClauseSegment);
                 querySegmentProcessed = true;
                 parameterTableAliasIndex++;

@@ -150,10 +150,13 @@ public class SearchUtil {
     private static void initializedResourceTypeModifierMap() {
 
         resourceTypeModifierMap = new HashMap<Type, List<Modifier>>();
-        resourceTypeModifierMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS));
-        resourceTypeModifierMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE));
-        resourceTypeModifierMap.put(Type.URI, Arrays.asList(Modifier.BELOW));
-        resourceTypeModifierMap.put(Type.TOKEN, Arrays.asList(Modifier.BELOW, Modifier.NOT));
+        resourceTypeModifierMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
+        resourceTypeModifierMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING));
+        resourceTypeModifierMap.put(Type.URI, Arrays.asList(Modifier.BELOW, Modifier.MISSING));
+        resourceTypeModifierMap.put(Type.TOKEN, Arrays.asList(Modifier.BELOW, Modifier.NOT, Modifier.MISSING));
+        resourceTypeModifierMap.put(Type.NUMBER, Arrays.asList(Modifier.MISSING));
+        resourceTypeModifierMap.put(Type.DATE, Arrays.asList(Modifier.MISSING));
+        resourceTypeModifierMap.put(Type.QUANTITY, Arrays.asList(Modifier.MISSING));
 
     }
 
@@ -821,7 +824,13 @@ public class SearchUtil {
 
                 for (String queryParameterValueString : queryParameters.get(name)) {
                     Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
-                    List<ParameterValue> queryParameterValues = parseQueryParameterValuesString(type, queryParameterValueString);
+                    List<ParameterValue> queryParameterValues;
+                    if (Modifier.MISSING.equals(modifier)) {
+                        // FHIR search considers booleans a special case of token for some reason...
+                        queryParameterValues = parseQueryParameterValuesString(Type.TOKEN, queryParameterValueString);
+                    } else {
+                        queryParameterValues = parseQueryParameterValuesString(type, queryParameterValueString);
+                    }
                     parameter.getValues().addAll(queryParameterValues);
                     parameters.add(parameter);
                 }

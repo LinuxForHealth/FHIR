@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.search.test;
 
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -29,7 +30,7 @@ import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest
 public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
 
     protected Basic savedResource;
-    
+
     @AfterClass
     public void removeTenant() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
@@ -37,7 +38,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
         }
         FHIRRequestContext.get().setTenantId("default");
     }
-    
+
     /**
      * Saves the passed resource in the configured persistence layer.
      * Modifies the resource in-place and saves it to {@code savedResource}.
@@ -50,6 +51,16 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
         assertNotNull(resource.getMeta());
         assertNotNull(resource.getMeta().getVersionId().getValue());
         assertEquals("1", resource.getMeta().getVersionId().getValue());
+        
+        // update the resource to verify that historical versions won't be returned in search results
+        persistence.update(getDefaultPersistenceContext(), resource.getId().getValue(), resource);
+        assertNotNull(resource);
+        assertNotNull(resource.getId());
+        assertNotNull(resource.getId().getValue());
+        assertNotNull(resource.getMeta());
+        assertNotNull(resource.getMeta().getVersionId().getValue());
+        assertEquals("2", resource.getMeta().getVersionId().getValue());
+        
         savedResource = resource;
     }
 
@@ -58,7 +69,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      * @throws Exception
      */
     protected void assertSearchReturnsSavedResource(String searchParamName, String queryValue) throws Exception {
-        assertTrue("Expected resource was not returned from the search", 
+        assertTrue("Expected resource was not returned from the search",
             searchReturnsSavedResource(searchParamName, queryValue));
     }
 
@@ -67,7 +78,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      * @throws Exception
      */
     protected void assertSearchDoesntReturnSavedResource(String searchParamName, String queryValue) throws Exception {
-        assertFalse("Unexpected resource was returned from the search", 
+        assertFalse("Unexpected resource was returned from the search",
             searchReturnsSavedResource(searchParamName, queryValue));
     }
 
@@ -88,17 +99,32 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     }
 
     /**
-     * Returns the first resource in resources with an id matching the savedResource, otherwise null
+     * If the savedResource is contained in the list of resources this method returns the resource.
+     * If the savedReturns the resource in resources with an id matching the savedResource, otherwise null
      * @param resources
      */
     private Resource findSavedResourceInResponse(List<Resource> resources) {
         Resource returnedResource = null;
+        boolean alreadyFound = false;
+        int count = 0;
         for (Resource r : resources) {
             assertTrue(r instanceof Basic);
             String id = ((Basic)r).getId().getValue();
+            String version = ((Basic)r).getMeta().getVersionId().getValue();
             if (savedResource.getId().getValue().equals(id)) {
-                returnedResource = r;
-                break;
+                if (savedResource.getMeta().getVersionId().getValue().equals(version)) {
+                    count++;
+                    if (alreadyFound) {
+                        System.out.println("found resource with id " + id + " " + count + " times.");
+                        fail("Resource with id '" + id + "' was returned multiple times in the search.");
+                    }
+                    returnedResource = r;
+                    alreadyFound = true;
+                } else {
+                    fail("Search has returned historical resource for resource id '" + id + "'.\n"
+                            + "Expected: version " + savedResource.getMeta().getVersionId().getValue() + "\n"
+                            + "Actual: version " + version);
+                }
             }
         }
         return returnedResource;

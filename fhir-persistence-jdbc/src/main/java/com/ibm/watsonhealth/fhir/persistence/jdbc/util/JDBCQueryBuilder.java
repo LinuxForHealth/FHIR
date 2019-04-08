@@ -159,7 +159,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
         
         // For each search parm, build a query parm that will satisfy the search. 
         for (Parameter queryParameter : searchParameters) {
-            queryParm = this.buildQueryParm(resourceType, queryParameter, PARAMETERS_TABLE_ALIAS);
+            queryParm = this.buildQueryParm(resourceType, queryParameter, PARAMETERS_TABLE_ALIAS_QUALIFIER);
             if (queryParm != null) {
                 queryParms.add(queryParm);
                 parmAdded = true;
@@ -183,7 +183,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
                 for (int i = 0; i < queryParms.size(); i++) {
                     whereClauseParm = queryParms.get(i);
                     indexedTableAlias = "p" + (i+1) + ".";
-                    whereClauseParm = whereClauseParm.replaceAll(PARAMETERS_TABLE_ALIAS, indexedTableAlias);
+                    whereClauseParm = whereClauseParm.replaceAll(PARAMETERS_TABLE_ALIAS_QUALIFIER, indexedTableAlias);
                     // Only tack on an 'AND' to the end of the query buffer if it does not end in 'WHERE'
                     if (! (sqlQuery.lastIndexOf(WHERE) == sqlQuery.length() - WHERE.length())) {
                         sqlQuery.append(JDBCOperator.AND.value());
@@ -470,10 +470,10 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
                     // Must build this first piece using px placeholder table alias, which will be replaced with a 
                     // generated value in the buildQuery() method.
                     // Build this piece: px.name = 'search-attribute-name' AND (px.value_string IN
-                    this.populateNameQuerySegment(whereClauseSegment, currentParm.getName(), PARAMETERS_TABLE_ALIAS);
+                    this.populateNameQuerySegment(whereClauseSegment, currentParm.getName(), PARAMETERS_TABLE_ALIAS_QUALIFIER);
                     whereClauseSegment.append(JDBCOperator.AND.value());
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_STRING).append(JDBCOperator.IN.value());
+                    whereClauseSegment.append(PARAMETERS_TABLE_ALIAS_QUALIFIER).append(VALUE_STRING).append(JDBCOperator.IN.value());
                 }
                 else {
                     // Build this piece: CPx.name = 'search-attribute-name' AND CPx.value_string IN 
@@ -564,10 +564,10 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
                 currentParmValue = currentParm.getValues().get(0).getValueString();
                 // Build this piece: (p1.name = 'search-attribute-name' AND 
                 whereClauseSegment.append(LEFT_PAREN);
-                this.populateNameQuerySegment(whereClauseSegment, currentParm.getName(), PARAMETERS_TABLE_ALIAS);
+                this.populateNameQuerySegment(whereClauseSegment, currentParm.getName(), PARAMETERS_TABLE_ALIAS_QUALIFIER);
                 whereClauseSegment.append(JDBCOperator.AND.value());
                 // Build this piece: p1.value_string = 'search-attribute-value')
-                whereClauseSegment.append(PARAMETERS_TABLE_ALIAS).append(VALUE_STRING).append(operator.value())
+                whereClauseSegment.append(PARAMETERS_TABLE_ALIAS_QUALIFIER).append(VALUE_STRING).append(operator.value())
                                   .append(QUOTE).append(currentParmValue).append(QUOTE).append(RIGHT_PAREN);
             }
             
@@ -872,25 +872,25 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
         StringBuilder whereClauseSegment = new StringBuilder();
                 
         // Build this piece: p1.name = 'search-attribute-name' AND (
-        this.populateNameQuerySegment(whereClauseSegment, parmName, PARAMETERS_TABLE_ALIAS);
+        this.populateNameQuerySegment(whereClauseSegment, parmName, PARAMETERS_TABLE_ALIAS_QUALIFIER);
         
         // Now build the piece that compares the BoundingBox longitude and latitude values
         // to the persisted longitude and latitude parameters.
         whereClauseSegment.append(JDBCOperator.AND.value())
                             .append(LEFT_PAREN)
-                            .append(PARAMETERS_TABLE_ALIAS).append(VALUE_LONGITUDE)
+                            .append(PARAMETERS_TABLE_ALIAS_QUALIFIER).append(VALUE_LONGITUDE)
                             .append(JDBCOperator.LTE.value())
                             .append(boundingBox.getMaxLongitude())
                             .append(JDBCOperator.AND.value())
-                            .append(PARAMETERS_TABLE_ALIAS).append(VALUE_LONGITUDE)
+                            .append(PARAMETERS_TABLE_ALIAS_QUALIFIER).append(VALUE_LONGITUDE)
                             .append(JDBCOperator.GTE.value())
                             .append(boundingBox.getMinLongitude())
                             .append(JDBCOperator.AND.value())
-                            .append(PARAMETERS_TABLE_ALIAS).append(VALUE_LATITUDE)
+                            .append(PARAMETERS_TABLE_ALIAS_QUALIFIER).append(VALUE_LATITUDE)
                             .append(JDBCOperator.LTE.value())
                             .append(boundingBox.getMaxLatitude())
                             .append(JDBCOperator.AND.value())
-                            .append(PARAMETERS_TABLE_ALIAS).append(VALUE_LATITUDE)
+                            .append(PARAMETERS_TABLE_ALIAS_QUALIFIER).append(VALUE_LATITUDE)
                             .append(JDBCOperator.GTE.value())
                             .append(boundingBox.getMinLatitude())
                             .append(RIGHT_PAREN);
@@ -971,6 +971,15 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
         
         log.exiting(CLASSNAME, METHODNAME);
         
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder#processMissingParm(java.lang.Class, com.ibm.watsonhealth.fhir.search.Parameter, java.lang.String)
+     */
+    @Override
+    protected String processMissingParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

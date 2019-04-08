@@ -31,6 +31,15 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 //        assertSearchReturnsSavedResource("date", "2018-10-29T17:12:00");
         assertSearchDoesntReturnSavedResource("date", "2025-10-29");
     }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchDate_date_missing() throws Exception {
+        assertSearchReturnsSavedResource("date:missing", "false");
+        assertSearchDoesntReturnSavedResource("date:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-date:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-date:missing", "false");
+    }
 
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_dateTime() throws Exception {
@@ -41,10 +50,31 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchDate_dateTime_missing() throws Exception {
+        assertSearchReturnsSavedResource("dateTime:missing", "false");
+        assertSearchDoesntReturnSavedResource("dateTime:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-dateTime:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-dateTime:missing", "false");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_instant() throws Exception {
         assertSearchReturnsSavedResource("instant", "2018-10-29T17:12:44-04:00");
     }
     
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchDate_instant_missing() throws Exception {
+        assertSearchReturnsSavedResource("instant:missing", "false");
+        assertSearchDoesntReturnSavedResource("instant:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-instant:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-instant:missing", "false");
+    }
+    
+    ///////////////
+    // Period tests
+    ///////////////
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Period() throws Exception {
         assertSearchReturnsSavedResource("Period", "2018-10-29T17:12:44-04:00");
@@ -56,6 +86,14 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Period_NoEnd() throws Exception {
         assertSearchReturnsSavedResource("Period-noEnd", "2018-10-29T17:12:44-04:00");
+    }
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchDate_Period_missing() throws Exception {
+        assertSearchReturnsSavedResource("Period:missing", "false");
+        assertSearchDoesntReturnSavedResource("Period:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-Period:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-Period:missing", "false");
     }
     
     // We decided that Periods with no start or end should not even be indexed 

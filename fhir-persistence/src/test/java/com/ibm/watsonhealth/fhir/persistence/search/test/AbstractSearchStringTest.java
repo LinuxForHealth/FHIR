@@ -39,5 +39,14 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         // TODO add test for diacritics and other unusual characters
     }
     
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchString_string_missing() throws Exception {
+        assertSearchReturnsSavedResource("string:missing", "false");
+        assertSearchDoesntReturnSavedResource("string:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-string:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-string:missing", "false");
+    }
+    
     // TODO add tests for Address and HumanName
 }

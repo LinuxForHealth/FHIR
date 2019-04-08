@@ -43,6 +43,12 @@
       "valueUri": "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7"
     },
     {
+      "url": "http://example.org/Reference",
+      "valueReference": {
+      	"reference": "Basic/123"
+      }
+    },
+    {
       "url": "http://example.org/ReferenceId",
       "valueReference": {
       	"reference": "123"

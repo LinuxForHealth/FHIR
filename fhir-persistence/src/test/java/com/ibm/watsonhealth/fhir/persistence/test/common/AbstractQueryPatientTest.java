@@ -557,14 +557,18 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
     }
     
     /**
-     * Tests a query for Patients with address field missing using :missing modifier which is not supported and should result in an exception
+     * Tests a query for Patients with address field missing using :missing 
+     * which should return at least the patient-glossy-example (testCreatePatient3)
      * @throws Exception
      */
-    @Test(groups = {"jdbc-normalized"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" },
-                    expectedExceptions = {FHIRSearchException.class})
+    @Test(groups = {"jdbc-normalized"}, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3" })
     public void testPatientQuery_missingModifier() throws Exception {
-        runQueryTest(Patient.class, persistence, "address:missing", "false");
-        
+        List<Resource> resources = runQueryTest(Patient.class, persistence, "address:missing", "true");
+        assertNotNull(resources);
+        assertTrue(resources.size() != 0);
+        for (Resource resource : resources) {
+            assertTrue(((Patient)resource).getAddress().size() == 0);
+        }
     }
     
     /**

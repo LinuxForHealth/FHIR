@@ -38,6 +38,15 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchNumber_integer_missing() throws Exception {
+        assertSearchReturnsSavedResource("integer:missing", "false");
+        assertSearchDoesntReturnSavedResource("integer:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-integer:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-integer:missing", "false");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchNumber_decimal() throws Exception {
         assertSearchReturnsSavedResource("decimal", "99.99");
         assertSearchReturnsSavedResource("decimal", "9999e-2");
@@ -50,5 +59,14 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("decimal", "ge99");
         
         assertSearchReturnsSavedResource("decimal", "ne13");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchNumber_decimal_missing() throws Exception {
+        assertSearchReturnsSavedResource("decimal:missing", "false");
+        assertSearchDoesntReturnSavedResource("decimal:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-decimal:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-decimal:missing", "false");
     }
 }

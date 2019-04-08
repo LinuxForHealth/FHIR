@@ -39,4 +39,13 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
     public void testSearchURI_uri_below() throws Exception {
         assertSearchReturnsSavedResource("uri:below", "http://hl7.org/fhir/");
     }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchURI_uri_missing() throws Exception {
+        assertSearchReturnsSavedResource("uri:missing", "false");
+        assertSearchDoesntReturnSavedResource("uri:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-uri:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
+    }
 }

@@ -32,7 +32,8 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
     protected static final String DOT = ".";
     protected static final String EQUALS = "=";
     protected static final String WHERE = " WHERE ";
-    protected static final String PARAMETERS_TABLE_ALIAS = "pX.";
+    protected static final String PARAMETERS_TABLE_ALIAS = "pX";
+    protected static final String PARAMETERS_TABLE_ALIAS_QUALIFIER = PARAMETERS_TABLE_ALIAS + DOT;
     protected static final String LEFT_PAREN = "(";
     protected static final String RIGHT_PAREN = ")";
     protected static final String AND = " AND ";
@@ -95,6 +96,9 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
         Parameter.Type type;
         
         try {
+            if (Modifier.MISSING.equals(queryParm.getModifier())) {
+                return this.processMissingParm(resourceType, queryParm, tableAlias);
+            }
             // NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.
             if (! (Location.class.equals(resourceType) && 
@@ -134,6 +138,12 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
         }
         return databaseQueryParm;
     }
+
+    protected T1 processMissingParm(Class<? extends Resource> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+        return processMissingParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+
+    protected abstract T1 processMissingParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
 
     @Override
     protected T1 processNumberParm(Parameter queryParm) throws FHIRPersistenceException {

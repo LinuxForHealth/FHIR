@@ -129,4 +129,13 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "le3||gte");         // >= 3 may be <= 3
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "ge3||gte");         // >= 3 is >= 3
     }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchQuantity_Quantity_missing() throws Exception {
+        assertSearchReturnsSavedResource("Quantity:missing", "false");
+        assertSearchDoesntReturnSavedResource("Quantity:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-Quantity:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-Quantity:missing", "false");
+    }
 }
