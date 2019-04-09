@@ -90,36 +90,30 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
-        assertNotNull(resources);
-        return resources;
+        return runQueryTest(resourceType, persistence, queryParms);
     }
     
-    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, int maxPageSize) throws Exception {
+    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, Integer maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-        searchContext.setPageSize(maxPageSize);
-        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
-        assertNotNull(resources);
-        return resources;
+        return runQueryTest(null, resourceType, persistence, queryParms);
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, Map<String, List<String>> queryParms) throws Exception {
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
-        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
-        assertNotNull(resources);
-        return resources;
+        return runQueryTest(null, resourceType, persistence, queryParms);
     }
 
     protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, FHIRPersistence persistence,  Map<String, List<String>> queryParms) throws Exception {
+        return runQueryTest(queryString, resourceType, persistence, queryParms, null);
+    }
+    
+    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, FHIRPersistence persistence,  Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, queryString);
+        if (maxPageSize != null) {
+            searchContext.setPageSize(maxPageSize);
+        }
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);
@@ -127,24 +121,18 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     }
 
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        if (parmName != null && parmValue != null) {
-            queryParms.put(parmName, Collections.singletonList(parmValue));
-        }
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms, null);
-        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
-        assertNotNull(resources);
-        return resources;
+        return runQueryTest(compartmentName, compartmentLogicalId, resourceType, persistence, parmName, parmValue, null);
     }
 
-    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, int maxPageSize) throws Exception {
+    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, Integer maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms, null);
-        searchContext.setPageSize(maxPageSize);
+        if (maxPageSize != null) {
+            searchContext.setPageSize(maxPageSize);
+        }
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType);
         assertNotNull(resources);

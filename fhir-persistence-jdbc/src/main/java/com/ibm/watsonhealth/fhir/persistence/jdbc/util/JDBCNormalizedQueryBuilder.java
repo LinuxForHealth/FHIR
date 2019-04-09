@@ -830,13 +830,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 if (isDateSearch) {
                     whereClauseSegment.append(JDBCOperator.OR.value());
                 }
-                // Should these use the passed tableAlias instead?
                 whereClauseSegment.append(LEFT_PAREN)
-                                   .append(PARAMETER_TABLE_ALIAS + DOT).append(DATE_START)
+                                  .append(tableAlias + DOT).append(DATE_START)
                                   .append(JDBCOperator.LTE.value())
                                   .append(BIND_VAR)
                                   .append(JDBCOperator.AND.value())
-                                  .append(PARAMETER_TABLE_ALIAS + DOT).append(DATE_END)
+                                  .append(tableAlias + DOT).append(DATE_END)
                                   .append(JDBCOperator.GTE.value())
                                   .append(BIND_VAR)
                                   .append(RIGHT_PAREN);

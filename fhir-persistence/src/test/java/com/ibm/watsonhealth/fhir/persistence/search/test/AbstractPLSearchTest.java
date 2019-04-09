@@ -15,10 +15,15 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.Basic;
+import com.ibm.watsonhealth.fhir.model.Composition;
+import com.ibm.watsonhealth.fhir.model.CompositionStatusList;
+import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest;
 
@@ -30,6 +35,7 @@ import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest
 public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
 
     protected Basic savedResource;
+    protected Composition composition;
 
     @AfterClass
     public void removeTenant() throws Exception {
@@ -70,7 +76,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      */
     protected void assertSearchReturnsSavedResource(String searchParamName, String queryValue) throws Exception {
         assertTrue("Expected resource was not returned from the search",
-            searchReturnsSavedResource(searchParamName, queryValue));
+            searchReturnsResource(searchParamName, queryValue, savedResource));
     }
 
     /**
@@ -79,18 +85,18 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      */
     protected void assertSearchDoesntReturnSavedResource(String searchParamName, String queryValue) throws Exception {
         assertFalse("Unexpected resource was returned from the search",
-            searchReturnsSavedResource(searchParamName, queryValue));
+            searchReturnsResource(searchParamName, queryValue, savedResource));
     }
 
     /**
-     * Executes the query test and returns whether the saved resource was in the result set
+     * Executes the query test and returns whether the expected resource was in the result set
      * @throws Exception
      */
-    private boolean searchReturnsSavedResource(String searchParamName, String queryValue) throws Exception {
-        List<Resource> resources = runQueryTest(Basic.class, persistence, searchParamName, queryValue, Integer.MAX_VALUE);
+    protected boolean searchReturnsResource(String searchParamName, String queryValue, Resource expectedResource) throws Exception {
+        List<Resource> resources = runQueryTest(expectedResource.getClass(), persistence, searchParamName, queryValue, Integer.MAX_VALUE);
         assertNotNull(resources);
         if (resources.size() > 0) {
-            Resource returnedResource = findSavedResourceInResponse(resources);
+            Resource returnedResource = findResourceInResponse(expectedResource, resources);
             if (returnedResource != null) {
                 return true;
             }
@@ -99,20 +105,25 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     }
 
     /**
-     * If the savedResource is contained in the list of resources this method returns the resource.
-     * If the savedReturns the resource in resources with an id matching the savedResource, otherwise null
+     * If the {@code resourceToFind} is contained in the list of resources this method returns the resource.
+     * Otherwise it returns null.
      * @param resources
      */
-    private Resource findSavedResourceInResponse(List<Resource> resources) {
+    protected Resource findResourceInResponse(Resource resourceToFind, List<Resource> resources) {
         Resource returnedResource = null;
         boolean alreadyFound = false;
         int count = 0;
+        
+        String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
+        String idToFind = resourceToFind.getId().getValue();
+        String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
+        
         for (Resource r : resources) {
-            assertTrue(r instanceof Basic);
-            String id = ((Basic)r).getId().getValue();
-            String version = ((Basic)r).getMeta().getVersionId().getValue();
-            if (savedResource.getId().getValue().equals(id)) {
-                if (savedResource.getMeta().getVersionId().getValue().equals(version)) {
+            String resourceType = FHIRUtil.getResourceTypeName(r);
+            String id = r.getId().getValue();
+            String version = r.getMeta().getVersionId().getValue();
+            if (idToFind.equals(id) && resourceTypeToFind.equals(resourceType)) {
+                if (versionToFind.equals(version)) {
                     count++;
                     if (alreadyFound) {
                         System.out.println("found resource with id " + id + " " + count + " times.");
@@ -122,7 +133,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
                     alreadyFound = true;
                 } else {
                     fail("Search has returned historical resource for resource id '" + id + "'.\n"
-                            + "Expected: version " + savedResource.getMeta().getVersionId().getValue() + "\n"
+                            + "Expected: version " + resourceToFind.getMeta().getVersionId().getValue() + "\n"
                             + "Actual: version " + version);
                 }
             }
@@ -130,4 +141,54 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
         return returnedResource;
     }
 
+    /**
+     * Create a Composition with a reference to savedResource for chained search tests. 
+     * @throws Exception
+     */
+    @Test
+    protected Composition createCompositionReferencingSavedResource() throws Exception {
+        Reference ref = f.createReference().withReference(f.createString().withValue("Basic/" + savedResource.getId().getValue()));
+        composition = f.createComposition()
+                .withDate(f.createDateTime().withValue("2019"))
+                .withType(f.createCodeableConcept().withText(f.createString().withValue("test")))
+                .withTitle(f.createString().withValue("TEST"))
+                .withStatus(f.createCompositionStatus().withValue(CompositionStatusList.PRELIMINARY))
+                .withSubject(ref);
+        persistence.create(getDefaultPersistenceContext(), composition);
+        assertNotNull(composition);
+        assertNotNull(composition.getId());
+        assertNotNull(composition.getId().getValue());
+        assertNotNull(composition.getMeta());
+        assertNotNull(composition.getMeta().getVersionId().getValue());
+        assertEquals("1", composition.getMeta().getVersionId().getValue());
+        
+        // update the resource to verify that historical versions won't be returned in search results
+        persistence.update(getDefaultPersistenceContext(), composition.getId().getValue(), composition);
+        assertNotNull(composition);
+        assertNotNull(composition.getId());
+        assertNotNull(composition.getId().getValue());
+        assertNotNull(composition.getMeta());
+        assertNotNull(composition.getMeta().getVersionId().getValue());
+        assertEquals("2", composition.getMeta().getVersionId().getValue());
+        
+        return composition;
+    }
+    
+    /**
+     * Asserts that the savedResource was in the search result set
+     * @throws Exception
+     */
+    protected void assertSearchReturnsComposition(String searchParamName, String queryValue) throws Exception {
+        assertTrue("Expected resource was not returned from the search",
+            searchReturnsResource(searchParamName, queryValue, composition));
+    }
+
+    /**
+     * Asserts that the savedResource is *not* in the search result set
+     * @throws Exception
+     */
+    protected void assertSearchDoesntReturnComposition(String searchParamName, String queryValue) throws Exception {
+        assertFalse("Unexpected resource was returned from the search",
+            searchReturnsResource(searchParamName, queryValue, composition));
+    }
 }

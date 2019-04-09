@@ -89,7 +89,8 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     }
     
     /**
-     * Creates a Composition with a reference to a ImmunizationRecommendation because search parameter of number on doseNumber.
+     * Creates a Composition with a reference to an ImmunizationRecommendation 
+     * because it has a search parameter of type number (doseNumber).
      * @throws Exception
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
