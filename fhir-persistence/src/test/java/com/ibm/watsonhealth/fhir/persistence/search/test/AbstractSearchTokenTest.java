@@ -21,6 +21,11 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         Basic resource = readResource(Basic.class, "BasicToken.json");
         saveBasicResource(resource);
     }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testCreateChainedBasicResource() throws Exception {
+        createCompositionReferencingSavedResource();
+    }
 
     // Searching strings as tokens is not currently supported
 //    @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -44,6 +49,21 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("boolean", "http://hl7.org/fhir/special-values|false");
     }
     
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchToken_boolean_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.boolean", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.boolean", "false");
+        
+        // FHIR boolean values have an implicit code of http://hl7.org/fhir/special-values
+        // so I think the "|true" variant should return empty 
+        // and the "http://hl7.org/fhir/special-values|true" variant should return the resource.
+//        assertSearchDoesntReturnComposition("subject:Basic.boolean", "|true");
+        assertSearchDoesntReturnComposition("subject:Basic.boolean", "|false");
+        
+//        assertSearchReturnsComposition("subject:Basic.boolean", "http://hl7.org/fhir/special-values|true");
+        assertSearchDoesntReturnComposition("subject:Basic.boolean", "http://hl7.org/fhir/special-values|false");
+    }
+    
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_boolean_missing() throws Exception {
         assertSearchReturnsSavedResource("boolean:missing", "false");
@@ -52,11 +72,26 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-boolean:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-boolean:missing", "false");
     }
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchToken_boolean_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.boolean:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.boolean:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-boolean:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-boolean:missing", "false");
+//    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_code() throws Exception {
         assertSearchReturnsSavedResource("extension-code", "code");
         assertSearchReturnsSavedResource("extension-code", "|code");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchToken_code_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.extension-code", "code");
+        assertSearchReturnsComposition("subject:Basic.extension-code", "|code");
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -67,6 +102,15 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("extension-missing-code:missing", "true");
         assertSearchDoesntReturnSavedResource("extension-missing-code:missing", "false");
     }
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchToken_code_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.extension-code:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.extension-code:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.extension-missing-code:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.extension-missing-code:missing", "false");
+//    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_Coding() throws Exception {
@@ -76,6 +120,16 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         
         // This shouldn't return any results because the Coding has a system
 //        assertSearchDoesntReturnSavedResource("Coding", "|code");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchToken_Coding_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Coding", "code");
+        assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|code");
+//        assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|");
+        
+        // This shouldn't return any results because the Coding has a system
+//        assertSearchDoesntReturnComposition("subject:Basic.Coding", "|code");
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -98,6 +152,15 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-Coding:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Coding:missing", "false");
     }
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchToken_Coding_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.Coding:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.Coding:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-Coding:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-Coding:missing", "false");
+//    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_Identifier() throws Exception {
@@ -108,6 +171,17 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         // This shouldn't return any results because the Identifier has a system
 //        assertSearchDoesntReturnSavedResource("Identifier", "|code");
     }
+    
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchToken_Identifier_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Identifier", "code");
+        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|code");
+//        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|");
+        
+        // This shouldn't return any results because the Identifier has a system
+//        assertSearchDoesntReturnComposition("subject:Basic.Identifier", "|code");
+    }
+    
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Identifier_NoSystem() throws Exception {
         assertSearchReturnsSavedResource("Identifier-noSystem", "code");
@@ -128,6 +202,15 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-Identifier:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Identifier:missing", "false");
     }
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchToken_Identifier_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.Identifier:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.Identifier:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-Identifier:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-Identifier:missing", "false");
+//    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_ContactPoint() throws Exception {
@@ -142,6 +225,20 @@ CODE_REMOVED
         
         // This shouldn't return any results because the ContactPoint has a system
 //        assertSearchDoesntReturnSavedResource("ContactPoint", "|(555) 675 5745");
+    }
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchToken_ContactPoint_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.ContactPoint", "(555) 675 5745");
+        assertSearchReturnsComposition("subject:Basic.ContactPoint", "phone|(555) 675 5745");
+//        assertSearchReturnsComposition("subject:Basic.ContactPoint", "phone|");
+        
+        // ContactPoint should search on use instead of system
+CODE_REMOVED
+//        assertSearchReturnsComposition("subject:Basic.ContactPoint", "home|(555) 675 5745");
+//        assertSearchReturnsComposition("subject:Basic.ContactPoint", "home|");
+        
+        // This shouldn't return any results because the ContactPoint has a system
+//        assertSearchDoesntReturnComposition("subject:Basic.ContactPoint", "|(555) 675 5745");
     }
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchToken_ContactPoint_URI() throws Exception {

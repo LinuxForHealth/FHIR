@@ -23,6 +23,11 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     }
 
     @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testCreateChainedBasicResource() throws Exception {
+        createCompositionReferencingSavedResource();
+    }
+
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchQuantity_Quantity() throws Exception {
         assertSearchReturnsSavedResource("Quantity", "25|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "25||s");
@@ -36,14 +41,38 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 //        assertSearchReturnsSavedResource("Quantity", "25||sec");
     }
     
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchQuantity_Quantity_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "25||s");
+        
+        // DSTU2 does not say if this is allowed or not, but we do not support it.
+        // In more recent versions, they clarified that it should work:  https://build.fhir.org/search.html#quantity
+//        assertSearchReturnsComposition("Quantity", "25");
+        
+        // I think this should return the resource but it currently doesn't.
+        // https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
+//        assertSearchReturnsComposition("Quantity", "25||sec");
+    }
+    
     @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchQuantity_Quantity_withModifiers() throws Exception {
+    public void testSearchQuantity_Quantity_withPrefixes() throws Exception {
         assertSearchReturnsSavedResource("Quantity", "lt26|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "gt24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "le26|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "le25|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "ge25|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "ge24|http://unitsofmeasure.org|s");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchQuantity_Quantity_withPrefixes_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Quantity", "lt26|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "gt24|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "le26|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "le25|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "ge25|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "ge24|http://unitsofmeasure.org|s");
     }
 
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -67,6 +96,8 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     /*********************************************************************************
      * FHIR Server does not yet use quantity comparator to calculate search results. *
      *********************************************************************************/
+    // Quantity search is of the form <prefix><number>|<unit_system>|<unit>.
+    // We use custom units to mark the quantity comparators so we can scope our searches in the tests.
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchQuantity_Quantity_LessThan() throws Exception {
@@ -138,4 +169,14 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-Quantity:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Quantity:missing", "false");
     }
+    
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchQuantity_Quantity_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.Quantity:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.Quantity:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-Quantity:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-Quantity:missing", "false");
+//    }
 }

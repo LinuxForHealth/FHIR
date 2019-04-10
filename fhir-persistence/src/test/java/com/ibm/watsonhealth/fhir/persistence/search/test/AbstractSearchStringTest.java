@@ -21,7 +21,12 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         Basic resource = readResource(Basic.class, "BasicString.json");
         saveBasicResource(resource);
     }
-    
+
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testCreateChainedBasicResource() throws Exception {
+        createCompositionReferencingSavedResource();
+    }
+
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchString_string() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "testString");
@@ -39,6 +44,25 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         // TODO add test for diacritics and other unusual characters
     }
     
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchString_string_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.string:exact", "testString");
+        
+        assertSearchReturnsComposition("subject:Basic.string", "testString");
+        assertSearchReturnsComposition("subject:Basic.string", "test");
+        
+CODE_REMOVED
+        assertSearchReturnsComposition("subject:Basic.string:contains", "String");
+        assertSearchReturnsComposition("subject:Basic.string:contains", "string");
+        
+        assertSearchDoesntReturnComposition("subject:Basic.string", "String");
+CODE_REMOVED
+        assertSearchDoesntReturnComposition("subject:Basic.string:exact", "test");
+        assertSearchDoesntReturnComposition("subject:Basic.string:exact", "teststring");
+        
+        // TODO add test for diacritics and other unusual characters
+    }
+    
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchString_string_missing() throws Exception {
         assertSearchReturnsSavedResource("string:missing", "false");
@@ -47,6 +71,16 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-string:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-string:missing", "false");
     }
+    
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchString_string_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.string:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.string:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-string:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-string:missing", "false");
+//    }
     
     // TODO add tests for Address and HumanName
 }

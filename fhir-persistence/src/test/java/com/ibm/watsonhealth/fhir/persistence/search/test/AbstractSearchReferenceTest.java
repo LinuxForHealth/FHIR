@@ -21,7 +21,12 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         Basic resource = readResource(Basic.class, "BasicReference.json");
         saveBasicResource(resource);
     }
-    
+
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testCreateChainedBasicResource() throws Exception {
+        createCompositionReferencingSavedResource();
+    }
+
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchReference_Reference_id() throws Exception {
         assertSearchReturnsSavedResource("Reference-id", "123");
@@ -35,6 +40,21 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
 //        assertSearchReturnsSavedResource("Reference-id", "https://example.com/Patient/123");
         
 //        assertSearchReturnsSavedResource("Reference-id:Patient", "123");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchReference_Reference_id_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Reference-id", "123");
+        // Reference by id really only works when the system knows which resource type(s) 
+        // can be referenced from a given element.
+        // TODO does this work if you define the extension in a StructureDefinition 
+        // and declare the allowed types? 
+//        assertSearchReturnsComposition("subject:Basic.Reference-id", "Patient/123");
+        
+        // TODO if this matched the hostname that the test was running on, would it work?
+//        assertSearchReturnsComposition("subject:Basic.Reference-id", "https://example.com/Patient/123");
+        
+//        assertSearchReturnsComposition("subject:Basic.Reference-id:Patient", "123");
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -75,10 +95,24 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Reference:missing", "false");
     }
     
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchReference_Reference_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.Reference:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.Reference:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-Reference:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-Reference:missing", "false");
+//    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchReference_uri() throws Exception {
         assertSearchReturnsSavedResource("uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchReference_uri_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -89,4 +123,15 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-uri:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
     }
+    
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchReference_uri_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.uri:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.uri:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-uri:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-uri:missing", "false");
+//    }
+    
 }

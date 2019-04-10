@@ -23,6 +23,11 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
     }
 
     @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testCreateChainedBasicResource() throws Exception {
+        createCompositionReferencingSavedResource();
+    }
+
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchNumber_integer() throws Exception {
         assertSearchReturnsSavedResource("integer", "12");
         assertSearchReturnsSavedResource("integer", "1.2e1");
@@ -37,6 +42,21 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("integer", "ne13");
     }
     
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchNumber_integer_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.integer", "12");
+        assertSearchReturnsComposition("subject:Basic.integer", "1.2e1");
+        
+        assertSearchReturnsComposition("subject:Basic.integer", "lt13");
+        assertSearchReturnsComposition("subject:Basic.integer", "gt11");
+        assertSearchReturnsComposition("subject:Basic.integer", "le12");
+        assertSearchReturnsComposition("subject:Basic.integer", "le13");
+        assertSearchReturnsComposition("subject:Basic.integer", "ge12");
+        assertSearchReturnsComposition("subject:Basic.integer", "ge11");
+        
+        assertSearchReturnsComposition("subject:Basic.integer", "ne13");
+    }
+    
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchNumber_integer_missing() throws Exception {
         assertSearchReturnsSavedResource("integer:missing", "false");
@@ -45,6 +65,16 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-integer:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-integer:missing", "false");
     }
+    
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchNumber_integer_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.integer:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.integer:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-integer:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-integer:missing", "false");
+//    }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchNumber_decimal() throws Exception {
@@ -61,6 +91,21 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("decimal", "ne13");
     }
     
+    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    public void testSearchNumber_decimal_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.decimal", "99.99");
+        assertSearchReturnsComposition("subject:Basic.decimal", "9999e-2");
+        
+        assertSearchReturnsComposition("subject:Basic.decimal", "lt100");
+        assertSearchReturnsComposition("subject:Basic.decimal", "gt99");
+        assertSearchReturnsComposition("subject:Basic.decimal", "le99.99");
+        assertSearchReturnsComposition("subject:Basic.decimal", "le100");
+        assertSearchReturnsComposition("subject:Basic.decimal", "ge99.99");
+        assertSearchReturnsComposition("subject:Basic.decimal", "ge99");
+        
+        assertSearchReturnsComposition("subject:Basic.decimal", "ne13");
+    }
+    
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchNumber_decimal_missing() throws Exception {
         assertSearchReturnsSavedResource("decimal:missing", "false");
@@ -69,4 +114,14 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-decimal:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-decimal:missing", "false");
     }
+    
+CODE_REMOVED
+//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    public void testSearchNumber_decimal_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.decimal:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.decimal:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-decimal:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-decimal:missing", "false");
+//    }
 }
