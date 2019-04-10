@@ -71,7 +71,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     }
 
     /**
-     * Asserts that the savedResource was in the search result set
+     * Asserts that the savedResource is in the search result set
      * @throws Exception
      */
     protected void assertSearchReturnsSavedResource(String searchParamName, String queryValue) throws Exception {
@@ -175,7 +175,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     }
     
     /**
-     * Asserts that the savedResource was in the search result set
+     * Asserts that the Composition which references the savedResource is in the search result set
      * @throws Exception
      */
     protected void assertSearchReturnsComposition(String searchParamName, String queryValue) throws Exception {
@@ -184,7 +184,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     }
 
     /**
-     * Asserts that the savedResource is *not* in the search result set
+     * Asserts that the Composition which references the savedResource is *not* in the search result set
      * @throws Exception
      */
     protected void assertSearchDoesntReturnComposition(String searchParamName, String queryValue) throws Exception {

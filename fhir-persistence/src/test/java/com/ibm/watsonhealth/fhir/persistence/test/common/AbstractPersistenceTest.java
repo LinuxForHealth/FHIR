@@ -98,7 +98,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        return runQueryTest(null, resourceType, persistence, queryParms);
+        return runQueryTest(null, resourceType, persistence, queryParms, maxPageSize);
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, Map<String, List<String>> queryParms) throws Exception {
