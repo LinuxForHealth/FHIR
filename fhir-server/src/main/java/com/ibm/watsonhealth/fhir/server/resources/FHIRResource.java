@@ -3194,14 +3194,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             // starting with the self URI
             String nextLinkUrl = selfUri;
             
-            // remove existing _page and _count parameters from the query string
+            // remove existing _page parameters from the query string
             nextLinkUrl = nextLinkUrl
                     .replace("&_page=" + context.getPageNumber(), "")
                     .replace("_page=" + context.getPageNumber() + "&", "")                    
-                    .replace("_page=" + context.getPageNumber(), "")
-                    .replace("&_count=" + context.getPageSize(), "")
-                    .replace("_count=" + context.getPageSize() + "&", "")
-                    .replace("_count=" + context.getPageSize(), "");
+                    .replace("_page=" + context.getPageNumber(), "");
             
             if (nextLinkUrl.contains("?")) {
                 if (!nextLinkUrl.endsWith("?")) {
@@ -3212,8 +3209,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 nextLinkUrl += "?";
             }
             
-            // add new _page and _count parameters to the query string
-            nextLinkUrl += "_page=" + nextPageNumber + "&_count=" + context.getPageSize();
+            // add new _page parameter to the query string
+            nextLinkUrl += "_page=" + nextPageNumber;
             nextLink.setUrl(uri(nextLinkUrl));
             bundle.getLink().add(nextLink);
         }
@@ -3227,14 +3224,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             // starting with the original request URI
             String prevLinkUrl = requestUri;
             
-            // remove existing _page and _count parameters from the query string
+            // remove existing _page parameters from the query string
             prevLinkUrl = prevLinkUrl
                     .replace("&_page=" + context.getPageNumber(), "")
                     .replace("_page=" + context.getPageNumber() + "&", "")                    
-                    .replace("_page=" + context.getPageNumber(), "")
-                    .replace("&_count=" + context.getPageSize(), "")
-                    .replace("_count=" + context.getPageSize() + "&", "")
-                    .replace("_count=" + context.getPageSize(), "");
+                    .replace("_page=" + context.getPageNumber(), "");
             
             if (prevLinkUrl.contains("?")) {
                 if (!prevLinkUrl.endsWith("?")) {
@@ -3245,8 +3239,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 prevLinkUrl += "?";
             }
             
-            // add new _page and _count parameters to the query string
-            prevLinkUrl += "_page=" + prevPageNumber + "&_count=" + context.getPageSize();
+            // add new _page parameter to the query string
+            prevLinkUrl += "_page=" + prevPageNumber;
             prevLink.setUrl(uri(prevLinkUrl));
             bundle.getLink().add(prevLink);
         }
