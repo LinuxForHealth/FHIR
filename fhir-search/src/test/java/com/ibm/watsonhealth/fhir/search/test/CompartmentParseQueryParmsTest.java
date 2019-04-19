@@ -7,11 +7,14 @@
 package com.ibm.watsonhealth.fhir.search.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -124,14 +127,19 @@ public class CompartmentParseQueryParmsTest {
      * @throws Exception
      */
     @Test 
-    public void testComparmentWithQueryParms() throws Exception{
+    public void testCompartmentWithQueryParms() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
         String compartmentName = "Patient";
         String compartmentLogicalId = "33";
         Class<? extends Resource> resourceType = Observation.class;
+        
+        String queryStringPart1 = "category=vital-signs";
+        String queryStringPart2 = "value-quantity=" + encodeQueryString("eq185|http://unitsofmeasure.org|[lb_av]");
+        String queryString = "?" + queryStringPart1 + "&" + queryStringPart2;
+        
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, queryString);
         
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
@@ -161,6 +169,58 @@ public class CompartmentParseQueryParmsTest {
             assertNotNull(searchParm.getValues());
             assertEquals(1, searchParm.getValues().size());
         }
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/" + resourceType.getSimpleName(), context);
+        assertTrue(selfUri + " does not contain expected " + queryStringPart1, selfUri.contains(queryStringPart1));
+        assertTrue(selfUri + " does not contain expected " + queryStringPart2, selfUri.contains(queryStringPart2));
+    }
+
+    /**
+     * This method tests parsing compartment related query parms which are not valid. 
+     * In lenient mode, this is expected to ignore the query parameter.
+     * In strict mode (lenient=false) this should throw an exception.
+     * @throws Exception
+     */
+    @Test 
+    public void testCompartmentWithFakeQueryParm() throws Exception{
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String compartmentName = "Patient";
+        String compartmentLogicalId = "33";
+        Class<? extends Resource> resourceType = Observation.class;
+        
+        String queryString = "fakeParameter=fakeValue";
+        queryParameters.put("fakeParameter", Collections.singletonList("fakeValue"));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, queryString);
+        
+        assertNotNull(context);
+        assertNotNull(context.getSearchParameters());
+        assertEquals(1, context.getSearchParameters().size());
+        
+        // Validate compartment related search parms.
+        Parameter searchParm = context.getSearchParameters().get(0);
+        int parmCount = 0;
+        while (searchParm != null) {
+            parmCount++;
+            assertTrue((searchParm.getName().equals("performer") ||
+                       searchParm.getName().equals("subject")));
+            assertEquals(Type.REFERENCE, searchParm.getType());
+            assertTrue(searchParm.isInclusionCriteria());
+            assertFalse(searchParm.isChained());
+            assertEquals(1, searchParm.getValues().size());
+            assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
+            searchParm = searchParm.getNextParameter();
+        }
+        assertEquals(2, parmCount);
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/" + resourceType.getSimpleName(), context);
+        assertFalse(selfUri + " contain unexpected query parameter 'fakeParameter'", selfUri.contains(queryString));
+        
+        try {
+            SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null, false);
+            fail("Expected parseQueryParameters to throw due to strict mode but it didn't.");
+        } catch (Exception e) {
+            assertTrue(e instanceof FHIRSearchException);
+        }
     }
     
     /**
@@ -173,9 +233,14 @@ public class CompartmentParseQueryParmsTest {
     public void testNoComparmentWithQueryParms() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<? extends Resource> resourceType = Observation.class;
+        
+        String queryStringPart1 = "category=vital-signs";
+        String queryStringPart2 = "value-quantity=" + encodeQueryString("eq185|http://unitsofmeasure.org|[lb_av]");
+        String queryString = "?" + queryStringPart1 + "&" + queryStringPart2;
+        
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, null);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, queryString);
         
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
@@ -188,6 +253,19 @@ public class CompartmentParseQueryParmsTest {
             assertNotNull(searchParm.getValues());
             assertEquals(1, searchParm.getValues().size());
             assertNull(searchParm.getNextParameter());
+        }
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        assertTrue(selfUri + " does not contain expected " + queryStringPart1, selfUri.contains(queryStringPart1));
+        assertTrue(selfUri + " does not contain expected " + queryStringPart2, selfUri.contains(queryStringPart2));
+    }
+    
+    private String encodeQueryString(String queryString) {
+        try {
+            URI uri = new URI("http", "dummy", "/path", queryString, null);
+            return uri.getRawQuery();
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException("We should never get here", e);
         }
     }
     
@@ -209,5 +287,5 @@ public class CompartmentParseQueryParmsTest {
             
         }
     } */
-    
+
 }

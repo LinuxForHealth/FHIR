@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.search.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -42,29 +43,43 @@ public class SortParameterParseTest {
     @Test(expected = FHIRSearchException.class) 
     public void testInvalidDirection() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-        FHIRSearchContext searchContext;
         Class<Patient> resourceType = Patient.class;
         String queryString = "&_sort:xxx=birthdate";
         
         queryParameters.put("_sort:xxx", Collections.singletonList("birthdate"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
-        assertNotNull(searchContext);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
     }
     
     /**
      *  Tests an invalid sort parameter value.
      * @throws Exception
      */
-    @Test(expected = FHIRSearchException.class) 
-    public void testInvalidSortParm() throws Exception {
+    @Test 
+    public void testUnknownSortParm() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         FHIRSearchContext searchContext;
         Class<Patient> resourceType = Patient.class;
         String queryString = "&_sort=bogusSortParm";
         
+        // In lenient mode, invalid search parameters should be ignored
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(searchContext);
+        assertTrue(searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty());
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+        assertFalse(selfUri + " contain unexpected " + queryString, selfUri.contains(queryString));
+    }
+    
+    @Test(expected = FHIRSearchException.class) 
+    public void testUnknownSortParm_strict() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+        String queryString = "&_sort=bogusSortParm";
+        
+        // In strict mode (lenient=false), the search should throw a FHIRSearchException
+        queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
     }
     
     /**
@@ -96,6 +111,9 @@ public class SortParameterParseTest {
         // Do search parameter validation
         assertNotNull(searchContext.getSearchParameters());
         assertTrue(searchContext.getSearchParameters().isEmpty());
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+        assertTrue(selfUri + " does not contain expected " + queryString, selfUri.contains(queryString));
     }
     
     /**
@@ -127,6 +145,9 @@ public class SortParameterParseTest {
         // Do search parameter validation
         assertNotNull(searchContext.getSearchParameters());
         assertTrue(searchContext.getSearchParameters().isEmpty());
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+        assertTrue(selfUri + " does not contain expected " + queryString, selfUri.contains(queryString));
     }
     
     /**
@@ -157,6 +178,10 @@ public class SortParameterParseTest {
         // Do search parameter validation
         assertNotNull(searchContext.getSearchParameters());
         assertTrue(searchContext.getSearchParameters().isEmpty());
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+        // The server adds the implicit sort direction and so we just look for the parameter instead of the full queryString
+        assertTrue(selfUri + " does not contain expected sort parameter 'birthdate'", selfUri.contains(sortParmName));
     }
     
     /**
@@ -166,20 +191,20 @@ public class SortParameterParseTest {
     @Test
     public void testValidSortParmWithSearchParms() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-         FHIRSearchContext searchContext;
-         Class<Observation> resourceType = Observation.class;
-         SortDirection direction = SortDirection.ASCENDING; 
-         String sortParmName = "patient"; 
-         String searchParmName = "performer";
-         String searchParmValue = "Practioner/1";
-         StringBuilder queryString = new StringBuilder().append("&").append(searchParmName).append("=").append(searchParmValue)
-                                     .append("&_sort:").append(direction.value()).append("=").append(sortParmName);
-         
-         
-         queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
-         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
+        FHIRSearchContext searchContext;
+        Class<Observation> resourceType = Observation.class;
+        SortDirection direction = SortDirection.ASCENDING; 
+        String sortParmName = "patient"; 
+        String searchParmName = "performer";
+        String searchParmValue = "Practioner/1";
+        String queryStringPart1 = "&" + searchParmName + "=" + searchParmValue;
+        String queryStringPart2 = "&_sort:" + direction.value() + "=" + sortParmName;
+        String queryString = queryStringPart1 + queryStringPart2;
+
+        queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
+        queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString.toString());
-         
+
         // Do sort parameter validation
         assertNotNull(searchContext);
         assertNotNull(searchContext.getSortParameters());
@@ -189,7 +214,7 @@ public class SortParameterParseTest {
         assertTrue(sortParm.getQueryStringIndex() > 0);
         assertEquals(direction, sortParm.getDirection());
         assertEquals(Parameter.Type.REFERENCE, sortParm.getType());
-        
+
         // Do search parameter validation
         assertNotNull(searchContext.getSearchParameters());
         assertEquals(1, searchContext.getSearchParameters().size());
@@ -199,6 +224,10 @@ public class SortParameterParseTest {
         assertEquals(1, searchParm.getValues().size());
         ParameterValue parmValue = searchParm.getValues().get(0);
         assertEquals(searchParmValue, parmValue.getValueString());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+        assertTrue(selfUri + " does not contain expected " + queryStringPart1, selfUri.contains(queryStringPart1));
+        assertTrue(selfUri + " does not contain expected " + queryStringPart2, selfUri.contains(queryStringPart2));
     }
     
     /**
@@ -208,29 +237,30 @@ public class SortParameterParseTest {
     @Test
     public void testMultipleValidSortParmsWithSearchParms() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-         FHIRSearchContext searchContext;
-         Class<Observation> resourceType = Observation.class;
-         SortDirection directionAsc = SortDirection.ASCENDING;
-         SortDirection directionDesc = SortDirection.DESCENDING;
-         String sortParmName1 = "patient";
-         String sortParmName2 = "status";
-         String sortParmName3 = "value-string";
-         String sortParmName4 = "value-date";
-         String sortParmName5 = "value-quantity";
-         String searchParmName = "performer";
-         String searchParmValue = "Practioner/1";
-         StringBuilder queryString = new StringBuilder().append("&").append(searchParmName).append("=").append(searchParmValue)
-                    .append("&_sort:").append(directionAsc.value()).append("=").append(sortParmName1) 
-                    .append("&_sort:").append(directionAsc.value()).append("=").append(sortParmName2)
-                    .append("&_sort:").append(directionDesc.value()).append("=").append(sortParmName3)
-                    .append("&_sort:").append(directionDesc.value()).append("=").append(sortParmName4)
-                    .append("&_sort").append("=").append(sortParmName5);
-         
-         queryParameters.put("_sort:" + directionAsc.value(), Arrays.asList(new String[] {sortParmName2, sortParmName1}));
-         queryParameters.put("_sort:" + directionDesc.value(), Arrays.asList(new String[] {sortParmName4, sortParmName3}));
-         queryParameters.put("_sort", Arrays.asList(new String[] {sortParmName5}));
-         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString.toString());
+        FHIRSearchContext searchContext;
+        Class<Observation> resourceType = Observation.class;
+        SortDirection directionAsc = SortDirection.ASCENDING;
+        SortDirection directionDesc = SortDirection.DESCENDING;
+        String sortParmName1 = "patient";
+        String sortParmName2 = "status";
+        String sortParmName3 = "value-string";
+        String sortParmName4 = "value-date";
+        String sortParmName5 = "value-quantity";
+        String searchParmName = "performer";
+        String searchParmValue = "Practioner/1";
+        String queryStringPart1 = "&_sort:" + directionAsc.value() + "=" + sortParmName1;
+        String queryStringPart2 = "&_sort:" + directionAsc.value() + "=" + sortParmName2;
+        String queryStringPart3 = "&_sort:" + directionDesc.value() + "=" + sortParmName3;
+        String queryStringPart4 = "&_sort:" + directionDesc.value() + "=" + sortParmName4;
+        String queryStringPart5 = "&_sort" + "=" + sortParmName5;
+        String queryStringPart6 = "&" + searchParmName + "=" + searchParmValue;
+        String queryString = queryStringPart1 + queryStringPart2 + queryStringPart3 + queryStringPart4 + queryStringPart5 + queryStringPart6; 
+
+        queryParameters.put("_sort:" + directionAsc.value(), Arrays.asList(new String[] {sortParmName2, sortParmName1}));
+        queryParameters.put("_sort:" + directionDesc.value(), Arrays.asList(new String[] {sortParmName4, sortParmName3}));
+        queryParameters.put("_sort", Arrays.asList(new String[] {sortParmName5}));
+        queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
          
         // Do sort parameter validation
         assertNotNull(searchContext);
@@ -277,6 +307,15 @@ public class SortParameterParseTest {
         assertEquals(1, searchParm.getValues().size());
         ParameterValue parmValue = searchParm.getValues().get(0);
         assertEquals(searchParmValue, parmValue.getValueString());
+        
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+        assertTrue(selfUri + " does not contain expected " + queryStringPart1, selfUri.contains(queryStringPart1));
+        assertTrue(selfUri + " does not contain expected " + queryStringPart2, selfUri.contains(queryStringPart2));
+        assertTrue(selfUri + " does not contain expected " + queryStringPart3, selfUri.contains(queryStringPart3));
+        assertTrue(selfUri + " does not contain expected " + queryStringPart4, selfUri.contains(queryStringPart4));
+        // The server adds the implicit sort direction and so we just look for the parameter instead of the full queryString
+        assertTrue(selfUri + " does not contain expected sort parameter '" + sortParmName5 + "'", selfUri.contains(sortParmName5));
+        assertTrue(selfUri + " does not contain expected " + queryStringPart6, selfUri.contains(queryStringPart6));
     }
     
 }

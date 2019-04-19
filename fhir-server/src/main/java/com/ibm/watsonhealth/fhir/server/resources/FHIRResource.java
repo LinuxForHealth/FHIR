@@ -519,6 +519,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     @Path("{type}")
     public Response search(
         @PathParam("type") String type) {
+        
         log.entering(this.getClass().getName(), "search(String,UriInfo)");
         Response.Status status;
         MultivaluedMap<String, String> queryParameters = null;
@@ -812,6 +813,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * Performs the heavy lifting associated with a 'create' interaction.
      * @param type the resource type specified as part of the request URL
      * @param resource the Resource to be stored.
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
@@ -947,6 +949,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @param newResource the new resource to be stored
      * @param ifMatchValue an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString an optional search query string to request a conditional update
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
@@ -1119,6 +1122,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * Performs a 'delete' operation on the specified resource.
      * @param type the resource type associated with the Resource to be deleted
      * @param id the id of the Resource to be deleted
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
@@ -1265,6 +1269,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * Performs a 'read' operation to retrieve a Resource.
      * @param type the resource type associated with the Resource to be retrieved
      * @param id the id of the Resource to be retrieved
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return the Resource
      * @throws Exception
      */
@@ -1357,6 +1362,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @param type the resource type associated with the Resource to be retrieved
      * @param id the id of the Resource to be retrieved
      * @param versionId the version id of the Resource to be retrieved
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return the Resource
      * @throws Exception
      */
@@ -1449,12 +1455,10 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * Performs the work of retrieving versions of a Resource.
      * 
-     * @param type
-     *            the resource type associated with the Resource to be retrieved
-     * @param id
-     *            the id of the Resource to be retrieved
-     * @param queryparameters
-     *            a Map containing the query parameters from the request URL
+     * @param type the resource type associated with the Resource to be retrieved
+     * @param id the id of the Resource to be retrieved
+     * @param queryparameters a Map containing the query parameters from the request URL
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
@@ -1538,6 +1542,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * Performs heavy lifting associated with a 'search' operation.
      * @param type the resource type associated with the search
      * @param queryParameters a Map containing the query parameters from the request URL
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a Bundle containing the search result set
      * @throws Exception
      */
@@ -1579,7 +1584,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, requestProperties));
             getInterceptorMgr().fireBeforeSearchEvent(event);
             
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString());
+            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
             List<Parameter> searchParameters = searchContext.getSearchParameters();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);
@@ -1626,7 +1631,74 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "doSearch");
         }
     }
+
+    private boolean isSearchLenient(Map<String, String> requestProperties) {
+        boolean lenient = true;
+        
+        String handlingStringValue = getHeaderValue(requestProperties, "Prefer", "handling");
+        if ("strict".equals(handlingStringValue)) {
+            lenient = false;
+        }
+        
+        return lenient;
+    }
+
+    /**
+     * Helper method for getting header values.
+     * Supports retrieval of a specific part from within a multipart header value.
+     * @partName optional
+     */
+    private String getHeaderValue(Map<String, String> requestProperties, String headerName, String partName) {
+        
+        String headerStringValue;
+        if (requestProperties != null && requestProperties.containsKey(headerName)) {
+            headerStringValue = requestProperties.get(headerName);
+        } else {
+            headerStringValue = httpHeaders.getHeaderString(headerName);
+        }
+        
+        if (headerStringValue == null) {
+            return null;
+        }
+        
+        String[] splitHeaderStringValues = headerStringValue.split(",");
+        if (splitHeaderStringValues.length > 1) {
+            log.fine("Found multiple 'Prefer' header values; using the first one with partName '" + partName + "'");
+        }
+        
+        // Return the first non-null headerPartValue we find
+        for (String splitHeaderStringValue : splitHeaderStringValues) {
+            String headerPartValue = getHeaderPartValue(splitHeaderStringValue, partName);
+            if (headerPartValue != null) {
+                return headerPartValue;
+            }
+        }
+        
+        return null;
+    }
     
+    /**
+     * Helper method for getting header values from multipart headers
+     * @return the value of the part or the full header value if partName is null; returns null if the partName is not found
+     */
+    private String getHeaderPartValue(String fullHeaderValue, String partName) {
+        if (partName == null) {
+            return fullHeaderValue;
+        }
+        
+        if (fullHeaderValue != null) {
+            String[] parts = fullHeaderValue.split(";");
+            for (int i = 0; i < parts.length; i++) {
+                String[] splitPart = parts[i].split("=", 2);
+                if (partName.equals(splitPart[0].trim()) && splitPart.length == 2) {
+                    return splitPart[1].trim();
+                }
+            }
+        }
+        
+        return null;
+    }
+
     /**
      * Helper method which invokes a custom operation.
      * @param operationContext the FHIROperationContext associated with the request
@@ -1635,6 +1707,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @param versionId the resource version id associated with the request
      * @param operationName the name of the custom operation to be invoked
      * @param resource the input resource associated with the custom operation to be invoked
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
@@ -1713,6 +1786,8 @@ public class FHIRResource implements FHIRResourceHelpers {
      * 
      * @param bundle
      *            the request Bundle
+     * @param requestProperties 
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return the response Bundle
      */
     public Bundle doBundle(Resource bundleResource, Map<String, String> requestProperties) throws Exception {
@@ -3095,10 +3170,19 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
     
     private void addLinks(FHIRPagingContext context, Bundle bundle, String requestUri) {
+        String selfUri = null;
+        if (context instanceof FHIRSearchContext) {
+            try {
+                selfUri = SearchUtil.buildSearchSelfUri(requestUri, (FHIRSearchContext) context);
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Unable to construct self link for search result bundle; using the request URI instead.", e);
+            }
+        }
+        if (selfUri == null) {
+            selfUri = requestUri;
+        }
         // create 'self' link
-        BundleLink selfLink = objectFactory.createBundleLink();
-        selfLink.setRelation(string("self"));
-        selfLink.setUrl(uri(requestUri));
+        BundleLink selfLink = objectFactory.createBundleLink().withRelation(string("self")).withUrl(uri(selfUri));
         bundle.getLink().add(selfLink);
         
         int nextPageNumber = context.getPageNumber() + 1;
@@ -3107,8 +3191,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             BundleLink nextLink = objectFactory.createBundleLink();
             nextLink.setRelation(string("next"));
             
-            // starting with the original request URI
-            String nextLinkUrl = requestUri;
+            // starting with the self URI
+            String nextLinkUrl = selfUri;
             
             // remove existing _page and _count parameters from the query string
             nextLinkUrl = nextLinkUrl
