@@ -431,9 +431,9 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientInvalidSearchAttribute() {
         WebTarget target = getWebTarget();
-        Response response = target.path("Patient").queryParam("notasearchparameter", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path("Patient").queryParam("notasearch:parameter", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Search parameter 'notasearchparameter' for resource type 'Patient' was not found.");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Undefined Modifier: parameter");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient", "testCreateObservation"})
@@ -450,9 +450,9 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreateObservation"})
     public void testSearchObservationInvalidSearchParameter() {
         WebTarget target = getWebTarget();
-        Response response = target.path("Observation").queryParam("notasearchparameter", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
+        Response response = target.path("Observation").queryParam("notasearch:parameter", "foo").request(MediaType.APPLICATION_JSON_FHIR).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Search parameter 'notasearchparameter' for resource type 'Observation' was not found.");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Undefined Modifier: parameter");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreateObservation"})
@@ -500,7 +500,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.PRECONDITION_FAILED.getStatusCode());
         
         // Finally, an invalid search should result in a 400 status code.
-        FHIRParameters badSearch = new FHIRParameters().searchParam("NOTASEARCHPARAM", "foo");
+        FHIRParameters badSearch = new FHIRParameters().searchParam("NOTASEARCH:PARAM", "foo");
         response = client.conditionalCreate(obs, badSearch);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
@@ -547,7 +547,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.PRECONDITION_FAILED.getStatusCode());
         
         // Finally, an invalid search should result in a 400 status code.
-        FHIRParameters badSearch = new FHIRParameters().searchParam("NOTASEARCHPARAM", "foo");
+        FHIRParameters badSearch = new FHIRParameters().searchParam("NOTASEARCH:PARAM", "foo");
         response = client.conditionalUpdate(obs, badSearch);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());

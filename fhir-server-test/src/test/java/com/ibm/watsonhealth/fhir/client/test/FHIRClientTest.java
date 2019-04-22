@@ -25,6 +25,7 @@ import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.Modifier;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.ValuePrefix;
+import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.client.test.FHIRClientTestBase;
 import com.ibm.watsonhealth.fhir.model.Bundle;
@@ -385,15 +386,44 @@ public class FHIRClientTest extends FHIRClientTestBase {
     }
 
     @Test(dependsOnMethods = { "testUpdatePatient" })
-    public void testSearchPatientWithParamsBadRequest() throws Exception {
+    public void testSearchPatientWithParamsBadRequest_preferLenient() throws Exception {
         FHIRParameters parameters = new FHIRParameters().searchParam("not-an-attribute", "X");
-                
-        FHIRResponse response = client.search("Patient", parameters);
+
+        FHIRRequestHeader preferHeader = new FHIRRequestHeader("Prefer", "handling=lenient");
+        FHIRResponse response = client.search("Patient", parameters, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        
+        Bundle responseBundle = response.getResource(Bundle.class);
+        assertNotNull(responseBundle);
+        assertTrue(responseBundle.getEntry().size() > 0);
+        assertNotNull(responseBundle.getEntry().get(0).getResource().getPatient());
+    }
+    @Test(dependsOnMethods = { "testUpdatePatient" })
+    public void testSearchPatientWithParamsBadRequest_preferStrict() throws Exception {
+        FHIRParameters parameters = new FHIRParameters().searchParam("not-an-attribute", "X");
+
+        FHIRRequestHeader preferHeader = new FHIRRequestHeader("Prefer", "handling=strict");
+        FHIRResponse response = client.search("Patient", parameters, preferHeader);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         
         OperationOutcome oo = response.getResource(OperationOutcome.class);
         assertNotNull(oo);
+    }
+    @Test(dependsOnMethods = { "testUpdatePatient" })
+    public void testSearchPatientWithParamsBadRequest_preferBogus() throws Exception {
+        FHIRParameters parameters = new FHIRParameters().searchParam("not-an-attribute", "X");
+
+        FHIRRequestHeader preferHeader = new FHIRRequestHeader("Prefer", "handling=bogus");
+        FHIRResponse response = client.search("Patient", parameters, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        
+        Bundle responseBundle = response.getResource(Bundle.class);
+        assertNotNull(responseBundle);
+        assertTrue(responseBundle.getEntry().size() > 0);
+        assertNotNull(responseBundle.getEntry().get(0).getResource().getPatient());
     }
 
     @Test

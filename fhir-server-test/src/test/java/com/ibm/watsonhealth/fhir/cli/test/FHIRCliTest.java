@@ -217,7 +217,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
     public void testConditionalCreatePatientError() throws Exception {
         assertNotNull(patientId);
         runTest("testConditionalCreatePatientError", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "BADSEARCHPARAM=XXX");
-        verifyConsoleOutput("Status code: 400");
+        verifyConsoleOutput("Status code: 412");
     }
     
     @Test

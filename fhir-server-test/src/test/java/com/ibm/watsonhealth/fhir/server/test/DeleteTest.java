@@ -427,7 +427,7 @@ public class DeleteTest extends FHIRServerTestBase {
         }
         
         // Finally, an invalid search should result in a 400 status code.
-        FHIRParameters badSearch = new FHIRParameters().searchParam("NOTASEARCHPARAM", "foo");
+        FHIRParameters badSearch = new FHIRParameters().searchParam("invalid:search", "foo");
         response = client.conditionalUpdate(obs, badSearch);
         assertNotNull(response);
         if (deleteSupported) {

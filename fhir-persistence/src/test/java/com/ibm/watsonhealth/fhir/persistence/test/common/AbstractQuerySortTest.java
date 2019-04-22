@@ -196,8 +196,8 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
      * Tests a system-level search with a sort parameter not defined for the FHIR Resource type.
      * @throws Exception
      */
-    @Test(groups = { "jdbc-normalized" },expectedExceptions = { FHIRSearchException.class })
-    public void testResourceInvalidSortParm1() throws Exception {
+    @Test(groups = { "jdbc-normalized" })
+    public void testResourceInvalidSortParm1_lenient() throws Exception {
         Class<Resource> resourceType = Resource.class;
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
@@ -208,10 +208,28 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
                 
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, true);
         searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        persistence.search(persistenceContext, resourceType);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType);
+        assertNotNull(resources);
+        assertTrue(resources.size() > 0);
+    }
+    /**
+     * Tests a system-level search with a sort parameter not defined for the FHIR Resource type.
+     * @throws Exception
+     */
+    @Test(groups = { "jdbc-normalized" },expectedExceptions = { FHIRSearchException.class })
+    public void testResourceInvalidSortParm1_strict() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String queryString;
+                    
+        queryString = "&_lastUpdated=ge2018-03-27&_sort=bogus";
+        queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
+                
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
     }
     /**
      * Tests a system-level search with a sort parameter that is defined for the FHIR Resource type, 

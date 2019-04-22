@@ -725,8 +725,9 @@ public class SearchTest extends FHIRServerTestBase {
         // 'category' search parameter is filtered out for tenant1.
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("category", "foo");
-        FHIRRequestHeader header = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
-        FHIRResponse response = client._search("Observation", parameters, header);
+        FHIRRequestHeader tenantHeader = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
+        FHIRRequestHeader preferStrictHeader = new FHIRRequestHeader("Prefer", "handling=strict");
+        FHIRResponse response = client._search("Observation", parameters, tenantHeader, preferStrictHeader);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.getResource(OperationOutcome.class), "Search parameter 'category' for resource type 'Observation' was not found.");
     }

@@ -1832,7 +1832,7 @@ public class BundleTest extends FHIRServerTestBase {
         bundle.getEntry().get(2).getRequest().setIfNoneExist(objFactory.createString().withValue("name=Doe"));
         
         // Set fourth request to yield invalid search.
-        bundle.getEntry().get(3).getRequest().setIfNoneExist(objFactory.createString().withValue("BADPARAM=1"));
+        bundle.getEntry().get(3).getRequest().setIfNoneExist(objFactory.createString().withValue("BAD:PARAM=1"));
         
         printBundle(method, "request", bundle);
         
@@ -1846,8 +1846,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), 
-            "Search parameter 'BADPARAM' for resource type 'Patient' was not found.");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
@@ -1911,7 +1910,7 @@ public class BundleTest extends FHIRServerTestBase {
         addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, patient);
         
         // Set request to yield invalid search.
-        bundle.getEntry().get(0).getRequest().setIfNoneExist(objFactory.createString().withValue("BADPARAM=1"));
+        bundle.getEntry().get(0).getRequest().setIfNoneExist(objFactory.createString().withValue("BAD:PARAM=1"));
         
         printBundle(method, "request", bundle);
 
@@ -1921,8 +1920,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleTypeList.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), 
-                "Search parameter 'BADPARAM' for resource type 'Patient' was not found.");
+        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -1935,7 +1933,7 @@ public class BundleTest extends FHIRServerTestBase {
         
         String urlString = "Patient?_id=" + patientId;
         String multipleMatches = "Patient?name=Doe";
-        String badSearch = "Patient?NOTASEARCHPARAM=foo";
+        String badSearch = "Patient?NOTASEARCH:PARAM=foo";
 
         Bundle bundle = buildBundle(BundleTypeList.BATCH);
         addRequestToBundle(bundle, HTTPVerbList.PUT, urlString, null, patient);
@@ -1954,8 +1952,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), 
-            "Search parameter 'NOTASEARCHPARAM' for resource type 'Patient' was not found.");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
 
         // Next, verify that we have two versions of the Patient resource.
         response = client.history("Patient", patientId, null);
@@ -1998,7 +1995,7 @@ public class BundleTest extends FHIRServerTestBase {
         String noMatches = "Patient?_id=NOMATCHES";
         String oneMatch = "Patient?_id=" + patientId;
         String multipleMatches = "Patient?name=Doe";
-        String badSearch = "Patient?NOTASEARCHPARAM=foo";
+        String badSearch = "Patient?NOTASEARCH:PARAM=foo";
 
         Bundle bundle = buildBundle(BundleTypeList.BATCH);
         addRequestToBundle(bundle, HTTPVerbList.DELETE, noMatches, null, null);
@@ -2017,8 +2014,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(0), Status.NOT_FOUND.getStatusCode(), "Search criteria for a conditional delete operation yielded no matches");
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(), "returned multiple matches");
-        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), 
-            "Search parameter 'NOTASEARCHPARAM' for resource type 'Patient' was not found");
+        assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(), "Undefined Modifier: PARAM");
 
         // Next, verify that we can't read the Patient resource.
         response = client.read("Patient", patientId);
