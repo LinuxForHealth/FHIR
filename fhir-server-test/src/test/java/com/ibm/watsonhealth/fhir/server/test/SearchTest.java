@@ -721,7 +721,7 @@ public class SearchTest extends FHIRServerTestBase {
     }
     
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
-    public void test_SearchObservationFilteredSearchParameter1() throws Exception {
+    public void test_SearchObservationFilteredSearchParameter1_preferStrict() throws Exception {
         // 'category' search parameter is filtered out for tenant1.
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("category", "foo");
@@ -730,5 +730,27 @@ public class SearchTest extends FHIRServerTestBase {
         FHIRResponse response = client._search("Observation", parameters, tenantHeader, preferStrictHeader);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.getResource(OperationOutcome.class), "Search parameter 'category' for resource type 'Observation' was not found.");
+    }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
+    public void test_SearchObservationFilteredSearchParameter1_preferLenient() throws Exception {
+        // 'category' search parameter is filtered out for tenant1.
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("category", "foo");
+        FHIRRequestHeader tenantHeader = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
+        FHIRRequestHeader preferStrictHeader = new FHIRRequestHeader("Prefer", "handling=lenient");
+        FHIRResponse response = client._search("Observation", parameters, tenantHeader, preferStrictHeader);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+    }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation" })
+    public void test_SearchObservationFilteredSearchParameter1_preferBogus() throws Exception {
+        // 'category' search parameter is filtered out for tenant1.
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("category", "foo");
+        FHIRRequestHeader tenantHeader = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
+        FHIRRequestHeader preferStrictHeader = new FHIRRequestHeader("Prefer", "handling=bogus");
+        FHIRResponse response = client._search("Observation", parameters, tenantHeader, preferStrictHeader);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
 }

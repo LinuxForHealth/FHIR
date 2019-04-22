@@ -411,20 +411,6 @@ public class FHIRClientTest extends FHIRClientTestBase {
         OperationOutcome oo = response.getResource(OperationOutcome.class);
         assertNotNull(oo);
     }
-    @Test(dependsOnMethods = { "testUpdatePatient" })
-    public void testSearchPatientWithParamsBadRequest_preferBogus() throws Exception {
-        FHIRParameters parameters = new FHIRParameters().searchParam("not-an-attribute", "X");
-
-        FHIRRequestHeader preferHeader = new FHIRRequestHeader("Prefer", "handling=bogus");
-        FHIRResponse response = client.search("Patient", parameters, preferHeader);
-        assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
-        Bundle responseBundle = response.getResource(Bundle.class);
-        assertNotNull(responseBundle);
-        assertTrue(responseBundle.getEntry().size() > 0);
-        assertNotNull(responseBundle.getEntry().get(0).getResource().getPatient());
-    }
 
     @Test
     public void testValidatePatient() throws Exception {

@@ -25,6 +25,7 @@ import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.Bundle;
 import com.ibm.watsonhealth.fhir.model.Coding;
 import com.ibm.watsonhealth.fhir.model.Date;
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Quantity;
 import com.ibm.watsonhealth.fhir.model.Uri;
@@ -89,6 +90,66 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 0);
+    }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
+    public void testSearchPatientWithUnknownExtension() {
+        WebTarget target = getWebTarget();
+
+        // in lenient mode, an unknown parameter should be ignored
+        Response response = target.path("Patient").queryParam("fake-parameter", "fakeValue")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("Prefer", "handling=lenient")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        
+        // lenient is the default, so leaving out the Prefer header should be equivalent 
+        response = target.path("Patient").queryParam("fake-parameter", "fakeValue")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        
+        // lenient is the default, so a bogus value should be ignored 
+        response = target.path("Patient").queryParam("fake-parameter", "fakeValue")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("Prefer", "handling=other;strict")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        
+        // in strict mode, an unknown parameter should result in a 400 Bad Request
+        response = target.path("Patient").queryParam("fake-parameter", "fakeValue")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("Prefer", "handling=strict")
+                .get();
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        
+        // multiple headers should be handled appropriately
+        response = target.path("Patient").queryParam("fake-parameter", "fakeValue")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("Prefer", "fakeName=fakeValue")
+                .header("Prefer", "handling=strict")
+                .header("Prefer", "fakeName2=fakeValue2")
+                .get();
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        
+        // multiple parts to the Prefer header should be handled
+        response = target.path("Patient").queryParam("fake-parameter", "fakeValue")
+                .request(MediaType.APPLICATION_JSON_FHIR)
+                .header("Prefer", "fakeName=fakeValue;handling=strict;fakeName2=fakeValue2")
+                .get();
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
