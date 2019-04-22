@@ -429,7 +429,7 @@ public class SearchUtil {
     protected static List<SearchParameter> getUserDefinedSearchParameters(String resourceType) throws Exception {
         List<SearchParameter> result = new ArrayList<>();
         String tenantId = FHIRRequestContext.get().getTenantId();
-        Map<String, Map<String, SearchParameter>> spMapTenant = getTenantSPMap(tenantId);
+        Map<String, Map<String, SearchParameter>> spMapTenant = getTenantOrDefaultSPMap(tenantId);
         if (spMapTenant != null) {
             Map<String, SearchParameter> spMapResourceType = spMapTenant.get(resourceType);
             if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
@@ -577,7 +577,8 @@ public class SearchUtil {
     }
 
     /**
-     * Returns the SearchParameter map (keyed by resource type) for the specified tenant-id, or null if there are no
+     * Returns the SearchParameter map (keyed by resource type) for the specified tenant-id.
+     * If , or null if there are no
      * SearchParameters for the tenant.
      *
      * @param tenantId
@@ -585,14 +586,19 @@ public class SearchUtil {
      * @throws JAXBException
      * @throws FileNotFoundException
      */
-    private static Map<String, Map<String, SearchParameter>> getTenantSPMap(String tenantId) throws Exception {
+    private static Map<String, Map<String, SearchParameter>> getTenantOrDefaultSPMap(String tenantId) throws Exception {
         if (log.isLoggable(Level.FINEST)) {
             log.entering(CLASSNAME, "getTenantSPMap", new Object[] {
                     tenantId
             });
         }
         try {
-            return searchParameterCache.getCachedObjectForTenant(tenantId);
+            Map<String, Map<String, SearchParameter>> cachedObjectForTenant = searchParameterCache.getCachedObjectForTenant(tenantId);
+            if (cachedObjectForTenant == null) {
+                log.finer("No tenant-specific search parameters found for tenant '" + tenantId + "'; trying " + FHIRConfiguration.DEFAULT_TENANT_ID);
+                cachedObjectForTenant = searchParameterCache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
+            }
+            return cachedObjectForTenant;
         } finally {
             if (log.isLoggable(Level.FINEST)) {
                 log.exiting(CLASSNAME, "getTenantSPMap");
@@ -608,7 +614,7 @@ public class SearchUtil {
         String tenantId = FHIRRequestContext.get().getTenantId();
 
         // First try to find the search parameter within the specified tenant's map.
-        SearchParameter result = getSearchParameterInternal(getTenantSPMap(tenantId), resourceType, name, false);
+        SearchParameter result = getSearchParameterInternal(getTenantOrDefaultSPMap(tenantId), resourceType, name, false);
 
         // If we didn't find it within the tenant's map, then look within the built-in map.
         if (result == null) {

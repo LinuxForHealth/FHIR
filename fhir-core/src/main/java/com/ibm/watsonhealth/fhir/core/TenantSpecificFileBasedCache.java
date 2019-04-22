@@ -66,7 +66,7 @@ public abstract class TenantSpecificFileBasedCache<T> {
 
                     // If the cache object is stale, then discard and re-load below.
                     if (holder != null && holder.isStale()) {
-                        log.finer("Cached " + this.cacheType + " for tenant-id '" + tenantId + "' is stale, discarding...");
+                        log.fine("Cached " + this.cacheType + " for tenant-id '" + tenantId + "' is stale, discarding...");
                         cache.remove(tenantId);
                         holder = null;
                     }
