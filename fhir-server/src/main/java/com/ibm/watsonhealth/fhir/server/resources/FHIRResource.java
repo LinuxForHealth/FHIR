@@ -625,7 +625,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-            Resource result = doInvoke(operationContext, null, null, null, operationName, null, null);
+            Resource result = doInvoke(operationContext, null, null, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -646,7 +646,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-            Resource result = doInvoke(operationContext, null, null, null, operationName, resource, null);
+            Resource result = doInvoke(operationContext, null, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -667,7 +667,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
-            Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, null, null); 
+            Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, null, uriInfo.getQueryParameters(), null); 
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -688,7 +688,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
-            Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, resource, null);
+            Resource result = doInvoke(operationContext, resourceTypeName, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -709,7 +709,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
-            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, null, null);
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -730,7 +730,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
-            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, resource, null);
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -751,7 +751,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
-            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, null, null);
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -772,7 +772,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
-            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, resource, null);
+            Resource result = doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -1707,12 +1707,13 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @param versionId the resource version id associated with the request
      * @param operationName the name of the custom operation to be invoked
      * @param resource the input resource associated with the custom operation to be invoked
+     * @param queryParameters query parameters may be passed instead of a Parameters resource for certain custom operations invoked via GET
      * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-        Resource resource, Map<String, String> requestProperties) throws Exception {
+        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doInvoke");
 
         Date startTime = new Date();
@@ -1735,7 +1736,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             } else {
                 if (resource == null) {
                     // build parameters object from query parameters
-                    parameters = FHIROperationUtil.getInputParameters(operation.getDefinition(), uriInfo.getQueryParameters());
+                    parameters = FHIROperationUtil.getInputParameters(operation.getDefinition(), queryParameters);
                 } else {
                     // wrap resource in a parameters object
                     parameters = FHIROperationUtil.getInputParameters(operation.getDefinition(), resource);
@@ -1952,9 +1953,11 @@ public class FHIRResource implements FHIRResourceHelpers {
                         break;
 
                     case POST:
+                        break;
+                        
                     case PUT:
                         if (resource == null) {
-                            String msg = "BundleEntry.resource is required for BundleEntry with POST or PUT method.";
+                            String msg = "BundleEntry.resource is required for BundleEntry with PUT method.";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueTypeList.INVALID);
                         }
                         break;
@@ -2242,14 +2245,46 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         // Process a GET (read, vread, history, search, etc.).
                         // Determine the type of request from the path tokens.
-                        if (pathTokens.length == 1) {
+                        if (pathTokens.length > 0 && pathTokens[pathTokens.length-1].startsWith("$")) {
+                            // This is a custom operation request
+                            checkInitComplete();
+                            
+                            // Chop off the '$' and save the name
+                            String operationName = pathTokens[pathTokens.length-1].substring(1);
+                            
+//                            FHIROperationContext operationContext;
+                            switch (pathTokens.length) {
+                            case 1: {
+                                FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
+                                resource = doInvoke(operationContext, null, null, null, operationName, null, queryParams, null);
+                            }
+                                break;
+                            case 2: {
+                                FHIROperationContext operationContext = FHIROperationContext.createResourceTypeOperationContext();
+                                resource = doInvoke(operationContext, pathTokens[0], null, null, operationName, null, queryParams, null);
+                            }
+                                break;
+                            case 3: {
+                                FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
+                                resource = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, null, queryParams, null);
+                            }
+                                break;
+                            default:
+                                String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length-1] + "'";
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueTypeList.NOT_FOUND);
+                            }
+                        } else if (pathTokens.length == 1) {
                             // This is a 'search' request.
-                            resource = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, requestProperties, null);
+                            if ("_search".equals(pathTokens[0])) {
+                                resource = doSearch("Resource", null, null, queryParams, absoluteUri, requestProperties, null);
+                            } else {
+                                resource = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, requestProperties, null);
+                            }
                         } else if (pathTokens.length == 2) {
                             // This is a 'read' request.
                             resource = doRead(pathTokens[0], pathTokens[1], true, false, requestProperties, null);
                         } else if (pathTokens.length == 3) {
-                            if (pathTokens[2].equals("_history")) {
+                            if ("_history".equals(pathTokens[2])) {
                                 // This is a 'history' request.
                                 resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri, requestProperties);
                             } else {
@@ -2271,30 +2306,75 @@ public class FHIRResource implements FHIRResourceHelpers {
                         break;
 
                     case POST: {
-                        // Process a POST (create).
-                        if (pathTokens.length != 1) {
-                            String msg = "Request URL for bundled POST request should have path part with exactly one token (<resourceType>).";
+                        // Process a POST (create or search, or custom operation).
+                        if (pathTokens.length > 0 && pathTokens[pathTokens.length-1].startsWith("$")) {
+                            // This is a custom operation request
+                            checkInitComplete();
+                            
+                            // Chop off the '$' and save the name
+                            String operationName = pathTokens[pathTokens.length-1].substring(1);
+                                    
+                            // Retrieve the resource from the request entry.
+                            Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
+                            
+                            FHIROperationContext operationContext;
+                            Resource result;
+                            switch (pathTokens.length) {
+                            case 1:
+                                operationContext = FHIROperationContext.createSystemOperationContext();
+                                result = doInvoke(operationContext, null, null, null, operationName, resource, queryParams, null);
+                                break;
+                            case 2:
+                                operationContext = FHIROperationContext.createResourceTypeOperationContext();
+                                result = doInvoke(operationContext, pathTokens[0], null, null, operationName, resource, queryParams, null);
+                                break;
+                            case 3:
+                                operationContext = FHIROperationContext.createInstanceOperationContext();
+                                result = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, resource, queryParams, null);
+                                break;
+                            default:
+                                String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length-1] + "'";
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueTypeList.NOT_FOUND);
+                            }
+                            setBundleResponseStatus(response, SC_OK, requestDescription.toString(), initialTime);
+                            setBundleEntryResource(responseEntry, result);
+                        } else if (pathTokens.length == 2 && "_search".equals(pathTokens[1])) {
+                            // This is a 'search' request.
+                            Bundle searchResults = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, requestProperties, null);
+                            
+                            // Save the results of the operation in the bundle response field.
+                            setBundleResponseStatus(response, SC_OK, requestDescription.toString(), initialTime);
+                            setBundleEntryResource(responseEntry, searchResults);
+                        } else if (pathTokens.length == 1) {
+                            // This is a 'create' request.
+                            
+                            // Retrieve the local identifier from the request entry (if present).
+                            String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
+
+                            // Retrieve the resource from the request entry.
+                            Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
+                            if (resource == null) {
+                                String msg = "BundleEntry.resource is required for bundled create requests.";
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueTypeList.NOT_FOUND);
+                            }
+
+                            // Convert any local references found within the resource to their
+                            // corresponding external reference.
+                            processLocalReferences(resource, localRefMap);
+
+                            // Perform the 'create' operation.
+                            String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
+                            FHIRRestOperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist, requestProperties);
+                            
+                            setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
+
+                            // Next, if a local identifier was present, we'll need to map this to the
+                            // correct external identifier (e.g. Patient/12345).
+                            addLocalRefMapping(localRefMap, localIdentifier, resource);
+                        } else {
+                            String msg = "Request URL for bundled create requests should have a path with exactly one token (<resourceType>).";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueTypeList.NOT_FOUND);
                         }
-
-                        // Retrieve the local identifier from the request entry (if present).
-                        String localIdentifier = retrieveLocalIdentifier(requestEntry, localRefMap);
-
-                        // Retrieve the resource from the request entry.
-                        Resource resource = FHIRUtil.getResourceContainerResource(requestEntry.getResource());
-
-                        // Convert any local references found within the resource to their
-                        // corresponding external reference.
-                        processLocalReferences(resource, localRefMap);
-
-                        // Perform the 'create' operation.
-                        String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
-                        FHIRRestOperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist, requestProperties);
-                        setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
-
-                        // Next, if a local identifier was present, we'll need to map this to the
-                        // correct external identifier (e.g. Patient/12345).
-                        addLocalRefMapping(localRefMap, localIdentifier, resource);
                     }
                         break;
 

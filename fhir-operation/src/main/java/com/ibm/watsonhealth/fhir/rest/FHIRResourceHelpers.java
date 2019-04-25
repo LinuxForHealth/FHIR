@@ -102,11 +102,13 @@ public interface FHIRResourceHelpers {
      * @param versionId the resource version id associated with the request
      * @param operationName the name of the custom operation to be invoked
      * @param resource the input resource associated with the custom operation to be invoked
+     * @param queryParameters query parameters may be passed instead of a Parameters resource for certain custom operations invoked via GET
+     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-        Resource resource, Map<String, String> requestProperties) throws Exception;
+        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Processes a bundled request (batch or transaction type).

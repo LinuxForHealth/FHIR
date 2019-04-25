@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -37,6 +38,8 @@ import com.ibm.watsonhealth.fhir.model.ObjectFactory;
 import com.ibm.watsonhealth.fhir.model.Observation;
 import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Organization;
+import com.ibm.watsonhealth.fhir.model.Parameters;
+import com.ibm.watsonhealth.fhir.model.ParametersParameter;
 import com.ibm.watsonhealth.fhir.model.Patient;
 import com.ibm.watsonhealth.fhir.model.Practitioner;
 import com.ibm.watsonhealth.fhir.model.Reference;
@@ -677,7 +680,6 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchSearch";
         WebTarget target = getWebTarget();
 
-        // Perform a 'read' and a 'vread'.
         Bundle bundle = buildBundle(BundleTypeList.BATCH);
         addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family=Ortiz&_count=100", null, null);
 
@@ -696,7 +698,57 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() > 1);
     }
+    
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
+    public void testBatchPostSearch() throws Exception {
+        String method = "testBatchPostSearch";
+        WebTarget target = getWebTarget();
 
+        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient/_search?family=Ortiz&_count=100", null, null);
+
+        printBundle(method, "request", bundle);
+
+        Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
+        Response response = target.request().post(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.readEntity(Bundle.class);
+        printBundle(method, "response", responseBundle);
+        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
+
+        // Take a peek at the result bundle.
+        Bundle resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        assertNotNull(resultSet);
+        assertTrue(resultSet.getEntry().size() > 1);
+        assertNotNull(resultSet.getEntry().get(0).getResource().getPatient());
+    }
+    
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
+    public void testBatchSearchAll() throws Exception {
+        String method = "testBatchSearchAll";
+        WebTarget target = getWebTarget();
+
+        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        addRequestToBundle(bundle, HTTPVerbList.GET, "_search?_id=" + patientB1.getId().getValue(), null, null);
+
+        printBundle(method, "request", bundle);
+
+        Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
+        Response response = target.request().post(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.readEntity(Bundle.class);
+        printBundle(method, "response", responseBundle);
+        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 1);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
+
+        // Take a peek at the result bundle.
+        Bundle resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        assertNotNull(resultSet);
+        assertTrue(resultSet.getEntry().size() == 1);
+        assertNotNull(resultSet.getEntry().get(0).getResource().getPatient());
+    }
+    
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchCompartmentSearch() throws Exception {
         String method = "testBatchCompartmentSearch";
@@ -2021,7 +2073,60 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.GONE.getStatusCode());
     }
+    
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
+    public void testBatchCustomOperations() throws Exception {
+        String method = "testBatchSearchAll";
+        WebTarget target = getWebTarget();
+        
+        String message = "Hello, World!";
+        
+        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        
+        // 1. GET request at global level
+        addRequestToBundle(bundle, HTTPVerbList.GET, "$hello?input=" + message, null, null);
+        
+        // 2. POST request at global level
+        Parameters hellowWorldParameters = objFactory.createParameters();
+        ParametersParameter parameter2 = objFactory.createParametersParameter();
+        parameter2.setName(string("input"));
+        parameter2.setValueString(string(message));
+        hellowWorldParameters.getParameter().add(parameter2);
+        addRequestToBundle(bundle, HTTPVerbList.POST, "$hello", null, hellowWorldParameters);
+        
+        // 3. POST request with resource at resource level
+        Parameters validateOperationParameters = objFactory.createParameters();
+        ParametersParameter parameter3 = objFactory.createParametersParameter();
+        parameter3.setName(string("resource"));
+        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        parameter3.setResource(objFactory.createResourceContainer().withPatient(patient));
+        validateOperationParameters.getParameter().add(parameter3);
+        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient/$validate", null, validateOperationParameters);
+        
+        // 4. POST request with resource at resource instance level
+        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient/" + patientB1.getId().getValue() + "/$validate", null, validateOperationParameters);
 
+        printBundle(method, "request", bundle);
+
+        Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
+        Response response = target.request().post(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.readEntity(Bundle.class);
+        printBundle(method, "response", responseBundle);
+        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 4);
+        // Commented out because $hello operation isn't installed by default
+//        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
+//        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
+        assertGoodGetResponse(responseBundle.getEntry().get(2), Status.OK.getStatusCode());
+        assertGoodGetResponse(responseBundle.getEntry().get(3), Status.OK.getStatusCode());
+
+        // Commented out because $hello operation isn't installed by default
+//        assertNotNull(responseBundle.getEntry().get(0).getResource().getParameters());
+//        assertNotNull(responseBundle.getEntry().get(1).getResource().getParameters());
+        assertNotNull(responseBundle.getEntry().get(2).getResource().getOperationOutcome());
+        assertNotNull(responseBundle.getEntry().get(3).getResource().getOperationOutcome());
+    }
+    
     @Test(groups = { "transaction" })
     public void testTransactionCreatesForConditionalDelete() throws Exception {
         String method = "testTransactionCreatesForConditionalDelete";
