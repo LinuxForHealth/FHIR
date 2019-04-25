@@ -80,7 +80,7 @@ Once configured, you can add dependencies on specific fhir-server artifacts like
 If you intend to use these artifacts in a service or solution, please enter a dependency in [ClearingHouse](https://clearinghousev2.raleigh.ibm.com/CHNewCHRDM/CCHMServlet#&nature=wlhNDE&deliverableId=857565F0B78F11E88857DCC2171712A1).
 
 ### Contributing to the Watson Health FHIR Server
-For details on how to obtain and build the FHIR Server code, please see the [wiki](/watson-health-fhir-server/fhir/wiki).
+CODE_REMOVED
 
 CODE_REMOVED
 
