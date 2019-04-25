@@ -20,10 +20,17 @@
             <class name="com.ibm.watsonhealth.fhir.server.test.SortingTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.VirtualResourceTest" />
             <class name="com.ibm.watsonhealth.fhir.server.test.WebSocketNotificationsTest" />
-
+            
             <class name="com.ibm.watsonhealth.fhir.client.test.FHIRClientTest" />
 
             <class name="com.ibm.watsonhealth.fhir.cli.test.FHIRCliTest" />
+            
+            <!-- requires $validate and $hello operations to be deployed. 
+            Include the following jars in the fhir-server userlib dir before running the test:
+            * fhir-operation-validate-99-SNAPSHOT.jar
+            * fhir-operation-99-SNAPSHOT-tests.jar
+            -->
+            <!-- <class name="com.ibm.watsonhealth.fhir.server.test.FHIROperationTest" /> -->
         </classes>
     </test>
 </suite>

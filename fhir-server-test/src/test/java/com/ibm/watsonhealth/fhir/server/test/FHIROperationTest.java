@@ -306,7 +306,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
         OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
         String text = operationOutcome.getIssue().get(0).getDiagnostics().getValue();
-        if(text.contains("An error occurred during validation")) {
+        if(text.contains("Input parameter 'resource' is required")) {
             assertTrue(true);    //Force assertion to true
         } else {
             assertTrue(false);    //Force assertion to false
