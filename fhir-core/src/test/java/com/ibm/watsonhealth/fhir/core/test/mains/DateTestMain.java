@@ -26,6 +26,7 @@ public class DateTestMain {
     public static void main(String[] args) throws Exception {
         List<XMLGregorianCalendar> calendars = Arrays.asList(
             parseDateTime("2015-12-31T20:00:00-04:00", false),   // timezone other than GMT
+            parseDateTime("2015-12-31T20:00:00-05:00", false),   // different timezone other than GMT
             parseDateTime("2016-01-01", false),                  // date
             parseDateTime("2016-01", false),                     // year month
             parseDateTime("2016", false)                         // year
@@ -37,22 +38,30 @@ public class DateTestMain {
                 System.out.println("date in milliseconds: " + date.getTime());
                 System.out.println("date: " + formatTimestamp(date));
                 System.out.println("p.valueDate = '" + formatTimestamp(date) + "'");
+                System.out.println("timestamp: " + FHIRUtilities.convertToTimestamp(calendar));
                 System.out.println("");
+                
             } else if (isPartialDate(calendar)) {
                 // partial date
+                System.out.println("raw timestamp: " + FHIRUtilities.convertToTimestamp(calendar));
                 Duration duration = createDuration(calendar);   // amount to add
                 setDefaults(calendar);  // set defaults
                 
                 Date start = calendar.toGregorianCalendar().getTime();
                 System.out.println("start time in milliseconds: " + start.getTime());
                 System.out.println("start: " + formatTimestamp(start));
-                
+                System.out.println("start timestamp: " + FHIRUtilities.convertToTimestamp(calendar));
                 calendar.add(duration); // add duration
                 
                 Date end = calendar.toGregorianCalendar().getTime();
-                System.out.println("end time in milliseconds: " + end.getTime());
+                Date end2 = new Date(calendar.toGregorianCalendar().getTimeInMillis() - 1);
+                System.out.println("end time in milliseconds: " + (end.getTime()));
                 System.out.println("end:   " + formatTimestamp(end));
+                System.out.println("end2:  " + formatTimestamp(end2));
                 System.out.println("p.valueDate >= '" + formatTimestamp(start) + "' AND p.valueDate < '" + formatTimestamp(end) + "'");
+                System.out.println("p.valueDate >= '" + formatTimestamp(start) + "' AND p.valueDate < '" + formatTimestamp(end2) + "'");
+                System.out.println("end timestamp: " + FHIRUtilities.convertToTimestamp(calendar));
+                
                 System.out.println("");
             }
         }

@@ -1035,10 +1035,7 @@ public class SearchUtil {
                 break;
             }
         }
-        if (returnPrefix != null && !Prefix.isSupported(returnPrefix)) {
-            String msg = "Prefix not allowed: " + returnPrefix;
-            throw buildInvalidSearchException(msg);
-        }
+        
         return returnPrefix;
     }
 

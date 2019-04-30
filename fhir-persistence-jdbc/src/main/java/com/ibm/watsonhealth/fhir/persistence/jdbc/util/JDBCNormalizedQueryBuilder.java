@@ -97,7 +97,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         prefixOperatorMap.put(Prefix.LE, JDBCOperator.LTE);
         prefixOperatorMap.put(Prefix.LT, JDBCOperator.LT);
         prefixOperatorMap.put(Prefix.NE, JDBCOperator.NE);
-
+        prefixOperatorMap.put(Prefix.SA, JDBCOperator.GT);
+        prefixOperatorMap.put(Prefix.EB, JDBCOperator.LT);
+        prefixOperatorMap.put(Prefix.AP, JDBCOperator.EQ);
     }
 
     private ParameterNormalizedDAO parameterDao;
@@ -109,6 +111,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
     public static final boolean isDateSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
         Set<Class<?>> valueTypes = SearchUtil.getValueTypes(resourceType, queryParm.getName());
+        // TODO: handle Date and partial DateTimes like a range search
         return valueTypes.contains(com.ibm.watsonhealth.fhir.model.Date.class) ||
                valueTypes.contains(DateTime.class) ||
                valueTypes.contains(Instant.class);
@@ -759,7 +762,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         JDBCOperator operator;
         boolean parmValueProcessed = false;
         XMLGregorianCalendar calendar;
-        Date date, start, end;
+        Date date, start = null, end = null;
         Duration duration;
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
@@ -788,6 +791,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             operator = getPrefixOperator(value);
             // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
             if (FHIRUtilities.isDateTime(calendar)) {
+                start = date;
+                end = date;
                 if (isDateSearch) {
                     whereClauseSegment.append(LEFT_PAREN);
                     whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value())
@@ -808,6 +813,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 if (isDateSearch) {
                     whereClauseSegment.append(LEFT_PAREN);
                     if (operator.equals(JDBCOperator.EQ)) {
+                        // TODO: can we combine this with the dateRange logic below?
+                        // The main difference is here we use DATE_VALUE instead of DATE_START/DATE_END
+                        // because the DATE_VALUE is precise and has no implicit range
                         whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
                                           .append(JDBCOperator.GTE.value()).append(BIND_VAR)
                                           .append(JDBCOperator.AND.value())
@@ -824,23 +832,18 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                     }
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
-                date = start;
             }
             if (isDateRangeSearch) {
                 if (isDateSearch) {
                     whereClauseSegment.append(JDBCOperator.OR.value());
                 }
-                whereClauseSegment.append(LEFT_PAREN)
-                                  .append(tableAlias + DOT).append(DATE_START)
-                                  .append(JDBCOperator.LTE.value())
-                                  .append(BIND_VAR)
-                                  .append(JDBCOperator.AND.value())
-                                  .append(tableAlias + DOT).append(DATE_END)
-                                  .append(JDBCOperator.GTE.value())
-                                  .append(BIND_VAR)
-                                  .append(RIGHT_PAREN);
-                bindVariables.add(FHIRUtilities.formatTimestamp(date));
-                bindVariables.add(FHIRUtilities.formatTimestamp(date));
+                whereClauseSegment.append(LEFT_PAREN);
+                if (value.getPrefix() == null) {
+                    handleRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, Prefix.EQ);
+                } else {
+                    handleRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, value.getPrefix());
+                }
+                whereClauseSegment.append(RIGHT_PAREN);
             }
             whereClauseSegment.append(RIGHT_PAREN);
             parmValueProcessed = true;
@@ -850,6 +853,138 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
+    }
+
+    /**
+     * Append the condition and bind the variables according to the semantics of the passed prefix
+     * @param tableAlias
+     * @param whereClauseSegment
+     * @param start
+     * @param end
+     * @param bindVariables
+     * @param prefix
+     */
+    private void handleRangeComparison(String tableAlias, StringBuilder whereClauseSegment, Date start, Date end, List<Object> bindVariables,
+        Prefix prefix) {
+        switch (prefix) {
+        case EB:
+            // the range of the search value does not overlap with the range of the target value, 
+            // and the range above the search value contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            break;
+        case SA:
+            // the range of the search value does not overlap with the range of the target value, 
+            // and the range below the search value contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              .append(JDBCOperator.GT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            break;
+        case GE:
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value, 
+            // or the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            break;
+        case GT:
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.GT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            break;
+        case LE:
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value 
+            // or the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              .append(JDBCOperator.LTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            break;
+        case LT:
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            break;
+        case AP:
+            // the range of the search value overlaps with the range of the target value
+            
+            // 1. search range fully contains the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            // 2. search range begins during the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              .append(JDBCOperator.LTE.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            // 3. search range ends during the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              // strictly less than because the implicit end of the search range is exclusive
+                              .append(JDBCOperator.LT.value()) 
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            break;
+        case NE:
+            // the range of the search value does not fully contain the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            break;
+        case EQ:    
+        default:
+            // the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            break;
+        }
     }
 
     @Override

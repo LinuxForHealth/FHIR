@@ -211,6 +211,7 @@ public class FHIRUtilities {
             calendar.setHour(0);
             calendar.setMinute(0);
             calendar.setSecond(0);
+            calendar.setMillisecond(0);
             calendar.setTimezone(0);
         }
     }
@@ -228,6 +229,7 @@ public class FHIRUtilities {
         if (isDate(calendar)) {
             days = 1;
         }
+        
         return datatypeFactory.newDuration(true, years, months, days, 0, 0, 0);
     }
 
@@ -237,7 +239,7 @@ public class FHIRUtilities {
                 && calendar.getMinute() != DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() != DatatypeConstants.FIELD_UNDEFINED
                 && calendar.getTimezone() != DatatypeConstants.FIELD_UNDEFINED;
     }
-
+    
     public static boolean isPartialDate(XMLGregorianCalendar calendar) {
         return isYear(calendar) || isYearMonth(calendar) || isDate(calendar);
     }

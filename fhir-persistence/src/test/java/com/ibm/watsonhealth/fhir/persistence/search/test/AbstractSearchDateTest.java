@@ -29,12 +29,71 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_date() throws Exception {
+        // "date" is 2018-10-29
+        
         assertSearchReturnsSavedResource("date", "2018-10-29");
+        assertSearchDoesntReturnSavedResource("date", "ne2018-10-29");
+        assertSearchDoesntReturnSavedResource("date", "lt2018-10-29");
+        assertSearchDoesntReturnSavedResource("date", "gt2018-10-29");
+        assertSearchReturnsSavedResource("date", "le2018-10-29");
+        assertSearchReturnsSavedResource("date", "ge2018-10-29");
+        assertSearchDoesntReturnSavedResource("date", "sa2018-10-29");
+        assertSearchDoesntReturnSavedResource("date", "eb2018-10-29");
+        assertSearchReturnsSavedResource("date", "ap2018-10-29");
+        
         // This should return the resource but does not
-//        assertSearchReturnsSavedResource("date", "2018-10-29T17:12:00-04:00");
-        // This throws an error
-//        assertSearchReturnsSavedResource("date", "2018-10-29T17:12:00");
-        assertSearchDoesntReturnSavedResource("date", "2025-10-29");
+//      assertSearchReturnsSavedResource("date", "2018-10-29T17:12:00-04:00");
+//      assertSearchDoesntReturnSavedResource("date", "ne2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("date", "lt2018-10-29T17:12:00-04:00");
+//      assertSearchReturnsSavedResource("date", "gt2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("date", "le2018-10-29T17:12:00-04:00");
+//      assertSearchReturnsSavedResource("date", "ge2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00-04:00");
+//      assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00-04:00");
+//      assertSearchReturnsSavedResource("date", "ap2018-10-29T17:12:00-04:00");
+        
+        assertSearchDoesntReturnSavedResource("date", "2018-10-28");
+        assertSearchReturnsSavedResource("date", "ne2018-10-28");
+        assertSearchDoesntReturnSavedResource("date", "lt2018-10-28");
+        assertSearchReturnsSavedResource("date", "gt2018-10-28");
+        assertSearchDoesntReturnSavedResource("date", "le2018-10-28");
+        assertSearchReturnsSavedResource("date", "ge2018-10-28");
+        assertSearchReturnsSavedResource("date", "sa2018-10-28");
+        assertSearchDoesntReturnSavedResource("date", "eb2018-10-28");
+        assertSearchDoesntReturnSavedResource("date", "ap2018-10-28");
+        
+        assertSearchDoesntReturnSavedResource("date", "2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("date", "ne2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("date", "lt2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("date", "gt2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("date", "le2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("date", "ge2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("date", "sa2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("date", "eb2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("date", "ap2018-10-28T23:59:59.999999Z");
+        
+        assertSearchDoesntReturnSavedResource("date", "2018-10-30");
+        assertSearchReturnsSavedResource("date", "ne2018-10-30");
+        assertSearchReturnsSavedResource("date", "lt2018-10-30");
+        assertSearchDoesntReturnSavedResource("date", "gt2018-10-30");
+        assertSearchReturnsSavedResource("date", "le2018-10-30");
+        assertSearchDoesntReturnSavedResource("date", "ge2018-10-30");
+        assertSearchDoesntReturnSavedResource("date", "sa2018-10-30");
+        assertSearchReturnsSavedResource("date", "eb2018-10-30");
+        assertSearchDoesntReturnSavedResource("date", "ap2018-10-30");
+        
+        assertSearchDoesntReturnSavedResource("date", "2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("date", "ne2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("date", "lt2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("date", "gt2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("date", "le2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("date", "ge2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("date", "sa2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("date", "eb2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("date", "ap2018-10-30T00:00:00.000001Z");
+        
+        // This throws an error but shouldn't
+//      assertSearchReturnsSavedResource("date", "2018-10-29T17:12:00");
     }
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -68,10 +127,67 @@ CODE_REMOVED
 
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_dateTime() throws Exception {
-        assertSearchReturnsSavedResource("dateTime", "2018-10-29T17:12:00-04:00");
-        assertSearchReturnsSavedResource("dateTime", "2018-10-29");
+        // "dateTime" is 2018-10-29T17:12:00-04:00
         
-        assertSearchDoesntReturnSavedResource("dateTime", "2025-10-29");
+        assertSearchReturnsSavedResource("dateTime", "2018-10-29");
+//        assertSearchDoesntReturnSavedResource("dateTime", "ne2018-10-29");
+        assertSearchDoesntReturnSavedResource("dateTime", "lt2018-10-29");
+//        assertSearchDoesntReturnSavedResource("dateTime", "gt2018-10-29");
+//        assertSearchReturnsSavedResource("dateTime", "le2018-10-29");
+        assertSearchReturnsSavedResource("dateTime", "ge2018-10-29");
+//        assertSearchDoesntReturnSavedResource("dateTime", "sa2018-10-29");
+        assertSearchDoesntReturnSavedResource("dateTime", "eb2018-10-29");
+        assertSearchReturnsSavedResource("dateTime", "ap2018-10-29");
+        
+        assertSearchReturnsSavedResource("dateTime", "2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("dateTime", "ne2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("dateTime", "lt2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("dateTime", "gt2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("dateTime", "le2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("dateTime", "ge2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("dateTime", "sa2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("dateTime", "eb2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("dateTime", "ap2018-10-29T17:12:00-04:00");
+        
+        assertSearchDoesntReturnSavedResource("dateTime", "2018-10-28");
+        assertSearchReturnsSavedResource("dateTime", "ne2018-10-28");
+        assertSearchDoesntReturnSavedResource("dateTime", "lt2018-10-28");
+        assertSearchReturnsSavedResource("dateTime", "gt2018-10-28");
+        assertSearchDoesntReturnSavedResource("dateTime", "le2018-10-28");
+        assertSearchReturnsSavedResource("dateTime", "ge2018-10-28");
+        assertSearchReturnsSavedResource("dateTime", "sa2018-10-28");
+        assertSearchDoesntReturnSavedResource("dateTime", "eb2018-10-28");
+        assertSearchDoesntReturnSavedResource("dateTime", "ap2018-10-28");
+        
+        assertSearchDoesntReturnSavedResource("dateTime", "2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("dateTime", "ne2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "lt2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("dateTime", "gt2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "le2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("dateTime", "ge2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("dateTime", "sa2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "eb2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "ap2018-10-28T23:59:59.999999Z");
+        
+        assertSearchDoesntReturnSavedResource("dateTime", "2018-10-30");
+        assertSearchReturnsSavedResource("dateTime", "ne2018-10-30");
+        assertSearchReturnsSavedResource("dateTime", "lt2018-10-30");
+        assertSearchDoesntReturnSavedResource("dateTime", "gt2018-10-30");
+        assertSearchReturnsSavedResource("dateTime", "le2018-10-30");
+        assertSearchDoesntReturnSavedResource("dateTime", "ge2018-10-30");
+        assertSearchDoesntReturnSavedResource("dateTime", "sa2018-10-30");
+        assertSearchReturnsSavedResource("dateTime", "eb2018-10-30");
+        assertSearchDoesntReturnSavedResource("dateTime", "ap2018-10-30");
+        
+        assertSearchDoesntReturnSavedResource("dateTime", "2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("dateTime", "ne2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("dateTime", "lt2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "gt2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("dateTime", "le2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "ge2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "sa2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("dateTime", "eb2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("dateTime", "ap2018-10-30T00:00:00.000001Z");
     }
     
     @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
@@ -135,20 +251,231 @@ CODE_REMOVED
     ///////////////
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Period() throws Exception {
-        assertSearchReturnsSavedResource("Period", "2018-10-29T17:12:44-04:00");
+        // "Period" is 2018-10-29T17:12:00-04:00 to 2018-10-29T17:18:00-04:00
+        
+        assertSearchReturnsSavedResource("Period", "2018-10-29");
+        assertSearchDoesntReturnSavedResource("Period", "ne2018-10-29");
+        assertSearchReturnsSavedResource("Period", "lt2018-10-29");
+        assertSearchReturnsSavedResource("Period", "gt2018-10-29");
+        assertSearchReturnsSavedResource("Period", "le2018-10-29");
+        assertSearchReturnsSavedResource("Period", "ge2018-10-29");
+        assertSearchDoesntReturnSavedResource("Period", "sa2018-10-29");
+        assertSearchDoesntReturnSavedResource("Period", "eb2018-10-29");
+        assertSearchReturnsSavedResource("Period", "ap2018-10-29");
+        
+        // search on the dateTime at the start of the period
+        // the range of the search value doesn't fully contain the range of the target value
+        assertSearchDoesntReturnSavedResource("Period", "2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period", "ne2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "lt2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period", "gt2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period", "le2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period", "ge2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "sa2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "eb2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period", "ap2018-10-29T17:12:00-04:00");
+        
+        // search on a dateTime within the period
+        // the range of the search value doesn't fully contain the range of the target value
+        assertSearchDoesntReturnSavedResource("Period", "2018-10-29T17:12:44-04:00");
+        assertSearchReturnsSavedResource("Period", "ne2018-10-29T17:12:44-04:00");
+        assertSearchReturnsSavedResource("Period", "lt2018-10-29T17:12:44-04:00");
+        assertSearchReturnsSavedResource("Period", "gt2018-10-29T17:12:44-04:00");
+        assertSearchReturnsSavedResource("Period", "le2018-10-29T17:12:44-04:00");
+        assertSearchReturnsSavedResource("Period", "ge2018-10-29T17:12:44-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "sa2018-10-29T17:12:44-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "eb2018-10-29T17:12:44-04:00");
+        assertSearchReturnsSavedResource("Period", "ap2018-10-29T17:12:44-04:00");
+        
+        // search on the dateTime at the end of the period
+        // the range of the search value doesn't fully contains the range of the target value
+        assertSearchDoesntReturnSavedResource("Period", "2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period", "ne2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period", "lt2018-10-29T17:18:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "gt2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period", "le2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period", "ge2018-10-29T17:18:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "sa2018-10-29T17:18:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period", "eb2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period", "ap2018-10-29T17:18:00-04:00");
+        
+        assertSearchDoesntReturnSavedResource("Period", "2018-10-28");
+        assertSearchReturnsSavedResource("Period", "ne2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period", "lt2018-10-28");
+        assertSearchReturnsSavedResource("Period", "gt2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period", "le2018-10-28");
+        assertSearchReturnsSavedResource("Period", "ge2018-10-28");
+        assertSearchReturnsSavedResource("Period", "sa2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period", "eb2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period", "ap2018-10-28");
+        
+        assertSearchDoesntReturnSavedResource("Period", "2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period", "ne2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period", "lt2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period", "gt2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period", "le2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period", "ge2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period", "sa2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period", "eb2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period", "ap2018-10-28T23:59:59.999999Z");
+        
+        assertSearchDoesntReturnSavedResource("Period", "2018-10-30");
+        assertSearchReturnsSavedResource("Period", "ne2018-10-30");
+        assertSearchReturnsSavedResource("Period", "lt2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period", "gt2018-10-30");
+        assertSearchReturnsSavedResource("Period", "le2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period", "ge2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period", "sa2018-10-30");
+        assertSearchReturnsSavedResource("Period", "eb2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period", "ap2018-10-30");
+        
+        assertSearchDoesntReturnSavedResource("Period", "2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period", "ne2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period", "lt2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period", "gt2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period", "le2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period", "ge2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period", "sa2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period", "eb2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period", "ap2018-10-30T00:00:00.000001Z");
     }
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Period_NoStart() throws Exception {
-        assertSearchReturnsSavedResource("Period-noStart", "2018-10-29T17:12:44-04:00");
+        // "Period-noStart" has end=2018-10-29T17:18:00-04:00
+        
+        // the range of the search value doesn't fully contains the range of the target value
+        assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-29");
+        assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-29");
+        assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-29");
+        assertSearchReturnsSavedResource("Period-noStart", "gt2018-10-29");
+        assertSearchReturnsSavedResource("Period-noStart", "le2018-10-29");
+        assertSearchReturnsSavedResource("Period-noStart", "ge2018-10-29");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-29");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-29");
+        assertSearchReturnsSavedResource("Period-noStart", "ap2018-10-29");
+        
+        // search on the dateTime at the end of the Period-noStart
+        // the range of the search value doesn't fully contains the range of the target value
+        assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-29T17:18:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "gt2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period-noStart", "le2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period-noStart", "ge2018-10-29T17:18:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-29T17:18:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-29T17:18:00-04:00");
+        assertSearchReturnsSavedResource("Period-noStart", "ap2018-10-29T17:18:00-04:00");
+        
+        assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-28");
+        assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-28");
+        assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-28");
+        assertSearchReturnsSavedResource("Period-noStart", "gt2018-10-28");
+        assertSearchReturnsSavedResource("Period-noStart", "le2018-10-28");
+        assertSearchReturnsSavedResource("Period-noStart", "ge2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-28");
+        assertSearchReturnsSavedResource("Period-noStart", "ap2018-10-28");
+        
+        assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noStart", "gt2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noStart", "le2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noStart", "ge2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noStart", "ap2018-10-28T23:59:59.999999Z");
+        
+        assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-30");
+        assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-30");
+        assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "gt2018-10-30");
+        assertSearchReturnsSavedResource("Period-noStart", "le2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "ge2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-30");
+        assertSearchReturnsSavedResource("Period-noStart", "eb2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "ap2018-10-30");
+        
+        assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "gt2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noStart", "le2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "ge2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noStart", "eb2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period-noStart", "ap2018-10-30T00:00:00.000001Z");
     }
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Period_NoEnd() throws Exception {
-        assertSearchReturnsSavedResource("Period-noEnd", "2018-10-29T17:12:44-04:00");
+        // "Period-noEnd" has start=2018-10-29T17:12:00-04:00
+        
+        // the range of the search value doesn't fully contain the range of the target value
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-29");
+        assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-29");
+        assertSearchReturnsSavedResource("Period-noEnd", "lt2018-10-29");
+        assertSearchReturnsSavedResource("Period-noEnd", "gt2018-10-29");
+        assertSearchReturnsSavedResource("Period-noEnd", "le2018-10-29");
+        assertSearchReturnsSavedResource("Period-noEnd", "ge2018-10-29");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "sa2018-10-29");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-29");
+        assertSearchReturnsSavedResource("Period-noEnd", "ap2018-10-29");
+        
+        // search on the dateTime at the start of the Period-noEnd
+        // the range of the search value doesn't fully contain the range of the target value
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "lt2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period-noEnd", "gt2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period-noEnd", "le2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period-noEnd", "ge2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "sa2018-10-29T17:12:00-04:00");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-29T17:12:00-04:00");
+        assertSearchReturnsSavedResource("Period-noEnd", "ap2018-10-29T17:12:00-04:00");
+        
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-28");
+        assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "lt2018-10-28");
+        assertSearchReturnsSavedResource("Period-noEnd", "gt2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "le2018-10-28");
+        assertSearchReturnsSavedResource("Period-noEnd", "ge2018-10-28");
+        assertSearchReturnsSavedResource("Period-noEnd", "sa2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-28");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "ap2018-10-28");
+        
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "lt2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "gt2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "le2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "ge2018-10-28T23:59:59.999999Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "sa2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-28T23:59:59.999999Z");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "ap2018-10-28T23:59:59.999999Z");
+        
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-30");
+        assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-30");
+        assertSearchReturnsSavedResource("Period-noEnd", "lt2018-10-30");
+        assertSearchReturnsSavedResource("Period-noEnd", "gt2018-10-30");
+        assertSearchReturnsSavedResource("Period-noEnd", "le2018-10-30");
+        assertSearchReturnsSavedResource("Period-noEnd", "ge2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "sa2018-10-30");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-30");
+        assertSearchReturnsSavedResource("Period-noEnd", "ap2018-10-30");
+        
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "lt2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "gt2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "le2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "ge2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "sa2018-10-30T00:00:00.000001Z");
+        assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-30T00:00:00.000001Z");
+        assertSearchReturnsSavedResource("Period-noEnd", "ap2018-10-30T00:00:00.000001Z");
     }
-    // TODO: chained Period search is not supported yet
     @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
     public void testSearchDate_Period_chained() throws Exception {
-        assertSearchReturnsComposition("subject:Basic.Period", "2018-10-29T17:12:44-04:00");
+        assertSearchReturnsComposition("subject:Basic.Period", "2018-10-29");
     }
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchDate_Period_missing() throws Exception {

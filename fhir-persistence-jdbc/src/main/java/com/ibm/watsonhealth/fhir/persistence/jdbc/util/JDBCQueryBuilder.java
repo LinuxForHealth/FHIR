@@ -89,7 +89,9 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
         prefixOperatorMap.put(Prefix.LE, JDBCOperator.LTE);
         prefixOperatorMap.put(Prefix.LT, JDBCOperator.LT);
         prefixOperatorMap.put(Prefix.NE, JDBCOperator.NE);
-            
+        prefixOperatorMap.put(Prefix.SA, JDBCOperator.GT);
+        prefixOperatorMap.put(Prefix.EB, JDBCOperator.LT);
+        prefixOperatorMap.put(Prefix.AP, JDBCOperator.EQ);
     }
     
     public JDBCQueryBuilder(FHIRDbDAO dao) {

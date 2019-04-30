@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -366,10 +367,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
+            String stringDateValue = value.getValue();
+            
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(value.getValue(), true);
-            p.setValueDate(FHIRUtilities.convertToTimestamp(calendar));
+            
+            XMLGregorianCalendar calendarValue = FHIRUtilities.parseDateTime(stringDateValue, false);
+            setDateValues(p, calendarValue);
+            
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {
@@ -383,16 +388,54 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         }
     }
 
+    /**
+     * @param p
+     * @param calendarValue
+     */
+    private void setDateValues(Parameter p, XMLGregorianCalendar calendarValue) {
+        if (FHIRUtilities.isDateTime(calendarValue)) {
+            FHIRUtilities.setDefaults(calendarValue);
+            p.setValueDate(FHIRUtilities.convertToTimestamp(calendarValue));
+        } else {
+            Duration implicitRangeDuration = FHIRUtilities.createDuration(calendarValue);
+            
+            FHIRUtilities.setDefaults(calendarValue);
+            Timestamp implicitStart = FHIRUtilities.convertToTimestamp(calendarValue);
+            p.setValueDateStart(implicitStart);
+            p.setValueDate(implicitStart);
+            
+            calendarValue.add(implicitRangeDuration);
+            Timestamp implicitEndExclusive = FHIRUtilities.convertToTimestamp(calendarValue);
+            Timestamp implicitEndInclusive = convertToExlusiveEnd(implicitEndExclusive);
+            p.setValueDateEnd(implicitEndInclusive);
+        }
+    }
+
+    /**
+     * Convert a period's end timestamp from an exlusive end timestamp to an inclusive one
+     * @param exlusiveEndTime
+     * @return inclusiveEndTime
+     */
+    private Timestamp convertToExlusiveEnd(Timestamp exlusiveEndTime) {
+        // Our current db2 normalized schema uses the db2 default of 6 decimal places (1000 nanoseconds) for fractional seconds.
+        // Derby too.
+        return Timestamp.from(exlusiveEndTime.toInstant().minusNanos(1000));
+    }
+    
+
     @Override
     public List<Parameter> process(SearchParameter parameter, DateTime value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,DateTime)";
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
+            String stringDateValue = value.getValue();
+            
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(value.getValue(), true);
-            p.setValueDate(FHIRUtilities.convertToTimestamp(calendar));
+            XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(stringDateValue, false);
+            
+            setDateValues(p, calendar);
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {
