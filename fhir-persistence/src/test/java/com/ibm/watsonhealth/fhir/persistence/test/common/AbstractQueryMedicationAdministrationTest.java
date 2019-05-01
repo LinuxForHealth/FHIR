@@ -125,12 +125,12 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
     }
     
     /**
-     * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15T14:30:00+01:00' which should yield correct results
+     * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15' which should yield correct results
      * @throws Exception
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
     public void testMedicationAdministrationQuery_effectivetime() throws Exception {
-        List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "effectivetime", "2015-01-15T14:30:00+01:00");
+        List<Resource> resources = runQueryTest(MedicationAdministration.class, persistence, "effectivetime", "2015-01-15");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((MedicationAdministration)resources.get(0)).getEffectiveTimePeriod().getEnd().getValue(),"2015-01-15T14:30:00+01:00");
@@ -173,14 +173,14 @@ public abstract class AbstractQueryMedicationAdministrationTest extends Abstract
     }
     
     /**
-     * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15T14:30:00+01:00' which should yield correct results using pagination
+     * Tests a query for a MedicationAdministration with effectivetime = '2015-01-15' which should yield correct results using pagination
      * @throws Exception
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateMedicationAdministration" })
     public void testMedicationAdministrationPagination_002() throws Exception {
         
         String parmName = "effectivetime";
-        String parmValue = "2015-01-15T14:30:00+01:00";
+        String parmValue = "2015-01-15";
         Class<? extends Resource> resourceType = MedicationAdministration.class;
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         

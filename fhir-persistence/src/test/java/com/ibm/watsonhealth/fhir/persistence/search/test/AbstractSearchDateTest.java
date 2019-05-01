@@ -288,7 +288,7 @@ CODE_REMOVED
         assertSearchReturnsSavedResource("Period", "ap2018-10-29T17:12:44-04:00");
         
         // search on the dateTime at the end of the period
-        // the range of the search value doesn't fully contains the range of the target value
+        // the range of the search value doesn't fully contain the range of the target value
         assertSearchDoesntReturnSavedResource("Period", "2018-10-29T17:18:00-04:00");
         assertSearchReturnsSavedResource("Period", "ne2018-10-29T17:18:00-04:00");
         assertSearchReturnsSavedResource("Period", "lt2018-10-29T17:18:00-04:00");
@@ -343,7 +343,7 @@ CODE_REMOVED
     public void testSearchDate_Period_NoStart() throws Exception {
         // "Period-noStart" has end=2018-10-29T17:18:00-04:00
         
-        // the range of the search value doesn't fully contains the range of the target value
+        // the range of the search value doesn't fully contain the range of the target value
         assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-29");
         assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-29");
         assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-29");
@@ -355,7 +355,7 @@ CODE_REMOVED
         assertSearchReturnsSavedResource("Period-noStart", "ap2018-10-29");
         
         // search on the dateTime at the end of the Period-noStart
-        // the range of the search value doesn't fully contains the range of the target value
+        // the range of the search value doesn't fully contain the range of the target value
         assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-29T17:18:00-04:00");
         assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-29T17:18:00-04:00");
         assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-29T17:18:00-04:00");

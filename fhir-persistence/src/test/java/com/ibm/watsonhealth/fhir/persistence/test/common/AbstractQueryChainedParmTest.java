@@ -398,7 +398,7 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateComposition_chained" })
     public void testCompositionQuery_chained_negativeDateEq() throws Exception {
-        List<Resource> resources = runQueryTest(Composition.class, persistence, "subject:ImmunizationRecommendation.date", "eq2017-09-04T16:20:00Z");
+        List<Resource> resources = runQueryTest(Composition.class, persistence, "subject:ImmunizationRecommendation.date", "eq2017-09-05");
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         

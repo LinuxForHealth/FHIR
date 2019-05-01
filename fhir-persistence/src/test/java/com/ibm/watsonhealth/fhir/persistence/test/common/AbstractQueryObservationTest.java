@@ -487,12 +487,13 @@ CODE_REMOVED
     }
     
     /**
-     * Tests a query for an Observation with value-date (valuePeriod - start) = '2014-11-04T15:42:15-08:00' which should yield correct results
+     * Tests a query for an Observation with value-date (valuePeriod - start) = '2014-11-04' which should yield correct results
      * @throws Exception
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation4" })
     public void testObservationQuery_valueDate_valuePeriodStart() throws Exception {
-        List<Resource> resources = runQueryTest(Observation.class, persistence, "value-date", "2014-11-04T15:42:15-08:00");
+        // Period is from "2014-11-04T15:42:15-08:00" to "2014-12-30T15:42:15-08:00"
+        List<Resource> resources = runQueryTest(Observation.class, persistence, "value-date", "gt2014-11-04T15:42:15-08:00");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((Observation)resources.get(0)).getValuePeriod().getStart().getValue(),"2014-11-04T15:42:15-08:00");
@@ -787,14 +788,14 @@ CODE_REMOVED
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateObservation5" })
     public void testObservationQuery_valueRange() throws Exception {
-        List<Resource> resources = runQueryTest(Observation.class, persistence, "value-range", "3.7|http://loinc.org|v15074-8");
+        List<Resource> resources = runQueryTest(Observation.class, persistence, "value-range", "ap3.7|http://loinc.org|v15074-8");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         Observation observation = (Observation) resources.get(0);
         BigDecimal low = observation.getValueRange().getLow().getValue().getValue();
         BigDecimal high = observation.getValueRange().getHigh().getValue().getValue();
         assertTrue(low.compareTo(new BigDecimal(3.7)) <= 0);
-        assertTrue(high.compareTo(new BigDecimal(3.7)) >=0);
+        assertTrue(high.compareTo(new BigDecimal(3.7)) >= 0);
     }
     
     /**
