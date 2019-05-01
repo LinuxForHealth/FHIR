@@ -39,6 +39,12 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         // I think this should return the resource but it currently doesn't.
         // https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
 //        assertSearchReturnsSavedResource("Quantity", "25||sec");
+        
+        assertSearchDoesntReturnSavedResource("Quantity", "24.4999||s");
+CODE_REMOVED
+//        assertSearchReturnsSavedResource("Quantity", "24.5||s");
+//        assertSearchReturnsSavedResource("Quantity", "25.4999||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "25.5||s");
     }
     
     @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
@@ -57,12 +63,69 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     
     @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchQuantity_Quantity_withPrefixes() throws Exception {
+        assertSearchReturnsSavedResource("Quantity", "ne24|http://unitsofmeasure.org|s");
+        assertSearchReturnsSavedResource("Quantity", "ne24.4999||s");
+//        assertSearchDoesntReturnSavedResource("Quantity", "ne24.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "ne25||s");
+//        assertSearchDoesntReturnSavedResource("Quantity", "ne25.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "ne25.5||s");
+        assertSearchReturnsSavedResource("Quantity", "ne26|http://unitsofmeasure.org|s");
+        
+//        assertSearchReturnsSavedResource("Quantity", "ap24|http://unitsofmeasure.org|s");
+//        assertSearchReturnsSavedResource("Quantity", "ap24.4999||s");
+//        assertSearchReturnsSavedResource("Quantity", "ap24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "ap25||s");
+//        assertSearchReturnsSavedResource("Quantity", "ap25.4999||s");
+//        assertSearchReturnsSavedResource("Quantity", "ap25.5||s");
+//        assertSearchReturnsSavedResource("Quantity", "ap26|http://unitsofmeasure.org|s");
+        
+        assertSearchDoesntReturnSavedResource("Quantity", "lt24|http://unitsofmeasure.org|s");
+        assertSearchDoesntReturnSavedResource("Quantity", "lt24.4999||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "lt24.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "lt25||s");
+        assertSearchReturnsSavedResource("Quantity", "lt25.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "lt25.5||s");
         assertSearchReturnsSavedResource("Quantity", "lt26|http://unitsofmeasure.org|s");
+        
         assertSearchReturnsSavedResource("Quantity", "gt24|http://unitsofmeasure.org|s");
+        assertSearchReturnsSavedResource("Quantity", "gt24.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "gt24.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "gt25||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "gt25.4999||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "gt25.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "gt26|http://unitsofmeasure.org|s");
+        
+        assertSearchDoesntReturnSavedResource("Quantity", "le24|http://unitsofmeasure.org|s");
+        assertSearchDoesntReturnSavedResource("Quantity", "le24.4999||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "le24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "le25||s");
+        assertSearchReturnsSavedResource("Quantity", "le25.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "le25.5||s");
         assertSearchReturnsSavedResource("Quantity", "le26|http://unitsofmeasure.org|s");
-        assertSearchReturnsSavedResource("Quantity", "le25|http://unitsofmeasure.org|s");
-        assertSearchReturnsSavedResource("Quantity", "ge25|http://unitsofmeasure.org|s");
+        
         assertSearchReturnsSavedResource("Quantity", "ge24|http://unitsofmeasure.org|s");
+        assertSearchReturnsSavedResource("Quantity", "ge24.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "ge24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "ge25||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "ge25.4999||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "ge25.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "ge26|http://unitsofmeasure.org|s");
+        
+        assertSearchReturnsSavedResource("Quantity", "sa24|http://unitsofmeasure.org|s");
+        assertSearchReturnsSavedResource("Quantity", "sa24.4999||s");
+//        assertSearchDoesntReturnSavedResource("Quantity", "sa24.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "sa25||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "sa25.4999||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "sa25.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "sa26|http://unitsofmeasure.org|s");
+        
+        assertSearchDoesntReturnSavedResource("Quantity", "eb24|http://unitsofmeasure.org|s");
+        assertSearchDoesntReturnSavedResource("Quantity", "eb24.4999||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "eb24.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "eb25||s");
+//        assertSearchDoesntReturnSavedResource("Quantity", "eb25.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "eb25.5||s");
+        assertSearchReturnsSavedResource("Quantity", "eb26|http://unitsofmeasure.org|s");
     }
     
     @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
@@ -179,4 +242,64 @@ CODE_REMOVED
 //        assertSearchReturnsComposition("subject:Basic.missing-Quantity:missing", "true");
 //        assertSearchDoesntReturnComposition("subject:Basic.missing-Quantity:missing", "false");
 //    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchQuantity_Range() throws Exception {
+        // Range is 5-10 seconds
+        
+        // the range of the search value doesn't fully contain the range of the target value
+        assertSearchDoesntReturnSavedResource("Range", "4||s");
+        assertSearchDoesntReturnSavedResource("Range", "5||s");
+        assertSearchDoesntReturnSavedResource("Range", "10||s");
+        assertSearchDoesntReturnSavedResource("Range", "11||s");
+        
+        assertSearchReturnsSavedResource("Range", "ne4||s");
+        assertSearchReturnsSavedResource("Range", "ne5||s");
+        assertSearchReturnsSavedResource("Range", "ne10||s");
+        assertSearchReturnsSavedResource("Range", "ne11||s");
+        
+        assertSearchDoesntReturnSavedResource("Range", "ap4||s");
+        assertSearchReturnsSavedResource("Range", "ap5||s");
+        assertSearchReturnsSavedResource("Range", "ap10||s");
+        assertSearchDoesntReturnSavedResource("Range", "ap11||s");
+        
+        assertSearchDoesntReturnSavedResource("Range", "lt4||s");
+        assertSearchDoesntReturnSavedResource("Range", "lt5||s");
+        assertSearchReturnsSavedResource("Range", "lt10||s");
+        assertSearchReturnsSavedResource("Range", "lt11||s");
+        
+        assertSearchReturnsSavedResource("Range", "gt4||s");
+        assertSearchReturnsSavedResource("Range", "gt5||s");
+        assertSearchDoesntReturnSavedResource("Range", "gt10||s");
+        assertSearchDoesntReturnSavedResource("Range", "gt11||s");
+        
+        assertSearchDoesntReturnSavedResource("Range", "le4||s");
+        assertSearchReturnsSavedResource("Range", "le5||s");
+        assertSearchReturnsSavedResource("Range", "le10||s");
+        assertSearchReturnsSavedResource("Range", "le11||s");
+        
+        assertSearchReturnsSavedResource("Range", "ge4||s");
+        assertSearchReturnsSavedResource("Range", "ge5||s");
+        assertSearchReturnsSavedResource("Range", "ge10||s");
+        assertSearchDoesntReturnSavedResource("Range", "ge11||s");
+        
+        assertSearchReturnsSavedResource("Range", "sa4||s");
+        assertSearchDoesntReturnSavedResource("Range", "sa5||s");
+        assertSearchDoesntReturnSavedResource("Range", "sa10||s");
+        assertSearchDoesntReturnSavedResource("Range", "sa11||s");
+        
+        assertSearchDoesntReturnSavedResource("Range", "eb4||s");
+        assertSearchDoesntReturnSavedResource("Range", "eb5||s");
+        assertSearchDoesntReturnSavedResource("Range", "eb10||s");
+        assertSearchReturnsSavedResource("Range", "eb11||s");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchQuantity_Range_missing() throws Exception {
+        assertSearchReturnsSavedResource("Range:missing", "false");
+        assertSearchDoesntReturnSavedResource("Range:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-Range:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-Range:missing", "false");
+    }
 }

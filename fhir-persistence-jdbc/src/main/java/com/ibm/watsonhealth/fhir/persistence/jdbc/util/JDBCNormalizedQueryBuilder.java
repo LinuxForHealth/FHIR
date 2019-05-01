@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import static com.ibm.watsonhealth.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETER_TABLE_ALIAS;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -24,13 +25,16 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.Code;
+import com.ibm.watsonhealth.fhir.model.Count;
 import com.ibm.watsonhealth.fhir.model.DateTime;
 import com.ibm.watsonhealth.fhir.model.Instant;
 import com.ibm.watsonhealth.fhir.model.Location;
 import com.ibm.watsonhealth.fhir.model.Period;
+import com.ibm.watsonhealth.fhir.model.PositiveInt;
 import com.ibm.watsonhealth.fhir.model.Range;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.UnsignedInt;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
@@ -105,7 +109,22 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     private ParameterNormalizedDAO parameterDao;
     private ResourceNormalizedDAO resourceDao;
 
+    public static final boolean isIntegerSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+        try {
+            Set<Class<?>> valueTypes = SearchUtil.getValueTypes(resourceType, queryParm.getName());
+        
+            return (valueTypes.contains(com.ibm.watsonhealth.fhir.model.Integer.class) ||
+                    valueTypes.contains(UnsignedInt.class) ||
+                    valueTypes.contains(PositiveInt.class) ||
+                    valueTypes.contains(Count.class));
+        } catch (Exception e) {
+            throw new FHIRPersistenceException("Unable to determine search parameter values for query parameter '" + 
+                                                queryParm.getName() + "' and resource type " + resourceType.getSimpleName(), e);
+        }
+    }
+    
     public static final boolean isRangeSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+        // TODO: handle decimal searches like a range search
         return (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class));
     }
 
@@ -839,9 +858,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 }
                 whereClauseSegment.append(LEFT_PAREN);
                 if (value.getPrefix() == null) {
-                    handleRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, Prefix.EQ);
+                    handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, Prefix.EQ);
                 } else {
-                    handleRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, value.getPrefix());
+                    handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, value.getPrefix());
                 }
                 whereClauseSegment.append(RIGHT_PAREN);
             }
@@ -864,7 +883,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      * @param bindVariables
      * @param prefix
      */
-    private void handleRangeComparison(String tableAlias, StringBuilder whereClauseSegment, Date start, Date end, List<Object> bindVariables,
+    private void handleDateRangeComparison(String tableAlias, StringBuilder whereClauseSegment, Date start, Date end, List<Object> bindVariables,
         Prefix prefix) {
         switch (prefix) {
         case EB:
@@ -1046,7 +1065,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processNumberParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    protected SqlQueryData processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processNumberParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1062,6 +1081,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
         for (ParameterValue value : queryParm.getValues()) {
+            if (value.getPrefix() == Prefix.EB || value.getPrefix() == Prefix.SA) {
+                if (isIntegerSearch(resourceType, queryParm) ) {
+                    throw new FHIRPersistenceException("Search prefixes '" + Prefix.EB.value() + "' and '" + 
+                                                        Prefix.SA.value() + "' are not supported for integer searches.");
+                }
+            }
             operator = this.getPrefixOperator(value);
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
@@ -1109,15 +1134,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             // If the target data type of the query is a Range, we need to build a piece of the where clause that looks like this:
             // pX.value_number_low <= {search-attribute-value} AND pX.value_number_high >= {search-attribute-value}
             if (isRangeSearch(resourceType, queryParm)) {
-                whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
-                                  .append(JDBCOperator.LTE.value())
-                                  .append(BIND_VAR)
-                                  .append(JDBCOperator.AND.value())
-                                  .append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
-                                  .append(JDBCOperator.GTE.value())
-                                  .append(BIND_VAR);
-                bindVariables.add(value.getValueNumber());
-                bindVariables.add(value.getValueNumber());
+CODE_REMOVED
+                if (value.getPrefix() == null) {
+                    handleQuantityRangeComparison(tableAlias, whereClauseSegment, value.getValueNumber(), value.getValueNumber(), bindVariables, Prefix.EQ);
+                } else {
+                    handleQuantityRangeComparison(tableAlias, whereClauseSegment, value.getValueNumber(), value.getValueNumber(), bindVariables, value.getPrefix());
+                }
             }
             else {
                 // Build this piece: p1.value_string {operator} search-attribute-value
@@ -1157,6 +1179,138 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
         return queryData;
+    }
+    
+    /**
+     * Append the condition and bind the variables according to the semantics of the passed prefix
+     * @param tableAlias
+     * @param whereClauseSegment
+     * @param start
+     * @param end
+     * @param bindVariables
+     * @param prefix
+     */
+    private void handleQuantityRangeComparison(String tableAlias, StringBuilder whereClauseSegment, BigDecimal start, BigDecimal end, List<Object> bindVariables,
+        Prefix prefix) {
+        switch (prefix) {
+        case EB:
+            // the range of the search value does not overlap with the range of the target value, 
+            // and the range above the search value contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(start);
+            break;
+        case SA:
+            // the range of the search value does not overlap with the range of the target value, 
+            // and the range below the search value contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              .append(JDBCOperator.GT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(end);
+            break;
+        case GE:
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value, 
+            // or the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(start);
+            break;
+        case GT:
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.GT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(start);
+            break;
+        case LE:
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value 
+            // or the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              .append(JDBCOperator.LTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(end);
+            break;
+        case LT:
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(end);
+            break;
+        case AP:
+            // the range of the search value overlaps with the range of the target value
+            
+            // 1. search range fully contains the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(start);
+            bindVariables.add(end);
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            // 2. search range begins during the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              .append(JDBCOperator.LTE.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(start);
+            bindVariables.add(start);
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            // 3. search range ends during the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              // strictly less than because the implicit end of the search range is exclusive
+                              .append(JDBCOperator.LT.value()) 
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(end);
+            bindVariables.add(end);
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            break;
+        case NE:
+            // the range of the search value does not fully contain the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            bindVariables.add(start);
+            bindVariables.add(end);
+            break;
+        case EQ:    
+        default:
+            // the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_LOW)
+                              .append(JDBCOperator.GTE.value())
+                              .append(BIND_VAR);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias + DOT).append(QUANTITY_VALUE_HIGH)
+                              .append(JDBCOperator.LT.value())
+                              .append(BIND_VAR);
+            bindVariables.add(start);
+            bindVariables.add(end);
+            break;
+        }
     }
 
     @Override

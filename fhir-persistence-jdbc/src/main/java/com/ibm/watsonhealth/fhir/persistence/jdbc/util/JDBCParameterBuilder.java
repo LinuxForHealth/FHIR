@@ -457,7 +457,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            p.setValueNumber(value.getValue().doubleValue());
+            p.setValueNumber(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {
@@ -609,7 +609,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            p.setValueNumber(value.getValue().doubleValue());
+            // TODO: consider moving integer values to separate column so they can be searched different from decimals
+            p.setValueNumber(new BigDecimal(value.getValue()));
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {
@@ -751,7 +752,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            p.setValueNumber(value.getValue().doubleValue());
+            // TODO: consider moving integer values to separate column so they can be searched different from decimals
+            p.setValueNumber(new BigDecimal(value.getValue()));
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {
@@ -772,17 +774,16 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
             if (Objects.nonNull(value)
-                    && Objects.nonNull(value.getValue())
+                    && Objects.nonNull(value.getValue()) && Objects.nonNull(value.getValue().getValue())
                     && (Objects.nonNull(value.getCode()) || Objects.nonNull(value.getUnit()))) {
                 Parameter p = new Parameter();
                 p.setName(parameter.getName().getValue());
                 BigDecimal bd = value.getValue().getValue();
-                p.setValueNumber(bd.doubleValue());
+                p.setValueNumber(bd);
                 if (value.getCode() != null) {
                     p.setValueCode(value.getCode().getValue());
                 } else if (value.getUnit() != null) {
                     p.setValueCode(value.getUnit().getValue());
-
                 }
                 if (value.getSystem() != null) {
                     p.setValueSystem(value.getSystem().getValue());
@@ -809,17 +810,37 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            if(value.getLow().getSystem() != null){
-                p.setValueSystem(value.getLow().getSystem().getValue());
+            if(value.getLow() != null && value.getLow().getValue() != null && value.getLow().getValue().getValue() != null) {
+                if (value.getLow().getSystem() != null) {
+                    p.setValueSystem(value.getLow().getSystem().getValue());
+                }
+                if (value.getLow().getCode() != null ){
+                    p.setValueCode(value.getLow().getCode().getValue());
+                } else if (value.getLow().getUnit() != null ){
+                    p.setValueCode(value.getLow().getUnit().getValue());
+                }
+                p.setValueNumberLow(value.getLow().getValue().getValue());
+                
+                // The unit and code/system elements of the low or high elements SHALL match
+                if (value.getHigh() != null && value.getHigh().getValue() != null && value.getHigh().getValue().getValue() != null) {
+                    p.setValueNumberHigh(value.getHigh().getValue().getValue());
+                }
+                
+                parameters.add(p);
+            } else if (value.getHigh() != null && value.getHigh().getValue() != null && value.getHigh().getValue().getValue() != null) {
+                if (value.getHigh().getSystem() != null) {
+                    p.setValueSystem(value.getHigh().getSystem().getValue());
+                }
+                if (value.getHigh().getCode() != null ){
+                    p.setValueCode(value.getHigh().getCode().getValue());
+                } else if (value.getHigh().getUnit() != null ){
+                    p.setValueCode(value.getHigh().getUnit().getValue());
+                }
+                p.setValueNumberHigh(value.getHigh().getValue().getValue());
+                parameters.add(p);
             }
-            if(value.getLow().getCode() != null ){
-                p.setValueCode(value.getLow().getCode().getValue());
-            }else if(value.getLow().getUnit() != null ){
-                p.setValueCode(value.getLow().getUnit().getValue());
-            }
-            p.setValueNumberLow(value.getLow().getValue().getValue().doubleValue());
-            p.setValueNumberHigh(value.getHigh().getValue().getValue().doubleValue());
-            parameters.add(p);
+            
+            // The parameter isn't added unless either low or high holds a value
             return parameters;
         } catch (Throwable e) {
             StringBuilder msg = new StringBuilder("Unexpected error while processing parameter");

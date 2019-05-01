@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.test.util;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.util.List;
 
@@ -38,6 +39,19 @@ public class ParameterProcessorTest {
         List<Parameter> params = parameterBuilder.process(searchParameter, FHIRUtil.date("2016-01-01T10:10:10.1+04:00"));
         for (Parameter param : params) {
             assertEquals(param.getValueDate().toString(), "2016-01-01 06:10:10.1");
+        }
+    }
+    
+    @Test
+    public void testRange() throws FHIRPersistenceProcessorException {
+        JDBCParameterBuilder parameterBuilder = new JDBCParameterBuilder();
+        SearchParameter searchParameter = new SearchParameter().withName(FHIRUtil.string("value"));
+        // FHIRUtil.range creates a range with a high but no low
+        List<Parameter> params = parameterBuilder.process(searchParameter, FHIRUtil.range("s", "seconds", "http://unitsofmeasure.org", 1));
+        for (Parameter param : params) {
+            assertNull(param.getValueNumberLow());
+            assertNull(param.getValueNumber());
+            assertEquals(param.getValueNumberHigh(), 1);
         }
     }
 }

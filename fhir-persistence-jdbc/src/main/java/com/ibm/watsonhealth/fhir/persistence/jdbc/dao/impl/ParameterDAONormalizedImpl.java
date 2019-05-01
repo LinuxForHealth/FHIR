@@ -615,7 +615,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_NUMBER_VALUES").toString();
             for (Parameter parameter : parameters) {
                 if (parameter.getType().equals(Type.NUMBER)) {
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueNumber()};
+                    // TODO: we're forcing the BigDecimal into a DOUBLE and we're losing precision...DB schema should be updated to use DECIMAL
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueNumber().doubleValue()};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }
             }
@@ -786,10 +787,12 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_QUANTITY_VALUES").toString();
             for (Parameter parameter : parameters) {
+                
                 if (parameter.getType().equals(Type.QUANTITY)) {
+                    // TODO: we're forcing the BigDecimal into a DOUBLE and we're losing precision...DB schema should be updated to use DECIMAL
                     rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
-                                            parameter.getValueCode(), parameter.getValueNumber(),
-                                            parameter.getValueNumberLow(), parameter.getValueNumberHigh(),
+                                            parameter.getValueCode(), parameter.getValueNumber().doubleValue(),
+                                            parameter.getValueNumberLow().doubleValue(), parameter.getValueNumberHigh().doubleValue(),
                                             this.acquireCodeSystemId(parameter.getValueSystem())};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }

@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dto;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import com.ibm.watsonhealth.fhir.search.Parameter.Type;
@@ -26,9 +27,9 @@ public class Parameter {
     private Timestamp valueDate;
     private Timestamp valueDateStart;
     private Timestamp valueDateEnd;
-    private Double valueNumber;
-    private Double valueNumberLow;
-    private Double valueNumberHigh;
+    private BigDecimal valueNumber;
+    private BigDecimal valueNumberLow;
+    private BigDecimal valueNumberHigh;
     private Double valueLongitude;
     private Double valueLatitude;
     private String valueSystem;
@@ -86,11 +87,11 @@ public class Parameter {
         this.valueDate = valueDate;
     }
 
-    public Double getValueNumber() {
+    public BigDecimal getValueNumber() {
         return valueNumber;
     }
 
-    public void setValueNumber(Double valueNumber) {
+    public void setValueNumber(BigDecimal valueNumber) {
         this.valueNumber = valueNumber;
     }
 
@@ -110,19 +111,19 @@ public class Parameter {
         this.valueCode = valueCode;
     }
 
-    public Double getValueNumberLow() {
+    public BigDecimal getValueNumberLow() {
         return valueNumberLow;
     }
 
-    public void setValueNumberLow(Double valueNumberLow) {
+    public void setValueNumberLow(BigDecimal valueNumberLow) {
         this.valueNumberLow = valueNumberLow;
     }
 
-    public Double getValueNumberHigh() {
+    public BigDecimal getValueNumberHigh() {
         return valueNumberHigh;
     }
 
-    public void setValueNumberHigh(Double valueNumberHigh) {
+    public void setValueNumberHigh(BigDecimal valueNumberHigh) {
         this.valueNumberHigh = valueNumberHigh;
     }
 

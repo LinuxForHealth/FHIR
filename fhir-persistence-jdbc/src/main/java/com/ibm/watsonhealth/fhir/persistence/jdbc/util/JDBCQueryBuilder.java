@@ -622,7 +622,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
         JDBCOperator operator;
         boolean parmValueProcessed = false;
         XMLGregorianCalendar calendar;
-        Date date, start, end;
+        Date date, start=null, end=null;
         Duration duration;
                 
         // Build this piece: p1.name = 'search-attribute-name' AND (
@@ -643,6 +643,8 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
             operator = getPrefixOperator(value);
             // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
             if (FHIRUtilities.isDateTime(calendar)) {
+                start = date;
+                end = date;
                 whereClauseSegment.append(tableAlias).append(VALUE_DATE).append(operator.value())
                                   .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE);
             }
@@ -669,14 +671,15 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
                 date = start;
             }
             // Add where clause segment to search for date range. 
-            whereClauseSegment.append(JDBCOperator.OR.value())
-                              .append(LEFT_PAREN).append(tableAlias).append(VALUE_DATE_START)
-                              .append(JDBCOperator.LTE.value())
-                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE)
-                              .append(JDBCOperator.AND.value())
-                              .append(tableAlias).append(VALUE_DATE_END)
-                              .append(JDBCOperator.GTE.value())
-                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE).append(RIGHT_PAREN);
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            whereClauseSegment.append(LEFT_PAREN);
+            if (value.getPrefix() == null) {
+                handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, Prefix.EQ);
+            } else {
+                handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, value.getPrefix());
+            }
+            whereClauseSegment.append(RIGHT_PAREN);
+                              
             
             whereClauseSegment.append(RIGHT_PAREN);
             parmValueProcessed = true;
@@ -685,6 +688,121 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
                                          
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
         return whereClauseSegment.toString();
+    }
+    
+    /**
+     * Append the condition and bind the variables according to the semantics of the passed prefix
+     * @param tableAlias
+     * @param whereClauseSegment
+     * @param start
+     * @param end
+     * @param bindVariables
+     * @param prefix
+     */
+    private void handleDateRangeComparison(String tableAlias, StringBuilder whereClauseSegment, Date start, Date end, Prefix prefix) {
+        switch (prefix) {
+        case EB:
+            // the range of the search value does not overlap with the range of the target value, 
+            // and the range above the search value contains the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.LT.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            break;
+        case SA:
+            // the range of the search value does not overlap with the range of the target value, 
+            // and the range below the search value contains the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              .append(JDBCOperator.GT.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            break;
+        case GE:
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value, 
+            // or the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            break;
+        case GT:
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.GT.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            break;
+        case LE:
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value 
+            // or the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              .append(JDBCOperator.LTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            break;
+        case LT:
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              .append(JDBCOperator.LT.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            break;
+        case AP:
+            // the range of the search value overlaps with the range of the target value
+            
+            // 1. search range fully contains the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              .append(JDBCOperator.GTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.LT.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            // 2. search range begins during the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              .append(JDBCOperator.LTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            // 3. search range ends during the target period
+            whereClauseSegment.append(LEFT_PAREN);
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              // strictly less than because the implicit end of the search range is exclusive
+                              .append(JDBCOperator.LT.value()) 
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            whereClauseSegment.append(RIGHT_PAREN);
+            
+            break;
+        case NE:
+            // the range of the search value does not fully contain the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              .append(JDBCOperator.LT.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            whereClauseSegment.append(JDBCOperator.OR.value());
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.GTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            break;
+        case EQ:    
+        default:
+            // the range of the search value fully contains the range of the target value
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_START)
+                              .append(JDBCOperator.GTE.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(start)).append(QUOTE);
+            whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(tableAlias).append(VALUE_DATE_END)
+                              .append(JDBCOperator.LT.value())
+                              .append(QUOTE).append(FHIRUtilities.formatTimestamp(end)).append(QUOTE);
+            break;
+        }
     }
 
     /* (non-Javadoc)
@@ -743,7 +861,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
      * @see com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder#processNumberParm(com.ibm.watsonhealth.fhir.search.Parameter)
      */
     @Override
-    protected String processNumberParm(Parameter queryParm, String tableAlias) {
+    protected String processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) {
         final String METHODNAME = "processNumberParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
         

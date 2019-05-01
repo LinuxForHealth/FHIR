@@ -338,8 +338,10 @@ public class SearchTest extends FHIRServerTestBase {
     
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservationWithRange" })
     public void testSearchObservationObservationWithRange() {
+        // Range is 3.0 - 7.0 mg
+        
         WebTarget target = getWebTarget();
-        Response response = target.path("Observation").queryParam("value-range", "5.0|http://loinc.org|v15074-8")
+        Response response = target.path("Observation").queryParam("value-range", "ap5.0|http://loinc.org|v15074-8")
                 .request(MediaType.APPLICATION_JSON_FHIR)
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .get();
@@ -351,8 +353,10 @@ public class SearchTest extends FHIRServerTestBase {
     
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservationWithRange" })
     public void test_SearchObservationObservationWithRange() throws Exception {
+        // Range is 3.0 - 7.0 mg
+        
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("value-range", "5.0|http://loinc.org|v15074-8");
+        parameters.searchParam("value-range", "ap5.0|http://loinc.org|v15074-8");
         FHIRRequestHeader header = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
         FHIRResponse response = client._search("Observation", parameters, header);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
@@ -364,8 +368,10 @@ public class SearchTest extends FHIRServerTestBase {
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservationWithRange" })
     public void test_SearchObservationObservationWithRange_filter_elements() throws Exception {
+        // Range is 3.0 - 7.0 mg
+        
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("value-range", "5.0|http://loinc.org|v15074-8");
+        parameters.searchParam("value-range", "ap5.0|http://loinc.org|v15074-8");
         parameters.searchParam("_elements", "status,category");
         FHIRRequestHeader header = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
         FHIRResponse response = client._search("Observation", parameters, header);

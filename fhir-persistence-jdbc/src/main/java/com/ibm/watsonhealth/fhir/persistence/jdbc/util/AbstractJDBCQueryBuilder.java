@@ -122,7 +122,7 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
                         break;
                 case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm, tableAlias);
                         break;
-                case NUMBER:    databaseQueryParm = this.processNumberParm(queryParm, tableAlias);
+                case NUMBER:    databaseQueryParm = this.processNumberParm(resourceType, queryParm, tableAlias);
                         break;
                 case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm, tableAlias);
                         break;
@@ -146,11 +146,11 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
     protected abstract T1 processMissingParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
 
     @Override
-    protected T1 processNumberParm(Parameter queryParm) throws FHIRPersistenceException {
-        return processNumberParm(queryParm, PARAMETERS_TABLE_ALIAS);
+    protected T1 processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+        return processNumberParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    protected abstract T1 processNumberParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
+    protected abstract T1 processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
     
     @Override
     protected T1 processDateParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
