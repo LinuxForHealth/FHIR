@@ -13,6 +13,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,12 @@ import com.ibm.watsonhealth.fhir.model.Conformance;
 import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
 import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
 import com.ibm.watsonhealth.fhir.model.Observation;
+import com.ibm.watsonhealth.fhir.model.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.UnknownContentCode;
+import com.ibm.watsonhealth.fhir.model.UnknownContentCodeList;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
 /**
  * Basic sniff test of the FHIR Server.
@@ -84,10 +90,9 @@ public class BasicServerTest extends FHIRServerTestBase {
     
     /**
      * Create a minimal Patient, then make sure we can retrieve it.
-     * This was added for defect 164186.
      */
     @Test(groups = { "server-basic" })
-    public void testCreatePatientDefect164186() throws Exception {
+    public void testCreatePatient_minimal() throws Exception {
         WebTarget target = getWebTarget();
         
         // Build a new Patient and then call the 'create' API.
@@ -106,6 +111,48 @@ public class BasicServerTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         
         assertResourceEquals(patient, responsePatient);
+    }
+    
+    /**
+     * Create a minimal Patient, then make sure we can retrieve it.
+     */
+    @Test(groups = { "server-basic" })
+    public void testCreatePatient_minimal_extraElement() throws Exception {
+        WebTarget target = getWebTarget();
+        
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        
+        StringWriter writer = new StringWriter();
+        FHIRUtil.write(patient, Format.JSON, writer);
+        String patientResourceString = writer.toString();
+        String patientResourceStringWithFakeElement = patientResourceString.substring(0, 1) + "\"fake\":\"value\"," + patientResourceString.substring(1); 
+        
+        Entity<String> entity = Entity.entity(patientResourceStringWithFakeElement, MediaType.APPLICATION_JSON_FHIR);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        
+        Conformance conformance = retrieveConformanceStatement();
+        UnknownContentCodeList acceptUnknown = conformance.getAcceptUnknown().getValue();
+        if (acceptUnknown == UnknownContentCodeList.ELEMENTS || acceptUnknown == UnknownContentCodeList.BOTH) {
+            // Test this branch by setting fhirServer/core/jsonParserValidating to false in fhir-server-config.json
+            
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            
+            // Get the patient's logical id value.
+            String patientId = getLocationLogicalId(response);
+            
+            // Next, call the 'read' API to retrieve the new patient and verify it.
+            response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_JSON_FHIR).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+            Patient responsePatient = response.readEntity(Patient.class);
+            
+            assertResourceEquals(patient, responsePatient);
+        } else {
+            assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+            OperationOutcome responseResource = response.readEntity(OperationOutcome.class);
+            assertNotNull(responseResource);
+            assertTrue(responseResource.getIssue().size() > 0);
+        }
     }
     
     /**

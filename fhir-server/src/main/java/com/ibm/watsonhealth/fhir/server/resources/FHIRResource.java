@@ -96,6 +96,7 @@ import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
 import com.ibm.watsonhealth.fhir.model.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.TransactionModeList;
 import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
+import com.ibm.watsonhealth.fhir.model.UnknownContentCode;
 import com.ibm.watsonhealth.fhir.model.UnknownContentCodeList;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
@@ -2960,9 +2961,16 @@ public class FHIRResource implements FHIRResourceHelpers {
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion()
             + " build id " + buildInfo.getBuildId() + "";
         
+        UnknownContentCode acceptUnknown = objectFactory.createUnknownContentCode();
+        if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_JSON_PARSER_VALIDATING, true)) {
+            acceptUnknown.setValue(UnknownContentCodeList.EXTENSIONS);
+        } else {
+            acceptUnknown.setValue(UnknownContentCodeList.BOTH);
+        }
+        
         // Finally, create the Conformance resource itself.
         Conformance conformance = objectFactory.createConformance()
-                .withAcceptUnknown(objectFactory.createUnknownContentCode().withValue(UnknownContentCodeList.BOTH))
+                .withAcceptUnknown(acceptUnknown)
                 .withFormat(
                     objectFactory.createCode().withValue(MediaType.APPLICATION_JSON), 
                     objectFactory.createCode().withValue(MediaType.APPLICATION_JSON_FHIR), 
