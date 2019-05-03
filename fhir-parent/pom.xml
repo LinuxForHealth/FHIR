@@ -9,11 +9,12 @@
     <name>IBM Watson Platform for Health FHIR Server</name>
 
     <properties>
-        <was.liberty.version>18.0.0.3</was.liberty.version>
+        <was.liberty.version>19.0.0.4</was.liberty.version>
+        <was.liberty.tools.version>19.0.0.3</was.liberty.tools.version>
         <eclipselink.moxy.version>2.7.2</eclipselink.moxy.version>
-        <java.sdk.version>8.0-5.31-linux-x86_64</java.sdk.version>
+        <java.sdk.version>8.0-5.35-linux-x86_64</java.sdk.version>
         <derby.version>10.12.1.1</derby.version>
-        <db2.version>4.24.92</db2.version>
+        <db2.version>4.25.1301</db2.version>
         <cxf.version>3.1.15</cxf.version>
         <surefire.plugin.version>2.20.1</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
@@ -71,7 +72,7 @@
             <dependency>
                 <groupId>net.wasdev.maven.tools.targets</groupId>
                 <artifactId>liberty-target</artifactId>
-                <version>${was.liberty.version}</version>
+                <version>${was.liberty.tools.version}</version>
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>

@@ -14,7 +14,7 @@
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-set WLP_VERSION=18.0.0.3
+set WLP_VERSION=19.0.0.4
 
 echo Executing %0 to deploy the fhir-server web application...
 
