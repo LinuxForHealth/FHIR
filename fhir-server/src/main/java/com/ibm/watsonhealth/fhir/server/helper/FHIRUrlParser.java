@@ -55,7 +55,7 @@ public class FHIRUrlParser {
         if (tokens.length > 1) {
             query = tokens[1];
             if (query != null && !query.isEmpty()) {
-                JAXRSUtils.getStructuredParams(queryParameters, query, "&", false, false);
+                JAXRSUtils.getStructuredParams(queryParameters, query, "&", true, false);
             }
         }
     }

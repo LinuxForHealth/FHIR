@@ -7,6 +7,8 @@
 package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
+import static org.junit.Assert.assertNull;
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -45,6 +47,7 @@ import com.ibm.watsonhealth.fhir.model.Practitioner;
 import com.ibm.watsonhealth.fhir.model.Reference;
 import com.ibm.watsonhealth.fhir.model.Resource;
 import com.ibm.watsonhealth.fhir.model.ResourceContainer;
+import com.ibm.watsonhealth.fhir.model.Uri;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
@@ -61,6 +64,7 @@ public class BundleTest extends FHIRServerTestBase {
     // Variables used by the batch tests.
     private Patient patientB1 = null;
     private Patient patientB2 = null;
+    private Patient patientB3 = null;
     private String locationB1 = null;
 
     // Variables used by the batch tests for version-aware updates.
@@ -378,6 +382,8 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle bundle = buildBundle(BundleTypeList.BATCH);
         addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtiz.json"));
         addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_JohnDoe.json"));
+        addRequestToBundle(bundle, HTTPVerbList.POST, "Patient", null, readResource(Patient.class, "Patient_DavidOrtizEncoding.json"));
+        
 
         printBundle(method, "request", bundle);
 
@@ -386,13 +392,16 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 3);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
+        assertGoodPostPutResponse(responseBundle.getEntry().get(2), Status.CREATED.getStatusCode());
+        
 
         // Save off the two patients for the update test.
         patientB1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
         patientB2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientB3 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(2).getResource());
     }
 
     @Test(groups = { "batch" })
@@ -445,6 +454,10 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
         locationB1 = responseBundle.getEntry().get(1).getResponse().getLocation().getValue();
+        
+        patientB1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+        patientB2 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());
+        
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreatesForVersionAwareUpdates" })
@@ -698,6 +711,57 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() > 1);
     }
+
+    @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
+    public void testBatchSearchWithEncoding() throws Exception {
+        String method = "testBatchSearch";
+        WebTarget target = getWebTarget();
+
+        //input should encode actual values, not encode the separators
+        Bundle bundle = buildBundle(BundleTypeList.BATCH);
+        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family:exact=Ortiz%26Jeter&_count=1000", null, null); //issue 266
+        addRequestToBundle(bundle, HTTPVerbList.GET, "Patient?family:exact=Ortiz&Jeter&_count=1000", null, null);
+
+        
+        printBundle(method, "request", bundle);
+
+        Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_JSON_FHIR);
+        Response response = target.request().post(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.readEntity(Bundle.class);
+        printBundle(method, "response", responseBundle);
+        assertResponseBundle(responseBundle, BundleTypeList.BATCH_RESPONSE, 2);
+        
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
+        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
+
+        // Take a peek at the result bundle.
+        Bundle resultSet;
+        resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(0).getResource());      
+        assertNotNull(resultSet);
+        assertTrue(resultSet.getEntry().size() >= 1);
+        
+        List<Resource> lstRes = new ArrayList<Resource>();   
+        for (BundleEntry entry : resultSet.getEntry()) {
+			lstRes.add(FHIRUtil.getResourceContainerResource(entry.getResource()));
+		}
+        //B1 is Ortiz, B3 is Ortiz&Jeter
+        assertNotNull(findResourceInResponse(patientB3, lstRes));
+        assertNull(findResourceInResponse(patientB1, lstRes));
+                
+        resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());      
+        assertNotNull(resultSet);
+        assertTrue(resultSet.getEntry().size() >= 1);
+        
+        lstRes = new ArrayList<Resource>();   
+        for (BundleEntry entry : resultSet.getEntry()) {
+			lstRes.add(FHIRUtil.getResourceContainerResource(entry.getResource()));
+		}
+        assertNotNull(findResourceInResponse(patientB1, lstRes));
+        assertNull(findResourceInResponse(patientB3, lstRes));
+        
+    }
+    
     
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchPostSearch() throws Exception {
@@ -827,6 +891,9 @@ public class BundleTest extends FHIRServerTestBase {
         resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(5).getResource());
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() >= 1);
+        
+        patientB1 = (Patient) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(1).getResource());
+
     }
 
     @Test(groups = { "transaction" })
@@ -2444,5 +2511,58 @@ public class BundleTest extends FHIRServerTestBase {
     @SuppressWarnings("unused")
     private void printOOMessage(OperationOutcome oo) {
         System.out.println("Message: " + oo.getIssue().get(0).getDiagnostics().getValue());
+    }
+    
+//    /**
+//     * Executes the query test and returns whether the expected resource was in the result set
+//     * @throws Exception
+//     */
+//    protected boolean searchReturnsResource(String searchParamName, String queryValue, Resource expectedResource) throws Exception {
+//        List<Resource> resources = runQueryTest(expectedResource.getClass(), persistence, searchParamName, queryValue, Integer.MAX_VALUE);
+//        assertNotNull(resources);
+//        if (resources.size() > 0) {
+//            Resource returnedResource = findResourceInResponse(expectedResource, resources);
+//            if (returnedResource != null) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+    /**
+     * If the {@code resourceToFind} is contained in the list of resources this method returns the resource.
+     * Otherwise it returns null.
+     * @param resources
+     */
+    protected Resource findResourceInResponse(Resource resourceToFind, List<Resource> resources) {
+        Resource returnedResource = null;
+        boolean alreadyFound = false;
+        int count = 0;
+        
+        String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
+        String idToFind = resourceToFind.getId().getValue();
+        String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
+        
+        for (Resource r : resources) {
+            String resourceType = FHIRUtil.getResourceTypeName(r);
+            String id = r.getId().getValue();
+            String version = r.getMeta().getVersionId().getValue();
+            if (idToFind.equals(id) && resourceTypeToFind.equals(resourceType)) {
+                if (versionToFind.equals(version)) {
+                    count++;
+                    if (alreadyFound) {
+                        System.out.println("found resource with id " + id + " " + count + " times.");
+                        fail("Resource with id '" + id + "' was returned multiple times in the search.");
+                    }
+                    returnedResource = r;
+                    alreadyFound = true;
+                } else {
+                    fail("Search has returned historical resource for resource id '" + id + "'.\n"
+                            + "Expected: version " + resourceToFind.getMeta().getVersionId().getValue() + "\n"
+                            + "Actual: version " + version);
+                }
+            }
+        }
+        return returnedResource;
     }
 }
