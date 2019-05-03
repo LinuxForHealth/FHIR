@@ -62,6 +62,41 @@ public class FHIRUrlParserTest {
         assertEquals("1", queryParams.getFirst("var1"));
     }
     
+    /**
+     * @see https://www.hl7.org/fhir/DSTU2/search.html#escaping
+     */
+    @Test
+    public void testEscapedQuery() {
+        FHIRUrlParser parser = new FHIRUrlParser("?var1=a,b&var2=a\\,b");
+        assertEquals("var1=a,b&var2=a\\,b", parser.getQuery());
+        MultivaluedMap<String, String> queryParams = parser.getQueryParameters();
+        assertNotNull(queryParams);
+        // TODO: should be parsed into two parameters
+        assertEquals(2, queryParams.size());
+        assertEquals("a,b", queryParams.getFirst("var1"));
+        assertEquals("a\\,b", queryParams.getFirst("var2"));
+    }
+    
+    @Test
+    public void testEncodedQuery() {
+        FHIRUrlParser parser = new FHIRUrlParser("?var1=a%26b");
+        assertEquals("var1=a%26b", parser.getQuery());
+        MultivaluedMap<String, String> queryParams = parser.getQueryParameters();
+        assertNotNull(queryParams);
+        assertEquals(1, queryParams.size());
+        assertEquals("a&b", queryParams.getFirst("var1"));
+    }
+    
+    @Test
+    public void testEncodedQuery2() {
+        FHIRUrlParser parser = new FHIRUrlParser("?url=http%3A%2F%2Facme%2Eorg%2Ffhir%2FValueSet%2F123%2Chttp%3A%2F%2Facme%2Eorg%2Ffhir%2FValueSet%2F124%5C%2CValueSet%2F125");
+        assertEquals("url=http%3A%2F%2Facme%2Eorg%2Ffhir%2FValueSet%2F123%2Chttp%3A%2F%2Facme%2Eorg%2Ffhir%2FValueSet%2F124%5C%2CValueSet%2F125", parser.getQuery());
+        MultivaluedMap<String, String> queryParams = parser.getQueryParameters();
+        assertNotNull(queryParams);
+        assertEquals(1, queryParams.size());
+        assertEquals("http://acme.org/fhir/ValueSet/123,http://acme.org/fhir/ValueSet/124\\,ValueSet/125", queryParams.getFirst("url"));
+    }
+    
     @Test(groups = { "server-basic" })
     public void testQueryMultipleValues() {
         FHIRUrlParser parser = new FHIRUrlParser("?var1=1&var1=2&var1=3");
