@@ -122,6 +122,19 @@ CODE_REMOVED
 //        assertSearchDoesntReturnSavedResource("Coding", "|code");
     }
     
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchToken_Coding_or() throws Exception {
+        assertSearchReturnsSavedResource("Coding", "foo,code,bar");
+        assertSearchDoesntReturnSavedResource("Coding", "foo\\,code,bar");
+        assertSearchDoesntReturnSavedResource("Coding", "foo,code\\,bar");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchToken_Coding_escaped() throws Exception {
+        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|code");
+        assertSearchDoesntReturnSavedResource("Coding", "http://example.org/codesystem\\|code");
+    }
+    
     @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
     public void testSearchToken_Coding_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Coding", "code");

@@ -88,7 +88,11 @@ import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 public class SearchUtil {
     private static final String CLASSNAME = SearchUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
-
+    
+    // Used to find delimiters escaped by '\' so we don't split on them
+    // @see https://www.hl7.org/fhir/dstu2/search.html#escaping
+    private static final String BACKSLASH_NEGATIVE_LOOKBEHIND = "(?<!\\\\)";
+    
     // This constant represents the maximum _count parameter value.
     // If the user specifies a value greater than this, we'll just use this value instead.
     // In the future, we might want to make this value configurable.
@@ -672,7 +676,8 @@ public class SearchUtil {
         if (searchParameter != null) {
             if (searchParameter.getXpath() != null) {
                 String xpath = searchParameter.getXpath().getValue();
-                for (String path : xpath.split("\\|")) {
+                for (String path : xpath.split(BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|")) {
+                    path.replace("\\", "");
                     path = path.trim();
                     Class<?> valueType = getValueType(resourceType, path);
                     if (valueType != null) {
@@ -869,7 +874,8 @@ public class SearchUtil {
 
     private static List<ParameterValue> parseQueryParameterValuesString(Type type, String queryParameterValuesString) throws FHIRSearchException {
         List<ParameterValue> parameterValues = new ArrayList<>();
-        for (String v : queryParameterValuesString.split(",")) {
+        
+        for (String v : queryParameterValuesString.split(BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
             ParameterValue parameterValue = new ParameterValue();
             Prefix prefix = null;
             switch (type) {
@@ -900,7 +906,7 @@ public class SearchUtil {
                 // [parameter]=[url]
                 // [parameter]=[type]/[id]
                 // [parameter]=[id]
-                parameterValue.setValueString(v);
+                parameterValue.setValueString(unescapeSearchParm(v));
                 break;
             }
             case QUANTITY: {
@@ -911,36 +917,41 @@ public class SearchUtil {
                     v = v.substring(2);
                     parameterValue.setPrefix(prefix);
                 }
-                String[] parts = v.split("\\|");
+                String[] parts = v.split(BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
                 String number = parts[0];
                 parameterValue.setValueNumber(new BigDecimal(number));
-                String system = parts[1]; // could be empty string
-                parameterValue.setValueSystem(system);
-                String code = parts[2];
-                parameterValue.setValueCode(code);
+                
+                if (parts.length > 1) {
+                    String system = parts[1]; // could be empty string
+                    parameterValue.setValueSystem(unescapeSearchParm(system));
+                }
+                if (parts.length > 2) {
+                    String code = parts[2];
+                    parameterValue.setValueCode(unescapeSearchParm(code));
+                }
                 break;
             }
             case STRING: {
                 // string
                 // [parameter]=[value]
-                parameterValue.setValueString(v);
+                parameterValue.setValueString(unescapeSearchParm(v));
                 break;
             }
             case TOKEN: {
                 // token
                 // [parameter]=[system]|[code]
-                String[] parts = v.split("\\|");
+                String[] parts = v.split(BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
                 if (parts.length == 2) {
-                    parameterValue.setValueSystem(parts[0]);
-                    parameterValue.setValueCode(parts[1]);
+                    parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                    parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else {
-                    parameterValue.setValueCode(v);
+                    parameterValue.setValueCode(unescapeSearchParm(v));
                 }
                 break;
             }
             case URI: {
                 // [parameter]=[value]
-                parameterValue.setValueString(v);
+                parameterValue.setValueString(unescapeSearchParm(v));
                 break;
             }
             default:
@@ -949,6 +960,27 @@ public class SearchUtil {
             parameterValues.add(parameterValue);
         }
         return parameterValues;
+    }
+
+    /**
+     * Unescape search parameter values that were encoding based on FHIR escaping rules
+     * @param escapedString
+     * @return unescapedString
+     * @throws FHIRSearchException 
+     * @see https://www.hl7.org/fhir/DSTU2/search.html#escaping
+     */
+    private static String unescapeSearchParm(String escapedString) throws FHIRSearchException {
+        String unescapedString = escapedString.replace("\\$", "$")
+                                              .replace("\\|", "|")
+                                              .replace("\\,", ",");
+        
+        long numberOfSlashes = unescapedString.chars().filter(ch -> ch == '\\').count();
+        
+        // If there's an odd number of backslahses at this point, then the request was invalid
+        if (numberOfSlashes % 2 == 1) {
+            throw buildInvalidSearchException("Bare '\\' characters are not allowed in search parameter values and must be escaped via '\\'.");
+        }
+        return unescapedString.replace("\\\\", "\\");
     }
 
     private static boolean isAllowed(Type type, Modifier modifier) {
@@ -1035,7 +1067,10 @@ public class SearchUtil {
                 break;
             }
         }
-        
+        if (returnPrefix != null && !Prefix.isSupported(returnPrefix)) {
+            String msg = "Prefix not allowed: " + returnPrefix;
+            throw buildInvalidSearchException(msg);
+        }
         return returnPrefix;
     }
 
@@ -1425,7 +1460,7 @@ public class SearchUtil {
         for (String elements : elementLists) {
             // For other parameters, we pass the comma-separated list of values to the PL
             // but for elements, we need to process that here
-            for (String elementName : elements.split(",")) {
+            for (String elementName : elements.split(BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
                 if (elementName.startsWith("_")) {
                     throw buildInvalidSearchException("Invalid element name: " + elementName);
                 }

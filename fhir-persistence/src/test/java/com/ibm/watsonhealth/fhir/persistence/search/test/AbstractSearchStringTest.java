@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence.search.test;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.Basic;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 /**
  * @author lmsurpre
@@ -70,6 +71,24 @@ CODE_REMOVED
         
         assertSearchReturnsSavedResource("missing-string:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-string:missing", "false");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchString_string_or() throws Exception {
+        assertSearchReturnsSavedResource("string:exact", "foo,testString,bar");
+        assertSearchDoesntReturnSavedResource("string:exact", "foo\\,testString,bar");
+        assertSearchDoesntReturnSavedResource("string:exact", "foo,testString\\,bar");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    public void testSearchString_string_escaping() throws Exception {
+        assertSearchReturnsSavedResource("string:exact", "special testChars & : ; \\$ \\| \\, \\\\");
+        assertSearchReturnsSavedResource("string:contains", "& : ; \\$ \\| \\, \\\\");
+    }
+    
+    @Test(dependsOnMethods = { "testCreateBasicResource" }, expectedExceptions = { FHIRSearchException.class })
+    public void testSearchString_string_invalidEscaping() throws Exception {
+        runQueryTest(Basic.class, persistence, "string", "\\", Integer.MAX_VALUE);
     }
     
 CODE_REMOVED

@@ -10,6 +10,11 @@
       "valueString": "testString"
     },
     {
+      "__comment": "case- and accent-insensitive search against sequences of characters",
+      "url": "http://example.org/string",
+      "valueString": "special testChars & : ; $ | , \\"
+    },
+    {
       "__comment": "search on any elements in the address",
       "url": "http://example.org/Address",
       "valueAddress": {
