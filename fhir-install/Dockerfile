@@ -4,11 +4,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM websphere-liberty:19.0.0.3-microProfile2 as base
+FROM websphere-liberty:19.0.0.4-microProfile2 as base
 
 ENV LICENSE accept
 
 USER root
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends unzip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 RUN mkdir /fhir-installer && chown -R 1001:0 /fhir-installer
 USER 1001
 
@@ -18,7 +23,7 @@ RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/ &
     /opt/ibm/wlp/bin/installUtility install fhir-server --acceptLicense
 
 
-FROM websphere-liberty:19.0.0.3-microProfile2
+FROM websphere-liberty:19.0.0.4-microProfile2
 COPY --chown=1001:0 --from=base /opt/ibm/wlp/ /opt/ibm/wlp
 
 MAINTAINER John T.E. Timm <johntimm@us.ibm.com>
