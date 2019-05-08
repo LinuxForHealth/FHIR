@@ -41,6 +41,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-operation-tocda</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-schemaddl-dist</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
@@ -98,7 +103,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <finalName>ibm-cloud-tmp</finalName>
+                            <finalName>fhir-server-addons</finalName>
                             <outputDirectory>${publish.dir}</outputDirectory>
                             <appendAssemblyId>false</appendAssemblyId>
                             <attach>false</attach>
@@ -135,33 +140,6 @@
                         </goals>
                         <configuration>
                             <repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server</repository>
-                            <tag>latest</tag>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>ibm-cloud</id>
-                        <phase>none</phase>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>tag</goal>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <contextDirectory>target/ibm-cloud-tmp</contextDirectory>
-                            <repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server-ibm-cloud</repository>
-                            <tag>${project.version}</tag>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>ibm-cloud-latest</id>
-                        <phase>none</phase>
-                        <goals>
-                            <goal>tag</goal>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <contextDirectory>target/ibm-cloud-tmp</contextDirectory>
-                            <repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server-ibm-cloud</repository>
                             <tag>latest</tag>
                         </configuration>
                     </execution>
