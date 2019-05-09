@@ -10,7 +10,6 @@
 
     <properties>
         <was.liberty.version>19.0.0.4</was.liberty.version>
-        <was.liberty.tools.version>19.0.0.3</was.liberty.tools.version>
         <eclipselink.moxy.version>2.7.2</eclipselink.moxy.version>
         <java.sdk.version>8.0-5.35-linux-x86_64</java.sdk.version>
         <derby.version>10.12.1.1</derby.version>
@@ -72,7 +71,7 @@
             <dependency>
                 <groupId>net.wasdev.maven.tools.targets</groupId>
                 <artifactId>liberty-target</artifactId>
-                <version>${was.liberty.tools.version}</version>
+                <version>${was.liberty.version}</version>
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>
