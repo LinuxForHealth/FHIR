@@ -84,6 +84,8 @@ CODE_REMOVED
 
 CODE_REMOVED
 
+Pull requests are open.
+
 **Note to developers:**  
 To associate a commit with a github issue, add "issue #nnn -" on the front of your commit message, like this:  
 
