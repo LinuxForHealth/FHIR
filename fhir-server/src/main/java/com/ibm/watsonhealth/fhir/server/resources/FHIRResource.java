@@ -216,6 +216,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             status = Response.Status.OK;
+            RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
+            
             return Response.ok().entity(getConformanceStatement()).build();
         } catch (FHIRHttpException e) {
             log.log(Level.SEVERE, errMsg, e);
@@ -225,7 +227,6 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.log(Level.SEVERE, errMsg, e);
             return exceptionResponse(e, status);
         } finally {
-            RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "metadata()");
         }
     }
@@ -327,6 +328,15 @@ public class FHIRResource implements FHIRResourceHelpers {
             response.status(status);
 
             response = addHeaders(response, ior.getResource());
+            
+            if (createAuditLogRecord) {
+                if (status == Response.Status.CREATED) {
+                    RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                } else {
+                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                }
+            }
+            
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             status = Response.Status.METHOD_NOT_ALLOWED;
@@ -340,13 +350,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, status);
         } finally {
-            if (createAuditLogRecord) {
-                if (status == Response.Status.CREATED) {
-                    RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-                } else {
-                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
-                }
-            }
             log.exiting(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         }
     }

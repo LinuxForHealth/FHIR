@@ -58,6 +58,22 @@ public class Context {
     }
 
 
+    public Context(Context fromObj) {
+        super();
+        this.action = fromObj.action;
+        this.apiParameters = fromObj.apiParameters;
+        this.batch = fromObj.batch;
+        this.data = fromObj.data;
+        this.endTime = fromObj.endTime;
+        this.operationName = fromObj.operationName;
+        this.purpose = fromObj.purpose;
+        this.queryParameters = fromObj.queryParameters;
+        this.requestUniqueId = fromObj.requestUniqueId;
+        this.resourceName = fromObj.resourceName;
+        this.startTime = fromObj.startTime;
+    }
+
+
     public Data getData() {
         return data;
     }

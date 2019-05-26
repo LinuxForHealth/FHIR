@@ -25,7 +25,10 @@ public class AuditLogServiceFactory {
     private static final Logger log = java.util.logging.Logger.getLogger(AuditLogServiceFactory.class.getName());
     private static final String CLASSNAME = AuditLogServiceFactory.class.getName();
     
-    private static AuditLogService serviceInstance = null;
+    // To prevent java writing re-order issue of the Double check locking singleton, using volatile 
+    // for the service instance. or we can use the Eager initialization pattern or 
+    // inner static classes pattern for this singleton 
+    private static volatile AuditLogService serviceInstance = null;
 
     
     /**
@@ -90,7 +93,10 @@ public class AuditLogServiceFactory {
             if (errMsg.length() > 0) {
                 errMsg.append("   ").append("Audit logging is disabled.");
                 log.severe(Encode.forHtml(errMsg.toString()));
-                serviceInstance = new DisabledAuditLogService();
+                
+                // Have to exit if fails to start audit
+                //serviceInstance = new DisabledAuditLogService();
+                System.exit(1);
             }
         }
         log.exiting(CLASSNAME, METHODNAME);

@@ -63,8 +63,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the create request execution.
      * @param endTime - The end time of the create request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logCreate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logCreate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logCreate";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -87,9 +88,10 @@ public class RestAuditLogger {
      * @param startTime - The start time of the update request execution.
      * @param endTime - The end time of the update request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
     public static void logUpdate(HttpServletRequest request, Resource oldResource, Resource updatedResource, Date startTime, Date endTime, 
-                                 Response.Status responseStatus) {
+                                 Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logUpdate";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -111,8 +113,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the read request execution.
      * @param endTime - The end time of the read request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logRead";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -134,8 +137,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the read request execution.
      * @param endTime - The end time of the read request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logDelete(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logDelete(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logDelete";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -157,8 +161,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the read request execution.
      * @param endTime - The end time of the read request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logVersionRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logVersionRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logVersionRead";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -180,8 +185,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the bundle request execution.
      * @param endTime - The end time of the bundle request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logHistory(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logHistory(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logHistory";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -210,8 +216,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the validate request execution.
      * @param endTime - The end time of the validate request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logValidate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logValidate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logValidate";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -233,8 +240,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the bundle request execution.
      * @param endTime - The end time of the bundle request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logBundle(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logBundle(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logBundle";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -285,8 +293,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the bundle request execution.
      * @param endTime - The end time of the bundle request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logSearch(HttpServletRequest request, MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logSearch(HttpServletRequest request, MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logSearch";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -317,8 +326,9 @@ public class RestAuditLogger {
      * @param startTime - The start time of the metadata request execution.
      * @param endTime - The end time of the metadata request execution.
      * @param responseStatus - The response status.
+     * @throws Exception 
      */
-    public static void logMetadata(HttpServletRequest request, Date startTime, Date endTime, Response.Status responseStatus) {
+    public static void logMetadata(HttpServletRequest request, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logMetadata";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -336,8 +346,9 @@ public class RestAuditLogger {
     /**
      * Logs an Audit Log Entry for FHIR server configuration data.
      * @param configData - The configuration data to be saved in the audit log.
+     * @throws Exception 
      */
-    public static void logConfig(String configData) {
+    public static void logConfig(String configData) throws Exception {
         final String METHODNAME = "logConfig";
         log.entering(CLASSNAME, METHODNAME);
         
