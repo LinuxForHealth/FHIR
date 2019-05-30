@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
-
-import javax.json.bind.annotation.JsonbProperty;
+import com.fasterxml.jackson.annotation.*;
 
 /**
  * This class represent a CADF audit event as described by the DMTF standard:
@@ -403,7 +402,7 @@ public class CadfEvent {
     private CadfEvent.Outcome outcome;
 
     // optional properties
-    @JsonbProperty("typeURI")
+    @JsonProperty("typeURI")
     private String typeURI;
     private CadfReason reason;
     private String initiatorId;

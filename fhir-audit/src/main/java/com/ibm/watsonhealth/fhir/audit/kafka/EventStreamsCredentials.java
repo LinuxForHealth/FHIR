@@ -6,8 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.audit.kafka;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EventStreamsCredentials {
@@ -21,7 +20,7 @@ public class EventStreamsCredentials {
     }
 
     @JsonProperty("api_key")
-    public void setLabel(String apiKey) {
+    public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
 

@@ -10,19 +10,24 @@ import static org.testng.AssertJUnit.*;
 
 import java.util.Date;
 
-import org.apache.kafka.clients.producer.ProducerRecord;
+//import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.*;
 import com.ibm.watsonhealth.fhir.audit.cadf.model.CadfEvent;
 import com.ibm.watsonhealth.fhir.audit.cadf.model.CadfParser;
+import com.ibm.watsonhealth.fhir.audit.kafka.Environment;
+import com.ibm.watsonhealth.fhir.audit.kafka.EventStreamsCredentials;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.ApiParameters;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.AuditLogEntry;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Batch;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Context;
 import com.ibm.watsonhealth.fhir.audit.logging.beans.Data;
 import com.ibm.watsonhealth.fhir.audit.logging.impl.WhcAuditCadfLogService;
+import com.ibm.watsonhealth.fhir.config.ConfigurationService;
+import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
+import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 
 public class AuditCadfTest {
@@ -44,12 +49,30 @@ CODE_REMOVED
     private static final String patientId = "8c909d89-e7d9-4acb-8ffd-0205432a592b";
     private static final String reqUniqueId = "417b2105-bc6b-44f7-9f23-4c784a17d24b";
     private static final String description = "FHIR Create request";
+    private static final String testAPIKey = "eM1QRXSDl3IsblND_8y1Si_Ll5UW03KvuTPMxYYYYYY";
+    private static final String eventStreamBinding = "{\r\n" + "  \"api_key\": \"" + testAPIKey + "\",\r\n"
+            + "  \"apikey\": \"" + testAPIKey + "\",\r\n"
+            + "  \"iam_apikey_description\": \"Auto-generated for key ce662154-b2bb-4394-a1ed-54c328630b41\",\r\n"
+            + "  \"iam_apikey_name\": \"Service credentials-1\",\r\n"
+            + "  \"iam_role_crn\": \"crn:v1:bluemix:public:iam::::serviceRole:Writer\",\r\n"
+CODE_REMOVED
+            + "  \"instance_id\": \"4e38da67-227f-4666-9ca2-56913029c1d2\",\r\n"
+CODE_REMOVED
+            + "  \"kafka_brokers_sasl\": [\r\n"
+CODE_REMOVED
+CODE_REMOVED
+CODE_REMOVED
+CODE_REMOVED
+            + "}\r\n";
 
     private AuditLogEntry TestFhirLog1 = null;
-    private AuditLogEntry TestFhirLog2 = null;
 
     public AuditCadfTest() {
-        CadfEvent eventObject = null;
+
+    }
+
+    @BeforeClass
+    public void setUp() throws Exception {
         TestFhirLog1 = new AuditLogEntry(COMPONENT_ID, eventType, timestamp, componentIp, tenantId);
         TestFhirLog1.setClientCertCn(clientCertCn);
         TestFhirLog1.setClientCertIssuerOu(clientCertIssuerOu);
@@ -71,6 +94,40 @@ CODE_REMOVED
                 new Batch().withResourcesCreated((long) 5).withResourcesRead((long) 10).withResourcesUpdated((long) 2));
         TestFhirLog1.setDescription(description);
 
+    }
+
+    @Test(groups = { "eventstreams" })
+    public void testEventStream() throws Exception {
+
+        PropertyGroup pg;
+        try {
+            pg = ConfigurationService.loadConfiguration("fhirConfig.json");
+            assertNotNull(pg);
+
+            PropertyGroup AuditProps = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
+            assertNotNull(AuditProps);
+
+            System.out.println(
+                    AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_BOOTSTRAPSERVERS));
+            System.out.println(AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_APIKEY));
+
+            WhcAuditCadfLogService logService = new WhcAuditCadfLogService();
+            logService.initialize(AuditProps);
+
+            logService.logEntry(TestFhirLog1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // uncomments this following line if you have the correct kafka
+            // servers and API key configured in fhirConfig.json
+            // fail("failed to send log to enventStream!");
+        }
+    }
+
+    @Test(groups = { "parser" })
+    public void testEventParser() throws Exception {
+        CadfEvent eventObject = null;
+
         try {
             eventObject = WhcAuditCadfLogService.createCadfEvent(TestFhirLog1);
 
@@ -81,41 +138,38 @@ CODE_REMOVED
                 String eventString = parser.cadf2Json(eventObject);
 
                 assertNotNull(eventString);
-
                 System.out.println(eventString);
-
             }
 
-        } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            fail("failed to parser event!");
         }
-
     }
 
-    @BeforeClass
-    public void setUp() throws Exception {
+    @Test(groups = { "parser" })
+    public void testConfigParser() throws Exception {
+        EventStreamsCredentials ESbinding = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ESbinding = mapper.readValue(eventStreamBinding, EventStreamsCredentials.class);
+            assertNotNull(ESbinding);
 
-    }
+            if (ESbinding != null) {
+                String bootstrapServers = Environment.stringArrayToCSV(ESbinding.getKafkaBrokersSasl());
+                String apiKey = ESbinding.getApiKey();
 
-    @Test(groups = { "retrieval" })
-    public void testRetrieve() throws Exception {
+                assertNotNull(bootstrapServers);
+                assertEquals(apiKey, testAPIKey);
 
-        assertEquals(1, 1);
-    }
+                System.out.println(bootstrapServers);
+                System.out.println(apiKey);
+            }
 
-    @Test(groups = { "retrieval" })
-    public void testRetrieveWithPagination() throws Exception {
-        assertEquals(1, 1);
-
-    }
-
-    @Test(groups = { "retrieval" })
-    public void testRetrieveIncludeDataDetails() throws Exception {
-        assertEquals(1, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("failed to parser eventStreamBinding!");
+        }
     }
 
 }
