@@ -18,7 +18,7 @@ public class Environment {
     private static final String CLASSNAME = Environment.class.getName();
     private static final String SERVICE_NAME = "messagehub";
     public static final String VCAP_SERVICES = "VCAP_SERVICES";
-    public static final String KUB_EVENTSTREAMS_BINDING = "binding-eventstreams-fhir1";
+    public static final String KUB_EVENTSTREAMS_BINDING = "EVENT_STREAMS_AUDIT_BINDING";
 
     /*
      * Return a CSV-String from a String array
