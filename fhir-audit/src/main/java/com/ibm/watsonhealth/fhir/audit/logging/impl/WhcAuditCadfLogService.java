@@ -51,7 +51,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
     private static final String PROPERTY_AUDIT_GEO_STATE = "geoState";
     private static final String PROPERTY_AUDIT_GEO_COUNTRY = "geoCounty";
 
-    private static final String KAKA_USERNAME = "token";
+    private static final String KAFKA_USERNAME = "token";
     private static final String DEFAULT_AUDIT_KAFKA_TOPIC = "FHIR_AUDIT";
     private static final String DEFAULT_AUDIT_GEO_CITY = "Dallas";
     private static final String DEFAULT_AUDIT_GEO_STATE = "TX";
@@ -143,7 +143,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
         Properties kafkaProps = new Properties();
         kafkaProps.put("sasl.jaas.config", String.format(
                 "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";",
-                KAKA_USERNAME, apiKey));
+                KAFKA_USERNAME, apiKey));
         kafkaProps.put("security.protocol", "SASL_SSL");
         kafkaProps.put("bootstrap.servers", bootstrapServers);
         kafkaProps.put("sasl.mechanism", "PLAIN");
