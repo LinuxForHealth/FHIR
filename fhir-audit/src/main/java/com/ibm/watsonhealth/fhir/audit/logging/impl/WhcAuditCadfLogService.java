@@ -225,7 +225,7 @@ CODE_REMOVED
                             .withCredential(new CadfCredential.Builder("user-" + logEntry.getUserName()).build())
                             .withHost(logEntry.getComponentIp()).build();
             CadfResource target = new CadfResource.Builder(
-                    logEntry.getContext().getData().getId() == null ? UUID.randomUUID().toString()
+                    logEntry.getContext().getData() == null || logEntry.getContext().getData().getId() == null ? UUID.randomUUID().toString()
                             : logEntry.getContext().getData().getId(),
                     CadfEvent.ResourceType.data_database)
                             .withGeolocation(new CadfGeolocation.Builder("Dallas", "TX", "US", null).build())
