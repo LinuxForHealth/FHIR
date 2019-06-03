@@ -104,12 +104,10 @@ public class WhcAuditCadfLogService implements AuditLogService {
         final String METHODNAME = "initialize";
         logger.entering(CLASSNAME, METHODNAME);
 
-        // Check environment: VCAP_SERVICES and binding-eventstreams-fhir1 to obtain
-        // configuration parameters for
-        // kafka (for Cloud Foundry and Kub Container)
-        if (System.getenv(Environment.VCAP_SERVICES) != null
-                || System.getenv(Environment.KUB_EVENTSTREAMS_BINDING) != null) {
-            logger.log(Level.INFO, "Using VCAP_SERVICES or binding-eventstreams-fhir1 to find credentials.");
+        // Check environment: EVENT_STREAMS_AUDIT_BINDING to obtain configuration parameters for
+        // kafka (Kub Container)
+        if (System.getenv(Environment.KUB_EVENTSTREAMS_BINDING) != null) {
+            logger.log(Level.INFO, "Using env var " + Environment.KUB_EVENTSTREAMS_BINDING + " to find credentials.");
             EventStreamsCredentials credentials = Environment.getEventStreamsCredentials();
             if (credentials != null) {
                 bootstrapServers = Environment.stringArrayToCSV(credentials.getKafkaBrokersSasl());

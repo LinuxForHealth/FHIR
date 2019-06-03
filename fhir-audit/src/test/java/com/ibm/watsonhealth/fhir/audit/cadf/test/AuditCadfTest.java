@@ -113,8 +113,10 @@ CODE_REMOVED
 
             WhcAuditCadfLogService logService = new WhcAuditCadfLogService();
             logService.initialize(AuditProps);
-
-            logService.logEntry(TestFhirLog1);
+            
+            // uncomments this following line if you have the correct kafka
+            // servers and API key configured in fhirConfig.json
+            //logService.logEntry(TestFhirLog1);
 
         } catch (Exception e) {
             e.printStackTrace();
