@@ -6,8 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 
 
 

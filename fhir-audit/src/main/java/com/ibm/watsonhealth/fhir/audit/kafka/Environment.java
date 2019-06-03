@@ -38,16 +38,16 @@ public class Environment {
         final String METHODNAME = "getEventStreamsCredentials";
         logger.entering(CLASSNAME, METHODNAME);
 
-        String kubEventStreamBinging = System.getenv(KUB_EVENTSTREAMS_BINDING);
-        logger.info(KUB_EVENTSTREAMS_BINDING + ": \n" + kubEventStreamBinging);
+        String kubEventStreamBinding = System.getenv(KUB_EVENTSTREAMS_BINDING);
+        logger.info(KUB_EVENTSTREAMS_BINDING + ": \n" + kubEventStreamBinding);
         try {
             ObjectMapper mapper = new ObjectMapper();
-            if (kubEventStreamBinging != null) {
-                return mapper.readValue(kubEventStreamBinging, EventStreamsCredentials.class);
+            if (kubEventStreamBinding != null) {
+                return mapper.readValue(kubEventStreamBinding, EventStreamsCredentials.class);
             }
         } catch (IOException ioe) {
             logger.log(Level.SEVERE,
-                    KUB_EVENTSTREAMS_BINDING + " environment variable parses failed.");
+                    "Parsing of environment variable '" + KUB_EVENTSTREAMS_BINDING + "' has failed.");
         } finally {
             logger.exiting(CLASSNAME, METHODNAME);
         }

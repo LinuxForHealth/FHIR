@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.beans;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 /**
  * This class defines the Batch parameters section of the FHIR server AuditLogEntry.

@@ -71,14 +71,9 @@ CODE_REMOVED
 			}
 		},
 		"audit": {
-		    "serviceClassName" : "com.ibm.watsonhealth.fhir.audit.logging.impl.WhcAuditLogService",
+		    "serviceClassName" : "com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService",
 		    "serviceProperties" : {
-		          "logPath": "logs/",
-			      "logMaxSize": 20,
-			      "logMaxFileCount": 50
-			},
-			"patientIdExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/1.0/patientid",
-            "resourceNameExtensionUrl": "http://www.ibm.com/watsonhealth/fhir/extensions/whc-lsf/r1/resourceName"
+			}
 		},
 		"persistence": {
 			"factoryClassname": "com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",

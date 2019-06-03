@@ -96,7 +96,8 @@ CODE_REMOVED
 
     }
 
-    @Test(groups = { "eventstreams" })
+    // Enable this only if you have kafka properly configured in fhirConfig.json
+    @Test(enabled=false) 
     public void testEventStream() throws Exception {
 
         PropertyGroup pg;
@@ -114,15 +115,11 @@ CODE_REMOVED
             WhcAuditCadfLogService logService = new WhcAuditCadfLogService();
             logService.initialize(AuditProps);
             
-            // uncomments this following line if you have the correct kafka
-            // servers and API key configured in fhirConfig.json
-            //logService.logEntry(TestFhirLog1);
+            logService.logEntry(TestFhirLog1);
 
         } catch (Exception e) {
             e.printStackTrace();
-            // uncomments this following line if you have the correct kafka
-            // servers and API key configured in fhirConfig.json
-            // fail("failed to send log to enventStream!");
+             fail("failed to send log to enventStream!");
         }
     }
 
