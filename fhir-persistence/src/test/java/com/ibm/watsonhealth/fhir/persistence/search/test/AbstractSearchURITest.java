@@ -32,12 +32,16 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("uri", "http://hl7.org/fhir/DSTU2");
         assertSearchReturnsSavedResource("uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         
+        
         // Matches are supposed to be precise (e.g. case, accent, and escape sensitive), but aren't
         // 
-//        assertSearchDoesntReturnSavedResource("uri", "http://HL7.org/FHIR/dstu2");
-//        assertSearchDoesntReturnSavedResource("uri", "urn:uuid:53FEFA32-1111-2222-3333-55EE120877B7");
+        assertSearchDoesntReturnSavedResource("uri", "http://HL7.org/FHIR/dstu2");
+        assertSearchDoesntReturnSavedResource("uri", "urn:uuid:53FEFA32-1111-2222-3333-55EE120877B7");
         
-        // TODO add test for diacritics and other unusual characters
+        assertSearchReturnsSavedResource("uri", "http://åé");
+        assertSearchDoesntReturnSavedResource("uri", "http://ae");
+       
+        assertSearchDoesntReturnSavedResource("uri", "http://HL7.org/FHIR/dstü2");
     }
     
     @Test(dependsOnMethods = { "testCreateChainedBasicResource" })

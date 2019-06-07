@@ -326,7 +326,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     protected SqlQueryData processStringParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-
+        
         StringBuilder whereClauseSegment = new StringBuilder();
         JDBCOperator operator = this.getOperator(queryParm);
         boolean parmValueProcessed = false;
@@ -359,11 +359,13 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             else {
                 searchValue = SQLParameterEncoder.encode(value.getValueString());
             }
+            
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
                 whereClauseSegment.append(JDBCOperator.OR.value());
             }
-            if (operator.equals(JDBCOperator.EQ)) {
+            
+            if (operator.equals(JDBCOperator.EQ) || Type.URI.equals(queryParm.getType())) {
                 // For an exact match, we search against the STR_VALUE column in the Resource's string values table.
                 // Build this piece: pX.str_value = search-attribute-value
                 whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
