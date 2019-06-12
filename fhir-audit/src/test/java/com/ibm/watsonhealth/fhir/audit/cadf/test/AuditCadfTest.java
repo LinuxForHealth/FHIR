@@ -64,6 +64,7 @@ CODE_REMOVED
 CODE_REMOVED
 CODE_REMOVED
             + "}\r\n";
+    private static final String operationName = "UnitTest";
 
     private AuditLogEntry TestFhirLog1 = null;
 
@@ -92,8 +93,8 @@ CODE_REMOVED
         TestFhirLog1.getContext().setAction("R");
         TestFhirLog1.getContext().setBatch(
                 new Batch().withResourcesCreated((long) 5).withResourcesRead((long) 10).withResourcesUpdated((long) 2));
-        TestFhirLog1.setDescription(description);
-
+        TestFhirLog1.setDescription(description);      
+        TestFhirLog1.getContext().setOperationName(operationName);
     }
 
     // Enable this only if you have kafka properly configured in fhirConfig.json
@@ -130,6 +131,19 @@ CODE_REMOVED
         try {
             eventObject = WhcAuditCadfLogService.createCadfEvent(TestFhirLog1);
 
+            assertNotNull(eventObject);
+
+            if (eventObject != null) {
+                CadfParser parser = new CadfParser();
+                String eventString = parser.cadf2Json(eventObject);
+
+                assertNotNull(eventString);
+                System.out.println(eventString);
+            }
+            
+            TestFhirLog1.getContext().setEndTime(timestamp);
+            eventObject = WhcAuditCadfLogService.createCadfEvent(TestFhirLog1);
+            
             assertNotNull(eventObject);
 
             if (eventObject != null) {

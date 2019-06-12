@@ -833,6 +833,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        RestAuditLogger.logCreate(httpServletRequest, resource, startTime, startTime, Response.Status.OK);
 
         try {
             
@@ -918,6 +921,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Commit our transaction if we started one before.
             txn.commit();
+            txn = null;
 
             status = ior.getStatus();
             return ior;
@@ -938,9 +942,17 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            txn.rollback();
+            if (txn != null) {
+                txn.rollback();
+            }
             
-            RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logCreate(httpServletRequest, resource, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
             log.exiting(this.getClass().getName(), "doCreate");
         }
     }
@@ -969,6 +981,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
+        
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        // At this time point, we don't have the updated resource, so use the input resource as the updated resource in the pending request.
+        RestAuditLogger.logUpdate(httpServletRequest, newResource, newResource, startTime, startTime, Response.Status.OK);
 
         try {
             // Make sure the type specified in the URL string matches the resource type obtained from the new resource.
@@ -1086,7 +1102,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Commit our transaction if we started one before.
             txn.commit();
-            
+            txn = null;
             status = ior.getStatus();
             
             return ior;
@@ -1111,12 +1127,26 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
 
             // If we still have a transaction at this point, we need to rollback due to an error.
-            txn.rollback();
+            if (txn != null) {
+                txn.rollback();
+            }
 
             if (status == Response.Status.CREATED) {
-                RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                // Now Audit log the final status of the request, 
+                // if fails to log, then log the error in local log file and ignore.
+                try {
+                    RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                } catch (Exception e) {
+                    log.log(Level.INFO, errMsg, e);
+                }
             } else {
-                RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                // Now Audit log the final status of the request, 
+                // if fails to log, then log the error in local log file and ignore.
+                try {
+                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                } catch (Exception e) {
+                    log.log(Level.INFO, errMsg, e);
+                }
             }
             log.exiting(this.getClass().getName(), "doUpdate");
         }
@@ -1141,6 +1171,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         String errMsg = "Caught exception while processing 'delete' request.";
         
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
+        
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        RestAuditLogger.logDelete(httpServletRequest, null, startTime, startTime, Response.Status.OK);
 
         try {
             String resourceTypeName = type;
@@ -1234,6 +1267,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Commit our transaction if we started one before.
             txn.commit();
+            txn = null;
             status = ior.getStatus();
             
             return ior;
@@ -1262,9 +1296,18 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            txn.rollback();
+            if (txn != null) {
+                txn.rollback(); 
+            }
             
-            RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource() : null, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
+            
             log.exiting(this.getClass().getName(), "doDelete");
         }
     }
@@ -1288,6 +1331,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        // Pass endtime the same as the start time to tell cadf log service that this is a pending request.
+        RestAuditLogger.logRead(httpServletRequest, resource, startTime, startTime, Response.Status.OK);
 
         try {
             String resourceTypeName = type;
@@ -1326,6 +1372,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Commit our transaction if we started one before.
             txn.commit();
+            txn = null;
                 
             status = Response.Status.OK;
             
@@ -1355,9 +1402,18 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            txn.rollback();
+            if (txn != null) {
+                txn.rollback();
+            }
             
-            RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logRead(httpServletRequest, resource, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
+            
             log.exiting(this.getClass().getName(), "doRead");
         }
     }
@@ -1381,6 +1437,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, startTime, Response.Status.OK);
 
         try {
             String resourceTypeName = type;
@@ -1419,6 +1478,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Commit our transaction if we started one before.
             txn.commit();
+            txn = null;
             
             status = Response.Status.OK;
             
@@ -1448,9 +1508,17 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            txn.rollback();
-            
-            RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
+            if (txn != null) {
+                txn.rollback();
+            }
+
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
             
             log.exiting(this.getClass().getName(), "doVRead");
         }
@@ -1477,6 +1545,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, startTime, Response.Status.OK);
 
         try {
             String resourceTypeName = type;
@@ -1515,6 +1586,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Commit our transaction if we started one before.
             txn.commit();
+            txn = null;
             
             status = Response.Status.OK;
             return bundle;
@@ -1535,9 +1607,18 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            txn.rollback();
+            if (txn != null) {
+                txn.rollback(); 
+            }
+
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
             
-            RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doHistory");
         }
     }
@@ -1561,6 +1642,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        //RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, startTime, Response.Status.OK);
 
         try {
             String resourceTypeName = type;
@@ -1608,6 +1692,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             // Commit our transaction if we started one before.
             txn.commit();
+            txn = null;
             
             status = Response.Status.OK;
             
@@ -1629,9 +1714,18 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRRequestContext.set(requestContext);
             
             // If we previously started a transaction and it's still active, we need to rollback due to an error.
-            txn.rollback();
+            if (txn != null) {
+                txn.rollback();
+            }
+           
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
             
-            RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, new Date(), status);
             log.exiting(this.getClass().getName(), "doSearch");
         }
     }
@@ -1727,6 +1821,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, versionId, startTime, startTime, Response.Status.OK);
+        
         try {
             Class<? extends Resource> resourceType = null;
             if (resourceTypeName != null) {
@@ -1781,7 +1878,14 @@ public class FHIRResource implements FHIRResourceHelpers {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
-            RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, versionId, startTime, new Date(), status);
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, versionId, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
+            
             log.exiting(this.getClass().getName(), "doInvoke");
         }
     }
@@ -1805,6 +1909,9 @@ public class FHIRResource implements FHIRResourceHelpers {
                 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+        
+        // Pass end time the same as start time to tell cadf log service that this is a pending request.
+        RestAuditLogger.logBundle(httpServletRequest, bundleResource instanceof Bundle? (Bundle) bundleResource: null, startTime, startTime, Response.Status.OK);
         
         try {
             if (bundleResource instanceof Bundle) {
@@ -1837,7 +1944,14 @@ public class FHIRResource implements FHIRResourceHelpers {
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
-            RestAuditLogger.logBundle(httpServletRequest, inputBundle, startTime, new Date(), status);
+            // Now Audit log the final status of the request, 
+            // if fails to log, then log the error in local log file and ignore.
+            try {
+                RestAuditLogger.logBundle(httpServletRequest, inputBundle, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.INFO, errMsg, e);
+            }
+            
             log.exiting(this.getClass().getName(), "doBundle");
         }
     }

@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.impl;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -50,6 +51,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
     private static final String PROPERTY_AUDIT_GEO_CITY = "geoCity";
     private static final String PROPERTY_AUDIT_GEO_STATE = "geoState";
     private static final String PROPERTY_AUDIT_GEO_COUNTRY = "geoCounty";
+    private static final String HEALTHCHECKOP = "healthcheck";
 
     private static final String KAFKA_USERNAME = "token";
     private static final String DEFAULT_AUDIT_KAFKA_TOPIC = "FHIR_AUDIT";
@@ -175,6 +177,14 @@ CODE_REMOVED
     public void logEntry(AuditLogEntry logEntry) throws Exception {
         final String METHODNAME = "logEntry";
         logger.entering(CLASSNAME, METHODNAME);
+        
+        
+        // skip healthcheck and other bad operations
+        if (logEntry == null || logEntry.getContext() == null 
+            || logEntry.getContext().getOperationName() == null 
+            || logEntry.getContext().getOperationName().compareToIgnoreCase(HEALTHCHECKOP) == 0) {
+            return;
+        }
 
         CadfEvent eventObject = createCadfEvent(logEntry);
 
@@ -212,6 +222,7 @@ CODE_REMOVED
         logger.entering(CLASSNAME, METHODNAME);
 
         CadfEvent event = null;
+        CadfEvent.Outcome cadfEventOutCome;
 
         // Cadf does't log config, so skip
         if ((logEntry.getEventType() != AuditLogEventType.FHIR_CONFIGDATA.value()) && logEntry.getContext() != null
@@ -226,7 +237,7 @@ CODE_REMOVED
                     logEntry.getContext().getData() == null || logEntry.getContext().getData().getId() == null ? UUID.randomUUID().toString()
                             : logEntry.getContext().getData().getId(),
                     CadfEvent.ResourceType.data_database)
-                            .withGeolocation(new CadfGeolocation.Builder("Dallas", "TX", "US", null).build())
+                            .withGeolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
                             .withAddress(
                                     new CadfEndpoint(logEntry.getContext().getApiParameters().getRequest(), "", ""))
                             .build();
@@ -237,14 +248,21 @@ CODE_REMOVED
             fhirContext.setEvent_type(logEntry.getEventType());
             fhirContext.setLocation(logEntry.getLocation());
             fhirContext.setDescription(logEntry.getDescription());
+                        
+            if (logEntry.getContext().getStartTime().equalsIgnoreCase(logEntry.getContext().getEndTime())) {
+                cadfEventOutCome = CadfEvent.Outcome.pending;
+            } else if (logEntry.getContext().getApiParameters().getStatus() < 400) {
+                cadfEventOutCome = CadfEvent.Outcome.success;
+            } else {
+                cadfEventOutCome = CadfEvent.Outcome.failure;
+            }
 
             event = new CadfEvent.CadfEventBuilder(
                     logEntry.getContext().getRequestUniqueId() == null ? UUID.randomUUID().toString()
                             : logEntry.getContext().getRequestUniqueId(),
                     CadfEvent.EventType.activity, logEntry.getTimestamp(),
                     fhir2CadfMap.getOrDefault(logEntry.getContext().getAction(), CadfEvent.Action.unknown),
-                    logEntry.getContext().getApiParameters().getStatus() < 400 ? CadfEvent.Outcome.success
-                            : CadfEvent.Outcome.failure).withObserver(observerRsrc).withInitiator(initiator)
+                    cadfEventOutCome).withObserver(observerRsrc).withInitiator(initiator)
                                     .withTarget(target).withTag(logEntry.getCorrelationId())
                                     .withAttachment(new CadfAttachment("application/json",
                                             new CadfParser().fhirContext2Json(fhirContext)))
