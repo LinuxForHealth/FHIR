@@ -1644,7 +1644,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
         // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        //RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, startTime, Response.Status.OK);
+        RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, startTime, Response.Status.OK);
 
         try {
             String resourceTypeName = type;
