@@ -1332,9 +1332,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
-        // Pass endtime the same as the start time to tell cadf log service that this is a pending request.
-        RestAuditLogger.logRead(httpServletRequest, resource, startTime, startTime, Response.Status.OK);
-
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
@@ -1438,9 +1435,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
-        // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        RestAuditLogger.logVersionRead(httpServletRequest, resource, startTime, startTime, Response.Status.OK);
-
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
@@ -1546,9 +1540,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
-        // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        RestAuditLogger.logHistory(httpServletRequest, bundle, startTime, startTime, Response.Status.OK);
-
         try {
             String resourceTypeName = type;
             if (!FHIRUtil.isStandardResourceType(type)) {
@@ -1643,9 +1634,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         
-        // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle, startTime, startTime, Response.Status.OK);
-
         try {
             String resourceTypeName = type;
             Parameter implicitSearchParameter = null;
