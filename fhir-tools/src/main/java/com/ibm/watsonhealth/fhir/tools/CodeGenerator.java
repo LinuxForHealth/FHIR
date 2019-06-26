@@ -902,12 +902,16 @@ public class CodeGenerator {
         cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
         cb.javadoc("");
         if (isRepeating(elementDefinition)) {
-            String link = getFieldType(structureDefinition, elementDefinition, false);
-            link = link.substring(link.lastIndexOf(".") + 1);
-            cb.javadocReturn("A list containing immutable objects of type " + javadocLink(link) + ".");
+            String reference = getFieldType(structureDefinition, elementDefinition, false);
+            reference = reference.substring(reference.lastIndexOf(".") + 1);
+            cb.javadocReturn("A list containing immutable objects of type " + javadocLink(reference) + ".");
         } else {
-            String link = fieldType.substring(fieldType.lastIndexOf(".") + 1);
-            cb.javadocReturn("An immutable object of type " + javadocLink(link) + ".");
+            String reference = fieldType;
+            if (!"java.lang.String".equals(fieldType)) {
+                reference = fieldType.substring(fieldType.lastIndexOf(".") + 1);
+            }
+            fieldType.substring(fieldType.lastIndexOf(".") + 1);
+            cb.javadocReturn("An immutable object of type " + javadocLink(reference) + ".");
         }
         cb.javadocEnd();
     }
