@@ -100,5 +100,5 @@ by running this command prior to pushing your changes to the server:
 #### 
 Jenkins jobs are located at: 
 - [Pre-Integration](https://wh-fhir-server-jenkins.swg-devops.com/job/fhir-server-r4/job/development/job/r4-pre-integration/)
-- [Integration](https://wh-fhir-server-jenkins.swg-devops.com/job/fhir-server-r4/job/development/job/r4-integration/)
-- [Release-Candidate](https://wh-fhir-server-jenkins.swg-devops.com/job/fhir-server-r4/job/release-4.0.0/job/release-candidate)
+- [Integration](https://wh-fhir-server-jenkins.swg-devops.com/job/fhir-server-r4/job/release-4.0.0/)
+- [Release-Candidate](https://wh-fhir-server-jenkins.swg-devops.com/job/fhir-server-r4/job/release-4.0.0/)
