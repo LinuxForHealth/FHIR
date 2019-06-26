@@ -1,0 +1,131 @@
+/**
+ * (C) Copyright IBM Corp. 2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.ibm.watsonhealth.fhir.model.type;
+
+import java.util.Collection;
+
+public class CompositionAttestationMode extends Code {
+    /**
+     * Personal
+     */
+    public static final CompositionAttestationMode PERSONAL = CompositionAttestationMode.of(ValueSet.PERSONAL);
+
+    /**
+     * Professional
+     */
+    public static final CompositionAttestationMode PROFESSIONAL = CompositionAttestationMode.of(ValueSet.PROFESSIONAL);
+
+    /**
+     * Legal
+     */
+    public static final CompositionAttestationMode LEGAL = CompositionAttestationMode.of(ValueSet.LEGAL);
+
+    /**
+     * Official
+     */
+    public static final CompositionAttestationMode OFFICIAL = CompositionAttestationMode.of(ValueSet.OFFICIAL);
+
+    private CompositionAttestationMode(Builder builder) {
+        super(builder);
+    }
+
+    public static CompositionAttestationMode of(java.lang.String value) {
+        return CompositionAttestationMode.builder().value(value).build();
+    }
+
+    public static CompositionAttestationMode of(ValueSet value) {
+        return CompositionAttestationMode.builder().value(value).build();
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public Builder toBuilder() {
+        Builder builder = new Builder();
+        builder.id = id;
+        builder.extension.addAll(extension);
+        builder.value = value;
+        return builder;
+    }
+
+    public static class Builder extends Code.Builder {
+        private Builder() {
+            super();
+        }
+
+        @Override
+        public Builder id(java.lang.String id) {
+            return (Builder) super.id(id);
+        }
+
+        @Override
+        public Builder extension(Extension... extension) {
+            return (Builder) super.extension(extension);
+        }
+
+        @Override
+        public Builder extension(Collection<Extension> extension) {
+            return (Builder) super.extension(extension);
+        }
+
+        @Override
+        public Builder value(java.lang.String value) {
+            return (Builder) super.value(ValueSet.from(value).value());
+        }
+
+        public Builder value(ValueSet value) {
+            return (Builder) super.value(value.value());
+        }
+
+        @Override
+        public CompositionAttestationMode build() {
+            return new CompositionAttestationMode(this);
+        }
+    }
+
+    public enum ValueSet {
+        /**
+         * Personal
+         */
+        PERSONAL("personal"),
+
+        /**
+         * Professional
+         */
+        PROFESSIONAL("professional"),
+
+        /**
+         * Legal
+         */
+        LEGAL("legal"),
+
+        /**
+         * Official
+         */
+        OFFICIAL("official");
+
+        private final java.lang.String value;
+
+        ValueSet(java.lang.String value) {
+            this.value = value;
+        }
+
+        public java.lang.String value() {
+            return value;
+        }
+
+        public static ValueSet from(java.lang.String value) {
+            for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+}

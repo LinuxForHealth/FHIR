@@ -1,0 +1,124 @@
+/**
+ * (C) Copyright IBM Corp. 2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.ibm.watsonhealth.fhir.model.visitor;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAccessor;
+import java.util.List;
+
+public abstract class AbstractVisitable implements Visitable {
+    @Override
+    public abstract void accept(String elementName, Visitor visitor);
+    
+    protected void accept(Visitable visitable, java.lang.String elementName, Visitor visitor) {
+        accept(visitable, elementName, visitor, false);
+    }
+
+    protected void accept(Visitable visitable, java.lang.String elementName, Visitor visitor, boolean choiceElement) {
+        if (visitable != null) {
+            if (choiceElement) {
+                visitable.accept(elementName + visitable.getClass().getSimpleName(), visitor);
+            } else {
+                visitable.accept(elementName, visitor);
+            }
+        }
+    }
+
+    protected void accept(List<? extends Visitable> visitables, java.lang.String elementName, Visitor visitor, Class<?> type) {
+        if (!visitables.isEmpty()) {
+            visitor.visitStart(elementName, visitables, type);
+            for (Visitable visitable : visitables) {
+                visitable.accept(visitor);
+            }
+            visitor.visitEnd(elementName, visitables, type);
+        }
+    }
+    
+    protected void accept(BigDecimal value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(byte[] value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+
+    protected void accept(org.w3c.dom.Element value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(java.lang.Integer value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+
+    protected void accept(LocalDate value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(LocalTime value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(java.lang.String value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(java.lang.Boolean value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(Year value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(YearMonth value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    protected void accept(ZonedDateTime value, java.lang.String elementName, Visitor visitor) {
+        if (value != null) {
+            visitor.visit(elementName, value);
+        }
+    }
+    
+    // for Date and DateTime
+    protected void accept(TemporalAccessor temporal, java.lang.String elementName, Visitor visitor) {
+        if (temporal instanceof ZonedDateTime) {
+            visitor.visit(elementName, (ZonedDateTime) temporal);
+        } else if (temporal instanceof LocalDate) {
+            visitor.visit(elementName, (LocalDate) temporal);
+        } else if (temporal instanceof YearMonth) {
+            visitor.visit(elementName, (YearMonth) temporal);
+        } else if (temporal instanceof Year) {
+            visitor.visit(elementName, (Year) temporal);
+        }
+    }
+}
