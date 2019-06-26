@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.watsonhealth.fhir.model.Id;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class FHIROperationException extends FHIRException {
     private static final long serialVersionUID = 1L;
 
-    private List<OperationOutcomeIssue> issues = new ArrayList<>();
+    private List<OperationOutcome.Issue> issues = new ArrayList<>();
 
     /**
      * @see Exception#Exception(String)
@@ -35,28 +34,28 @@ public class FHIROperationException extends FHIRException {
     }
     
     public OperationOutcome buildOperationOutcome() {
-        Id probeId = FHIRUtil.id(getUniqueId());
-        return FHIRUtil.buildOperationOutcome(getIssues()).withId(probeId);
+        Id probeId = Id.builder().value(getUniqueId()).build();
+        return FHIRUtil.buildOperationOutcome(getIssues()).toBuilder().id(probeId).build();
     }
 
-    public List<OperationOutcomeIssue> getIssues() {
+    public List<OperationOutcome.Issue> getIssues() {
         return issues;
     }
 
-    public void setIssues(List<OperationOutcomeIssue> issues) {
+    public void setIssues(List<OperationOutcome.Issue> issues) {
         this.issues = issues;
     }
     
-    public FHIROperationException withIssue(OperationOutcomeIssue... issues) {
+    public FHIROperationException withIssue(OperationOutcome.Issue... issues) {
         if (issues != null) {
-            for (OperationOutcomeIssue issue : issues) {
+            for (OperationOutcome.Issue issue : issues) {
                 getIssues().add(issue);
             }    
         }
         return this;
     }
     
-    public FHIROperationException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIROperationException withIssue(Collection<OperationOutcome.Issue> issues) {
         if (issues != null) {
             getIssues().addAll(issues);
         }

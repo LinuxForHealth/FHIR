@@ -1481,10 +1481,17 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb.method(mods("public"), "<T extends Resource> T", "parse", args("JsonObject jsonObject"), throwsExceptions("FHIRJsonParserException"))
+            ._return("parseAndFilter(jsonObject, null)")
+        .end();
+    
+        cb.newLine();
+        
         // public <T extends Resource> T parseAndFilter(JsonObject jsonObject, java.util.List<java.lang.String> elementsToInclude)
         cb.annotation("SuppressWarnings", quote("unchecked"));
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("JsonObject jsonObject", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRJsonParserException"))
             ._try()
+                .invoke("reset", args())
                 .assign("java.lang.String resourceType", "getResourceType(jsonObject)")
                 ._if("elementsToInclude != null")
                     .assign("ElementFilter elementFilter", "new ElementFilter(resourceType, JsonSupport.getRequiredElementNames(resourceType))")
@@ -1494,6 +1501,12 @@ public class CodeGenerator {
             ._catch("Exception e")
                 ._throw("new FHIRJsonParserException(e.getMessage(), getPath(), e)")
             ._end()
+        .end();
+        
+        cb.newLine();
+        
+        cb.method(mods("public"), "void", "reset")
+            .invoke("stack", "clear", args())
         .end();
         
         cb.newLine();
@@ -1582,7 +1595,7 @@ public class CodeGenerator {
             .assign("Set<java.lang.String> elementNames", "JsonSupport.getElementNames(typeName)")
             ._foreach("java.lang.String key", "jsonObject.keySet()")
                 ._if("!elementNames.contains(key) && !\"resourceType\".equals(key) && !\"fhir_comments\".equals(key)")
-                    .statement("throw new IllegalArgumentException(\"Unrecognized element: '\" + key + \"', location: \" + getPath())")
+                    .statement("throw new IllegalArgumentException(\"Unrecognized element: '\" + key + \"'\")")
                 ._end()
             ._end()
         .end().newLine();

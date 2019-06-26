@@ -11,7 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 
-import com.ibm.watsonhealth.fhir.model.Reference;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
 
 public enum ReferenceType {
     
