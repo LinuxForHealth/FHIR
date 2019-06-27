@@ -24,6 +24,76 @@ public class QuestionnaireItemType extends Code {
      */
     public static final QuestionnaireItemType QUESTION = QuestionnaireItemType.of(ValueSet.QUESTION);
 
+    /**
+     * Boolean
+     */
+    public static final QuestionnaireItemType BOOLEAN = QuestionnaireItemType.of(ValueSet.BOOLEAN);
+
+    /**
+     * Decimal
+     */
+    public static final QuestionnaireItemType DECIMAL = QuestionnaireItemType.of(ValueSet.DECIMAL);
+
+    /**
+     * Integer
+     */
+    public static final QuestionnaireItemType INTEGER = QuestionnaireItemType.of(ValueSet.INTEGER);
+
+    /**
+     * Date
+     */
+    public static final QuestionnaireItemType DATE = QuestionnaireItemType.of(ValueSet.DATE);
+
+    /**
+     * Date Time
+     */
+    public static final QuestionnaireItemType DATE_TIME = QuestionnaireItemType.of(ValueSet.DATE_TIME);
+
+    /**
+     * Time
+     */
+    public static final QuestionnaireItemType TIME = QuestionnaireItemType.of(ValueSet.TIME);
+
+    /**
+     * String
+     */
+    public static final QuestionnaireItemType STRING = QuestionnaireItemType.of(ValueSet.STRING);
+
+    /**
+     * Text
+     */
+    public static final QuestionnaireItemType TEXT = QuestionnaireItemType.of(ValueSet.TEXT);
+
+    /**
+     * Url
+     */
+    public static final QuestionnaireItemType URL = QuestionnaireItemType.of(ValueSet.URL);
+
+    /**
+     * Choice
+     */
+    public static final QuestionnaireItemType CHOICE = QuestionnaireItemType.of(ValueSet.CHOICE);
+
+    /**
+     * Open Choice
+     */
+    public static final QuestionnaireItemType OPEN_CHOICE = QuestionnaireItemType.of(ValueSet.OPEN_CHOICE);
+
+    /**
+     * Attachment
+     */
+    public static final QuestionnaireItemType ATTACHMENT = QuestionnaireItemType.of(ValueSet.ATTACHMENT);
+
+    /**
+     * Reference
+     */
+    public static final QuestionnaireItemType REFERENCE = QuestionnaireItemType.of(ValueSet.REFERENCE);
+
+    /**
+     * Quantity
+     */
+    public static final QuestionnaireItemType QUANTITY = QuestionnaireItemType.of(ValueSet.QUANTITY);
+
     private QuestionnaireItemType(Builder builder) {
         super(builder);
     }
@@ -97,7 +167,77 @@ public class QuestionnaireItemType extends Code {
         /**
          * Question
          */
-        QUESTION("question");
+        QUESTION("question"),
+
+        /**
+         * Boolean
+         */
+        BOOLEAN("boolean"),
+
+        /**
+         * Decimal
+         */
+        DECIMAL("decimal"),
+
+        /**
+         * Integer
+         */
+        INTEGER("integer"),
+
+        /**
+         * Date
+         */
+        DATE("date"),
+
+        /**
+         * Date Time
+         */
+        DATE_TIME("dateTime"),
+
+        /**
+         * Time
+         */
+        TIME("time"),
+
+        /**
+         * String
+         */
+        STRING("string"),
+
+        /**
+         * Text
+         */
+        TEXT("text"),
+
+        /**
+         * Url
+         */
+        URL("url"),
+
+        /**
+         * Choice
+         */
+        CHOICE("choice"),
+
+        /**
+         * Open Choice
+         */
+        OPEN_CHOICE("open-choice"),
+
+        /**
+         * Attachment
+         */
+        ATTACHMENT("attachment"),
+
+        /**
+         * Reference
+         */
+        REFERENCE("reference"),
+
+        /**
+         * Quantity
+         */
+        QUANTITY("quantity");
 
         private final java.lang.String value;
 

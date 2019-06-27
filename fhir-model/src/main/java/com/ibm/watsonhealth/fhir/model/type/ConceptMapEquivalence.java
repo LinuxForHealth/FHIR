@@ -15,9 +15,49 @@ public class ConceptMapEquivalence extends Code {
     public static final ConceptMapEquivalence RELATEDTO = ConceptMapEquivalence.of(ValueSet.RELATEDTO);
 
     /**
+     * Equivalent
+     */
+    public static final ConceptMapEquivalence EQUIVALENT = ConceptMapEquivalence.of(ValueSet.EQUIVALENT);
+
+    /**
+     * Equal
+     */
+    public static final ConceptMapEquivalence EQUAL = ConceptMapEquivalence.of(ValueSet.EQUAL);
+
+    /**
+     * Wider
+     */
+    public static final ConceptMapEquivalence WIDER = ConceptMapEquivalence.of(ValueSet.WIDER);
+
+    /**
+     * Subsumes
+     */
+    public static final ConceptMapEquivalence SUBSUMES = ConceptMapEquivalence.of(ValueSet.SUBSUMES);
+
+    /**
+     * Narrower
+     */
+    public static final ConceptMapEquivalence NARROWER = ConceptMapEquivalence.of(ValueSet.NARROWER);
+
+    /**
+     * Specializes
+     */
+    public static final ConceptMapEquivalence SPECIALIZES = ConceptMapEquivalence.of(ValueSet.SPECIALIZES);
+
+    /**
+     * Inexact
+     */
+    public static final ConceptMapEquivalence INEXACT = ConceptMapEquivalence.of(ValueSet.INEXACT);
+
+    /**
      * Unmatched
      */
     public static final ConceptMapEquivalence UNMATCHED = ConceptMapEquivalence.of(ValueSet.UNMATCHED);
+
+    /**
+     * Disjoint
+     */
+    public static final ConceptMapEquivalence DISJOINT = ConceptMapEquivalence.of(ValueSet.DISJOINT);
 
     private ConceptMapEquivalence(Builder builder) {
         super(builder);
@@ -85,9 +125,49 @@ public class ConceptMapEquivalence extends Code {
         RELATEDTO("relatedto"),
 
         /**
+         * Equivalent
+         */
+        EQUIVALENT("equivalent"),
+
+        /**
+         * Equal
+         */
+        EQUAL("equal"),
+
+        /**
+         * Wider
+         */
+        WIDER("wider"),
+
+        /**
+         * Subsumes
+         */
+        SUBSUMES("subsumes"),
+
+        /**
+         * Narrower
+         */
+        NARROWER("narrower"),
+
+        /**
+         * Specializes
+         */
+        SPECIALIZES("specializes"),
+
+        /**
+         * Inexact
+         */
+        INEXACT("inexact"),
+
+        /**
          * Unmatched
          */
-        UNMATCHED("unmatched");
+        UNMATCHED("unmatched"),
+
+        /**
+         * Disjoint
+         */
+        DISJOINT("disjoint");
 
         private final java.lang.String value;
 

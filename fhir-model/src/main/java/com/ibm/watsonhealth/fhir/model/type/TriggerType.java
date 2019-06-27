@@ -25,6 +25,21 @@ public class TriggerType extends Code {
     public static final TriggerType DATA_CHANGED = TriggerType.of(ValueSet.DATA_CHANGED);
 
     /**
+     * Data Added
+     */
+    public static final TriggerType DATA_ADDED = TriggerType.of(ValueSet.DATA_ADDED);
+
+    /**
+     * Data Updated
+     */
+    public static final TriggerType DATA_MODIFIED = TriggerType.of(ValueSet.DATA_MODIFIED);
+
+    /**
+     * Data Removed
+     */
+    public static final TriggerType DATA_REMOVED = TriggerType.of(ValueSet.DATA_REMOVED);
+
+    /**
      * Data Accessed
      */
     public static final TriggerType DATA_ACCESSED = TriggerType.of(ValueSet.DATA_ACCESSED);
@@ -108,6 +123,21 @@ public class TriggerType extends Code {
          * Data Changed
          */
         DATA_CHANGED("data-changed"),
+
+        /**
+         * Data Added
+         */
+        DATA_ADDED("data-added"),
+
+        /**
+         * Data Updated
+         */
+        DATA_MODIFIED("data-modified"),
+
+        /**
+         * Data Removed
+         */
+        DATA_REMOVED("data-removed"),
 
         /**
          * Data Accessed

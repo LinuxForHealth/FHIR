@@ -30,6 +30,26 @@ public class RequestIntent extends Code {
     public static final RequestIntent ORDER = RequestIntent.of(ValueSet.ORDER);
 
     /**
+     * Original Order
+     */
+    public static final RequestIntent ORIGINAL_ORDER = RequestIntent.of(ValueSet.ORIGINAL_ORDER);
+
+    /**
+     * Reflex Order
+     */
+    public static final RequestIntent REFLEX_ORDER = RequestIntent.of(ValueSet.REFLEX_ORDER);
+
+    /**
+     * Filler Order
+     */
+    public static final RequestIntent FILLER_ORDER = RequestIntent.of(ValueSet.FILLER_ORDER);
+
+    /**
+     * Instance Order
+     */
+    public static final RequestIntent INSTANCE_ORDER = RequestIntent.of(ValueSet.INSTANCE_ORDER);
+
+    /**
      * Option
      */
     public static final RequestIntent OPTION = RequestIntent.of(ValueSet.OPTION);
@@ -113,6 +133,26 @@ public class RequestIntent extends Code {
          * Order
          */
         ORDER("order"),
+
+        /**
+         * Original Order
+         */
+        ORIGINAL_ORDER("original-order"),
+
+        /**
+         * Reflex Order
+         */
+        REFLEX_ORDER("reflex-order"),
+
+        /**
+         * Filler Order
+         */
+        FILLER_ORDER("filler-order"),
+
+        /**
+         * Instance Order
+         */
+        INSTANCE_ORDER("instance-order"),
 
         /**
          * Option

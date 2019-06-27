@@ -40,6 +40,11 @@ public class CarePlanActivityStatus extends Code {
     public static final CarePlanActivityStatus CANCELLED = CarePlanActivityStatus.of(ValueSet.CANCELLED);
 
     /**
+     * Stopped
+     */
+    public static final CarePlanActivityStatus STOPPED = CarePlanActivityStatus.of(ValueSet.STOPPED);
+
+    /**
      * Unknown
      */
     public static final CarePlanActivityStatus UNKNOWN = CarePlanActivityStatus.of(ValueSet.UNKNOWN);
@@ -138,6 +143,11 @@ public class CarePlanActivityStatus extends Code {
          * Cancelled
          */
         CANCELLED("cancelled"),
+
+        /**
+         * Stopped
+         */
+        STOPPED("stopped"),
 
         /**
          * Unknown

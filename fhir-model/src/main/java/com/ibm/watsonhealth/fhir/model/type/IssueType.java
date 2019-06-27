@@ -15,9 +15,54 @@ public class IssueType extends Code {
     public static final IssueType INVALID = IssueType.of(ValueSet.INVALID);
 
     /**
+     * Structural Issue
+     */
+    public static final IssueType STRUCTURE = IssueType.of(ValueSet.STRUCTURE);
+
+    /**
+     * Required element missing
+     */
+    public static final IssueType REQUIRED = IssueType.of(ValueSet.REQUIRED);
+
+    /**
+     * Element value invalid
+     */
+    public static final IssueType VALUE = IssueType.of(ValueSet.VALUE);
+
+    /**
+     * Validation rule failed
+     */
+    public static final IssueType INVARIANT = IssueType.of(ValueSet.INVARIANT);
+
+    /**
      * Security Problem
      */
     public static final IssueType SECURITY = IssueType.of(ValueSet.SECURITY);
+
+    /**
+     * Login Required
+     */
+    public static final IssueType LOGIN = IssueType.of(ValueSet.LOGIN);
+
+    /**
+     * Unknown User
+     */
+    public static final IssueType UNKNOWN = IssueType.of(ValueSet.UNKNOWN);
+
+    /**
+     * Session Expired
+     */
+    public static final IssueType EXPIRED = IssueType.of(ValueSet.EXPIRED);
+
+    /**
+     * Forbidden
+     */
+    public static final IssueType FORBIDDEN = IssueType.of(ValueSet.FORBIDDEN);
+
+    /**
+     * Information  Suppressed
+     */
+    public static final IssueType SUPPRESSED = IssueType.of(ValueSet.SUPPRESSED);
 
     /**
      * Processing Failure
@@ -25,9 +70,94 @@ public class IssueType extends Code {
     public static final IssueType PROCESSING = IssueType.of(ValueSet.PROCESSING);
 
     /**
+     * Content not supported
+     */
+    public static final IssueType NOT_SUPPORTED = IssueType.of(ValueSet.NOT_SUPPORTED);
+
+    /**
+     * Duplicate
+     */
+    public static final IssueType DUPLICATE = IssueType.of(ValueSet.DUPLICATE);
+
+    /**
+     * Multiple Matches
+     */
+    public static final IssueType MULTIPLE_MATCHES = IssueType.of(ValueSet.MULTIPLE_MATCHES);
+
+    /**
+     * Not Found
+     */
+    public static final IssueType NOT_FOUND = IssueType.of(ValueSet.NOT_FOUND);
+
+    /**
+     * Deleted
+     */
+    public static final IssueType DELETED = IssueType.of(ValueSet.DELETED);
+
+    /**
+     * Content Too Long
+     */
+    public static final IssueType TOO_LONG = IssueType.of(ValueSet.TOO_LONG);
+
+    /**
+     * Invalid Code
+     */
+    public static final IssueType CODE_INVALID = IssueType.of(ValueSet.CODE_INVALID);
+
+    /**
+     * Unacceptable Extension
+     */
+    public static final IssueType EXTENSION = IssueType.of(ValueSet.EXTENSION);
+
+    /**
+     * Operation Too Costly
+     */
+    public static final IssueType TOO_COSTLY = IssueType.of(ValueSet.TOO_COSTLY);
+
+    /**
+     * Business Rule Violation
+     */
+    public static final IssueType BUSINESS_RULE = IssueType.of(ValueSet.BUSINESS_RULE);
+
+    /**
+     * Edit Version Conflict
+     */
+    public static final IssueType CONFLICT = IssueType.of(ValueSet.CONFLICT);
+
+    /**
      * Transient Issue
      */
     public static final IssueType TRANSIENT = IssueType.of(ValueSet.TRANSIENT);
+
+    /**
+     * Lock Error
+     */
+    public static final IssueType LOCK_ERROR = IssueType.of(ValueSet.LOCK_ERROR);
+
+    /**
+     * No Store Available
+     */
+    public static final IssueType NO_STORE = IssueType.of(ValueSet.NO_STORE);
+
+    /**
+     * Exception
+     */
+    public static final IssueType EXCEPTION = IssueType.of(ValueSet.EXCEPTION);
+
+    /**
+     * Timeout
+     */
+    public static final IssueType TIMEOUT = IssueType.of(ValueSet.TIMEOUT);
+
+    /**
+     * Incomplete Results
+     */
+    public static final IssueType INCOMPLETE = IssueType.of(ValueSet.INCOMPLETE);
+
+    /**
+     * Throttled
+     */
+    public static final IssueType THROTTLED = IssueType.of(ValueSet.THROTTLED);
 
     /**
      * Informational Note
@@ -100,9 +230,54 @@ public class IssueType extends Code {
         INVALID("invalid"),
 
         /**
+         * Structural Issue
+         */
+        STRUCTURE("structure"),
+
+        /**
+         * Required element missing
+         */
+        REQUIRED("required"),
+
+        /**
+         * Element value invalid
+         */
+        VALUE("value"),
+
+        /**
+         * Validation rule failed
+         */
+        INVARIANT("invariant"),
+
+        /**
          * Security Problem
          */
         SECURITY("security"),
+
+        /**
+         * Login Required
+         */
+        LOGIN("login"),
+
+        /**
+         * Unknown User
+         */
+        UNKNOWN("unknown"),
+
+        /**
+         * Session Expired
+         */
+        EXPIRED("expired"),
+
+        /**
+         * Forbidden
+         */
+        FORBIDDEN("forbidden"),
+
+        /**
+         * Information  Suppressed
+         */
+        SUPPRESSED("suppressed"),
 
         /**
          * Processing Failure
@@ -110,9 +285,94 @@ public class IssueType extends Code {
         PROCESSING("processing"),
 
         /**
+         * Content not supported
+         */
+        NOT_SUPPORTED("not-supported"),
+
+        /**
+         * Duplicate
+         */
+        DUPLICATE("duplicate"),
+
+        /**
+         * Multiple Matches
+         */
+        MULTIPLE_MATCHES("multiple-matches"),
+
+        /**
+         * Not Found
+         */
+        NOT_FOUND("not-found"),
+
+        /**
+         * Deleted
+         */
+        DELETED("deleted"),
+
+        /**
+         * Content Too Long
+         */
+        TOO_LONG("too-long"),
+
+        /**
+         * Invalid Code
+         */
+        CODE_INVALID("code-invalid"),
+
+        /**
+         * Unacceptable Extension
+         */
+        EXTENSION("extension"),
+
+        /**
+         * Operation Too Costly
+         */
+        TOO_COSTLY("too-costly"),
+
+        /**
+         * Business Rule Violation
+         */
+        BUSINESS_RULE("business-rule"),
+
+        /**
+         * Edit Version Conflict
+         */
+        CONFLICT("conflict"),
+
+        /**
          * Transient Issue
          */
         TRANSIENT("transient"),
+
+        /**
+         * Lock Error
+         */
+        LOCK_ERROR("lock-error"),
+
+        /**
+         * No Store Available
+         */
+        NO_STORE("no-store"),
+
+        /**
+         * Exception
+         */
+        EXCEPTION("exception"),
+
+        /**
+         * Timeout
+         */
+        TIMEOUT("timeout"),
+
+        /**
+         * Incomplete Results
+         */
+        INCOMPLETE("incomplete"),
+
+        /**
+         * Throttled
+         */
+        THROTTLED("throttled"),
 
         /**
          * Informational Note

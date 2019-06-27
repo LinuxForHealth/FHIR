@@ -30,6 +30,11 @@ public class RiskAssessmentStatus extends Code {
     public static final RiskAssessmentStatus AMENDED = RiskAssessmentStatus.of(ValueSet.AMENDED);
 
     /**
+     * Corrected
+     */
+    public static final RiskAssessmentStatus CORRECTED = RiskAssessmentStatus.of(ValueSet.CORRECTED);
+
+    /**
      * Cancelled
      */
     public static final RiskAssessmentStatus CANCELLED = RiskAssessmentStatus.of(ValueSet.CANCELLED);
@@ -123,6 +128,11 @@ public class RiskAssessmentStatus extends Code {
          * Amended
          */
         AMENDED("amended"),
+
+        /**
+         * Corrected
+         */
+        CORRECTED("corrected"),
 
         /**
          * Cancelled

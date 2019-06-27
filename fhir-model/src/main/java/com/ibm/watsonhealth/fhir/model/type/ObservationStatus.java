@@ -30,6 +30,11 @@ public class ObservationStatus extends Code {
     public static final ObservationStatus AMENDED = ObservationStatus.of(ValueSet.AMENDED);
 
     /**
+     * Corrected
+     */
+    public static final ObservationStatus CORRECTED = ObservationStatus.of(ValueSet.CORRECTED);
+
+    /**
      * Cancelled
      */
     public static final ObservationStatus CANCELLED = ObservationStatus.of(ValueSet.CANCELLED);
@@ -123,6 +128,11 @@ public class ObservationStatus extends Code {
          * Amended
          */
         AMENDED("amended"),
+
+        /**
+         * Corrected
+         */
+        CORRECTED("corrected"),
 
         /**
          * Cancelled

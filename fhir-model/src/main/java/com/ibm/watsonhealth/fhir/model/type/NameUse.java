@@ -39,6 +39,11 @@ public class NameUse extends Code {
      */
     public static final NameUse OLD = NameUse.of(ValueSet.OLD);
 
+    /**
+     * Name changed for Marriage
+     */
+    public static final NameUse MAIDEN = NameUse.of(ValueSet.MAIDEN);
+
     private NameUse(Builder builder) {
         super(builder);
     }
@@ -127,7 +132,12 @@ public class NameUse extends Code {
         /**
          * Old
          */
-        OLD("old");
+        OLD("old"),
+
+        /**
+         * Name changed for Marriage
+         */
+        MAIDEN("maiden");
 
         private final java.lang.String value;
 

@@ -2220,17 +2220,25 @@ public class CodeGenerator {
         JsonObject compose = valueSet.getJsonObject("compose");
         for (JsonValue include : compose.getJsonArray("include")) {
             if (include.asJsonObject().containsKey("concept")) {
-                for (JsonValue concept : include.asJsonObject().getJsonArray("concept")) {
-                    concepts.add(concept.asJsonObject());
-                }
+                concepts.addAll(getConcepts(include.asJsonObject().getJsonArray("concept")));
             } else {
                 String system = include.asJsonObject().getString("system");
                 JsonObject codeSystem = codeSystemMap.get(system);
                 if (codeSystem != null) {
-                    for (JsonValue concept : codeSystem.getJsonArray("concept")) {
-                        concepts.add(concept.asJsonObject());
-                    }
+                    concepts.addAll(getConcepts(codeSystem.getJsonArray(("concept"))));
                 }
+            }
+        }
+        return concepts;
+    }
+    
+    private List<JsonObject> getConcepts(JsonArray conceptArray) {
+        List<JsonObject> concepts = new ArrayList<>();
+        for (JsonValue jsonValue : conceptArray) {
+            JsonObject concept = (JsonObject) jsonValue;
+            concepts.add(concept);
+            if (concept.containsKey("concept")) {
+                concepts.addAll(getConcepts(concept.getJsonArray("concept")));
             }
         }
         return concepts;

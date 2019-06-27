@@ -14,6 +14,26 @@ public class ProvenanceEntityRole extends Code {
      */
     public static final ProvenanceEntityRole DERIVATION = ProvenanceEntityRole.of(ValueSet.DERIVATION);
 
+    /**
+     * Revision
+     */
+    public static final ProvenanceEntityRole REVISION = ProvenanceEntityRole.of(ValueSet.REVISION);
+
+    /**
+     * Quotation
+     */
+    public static final ProvenanceEntityRole QUOTATION = ProvenanceEntityRole.of(ValueSet.QUOTATION);
+
+    /**
+     * Source
+     */
+    public static final ProvenanceEntityRole SOURCE = ProvenanceEntityRole.of(ValueSet.SOURCE);
+
+    /**
+     * Removal
+     */
+    public static final ProvenanceEntityRole REMOVAL = ProvenanceEntityRole.of(ValueSet.REMOVAL);
+
     private ProvenanceEntityRole(Builder builder) {
         super(builder);
     }
@@ -77,7 +97,27 @@ public class ProvenanceEntityRole extends Code {
         /**
          * Derivation
          */
-        DERIVATION("derivation");
+        DERIVATION("derivation"),
+
+        /**
+         * Revision
+         */
+        REVISION("revision"),
+
+        /**
+         * Quotation
+         */
+        QUOTATION("quotation"),
+
+        /**
+         * Source
+         */
+        SOURCE("source"),
+
+        /**
+         * Removal
+         */
+        REMOVAL("removal");
 
         private final java.lang.String value;
 

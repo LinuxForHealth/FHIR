@@ -25,6 +25,21 @@ public class GoalLifecycleStatus extends Code {
     public static final GoalLifecycleStatus ACCEPTED = GoalLifecycleStatus.of(ValueSet.ACCEPTED);
 
     /**
+     * Active
+     */
+    public static final GoalLifecycleStatus ACTIVE = GoalLifecycleStatus.of(ValueSet.ACTIVE);
+
+    /**
+     * On Hold
+     */
+    public static final GoalLifecycleStatus ON_HOLD = GoalLifecycleStatus.of(ValueSet.ON_HOLD);
+
+    /**
+     * Completed
+     */
+    public static final GoalLifecycleStatus COMPLETED = GoalLifecycleStatus.of(ValueSet.COMPLETED);
+
+    /**
      * Cancelled
      */
     public static final GoalLifecycleStatus CANCELLED = GoalLifecycleStatus.of(ValueSet.CANCELLED);
@@ -113,6 +128,21 @@ public class GoalLifecycleStatus extends Code {
          * Accepted
          */
         ACCEPTED("accepted"),
+
+        /**
+         * Active
+         */
+        ACTIVE("active"),
+
+        /**
+         * On Hold
+         */
+        ON_HOLD("on-hold"),
+
+        /**
+         * Completed
+         */
+        COMPLETED("completed"),
 
         /**
          * Cancelled

@@ -30,6 +30,26 @@ public class ServiceRequestIntent extends Code {
     public static final ServiceRequestIntent ORDER = ServiceRequestIntent.of(ValueSet.ORDER);
 
     /**
+     * Original Order
+     */
+    public static final ServiceRequestIntent ORIGINAL_ORDER = ServiceRequestIntent.of(ValueSet.ORIGINAL_ORDER);
+
+    /**
+     * Reflex Order
+     */
+    public static final ServiceRequestIntent REFLEX_ORDER = ServiceRequestIntent.of(ValueSet.REFLEX_ORDER);
+
+    /**
+     * Filler Order
+     */
+    public static final ServiceRequestIntent FILLER_ORDER = ServiceRequestIntent.of(ValueSet.FILLER_ORDER);
+
+    /**
+     * Instance Order
+     */
+    public static final ServiceRequestIntent INSTANCE_ORDER = ServiceRequestIntent.of(ValueSet.INSTANCE_ORDER);
+
+    /**
      * Option
      */
     public static final ServiceRequestIntent OPTION = ServiceRequestIntent.of(ValueSet.OPTION);
@@ -113,6 +133,26 @@ public class ServiceRequestIntent extends Code {
          * Order
          */
         ORDER("order"),
+
+        /**
+         * Original Order
+         */
+        ORIGINAL_ORDER("original-order"),
+
+        /**
+         * Reflex Order
+         */
+        REFLEX_ORDER("reflex-order"),
+
+        /**
+         * Filler Order
+         */
+        FILLER_ORDER("filler-order"),
+
+        /**
+         * Instance Order
+         */
+        INSTANCE_ORDER("instance-order"),
 
         /**
          * Option

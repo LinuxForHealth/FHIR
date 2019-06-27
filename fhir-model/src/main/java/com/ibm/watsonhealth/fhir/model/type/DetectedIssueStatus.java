@@ -30,6 +30,11 @@ public class DetectedIssueStatus extends Code {
     public static final DetectedIssueStatus AMENDED = DetectedIssueStatus.of(ValueSet.AMENDED);
 
     /**
+     * Corrected
+     */
+    public static final DetectedIssueStatus CORRECTED = DetectedIssueStatus.of(ValueSet.CORRECTED);
+
+    /**
      * Cancelled
      */
     public static final DetectedIssueStatus CANCELLED = DetectedIssueStatus.of(ValueSet.CANCELLED);
@@ -123,6 +128,11 @@ public class DetectedIssueStatus extends Code {
          * Amended
          */
         AMENDED("amended"),
+
+        /**
+         * Corrected
+         */
+        CORRECTED("corrected"),
 
         /**
          * Cancelled

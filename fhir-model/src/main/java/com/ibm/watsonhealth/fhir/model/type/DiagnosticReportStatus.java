@@ -20,6 +20,11 @@ public class DiagnosticReportStatus extends Code {
     public static final DiagnosticReportStatus PARTIAL = DiagnosticReportStatus.of(ValueSet.PARTIAL);
 
     /**
+     * Preliminary
+     */
+    public static final DiagnosticReportStatus PRELIMINARY = DiagnosticReportStatus.of(ValueSet.PRELIMINARY);
+
+    /**
      * Final
      */
     public static final DiagnosticReportStatus FINAL = DiagnosticReportStatus.of(ValueSet.FINAL);
@@ -28,6 +33,16 @@ public class DiagnosticReportStatus extends Code {
      * Amended
      */
     public static final DiagnosticReportStatus AMENDED = DiagnosticReportStatus.of(ValueSet.AMENDED);
+
+    /**
+     * Corrected
+     */
+    public static final DiagnosticReportStatus CORRECTED = DiagnosticReportStatus.of(ValueSet.CORRECTED);
+
+    /**
+     * Appended
+     */
+    public static final DiagnosticReportStatus APPENDED = DiagnosticReportStatus.of(ValueSet.APPENDED);
 
     /**
      * Cancelled
@@ -115,6 +130,11 @@ public class DiagnosticReportStatus extends Code {
         PARTIAL("partial"),
 
         /**
+         * Preliminary
+         */
+        PRELIMINARY("preliminary"),
+
+        /**
          * Final
          */
         FINAL("final"),
@@ -123,6 +143,16 @@ public class DiagnosticReportStatus extends Code {
          * Amended
          */
         AMENDED("amended"),
+
+        /**
+         * Corrected
+         */
+        CORRECTED("corrected"),
+
+        /**
+         * Appended
+         */
+        APPENDED("appended"),
 
         /**
          * Cancelled

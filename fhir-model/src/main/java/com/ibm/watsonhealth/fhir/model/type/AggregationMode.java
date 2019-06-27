@@ -19,6 +19,11 @@ public class AggregationMode extends Code {
      */
     public static final AggregationMode REFERENCED = AggregationMode.of(ValueSet.REFERENCED);
 
+    /**
+     * Bundled
+     */
+    public static final AggregationMode BUNDLED = AggregationMode.of(ValueSet.BUNDLED);
+
     private AggregationMode(Builder builder) {
         super(builder);
     }
@@ -87,7 +92,12 @@ public class AggregationMode extends Code {
         /**
          * Referenced
          */
-        REFERENCED("referenced");
+        REFERENCED("referenced"),
+
+        /**
+         * Bundled
+         */
+        BUNDLED("bundled");
 
         private final java.lang.String value;
 
