@@ -10,9 +10,11 @@ import java.io.FilterInputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,13 +33,10 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.NarrativeStatusList;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
@@ -53,7 +52,6 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     @Context
     private HttpHeaders requestHeaders;
     private RuntimeType runtimeType = null;
-    private ObjectFactory objectFactory = new ObjectFactory();
 
     public FHIRProvider() {
         // default to client runtime type
@@ -63,6 +61,8 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     public FHIRProvider(RuntimeType runtimeType) {
         this.runtimeType = runtimeType;
     }
+    
+  
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -79,18 +79,17 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
-            return FHIRUtil.read(type, getFormat(mediaType), new FilterInputStream(entityStream) {
+            return FHIRUtil.read(type, getFormat(mediaType), new InputStreamReader(new FilterInputStream(entityStream) {
                 @Override
                 public void close() {
                     // do nothing
                 }
-            }, isLenient(), isValidating());
+            }));
         } catch (Exception e) {
             Response response = buildResponse(
-                buildOperationOutcome(
-                    createIssue(IssueSeverityList.ERROR, IssueTypeList.INVALID, "FHIRProvider: " + e.getMessage())
-                )
-            );
+            		FHIRUtil.buildOperationOutcome(Arrays.asList(
+                		FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), null)
+            )));
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
             throw new WebApplicationException(response);
         } finally {
@@ -123,10 +122,9 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             }, isPretty(requestHeaders));
         } catch (Exception e) {
             Response response = buildResponse(
-                buildOperationOutcome(
-                    createIssue(IssueSeverityList.FATAL, IssueTypeList.EXCEPTION, "FHIRProvider: an error occurred during resource serialization")
-                )
-            );
+            		FHIRUtil.buildOperationOutcome(Arrays.asList(
+                		FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.PROCESSING, "FHIRProvider: an error occurred during resource serialization",null)
+            )));
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             throw new WebApplicationException(response);
         } finally {
@@ -185,20 +183,4 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         return response;
     }
     
-    private OperationOutcome buildOperationOutcome(OperationOutcomeIssue... issues) {
-        OperationOutcome outcome = objectFactory.createOperationOutcome()
-                .withId(objectFactory.createId().withValue("providerfail"))
-                .withText(objectFactory.createNarrative()
-                    .withStatus(objectFactory.createNarrativeStatus().withValue(NarrativeStatusList.GENERATED)))
-                .withIssue(issues);
-        return outcome;
-    }
-    
-    private OperationOutcomeIssue createIssue(IssueSeverityList severity, IssueTypeList code, String diagnostics) {
-        OperationOutcomeIssue issue = objectFactory.createOperationOutcomeIssue()
-            .withSeverity(objectFactory.createIssueSeverity().withValue(severity))
-            .withCode(objectFactory.createIssueType().withValue(code))
-            .withDiagnostics(objectFactory.createString().withValue(diagnostics));
-        return issue;
-    }
 }
