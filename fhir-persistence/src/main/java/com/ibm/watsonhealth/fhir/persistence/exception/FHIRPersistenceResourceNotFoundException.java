@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.resource.IssueType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class FHIRPersistenceResourceNotFoundException extends FHIRPersistenceException {

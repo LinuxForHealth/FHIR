@@ -14,10 +14,10 @@ import java.util.logging.Logger;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Coding;
-import com.ibm.watsonhealth.fhir.model.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -141,6 +141,7 @@ public class FHIRPersistenceUtil {
      */
     public static Resource createDeletedResourceMarker(Resource deletedResource) {
         try {
+        	// TODO use Builder
             Resource deletedResourceMarker = FHIRUtil.createResource(deletedResource.getClass());
             deletedResourceMarker.setId(deletedResource.getId());
             deletedResourceMarker.setMeta(objectFactory.createMeta());

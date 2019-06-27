@@ -18,11 +18,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
-import com.ibm.watsonhealth.fhir.model.Basic;
-import com.ibm.watsonhealth.fhir.model.Composition;
-import com.ibm.watsonhealth.fhir.model.CompositionStatusList;
-import com.ibm.watsonhealth.fhir.model.Reference;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Basic;
+import com.ibm.watsonhealth.fhir.model.resource.Composition;
+// import com.ibm.watsonhealth.fhir.model.resource.CompositionStatusList;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest;

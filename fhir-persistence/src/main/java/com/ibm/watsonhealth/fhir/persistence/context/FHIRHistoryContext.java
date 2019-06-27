@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
-import com.ibm.watsonhealth.fhir.model.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
 
 public interface FHIRHistoryContext extends FHIRPagingContext {
     

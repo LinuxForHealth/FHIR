@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.Location;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Location;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.search.Parameter;

@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.util;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 

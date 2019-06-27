@@ -11,11 +11,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 
-import com.ibm.watsonhealth.fhir.model.Duration;
-import com.ibm.watsonhealth.fhir.model.Element;
-import com.ibm.watsonhealth.fhir.model.Extension;
-import com.ibm.watsonhealth.fhir.model.Quantity;
-import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.type.Duration;
+import com.ibm.watsonhealth.fhir.model.type.Element;
+import com.ibm.watsonhealth.fhir.model.type.Extension;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
 public abstract class AbstractProcessor<T> implements Processor<T> {

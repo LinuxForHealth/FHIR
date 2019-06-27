@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.interceptor;
 
 import java.util.Collection;
 
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 public class FHIRPersistenceInterceptorException extends FHIRPersistenceException {
@@ -23,13 +23,13 @@ public class FHIRPersistenceInterceptorException extends FHIRPersistenceExceptio
     }
 
     @Override
-    public FHIRPersistenceInterceptorException withIssue(OperationOutcomeIssue... issues) {
+    public FHIRPersistenceInterceptorException withIssue(OperationOutcome.Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIRPersistenceInterceptorException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIRPersistenceInterceptorException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);
         return this;
     }

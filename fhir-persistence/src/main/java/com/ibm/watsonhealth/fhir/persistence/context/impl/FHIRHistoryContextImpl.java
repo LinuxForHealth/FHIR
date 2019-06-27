@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.core.context.impl.FHIRPagingContextImpl;
-import com.ibm.watsonhealth.fhir.model.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 
 public class FHIRHistoryContextImpl extends FHIRPagingContextImpl implements FHIRHistoryContext {

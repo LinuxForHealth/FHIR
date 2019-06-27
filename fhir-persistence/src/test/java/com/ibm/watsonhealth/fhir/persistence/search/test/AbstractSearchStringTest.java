@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.search.test;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Basic;
+import com.ibm.watsonhealth.fhir.model.resource.Basic;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 /**
