@@ -183,8 +183,6 @@ public class CodeGenerator {
                 return "parseChoiceElement(" + quote(elementName) + ", jsonObject, " + choiceTypeNames + ")";
             } else if (isJavaString(fieldType)) {
                 return "parseJavaString(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonString.class), -1)";
-            } else if (isElement(fieldType)) {
-                return "parseElement(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonString.class), -1)";
             } else {
                 return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
             }
@@ -301,8 +299,8 @@ public class CodeGenerator {
         cb.override();
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Boolean value")).end().newLine();
 
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value")).end().newLine();
+//      cb.override();
+//      cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value")).end().newLine();
 
         cb.override();
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Integer value")).end().newLine();
@@ -813,6 +811,10 @@ public class CodeGenerator {
                 }
             }
             
+            if ("Narrative".equals(structureDefinition.getString("name"))) {
+                cb.invoke("ValidationSupport", "checkXHTMLContent", args("div"));
+            }
+            
             if (isDate(structureDefinition)) {
                 cb.invoke("ValidationSupport", "checkValueType", args("value", "LocalDate.class", "YearMonth.class", "Year.class"));
             }
@@ -1060,8 +1062,8 @@ public class CodeGenerator {
         cb.override();
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Boolean value")).invoke("collect", args("value")).end().newLine();
 
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value")).invoke("collect", args("value")).end().newLine();
+//      cb.override();
+//      cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value")).invoke("collect", args("value")).end().newLine();
 
         cb.override();
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Integer value")).invoke("collect", args("value")).end().newLine();
@@ -1423,7 +1425,6 @@ public class CodeGenerator {
         cb._import("com.ibm.watsonhealth.fhir.model.type.Boolean");
         cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
         cb._import("com.ibm.watsonhealth.fhir.model.type.String");
-        cb._import("com.ibm.watsonhealth.fhir.model.type.adapter.DivAdapter");
         
         /*
         Collections.sort(typeClassNames);
@@ -1437,7 +1438,6 @@ public class CodeGenerator {
         
         cb._class(mods("public"), "FHIRJsonParser");
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false").newLine();
-        cb.field(mods("protected", "static", "final"), "DivAdapter", "DIV_ADAPTER", _new("DivAdapter"));
         cb.field(mods("protected", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
         cb.field(mods("protected"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
         
@@ -1576,21 +1576,6 @@ public class CodeGenerator {
             ._return("javaString")
         .end().newLine();
         
-        cb.method(mods("protected"), "org.w3c.dom.Element", "parseElement", params("java.lang.String elementName", "JsonString jsonString", "int elementIndex"))
-            ._if("jsonString == null")
-                ._return("null")
-            ._end()
-            .invoke("stackPush", args("elementName", "elementIndex"))
-            .assign("org.w3c.dom.Element element", "null")
-            ._try()
-                .assign("element", "DIV_ADAPTER.unmarshal(jsonString.getString())")
-            ._catch("Exception e")
-                ._throw("new IllegalArgumentException(\"Unable to parse XHTML content in narrative\")")
-            ._end()
-            .invoke("stackPop", args())
-            ._return("element")
-        .end().newLine();
-        
         cb.method(mods("protected"), "void", "checkForUnrecognizedElements", args("java.lang.String typeName", "JsonObject jsonObject"))
             .assign("Set<java.lang.String> elementNames", "JsonSupport.getElementNames(typeName)")
             ._foreach("java.lang.String key", "jsonObject.keySet()")
@@ -1614,21 +1599,6 @@ public class CodeGenerator {
             ._return("resourceTypeString.getString()")
         .end();
         
-        /*
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        for (String generatedClassName : generatedClassNames) {
-            if (isPrimitiveType(generatedClassName)) {
-                continue;
-            }
-            JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-            List<String> elementNames = getElementNames(generatedClassName);
-            for (String elementName : elementNames) {
-                jsonArrayBuilder.add(elementName);
-            }
-            jsonObjectBuilder.add(generatedClassName, jsonArrayBuilder);
-        }
-        */
-        
         JsonObject jsonSupport = buildJsonSupportObject();
 
         cb._end();
@@ -1641,7 +1611,6 @@ public class CodeGenerator {
         
         try (FileWriter writer = new FileWriter(file); JsonWriter jsonWriter = jsonWriterFactory.createWriter(new FileWriter(new File("./src/main/resources/json-support.json")))) {
             writer.write(cb.toString());
-//          jsonWriter.write(jsonObjectBuilder.build());
             jsonWriter.write(jsonSupport);
         } catch (Exception e) {
             throw new Error(e);
@@ -2142,7 +2111,7 @@ public class CodeGenerator {
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "byte[] value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "BigDecimal value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "java.lang.Boolean value"));
-        cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value"));
+//      cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "java.lang.Integer value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "LocalDate value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "LocalTime value"));
@@ -2436,7 +2405,8 @@ public class CodeGenerator {
         }
 
         if ("Narrative.div".equals(path)) {
-            return "org.w3c.dom.Element";
+//          return "org.w3c.dom.Element";
+            return "java.lang.String";
         }
         
         if (path.endsWith("[x]")) {
@@ -2661,10 +2631,6 @@ public class CodeGenerator {
     
     private boolean isDecimal(JsonObject structureDefinition) {
         return "decimal".equals(structureDefinition.getString("name"));
-    }
-    
-    private boolean isElement(String className) {
-        return "org.w3c.dom.Element".equals(className);
     }
     
     private boolean isInstant(JsonObject structureDefinition) {
