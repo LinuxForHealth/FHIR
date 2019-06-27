@@ -3495,10 +3495,6 @@ public abstract class AbstractVisitor implements Visitor {
     }
 
     @Override
-    public void visit(java.lang.String elementName, org.w3c.dom.Element value) {
-    }
-
-    @Override
     public void visit(java.lang.String elementName, java.lang.Integer value) {
     }
 

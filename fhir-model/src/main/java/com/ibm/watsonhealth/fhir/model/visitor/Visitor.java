@@ -717,7 +717,6 @@ public interface Visitor {
     void visit(java.lang.String elementName, byte[] value);
     void visit(java.lang.String elementName, BigDecimal value);
     void visit(java.lang.String elementName, java.lang.Boolean value);
-    void visit(java.lang.String elementName, org.w3c.dom.Element value);
     void visit(java.lang.String elementName, java.lang.Integer value);
     void visit(java.lang.String elementName, LocalDate value);
     void visit(java.lang.String elementName, LocalTime value);

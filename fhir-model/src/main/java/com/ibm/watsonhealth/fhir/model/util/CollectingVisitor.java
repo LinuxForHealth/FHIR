@@ -3520,11 +3520,6 @@ public class CollectingVisitor<T> implements Visitor {
     }
 
     @Override
-    public void visit(java.lang.String elementName, org.w3c.dom.Element value) {
-        collect(value);
-    }
-
-    @Override
     public void visit(java.lang.String elementName, java.lang.Integer value) {
         collect(value);
     }

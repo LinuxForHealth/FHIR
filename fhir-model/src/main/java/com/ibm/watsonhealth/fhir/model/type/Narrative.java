@@ -22,12 +22,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Narrative extends Element {
     private final NarrativeStatus status;
-    private final org.w3c.dom.Element div;
+    private final java.lang.String div;
 
     private Narrative(Builder builder) {
         super(builder);
         this.status = ValidationSupport.requireNonNull(builder.status, "status");
         this.div = ValidationSupport.requireNonNull(builder.div, "div");
+        ValidationSupport.checkXHTMLContent(div);
     }
 
     /**
@@ -49,9 +50,9 @@ public class Narrative extends Element {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link java.lang.String}.
      */
-    public org.w3c.dom.Element getDiv() {
+    public java.lang.String getDiv() {
         return div;
     }
 
@@ -79,16 +80,16 @@ public class Narrative extends Element {
         return builder;
     }
 
-    public static Builder builder(NarrativeStatus status, org.w3c.dom.Element div) {
+    public static Builder builder(NarrativeStatus status, java.lang.String div) {
         return new Builder(status, div);
     }
 
     public static class Builder extends Element.Builder {
         // required
         private final NarrativeStatus status;
-        private final org.w3c.dom.Element div;
+        private final java.lang.String div;
 
-        private Builder(NarrativeStatus status, org.w3c.dom.Element div) {
+        private Builder(NarrativeStatus status, java.lang.String div) {
             super();
             this.status = status;
             this.div = div;

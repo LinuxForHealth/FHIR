@@ -54,12 +54,6 @@ public abstract class AbstractVisitable implements Visitable {
             visitor.visit(elementName, value);
         }
     }
-
-    protected void accept(org.w3c.dom.Element value, java.lang.String elementName, Visitor visitor) {
-        if (value != null) {
-            visitor.visit(elementName, value);
-        }
-    }
     
     protected void accept(java.lang.Integer value, java.lang.String elementName, Visitor visitor) {
         if (value != null) {
