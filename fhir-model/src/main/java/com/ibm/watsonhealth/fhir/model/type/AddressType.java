@@ -20,7 +20,7 @@ public class AddressType extends Code {
     public static final AddressType PHYSICAL = AddressType.of(ValueSet.PHYSICAL);
 
     /**
-     * Postal & Physical
+     * Postal &amp; Physical
      */
     public static final AddressType BOTH = AddressType.of(ValueSet.BOTH);
 
@@ -95,7 +95,7 @@ public class AddressType extends Code {
         PHYSICAL("physical"),
 
         /**
-         * Postal & Physical
+         * Postal &amp; Physical
          */
         BOTH("both");
 

@@ -16109,7 +16109,7 @@ public class FHIRJsonParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("NutritionOrder", jsonObject);
         NutritionOrderStatus status = (NutritionOrderStatus) parseString(NutritionOrderStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        NutritiionOrderIntent intent = (NutritiionOrderIntent) parseString(NutritiionOrderIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
+        NutritionOrderIntent intent = (NutritionOrderIntent) parseString(NutritionOrderIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
         Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
         DateTime dateTime = parseDateTime("dateTime", JsonSupport.getJsonValue(jsonObject, "dateTime", JsonString.class), jsonObject.get("_dateTime"), -1);
         NutritionOrder.Builder builder = NutritionOrder.builder(status, intent, patient, dateTime);

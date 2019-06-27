@@ -1365,7 +1365,7 @@ public class SPDXLicense extends Code {
     public static final SPDXLicense LICENSE_OSL_3_0 = SPDXLicense.of(ValueSet.LICENSE_OSL_3_0);
 
     /**
-     * ODC Public Domain Dedication & License 1.0
+     * ODC Public Domain Dedication &amp; License 1.0
      */
     public static final SPDXLicense LICENSE_PDDL_1_0 = SPDXLicense.of(ValueSet.LICENSE_PDDL_1_0);
 
@@ -3155,7 +3155,7 @@ public class SPDXLicense extends Code {
         LICENSE_OSL_3_0("OSL-3.0"),
 
         /**
-         * ODC Public Domain Dedication & License 1.0
+         * ODC Public Domain Dedication &amp; License 1.0
          */
         LICENSE_PDDL_1_0("PDDL-1.0"),
 

@@ -1962,6 +1962,8 @@ public class CodeGenerator {
                                 
                 if ("messageheader-response-request".equals(bindingName)) {
                     bindingName = "MessageHeaderResponseRequest";
+                } else if ("NutritiionOrderIntent".equals(bindingName)) {
+                    bindingName = "NutritionOrderIntent";
                 }
                 
                 bindingName = titleCase(bindingName);
@@ -2494,6 +2496,8 @@ public class CodeGenerator {
                 fieldType = getBindingName(binding);
                 if ("messageheader-response-request".equals(fieldType)) {
                     fieldType = "MessageHeaderResponseRequest";
+                } else if ("NutritiionOrderIntent".equals(fieldType)) {
+                    fieldType = "NutritionOrderIntent";
                 }
                 fieldType = titleCase(fieldType);
             } else if ("Code".equals(fieldType) && containsBackboneElement(structureDefinition, "code")) {

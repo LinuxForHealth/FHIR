@@ -25,7 +25,7 @@ import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.NutritiionOrderIntent;
+import com.ibm.watsonhealth.fhir.model.type.NutritionOrderIntent;
 import com.ibm.watsonhealth.fhir.model.type.NutritionOrderStatus;
 import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Ratio;
@@ -54,7 +54,7 @@ public class NutritionOrder extends DomainResource {
     private final List<Uri> instantiatesUri;
     private final List<Uri> instantiates;
     private final NutritionOrderStatus status;
-    private final NutritiionOrderIntent intent;
+    private final NutritionOrderIntent intent;
     private final Reference patient;
     private final Reference encounter;
     private final DateTime dateTime;
@@ -158,9 +158,9 @@ public class NutritionOrder extends DomainResource {
      * </p>
      * 
      * @return
-     *     An immutable object of type {@link NutritiionOrderIntent}.
+     *     An immutable object of type {@link NutritionOrderIntent}.
      */
-    public NutritiionOrderIntent getIntent() {
+    public NutritionOrderIntent getIntent() {
         return intent;
     }
 
@@ -369,14 +369,14 @@ public class NutritionOrder extends DomainResource {
         return builder;
     }
 
-    public static Builder builder(NutritionOrderStatus status, NutritiionOrderIntent intent, Reference patient, DateTime dateTime) {
+    public static Builder builder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
         return new Builder(status, intent, patient, dateTime);
     }
 
     public static class Builder extends DomainResource.Builder {
         // required
         private final NutritionOrderStatus status;
-        private final NutritiionOrderIntent intent;
+        private final NutritionOrderIntent intent;
         private final Reference patient;
         private final DateTime dateTime;
 
@@ -395,7 +395,7 @@ public class NutritionOrder extends DomainResource {
         private EnteralFormula enteralFormula;
         private List<Annotation> note = new ArrayList<>();
 
-        private Builder(NutritionOrderStatus status, NutritiionOrderIntent intent, Reference patient, DateTime dateTime) {
+        private Builder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
             super();
             this.status = status;
             this.intent = intent;

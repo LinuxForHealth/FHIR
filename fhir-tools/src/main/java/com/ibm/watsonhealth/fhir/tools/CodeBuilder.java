@@ -115,7 +115,11 @@ public class CodeBuilder {
     }
     
     public CodeBuilder javadoc(String line) {
-        return indent().append(" * ").append(line).newLine();
+        return javadoc(line, true);
+    }
+    
+    public CodeBuilder javadoc(String line, boolean escape) {
+        return indent().append(" * ").append(escape ? escape(line) : line).newLine();
     }
     
     public CodeBuilder javadocParam(String name, String description) {
@@ -159,27 +163,27 @@ public class CodeBuilder {
                 javadocStart();
             }
             if (includeParagraphTags) {
-                javadoc("<p>");
+                javadoc("<p>", false);
             }
             for (String line : lines) {
                 if (line.isEmpty()) {
                     if (lines.indexOf(line) != lines.size() - 1) {
                         // there are more lines
                         if (includeParagraphTags) {
-                            javadoc("</p>");
-                            javadoc("<p>");
+                            javadoc("</p>", false);
+                            javadoc("<p>", false);
                         } else {
                             javadoc("");
                         }
                     }
                 } else {
                     for (String l : wrap(escape(normalizeSpace(line)))) {
-                        javadoc(l);
+                        javadoc(l, false);
                     }
                 }
             }
             if (includeParagraphTags) {
-                javadoc("</p>");
+                javadoc("</p>", false);
             }
             if (end) {
                 javadocEnd();
