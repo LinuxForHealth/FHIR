@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.builder.AbstractBuilder;
 import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
 
@@ -20,6 +21,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
  * Base definition for all elements in a resource.
  * </p>
  */
+@Constraint(
+    key = "ele-1",
+    severity = "error",
+    human = "All FHIR elements must have a @value or children",
+    expression = "hasValue() or (children().count() > id.count())"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public abstract class Element extends AbstractVisitable {
     protected final java.lang.String id;

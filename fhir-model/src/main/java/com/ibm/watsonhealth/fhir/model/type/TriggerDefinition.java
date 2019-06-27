@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.TriggerType;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
@@ -22,6 +23,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * the type element.
  * </p>
  */
+@Constraint(
+    key = "trd-3",
+    severity = "error",
+    human = "A named event requires a name, a periodic event requires timing, and a data event requires data",
+    expression = "(type = 'named-event' implies name.exists()) and (type = 'periodic' implies timing.exists()) and (type.startsWith('data-') implies data.exists())"
+)
+@Constraint(
+    key = "trd-2",
+    severity = "error",
+    human = "A condition only if there is a data requirement",
+    expression = "condition.exists() implies data.exists()"
+)
+@Constraint(
+    key = "trd-1",
+    severity = "error",
+    human = "Either timing, or a data requirement, but not both",
+    expression = "data.empty() or timing.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class TriggerDefinition extends Element {
     private final TriggerType type;

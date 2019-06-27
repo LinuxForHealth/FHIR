@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.ActionCardinalityBehavior;
 import com.ibm.watsonhealth.fhir.model.type.ActionConditionKind;
 import com.ibm.watsonhealth.fhir.model.type.ActionGroupingBehavior;
@@ -61,6 +62,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * decision support rules, order sets and protocols.
  * </p>
  */
+@Constraint(
+    key = "pdf-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class PlanDefinition extends DomainResource {
     private final Uri url;

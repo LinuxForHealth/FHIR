@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -50,6 +51,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * is about.
  * </p>
  */
+@Constraint(
+    key = "red-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ResearchElementDefinition extends DomainResource {
     private final Uri url;

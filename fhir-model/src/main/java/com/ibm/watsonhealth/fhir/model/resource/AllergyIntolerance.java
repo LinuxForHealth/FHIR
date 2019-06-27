@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.AllergyIntoleranceCategory;
 import com.ibm.watsonhealth.fhir.model.type.AllergyIntoleranceCriticality;
@@ -42,6 +43,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * to a substance.
  * </p>
  */
+@Constraint(
+    key = "ait-1",
+    severity = "error",
+    human = "AllergyIntolerance.clinicalStatus SHALL be present if verificationStatus is not entered-in-error.",
+    expression = "verificationStatus='entered-in-error' or clinicalStatus.exists()"
+)
+@Constraint(
+    key = "ait-2",
+    severity = "error",
+    human = "AllergyIntolerance.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
+    expression = "verificationStatus!='entered-in-error' or clinicalStatus.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class AllergyIntolerance extends DomainResource {
     private final List<Identifier> identifier;

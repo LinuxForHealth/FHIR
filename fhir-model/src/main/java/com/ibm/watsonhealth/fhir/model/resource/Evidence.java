@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -40,6 +41,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
  * </p>
  */
+@Constraint(
+    key = "evi-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Evidence extends DomainResource {
     private final Uri url;

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.AggregationMode;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.BindingStrength;
@@ -28,6 +29,90 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Captures constraints on each element within the resource, profile, or extension.
  * </p>
  */
+@Constraint(
+    key = "eld-19",
+    severity = "error",
+    human = "Element names cannot include some special characters",
+    expression = "path.matches('[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*')"
+)
+@Constraint(
+    key = "eld-2",
+    severity = "error",
+    human = "Min <= Max",
+    expression = "min.empty() or max.empty() or (max = '*') or iif(max != '*', min <= max.toInteger())"
+)
+@Constraint(
+    key = "eld-5",
+    severity = "error",
+    human = "if the element definition has a contentReference, it cannot have type, defaultValue, fixed, pattern, example, minValue, maxValue, maxLength, or binding",
+    expression = "contentReference.empty() or (type.empty() and defaultValue.empty() and fixed.empty() and pattern.empty() and example.empty() and minValue.empty() and maxValue.empty() and maxLength.empty() and binding.empty())"
+)
+@Constraint(
+    key = "eld-7",
+    severity = "error",
+    human = "Pattern may only be specified if there is one type",
+    expression = "pattern.empty() or (type.count() <= 1)"
+)
+@Constraint(
+    key = "eld-6",
+    severity = "error",
+    human = "Fixed value may only be specified if there is one type",
+    expression = "fixed.empty() or (type.count()  <= 1)"
+)
+@Constraint(
+    key = "eld-11",
+    severity = "error",
+    human = "Binding can only be present for coded elements, string, and uri",
+    expression = "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()"
+)
+@Constraint(
+    key = "eld-22",
+    severity = "error",
+    human = "sliceIsConstraining can only appear if slicename is present",
+    expression = "sliceIsConstraining.exists() implies sliceName.exists()"
+)
+@Constraint(
+    key = "eld-8",
+    severity = "error",
+    human = "Pattern and value are mutually exclusive",
+    expression = "pattern.empty() or fixed.empty()"
+)
+@Constraint(
+    key = "eld-14",
+    severity = "error",
+    human = "Constraints must be unique by key",
+    expression = "constraint.select(key).isDistinct()"
+)
+@Constraint(
+    key = "eld-13",
+    severity = "error",
+    human = "Types must be unique by code",
+    expression = "type.select(code).isDistinct()"
+)
+@Constraint(
+    key = "eld-16",
+    severity = "error",
+    human = "sliceName must be composed of proper tokens separated by \"/\"",
+    expression = "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')"
+)
+@Constraint(
+    key = "eld-15",
+    severity = "error",
+    human = "default value and meaningWhenMissing are mutually exclusive",
+    expression = "defaultValue.empty() or meaningWhenMissing.empty()"
+)
+@Constraint(
+    key = "eld-18",
+    severity = "error",
+    human = "Must have a modifier reason if isModifier = true",
+    expression = "isModifier implies isModifierReason.exists()"
+)
+@Constraint(
+    key = "eld-20",
+    severity = "warning",
+    human = "Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken",
+    expression = "path.matches('[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ElementDefinition extends BackboneElement {
     private final String path;

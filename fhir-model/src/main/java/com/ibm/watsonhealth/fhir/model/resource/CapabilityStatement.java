@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -55,6 +56,54 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * implementation.
  * </p>
  */
+@Constraint(
+    key = "cpb-7",
+    severity = "error",
+    human = "The set of documents must be unique by the combination of profile and mode.",
+    expression = "document.select(profile&mode).isDistinct()"
+)
+@Constraint(
+    key = "cpb-16",
+    severity = "error",
+    human = "If kind = requirements, implementation and software must be absent",
+    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())"
+)
+@Constraint(
+    key = "cpb-15",
+    severity = "error",
+    human = "If kind = capability, implementation must be absent, software must be present",
+    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())"
+)
+@Constraint(
+    key = "cpb-3",
+    severity = "error",
+    human = "Messaging end-point is required (and is only permitted) when a statement is for an implementation.",
+    expression = "messaging.endpoint.empty() or kind = 'instance'"
+)
+@Constraint(
+    key = "cpb-14",
+    severity = "error",
+    human = "If kind = instance, implementation must be present and software may be present",
+    expression = "(kind != 'instance') or implementation.exists()"
+)
+@Constraint(
+    key = "cpb-2",
+    severity = "error",
+    human = "A Capability Statement SHALL have at least one of description, software, or implementation element.",
+    expression = "(description.count() + software.count() + implementation.count()) > 0"
+)
+@Constraint(
+    key = "cpb-1",
+    severity = "error",
+    human = "A Capability Statement SHALL have at least one of REST, messaging or document element.",
+    expression = "rest.exists() or messaging.exists() or document.exists()"
+)
+@Constraint(
+    key = "cpb-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CapabilityStatement extends DomainResource {
     private final Uri url;

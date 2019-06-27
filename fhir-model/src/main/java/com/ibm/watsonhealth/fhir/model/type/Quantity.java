@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.QuantityComparator;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
@@ -19,6 +20,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * not precisely quantified, including amounts involving arbitrary units and floating currencies.
  * </p>
  */
+@Constraint(
+    key = "qty-3",
+    severity = "error",
+    human = "If a code for the unit is present, the system SHALL also be present",
+    expression = "code.empty() or system.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Quantity extends Element {
     protected final Decimal value;

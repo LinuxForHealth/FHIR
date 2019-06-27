@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
 import com.ibm.watsonhealth.fhir.model.type.Id;
@@ -24,6 +25,36 @@ import com.ibm.watsonhealth.fhir.model.type.Uri;
  * A resource that includes narrative, extensions, and contained resources.
  * </p>
  */
+@Constraint(
+    key = "dom-2",
+    severity = "error",
+    human = "If the resource is contained in another resource, it SHALL NOT contain nested Resources",
+    expression = "contained.contained.empty()"
+)
+@Constraint(
+    key = "dom-4",
+    severity = "error",
+    human = "If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
+    expression = "contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()"
+)
+@Constraint(
+    key = "dom-3",
+    severity = "error",
+    human = "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
+    expression = "contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()"
+)
+@Constraint(
+    key = "dom-6",
+    severity = "warning",
+    human = "A resource should have narrative for robust management",
+    expression = "text.div.exists()"
+)
+@Constraint(
+    key = "dom-5",
+    severity = "error",
+    human = "If a resource is contained in another resource, it SHALL NOT have a security label",
+    expression = "contained.meta.security.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public abstract class DomainResource extends Resource {
     protected final Narrative text;

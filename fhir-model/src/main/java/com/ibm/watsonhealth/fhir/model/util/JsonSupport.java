@@ -21,8 +21,8 @@ import javax.json.JsonValue;
 
 public final class JsonSupport {
     private static final JsonObject JSON_SUPPORT = readJsonSupportObject();
-    private static final Map<String, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap(JSON_SUPPORT);
-    private static final Map<String, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildRequiredElementNameMap(JSON_SUPPORT);
+    private static final Map<String, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap();
+    private static final Map<String, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildRequiredElementNameMap();
     
     private JsonSupport() { }
     
@@ -38,10 +38,10 @@ public final class JsonSupport {
         }
     }
 
-    private static Map<String, Set<String>> buildElementNameMap(JsonObject jsonSupport) {
+    private static Map<String, Set<String>> buildElementNameMap() {
         Map<String, Set<String>> elementNameMap = new LinkedHashMap<>();
-        for (String key : jsonSupport.keySet()) {
-            JsonObject jsonObject = jsonSupport.get(key).asJsonObject();
+        for (String key : JSON_SUPPORT.keySet()) {
+            JsonObject jsonObject = JSON_SUPPORT.get(key).asJsonObject();
             Set<String> elementNames = new LinkedHashSet<>();
             for (JsonValue jsonValue : jsonObject.getJsonArray("elementNames")) {
                 JsonString jsonString = (JsonString) jsonValue;
@@ -52,10 +52,10 @@ public final class JsonSupport {
         return Collections.unmodifiableMap(elementNameMap);
     }
     
-    private static Map<String, Set<String>> buildRequiredElementNameMap(JsonObject jsonSupport) {
+    private static Map<String, Set<String>> buildRequiredElementNameMap() {
         Map<String, Set<String>> requiredElementNameMap = new LinkedHashMap<>();
-        for (String key : jsonSupport.keySet()) {
-            JsonObject jsonObject = jsonSupport.get(key).asJsonObject();
+        for (String key : JSON_SUPPORT.keySet()) {
+            JsonObject jsonObject = JSON_SUPPORT.get(key).asJsonObject();
             Set<String> requiredElementNames = new LinkedHashSet<>();
             for (JsonValue jsonValue : jsonObject.getJsonArray("requiredElementNames")) {
                 JsonString jsonString = (JsonString) jsonValue;

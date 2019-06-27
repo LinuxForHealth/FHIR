@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
@@ -38,6 +39,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * level of concern.
  * </p>
  */
+@Constraint(
+    key = "con-5",
+    severity = "error",
+    human = "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
+    expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()"
+)
+@Constraint(
+    key = "con-4",
+    severity = "error",
+    human = "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+    expression = "abatement.empty() or clinicalStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-clinical' and (code='resolved' or code='remission' or code='inactive')).exists()"
+)
+@Constraint(
+    key = "con-3",
+    severity = "warning",
+    human = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
+    expression = "clinicalStatus.exists() or verificationStatus='entered-in-error' or category.select($this='problem-list-item').empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Condition extends DomainResource {
     private final List<Identifier> identifier;

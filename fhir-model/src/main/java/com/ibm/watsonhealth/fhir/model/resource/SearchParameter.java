@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -41,6 +42,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A search parameter that defines a named search item that can be used to search/filter on a resource.
  * </p>
  */
+@Constraint(
+    key = "spd-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    key = "spd-1",
+    severity = "error",
+    human = "If an xpath is present, there SHALL be an xpathUsage",
+    expression = "xpath.empty() or xpathUsage.exists()"
+)
+@Constraint(
+    key = "spd-2",
+    severity = "error",
+    human = "Search parameters can only have chain names when the search parameter type is 'reference'",
+    expression = "chain.empty() or type = 'reference'"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SearchParameter extends DomainResource {
     private final Uri url;

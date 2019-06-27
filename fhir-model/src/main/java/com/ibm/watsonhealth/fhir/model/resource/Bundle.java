@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -35,6 +36,60 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A container for a collection of resources.
  * </p>
  */
+@Constraint(
+    key = "bdl-7",
+    severity = "error",
+    human = "FullUrl must be unique in a bundle, or else entries with the same fullUrl must have different meta.versionId (except in history bundles)",
+    expression = "(type = 'history') or entry.where(fullUrl.exists()).select(fullUrl&resource.meta.versionId).isDistinct()"
+)
+@Constraint(
+    key = "bdl-9",
+    severity = "error",
+    human = "A document must have an identifier with a system and a value",
+    expression = "type = 'document' implies (identifier.system.exists() and identifier.value.exists())"
+)
+@Constraint(
+    key = "bdl-3",
+    severity = "error",
+    human = "entry.request mandatory for batch/transaction/history, otherwise prohibited",
+    expression = "entry.all(request.exists() = (%resource.type = 'batch' or %resource.type = 'transaction' or %resource.type = 'history'))"
+)
+@Constraint(
+    key = "bdl-4",
+    severity = "error",
+    human = "entry.response mandatory for batch-response/transaction-response/history, otherwise prohibited",
+    expression = "entry.all(response.exists() = (%resource.type = 'batch-response' or %resource.type = 'transaction-response' or %resource.type = 'history'))"
+)
+@Constraint(
+    key = "bdl-12",
+    severity = "error",
+    human = "A message must have a MessageHeader as the first resource",
+    expression = "type = 'message' implies entry.first().resource.is(MessageHeader)"
+)
+@Constraint(
+    key = "bdl-1",
+    severity = "error",
+    human = "total only when a search or history",
+    expression = "total.empty() or (type = 'searchset') or (type = 'history')"
+)
+@Constraint(
+    key = "bdl-2",
+    severity = "error",
+    human = "entry.search only when a search",
+    expression = "entry.search.empty() or (type = 'searchset')"
+)
+@Constraint(
+    key = "bdl-11",
+    severity = "error",
+    human = "A document must have a Composition as the first resource",
+    expression = "type = 'document' implies entry.first().resource.is(Composition)"
+)
+@Constraint(
+    key = "bdl-10",
+    severity = "error",
+    human = "A document must have a date",
+    expression = "type = 'document' implies (meta.lastUpdated.hasValue())"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Bundle extends Resource {
     private final Identifier identifier;

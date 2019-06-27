@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class CodeBuilder {
     private static final int MAX_LINE_LENGTH = 120;
@@ -90,7 +91,7 @@ public class CodeBuilder {
     }
     
     public static String quote(String str) {
-        return String.format("\"%s\"", str);
+        return String.format("\"%s\"", str.replace("\"", "\\\""));
     }
     
     public CodeBuilder newLine() {
@@ -535,7 +536,7 @@ public class CodeBuilder {
     }
     
     public CodeBuilder annotation(String name) {
-        return annotation(name, null);
+        return annotation(name, (String) null);
     }
     
     public CodeBuilder override() {
@@ -549,6 +550,21 @@ public class CodeBuilder {
         }
         newLine();
         return this;
+    }
+    
+    public CodeBuilder annotation(String name, Map<String, String> valueMap) {
+        indent().append("@").append(name).append("(").newLine();
+        List<String> keys = new ArrayList<>(valueMap.keySet());
+        for (String key : keys) {
+            String value = valueMap.get(key);
+            indent().append("    ").append(key).append(" = ").append(quote(value)).append(!isLast(keys, key) ? "," : "").newLine();
+        }
+        indent().append(")").newLine();
+        return this;
+    }
+    
+    private boolean isLast(List<?> list, Object object) {
+        return list.indexOf(object) == list.size() - 1;
     }
     
     @Override

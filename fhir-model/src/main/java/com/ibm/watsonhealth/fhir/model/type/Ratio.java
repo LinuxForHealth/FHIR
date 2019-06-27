@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -17,6 +18,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A relationship of two Quantity values - expressed as a numerator and a denominator.
  * </p>
  */
+@Constraint(
+    key = "rat-1",
+    severity = "error",
+    human = "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
+    expression = "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Ratio extends Element {
     private final Quantity numerator;

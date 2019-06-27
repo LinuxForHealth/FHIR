@@ -16,9 +16,10 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -33,7 +34,12 @@ import org.w3c.dom.Node;
 
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.model.exception.FHIRJsonParserException;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRJsonParser;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
+import com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
@@ -45,198 +51,45 @@ import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 
 public class FHIRUtil {
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
-    
+        
     /**
      * https://www.hl7.org/fhir/dstu2/references.html#regex
      */
     public static final Pattern REST_PATTERN = Pattern.compile("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(Account|AllergyIntolerance|Appointment|AppointmentResponse|AuditEvent|Basic|Binary|BodySite|Bundle|CarePlan|Claim|ClaimResponse|ClinicalImpression|Communication|CommunicationRequest|Composition|ConceptMap|Condition|Conformance|Contract|Coverage|DataElement|DetectedIssue|Device|DeviceComponent|DeviceMetric|DeviceUseRequest|DeviceUseStatement|DiagnosticOrder|DiagnosticReport|DocumentManifest|DocumentReference|EligibilityRequest|EligibilityResponse|Encounter|EnrollmentRequest|EnrollmentResponse|EpisodeOfCare|ExplanationOfBenefit|FamilyMemberHistory|Flag|Goal|Group|HealthcareService|ImagingObjectSelection|ImagingStudy|Immunization|ImmunizationRecommendation|ImplementationGuide|List|Location|Media|Medication|MedicationAdministration|MedicationDispense|MedicationOrder|MedicationStatement|MessageHeader|NamingSystem|NutritionOrder|Observation|OperationDefinition|OperationOutcome|Order|OrderResponse|Organization|Patient|PaymentNotice|PaymentReconciliation|Person|Practitioner|Procedure|ProcedureRequest|ProcessRequest|ProcessResponse|Provenance|Questionnaire|QuestionnaireResponse|ReferralRequest|RelatedPerson|RiskAssessment|Schedule|SearchParameter|Slot|Specimen|StructureDefinition|Subscription|Substance|SupplyDelivery|SupplyRequest|TestScript|ValueSet|VisionPrescription)\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
 
-    public static enum Format {
-        XML,
-        JSON
-    }
-    
-    /**
-     * @see http://hl7.org/fhir/valueset-resource-types.html
-     */
-    private static final List<String> resourceTypeNames = Arrays.asList(
-        "Account",
-        "ActivityDefinition",
-        "AdverseEvent",
-        "AllergyIntolerance",
-        "Appointment",
-        "AppointmentResponse",
-        "AuditEvent",
-        "Basic",
-        "Binary",
-        "BiologicallyDerivedProduct",
-        "BodyStructure",
-        "Bundle",
-        "CapabilityStatement",
-        "CarePlan",
-        "CareTeam",
-        "CatalogEntry",
-        "ChargeItem",
-        "ChargeItemDefinition",
-        "Claim",
-        "ClaimResponse",
-        "ClinicalImpression",
-        "CodeSystem",
-        "Communication",
-        "CommunicationRequest",
-        "CompartmentDefinition",
-        "Composition",
-        "ConceptMap",
-        "Condition",
-        "Consent",
-        "Contract",
-        "Coverage",
-        "CoverageEligibilityRequest",
-        "CoverageEligibilityResponse",
-        "DetectedIssue",
-        "Device",
-        "DeviceDefinition",
-        "DeviceMetric",
-        "DeviceRequest",
-        "DeviceUseStatement",
-        "DiagnosticReport",
-        "DocumentManifest",
-        "DocumentReference",
-        "DomainResource",
-        "EffectEvidenceSynthesis",
-        "Encounter",
-        "Endpoint",
-        "EnrollmentRequest",
-        "EnrollmentResponse",
-        "EpisodeOfCare",
-        "EventDefinition",
-        "Evidence",
-        "EvidenceVariable",
-        "ExampleScenario",
-        "ExplanationOfBenefit",
-        "FamilyMemberHistory",
-        "Flag",
-        "GraphDefinition",
-        "Goal",
-        "Group",
-        "GuidanceResponse",
-        "HealthcareService",
-        "ImagingStudy",
-        "Immunization",
-        "ImmunizationEvaluation",
-        "ImmunizationRecommendation",
-        "ImplementationGuide",
-        "InsurancePlan",
-        "Invoice",
-        "Library",
-        "Linkage",
-        "List",
-        "Location",
-        "Measure",
-        "MeasureReport",
-        "Media",
-        "Medication",
-        "MedicationAdministration",
-        "MedicationDispense",
-        "MedicationKnowledge",
-        "MedicationRequest",
-        "MedicationStatement",
-        "MedicinalProduct",
-        "MedicinalProductAuthorization",
-        "MedicinalProductContraindication",
-        "MedicinalProductIndication",
-        "MedicinalProductIngredient",
-        "MedicinalProductInteraction",
-        "MedicinalProductManufactured",
-        "MedicinalProductPackaged",
-        "MedicinalProductPharmaceutical",
-        "MedicinalProductUndesirableEffect",
-        "MessageDefinition",
-        "MessageHeader",
-        "MolecularSequence",
-        "NamingSystem",
-        "NutritionOrder",
-        "Observation",
-        "ObservationDefinition",
-        "OperationDefinition",
-        "OperationOutcome",
-        "Organization",
-        "OrganizationAffiliation",
-        "Parameters",
-        "Patient",
-        "PaymentNotice",
-        "PaymentReconciliation",
-        "Person",
-        "PlanDefinition",
-        "Practitioner",
-        "PractitionerRole",
-        "Procedure",
-        "Provenance",
-        "Questionnaire",
-        "QuestionnaireResponse",
-        "RelatedPerson",
-        "RequestGroup",
-        "ResearchDefinition",
-        "ResearchElementDefinition",
-        "ResearchStudy",
-        "ResearchSubject",
-        "Resource",
-        "RiskAssessment",
-        "RiskEvidenceSynthesis",
-        "Schedule",
-        "SearchParameter",
-        "ServiceRequest",
-        "Slot",
-        "Specimen",
-        "SpecimenDefinition",
-        "StructureDefinition",
-        "StructureMap",
-        "Subscription",
-        "Substance",
-        "SubstanceNucleicAcid",
-        "SubstancePolymer",
-        "SubstanceProtein",
-        "SubstanceReferenceInformation",
-        "SubstanceSourceMaterial",
-        "SubstanceSpecification",
-        "SupplyDelivery",
-        "SupplyRequest",
-        "Task",
-        "TerminologyCapabilities",
-        "TestReport",
-        "TestScript",
-        "ValueSet",
-        "VerificationResult",
-        "VisionPrescription"
-    );
-    
-    
-    public static boolean isStandardResourceType(String name) {
-        return resourceTypeNames.contains(name);
-    }
-
-    private static final ThreadLocal<FHIRJsonParser> threadLocalFHIRJsonParser = new ThreadLocal<FHIRJsonParser>() {
-        @Override
-        protected FHIRJsonParser initialValue() {
-            return new FHIRJsonParser();
-        }
-    };
-
-    private static final ThreadLocal<FHIRJsonGenerator> threadLocalFHIRJsonGenerator = new ThreadLocal<FHIRJsonGenerator>() {
-        @Override
-        protected FHIRJsonGenerator initialValue() {
-            return new FHIRJsonGenerator();
-        }
-    };
+    private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
 
     private FHIRUtil() { }
 
     public static void init() {
         // allows us to initialize this class during startup
+    }
+    
+    public static boolean isStandardResourceType(String name) {
+        return RESOURCE_TYPE_MAP.containsKey(name);
+    }
+    
+    public static Class<?> getResourceType(String name) {
+        return RESOURCE_TYPE_MAP.get(name);
+    }
+
+    private static Map<String, Class<?>> buildResourceTypeMap() {
+        Map<String, Class<?>> resourceTypeMap = new LinkedHashMap<>();
+        for (ResourceType.ValueSet value : ResourceType.ValueSet.values()) {
+            String resourceTypeName = value.value();
+            try {
+                Class<?> resourceTypeClass = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + resourceTypeName);
+                resourceTypeMap.put(resourceTypeName, resourceTypeClass);
+            } catch (Exception e) {
+                throw new Error(e);
+            }
+        }
+        return resourceTypeMap;
     }
 
     /**
@@ -251,11 +104,11 @@ public class FHIRUtil {
     @SuppressWarnings("unchecked")
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream stream, List<String> elementsToInclude) throws FHIRException {
         try {
-            FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+            FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
             parser.reset();
             Resource resource = parser.parseAndFilter(stream, elementsToInclude);
             return (T) resource;
-        } catch (FHIRJsonParserException e) {
+        } catch (FHIRParserException e) {
             throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
         }
     }
@@ -282,12 +135,12 @@ public class FHIRUtil {
     @SuppressWarnings("unchecked")
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRException {
         try {
-            FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+            FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
             parser.reset();
             Resource resource = parser.parseAndFilter(reader, elementsToInclude);
             return (T) resource;
-        } catch (FHIRJsonParserException e) {
-            throw new FHIRException(e.getMessage(), e);
+        } catch (FHIRParserException e) {
+            throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
         }
     }
 
@@ -295,8 +148,8 @@ public class FHIRUtil {
         throw new UnsupportedOperationException();
     }
 
-    public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRJsonParserException{
-        FHIRJsonParser parser = threadLocalFHIRJsonParser.get();
+    public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException{
+        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
         parser.reset();
         return parser.parse(jsonObject);
     }
@@ -318,13 +171,10 @@ public class FHIRUtil {
      * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
      */
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws FHIRException {
-        if (Format.XML.equals(format)) {
-            throw new UnsupportedOperationException();
-        } else {
-            // Format is JSON.
-            FHIRJsonGenerator generator = threadLocalFHIRJsonGenerator.get();
-            generator.setPrettyPrinting(formatted);
-            generator.generate(resource, stream);
+        try {
+            FHIRGenerator.generator(format, formatted).generate(resource, stream);
+        } catch (FHIRGeneratorException e) {
+            throw new FHIRException(e.getMessage(), e);
         }
     }
 
@@ -341,12 +191,10 @@ public class FHIRUtil {
      * This method will close the writer after writing to it.
      */
     public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws FHIRException {
-        if (Format.XML.equals(format)) {
-            throw new UnsupportedOperationException();
-        } else {
-            FHIRJsonGenerator generator = threadLocalFHIRJsonGenerator.get();
-            generator.setPrettyPrinting(formatted);
-            generator.generate(resource, writer);
+        try {
+            FHIRGenerator.generator(format, formatted).generate(resource, writer);
+        } catch (Exception e) {
+            throw new FHIRException(e.getMessage(), e);
         }
     }
 
@@ -440,7 +288,6 @@ public class FHIRUtil {
                 e = null;
             }
         }
-
         return buildOperationOutcome(msgs.toString(), issueType, severity);
     }
 
@@ -456,7 +303,6 @@ public class FHIRUtil {
         if (severity == null) {
             severity = IssueSeverity.ValueSet.FATAL;
         }
-
         // Build an OperationOutcomeIssue that contains the exception messages.
         OperationOutcome.Issue ooi = OperationOutcome.Issue.builder(IssueSeverity.of(severity), IssueType.of(issueType))
                 .diagnostics(com.ibm.watsonhealth.fhir.model.type.String.of(message))
@@ -644,7 +490,6 @@ public class FHIRUtil {
                 }
             }
         }
-
         return null;
     }
 

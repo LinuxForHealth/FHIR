@@ -22,7 +22,6 @@ import javax.xml.validation.Validator;
 public final class ValidationSupport {    
     private static final int MIN_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
-
     private static final String FHIR_XHTML_XSD = "fhir-xhtml.xsd";
     private static final SchemaFactory SCHEMA_FACTORY = createSchemaFactory();
     private static final Schema SCHEMA = createSchema();
@@ -62,7 +61,7 @@ public final class ValidationSupport {
     public static void checkValue(String value, Pattern pattern) {
         if (value != null) {
             if (!pattern.matcher(value).matches()) {
-                throw new IllegalStateException(String.format("String value is not valid with respect to pattern: %s", pattern.pattern()));
+                throw new IllegalStateException(String.format("String value: '%s' is not valid with respect to pattern: %s", value, pattern.pattern()));
             }
         }
     }
@@ -73,7 +72,7 @@ public final class ValidationSupport {
             Class<?> valueType = value.getClass();
             if (!typeList.contains(valueType)) {
                 List<String> typeNameList = typeList.stream().map(Class::getSimpleName).collect(Collectors.toList());
-                throw new IllegalStateException(String.format("Invalid value type: '%s' must be one of: %s", valueType.getSimpleName(), typeNameList.toString()));
+                throw new IllegalStateException(String.format("Invalid value type: %s must be one of: %s", valueType.getSimpleName(), typeNameList.toString()));
             }
         }
         return value;
@@ -85,7 +84,7 @@ public final class ValidationSupport {
             validator.reset();
             validator.validate(new StreamSource(new StringReader(xhtml)));
         } catch (Exception e) {
-            throw new IllegalStateException("Invalid XHTML content: " + e.getMessage(), e);
+            throw new IllegalStateException(String.format("Invalid XHTML content: %s", e.getMessage()), e);
         }
     }
     

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
@@ -41,6 +42,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Significant health conditions for a person related to the patient relevant in the context of care for the patient.
  * </p>
  */
+@Constraint(
+    key = "fhs-2",
+    severity = "error",
+    human = "Can only have estimatedAge if age[x] is present",
+    expression = "age.exists() or estimatedAge.empty()"
+)
+@Constraint(
+    key = "fhs-1",
+    severity = "error",
+    human = "Can have age[x] or born[x], but not both",
+    expression = "age.empty() or born.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class FamilyMemberHistory extends DomainResource {
     private final List<Identifier> identifier;

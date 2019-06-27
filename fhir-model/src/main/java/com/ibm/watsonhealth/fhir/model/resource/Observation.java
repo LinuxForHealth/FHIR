@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -45,6 +46,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Measurements and simple assertions made about a patient, device or other subject.
  * </p>
  */
+@Constraint(
+    key = "obs-7",
+    severity = "error",
+    human = "If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
+    expression = "value.empty() or component.code.where( (coding.code = %resource.code.coding.code) and (coding.system = %resource.code.coding.system)).empty()"
+)
+@Constraint(
+    key = "obs-6",
+    severity = "error",
+    human = "dataAbsentReason SHALL only be present if Observation.value[x] is not present",
+    expression = "dataAbsentReason.empty() or value.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Observation extends DomainResource {
     private final List<Identifier> identifier;

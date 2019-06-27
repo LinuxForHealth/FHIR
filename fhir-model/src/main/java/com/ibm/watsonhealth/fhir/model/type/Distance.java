@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.QuantityComparator;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
@@ -18,6 +19,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A length - a value with a unit that is a physical distance.
  * </p>
  */
+@Constraint(
+    key = "dis-1",
+    severity = "error",
+    human = "There SHALL be a code if there is a value and it SHALL be an expression of length.  If system is present, it SHALL be UCUM.",
+    expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum)"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Distance extends Quantity {
     private Distance(Builder builder) {

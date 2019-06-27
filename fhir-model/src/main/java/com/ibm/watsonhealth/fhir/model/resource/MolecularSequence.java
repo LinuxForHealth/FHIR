@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -40,6 +41,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Raw data describing a biological sequence.
  * </p>
  */
+@Constraint(
+    key = "msq-3",
+    severity = "error",
+    human = "Only 0 and 1 are valid for coordinateSystem",
+    expression = "coordinateSystem = 1 or coordinateSystem = 0"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MolecularSequence extends DomainResource {
     private final List<Identifier> identifier;

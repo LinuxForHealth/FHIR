@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -40,6 +41,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Organization.
  * </p>
  */
+@Constraint(
+    key = "grp-1",
+    severity = "error",
+    human = "Can only have members if group is \"actual\"",
+    expression = "member.empty() or (actual = true)"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Group extends DomainResource {
     private final List<Identifier> identifier;

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
@@ -32,6 +33,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection.
  * </p>
  */
+@Constraint(
+    key = "apr-1",
+    severity = "error",
+    human = "Either the participantType or actor must be specified",
+    expression = "participantType.exists() or actor.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class AppointmentResponse extends DomainResource {
     private final List<Identifier> identifier;

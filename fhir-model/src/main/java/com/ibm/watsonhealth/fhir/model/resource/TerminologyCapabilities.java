@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -40,6 +41,36 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * be used as a statement of actual server functionality or a statement of required or desired server implementation.
  * </p>
  */
+@Constraint(
+    key = "tcp-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    key = "tcp-3",
+    severity = "error",
+    human = "If kind = instance, implementation must be present and software may be present",
+    expression = "(kind != 'instance') or implementation.exists()"
+)
+@Constraint(
+    key = "tcp-2",
+    severity = "error",
+    human = "A Capability Statement SHALL have at least one of description, software, or implementation element.",
+    expression = "(description.count() + software.count() + implementation.count()) > 0"
+)
+@Constraint(
+    key = "tcp-5",
+    severity = "error",
+    human = "If kind = requirements, implementation and software must be absent",
+    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())"
+)
+@Constraint(
+    key = "tcp-4",
+    severity = "error",
+    human = "If kind = capability, implementation must be absent, software must be present",
+    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class TerminologyCapabilities extends DomainResource {
     private final Uri url;

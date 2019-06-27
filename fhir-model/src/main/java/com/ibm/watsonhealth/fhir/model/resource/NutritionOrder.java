@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -40,6 +41,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
  * </p>
  */
+@Constraint(
+    key = "nor-1",
+    severity = "warning",
+    human = "Nutrition Order SHALL contain either Oral Diet , Supplement, or Enteral Formula class",
+    expression = "oralDiet.exists() or supplement.exists() or enteralFormula.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class NutritionOrder extends DomainResource {
     private final List<Identifier> identifier;

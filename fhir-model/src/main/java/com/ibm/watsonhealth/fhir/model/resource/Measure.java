@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -43,6 +44,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * The Measure resource provides the definition of a quality measure.
  * </p>
  */
+@Constraint(
+    key = "mea-1",
+    severity = "error",
+    human = "Stratifier SHALL be either a single criteria or a set of criteria components",
+    expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())"
+)
+@Constraint(
+    key = "mea-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Measure extends DomainResource {
     private final Uri url;

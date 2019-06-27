@@ -11,6 +11,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -35,6 +36,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A list is a curated collection of resources.
  * </p>
  */
+@Constraint(
+    key = "lst-3",
+    severity = "error",
+    human = "An entry date can only be used if the mode of the list is \"working\"",
+    expression = "mode = 'working' or entry.date.empty()"
+)
+@Constraint(
+    key = "lst-2",
+    severity = "error",
+    human = "The deleted flag can only be used if the mode of the list is \"changes\"",
+    expression = "mode = 'changes' or entry.deleted.empty()"
+)
+@Constraint(
+    key = "lst-1",
+    severity = "error",
+    human = "A list can only have an emptyReason if it is empty",
+    expression = "emptyReason.empty() or entry.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class List extends DomainResource {
     private final java.util.List<Identifier> identifier;

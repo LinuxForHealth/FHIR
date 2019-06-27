@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -38,6 +39,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * resources involved in that calculation.
  * </p>
  */
+@Constraint(
+    key = "mrp-2",
+    severity = "error",
+    human = "Stratifiers SHALL be either a single criteria or a set of criteria components",
+    expression = "group.stratifier.stratum.all(value.exists() xor component.exists())"
+)
+@Constraint(
+    key = "mrp-1",
+    severity = "error",
+    human = "Measure Reports used for data collection SHALL NOT communicate group and score information",
+    expression = "(type != 'data-collection') or group.exists().not()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MeasureReport extends DomainResource {
     private final List<Identifier> identifier;

@@ -696,8 +696,9 @@ public class CodeGenerator {
                     superClassMap.put(className, _super);
                 }
             }
-            
+
             if (!nested) {
+                generateConstraintAnnotations(structureDefinition, cb);
                 cb.annotation("Generated", quote("com.ibm.watsonhealth.fhir.tools.CodeGenerator"));
             }
             cb._class(mods, className, _super);
@@ -896,6 +897,37 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
+    }
+
+    private void generateConstraintAnnotations(JsonObject structureDefinition, CodeBuilder cb) {
+        List<JsonObject> constraints = getConstraints(structureDefinition);
+        for (JsonObject constraint : constraints) {
+            String source = constraint.getString("source", null);
+            if (source == null) {
+                Map<String, String> valueMap = new LinkedHashMap<>();
+                valueMap.put("key", constraint.getString("key"));
+                valueMap.put("severity", constraint.getString("severity"));
+                valueMap.put("human", constraint.getString("human"));
+                valueMap.put("expression", constraint.getString("expression"));
+                cb.annotation("Constraint", valueMap);
+            }
+        }
+    }
+    
+    private boolean hasConstraints(JsonObject structureDefinition) {
+        return !getConstraints(structureDefinition).isEmpty();
+    }
+
+    private List<JsonObject> getConstraints(JsonObject structureDefinition) {
+        List<JsonObject> constraints = new ArrayList<>();
+        JsonObject elementDefinition = getElementDefinitions(structureDefinition).get(0);
+        JsonArray jsonArray = elementDefinition.getJsonArray("constraint");
+        if (jsonArray != null) {
+            for (JsonValue value : jsonArray) {
+                constraints.add(value.asJsonObject());
+            }
+        }
+        return constraints;
     }
 
     private void generateGetterMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType, CodeBuilder cb) {
@@ -1195,6 +1227,11 @@ public class CodeGenerator {
         if (!isAbstract(structureDefinition) && !isPrimitiveSubtype(structureDefinition)) {
             imports.add("com.ibm.watsonhealth.fhir.model.visitor.Visitor");
         }
+        
+        if (hasConstraints(structureDefinition)) {
+            imports.add("com.ibm.watsonhealth.fhir.model.annotation.Constraint");
+        }
+        
         imports.add("javax.annotation.Generated");
         
         for (JsonObject elementDefinition : getElementDefinitions(structureDefinition, true)) {
@@ -1387,7 +1424,7 @@ public class CodeGenerator {
     private void generateJsonParser(String basePath) {
         CodeBuilder cb = new CodeBuilder();
         
-        String packageName = "com.ibm.watsonhealth.fhir.model.util";
+        String packageName = "com.ibm.watsonhealth.fhir.model.parser";
         cb.javadoc(HEADER, true, true, false).newLine();
         cb._package(packageName).newLine();
         /*
@@ -1419,12 +1456,15 @@ public class CodeGenerator {
         
         cb.newLine();
         
-        cb._import("com.ibm.watsonhealth.fhir.model.exception.FHIRJsonParserException");
+        cb._import("com.ibm.watsonhealth.fhir.model.parser.FHIRParser");
+        cb._import("com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.watsonhealth.fhir.model.resource.*");
         cb._import("com.ibm.watsonhealth.fhir.model.type.*");
         cb._import("com.ibm.watsonhealth.fhir.model.type.Boolean");
         cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
         cb._import("com.ibm.watsonhealth.fhir.model.type.String");
+        cb._import("com.ibm.watsonhealth.fhir.model.util.ElementFilter");
+        cb._import("com.ibm.watsonhealth.fhir.model.util.JsonSupport");
         
         /*
         Collections.sort(typeClassNames);
@@ -1436,52 +1476,63 @@ public class CodeGenerator {
         
         cb.newLine();
         
-        cb._class(mods("public"), "FHIRJsonParser");
-        cb.field(mods("public", "static"), "boolean", "DEBUG", "false").newLine();
+        cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
+        cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.field(mods("protected", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
-        cb.field(mods("protected"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
+        
+        cb.newLine();
+        
+        cb.field(mods("protected", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
+        
+        cb.newLine();
+        
+        cb.constructor(mods("protected"), "FHIRJsonParser");
+        cb.comment("only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)");
+        cb.end();
         
         cb.newLine();
         
         // public <T extends Resource> T parse(InputStream in) throws FHIRException
-        cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRJsonParserException"))
+        cb.override();
+        cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(in, null)")
         .end();
         
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(InputStream in, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
-        cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("InputStream in", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRJsonParserException"))
+        cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("InputStream in", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(in)")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
             ._catch("Exception e")
-                ._throw("new FHIRJsonParserException(e.getMessage(), getPath(), e)")
+                ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
         
         cb.newLine();
      
         // public <T extends Resource> T parse(Reader reader) throws FHIRException
-        cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRJsonParserException"))
+        cb.override();
+        cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(reader, null)")
         .end();
         
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(Reader reader, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
-        cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("Reader reader", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRJsonParserException"))
+        cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("Reader reader", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(reader)")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
             ._catch("Exception e")
-                ._throw("new FHIRJsonParserException(e.getMessage(), getPath(), e)")
+                ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
         
         cb.newLine();
         
-        cb.method(mods("public"), "<T extends Resource> T", "parse", args("JsonObject jsonObject"), throwsExceptions("FHIRJsonParserException"))
+        cb.method(mods("public"), "<T extends Resource> T", "parse", args("JsonObject jsonObject"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(jsonObject, null)")
         .end();
     
@@ -1489,22 +1540,23 @@ public class CodeGenerator {
         
         // public <T extends Resource> T parseAndFilter(JsonObject jsonObject, java.util.List<java.lang.String> elementsToInclude)
         cb.annotation("SuppressWarnings", quote("unchecked"));
-        cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("JsonObject jsonObject", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRJsonParserException"))
+        cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("JsonObject jsonObject", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
             ._try()
                 .invoke("reset", args())
                 .assign("java.lang.String resourceType", "getResourceType(jsonObject)")
                 ._if("elementsToInclude != null")
-                    .assign("ElementFilter elementFilter", "new ElementFilter(resourceType, JsonSupport.getRequiredElementNames(resourceType))")
+                    .assign("ElementFilter elementFilter", "new ElementFilter(resourceType, elementsToInclude)")
                     .assign("jsonObject", "elementFilter.apply(jsonObject)")
                 ._end()
                 ._return("(T) parseResource(resourceType, jsonObject, -1)")
             ._catch("Exception e")
-                ._throw("new FHIRJsonParserException(e.getMessage(), getPath(), e)")
+                ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
         
         cb.newLine();
         
+        cb.override();
         cb.method(mods("public"), "void", "reset")
             .invoke("stack", "clear", args())
         .end();
@@ -2303,7 +2355,7 @@ public class CodeGenerator {
                 List<JsonObject> types = getTypes(elementDefinition);
                 if (!types.isEmpty()) {
                     String type = types.get(0).getString("code", null);
-                    if (type != null && isPrimitiveType(type)) {
+                    if (type != null && isPrimitiveType(titleCase(type))) {
                         elementNames.add("_" + elementName);
                     }
                 }

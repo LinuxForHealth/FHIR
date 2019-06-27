@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -44,6 +45,108 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * FHIR, and also for describing extensions and constraints on resources and data types.
  * </p>
  */
+@Constraint(
+    key = "sdf-9",
+    severity = "error",
+    human = "In any snapshot or differential, no label, code or requirements on an element without a \".\" in the path (e.g. the first element)",
+    expression = "children().element.where(path.contains('.').not()).label.empty() and children().element.where(path.contains('.').not()).code.empty() and children().element.where(path.contains('.').not()).requirements.empty()"
+)
+@Constraint(
+    key = "sdf-15a",
+    severity = "error",
+    human = "If the first element in a differential has no \".\" in the path and it's not a logical model, it has no type",
+    expression = "(kind!='logical'  and differential.element.first().path.contains('.').not()) implies differential.element.first().type.empty()"
+)
+@Constraint(
+    key = "sdf-19",
+    severity = "error",
+    human = "FHIR Specification models only use FHIR defined types",
+    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (differential.element.type.code.all(hasValue() implies matches('^[a-zA-Z0-9]+$')) and snapshot.element.type.code.all(hasValue() implies matches('^[a-zA-Z0-9]+$')))"
+)
+@Constraint(
+    key = "sdf-16",
+    severity = "error",
+    human = "All element definitions must have unique ids (snapshot)",
+    expression = "snapshot.element.all(id) and snapshot.element.id.trace('ids').isDistinct()"
+)
+@Constraint(
+    key = "sdf-15",
+    severity = "error",
+    human = "The first element in a snapshot has no type unless model is a logical model.",
+    expression = "kind!='logical'  implies snapshot.element.first().type.empty()"
+)
+@Constraint(
+    key = "sdf-18",
+    severity = "error",
+    human = "Context Invariants can only be used for extensions",
+    expression = "contextInvariant.exists() implies type = 'Extension'"
+)
+@Constraint(
+    key = "sdf-17",
+    severity = "error",
+    human = "All element definitions must have unique ids (diff)",
+    expression = "differential.element.all(id) and differential.element.id.trace('ids').isDistinct()"
+)
+@Constraint(
+    key = "sdf-23",
+    severity = "error",
+    human = "No slice name on root",
+    expression = "(snapshot | differential).element.all(path.contains('.').not() implies sliceName.empty())"
+)
+@Constraint(
+    key = "sdf-11",
+    severity = "error",
+    human = "If there's a type, its content must match the path name in the first element of a snapshot",
+    expression = "kind != 'logical' implies snapshot.empty() or snapshot.element.first().path = type"
+)
+@Constraint(
+    key = "sdf-22",
+    severity = "error",
+    human = "FHIR Specification models never have default values",
+    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (snapshot.element.defaultValue.empty() and differential.element.defaultValue.empty())"
+)
+@Constraint(
+    key = "sdf-14",
+    severity = "error",
+    human = "All element definitions must have an id",
+    expression = "snapshot.element.all(id.exists()) and differential.element.all(id.exists())"
+)
+@Constraint(
+    key = "sdf-1",
+    severity = "error",
+    human = "Element paths must be unique unless the structure is a constraint",
+    expression = "derivation = 'constraint' or snapshot.element.select(path).isDistinct()"
+)
+@Constraint(
+    key = "sdf-21",
+    severity = "error",
+    human = "Default values can only be specified on specializations",
+    expression = "differential.element.defaultValue.exists() implies (derivation = 'specialization')"
+)
+@Constraint(
+    key = "sdf-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    key = "sdf-6",
+    severity = "error",
+    human = "A structure must have either a differential, or a snapshot (or both)",
+    expression = "snapshot.exists() or differential.exists()"
+)
+@Constraint(
+    key = "sdf-5",
+    severity = "error",
+    human = "If the structure defines an extension then the structure must have context information",
+    expression = "type != 'Extension' or derivation = 'specialization' or (context.exists())"
+)
+@Constraint(
+    key = "sdf-4",
+    severity = "error",
+    human = "If the structure is not abstract, then there SHALL be a baseDefinition",
+    expression = "abstract = true or baseDefinition.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class StructureDefinition extends DomainResource {
     private final Uri url;

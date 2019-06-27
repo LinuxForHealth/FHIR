@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.QuantityComparator;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
@@ -18,6 +19,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * The comparator is not used on a SimpleQuantity
  * </p>
  */
+@Constraint(
+    key = "sqty-1",
+    severity = "error",
+    human = "The comparator is not used on a SimpleQuantity",
+    expression = "comparator.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SimpleQuantity extends Quantity {
     private final Decimal value;

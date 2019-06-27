@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.QuantityComparator;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
@@ -19,6 +20,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * not precisely quantified, including amounts involving arbitrary units and floating currencies.
  * </p>
  */
+@Constraint(
+    key = "cnt-3",
+    severity = "error",
+    human = "There SHALL be a code with a value of \"1\" if there is a value. If system is present, it SHALL be UCUM.  If present, the value SHALL be a whole number.",
+    expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (code.empty() or code = '1') and (value.empty() or value.hasValue().not() or value.toString().contains('.').not())"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Count extends Quantity {
     private Count(Builder builder) {

@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
@@ -19,6 +20,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * specify the context in which the expression is evaluated, and how the result of the expression is used.
  * </p>
  */
+@Constraint(
+    key = "exp-1",
+    severity = "error",
+    human = "An expression or a reference must be provided",
+    expression = "expression.exists() or reference.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Expression extends Element {
     private final String description;

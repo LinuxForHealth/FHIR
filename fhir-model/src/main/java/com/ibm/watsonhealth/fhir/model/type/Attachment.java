@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -17,6 +18,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * For referring to data content defined in other formats.
  * </p>
  */
+@Constraint(
+    key = "att-1",
+    severity = "error",
+    human = "If the Attachment has data, it SHALL have a contentType",
+    expression = "data.empty() or contentType.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Attachment extends Element {
     private final Code contentType;

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -39,6 +40,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Details of a Health Insurance product/plan provided by an organization.
  * </p>
  */
+@Constraint(
+    key = "ipn-1",
+    severity = "error",
+    human = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
+    expression = "(identifier.count() + name.count()) > 0"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class InsurancePlan extends DomainResource {
     private final List<Identifier> identifier;

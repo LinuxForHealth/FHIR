@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.AppointmentStatus;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -40,6 +41,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * date/time. This may result in one or more Encounter(s).
  * </p>
  */
+@Constraint(
+    key = "app-4",
+    severity = "error",
+    human = "Cancelation reason is only used for appointments that have been cancelled, or no-show",
+    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')"
+)
+@Constraint(
+    key = "app-3",
+    severity = "error",
+    human = "Only proposed or cancelled appointments can be missing start/end dates",
+    expression = "(start.exists() and end.exists()) or (status in ('proposed' | 'cancelled' | 'waitlist'))"
+)
+@Constraint(
+    key = "app-2",
+    severity = "error",
+    human = "Either start and end are specified, or neither",
+    expression = "start.exists() = end.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Appointment extends DomainResource {
     private final List<Identifier> identifier;

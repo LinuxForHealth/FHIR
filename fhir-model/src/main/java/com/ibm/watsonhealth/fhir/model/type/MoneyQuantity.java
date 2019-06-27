@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.QuantityComparator;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
@@ -19,6 +20,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * ISO 4217 (system = "urn:iso:std:iso:4217" - currency).
  * </p>
  */
+@Constraint(
+    key = "mtqy-1",
+    severity = "error",
+    human = "There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = \"urn:iso:std:iso:4217\" - currency).",
+    expression = "(code.exists() or value.empty()) and (system.empty() or system = 'urn:iso:std:iso:4217')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MoneyQuantity extends Quantity {
     private final Decimal value;

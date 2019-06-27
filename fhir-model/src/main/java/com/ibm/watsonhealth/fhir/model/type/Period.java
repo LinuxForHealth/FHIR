@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -17,6 +18,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A time period defined by a start and end date and optionally time.
  * </p>
  */
+@Constraint(
+    key = "per-1",
+    severity = "error",
+    human = "If present, start SHALL have a lower value than end",
+    expression = "start.hasValue().not() or end.hasValue().not() or (start <= end)"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Period extends Element {
     private final DateTime start;

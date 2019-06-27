@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -39,6 +40,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * devices, etc. Represents a "System" used within the Identifier and Coding data types.
  * </p>
  */
+@Constraint(
+    key = "nsd-1",
+    severity = "error",
+    human = "Root systems cannot have uuid identifiers",
+    expression = "kind != 'root' or uniqueId.all(type != 'uuid')"
+)
+@Constraint(
+    key = "nsd-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    key = "nsd-2",
+    severity = "error",
+    human = "Can't have more than one preferred identifier for a type",
+    expression = "uniqueId.where(preferred = true).select(type).isDistinct()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class NamingSystem extends DomainResource {
     private final String name;

@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.model.util;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -20,9 +20,9 @@ import javax.json.JsonObjectBuilder;
 
 public class ElementFilter implements Function<JsonObject, JsonObject> {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
-    private static final List<String> REQUIRED_ELEMENTS = Arrays.asList("resourceType", "id", "_id", "meta", "_meta");
+    private static final List<String> REQUIRED_ELEMENTS = Arrays.asList("resourceType", "id", "_id", "meta");
     
-    private Set<String> includeElements = new LinkedHashSet<>();
+    private Set<String> includeElements = new HashSet<>();
 
     public ElementFilter(String resourceType) {
         includeElements.addAll(REQUIRED_ELEMENTS);

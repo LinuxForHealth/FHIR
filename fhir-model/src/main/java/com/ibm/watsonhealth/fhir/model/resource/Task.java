@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
@@ -77,6 +78,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A task to be performed.
  * </p>
  */
+@Constraint(
+    key = "inv-1",
+    severity = "error",
+    human = "Last modified date must be greater than or equal to authored-on date.",
+    expression = "lastModified.exists().not() or authoredOn.exists().not() or lastModified >= authoredOn"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Task extends DomainResource {
     private final List<Identifier> identifier;

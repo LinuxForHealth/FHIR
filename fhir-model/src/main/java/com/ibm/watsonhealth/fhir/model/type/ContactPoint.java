@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.ContactPointSystem;
 import com.ibm.watsonhealth.fhir.model.type.ContactPointUse;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
@@ -20,6 +21,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * etc.
  * </p>
  */
+@Constraint(
+    key = "cpt-2",
+    severity = "error",
+    human = "A system is required if a value is provided.",
+    expression = "value.empty() or system.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ContactPoint extends Element {
     private final ContactPointSystem system;

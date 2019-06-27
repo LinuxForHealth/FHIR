@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -43,6 +44,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A record of a request for service such as diagnostic investigations, treatments, or operations to be performed.
  * </p>
  */
+@Constraint(
+    key = "prr-1",
+    severity = "error",
+    human = "orderDetail SHALL only be present if code is present",
+    expression = "orderDetail.empty() or code.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ServiceRequest extends DomainResource {
     private final List<Identifier> identifier;

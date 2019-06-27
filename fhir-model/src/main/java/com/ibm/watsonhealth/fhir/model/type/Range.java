@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -17,6 +18,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A set of ordered Quantities defined by a low and high limit.
  * </p>
  */
+@Constraint(
+    key = "rng-2",
+    severity = "error",
+    human = "If present, low SHALL have a lower value than high",
+    expression = "low.empty() or high.empty() or (low <= high)"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Range extends Element {
     private final Quantity low;

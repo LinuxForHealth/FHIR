@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.QuantityComparator;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
@@ -18,6 +19,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A duration of time during which an organism (or a process) has existed.
  * </p>
  */
+@Constraint(
+    key = "age-1",
+    severity = "error",
+    human = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.  If value is present, it SHALL be positive.",
+    expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (value.empty() or value.hasValue().not() or value > 0)"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Age extends Quantity {
     private Age(Builder builder) {

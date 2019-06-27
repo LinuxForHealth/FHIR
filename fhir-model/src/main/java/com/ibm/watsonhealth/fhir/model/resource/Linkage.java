@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -29,6 +30,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Identifies two or more records (resource instances) that refer to the same real-world "occurrence".
  * </p>
  */
+@Constraint(
+    key = "lnk-1",
+    severity = "error",
+    human = "Must have at least two items",
+    expression = "item.count()>1"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Linkage extends DomainResource {
     private final Boolean active;

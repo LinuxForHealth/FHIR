@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -52,6 +53,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.
  * </p>
  */
+@Constraint(
+    key = "que-2",
+    severity = "error",
+    human = "The link ids for groups and questions must be unique within the questionnaire",
+    expression = "descendants().linkId.isDistinct()"
+)
+@Constraint(
+    key = "que-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Questionnaire extends DomainResource {
     private final Uri url;

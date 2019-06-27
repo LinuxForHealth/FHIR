@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -34,6 +35,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * Common Ancestor declaration for conformance and knowledge artifact resources.
  * </p>
  */
+@Constraint(
+    key = "inv-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MetadataResource extends DomainResource {
     private final Uri url;

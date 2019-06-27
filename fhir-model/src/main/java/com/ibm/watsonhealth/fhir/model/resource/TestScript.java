@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.AssertionDirectionType;
 import com.ibm.watsonhealth.fhir.model.type.AssertionOperatorType;
 import com.ibm.watsonhealth.fhir.model.type.AssertionResponseTypes;
@@ -46,6 +47,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * specification.
  * </p>
  */
+@Constraint(
+    key = "tst-0",
+    severity = "warning",
+    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class TestScript extends DomainResource {
     private final Uri url;

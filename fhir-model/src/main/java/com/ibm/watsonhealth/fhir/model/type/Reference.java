@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -17,6 +18,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A reference from one resource to another.
  * </p>
  */
+@Constraint(
+    key = "ref-1",
+    severity = "error",
+    human = "SHALL have a contained resource if a local reference is provided",
+    expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %resource.contained.id.trace('ids'))"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Reference extends Element {
     private final String reference;

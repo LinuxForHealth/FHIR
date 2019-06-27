@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -39,6 +40,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * medication dispense is the result of a pharmacy system responding to a medication order.
  * </p>
  */
+@Constraint(
+    key = "mdd-1",
+    severity = "error",
+    human = "whenHandedOver cannot be before whenPrepared",
+    expression = "whenHandedOver.empty() or whenPrepared.empty() or whenHandedOver >= whenPrepared"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;
