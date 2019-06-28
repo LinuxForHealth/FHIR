@@ -26,9 +26,10 @@ public interface FHIRPersistence {
      * Stores a new FHIR Resource in the datastore.
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
+     * @return a copy of resource with fields updated by the persistence layer
      * @throws FHIRPersistenceException
      */
-    void create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException;
+    Resource create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException;
     
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.
@@ -60,9 +61,10 @@ public interface FHIRPersistence {
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param logicalId the logical id of the FHIR Resource to be updated
      * @param resource the new contents of the FHIR Resource to be stored
+     * @return a copy of resource with fields updated by the persistence layer
      * @throws FHIRPersistenceException
      */
-    void update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException;
+    Resource update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException;
     
     /**
      * Deletes the specified FHIR Resource from the datastore.

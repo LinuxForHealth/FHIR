@@ -18,15 +18,21 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Composition;
-import com.ibm.watsonhealth.fhir.model.CompositionStatusList;
-import com.ibm.watsonhealth.fhir.model.ImmunizationRecommendation;
-import com.ibm.watsonhealth.fhir.model.ImmunizationRecommendationRecommendation;
-import com.ibm.watsonhealth.fhir.model.Meta;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Reference;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Composition;
+import com.ibm.watsonhealth.fhir.model.resource.ImmunizationRecommendation;
+import com.ibm.watsonhealth.fhir.model.resource.ImmunizationRecommendation.Recommendation;
+import com.ibm.watsonhealth.fhir.model.type.Canonical;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.CompositionStatus;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
+import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 /**
@@ -48,10 +54,12 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     public void testCreateObservation_chained() throws Exception {
         
         Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
-        Meta meta = f.createMeta()
-                .withTag(f.createCoding().withCode(f.createCode().withValue(TAG_CODE_VALUE)))
-                .withProfile(f.createUri().withValue(PROFILE_URI_VALUE));
-        patient.setMeta(meta);
+        Meta meta = Meta.builder()
+                .tag(Coding.builder().code(Code.of(TAG_CODE_VALUE)).build())
+                .profile(Canonical.builder().id(PROFILE_URI_VALUE).build())
+                .build();
+        
+        patient = patient.toBuilder().meta(meta).build();
         persistence.create(getDefaultPersistenceContext(), patient);
         assertNotNull(patient);
         assertNotNull(patient.getId());
@@ -79,13 +87,16 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertEquals("1", observation.getMeta().getVersionId().getValue());
         
         // "Connect" the observation to a patient
-        Reference patientRef = f.createReference().withReference(f.createString().withValue("Patient/" + patient.getId().getValue()));
-        observation.setSubject(patientRef);
+        Reference patientRef = Reference.builder().id("Patient/" + patient.getId().getValue()).build();
+        observation = observation.toBuilder().subject(patientRef).build();
+        
         // "Connect" the observation to the other observation
-        Reference otherObservationRef = f.createReference().withReference(f.createString().withValue("Observation/" + otherObservation.getId().getValue()));
-        observation.getRelated().add(f.createObservationRelated().withTarget(otherObservationRef));
-        persistence.update(getDefaultPersistenceContext(), observation.getId().getValue(), observation);
-        assertEquals("2", observation.getMeta().getVersionId().getValue());
+        Reference otherObservationRef = Reference.builder().id("Observation/" + otherObservation.getId().getValue()).build();
+
+        // TODO Observation.related deleted since DSTU2 https://www.hl7.org/fhir/diff.html
+//        observation.getRelated().add(f.createObservationRelated().withTarget(otherObservationRef));
+//        persistence.update(getDefaultPersistenceContext(), observation.getId().getValue(), observation);
+//        assertEquals("2", observation.getMeta().getVersionId().getValue());
     }
     
     /**
@@ -95,39 +106,46 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateComposition_chained() throws Exception {
-        ImmunizationRecommendationRecommendation imm_recrec = f.createImmunizationRecommendationRecommendation()
-                .withDate(f.createDateTime().withValue("2017-09-04"))
-                .withVaccineCode(f.createCodeableConcept().withText(f.createString().withValue("a vaccine")))
-                .withDoseNumber(f.createPositiveInt().withValue(BigInteger.valueOf(10)))
-                .withForecastStatus(f.createCodeableConcept().withText(f.createString().withValue("cloudy")));
-        
-        ImmunizationRecommendation imm_rec = f.createImmunizationRecommendation()
-               .withPatient(f.createReference().withDisplay(f.createString().withValue("Pat Ient")))
-               .withRecommendation(imm_recrec);
-        persistence.create(getDefaultPersistenceContext(), imm_rec);
-        assertNotNull(imm_rec);
-        assertNotNull(imm_rec.getId());
-        assertNotNull(imm_rec.getId().getValue());
-        assertNotNull(imm_rec.getMeta());
-        assertNotNull(imm_rec.getMeta().getVersionId().getValue());
-        assertEquals("1", imm_rec.getMeta().getVersionId().getValue());
+    	
+    	CodeableConcept forecastStatus = CodeableConcept.builder().text(str2model("cloudy")).build();
+    	CodeableConcept vaccineCode = CodeableConcept.builder().text(str2model("a vaccine")).build();
+    	PositiveInt doseNumber = PositiveInt.of(10);
+    	ImmunizationRecommendation.Recommendation recommendation = ImmunizationRecommendation.Recommendation.builder(forecastStatus)
+    			.vaccineCode(vaccineCode)
+    			.doseNumber(doseNumber)
+    	.build();
+
+    	List<Recommendation> recommendations = Arrays.asList(recommendation);
+    	Reference patientRef = Reference.builder().display(str2model("Pat Ient")).build();
+    	DateTime date = DateTime.of("2017-09-04");
+
+    	ImmunizationRecommendation imm_rec = ImmunizationRecommendation.builder(patientRef, date, recommendations)
+    			.build();
+    	
+    	// Check the resource was saved correctly
+    	Resource saved = persistence.create(getDefaultPersistenceContext(), imm_rec);
+        assertNotNull(saved);
+        assertNotNull(saved.getId());
+        assertNotNull(saved.getId().getValue());
+        assertNotNull(saved.getMeta());
+        assertNotNull(saved.getMeta().getVersionId().getValue());
+        assertEquals("1", saved.getMeta().getVersionId().getValue());
         
         // "Connect" the observation to the patient and encounter via a Reference
-        Reference immunizationRef = f.createReference().withReference(f.createString().withValue("ImmunizationRecommendation/" + imm_rec.getId().getValue()));
-        
-        Composition composition = f.createComposition()
-                .withDate(f.createDateTime().withValue("2018"))
-                .withType(f.createCodeableConcept().withText(f.createString().withValue("test")))
-                .withTitle(f.createString().withValue("TEST"))
-                .withStatus(f.createCompositionStatus().withValue(CompositionStatusList.ENTERED_IN_ERROR))
-                .withSubject(immunizationRef);
-        persistence.create(getDefaultPersistenceContext(), composition);
-        assertNotNull(composition);
-        assertNotNull(composition.getId());
-        assertNotNull(composition.getId().getValue());
-        assertNotNull(composition.getMeta());
-        assertNotNull(composition.getMeta().getVersionId().getValue());
-        assertEquals("1", composition.getMeta().getVersionId().getValue()); 
+    	Reference immunizationRef = Reference.builder().reference(str2model("ImmunizationRecommendation/" + imm_rec.getId().getValue())).build();
+
+    	DateTime year = DateTime.of("2018");
+    	CompositionStatus status = CompositionStatus.ENTERED_IN_ERROR;
+    	CodeableConcept type = CodeableConcept.builder().text(str2model("test")).build();
+    	Composition composition = Composition.builder(status, type, year, Arrays.asList(immunizationRef), str2model("TEST")).build();
+    	
+    	Resource c2 = persistence.create(getDefaultPersistenceContext(), composition);
+        assertNotNull(c2);
+        assertNotNull(c2.getId());
+        assertNotNull(c2.getId().getValue());
+        assertNotNull(c2.getMeta());
+        assertNotNull(c2.getMeta().getVersionId().getValue());
+        assertEquals("1", c2.getMeta().getVersionId().getValue()); 
     }
     
     /**

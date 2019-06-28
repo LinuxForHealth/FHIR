@@ -15,9 +15,9 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.AuditEvent;
-import com.ibm.watsonhealth.fhir.model.Device;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.AuditEvent;
+import com.ibm.watsonhealth.fhir.model.resource.Device;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -125,7 +125,7 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
         List<Resource> resources = runQueryTest(AuditEvent.class, persistence, "action", "R");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
-        assertEquals(((AuditEvent)resources.get(0)).getEvent().getAction().getValue().toString(),"R");
+        assertEquals(((AuditEvent)resources.get(0)).getAction().getValue().toString(),"R");
     }
     
     /**
@@ -173,7 +173,7 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
         List<Resource> resources = runQueryTest("Patient", "patientID", AuditEvent.class, persistence, "action", "R");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
-        assertEquals(((AuditEvent)resources.get(0)).getEvent().getAction().getValue().toString(),"R");
+        assertEquals(((AuditEvent)resources.get(0)).getAction().getValue().toString(),"R");
     }
     
     /**
@@ -215,7 +215,7 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
         List<Resource> resources = runQueryTest("Patient", "patientID", AuditEvent.class, persistence, "action", "R");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
-        assertEquals(((AuditEvent)resources.get(0)).getEvent().getAction().getValue().toString(),"R");
+        assertEquals(((AuditEvent)resources.get(0)).getAction().getValue().toString(),"R");
     }
     
     /**
@@ -253,7 +253,7 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
         List<Resource> resources = runQueryTest("Patient", "patientID", AuditEvent.class, persistence, "action", "R");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
-        assertEquals(((AuditEvent)resources.get(0)).getEvent().getAction().getValue().toString(),"R");
+        assertEquals(((AuditEvent)resources.get(0)).getAction().getValue().toString(),"R");
     }
     
     /**
