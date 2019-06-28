@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -93,26 +94,26 @@ public class ImplementationGuide extends DomainResource {
 
     private ImplementationGuide(Builder builder) {
         super(builder);
-        this.url = ValidationSupport.requireNonNull(builder.url, "url");
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.copyright = builder.copyright;
-        this.packageId = ValidationSupport.requireNonNull(builder.packageId, "packageId");
-        this.license = builder.license;
-        this.fhirVersion = ValidationSupport.requireNonEmpty(builder.fhirVersion, "fhirVersion");
-        this.dependsOn = builder.dependsOn;
-        this.global = builder.global;
-        this.definition = builder.definition;
-        this.manifest = builder.manifest;
+        url = ValidationSupport.requireNonNull(builder.url, "url");
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        copyright = builder.copyright;
+        packageId = ValidationSupport.requireNonNull(builder.packageId, "packageId");
+        license = builder.license;
+        fhirVersion = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.fhirVersion, "fhirVersion"));
+        dependsOn = Collections.unmodifiableList(builder.dependsOn);
+        global = Collections.unmodifiableList(builder.global);
+        definition = builder.definition;
+        manifest = builder.manifest;
     }
 
     /**
@@ -932,6 +933,44 @@ public class ImplementationGuide extends DomainResource {
 
         /**
          * <p>
+         * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
+         * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
+         * [minor], which is 4.0.0. for this version.
+         * </p>
+         * 
+         * @param fhirVersion
+         *     FHIR Version(s) this Implementation Guide targets
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder fhirVersion(FHIRVersion... fhirVersion) {
+            for (FHIRVersion value : fhirVersion) {
+                this.fhirVersion.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
+         * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
+         * [minor], which is 4.0.0. for this version.
+         * </p>
+         * 
+         * @param fhirVersion
+         *     FHIR Version(s) this Implementation Guide targets
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder fhirVersion(Collection<FHIRVersion> fhirVersion) {
+            this.fhirVersion.addAll(fhirVersion);
+            return this;
+        }
+
+        /**
+         * <p>
          * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
          * profiles etc.defined in other implementation guides.
          * </p>
@@ -1051,9 +1090,9 @@ public class ImplementationGuide extends DomainResource {
 
         private DependsOn(Builder builder) {
             super(builder);
-            this.uri = ValidationSupport.requireNonNull(builder.uri, "uri");
-            this.packageId = builder.packageId;
-            this.version = builder.version;
+            uri = ValidationSupport.requireNonNull(builder.uri, "uri");
+            packageId = builder.packageId;
+            version = builder.version;
         }
 
         /**
@@ -1276,9 +1315,6 @@ public class ImplementationGuide extends DomainResource {
 
             private static Builder from(DependsOn dependsOn) {
                 Builder builder = new Builder(dependsOn.uri);
-                builder.id = dependsOn.id;
-                builder.extension.addAll(dependsOn.extension);
-                builder.modifierExtension.addAll(dependsOn.modifierExtension);
                 builder.packageId = dependsOn.packageId;
                 builder.version = dependsOn.version;
                 return builder;
@@ -1297,8 +1333,8 @@ public class ImplementationGuide extends DomainResource {
 
         private Global(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
         }
 
         /**
@@ -1474,9 +1510,6 @@ public class ImplementationGuide extends DomainResource {
 
             private static Builder from(Global global) {
                 Builder builder = new Builder(global.type, global.profile);
-                builder.id = global.id;
-                builder.extension.addAll(global.extension);
-                builder.modifierExtension.addAll(global.modifierExtension);
                 return builder;
             }
         }
@@ -1496,11 +1529,11 @@ public class ImplementationGuide extends DomainResource {
 
         private Definition(Builder builder) {
             super(builder);
-            this.grouping = builder.grouping;
-            this.resource = ValidationSupport.requireNonEmpty(builder.resource, "resource");
-            this.page = builder.page;
-            this.parameter = builder.parameter;
-            this.template = builder.template;
+            grouping = Collections.unmodifiableList(builder.grouping);
+            resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
+            page = builder.page;
+            parameter = Collections.unmodifiableList(builder.parameter);
+            template = Collections.unmodifiableList(builder.template);
         }
 
         /**
@@ -1750,6 +1783,44 @@ public class ImplementationGuide extends DomainResource {
 
             /**
              * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder resource(Resource... resource) {
+                for (Resource value : resource) {
+                    this.resource.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder resource(Collection<Resource> resource) {
+                this.resource.addAll(resource);
+                return this;
+            }
+
+            /**
+             * <p>
              * A page / section in the implementation guide. The root page is the implementation guide home page.
              * </p>
              * 
@@ -1839,9 +1910,6 @@ public class ImplementationGuide extends DomainResource {
 
             private static Builder from(Definition definition) {
                 Builder builder = new Builder(definition.resource);
-                builder.id = definition.id;
-                builder.extension.addAll(definition.extension);
-                builder.modifierExtension.addAll(definition.modifierExtension);
                 builder.grouping.addAll(definition.grouping);
                 builder.page = definition.page;
                 builder.parameter.addAll(definition.parameter);
@@ -1861,8 +1929,8 @@ public class ImplementationGuide extends DomainResource {
 
             private Grouping(Builder builder) {
                 super(builder);
-                this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                this.description = builder.description;
+                name = ValidationSupport.requireNonNull(builder.name, "name");
+                description = builder.description;
             }
 
             /**
@@ -2055,9 +2123,6 @@ public class ImplementationGuide extends DomainResource {
 
                 private static Builder from(Grouping grouping) {
                     Builder builder = new Builder(grouping.name);
-                    builder.id = grouping.id;
-                    builder.extension.addAll(grouping.extension);
-                    builder.modifierExtension.addAll(grouping.modifierExtension);
                     builder.description = grouping.description;
                     return builder;
                 }
@@ -2081,12 +2146,12 @@ public class ImplementationGuide extends DomainResource {
 
             private Resource(Builder builder) {
                 super(builder);
-                this.reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                this.fhirVersion = builder.fhirVersion;
-                this.name = builder.name;
-                this.description = builder.description;
-                this.example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
-                this.groupingId = builder.groupingId;
+                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
+                fhirVersion = Collections.unmodifiableList(builder.fhirVersion);
+                name = builder.name;
+                description = builder.description;
+                example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
+                groupingId = builder.groupingId;
             }
 
             /**
@@ -2424,9 +2489,6 @@ public class ImplementationGuide extends DomainResource {
 
                 private static Builder from(Resource resource) {
                     Builder builder = new Builder(resource.reference);
-                    builder.id = resource.id;
-                    builder.extension.addAll(resource.extension);
-                    builder.modifierExtension.addAll(resource.modifierExtension);
                     builder.fhirVersion.addAll(resource.fhirVersion);
                     builder.name = resource.name;
                     builder.description = resource.description;
@@ -2450,10 +2512,10 @@ public class ImplementationGuide extends DomainResource {
 
             private Page(Builder builder) {
                 super(builder);
-                this.name = ValidationSupport.requireChoiceElement(builder.name, "name", Url.class, Reference.class);
-                this.title = ValidationSupport.requireNonNull(builder.title, "title");
-                this.generation = ValidationSupport.requireNonNull(builder.generation, "generation");
-                this.page = builder.page;
+                name = ValidationSupport.requireChoiceElement(builder.name, "name", Url.class, Reference.class);
+                title = ValidationSupport.requireNonNull(builder.title, "title");
+                generation = ValidationSupport.requireNonNull(builder.generation, "generation");
+                page = Collections.unmodifiableList(builder.page);
             }
 
             /**
@@ -2694,9 +2756,6 @@ public class ImplementationGuide extends DomainResource {
 
                 private static Builder from(Page page) {
                     Builder builder = new Builder(page.name, page.title, page.generation);
-                    builder.id = page.id;
-                    builder.extension.addAll(page.extension);
-                    builder.modifierExtension.addAll(page.modifierExtension);
                     builder.page.addAll(page.page);
                     return builder;
                 }
@@ -2714,8 +2773,8 @@ public class ImplementationGuide extends DomainResource {
 
             private Parameter(Builder builder) {
                 super(builder);
-                this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                this.value = ValidationSupport.requireNonNull(builder.value, "value");
+                code = ValidationSupport.requireNonNull(builder.code, "code");
+                value = ValidationSupport.requireNonNull(builder.value, "value");
             }
 
             /**
@@ -2892,9 +2951,6 @@ public class ImplementationGuide extends DomainResource {
 
                 private static Builder from(Parameter parameter) {
                     Builder builder = new Builder(parameter.code, parameter.value);
-                    builder.id = parameter.id;
-                    builder.extension.addAll(parameter.extension);
-                    builder.modifierExtension.addAll(parameter.modifierExtension);
                     return builder;
                 }
             }
@@ -2912,9 +2968,9 @@ public class ImplementationGuide extends DomainResource {
 
             private Template(Builder builder) {
                 super(builder);
-                this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                this.source = ValidationSupport.requireNonNull(builder.source, "source");
-                this.scope = builder.scope;
+                code = ValidationSupport.requireNonNull(builder.code, "code");
+                source = ValidationSupport.requireNonNull(builder.source, "source");
+                scope = builder.scope;
             }
 
             /**
@@ -3122,9 +3178,6 @@ public class ImplementationGuide extends DomainResource {
 
                 private static Builder from(Template template) {
                     Builder builder = new Builder(template.code, template.source);
-                    builder.id = template.id;
-                    builder.extension.addAll(template.extension);
-                    builder.modifierExtension.addAll(template.modifierExtension);
                     builder.scope = template.scope;
                     return builder;
                 }
@@ -3146,11 +3199,11 @@ public class ImplementationGuide extends DomainResource {
 
         private Manifest(Builder builder) {
             super(builder);
-            this.rendering = builder.rendering;
-            this.resource = ValidationSupport.requireNonEmpty(builder.resource, "resource");
-            this.page = builder.page;
-            this.image = builder.image;
-            this.other = builder.other;
+            rendering = builder.rendering;
+            resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
+            page = Collections.unmodifiableList(builder.page);
+            image = Collections.unmodifiableList(builder.image);
+            other = Collections.unmodifiableList(builder.other);
         }
 
         /**
@@ -3383,6 +3436,44 @@ public class ImplementationGuide extends DomainResource {
 
             /**
              * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder resource(Resource... resource) {
+                for (Resource value : resource) {
+                    this.resource.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
+             * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
+             * example resource.
+             * </p>
+             * 
+             * @param resource
+             *     Resource in the implementation guide
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder resource(Collection<Resource> resource) {
+                this.resource.addAll(resource);
+                return this;
+            }
+
+            /**
+             * <p>
              * Information about a page within the IG.
              * </p>
              * 
@@ -3492,9 +3583,6 @@ public class ImplementationGuide extends DomainResource {
 
             private static Builder from(Manifest manifest) {
                 Builder builder = new Builder(manifest.resource);
-                builder.id = manifest.id;
-                builder.extension.addAll(manifest.extension);
-                builder.modifierExtension.addAll(manifest.modifierExtension);
                 builder.rendering = manifest.rendering;
                 builder.page.addAll(manifest.page);
                 builder.image.addAll(manifest.image);
@@ -3517,9 +3605,9 @@ public class ImplementationGuide extends DomainResource {
 
             private Resource(Builder builder) {
                 super(builder);
-                this.reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                this.example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
-                this.relativePath = builder.relativePath;
+                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
+                example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
+                relativePath = builder.relativePath;
             }
 
             /**
@@ -3744,9 +3832,6 @@ public class ImplementationGuide extends DomainResource {
 
                 private static Builder from(Resource resource) {
                     Builder builder = new Builder(resource.reference);
-                    builder.id = resource.id;
-                    builder.extension.addAll(resource.extension);
-                    builder.modifierExtension.addAll(resource.modifierExtension);
                     builder.example = resource.example;
                     builder.relativePath = resource.relativePath;
                     return builder;
@@ -3766,9 +3851,9 @@ public class ImplementationGuide extends DomainResource {
 
             private Page(Builder builder) {
                 super(builder);
-                this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                this.title = builder.title;
-                this.anchor = builder.anchor;
+                name = ValidationSupport.requireNonNull(builder.name, "name");
+                title = builder.title;
+                anchor = Collections.unmodifiableList(builder.anchor);
             }
 
             /**
@@ -4009,9 +4094,6 @@ public class ImplementationGuide extends DomainResource {
 
                 private static Builder from(Page page) {
                     Builder builder = new Builder(page.name);
-                    builder.id = page.id;
-                    builder.extension.addAll(page.extension);
-                    builder.modifierExtension.addAll(page.modifierExtension);
                     builder.title = page.title;
                     builder.anchor.addAll(page.anchor);
                     return builder;

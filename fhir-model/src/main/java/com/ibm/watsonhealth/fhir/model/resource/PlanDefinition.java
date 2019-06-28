@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -105,37 +106,37 @@ public class PlanDefinition extends DomainResource {
 
     private PlanDefinition(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.subtitle = builder.subtitle;
-        this.type = builder.type;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.usage = builder.usage;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.topic = builder.topic;
-        this.author = builder.author;
-        this.editor = builder.editor;
-        this.reviewer = builder.reviewer;
-        this.endorser = builder.endorser;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.library = builder.library;
-        this.goal = builder.goal;
-        this.action = builder.action;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        subtitle = builder.subtitle;
+        type = builder.type;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        usage = builder.usage;
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        goal = Collections.unmodifiableList(builder.goal);
+        action = Collections.unmodifiableList(builder.action);
     }
 
     /**
@@ -1644,13 +1645,13 @@ public class PlanDefinition extends DomainResource {
 
         private Goal(Builder builder) {
             super(builder);
-            this.category = builder.category;
-            this.description = ValidationSupport.requireNonNull(builder.description, "description");
-            this.priority = builder.priority;
-            this.start = builder.start;
-            this.addresses = builder.addresses;
-            this.documentation = builder.documentation;
-            this.target = builder.target;
+            category = builder.category;
+            description = ValidationSupport.requireNonNull(builder.description, "description");
+            priority = builder.priority;
+            start = builder.start;
+            addresses = Collections.unmodifiableList(builder.addresses);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            target = Collections.unmodifiableList(builder.target);
         }
 
         /**
@@ -2051,9 +2052,6 @@ public class PlanDefinition extends DomainResource {
 
             private static Builder from(Goal goal) {
                 Builder builder = new Builder(goal.description);
-                builder.id = goal.id;
-                builder.extension.addAll(goal.extension);
-                builder.modifierExtension.addAll(goal.modifierExtension);
                 builder.category = goal.category;
                 builder.priority = goal.priority;
                 builder.start = goal.start;
@@ -2076,9 +2074,9 @@ public class PlanDefinition extends DomainResource {
 
             private Target(Builder builder) {
                 super(builder);
-                this.measure = builder.measure;
-                this.detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
-                this.due = builder.due;
+                measure = builder.measure;
+                detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
+                due = builder.due;
             }
 
             /**
@@ -2320,9 +2318,6 @@ public class PlanDefinition extends DomainResource {
 
                 private static Builder from(Target target) {
                     Builder builder = new Builder();
-                    builder.id = target.id;
-                    builder.extension.addAll(target.extension);
-                    builder.modifierExtension.addAll(target.modifierExtension);
                     builder.measure = target.measure;
                     builder.detail = target.detail;
                     builder.due = target.due;
@@ -2368,33 +2363,33 @@ public class PlanDefinition extends DomainResource {
 
         private Action(Builder builder) {
             super(builder);
-            this.prefix = builder.prefix;
-            this.title = builder.title;
-            this.description = builder.description;
-            this.textEquivalent = builder.textEquivalent;
-            this.priority = builder.priority;
-            this.code = builder.code;
-            this.reason = builder.reason;
-            this.documentation = builder.documentation;
-            this.goalId = builder.goalId;
-            this.subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-            this.trigger = builder.trigger;
-            this.condition = builder.condition;
-            this.input = builder.input;
-            this.output = builder.output;
-            this.relatedAction = builder.relatedAction;
-            this.timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
-            this.participant = builder.participant;
-            this.type = builder.type;
-            this.groupingBehavior = builder.groupingBehavior;
-            this.selectionBehavior = builder.selectionBehavior;
-            this.requiredBehavior = builder.requiredBehavior;
-            this.precheckBehavior = builder.precheckBehavior;
-            this.cardinalityBehavior = builder.cardinalityBehavior;
-            this.definition = ValidationSupport.choiceElement(builder.definition, "definition", Canonical.class, Uri.class);
-            this.transform = builder.transform;
-            this.dynamicValue = builder.dynamicValue;
-            this.action = builder.action;
+            prefix = builder.prefix;
+            title = builder.title;
+            description = builder.description;
+            textEquivalent = builder.textEquivalent;
+            priority = builder.priority;
+            code = Collections.unmodifiableList(builder.code);
+            reason = Collections.unmodifiableList(builder.reason);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            goalId = Collections.unmodifiableList(builder.goalId);
+            subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+            trigger = Collections.unmodifiableList(builder.trigger);
+            condition = Collections.unmodifiableList(builder.condition);
+            input = Collections.unmodifiableList(builder.input);
+            output = Collections.unmodifiableList(builder.output);
+            relatedAction = Collections.unmodifiableList(builder.relatedAction);
+            timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
+            participant = Collections.unmodifiableList(builder.participant);
+            type = builder.type;
+            groupingBehavior = builder.groupingBehavior;
+            selectionBehavior = builder.selectionBehavior;
+            requiredBehavior = builder.requiredBehavior;
+            precheckBehavior = builder.precheckBehavior;
+            cardinalityBehavior = builder.cardinalityBehavior;
+            definition = ValidationSupport.choiceElement(builder.definition, "definition", Canonical.class, Uri.class);
+            transform = builder.transform;
+            dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -3593,9 +3588,6 @@ public class PlanDefinition extends DomainResource {
 
             private static Builder from(Action action) {
                 Builder builder = new Builder();
-                builder.id = action.id;
-                builder.extension.addAll(action.extension);
-                builder.modifierExtension.addAll(action.modifierExtension);
                 builder.prefix = action.prefix;
                 builder.title = action.title;
                 builder.description = action.description;
@@ -3638,8 +3630,8 @@ public class PlanDefinition extends DomainResource {
 
             private Condition(Builder builder) {
                 super(builder);
-                this.kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-                this.expression = builder.expression;
+                kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+                expression = builder.expression;
             }
 
             /**
@@ -3832,9 +3824,6 @@ public class PlanDefinition extends DomainResource {
 
                 private static Builder from(Condition condition) {
                     Builder builder = new Builder(condition.kind);
-                    builder.id = condition.id;
-                    builder.extension.addAll(condition.extension);
-                    builder.modifierExtension.addAll(condition.modifierExtension);
                     builder.expression = condition.expression;
                     return builder;
                 }
@@ -3853,9 +3842,9 @@ public class PlanDefinition extends DomainResource {
 
             private RelatedAction(Builder builder) {
                 super(builder);
-                this.actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
-                this.relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
-                this.offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
+                actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
+                relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
+                offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
             }
 
             /**
@@ -4063,9 +4052,6 @@ public class PlanDefinition extends DomainResource {
 
                 private static Builder from(RelatedAction relatedAction) {
                     Builder builder = new Builder(relatedAction.actionId, relatedAction.relationship);
-                    builder.id = relatedAction.id;
-                    builder.extension.addAll(relatedAction.extension);
-                    builder.modifierExtension.addAll(relatedAction.modifierExtension);
                     builder.offset = relatedAction.offset;
                     return builder;
                 }
@@ -4083,8 +4069,8 @@ public class PlanDefinition extends DomainResource {
 
             private Participant(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.role = builder.role;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                role = builder.role;
             }
 
             /**
@@ -4277,9 +4263,6 @@ public class PlanDefinition extends DomainResource {
 
                 private static Builder from(Participant participant) {
                     Builder builder = new Builder(participant.type);
-                    builder.id = participant.id;
-                    builder.extension.addAll(participant.extension);
-                    builder.modifierExtension.addAll(participant.modifierExtension);
                     builder.role = participant.role;
                     return builder;
                 }
@@ -4299,8 +4282,8 @@ public class PlanDefinition extends DomainResource {
 
             private DynamicValue(Builder builder) {
                 super(builder);
-                this.path = builder.path;
-                this.expression = builder.expression;
+                path = builder.path;
+                expression = builder.expression;
             }
 
             /**
@@ -4514,9 +4497,6 @@ public class PlanDefinition extends DomainResource {
 
                 private static Builder from(DynamicValue dynamicValue) {
                     Builder builder = new Builder();
-                    builder.id = dynamicValue.id;
-                    builder.extension.addAll(dynamicValue.extension);
-                    builder.modifierExtension.addAll(dynamicValue.modifierExtension);
                     builder.path = dynamicValue.path;
                     builder.expression = dynamicValue.expression;
                     return builder;

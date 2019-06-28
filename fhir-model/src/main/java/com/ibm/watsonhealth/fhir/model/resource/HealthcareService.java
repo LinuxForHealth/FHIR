@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -67,30 +68,30 @@ public class HealthcareService extends DomainResource {
 
     private HealthcareService(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.providedBy = builder.providedBy;
-        this.category = builder.category;
-        this.type = builder.type;
-        this.specialty = builder.specialty;
-        this.location = builder.location;
-        this.name = builder.name;
-        this.comment = builder.comment;
-        this.extraDetails = builder.extraDetails;
-        this.photo = builder.photo;
-        this.telecom = builder.telecom;
-        this.coverageArea = builder.coverageArea;
-        this.serviceProvisionCode = builder.serviceProvisionCode;
-        this.eligibility = builder.eligibility;
-        this.program = builder.program;
-        this.characteristic = builder.characteristic;
-        this.communication = builder.communication;
-        this.referralMethod = builder.referralMethod;
-        this.appointmentRequired = builder.appointmentRequired;
-        this.availableTime = builder.availableTime;
-        this.notAvailable = builder.notAvailable;
-        this.availabilityExceptions = builder.availabilityExceptions;
-        this.endpoint = builder.endpoint;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        providedBy = builder.providedBy;
+        category = Collections.unmodifiableList(builder.category);
+        type = Collections.unmodifiableList(builder.type);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
+        name = builder.name;
+        comment = builder.comment;
+        extraDetails = builder.extraDetails;
+        photo = builder.photo;
+        telecom = Collections.unmodifiableList(builder.telecom);
+        coverageArea = Collections.unmodifiableList(builder.coverageArea);
+        serviceProvisionCode = Collections.unmodifiableList(builder.serviceProvisionCode);
+        eligibility = Collections.unmodifiableList(builder.eligibility);
+        program = Collections.unmodifiableList(builder.program);
+        characteristic = Collections.unmodifiableList(builder.characteristic);
+        communication = Collections.unmodifiableList(builder.communication);
+        referralMethod = Collections.unmodifiableList(builder.referralMethod);
+        appointmentRequired = builder.appointmentRequired;
+        availableTime = Collections.unmodifiableList(builder.availableTime);
+        notAvailable = Collections.unmodifiableList(builder.notAvailable);
+        availabilityExceptions = builder.availabilityExceptions;
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -1414,8 +1415,8 @@ public class HealthcareService extends DomainResource {
 
         private Eligibility(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.comment = builder.comment;
+            code = builder.code;
+            comment = builder.comment;
         }
 
         /**
@@ -1621,9 +1622,6 @@ public class HealthcareService extends DomainResource {
 
             private static Builder from(Eligibility eligibility) {
                 Builder builder = new Builder();
-                builder.id = eligibility.id;
-                builder.extension.addAll(eligibility.extension);
-                builder.modifierExtension.addAll(eligibility.modifierExtension);
                 builder.code = eligibility.code;
                 builder.comment = eligibility.comment;
                 return builder;
@@ -1644,10 +1642,10 @@ public class HealthcareService extends DomainResource {
 
         private AvailableTime(Builder builder) {
             super(builder);
-            this.daysOfWeek = builder.daysOfWeek;
-            this.allDay = builder.allDay;
-            this.availableStartTime = builder.availableStartTime;
-            this.availableEndTime = builder.availableEndTime;
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
+            allDay = builder.allDay;
+            availableStartTime = builder.availableStartTime;
+            availableEndTime = builder.availableEndTime;
         }
 
         /**
@@ -1931,9 +1929,6 @@ public class HealthcareService extends DomainResource {
 
             private static Builder from(AvailableTime availableTime) {
                 Builder builder = new Builder();
-                builder.id = availableTime.id;
-                builder.extension.addAll(availableTime.extension);
-                builder.modifierExtension.addAll(availableTime.modifierExtension);
                 builder.daysOfWeek.addAll(availableTime.daysOfWeek);
                 builder.allDay = availableTime.allDay;
                 builder.availableStartTime = availableTime.availableStartTime;
@@ -1954,8 +1949,8 @@ public class HealthcareService extends DomainResource {
 
         private NotAvailable(Builder builder) {
             super(builder);
-            this.description = ValidationSupport.requireNonNull(builder.description, "description");
-            this.during = builder.during;
+            description = ValidationSupport.requireNonNull(builder.description, "description");
+            during = builder.during;
         }
 
         /**
@@ -2148,9 +2143,6 @@ public class HealthcareService extends DomainResource {
 
             private static Builder from(NotAvailable notAvailable) {
                 Builder builder = new Builder(notAvailable.description);
-                builder.id = notAvailable.id;
-                builder.extension.addAll(notAvailable.extension);
-                builder.modifierExtension.addAll(notAvailable.modifierExtension);
                 builder.during = notAvailable.during;
                 return builder;
             }

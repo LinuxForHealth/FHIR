@@ -27,11 +27,11 @@ public class Coding extends Element {
 
     private Coding(Builder builder) {
         super(builder);
-        this.system = builder.system;
-        this.version = builder.version;
-        this.code = builder.code;
-        this.display = builder.display;
-        this.userSelected = builder.userSelected;
+        system = builder.system;
+        version = builder.version;
+        code = builder.code;
+        display = builder.display;
+        userSelected = builder.userSelected;
     }
 
     /**

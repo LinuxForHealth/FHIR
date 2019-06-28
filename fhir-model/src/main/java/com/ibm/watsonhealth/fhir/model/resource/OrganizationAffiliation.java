@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -49,18 +50,18 @@ public class OrganizationAffiliation extends DomainResource {
 
     private OrganizationAffiliation(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.period = builder.period;
-        this.organization = builder.organization;
-        this.participatingOrganization = builder.participatingOrganization;
-        this.network = builder.network;
-        this.code = builder.code;
-        this.specialty = builder.specialty;
-        this.location = builder.location;
-        this.healthcareService = builder.healthcareService;
-        this.telecom = builder.telecom;
-        this.endpoint = builder.endpoint;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        period = builder.period;
+        organization = builder.organization;
+        participatingOrganization = builder.participatingOrganization;
+        network = Collections.unmodifiableList(builder.network);
+        code = Collections.unmodifiableList(builder.code);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
+        healthcareService = Collections.unmodifiableList(builder.healthcareService);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**

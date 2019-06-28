@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -59,21 +60,21 @@ public class SupplyRequest extends DomainResource {
 
     private SupplyRequest(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = builder.status;
-        this.category = builder.category;
-        this.priority = builder.priority;
-        this.item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-        this.quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        this.parameter = builder.parameter;
-        this.occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        this.authoredOn = builder.authoredOn;
-        this.requester = builder.requester;
-        this.supplier = builder.supplier;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.deliverFrom = builder.deliverFrom;
-        this.deliverTo = builder.deliverTo;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        category = builder.category;
+        priority = builder.priority;
+        item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+        quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
+        parameter = Collections.unmodifiableList(builder.parameter);
+        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        authoredOn = builder.authoredOn;
+        requester = builder.requester;
+        supplier = Collections.unmodifiableList(builder.supplier);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        deliverFrom = builder.deliverFrom;
+        deliverTo = builder.deliverTo;
     }
 
     /**
@@ -877,8 +878,8 @@ public class SupplyRequest extends DomainResource {
 
         private Parameter(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
+            code = builder.code;
+            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
         }
 
         /**
@@ -1084,9 +1085,6 @@ public class SupplyRequest extends DomainResource {
 
             private static Builder from(Parameter parameter) {
                 Builder builder = new Builder();
-                builder.id = parameter.id;
-                builder.extension.addAll(parameter.extension);
-                builder.modifierExtension.addAll(parameter.modifierExtension);
                 builder.code = parameter.code;
                 builder.value = parameter.value;
                 return builder;

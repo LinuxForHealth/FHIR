@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.annotation.Generated;
 
@@ -75,19 +76,19 @@ public class List extends DomainResource {
 
     private List(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-        this.title = builder.title;
-        this.code = builder.code;
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.date = builder.date;
-        this.source = builder.source;
-        this.orderedBy = builder.orderedBy;
-        this.note = builder.note;
-        this.entry = builder.entry;
-        this.emptyReason = builder.emptyReason;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+        title = builder.title;
+        code = builder.code;
+        subject = builder.subject;
+        encounter = builder.encounter;
+        date = builder.date;
+        source = builder.source;
+        orderedBy = builder.orderedBy;
+        note = Collections.unmodifiableList(builder.note);
+        entry = Collections.unmodifiableList(builder.entry);
+        emptyReason = builder.emptyReason;
     }
 
     /**
@@ -793,10 +794,10 @@ public class List extends DomainResource {
 
         private Entry(Builder builder) {
             super(builder);
-            this.flag = builder.flag;
-            this.deleted = builder.deleted;
-            this.date = builder.date;
-            this.item = ValidationSupport.requireNonNull(builder.item, "item");
+            flag = builder.flag;
+            deleted = builder.deleted;
+            date = builder.date;
+            item = ValidationSupport.requireNonNull(builder.item, "item");
         }
 
         /**
@@ -1049,9 +1050,6 @@ public class List extends DomainResource {
 
             private static Builder from(Entry entry) {
                 Builder builder = new Builder(entry.item);
-                builder.id = entry.id;
-                builder.extension.addAll(entry.extension);
-                builder.modifierExtension.addAll(entry.modifierExtension);
                 builder.flag = entry.flag;
                 builder.deleted = entry.deleted;
                 builder.date = entry.date;

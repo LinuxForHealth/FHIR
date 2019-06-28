@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -99,9 +100,9 @@ public class Timing extends BackboneElement {
 
     private Timing(Builder builder) {
         super(builder);
-        this.event = builder.event;
-        this.repeat = builder.repeat;
-        this.code = builder.code;
+        event = Collections.unmodifiableList(builder.event);
+        repeat = builder.repeat;
+        code = builder.code;
     }
 
     /**
@@ -393,21 +394,21 @@ public class Timing extends BackboneElement {
 
         private Repeat(Builder builder) {
             super(builder);
-            this.bounds = ValidationSupport.choiceElement(builder.bounds, "bounds", Duration.class, Range.class, Period.class);
-            this.count = builder.count;
-            this.countMax = builder.countMax;
-            this.duration = builder.duration;
-            this.durationMax = builder.durationMax;
-            this.durationUnit = builder.durationUnit;
-            this.frequency = builder.frequency;
-            this.frequencyMax = builder.frequencyMax;
-            this.period = builder.period;
-            this.periodMax = builder.periodMax;
-            this.periodUnit = builder.periodUnit;
-            this.dayOfWeek = builder.dayOfWeek;
-            this.timeOfDay = builder.timeOfDay;
-            this.when = builder.when;
-            this.offset = builder.offset;
+            bounds = ValidationSupport.choiceElement(builder.bounds, "bounds", Duration.class, Range.class, Period.class);
+            count = builder.count;
+            countMax = builder.countMax;
+            duration = builder.duration;
+            durationMax = builder.durationMax;
+            durationUnit = builder.durationUnit;
+            frequency = builder.frequency;
+            frequencyMax = builder.frequencyMax;
+            period = builder.period;
+            periodMax = builder.periodMax;
+            periodUnit = builder.periodUnit;
+            dayOfWeek = Collections.unmodifiableList(builder.dayOfWeek);
+            timeOfDay = Collections.unmodifiableList(builder.timeOfDay);
+            when = Collections.unmodifiableList(builder.when);
+            offset = builder.offset;
         }
 
         /**
@@ -1076,9 +1077,6 @@ public class Timing extends BackboneElement {
 
             private static Builder from(Repeat repeat) {
                 Builder builder = new Builder();
-                builder.id = repeat.id;
-                builder.extension.addAll(repeat.extension);
-                builder.modifierExtension.addAll(repeat.modifierExtension);
                 builder.bounds = repeat.bounds;
                 builder.count = repeat.count;
                 builder.countMax = repeat.countMax;

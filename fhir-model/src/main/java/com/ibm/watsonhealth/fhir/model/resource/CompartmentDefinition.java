@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -63,20 +64,20 @@ public class CompartmentDefinition extends DomainResource {
 
     private CompartmentDefinition(Builder builder) {
         super(builder);
-        this.url = ValidationSupport.requireNonNull(builder.url, "url");
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.purpose = builder.purpose;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.search = ValidationSupport.requireNonNull(builder.search, "search");
-        this.resource = builder.resource;
+        url = ValidationSupport.requireNonNull(builder.url, "url");
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        purpose = builder.purpose;
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        search = ValidationSupport.requireNonNull(builder.search, "search");
+        resource = Collections.unmodifiableList(builder.resource);
     }
 
     /**
@@ -783,9 +784,9 @@ public class CompartmentDefinition extends DomainResource {
 
         private Resource(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.param = builder.param;
-            this.documentation = builder.documentation;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            param = Collections.unmodifiableList(builder.param);
+            documentation = builder.documentation;
         }
 
         /**
@@ -1029,9 +1030,6 @@ public class CompartmentDefinition extends DomainResource {
 
             private static Builder from(Resource resource) {
                 Builder builder = new Builder(resource.code);
-                builder.id = resource.id;
-                builder.extension.addAll(resource.extension);
-                builder.modifierExtension.addAll(resource.modifierExtension);
                 builder.param.addAll(resource.param);
                 builder.documentation = resource.documentation;
                 return builder;

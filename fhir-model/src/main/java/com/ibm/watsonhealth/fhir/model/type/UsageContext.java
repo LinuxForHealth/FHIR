@@ -27,8 +27,8 @@ public class UsageContext extends Element {
 
     private UsageContext(Builder builder) {
         super(builder);
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
     }
 
     /**

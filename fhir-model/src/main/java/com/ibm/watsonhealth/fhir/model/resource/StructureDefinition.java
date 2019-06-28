@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -245,33 +246,33 @@ public class StructureDefinition extends DomainResource {
 
     private StructureDefinition(Builder builder) {
         super(builder);
-        this.url = ValidationSupport.requireNonNull(builder.url, "url");
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.keyword = builder.keyword;
-        this.fhirVersion = builder.fhirVersion;
-        this.mapping = builder.mapping;
-        this.kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        this._abstract = ValidationSupport.requireNonNull(builder._abstract, "abstract");
-        this.context = builder.context;
-        this.contextInvariant = builder.contextInvariant;
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.baseDefinition = builder.baseDefinition;
-        this.derivation = builder.derivation;
-        this.snapshot = builder.snapshot;
-        this.differential = builder.differential;
+        url = ValidationSupport.requireNonNull(builder.url, "url");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        keyword = Collections.unmodifiableList(builder.keyword);
+        fhirVersion = builder.fhirVersion;
+        mapping = Collections.unmodifiableList(builder.mapping);
+        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        _abstract = ValidationSupport.requireNonNull(builder._abstract, "abstract");
+        context = Collections.unmodifiableList(builder.context);
+        contextInvariant = Collections.unmodifiableList(builder.contextInvariant);
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        baseDefinition = builder.baseDefinition;
+        derivation = builder.derivation;
+        snapshot = builder.snapshot;
+        differential = builder.differential;
     }
 
     /**
@@ -1476,10 +1477,10 @@ public class StructureDefinition extends DomainResource {
 
         private Mapping(Builder builder) {
             super(builder);
-            this.identity = ValidationSupport.requireNonNull(builder.identity, "identity");
-            this.uri = builder.uri;
-            this.name = builder.name;
-            this.comment = builder.comment;
+            identity = ValidationSupport.requireNonNull(builder.identity, "identity");
+            uri = builder.uri;
+            name = builder.name;
+            comment = builder.comment;
         }
 
         /**
@@ -1732,9 +1733,6 @@ public class StructureDefinition extends DomainResource {
 
             private static Builder from(Mapping mapping) {
                 Builder builder = new Builder(mapping.identity);
-                builder.id = mapping.id;
-                builder.extension.addAll(mapping.extension);
-                builder.modifierExtension.addAll(mapping.modifierExtension);
                 builder.uri = mapping.uri;
                 builder.name = mapping.name;
                 builder.comment = mapping.comment;
@@ -1754,8 +1752,8 @@ public class StructureDefinition extends DomainResource {
 
         private Context(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.expression = ValidationSupport.requireNonNull(builder.expression, "expression");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
         }
 
         /**
@@ -1931,9 +1929,6 @@ public class StructureDefinition extends DomainResource {
 
             private static Builder from(Context context) {
                 Builder builder = new Builder(context.type, context.expression);
-                builder.id = context.id;
-                builder.extension.addAll(context.extension);
-                builder.modifierExtension.addAll(context.modifierExtension);
                 return builder;
             }
         }
@@ -1950,7 +1945,7 @@ public class StructureDefinition extends DomainResource {
 
         private Snapshot(Builder builder) {
             super(builder);
-            this.element = ValidationSupport.requireNonEmpty(builder.element, "element");
+            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
         }
 
         /**
@@ -2104,6 +2099,40 @@ public class StructureDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder element(ElementDefinition... element) {
+                for (ElementDefinition value : element) {
+                    this.element.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder element(Collection<ElementDefinition> element) {
+                this.element.addAll(element);
+                return this;
+            }
+
             @Override
             public Snapshot build() {
                 return new Snapshot(this);
@@ -2111,9 +2140,6 @@ public class StructureDefinition extends DomainResource {
 
             private static Builder from(Snapshot snapshot) {
                 Builder builder = new Builder(snapshot.element);
-                builder.id = snapshot.id;
-                builder.extension.addAll(snapshot.extension);
-                builder.modifierExtension.addAll(snapshot.modifierExtension);
                 return builder;
             }
         }
@@ -2129,7 +2155,7 @@ public class StructureDefinition extends DomainResource {
 
         private Differential(Builder builder) {
             super(builder);
-            this.element = ValidationSupport.requireNonEmpty(builder.element, "element");
+            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
         }
 
         /**
@@ -2283,6 +2309,40 @@ public class StructureDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder element(ElementDefinition... element) {
+                for (ElementDefinition value : element) {
+                    this.element.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Captures constraints on each element within the resource.
+             * </p>
+             * 
+             * @param element
+             *     Definition of elements in the resource (if no StructureDefinition)
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder element(Collection<ElementDefinition> element) {
+                this.element.addAll(element);
+                return this;
+            }
+
             @Override
             public Differential build() {
                 return new Differential(this);
@@ -2290,9 +2350,6 @@ public class StructureDefinition extends DomainResource {
 
             private static Builder from(Differential differential) {
                 Builder builder = new Builder(differential.element);
-                builder.id = differential.id;
-                builder.extension.addAll(differential.extension);
-                builder.modifierExtension.addAll(differential.modifierExtension);
                 return builder;
             }
         }

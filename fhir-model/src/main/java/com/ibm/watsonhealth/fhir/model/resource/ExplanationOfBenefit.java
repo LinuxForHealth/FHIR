@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -97,49 +98,49 @@ public class ExplanationOfBenefit extends DomainResource {
 
     private ExplanationOfBenefit(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.subType = builder.subType;
-        this.use = ValidationSupport.requireNonNull(builder.use, "use");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.billablePeriod = builder.billablePeriod;
-        this.created = ValidationSupport.requireNonNull(builder.created, "created");
-        this.enterer = builder.enterer;
-        this.insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        this.provider = ValidationSupport.requireNonNull(builder.provider, "provider");
-        this.priority = builder.priority;
-        this.fundsReserveRequested = builder.fundsReserveRequested;
-        this.fundsReserve = builder.fundsReserve;
-        this.related = builder.related;
-        this.prescription = builder.prescription;
-        this.originalPrescription = builder.originalPrescription;
-        this.payee = builder.payee;
-        this.referral = builder.referral;
-        this.facility = builder.facility;
-        this.claim = builder.claim;
-        this.claimResponse = builder.claimResponse;
-        this.outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
-        this.disposition = builder.disposition;
-        this.preAuthRef = builder.preAuthRef;
-        this.preAuthRefPeriod = builder.preAuthRefPeriod;
-        this.careTeam = builder.careTeam;
-        this.supportingInfo = builder.supportingInfo;
-        this.diagnosis = builder.diagnosis;
-        this.procedure = builder.procedure;
-        this.precedence = builder.precedence;
-        this.insurance = ValidationSupport.requireNonEmpty(builder.insurance, "insurance");
-        this.accident = builder.accident;
-        this.item = builder.item;
-        this.addItem = builder.addItem;
-        this.adjudication = builder.adjudication;
-        this.total = builder.total;
-        this.payment = builder.payment;
-        this.formCode = builder.formCode;
-        this.form = builder.form;
-        this.processNote = builder.processNote;
-        this.benefitPeriod = builder.benefitPeriod;
-        this.benefitBalance = builder.benefitBalance;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        subType = builder.subType;
+        use = ValidationSupport.requireNonNull(builder.use, "use");
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        billablePeriod = builder.billablePeriod;
+        created = ValidationSupport.requireNonNull(builder.created, "created");
+        enterer = builder.enterer;
+        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
+        provider = ValidationSupport.requireNonNull(builder.provider, "provider");
+        priority = builder.priority;
+        fundsReserveRequested = builder.fundsReserveRequested;
+        fundsReserve = builder.fundsReserve;
+        related = Collections.unmodifiableList(builder.related);
+        prescription = builder.prescription;
+        originalPrescription = builder.originalPrescription;
+        payee = builder.payee;
+        referral = builder.referral;
+        facility = builder.facility;
+        claim = builder.claim;
+        claimResponse = builder.claimResponse;
+        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        disposition = builder.disposition;
+        preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
+        preAuthRefPeriod = Collections.unmodifiableList(builder.preAuthRefPeriod);
+        careTeam = Collections.unmodifiableList(builder.careTeam);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        procedure = Collections.unmodifiableList(builder.procedure);
+        precedence = builder.precedence;
+        insurance = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.insurance, "insurance"));
+        accident = builder.accident;
+        item = Collections.unmodifiableList(builder.item);
+        addItem = Collections.unmodifiableList(builder.addItem);
+        adjudication = Collections.unmodifiableList(builder.adjudication);
+        total = Collections.unmodifiableList(builder.total);
+        payment = builder.payment;
+        formCode = builder.formCode;
+        form = builder.form;
+        processNote = Collections.unmodifiableList(builder.processNote);
+        benefitPeriod = builder.benefitPeriod;
+        benefitBalance = Collections.unmodifiableList(builder.benefitBalance);
     }
 
     /**
@@ -1577,6 +1578,40 @@ public class ExplanationOfBenefit extends DomainResource {
 
         /**
          * <p>
+         * Financial instruments for reimbursement for the health care products and services specified on the claim.
+         * </p>
+         * 
+         * @param insurance
+         *     Patient insurance information
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder insurance(Insurance... insurance) {
+            for (Insurance value : insurance) {
+                this.insurance.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Financial instruments for reimbursement for the health care products and services specified on the claim.
+         * </p>
+         * 
+         * @param insurance
+         *     Patient insurance information
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder insurance(Collection<Insurance> insurance) {
+            this.insurance.addAll(insurance);
+            return this;
+        }
+
+        /**
+         * <p>
          * Details of a accident which resulted in injuries which required the products and services listed in the claim.
          * </p>
          * 
@@ -1880,9 +1915,9 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Related(Builder builder) {
             super(builder);
-            this.claim = builder.claim;
-            this.relationship = builder.relationship;
-            this.reference = builder.reference;
+            claim = builder.claim;
+            relationship = builder.relationship;
+            reference = builder.reference;
         }
 
         /**
@@ -2118,9 +2153,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Related related) {
                 Builder builder = new Builder();
-                builder.id = related.id;
-                builder.extension.addAll(related.extension);
-                builder.modifierExtension.addAll(related.modifierExtension);
                 builder.claim = related.claim;
                 builder.relationship = related.relationship;
                 builder.reference = related.reference;
@@ -2140,8 +2172,8 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Payee(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.party = builder.party;
+            type = builder.type;
+            party = builder.party;
         }
 
         /**
@@ -2347,9 +2379,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Payee payee) {
                 Builder builder = new Builder();
-                builder.id = payee.id;
-                builder.extension.addAll(payee.extension);
-                builder.modifierExtension.addAll(payee.modifierExtension);
                 builder.type = payee.type;
                 builder.party = payee.party;
                 return builder;
@@ -2371,11 +2400,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private CareTeam(Builder builder) {
             super(builder);
-            this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            this.provider = ValidationSupport.requireNonNull(builder.provider, "provider");
-            this.responsible = builder.responsible;
-            this.role = builder.role;
-            this.qualification = builder.qualification;
+            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+            provider = ValidationSupport.requireNonNull(builder.provider, "provider");
+            responsible = builder.responsible;
+            role = builder.role;
+            qualification = builder.qualification;
         }
 
         /**
@@ -2643,9 +2672,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(CareTeam careTeam) {
                 Builder builder = new Builder(careTeam.sequence, careTeam.provider);
-                builder.id = careTeam.id;
-                builder.extension.addAll(careTeam.extension);
-                builder.modifierExtension.addAll(careTeam.modifierExtension);
                 builder.responsible = careTeam.responsible;
                 builder.role = careTeam.role;
                 builder.qualification = careTeam.qualification;
@@ -2670,12 +2696,12 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private SupportingInfo(Builder builder) {
             super(builder);
-            this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            this.category = ValidationSupport.requireNonNull(builder.category, "category");
-            this.code = builder.code;
-            this.timing = ValidationSupport.choiceElement(builder.timing, "timing", Date.class, Period.class);
-            this.value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
-            this.reason = builder.reason;
+            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+            category = ValidationSupport.requireNonNull(builder.category, "category");
+            code = builder.code;
+            timing = ValidationSupport.choiceElement(builder.timing, "timing", Date.class, Period.class);
+            value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
+            reason = builder.reason;
         }
 
         /**
@@ -2977,9 +3003,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(SupportingInfo supportingInfo) {
                 Builder builder = new Builder(supportingInfo.sequence, supportingInfo.category);
-                builder.id = supportingInfo.id;
-                builder.extension.addAll(supportingInfo.extension);
-                builder.modifierExtension.addAll(supportingInfo.modifierExtension);
                 builder.code = supportingInfo.code;
                 builder.timing = supportingInfo.timing;
                 builder.value = supportingInfo.value;
@@ -3003,11 +3026,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Diagnosis(Builder builder) {
             super(builder);
-            this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            this.diagnosis = ValidationSupport.requireChoiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-            this.type = builder.type;
-            this.onAdmission = builder.onAdmission;
-            this.packageCode = builder.packageCode;
+            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+            diagnosis = ValidationSupport.requireChoiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+            type = Collections.unmodifiableList(builder.type);
+            onAdmission = builder.onAdmission;
+            packageCode = builder.packageCode;
         }
 
         /**
@@ -3295,9 +3318,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Diagnosis diagnosis) {
                 Builder builder = new Builder(diagnosis.sequence, diagnosis.diagnosis);
-                builder.id = diagnosis.id;
-                builder.extension.addAll(diagnosis.extension);
-                builder.modifierExtension.addAll(diagnosis.modifierExtension);
                 builder.type.addAll(diagnosis.type);
                 builder.onAdmission = diagnosis.onAdmission;
                 builder.packageCode = diagnosis.packageCode;
@@ -3320,11 +3340,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Procedure(Builder builder) {
             super(builder);
-            this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            this.type = builder.type;
-            this.date = builder.date;
-            this.procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
-            this.udi = builder.udi;
+            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+            type = Collections.unmodifiableList(builder.type);
+            date = builder.date;
+            procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
+            udi = Collections.unmodifiableList(builder.udi);
         }
 
         /**
@@ -3628,9 +3648,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Procedure procedure) {
                 Builder builder = new Builder(procedure.sequence, procedure.procedure);
-                builder.id = procedure.id;
-                builder.extension.addAll(procedure.extension);
-                builder.modifierExtension.addAll(procedure.modifierExtension);
                 builder.type.addAll(procedure.type);
                 builder.date = procedure.date;
                 builder.udi.addAll(procedure.udi);
@@ -3651,9 +3668,9 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Insurance(Builder builder) {
             super(builder);
-            this.focal = ValidationSupport.requireNonNull(builder.focal, "focal");
-            this.coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
-            this.preAuthRef = builder.preAuthRef;
+            focal = ValidationSupport.requireNonNull(builder.focal, "focal");
+            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
         }
 
         /**
@@ -3883,9 +3900,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Insurance insurance) {
                 Builder builder = new Builder(insurance.focal, insurance.coverage);
-                builder.id = insurance.id;
-                builder.extension.addAll(insurance.extension);
-                builder.modifierExtension.addAll(insurance.modifierExtension);
                 builder.preAuthRef.addAll(insurance.preAuthRef);
                 return builder;
             }
@@ -3904,9 +3918,9 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Accident(Builder builder) {
             super(builder);
-            this.date = builder.date;
-            this.type = builder.type;
-            this.location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
+            date = builder.date;
+            type = builder.type;
+            location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
         }
 
         /**
@@ -4144,9 +4158,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Accident accident) {
                 Builder builder = new Builder();
-                builder.id = accident.id;
-                builder.extension.addAll(accident.extension);
-                builder.modifierExtension.addAll(accident.modifierExtension);
                 builder.date = accident.date;
                 builder.type = accident.type;
                 builder.location = accident.location;
@@ -4188,29 +4199,29 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            this.careTeamSequence = builder.careTeamSequence;
-            this.diagnosisSequence = builder.diagnosisSequence;
-            this.procedureSequence = builder.procedureSequence;
-            this.informationSequence = builder.informationSequence;
-            this.revenue = builder.revenue;
-            this.category = builder.category;
-            this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            this.modifier = builder.modifier;
-            this.programCode = builder.programCode;
-            this.serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            this.location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
-            this.quantity = builder.quantity;
-            this.unitPrice = builder.unitPrice;
-            this.factor = builder.factor;
-            this.net = builder.net;
-            this.udi = builder.udi;
-            this.bodySite = builder.bodySite;
-            this.subSite = builder.subSite;
-            this.encounter = builder.encounter;
-            this.noteNumber = builder.noteNumber;
-            this.adjudication = builder.adjudication;
-            this.detail = builder.detail;
+            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+            careTeamSequence = Collections.unmodifiableList(builder.careTeamSequence);
+            diagnosisSequence = Collections.unmodifiableList(builder.diagnosisSequence);
+            procedureSequence = Collections.unmodifiableList(builder.procedureSequence);
+            informationSequence = Collections.unmodifiableList(builder.informationSequence);
+            revenue = builder.revenue;
+            category = builder.category;
+            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
+            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            quantity = builder.quantity;
+            unitPrice = builder.unitPrice;
+            factor = builder.factor;
+            net = builder.net;
+            udi = Collections.unmodifiableList(builder.udi);
+            bodySite = builder.bodySite;
+            subSite = Collections.unmodifiableList(builder.subSite);
+            encounter = Collections.unmodifiableList(builder.encounter);
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(builder.adjudication);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -5242,9 +5253,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Item item) {
                 Builder builder = new Builder(item.sequence, item.productOrService);
-                builder.id = item.id;
-                builder.extension.addAll(item.extension);
-                builder.modifierExtension.addAll(item.modifierExtension);
                 builder.careTeamSequence.addAll(item.careTeamSequence);
                 builder.diagnosisSequence.addAll(item.diagnosisSequence);
                 builder.procedureSequence.addAll(item.procedureSequence);
@@ -5284,10 +5292,10 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private Adjudication(Builder builder) {
                 super(builder);
-                this.category = ValidationSupport.requireNonNull(builder.category, "category");
-                this.reason = builder.reason;
-                this.amount = builder.amount;
-                this.value = builder.value;
+                category = ValidationSupport.requireNonNull(builder.category, "category");
+                reason = builder.reason;
+                amount = builder.amount;
+                value = builder.value;
             }
 
             /**
@@ -5542,9 +5550,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 private static Builder from(Adjudication adjudication) {
                     Builder builder = new Builder(adjudication.category);
-                    builder.id = adjudication.id;
-                    builder.extension.addAll(adjudication.extension);
-                    builder.modifierExtension.addAll(adjudication.modifierExtension);
                     builder.reason = adjudication.reason;
                     builder.amount = adjudication.amount;
                     builder.value = adjudication.value;
@@ -5576,20 +5581,20 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-                this.revenue = builder.revenue;
-                this.category = builder.category;
-                this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                this.modifier = builder.modifier;
-                this.programCode = builder.programCode;
-                this.quantity = builder.quantity;
-                this.unitPrice = builder.unitPrice;
-                this.factor = builder.factor;
-                this.net = builder.net;
-                this.udi = builder.udi;
-                this.noteNumber = builder.noteNumber;
-                this.adjudication = builder.adjudication;
-                this.subDetail = builder.subDetail;
+                sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                revenue = builder.revenue;
+                category = builder.category;
+                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+                modifier = Collections.unmodifiableList(builder.modifier);
+                programCode = Collections.unmodifiableList(builder.programCode);
+                quantity = builder.quantity;
+                unitPrice = builder.unitPrice;
+                factor = builder.factor;
+                net = builder.net;
+                udi = Collections.unmodifiableList(builder.udi);
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(builder.adjudication);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -6240,9 +6245,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 private static Builder from(Detail detail) {
                     Builder builder = new Builder(detail.sequence, detail.productOrService);
-                    builder.id = detail.id;
-                    builder.extension.addAll(detail.extension);
-                    builder.modifierExtension.addAll(detail.modifierExtension);
                     builder.revenue = detail.revenue;
                     builder.category = detail.category;
                     builder.modifier.addAll(detail.modifier);
@@ -6281,19 +6283,19 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 private SubDetail(Builder builder) {
                     super(builder);
-                    this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-                    this.revenue = builder.revenue;
-                    this.category = builder.category;
-                    this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    this.modifier = builder.modifier;
-                    this.programCode = builder.programCode;
-                    this.quantity = builder.quantity;
-                    this.unitPrice = builder.unitPrice;
-                    this.factor = builder.factor;
-                    this.net = builder.net;
-                    this.udi = builder.udi;
-                    this.noteNumber = builder.noteNumber;
-                    this.adjudication = builder.adjudication;
+                    sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                    revenue = builder.revenue;
+                    category = builder.category;
+                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+                    modifier = Collections.unmodifiableList(builder.modifier);
+                    programCode = Collections.unmodifiableList(builder.programCode);
+                    quantity = builder.quantity;
+                    unitPrice = builder.unitPrice;
+                    factor = builder.factor;
+                    net = builder.net;
+                    udi = Collections.unmodifiableList(builder.udi);
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(builder.adjudication);
                 }
 
                 /**
@@ -6896,9 +6898,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
                     private static Builder from(SubDetail subDetail) {
                         Builder builder = new Builder(subDetail.sequence, subDetail.productOrService);
-                        builder.id = subDetail.id;
-                        builder.extension.addAll(subDetail.extension);
-                        builder.modifierExtension.addAll(subDetail.modifierExtension);
                         builder.revenue = subDetail.revenue;
                         builder.category = subDetail.category;
                         builder.modifier.addAll(subDetail.modifier);
@@ -6944,24 +6943,24 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private AddItem(Builder builder) {
             super(builder);
-            this.itemSequence = builder.itemSequence;
-            this.detailSequence = builder.detailSequence;
-            this.subDetailSequence = builder.subDetailSequence;
-            this.provider = builder.provider;
-            this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            this.modifier = builder.modifier;
-            this.programCode = builder.programCode;
-            this.serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            this.location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
-            this.quantity = builder.quantity;
-            this.unitPrice = builder.unitPrice;
-            this.factor = builder.factor;
-            this.net = builder.net;
-            this.bodySite = builder.bodySite;
-            this.subSite = builder.subSite;
-            this.noteNumber = builder.noteNumber;
-            this.adjudication = builder.adjudication;
-            this.detail = builder.detail;
+            itemSequence = Collections.unmodifiableList(builder.itemSequence);
+            detailSequence = Collections.unmodifiableList(builder.detailSequence);
+            subDetailSequence = Collections.unmodifiableList(builder.subDetailSequence);
+            provider = Collections.unmodifiableList(builder.provider);
+            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
+            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            quantity = builder.quantity;
+            unitPrice = builder.unitPrice;
+            factor = builder.factor;
+            net = builder.net;
+            bodySite = builder.bodySite;
+            subSite = Collections.unmodifiableList(builder.subSite);
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(builder.adjudication);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -7822,9 +7821,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(AddItem addItem) {
                 Builder builder = new Builder(addItem.productOrService);
-                builder.id = addItem.id;
-                builder.extension.addAll(addItem.extension);
-                builder.modifierExtension.addAll(addItem.modifierExtension);
                 builder.itemSequence.addAll(addItem.itemSequence);
                 builder.detailSequence.addAll(addItem.detailSequence);
                 builder.subDetailSequence.addAll(addItem.subDetailSequence);
@@ -7864,15 +7860,15 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                this.modifier = builder.modifier;
-                this.quantity = builder.quantity;
-                this.unitPrice = builder.unitPrice;
-                this.factor = builder.factor;
-                this.net = builder.net;
-                this.noteNumber = builder.noteNumber;
-                this.adjudication = builder.adjudication;
-                this.subDetail = builder.subDetail;
+                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+                modifier = Collections.unmodifiableList(builder.modifier);
+                quantity = builder.quantity;
+                unitPrice = builder.unitPrice;
+                factor = builder.factor;
+                net = builder.net;
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(builder.adjudication);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -8352,9 +8348,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 private static Builder from(Detail detail) {
                     Builder builder = new Builder(detail.productOrService);
-                    builder.id = detail.id;
-                    builder.extension.addAll(detail.extension);
-                    builder.modifierExtension.addAll(detail.modifierExtension);
                     builder.modifier.addAll(detail.modifier);
                     builder.quantity = detail.quantity;
                     builder.unitPrice = detail.unitPrice;
@@ -8384,14 +8377,14 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 private SubDetail(Builder builder) {
                     super(builder);
-                    this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    this.modifier = builder.modifier;
-                    this.quantity = builder.quantity;
-                    this.unitPrice = builder.unitPrice;
-                    this.factor = builder.factor;
-                    this.net = builder.net;
-                    this.noteNumber = builder.noteNumber;
-                    this.adjudication = builder.adjudication;
+                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+                    modifier = Collections.unmodifiableList(builder.modifier);
+                    quantity = builder.quantity;
+                    unitPrice = builder.unitPrice;
+                    factor = builder.factor;
+                    net = builder.net;
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(builder.adjudication);
                 }
 
                 /**
@@ -8823,9 +8816,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
                     private static Builder from(SubDetail subDetail) {
                         Builder builder = new Builder(subDetail.productOrService);
-                        builder.id = subDetail.id;
-                        builder.extension.addAll(subDetail.extension);
-                        builder.modifierExtension.addAll(subDetail.modifierExtension);
                         builder.modifier.addAll(subDetail.modifier);
                         builder.quantity = subDetail.quantity;
                         builder.unitPrice = subDetail.unitPrice;
@@ -8851,8 +8841,8 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Total(Builder builder) {
             super(builder);
-            this.category = ValidationSupport.requireNonNull(builder.category, "category");
-            this.amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+            category = ValidationSupport.requireNonNull(builder.category, "category");
+            amount = ValidationSupport.requireNonNull(builder.amount, "amount");
         }
 
         /**
@@ -9030,9 +9020,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Total total) {
                 Builder builder = new Builder(total.category, total.amount);
-                builder.id = total.id;
-                builder.extension.addAll(total.extension);
-                builder.modifierExtension.addAll(total.modifierExtension);
                 return builder;
             }
         }
@@ -9053,12 +9040,12 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private Payment(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.adjustment = builder.adjustment;
-            this.adjustmentReason = builder.adjustmentReason;
-            this.date = builder.date;
-            this.amount = builder.amount;
-            this.identifier = builder.identifier;
+            type = builder.type;
+            adjustment = builder.adjustment;
+            adjustmentReason = builder.adjustmentReason;
+            date = builder.date;
+            amount = builder.amount;
+            identifier = builder.identifier;
         }
 
         /**
@@ -9386,9 +9373,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(Payment payment) {
                 Builder builder = new Builder();
-                builder.id = payment.id;
-                builder.extension.addAll(payment.extension);
-                builder.modifierExtension.addAll(payment.modifierExtension);
                 builder.type = payment.type;
                 builder.adjustment = payment.adjustment;
                 builder.adjustmentReason = payment.adjustmentReason;
@@ -9413,10 +9397,10 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private ProcessNote(Builder builder) {
             super(builder);
-            this.number = builder.number;
-            this.type = builder.type;
-            this.text = builder.text;
-            this.language = builder.language;
+            number = builder.number;
+            type = builder.type;
+            text = builder.text;
+            language = builder.language;
         }
 
         /**
@@ -9682,9 +9666,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(ProcessNote processNote) {
                 Builder builder = new Builder();
-                builder.id = processNote.id;
-                builder.extension.addAll(processNote.extension);
-                builder.modifierExtension.addAll(processNote.modifierExtension);
                 builder.number = processNote.number;
                 builder.type = processNote.type;
                 builder.text = processNote.text;
@@ -9711,14 +9692,14 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private BenefitBalance(Builder builder) {
             super(builder);
-            this.category = ValidationSupport.requireNonNull(builder.category, "category");
-            this.excluded = builder.excluded;
-            this.name = builder.name;
-            this.description = builder.description;
-            this.network = builder.network;
-            this.unit = builder.unit;
-            this.term = builder.term;
-            this.financial = builder.financial;
+            category = ValidationSupport.requireNonNull(builder.category, "category");
+            excluded = builder.excluded;
+            name = builder.name;
+            description = builder.description;
+            network = builder.network;
+            unit = builder.unit;
+            term = builder.term;
+            financial = Collections.unmodifiableList(builder.financial);
         }
 
         /**
@@ -10111,9 +10092,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private static Builder from(BenefitBalance benefitBalance) {
                 Builder builder = new Builder(benefitBalance.category);
-                builder.id = benefitBalance.id;
-                builder.extension.addAll(benefitBalance.extension);
-                builder.modifierExtension.addAll(benefitBalance.modifierExtension);
                 builder.excluded = benefitBalance.excluded;
                 builder.name = benefitBalance.name;
                 builder.description = benefitBalance.description;
@@ -10137,9 +10115,9 @@ public class ExplanationOfBenefit extends DomainResource {
 
             private Financial(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
-                this.used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, Money.class);
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
+                used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, Money.class);
             }
 
             /**
@@ -10362,9 +10340,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 private static Builder from(Financial financial) {
                     Builder builder = new Builder(financial.type);
-                    builder.id = financial.id;
-                    builder.extension.addAll(financial.extension);
-                    builder.modifierExtension.addAll(financial.modifierExtension);
                     builder.allowed = financial.allowed;
                     builder.used = financial.used;
                     return builder;

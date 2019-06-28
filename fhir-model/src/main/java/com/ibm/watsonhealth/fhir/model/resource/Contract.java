@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -88,39 +89,39 @@ public class Contract extends DomainResource {
 
     private Contract(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.url = builder.url;
-        this.version = builder.version;
-        this.status = builder.status;
-        this.legalState = builder.legalState;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.contentDerivative = builder.contentDerivative;
-        this.issued = builder.issued;
-        this.applies = builder.applies;
-        this.expirationType = builder.expirationType;
-        this.subject = builder.subject;
-        this.authority = builder.authority;
-        this.domain = builder.domain;
-        this.site = builder.site;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.subtitle = builder.subtitle;
-        this.alias = builder.alias;
-        this.author = builder.author;
-        this.scope = builder.scope;
-        this.topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
-        this.type = builder.type;
-        this.subType = builder.subType;
-        this.contentDefinition = builder.contentDefinition;
-        this.term = builder.term;
-        this.supportingInfo = builder.supportingInfo;
-        this.relevantHistory = builder.relevantHistory;
-        this.signer = builder.signer;
-        this.friendly = builder.friendly;
-        this.legal = builder.legal;
-        this.rule = builder.rule;
-        this.legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
+        identifier = Collections.unmodifiableList(builder.identifier);
+        url = builder.url;
+        version = builder.version;
+        status = builder.status;
+        legalState = builder.legalState;
+        instantiatesCanonical = builder.instantiatesCanonical;
+        instantiatesUri = builder.instantiatesUri;
+        contentDerivative = builder.contentDerivative;
+        issued = builder.issued;
+        applies = builder.applies;
+        expirationType = builder.expirationType;
+        subject = Collections.unmodifiableList(builder.subject);
+        authority = Collections.unmodifiableList(builder.authority);
+        domain = Collections.unmodifiableList(builder.domain);
+        site = Collections.unmodifiableList(builder.site);
+        name = builder.name;
+        title = builder.title;
+        subtitle = builder.subtitle;
+        alias = Collections.unmodifiableList(builder.alias);
+        author = builder.author;
+        scope = builder.scope;
+        topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
+        type = builder.type;
+        subType = Collections.unmodifiableList(builder.subType);
+        contentDefinition = builder.contentDefinition;
+        term = Collections.unmodifiableList(builder.term);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
+        signer = Collections.unmodifiableList(builder.signer);
+        friendly = Collections.unmodifiableList(builder.friendly);
+        legal = Collections.unmodifiableList(builder.legal);
+        rule = Collections.unmodifiableList(builder.rule);
+        legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
     }
 
     /**
@@ -1735,12 +1736,12 @@ public class Contract extends DomainResource {
 
         private ContentDefinition(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.subType = builder.subType;
-            this.publisher = builder.publisher;
-            this.publicationDate = builder.publicationDate;
-            this.publicationStatus = ValidationSupport.requireNonNull(builder.publicationStatus, "publicationStatus");
-            this.copyright = builder.copyright;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            subType = builder.subType;
+            publisher = builder.publisher;
+            publicationDate = builder.publicationDate;
+            publicationStatus = ValidationSupport.requireNonNull(builder.publicationStatus, "publicationStatus");
+            copyright = builder.copyright;
         }
 
         /**
@@ -2045,9 +2046,6 @@ public class Contract extends DomainResource {
 
             private static Builder from(ContentDefinition contentDefinition) {
                 Builder builder = new Builder(contentDefinition.type, contentDefinition.publicationStatus);
-                builder.id = contentDefinition.id;
-                builder.extension.addAll(contentDefinition.extension);
-                builder.modifierExtension.addAll(contentDefinition.modifierExtension);
                 builder.subType = contentDefinition.subType;
                 builder.publisher = contentDefinition.publisher;
                 builder.publicationDate = contentDefinition.publicationDate;
@@ -2078,18 +2076,18 @@ public class Contract extends DomainResource {
 
         private Term(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.issued = builder.issued;
-            this.applies = builder.applies;
-            this.topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
-            this.type = builder.type;
-            this.subType = builder.subType;
-            this.text = builder.text;
-            this.securityLabel = builder.securityLabel;
-            this.offer = ValidationSupport.requireNonNull(builder.offer, "offer");
-            this.asset = builder.asset;
-            this.action = builder.action;
-            this.group = builder.group;
+            identifier = builder.identifier;
+            issued = builder.issued;
+            applies = builder.applies;
+            topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
+            type = builder.type;
+            subType = builder.subType;
+            text = builder.text;
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            offer = ValidationSupport.requireNonNull(builder.offer, "offer");
+            asset = Collections.unmodifiableList(builder.asset);
+            action = Collections.unmodifiableList(builder.action);
+            group = Collections.unmodifiableList(builder.group);
         }
 
         /**
@@ -2664,9 +2662,6 @@ public class Contract extends DomainResource {
 
             private static Builder from(Term term) {
                 Builder builder = new Builder(term.offer);
-                builder.id = term.id;
-                builder.extension.addAll(term.extension);
-                builder.modifierExtension.addAll(term.modifierExtension);
                 builder.identifier = term.identifier;
                 builder.issued = term.issued;
                 builder.applies = term.applies;
@@ -2696,10 +2691,10 @@ public class Contract extends DomainResource {
 
             private SecurityLabel(Builder builder) {
                 super(builder);
-                this.number = builder.number;
-                this.classification = ValidationSupport.requireNonNull(builder.classification, "classification");
-                this.category = builder.category;
-                this.control = builder.control;
+                number = Collections.unmodifiableList(builder.number);
+                classification = ValidationSupport.requireNonNull(builder.classification, "classification");
+                category = Collections.unmodifiableList(builder.category);
+                control = Collections.unmodifiableList(builder.control);
             }
 
             /**
@@ -3010,9 +3005,6 @@ public class Contract extends DomainResource {
 
                 private static Builder from(SecurityLabel securityLabel) {
                     Builder builder = new Builder(securityLabel.classification);
-                    builder.id = securityLabel.id;
-                    builder.extension.addAll(securityLabel.extension);
-                    builder.modifierExtension.addAll(securityLabel.modifierExtension);
                     builder.number.addAll(securityLabel.number);
                     builder.category.addAll(securityLabel.category);
                     builder.control.addAll(securityLabel.control);
@@ -3040,16 +3032,16 @@ public class Contract extends DomainResource {
 
             private Offer(Builder builder) {
                 super(builder);
-                this.identifier = builder.identifier;
-                this.party = builder.party;
-                this.topic = builder.topic;
-                this.type = builder.type;
-                this.decision = builder.decision;
-                this.decisionMode = builder.decisionMode;
-                this.answer = builder.answer;
-                this.text = builder.text;
-                this.linkId = builder.linkId;
-                this.securityLabelNumber = builder.securityLabelNumber;
+                identifier = Collections.unmodifiableList(builder.identifier);
+                party = Collections.unmodifiableList(builder.party);
+                topic = builder.topic;
+                type = builder.type;
+                decision = builder.decision;
+                decisionMode = Collections.unmodifiableList(builder.decisionMode);
+                answer = Collections.unmodifiableList(builder.answer);
+                text = builder.text;
+                linkId = Collections.unmodifiableList(builder.linkId);
+                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
             }
 
             /**
@@ -3607,9 +3599,6 @@ public class Contract extends DomainResource {
 
                 private static Builder from(Offer offer) {
                     Builder builder = new Builder();
-                    builder.id = offer.id;
-                    builder.extension.addAll(offer.extension);
-                    builder.modifierExtension.addAll(offer.modifierExtension);
                     builder.identifier.addAll(offer.identifier);
                     builder.party.addAll(offer.party);
                     builder.topic = offer.topic;
@@ -3635,8 +3624,8 @@ public class Contract extends DomainResource {
 
                 private Party(Builder builder) {
                     super(builder);
-                    this.reference = ValidationSupport.requireNonEmpty(builder.reference, "reference");
-                    this.role = ValidationSupport.requireNonNull(builder.role, "role");
+                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+                    role = ValidationSupport.requireNonNull(builder.role, "role");
                 }
 
                 /**
@@ -3805,6 +3794,40 @@ public class Contract extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Participant in the offer.
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Referenced entity
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder reference(Reference... reference) {
+                        for (Reference value : reference) {
+                            this.reference.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Participant in the offer.
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Referenced entity
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder reference(Collection<Reference> reference) {
+                        this.reference.addAll(reference);
+                        return this;
+                    }
+
                     @Override
                     public Party build() {
                         return new Party(this);
@@ -3812,9 +3835,6 @@ public class Contract extends DomainResource {
 
                     private static Builder from(Party party) {
                         Builder builder = new Builder(party.reference, party.role);
-                        builder.id = party.id;
-                        builder.extension.addAll(party.extension);
-                        builder.modifierExtension.addAll(party.modifierExtension);
                         return builder;
                     }
                 }
@@ -3830,7 +3850,7 @@ public class Contract extends DomainResource {
 
                 private Answer(Builder builder) {
                     super(builder);
-                    this.value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
+                    value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
                 }
 
                 /**
@@ -3993,9 +4013,6 @@ public class Contract extends DomainResource {
 
                     private static Builder from(Answer answer) {
                         Builder builder = new Builder(answer.value);
-                        builder.id = answer.id;
-                        builder.extension.addAll(answer.extension);
-                        builder.modifierExtension.addAll(answer.modifierExtension);
                         return builder;
                     }
                 }
@@ -4026,21 +4043,21 @@ public class Contract extends DomainResource {
 
             private Asset(Builder builder) {
                 super(builder);
-                this.scope = builder.scope;
-                this.type = builder.type;
-                this.typeReference = builder.typeReference;
-                this.subtype = builder.subtype;
-                this.relationship = builder.relationship;
-                this.context = builder.context;
-                this.condition = builder.condition;
-                this.periodType = builder.periodType;
-                this.period = builder.period;
-                this.usePeriod = builder.usePeriod;
-                this.text = builder.text;
-                this.linkId = builder.linkId;
-                this.answer = builder.answer;
-                this.securityLabelNumber = builder.securityLabelNumber;
-                this.valuedItem = builder.valuedItem;
+                scope = builder.scope;
+                type = Collections.unmodifiableList(builder.type);
+                typeReference = Collections.unmodifiableList(builder.typeReference);
+                subtype = Collections.unmodifiableList(builder.subtype);
+                relationship = builder.relationship;
+                context = Collections.unmodifiableList(builder.context);
+                condition = builder.condition;
+                periodType = Collections.unmodifiableList(builder.periodType);
+                period = Collections.unmodifiableList(builder.period);
+                usePeriod = Collections.unmodifiableList(builder.usePeriod);
+                text = builder.text;
+                linkId = Collections.unmodifiableList(builder.linkId);
+                answer = Collections.unmodifiableList(builder.answer);
+                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
+                valuedItem = Collections.unmodifiableList(builder.valuedItem);
             }
 
             /**
@@ -4838,9 +4855,6 @@ public class Contract extends DomainResource {
 
                 private static Builder from(Asset asset) {
                     Builder builder = new Builder();
-                    builder.id = asset.id;
-                    builder.extension.addAll(asset.extension);
-                    builder.modifierExtension.addAll(asset.modifierExtension);
                     builder.scope = asset.scope;
                     builder.type.addAll(asset.type);
                     builder.typeReference.addAll(asset.typeReference);
@@ -4872,9 +4886,9 @@ public class Contract extends DomainResource {
 
                 private Context(Builder builder) {
                     super(builder);
-                    this.reference = builder.reference;
-                    this.code = builder.code;
-                    this.text = builder.text;
+                    reference = builder.reference;
+                    code = Collections.unmodifiableList(builder.code);
+                    text = builder.text;
                 }
 
                 /**
@@ -5130,9 +5144,6 @@ public class Contract extends DomainResource {
 
                     private static Builder from(Context context) {
                         Builder builder = new Builder();
-                        builder.id = context.id;
-                        builder.extension.addAll(context.extension);
-                        builder.modifierExtension.addAll(context.modifierExtension);
                         builder.reference = context.reference;
                         builder.code.addAll(context.code);
                         builder.text = context.text;
@@ -5164,20 +5175,20 @@ public class Contract extends DomainResource {
 
                 private ValuedItem(Builder builder) {
                     super(builder);
-                    this.entity = ValidationSupport.choiceElement(builder.entity, "entity", CodeableConcept.class, Reference.class);
-                    this.identifier = builder.identifier;
-                    this.effectiveTime = builder.effectiveTime;
-                    this.quantity = builder.quantity;
-                    this.unitPrice = builder.unitPrice;
-                    this.factor = builder.factor;
-                    this.points = builder.points;
-                    this.net = builder.net;
-                    this.payment = builder.payment;
-                    this.paymentDate = builder.paymentDate;
-                    this.responsible = builder.responsible;
-                    this.recipient = builder.recipient;
-                    this.linkId = builder.linkId;
-                    this.securityLabelNumber = builder.securityLabelNumber;
+                    entity = ValidationSupport.choiceElement(builder.entity, "entity", CodeableConcept.class, Reference.class);
+                    identifier = builder.identifier;
+                    effectiveTime = builder.effectiveTime;
+                    quantity = builder.quantity;
+                    unitPrice = builder.unitPrice;
+                    factor = builder.factor;
+                    points = builder.points;
+                    net = builder.net;
+                    payment = builder.payment;
+                    paymentDate = builder.paymentDate;
+                    responsible = builder.responsible;
+                    recipient = builder.recipient;
+                    linkId = Collections.unmodifiableList(builder.linkId);
+                    securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
                 }
 
                 /**
@@ -5794,9 +5805,6 @@ public class Contract extends DomainResource {
 
                     private static Builder from(ValuedItem valuedItem) {
                         Builder builder = new Builder();
-                        builder.id = valuedItem.id;
-                        builder.extension.addAll(valuedItem.extension);
-                        builder.modifierExtension.addAll(valuedItem.modifierExtension);
                         builder.entity = valuedItem.entity;
                         builder.identifier = valuedItem.identifier;
                         builder.effectiveTime = valuedItem.effectiveTime;
@@ -5848,27 +5856,27 @@ public class Contract extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                this.doNotPerform = builder.doNotPerform;
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.subject = builder.subject;
-                this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-                this.linkId = builder.linkId;
-                this.status = ValidationSupport.requireNonNull(builder.status, "status");
-                this.context = builder.context;
-                this.contextLinkId = builder.contextLinkId;
-                this.occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-                this.requester = builder.requester;
-                this.requesterLinkId = builder.requesterLinkId;
-                this.performerType = builder.performerType;
-                this.performerRole = builder.performerRole;
-                this.performer = builder.performer;
-                this.performerLinkId = builder.performerLinkId;
-                this.reasonCode = builder.reasonCode;
-                this.reasonReference = builder.reasonReference;
-                this.reason = builder.reason;
-                this.reasonLinkId = builder.reasonLinkId;
-                this.note = builder.note;
-                this.securityLabelNumber = builder.securityLabelNumber;
+                doNotPerform = builder.doNotPerform;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                subject = Collections.unmodifiableList(builder.subject);
+                intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+                linkId = Collections.unmodifiableList(builder.linkId);
+                status = ValidationSupport.requireNonNull(builder.status, "status");
+                context = builder.context;
+                contextLinkId = Collections.unmodifiableList(builder.contextLinkId);
+                occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+                requester = Collections.unmodifiableList(builder.requester);
+                requesterLinkId = Collections.unmodifiableList(builder.requesterLinkId);
+                performerType = Collections.unmodifiableList(builder.performerType);
+                performerRole = builder.performerRole;
+                performer = builder.performer;
+                performerLinkId = Collections.unmodifiableList(builder.performerLinkId);
+                reasonCode = Collections.unmodifiableList(builder.reasonCode);
+                reasonReference = Collections.unmodifiableList(builder.reasonReference);
+                reason = Collections.unmodifiableList(builder.reason);
+                reasonLinkId = Collections.unmodifiableList(builder.reasonLinkId);
+                note = Collections.unmodifiableList(builder.note);
+                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
             }
 
             /**
@@ -6851,9 +6859,6 @@ public class Contract extends DomainResource {
 
                 private static Builder from(Action action) {
                     Builder builder = new Builder(action.type, action.intent, action.status);
-                    builder.id = action.id;
-                    builder.extension.addAll(action.extension);
-                    builder.modifierExtension.addAll(action.modifierExtension);
                     builder.doNotPerform = action.doNotPerform;
                     builder.subject.addAll(action.subject);
                     builder.linkId.addAll(action.linkId);
@@ -6887,8 +6892,8 @@ public class Contract extends DomainResource {
 
                 private Subject(Builder builder) {
                     super(builder);
-                    this.reference = ValidationSupport.requireNonEmpty(builder.reference, "reference");
-                    this.role = builder.role;
+                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+                    role = builder.role;
                 }
 
                 /**
@@ -7060,6 +7065,40 @@ public class Contract extends DomainResource {
 
                     /**
                      * <p>
+                     * The entity the action is performed or not performed on or for.
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Entity of the action
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder reference(Reference... reference) {
+                        for (Reference value : reference) {
+                            this.reference.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * The entity the action is performed or not performed on or for.
+                     * </p>
+                     * 
+                     * @param reference
+                     *     Entity of the action
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder reference(Collection<Reference> reference) {
+                        this.reference.addAll(reference);
+                        return this;
+                    }
+
+                    /**
+                     * <p>
                      * Role type of agent assigned roles in this Contract.
                      * </p>
                      * 
@@ -7081,9 +7120,6 @@ public class Contract extends DomainResource {
 
                     private static Builder from(Subject subject) {
                         Builder builder = new Builder(subject.reference);
-                        builder.id = subject.id;
-                        builder.extension.addAll(subject.extension);
-                        builder.modifierExtension.addAll(subject.modifierExtension);
                         builder.role = subject.role;
                         return builder;
                     }
@@ -7106,9 +7142,9 @@ public class Contract extends DomainResource {
 
         private Signer(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.party = ValidationSupport.requireNonNull(builder.party, "party");
-            this.signature = ValidationSupport.requireNonEmpty(builder.signature, "signature");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            party = ValidationSupport.requireNonNull(builder.party, "party");
+            signature = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.signature, "signature"));
         }
 
         /**
@@ -7292,6 +7328,40 @@ public class Contract extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Legally binding Contract DSIG signature contents in Base64.
+             * </p>
+             * 
+             * @param signature
+             *     Contract Documentation Signature
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder signature(Signature... signature) {
+                for (Signature value : signature) {
+                    this.signature.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Legally binding Contract DSIG signature contents in Base64.
+             * </p>
+             * 
+             * @param signature
+             *     Contract Documentation Signature
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder signature(Collection<Signature> signature) {
+                this.signature.addAll(signature);
+                return this;
+            }
+
             @Override
             public Signer build() {
                 return new Signer(this);
@@ -7299,9 +7369,6 @@ public class Contract extends DomainResource {
 
             private static Builder from(Signer signer) {
                 Builder builder = new Builder(signer.type, signer.party, signer.signature);
-                builder.id = signer.id;
-                builder.extension.addAll(signer.extension);
-                builder.modifierExtension.addAll(signer.modifierExtension);
                 return builder;
             }
         }
@@ -7320,7 +7387,7 @@ public class Contract extends DomainResource {
 
         private Friendly(Builder builder) {
             super(builder);
-            this.content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
+            content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
         }
 
         /**
@@ -7482,9 +7549,6 @@ public class Contract extends DomainResource {
 
             private static Builder from(Friendly friendly) {
                 Builder builder = new Builder(friendly.content);
-                builder.id = friendly.id;
-                builder.extension.addAll(friendly.extension);
-                builder.modifierExtension.addAll(friendly.modifierExtension);
                 return builder;
             }
         }
@@ -7500,7 +7564,7 @@ public class Contract extends DomainResource {
 
         private Legal(Builder builder) {
             super(builder);
-            this.content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
+            content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
         }
 
         /**
@@ -7661,9 +7725,6 @@ public class Contract extends DomainResource {
 
             private static Builder from(Legal legal) {
                 Builder builder = new Builder(legal.content);
-                builder.id = legal.id;
-                builder.extension.addAll(legal.extension);
-                builder.modifierExtension.addAll(legal.modifierExtension);
                 return builder;
             }
         }
@@ -7679,7 +7740,7 @@ public class Contract extends DomainResource {
 
         private Rule(Builder builder) {
             super(builder);
-            this.content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
+            content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
         }
 
         /**
@@ -7840,9 +7901,6 @@ public class Contract extends DomainResource {
 
             private static Builder from(Rule rule) {
                 Builder builder = new Builder(rule.content);
-                builder.id = rule.id;
-                builder.extension.addAll(rule.extension);
-                builder.modifierExtension.addAll(rule.modifierExtension);
                 return builder;
             }
         }

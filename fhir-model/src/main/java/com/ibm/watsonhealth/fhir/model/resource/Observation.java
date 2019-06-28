@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -96,30 +97,30 @@ public class Observation extends DomainResource {
 
     private Observation(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.category = builder.category;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.subject = builder.subject;
-        this.focus = builder.focus;
-        this.encounter = builder.encounter;
-        this.effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
-        this.issued = builder.issued;
-        this.performer = builder.performer;
-        this.value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
-        this.dataAbsentReason = builder.dataAbsentReason;
-        this.interpretation = builder.interpretation;
-        this.note = builder.note;
-        this.bodySite = builder.bodySite;
-        this.method = builder.method;
-        this.specimen = builder.specimen;
-        this.device = builder.device;
-        this.referenceRange = builder.referenceRange;
-        this.hasMember = builder.hasMember;
-        this.derivedFrom = builder.derivedFrom;
-        this.component = builder.component;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        category = Collections.unmodifiableList(builder.category);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        subject = builder.subject;
+        focus = Collections.unmodifiableList(builder.focus);
+        encounter = builder.encounter;
+        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
+        issued = builder.issued;
+        performer = Collections.unmodifiableList(builder.performer);
+        value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+        dataAbsentReason = builder.dataAbsentReason;
+        interpretation = Collections.unmodifiableList(builder.interpretation);
+        note = Collections.unmodifiableList(builder.note);
+        bodySite = builder.bodySite;
+        method = builder.method;
+        specimen = builder.specimen;
+        device = builder.device;
+        referenceRange = Collections.unmodifiableList(builder.referenceRange);
+        hasMember = Collections.unmodifiableList(builder.hasMember);
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        component = Collections.unmodifiableList(builder.component);
     }
 
     /**
@@ -1377,12 +1378,12 @@ public class Observation extends DomainResource {
 
         private ReferenceRange(Builder builder) {
             super(builder);
-            this.low = builder.low;
-            this.high = builder.high;
-            this.type = builder.type;
-            this.appliesTo = builder.appliesTo;
-            this.age = builder.age;
-            this.text = builder.text;
+            low = builder.low;
+            high = builder.high;
+            type = builder.type;
+            appliesTo = Collections.unmodifiableList(builder.appliesTo);
+            age = builder.age;
+            text = builder.text;
         }
 
         /**
@@ -1749,9 +1750,6 @@ public class Observation extends DomainResource {
 
             private static Builder from(ReferenceRange referenceRange) {
                 Builder builder = new Builder();
-                builder.id = referenceRange.id;
-                builder.extension.addAll(referenceRange.extension);
-                builder.modifierExtension.addAll(referenceRange.modifierExtension);
                 builder.low = referenceRange.low;
                 builder.high = referenceRange.high;
                 builder.type = referenceRange.type;
@@ -1779,11 +1777,11 @@ public class Observation extends DomainResource {
 
         private Component(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
-            this.dataAbsentReason = builder.dataAbsentReason;
-            this.interpretation = builder.interpretation;
-            this.referenceRange = builder.referenceRange;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+            dataAbsentReason = builder.dataAbsentReason;
+            interpretation = Collections.unmodifiableList(builder.interpretation);
+            referenceRange = Collections.unmodifiableList(builder.referenceRange);
         }
 
         /**
@@ -2102,9 +2100,6 @@ public class Observation extends DomainResource {
 
             private static Builder from(Component component) {
                 Builder builder = new Builder(component.code);
-                builder.id = component.id;
-                builder.extension.addAll(component.extension);
-                builder.modifierExtension.addAll(component.modifierExtension);
                 builder.value = component.value;
                 builder.dataAbsentReason = component.dataAbsentReason;
                 builder.interpretation.addAll(component.interpretation);

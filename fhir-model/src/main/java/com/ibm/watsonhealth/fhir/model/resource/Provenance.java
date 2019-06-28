@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -56,16 +57,16 @@ public class Provenance extends DomainResource {
 
     private Provenance(Builder builder) {
         super(builder);
-        this.target = ValidationSupport.requireNonEmpty(builder.target, "target");
-        this.occurred = ValidationSupport.choiceElement(builder.occurred, "occurred", Period.class, DateTime.class);
-        this.recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
-        this.policy = builder.policy;
-        this.location = builder.location;
-        this.reason = builder.reason;
-        this.activity = builder.activity;
-        this.agent = ValidationSupport.requireNonEmpty(builder.agent, "agent");
-        this.entity = builder.entity;
-        this.signature = builder.signature;
+        target = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.target, "target"));
+        occurred = ValidationSupport.choiceElement(builder.occurred, "occurred", Period.class, DateTime.class);
+        recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
+        policy = Collections.unmodifiableList(builder.policy);
+        location = builder.location;
+        reason = Collections.unmodifiableList(builder.reason);
+        activity = builder.activity;
+        agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
+        entity = Collections.unmodifiableList(builder.entity);
+        signature = Collections.unmodifiableList(builder.signature);
     }
 
     /**
@@ -480,6 +481,42 @@ public class Provenance extends DomainResource {
 
         /**
          * <p>
+         * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
+         * more than one target if multiple resources were created/updated by the same activity.
+         * </p>
+         * 
+         * @param target
+         *     Target Reference(s) (usually version specific)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder target(Reference... target) {
+            for (Reference value : target) {
+                this.target.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
+         * more than one target if multiple resources were created/updated by the same activity.
+         * </p>
+         * 
+         * @param target
+         *     Target Reference(s) (usually version specific)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder target(Collection<Reference> target) {
+            this.target.addAll(target);
+            return this;
+        }
+
+        /**
+         * <p>
          * The period during which the activity occurred.
          * </p>
          * 
@@ -599,6 +636,42 @@ public class Provenance extends DomainResource {
 
         /**
          * <p>
+         * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
+         * taking place.
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder agent(Agent... agent) {
+            for (Agent value : agent) {
+                this.agent.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
+         * taking place.
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder agent(Collection<Agent> agent) {
+            this.agent.addAll(agent);
+            return this;
+        }
+
+        /**
+         * <p>
          * An entity used in this activity.
          * </p>
          * 
@@ -687,10 +760,10 @@ public class Provenance extends DomainResource {
 
         private Agent(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.role = builder.role;
-            this.who = ValidationSupport.requireNonNull(builder.who, "who");
-            this.onBehalfOf = builder.onBehalfOf;
+            type = builder.type;
+            role = Collections.unmodifiableList(builder.role);
+            who = ValidationSupport.requireNonNull(builder.who, "who");
+            onBehalfOf = builder.onBehalfOf;
         }
 
         /**
@@ -964,9 +1037,6 @@ public class Provenance extends DomainResource {
 
             private static Builder from(Agent agent) {
                 Builder builder = new Builder(agent.who);
-                builder.id = agent.id;
-                builder.extension.addAll(agent.extension);
-                builder.modifierExtension.addAll(agent.modifierExtension);
                 builder.type = agent.type;
                 builder.role.addAll(agent.role);
                 builder.onBehalfOf = agent.onBehalfOf;
@@ -987,9 +1057,9 @@ public class Provenance extends DomainResource {
 
         private Entity(Builder builder) {
             super(builder);
-            this.role = ValidationSupport.requireNonNull(builder.role, "role");
-            this.what = ValidationSupport.requireNonNull(builder.what, "what");
-            this.agent = builder.agent;
+            role = ValidationSupport.requireNonNull(builder.role, "role");
+            what = ValidationSupport.requireNonNull(builder.what, "what");
+            agent = Collections.unmodifiableList(builder.agent);
         }
 
         /**
@@ -1221,9 +1291,6 @@ public class Provenance extends DomainResource {
 
             private static Builder from(Entity entity) {
                 Builder builder = new Builder(entity.role, entity.what);
-                builder.id = entity.id;
-                builder.extension.addAll(entity.extension);
-                builder.modifierExtension.addAll(entity.modifierExtension);
                 builder.agent.addAll(entity.agent);
                 return builder;
             }

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -41,11 +42,11 @@ public class Basic extends DomainResource {
 
     private Basic(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.subject = builder.subject;
-        this.created = builder.created;
-        this.author = builder.author;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        subject = builder.subject;
+        created = builder.created;
+        author = builder.author;
     }
 
     /**

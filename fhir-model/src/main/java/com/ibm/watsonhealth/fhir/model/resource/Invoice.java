@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -62,22 +63,22 @@ public class Invoice extends DomainResource {
 
     private Invoice(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.cancelledReason = builder.cancelledReason;
-        this.type = builder.type;
-        this.subject = builder.subject;
-        this.recipient = builder.recipient;
-        this.date = builder.date;
-        this.participant = builder.participant;
-        this.issuer = builder.issuer;
-        this.account = builder.account;
-        this.lineItem = builder.lineItem;
-        this.totalPriceComponent = builder.totalPriceComponent;
-        this.totalNet = builder.totalNet;
-        this.totalGross = builder.totalGross;
-        this.paymentTerms = builder.paymentTerms;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        cancelledReason = builder.cancelledReason;
+        type = builder.type;
+        subject = builder.subject;
+        recipient = builder.recipient;
+        date = builder.date;
+        participant = Collections.unmodifiableList(builder.participant);
+        issuer = builder.issuer;
+        account = builder.account;
+        lineItem = Collections.unmodifiableList(builder.lineItem);
+        totalPriceComponent = Collections.unmodifiableList(builder.totalPriceComponent);
+        totalNet = builder.totalNet;
+        totalGross = builder.totalGross;
+        paymentTerms = builder.paymentTerms;
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -931,8 +932,8 @@ public class Invoice extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            this.role = builder.role;
-            this.actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            role = builder.role;
+            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
         }
 
         /**
@@ -1127,9 +1128,6 @@ public class Invoice extends DomainResource {
 
             private static Builder from(Participant participant) {
                 Builder builder = new Builder(participant.actor);
-                builder.id = participant.id;
-                builder.extension.addAll(participant.extension);
-                builder.modifierExtension.addAll(participant.modifierExtension);
                 builder.role = participant.role;
                 return builder;
             }
@@ -1149,9 +1147,9 @@ public class Invoice extends DomainResource {
 
         private LineItem(Builder builder) {
             super(builder);
-            this.sequence = builder.sequence;
-            this.chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
-            this.priceComponent = builder.priceComponent;
+            sequence = builder.sequence;
+            chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
+            priceComponent = Collections.unmodifiableList(builder.priceComponent);
         }
 
         /**
@@ -1402,9 +1400,6 @@ public class Invoice extends DomainResource {
 
             private static Builder from(LineItem lineItem) {
                 Builder builder = new Builder(lineItem.chargeItem);
-                builder.id = lineItem.id;
-                builder.extension.addAll(lineItem.extension);
-                builder.modifierExtension.addAll(lineItem.modifierExtension);
                 builder.sequence = lineItem.sequence;
                 builder.priceComponent.addAll(lineItem.priceComponent);
                 return builder;
@@ -1427,10 +1422,10 @@ public class Invoice extends DomainResource {
 
             private PriceComponent(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.code = builder.code;
-                this.factor = builder.factor;
-                this.amount = builder.amount;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                code = builder.code;
+                factor = builder.factor;
+                amount = builder.amount;
             }
 
             /**
@@ -1685,9 +1680,6 @@ public class Invoice extends DomainResource {
 
                 private static Builder from(PriceComponent priceComponent) {
                     Builder builder = new Builder(priceComponent.type);
-                    builder.id = priceComponent.id;
-                    builder.extension.addAll(priceComponent.extension);
-                    builder.modifierExtension.addAll(priceComponent.modifierExtension);
                     builder.code = priceComponent.code;
                     builder.factor = priceComponent.factor;
                     builder.amount = priceComponent.amount;

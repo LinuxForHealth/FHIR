@@ -34,10 +34,10 @@ public class Reference extends Element {
 
     private Reference(Builder builder) {
         super(builder);
-        this.reference = builder.reference;
-        this.type = builder.type;
-        this.identifier = builder.identifier;
-        this.display = builder.display;
+        reference = builder.reference;
+        type = builder.type;
+        identifier = builder.identifier;
+        display = builder.display;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -64,17 +65,17 @@ public class AuditEvent extends DomainResource {
 
     private AuditEvent(Builder builder) {
         super(builder);
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.subtype = builder.subtype;
-        this.action = builder.action;
-        this.period = builder.period;
-        this.recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
-        this.outcome = builder.outcome;
-        this.outcomeDesc = builder.outcomeDesc;
-        this.purposeOfEvent = builder.purposeOfEvent;
-        this.agent = ValidationSupport.requireNonEmpty(builder.agent, "agent");
-        this.source = ValidationSupport.requireNonNull(builder.source, "source");
-        this.entity = builder.entity;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        subtype = Collections.unmodifiableList(builder.subtype);
+        action = builder.action;
+        period = builder.period;
+        recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
+        outcome = builder.outcome;
+        outcomeDesc = builder.outcomeDesc;
+        purposeOfEvent = Collections.unmodifiableList(builder.purposeOfEvent);
+        agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
+        source = ValidationSupport.requireNonNull(builder.source, "source");
+        entity = Collections.unmodifiableList(builder.entity);
     }
 
     /**
@@ -632,6 +633,40 @@ public class AuditEvent extends DomainResource {
 
         /**
          * <p>
+         * An actor taking an active role in the event or activity that is logged.
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved in the event
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder agent(Agent... agent) {
+            for (Agent value : agent) {
+                this.agent.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An actor taking an active role in the event or activity that is logged.
+         * </p>
+         * 
+         * @param agent
+         *     Actor involved in the event
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder agent(Collection<Agent> agent) {
+            this.agent.addAll(agent);
+            return this;
+        }
+
+        /**
+         * <p>
          * Specific instances of data or objects that have been accessed.
          * </p>
          * 
@@ -690,17 +725,17 @@ public class AuditEvent extends DomainResource {
 
         private Agent(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.role = builder.role;
-            this.who = builder.who;
-            this.altId = builder.altId;
-            this.name = builder.name;
-            this.requestor = ValidationSupport.requireNonNull(builder.requestor, "requestor");
-            this.location = builder.location;
-            this.policy = builder.policy;
-            this.media = builder.media;
-            this.network = builder.network;
-            this.purposeOfUse = builder.purposeOfUse;
+            type = builder.type;
+            role = Collections.unmodifiableList(builder.role);
+            who = builder.who;
+            altId = builder.altId;
+            name = builder.name;
+            requestor = ValidationSupport.requireNonNull(builder.requestor, "requestor");
+            location = builder.location;
+            policy = Collections.unmodifiableList(builder.policy);
+            media = builder.media;
+            network = builder.network;
+            purposeOfUse = Collections.unmodifiableList(builder.purposeOfUse);
         }
 
         /**
@@ -1228,9 +1263,6 @@ public class AuditEvent extends DomainResource {
 
             private static Builder from(Agent agent) {
                 Builder builder = new Builder(agent.requestor);
-                builder.id = agent.id;
-                builder.extension.addAll(agent.extension);
-                builder.modifierExtension.addAll(agent.modifierExtension);
                 builder.type = agent.type;
                 builder.role.addAll(agent.role);
                 builder.who = agent.who;
@@ -1256,8 +1288,8 @@ public class AuditEvent extends DomainResource {
 
             private Network(Builder builder) {
                 super(builder);
-                this.address = builder.address;
-                this.type = builder.type;
+                address = builder.address;
+                type = builder.type;
             }
 
             /**
@@ -1463,9 +1495,6 @@ public class AuditEvent extends DomainResource {
 
                 private static Builder from(Network network) {
                     Builder builder = new Builder();
-                    builder.id = network.id;
-                    builder.extension.addAll(network.extension);
-                    builder.modifierExtension.addAll(network.modifierExtension);
                     builder.address = network.address;
                     builder.type = network.type;
                     return builder;
@@ -1486,9 +1515,9 @@ public class AuditEvent extends DomainResource {
 
         private Source(Builder builder) {
             super(builder);
-            this.site = builder.site;
-            this.observer = ValidationSupport.requireNonNull(builder.observer, "observer");
-            this.type = builder.type;
+            site = builder.site;
+            observer = ValidationSupport.requireNonNull(builder.observer, "observer");
+            type = Collections.unmodifiableList(builder.type);
         }
 
         /**
@@ -1731,9 +1760,6 @@ public class AuditEvent extends DomainResource {
 
             private static Builder from(Source source) {
                 Builder builder = new Builder(source.observer);
-                builder.id = source.id;
-                builder.extension.addAll(source.extension);
-                builder.modifierExtension.addAll(source.modifierExtension);
                 builder.site = source.site;
                 builder.type.addAll(source.type);
                 return builder;
@@ -1759,15 +1785,15 @@ public class AuditEvent extends DomainResource {
 
         private Entity(Builder builder) {
             super(builder);
-            this.what = builder.what;
-            this.type = builder.type;
-            this.role = builder.role;
-            this.lifecycle = builder.lifecycle;
-            this.securityLabel = builder.securityLabel;
-            this.name = builder.name;
-            this.description = builder.description;
-            this.query = builder.query;
-            this.detail = builder.detail;
+            what = builder.what;
+            type = builder.type;
+            role = builder.role;
+            lifecycle = builder.lifecycle;
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            name = builder.name;
+            description = builder.description;
+            query = builder.query;
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -2219,9 +2245,6 @@ public class AuditEvent extends DomainResource {
 
             private static Builder from(Entity entity) {
                 Builder builder = new Builder();
-                builder.id = entity.id;
-                builder.extension.addAll(entity.extension);
-                builder.modifierExtension.addAll(entity.modifierExtension);
                 builder.what = entity.what;
                 builder.type = entity.type;
                 builder.role = entity.role;
@@ -2246,8 +2269,8 @@ public class AuditEvent extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.value = ValidationSupport.requireChoiceElement(builder.value, "value", String.class, Base64Binary.class);
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                value = ValidationSupport.requireChoiceElement(builder.value, "value", String.class, Base64Binary.class);
             }
 
             /**
@@ -2423,9 +2446,6 @@ public class AuditEvent extends DomainResource {
 
                 private static Builder from(Detail detail) {
                     Builder builder = new Builder(detail.type, detail.value);
-                    builder.id = detail.id;
-                    builder.extension.addAll(detail.extension);
-                    builder.modifierExtension.addAll(detail.modifierExtension);
                     return builder;
                 }
             }

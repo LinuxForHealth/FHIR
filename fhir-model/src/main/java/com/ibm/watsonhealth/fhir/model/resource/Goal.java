@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -71,22 +72,22 @@ public class Goal extends DomainResource {
 
     private Goal(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.lifecycleStatus = ValidationSupport.requireNonNull(builder.lifecycleStatus, "lifecycleStatus");
-        this.achievementStatus = builder.achievementStatus;
-        this.category = builder.category;
-        this.priority = builder.priority;
-        this.description = ValidationSupport.requireNonNull(builder.description, "description");
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.start = ValidationSupport.choiceElement(builder.start, "start", Date.class, CodeableConcept.class);
-        this.target = builder.target;
-        this.statusDate = builder.statusDate;
-        this.statusReason = builder.statusReason;
-        this.expressedBy = builder.expressedBy;
-        this.addresses = builder.addresses;
-        this.note = builder.note;
-        this.outcomeCode = builder.outcomeCode;
-        this.outcomeReference = builder.outcomeReference;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        lifecycleStatus = ValidationSupport.requireNonNull(builder.lifecycleStatus, "lifecycleStatus");
+        achievementStatus = builder.achievementStatus;
+        category = Collections.unmodifiableList(builder.category);
+        priority = builder.priority;
+        description = ValidationSupport.requireNonNull(builder.description, "description");
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        start = ValidationSupport.choiceElement(builder.start, "start", Date.class, CodeableConcept.class);
+        target = Collections.unmodifiableList(builder.target);
+        statusDate = builder.statusDate;
+        statusReason = builder.statusReason;
+        expressedBy = builder.expressedBy;
+        addresses = Collections.unmodifiableList(builder.addresses);
+        note = Collections.unmodifiableList(builder.note);
+        outcomeCode = Collections.unmodifiableList(builder.outcomeCode);
+        outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
     }
 
     /**
@@ -940,9 +941,9 @@ public class Goal extends DomainResource {
 
         private Target(Builder builder) {
             super(builder);
-            this.measure = builder.measure;
-            this.detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class);
-            this.due = ValidationSupport.choiceElement(builder.due, "due", Date.class, Duration.class);
+            measure = builder.measure;
+            detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class);
+            due = ValidationSupport.choiceElement(builder.due, "due", Date.class, Duration.class);
         }
 
         /**
@@ -1184,9 +1185,6 @@ public class Goal extends DomainResource {
 
             private static Builder from(Target target) {
                 Builder builder = new Builder();
-                builder.id = target.id;
-                builder.extension.addAll(target.extension);
-                builder.modifierExtension.addAll(target.modifierExtension);
                 builder.measure = target.measure;
                 builder.detail = target.detail;
                 builder.due = target.due;

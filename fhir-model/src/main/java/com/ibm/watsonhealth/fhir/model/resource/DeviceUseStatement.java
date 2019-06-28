@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -54,19 +55,19 @@ public class DeviceUseStatement extends DomainResource {
 
     private DeviceUseStatement(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.derivedFrom = builder.derivedFrom;
-        this.timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Period.class, DateTime.class);
-        this.recordedOn = builder.recordedOn;
-        this.source = builder.source;
-        this.device = ValidationSupport.requireNonNull(builder.device, "device");
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.bodySite = builder.bodySite;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Period.class, DateTime.class);
+        recordedOn = builder.recordedOn;
+        source = builder.source;
+        device = ValidationSupport.requireNonNull(builder.device, "device");
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        bodySite = builder.bodySite;
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**

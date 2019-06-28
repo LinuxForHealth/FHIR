@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -44,14 +45,14 @@ public class ResearchSubject extends DomainResource {
 
     private ResearchSubject(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.period = builder.period;
-        this.study = ValidationSupport.requireNonNull(builder.study, "study");
-        this.individual = ValidationSupport.requireNonNull(builder.individual, "individual");
-        this.assignedArm = builder.assignedArm;
-        this.actualArm = builder.actualArm;
-        this.consent = builder.consent;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        period = builder.period;
+        study = ValidationSupport.requireNonNull(builder.study, "study");
+        individual = ValidationSupport.requireNonNull(builder.individual, "individual");
+        assignedArm = builder.assignedArm;
+        actualArm = builder.actualArm;
+        consent = builder.consent;
     }
 
     /**

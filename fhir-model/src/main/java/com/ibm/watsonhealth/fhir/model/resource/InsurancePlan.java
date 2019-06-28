@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -66,20 +67,20 @@ public class InsurancePlan extends DomainResource {
 
     private InsurancePlan(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = builder.status;
-        this.type = builder.type;
-        this.name = builder.name;
-        this.alias = builder.alias;
-        this.period = builder.period;
-        this.ownedBy = builder.ownedBy;
-        this.administeredBy = builder.administeredBy;
-        this.coverageArea = builder.coverageArea;
-        this.contact = builder.contact;
-        this.endpoint = builder.endpoint;
-        this.network = builder.network;
-        this.coverage = builder.coverage;
-        this.plan = builder.plan;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        type = Collections.unmodifiableList(builder.type);
+        name = builder.name;
+        alias = Collections.unmodifiableList(builder.alias);
+        period = builder.period;
+        ownedBy = builder.ownedBy;
+        administeredBy = builder.administeredBy;
+        coverageArea = Collections.unmodifiableList(builder.coverageArea);
+        contact = Collections.unmodifiableList(builder.contact);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
+        network = Collections.unmodifiableList(builder.network);
+        coverage = Collections.unmodifiableList(builder.coverage);
+        plan = Collections.unmodifiableList(builder.plan);
     }
 
     /**
@@ -957,10 +958,10 @@ public class InsurancePlan extends DomainResource {
 
         private Contact(Builder builder) {
             super(builder);
-            this.purpose = builder.purpose;
-            this.name = builder.name;
-            this.telecom = builder.telecom;
-            this.address = builder.address;
+            purpose = builder.purpose;
+            name = builder.name;
+            telecom = Collections.unmodifiableList(builder.telecom);
+            address = builder.address;
         }
 
         /**
@@ -1244,9 +1245,6 @@ public class InsurancePlan extends DomainResource {
 
             private static Builder from(Contact contact) {
                 Builder builder = new Builder();
-                builder.id = contact.id;
-                builder.extension.addAll(contact.extension);
-                builder.modifierExtension.addAll(contact.modifierExtension);
                 builder.purpose = contact.purpose;
                 builder.name = contact.name;
                 builder.telecom.addAll(contact.telecom);
@@ -1268,9 +1266,9 @@ public class InsurancePlan extends DomainResource {
 
         private Coverage(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.network = builder.network;
-            this.benefit = ValidationSupport.requireNonEmpty(builder.benefit, "benefit");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            network = Collections.unmodifiableList(builder.network);
+            benefit = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.benefit, "benefit"));
         }
 
         /**
@@ -1490,6 +1488,40 @@ public class InsurancePlan extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Specific benefits under this type of coverage.
+             * </p>
+             * 
+             * @param benefit
+             *     List of benefits
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder benefit(Benefit... benefit) {
+                for (Benefit value : benefit) {
+                    this.benefit.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Specific benefits under this type of coverage.
+             * </p>
+             * 
+             * @param benefit
+             *     List of benefits
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder benefit(Collection<Benefit> benefit) {
+                this.benefit.addAll(benefit);
+                return this;
+            }
+
             @Override
             public Coverage build() {
                 return new Coverage(this);
@@ -1497,9 +1529,6 @@ public class InsurancePlan extends DomainResource {
 
             private static Builder from(Coverage coverage) {
                 Builder builder = new Builder(coverage.type, coverage.benefit);
-                builder.id = coverage.id;
-                builder.extension.addAll(coverage.extension);
-                builder.modifierExtension.addAll(coverage.modifierExtension);
                 builder.network.addAll(coverage.network);
                 return builder;
             }
@@ -1517,9 +1546,9 @@ public class InsurancePlan extends DomainResource {
 
             private Benefit(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.requirement = builder.requirement;
-                this.limit = builder.limit;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                requirement = builder.requirement;
+                limit = Collections.unmodifiableList(builder.limit);
             }
 
             /**
@@ -1760,9 +1789,6 @@ public class InsurancePlan extends DomainResource {
 
                 private static Builder from(Benefit benefit) {
                     Builder builder = new Builder(benefit.type);
-                    builder.id = benefit.id;
-                    builder.extension.addAll(benefit.extension);
-                    builder.modifierExtension.addAll(benefit.modifierExtension);
                     builder.requirement = benefit.requirement;
                     builder.limit.addAll(benefit.limit);
                     return builder;
@@ -1780,8 +1806,8 @@ public class InsurancePlan extends DomainResource {
 
                 private Limit(Builder builder) {
                     super(builder);
-                    this.value = builder.value;
-                    this.code = builder.code;
+                    value = builder.value;
+                    code = builder.code;
                 }
 
                 /**
@@ -1989,9 +2015,6 @@ public class InsurancePlan extends DomainResource {
 
                     private static Builder from(Limit limit) {
                         Builder builder = new Builder();
-                        builder.id = limit.id;
-                        builder.extension.addAll(limit.extension);
-                        builder.modifierExtension.addAll(limit.modifierExtension);
                         builder.value = limit.value;
                         builder.code = limit.code;
                         return builder;
@@ -2016,12 +2039,12 @@ public class InsurancePlan extends DomainResource {
 
         private Plan(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.type = builder.type;
-            this.coverageArea = builder.coverageArea;
-            this.network = builder.network;
-            this.generalCost = builder.generalCost;
-            this.specificCost = builder.specificCost;
+            identifier = Collections.unmodifiableList(builder.identifier);
+            type = builder.type;
+            coverageArea = Collections.unmodifiableList(builder.coverageArea);
+            network = Collections.unmodifiableList(builder.network);
+            generalCost = Collections.unmodifiableList(builder.generalCost);
+            specificCost = Collections.unmodifiableList(builder.specificCost);
         }
 
         /**
@@ -2440,9 +2463,6 @@ public class InsurancePlan extends DomainResource {
 
             private static Builder from(Plan plan) {
                 Builder builder = new Builder();
-                builder.id = plan.id;
-                builder.extension.addAll(plan.extension);
-                builder.modifierExtension.addAll(plan.modifierExtension);
                 builder.identifier.addAll(plan.identifier);
                 builder.type = plan.type;
                 builder.coverageArea.addAll(plan.coverageArea);
@@ -2466,10 +2486,10 @@ public class InsurancePlan extends DomainResource {
 
             private GeneralCost(Builder builder) {
                 super(builder);
-                this.type = builder.type;
-                this.groupSize = builder.groupSize;
-                this.cost = builder.cost;
-                this.comment = builder.comment;
+                type = builder.type;
+                groupSize = builder.groupSize;
+                cost = builder.cost;
+                comment = builder.comment;
             }
 
             /**
@@ -2735,9 +2755,6 @@ public class InsurancePlan extends DomainResource {
 
                 private static Builder from(GeneralCost generalCost) {
                     Builder builder = new Builder();
-                    builder.id = generalCost.id;
-                    builder.extension.addAll(generalCost.extension);
-                    builder.modifierExtension.addAll(generalCost.modifierExtension);
                     builder.type = generalCost.type;
                     builder.groupSize = generalCost.groupSize;
                     builder.cost = generalCost.cost;
@@ -2758,8 +2775,8 @@ public class InsurancePlan extends DomainResource {
 
             private SpecificCost(Builder builder) {
                 super(builder);
-                this.category = ValidationSupport.requireNonNull(builder.category, "category");
-                this.benefit = builder.benefit;
+                category = ValidationSupport.requireNonNull(builder.category, "category");
+                benefit = Collections.unmodifiableList(builder.benefit);
             }
 
             /**
@@ -2970,9 +2987,6 @@ public class InsurancePlan extends DomainResource {
 
                 private static Builder from(SpecificCost specificCost) {
                     Builder builder = new Builder(specificCost.category);
-                    builder.id = specificCost.id;
-                    builder.extension.addAll(specificCost.extension);
-                    builder.modifierExtension.addAll(specificCost.modifierExtension);
                     builder.benefit.addAll(specificCost.benefit);
                     return builder;
                 }
@@ -2989,8 +3003,8 @@ public class InsurancePlan extends DomainResource {
 
                 private Benefit(Builder builder) {
                     super(builder);
-                    this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                    this.cost = builder.cost;
+                    type = ValidationSupport.requireNonNull(builder.type, "type");
+                    cost = Collections.unmodifiableList(builder.cost);
                 }
 
                 /**
@@ -3202,9 +3216,6 @@ public class InsurancePlan extends DomainResource {
 
                     private static Builder from(Benefit benefit) {
                         Builder builder = new Builder(benefit.type);
-                        builder.id = benefit.id;
-                        builder.extension.addAll(benefit.extension);
-                        builder.modifierExtension.addAll(benefit.modifierExtension);
                         builder.cost.addAll(benefit.cost);
                         return builder;
                     }
@@ -3223,10 +3234,10 @@ public class InsurancePlan extends DomainResource {
 
                     private Cost(Builder builder) {
                         super(builder);
-                        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                        this.applicability = builder.applicability;
-                        this.qualifiers = builder.qualifiers;
-                        this.value = builder.value;
+                        type = ValidationSupport.requireNonNull(builder.type, "type");
+                        applicability = builder.applicability;
+                        qualifiers = Collections.unmodifiableList(builder.qualifiers);
+                        value = builder.value;
                     }
 
                     /**
@@ -3499,9 +3510,6 @@ public class InsurancePlan extends DomainResource {
 
                         private static Builder from(Cost cost) {
                             Builder builder = new Builder(cost.type);
-                            builder.id = cost.id;
-                            builder.extension.addAll(cost.extension);
-                            builder.modifierExtension.addAll(cost.modifierExtension);
                             builder.applicability = cost.applicability;
                             builder.qualifiers.addAll(cost.qualifiers);
                             builder.value = cost.value;

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -42,11 +43,11 @@ public class SubstanceNucleicAcid extends DomainResource {
 
     private SubstanceNucleicAcid(Builder builder) {
         super(builder);
-        this.sequenceType = builder.sequenceType;
-        this.numberOfSubunits = builder.numberOfSubunits;
-        this.areaOfHybridisation = builder.areaOfHybridisation;
-        this.oligoNucleotideType = builder.oligoNucleotideType;
-        this.subunit = builder.subunit;
+        sequenceType = builder.sequenceType;
+        numberOfSubunits = builder.numberOfSubunits;
+        areaOfHybridisation = builder.areaOfHybridisation;
+        oligoNucleotideType = builder.oligoNucleotideType;
+        subunit = Collections.unmodifiableList(builder.subunit);
     }
 
     /**
@@ -516,14 +517,14 @@ public class SubstanceNucleicAcid extends DomainResource {
 
         private Subunit(Builder builder) {
             super(builder);
-            this.subunit = builder.subunit;
-            this.sequence = builder.sequence;
-            this.length = builder.length;
-            this.sequenceAttachment = builder.sequenceAttachment;
-            this.fivePrime = builder.fivePrime;
-            this.threePrime = builder.threePrime;
-            this.linkage = builder.linkage;
-            this.sugar = builder.sugar;
+            subunit = builder.subunit;
+            sequence = builder.sequence;
+            length = builder.length;
+            sequenceAttachment = builder.sequenceAttachment;
+            fivePrime = builder.fivePrime;
+            threePrime = builder.threePrime;
+            linkage = Collections.unmodifiableList(builder.linkage);
+            sugar = Collections.unmodifiableList(builder.sugar);
         }
 
         /**
@@ -963,9 +964,6 @@ public class SubstanceNucleicAcid extends DomainResource {
 
             private static Builder from(Subunit subunit) {
                 Builder builder = new Builder();
-                builder.id = subunit.id;
-                builder.extension.addAll(subunit.extension);
-                builder.modifierExtension.addAll(subunit.modifierExtension);
                 builder.subunit = subunit.subunit;
                 builder.sequence = subunit.sequence;
                 builder.length = subunit.length;
@@ -991,10 +989,10 @@ public class SubstanceNucleicAcid extends DomainResource {
 
             private Linkage(Builder builder) {
                 super(builder);
-                this.connectivity = builder.connectivity;
-                this.identifier = builder.identifier;
-                this.name = builder.name;
-                this.residueSite = builder.residueSite;
+                connectivity = builder.connectivity;
+                identifier = builder.identifier;
+                name = builder.name;
+                residueSite = builder.residueSite;
             }
 
             /**
@@ -1269,9 +1267,6 @@ public class SubstanceNucleicAcid extends DomainResource {
 
                 private static Builder from(Linkage linkage) {
                     Builder builder = new Builder();
-                    builder.id = linkage.id;
-                    builder.extension.addAll(linkage.extension);
-                    builder.modifierExtension.addAll(linkage.modifierExtension);
                     builder.connectivity = linkage.connectivity;
                     builder.identifier = linkage.identifier;
                     builder.name = linkage.name;
@@ -1293,9 +1288,9 @@ public class SubstanceNucleicAcid extends DomainResource {
 
             private Sugar(Builder builder) {
                 super(builder);
-                this.identifier = builder.identifier;
-                this.name = builder.name;
-                this.residueSite = builder.residueSite;
+                identifier = builder.identifier;
+                name = builder.name;
+                residueSite = builder.residueSite;
             }
 
             /**
@@ -1534,9 +1529,6 @@ public class SubstanceNucleicAcid extends DomainResource {
 
                 private static Builder from(Sugar sugar) {
                     Builder builder = new Builder();
-                    builder.id = sugar.id;
-                    builder.extension.addAll(sugar.extension);
-                    builder.modifierExtension.addAll(sugar.modifierExtension);
                     builder.identifier = sugar.identifier;
                     builder.name = sugar.name;
                     builder.residueSite = sugar.residueSite;

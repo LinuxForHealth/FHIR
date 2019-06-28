@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -78,22 +79,22 @@ public class AllergyIntolerance extends DomainResource {
 
     private AllergyIntolerance(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.clinicalStatus = builder.clinicalStatus;
-        this.verificationStatus = builder.verificationStatus;
-        this.type = builder.type;
-        this.category = builder.category;
-        this.criticality = builder.criticality;
-        this.code = builder.code;
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.encounter = builder.encounter;
-        this.onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
-        this.recordedDate = builder.recordedDate;
-        this.recorder = builder.recorder;
-        this.asserter = builder.asserter;
-        this.lastOccurrence = builder.lastOccurrence;
-        this.note = builder.note;
-        this.reaction = builder.reaction;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        clinicalStatus = builder.clinicalStatus;
+        verificationStatus = builder.verificationStatus;
+        type = builder.type;
+        category = Collections.unmodifiableList(builder.category);
+        criticality = builder.criticality;
+        code = builder.code;
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        encounter = builder.encounter;
+        onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+        recordedDate = builder.recordedDate;
+        recorder = builder.recorder;
+        asserter = builder.asserter;
+        lastOccurrence = builder.lastOccurrence;
+        note = Collections.unmodifiableList(builder.note);
+        reaction = Collections.unmodifiableList(builder.reaction);
     }
 
     /**
@@ -950,13 +951,13 @@ public class AllergyIntolerance extends DomainResource {
 
         private Reaction(Builder builder) {
             super(builder);
-            this.substance = builder.substance;
-            this.manifestation = ValidationSupport.requireNonEmpty(builder.manifestation, "manifestation");
-            this.description = builder.description;
-            this.onset = builder.onset;
-            this.severity = builder.severity;
-            this.exposureRoute = builder.exposureRoute;
-            this.note = builder.note;
+            substance = builder.substance;
+            manifestation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.manifestation, "manifestation"));
+            description = builder.description;
+            onset = builder.onset;
+            severity = builder.severity;
+            exposureRoute = builder.exposureRoute;
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1227,6 +1228,40 @@ public class AllergyIntolerance extends DomainResource {
 
             /**
              * <p>
+             * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
+             * </p>
+             * 
+             * @param manifestation
+             *     Clinical symptoms/signs associated with the Event
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder manifestation(CodeableConcept... manifestation) {
+                for (CodeableConcept value : manifestation) {
+                    this.manifestation.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
+             * </p>
+             * 
+             * @param manifestation
+             *     Clinical symptoms/signs associated with the Event
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder manifestation(Collection<CodeableConcept> manifestation) {
+                this.manifestation.addAll(manifestation);
+                return this;
+            }
+
+            /**
+             * <p>
              * Text description about the reaction as a whole, including details of the manifestation if required.
              * </p>
              * 
@@ -1331,9 +1366,6 @@ public class AllergyIntolerance extends DomainResource {
 
             private static Builder from(Reaction reaction) {
                 Builder builder = new Builder(reaction.manifestation);
-                builder.id = reaction.id;
-                builder.extension.addAll(reaction.extension);
-                builder.modifierExtension.addAll(reaction.modifierExtension);
                 builder.substance = reaction.substance;
                 builder.description = reaction.description;
                 builder.onset = reaction.onset;

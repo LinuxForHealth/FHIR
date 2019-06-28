@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -54,17 +55,17 @@ public class MessageHeader extends DomainResource {
 
     private MessageHeader(Builder builder) {
         super(builder);
-        this.event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
-        this.destination = builder.destination;
-        this.sender = builder.sender;
-        this.enterer = builder.enterer;
-        this.author = builder.author;
-        this.source = ValidationSupport.requireNonNull(builder.source, "source");
-        this.responsible = builder.responsible;
-        this.reason = builder.reason;
-        this.response = builder.response;
-        this.focus = builder.focus;
-        this.definition = builder.definition;
+        event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
+        destination = Collections.unmodifiableList(builder.destination);
+        sender = builder.sender;
+        enterer = builder.enterer;
+        author = builder.author;
+        source = ValidationSupport.requireNonNull(builder.source, "source");
+        responsible = builder.responsible;
+        reason = builder.reason;
+        response = builder.response;
+        focus = Collections.unmodifiableList(builder.focus);
+        definition = builder.definition;
     }
 
     /**
@@ -696,10 +697,10 @@ public class MessageHeader extends DomainResource {
 
         private Destination(Builder builder) {
             super(builder);
-            this.name = builder.name;
-            this.target = builder.target;
-            this.endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
-            this.receiver = builder.receiver;
+            name = builder.name;
+            target = builder.target;
+            endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
+            receiver = builder.receiver;
         }
 
         /**
@@ -954,9 +955,6 @@ public class MessageHeader extends DomainResource {
 
             private static Builder from(Destination destination) {
                 Builder builder = new Builder(destination.endpoint);
-                builder.id = destination.id;
-                builder.extension.addAll(destination.extension);
-                builder.modifierExtension.addAll(destination.modifierExtension);
                 builder.name = destination.name;
                 builder.target = destination.target;
                 builder.receiver = destination.receiver;
@@ -979,11 +977,11 @@ public class MessageHeader extends DomainResource {
 
         private Source(Builder builder) {
             super(builder);
-            this.name = builder.name;
-            this.software = builder.software;
-            this.version = builder.version;
-            this.contact = builder.contact;
-            this.endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
+            name = builder.name;
+            software = builder.software;
+            version = builder.version;
+            contact = builder.contact;
+            endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
         }
 
         /**
@@ -1266,9 +1264,6 @@ public class MessageHeader extends DomainResource {
 
             private static Builder from(Source source) {
                 Builder builder = new Builder(source.endpoint);
-                builder.id = source.id;
-                builder.extension.addAll(source.extension);
-                builder.modifierExtension.addAll(source.modifierExtension);
                 builder.name = source.name;
                 builder.software = source.software;
                 builder.version = source.version;
@@ -1290,9 +1285,9 @@ public class MessageHeader extends DomainResource {
 
         private Response(Builder builder) {
             super(builder);
-            this.identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.details = builder.details;
+            identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            details = builder.details;
         }
 
         /**
@@ -1501,9 +1496,6 @@ public class MessageHeader extends DomainResource {
 
             private static Builder from(Response response) {
                 Builder builder = new Builder(response.identifier, response.code);
-                builder.id = response.id;
-                builder.extension.addAll(response.extension);
-                builder.modifierExtension.addAll(response.modifierExtension);
                 builder.details = response.details;
                 return builder;
             }

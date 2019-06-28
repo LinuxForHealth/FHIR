@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -53,19 +54,19 @@ public class ImmunizationEvaluation extends DomainResource {
 
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.date = builder.date;
-        this.authority = builder.authority;
-        this.targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
-        this.immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
-        this.doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
-        this.doseStatusReason = builder.doseStatusReason;
-        this.description = builder.description;
-        this.series = builder.series;
-        this.doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-        this.seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        date = builder.date;
+        authority = builder.authority;
+        targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
+        immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
+        doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
+        doseStatusReason = Collections.unmodifiableList(builder.doseStatusReason);
+        description = builder.description;
+        series = builder.series;
+        doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
+        seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
     }
 
     /**

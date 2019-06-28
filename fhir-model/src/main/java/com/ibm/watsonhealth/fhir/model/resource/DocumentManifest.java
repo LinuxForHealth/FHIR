@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -50,18 +51,18 @@ public class DocumentManifest extends DomainResource {
 
     private DocumentManifest(Builder builder) {
         super(builder);
-        this.masterIdentifier = builder.masterIdentifier;
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = builder.type;
-        this.subject = builder.subject;
-        this.created = builder.created;
-        this.author = builder.author;
-        this.recipient = builder.recipient;
-        this.source = builder.source;
-        this.description = builder.description;
-        this.content = ValidationSupport.requireNonEmpty(builder.content, "content");
-        this.related = builder.related;
+        masterIdentifier = builder.masterIdentifier;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = builder.type;
+        subject = builder.subject;
+        created = builder.created;
+        author = Collections.unmodifiableList(builder.author);
+        recipient = Collections.unmodifiableList(builder.recipient);
+        source = builder.source;
+        description = builder.description;
+        content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
+        related = Collections.unmodifiableList(builder.related);
     }
 
     /**
@@ -711,6 +712,40 @@ public class DocumentManifest extends DomainResource {
 
         /**
          * <p>
+         * The list of Resources that consist of the parts of this manifest.
+         * </p>
+         * 
+         * @param content
+         *     Items in manifest
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder content(Reference... content) {
+            for (Reference value : content) {
+                this.content.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The list of Resources that consist of the parts of this manifest.
+         * </p>
+         * 
+         * @param content
+         *     Items in manifest
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder content(Collection<Reference> content) {
+            this.content.addAll(content);
+            return this;
+        }
+
+        /**
+         * <p>
          * Related identifiers or resources associated with the DocumentManifest.
          * </p>
          * 
@@ -760,8 +795,8 @@ public class DocumentManifest extends DomainResource {
 
         private Related(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.ref = builder.ref;
+            identifier = builder.identifier;
+            ref = builder.ref;
         }
 
         /**
@@ -967,9 +1002,6 @@ public class DocumentManifest extends DomainResource {
 
             private static Builder from(Related related) {
                 Builder builder = new Builder();
-                builder.id = related.id;
-                builder.extension.addAll(related.extension);
-                builder.modifierExtension.addAll(related.modifierExtension);
                 builder.identifier = related.identifier;
                 builder.ref = related.ref;
                 return builder;

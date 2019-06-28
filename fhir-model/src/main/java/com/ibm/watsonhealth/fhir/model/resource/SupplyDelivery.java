@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -52,17 +53,17 @@ public class SupplyDelivery extends DomainResource {
 
     private SupplyDelivery(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.partOf = builder.partOf;
-        this.status = builder.status;
-        this.patient = builder.patient;
-        this.type = builder.type;
-        this.suppliedItem = builder.suppliedItem;
-        this.occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        this.supplier = builder.supplier;
-        this.destination = builder.destination;
-        this.receiver = builder.receiver;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        patient = builder.patient;
+        type = builder.type;
+        suppliedItem = builder.suppliedItem;
+        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        supplier = builder.supplier;
+        destination = builder.destination;
+        receiver = Collections.unmodifiableList(builder.receiver);
     }
 
     /**
@@ -750,8 +751,8 @@ public class SupplyDelivery extends DomainResource {
 
         private SuppliedItem(Builder builder) {
             super(builder);
-            this.quantity = builder.quantity;
-            this.item = ValidationSupport.choiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            quantity = builder.quantity;
+            item = ValidationSupport.choiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
         }
 
         /**
@@ -959,9 +960,6 @@ public class SupplyDelivery extends DomainResource {
 
             private static Builder from(SuppliedItem suppliedItem) {
                 Builder builder = new Builder();
-                builder.id = suppliedItem.id;
-                builder.extension.addAll(suppliedItem.extension);
-                builder.modifierExtension.addAll(suppliedItem.modifierExtension);
                 builder.quantity = suppliedItem.quantity;
                 builder.item = suppliedItem.item;
                 return builder;

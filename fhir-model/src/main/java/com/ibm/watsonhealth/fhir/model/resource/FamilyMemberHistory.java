@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -79,24 +80,24 @@ public class FamilyMemberHistory extends DomainResource {
 
     private FamilyMemberHistory(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.dataAbsentReason = builder.dataAbsentReason;
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.date = builder.date;
-        this.name = builder.name;
-        this.relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
-        this.sex = builder.sex;
-        this.born = ValidationSupport.choiceElement(builder.born, "born", Period.class, Date.class, String.class);
-        this.age = ValidationSupport.choiceElement(builder.age, "age", Age.class, Range.class, String.class);
-        this.estimatedAge = builder.estimatedAge;
-        this.deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, Age.class, Range.class, Date.class, String.class);
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.note = builder.note;
-        this.condition = builder.condition;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        dataAbsentReason = builder.dataAbsentReason;
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        date = builder.date;
+        name = builder.name;
+        relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
+        sex = builder.sex;
+        born = ValidationSupport.choiceElement(builder.born, "born", Period.class, Date.class, String.class);
+        age = ValidationSupport.choiceElement(builder.age, "age", Age.class, Range.class, String.class);
+        estimatedAge = builder.estimatedAge;
+        deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, Age.class, Range.class, Date.class, String.class);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        condition = Collections.unmodifiableList(builder.condition);
     }
 
     /**
@@ -1035,11 +1036,11 @@ public class FamilyMemberHistory extends DomainResource {
 
         private Condition(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.outcome = builder.outcome;
-            this.contributedToDeath = builder.contributedToDeath;
-            this.onset = ValidationSupport.choiceElement(builder.onset, "onset", Age.class, Range.class, Period.class, String.class);
-            this.note = builder.note;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            outcome = builder.outcome;
+            contributedToDeath = builder.contributedToDeath;
+            onset = ValidationSupport.choiceElement(builder.onset, "onset", Age.class, Range.class, Period.class, String.class);
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1347,9 +1348,6 @@ public class FamilyMemberHistory extends DomainResource {
 
             private static Builder from(Condition condition) {
                 Builder builder = new Builder(condition.code);
-                builder.id = condition.id;
-                builder.extension.addAll(condition.extension);
-                builder.modifierExtension.addAll(condition.modifierExtension);
                 builder.outcome = condition.outcome;
                 builder.contributedToDeath = condition.contributedToDeath;
                 builder.onset = condition.onset;

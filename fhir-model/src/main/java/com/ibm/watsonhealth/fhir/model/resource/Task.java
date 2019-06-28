@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -121,37 +122,37 @@ public class Task extends DomainResource {
 
     private Task(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.groupIdentifier = builder.groupIdentifier;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.businessStatus = builder.businessStatus;
-        this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        this.priority = builder.priority;
-        this.code = builder.code;
-        this.description = builder.description;
-        this.focus = builder.focus;
-        this._for = builder._for;
-        this.encounter = builder.encounter;
-        this.executionPeriod = builder.executionPeriod;
-        this.authoredOn = builder.authoredOn;
-        this.lastModified = builder.lastModified;
-        this.requester = builder.requester;
-        this.performerType = builder.performerType;
-        this.owner = builder.owner;
-        this.location = builder.location;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.insurance = builder.insurance;
-        this.note = builder.note;
-        this.relevantHistory = builder.relevantHistory;
-        this.restriction = builder.restriction;
-        this.input = builder.input;
-        this.output = builder.output;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = builder.instantiatesCanonical;
+        instantiatesUri = builder.instantiatesUri;
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        groupIdentifier = builder.groupIdentifier;
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = builder.statusReason;
+        businessStatus = builder.businessStatus;
+        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        priority = builder.priority;
+        code = builder.code;
+        description = builder.description;
+        focus = builder.focus;
+        _for = builder._for;
+        encounter = builder.encounter;
+        executionPeriod = builder.executionPeriod;
+        authoredOn = builder.authoredOn;
+        lastModified = builder.lastModified;
+        requester = builder.requester;
+        performerType = Collections.unmodifiableList(builder.performerType);
+        owner = builder.owner;
+        location = builder.location;
+        reasonCode = builder.reasonCode;
+        reasonReference = builder.reasonReference;
+        insurance = Collections.unmodifiableList(builder.insurance);
+        note = Collections.unmodifiableList(builder.note);
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
+        restriction = builder.restriction;
+        input = Collections.unmodifiableList(builder.input);
+        output = Collections.unmodifiableList(builder.output);
     }
 
     /**
@@ -1543,9 +1544,9 @@ public class Task extends DomainResource {
 
         private Restriction(Builder builder) {
             super(builder);
-            this.repetitions = builder.repetitions;
-            this.period = builder.period;
-            this.recipient = builder.recipient;
+            repetitions = builder.repetitions;
+            period = builder.period;
+            recipient = Collections.unmodifiableList(builder.recipient);
         }
 
         /**
@@ -1799,9 +1800,6 @@ public class Task extends DomainResource {
 
             private static Builder from(Restriction restriction) {
                 Builder builder = new Builder();
-                builder.id = restriction.id;
-                builder.extension.addAll(restriction.extension);
-                builder.modifierExtension.addAll(restriction.modifierExtension);
                 builder.repetitions = restriction.repetitions;
                 builder.period = restriction.period;
                 builder.recipient.addAll(restriction.recipient);
@@ -1821,8 +1819,8 @@ public class Task extends DomainResource {
 
         private Input(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.value = ValidationSupport.requireChoiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            value = ValidationSupport.requireChoiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
         }
 
         /**
@@ -1998,9 +1996,6 @@ public class Task extends DomainResource {
 
             private static Builder from(Input input) {
                 Builder builder = new Builder(input.type, input.value);
-                builder.id = input.id;
-                builder.extension.addAll(input.extension);
-                builder.modifierExtension.addAll(input.modifierExtension);
                 return builder;
             }
         }
@@ -2017,8 +2012,8 @@ public class Task extends DomainResource {
 
         private Output(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.value = ValidationSupport.requireChoiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            value = ValidationSupport.requireChoiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
         }
 
         /**
@@ -2194,9 +2189,6 @@ public class Task extends DomainResource {
 
             private static Builder from(Output output) {
                 Builder builder = new Builder(output.type, output.value);
-                builder.id = output.id;
-                builder.extension.addAll(output.extension);
-                builder.modifierExtension.addAll(output.modifierExtension);
                 return builder;
             }
         }

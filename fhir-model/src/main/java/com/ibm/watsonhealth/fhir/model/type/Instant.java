@@ -30,7 +30,7 @@ public class Instant extends Element {
 
     private Instant(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
     }
 
     /**

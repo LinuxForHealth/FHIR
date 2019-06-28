@@ -32,7 +32,7 @@ public class Date extends Element {
 
     private Date(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
         ValidationSupport.checkValueType(value, LocalDate.class, YearMonth.class, Year.class);
     }
 

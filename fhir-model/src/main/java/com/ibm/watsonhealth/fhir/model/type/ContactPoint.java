@@ -38,11 +38,11 @@ public class ContactPoint extends Element {
 
     private ContactPoint(Builder builder) {
         super(builder);
-        this.system = builder.system;
-        this.value = builder.value;
-        this.use = builder.use;
-        this.rank = builder.rank;
-        this.period = builder.period;
+        system = builder.system;
+        value = builder.value;
+        use = builder.use;
+        rank = builder.rank;
+        period = builder.period;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -174,30 +175,30 @@ public class TestScript extends DomainResource {
 
     private TestScript(Builder builder) {
         super(builder);
-        this.url = ValidationSupport.requireNonNull(builder.url, "url");
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.origin = builder.origin;
-        this.destination = builder.destination;
-        this.metadata = builder.metadata;
-        this.fixture = builder.fixture;
-        this.profile = builder.profile;
-        this.variable = builder.variable;
-        this.setup = builder.setup;
-        this.test = builder.test;
-        this.teardown = builder.teardown;
+        url = ValidationSupport.requireNonNull(builder.url, "url");
+        identifier = builder.identifier;
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        origin = Collections.unmodifiableList(builder.origin);
+        destination = Collections.unmodifiableList(builder.destination);
+        metadata = builder.metadata;
+        fixture = Collections.unmodifiableList(builder.fixture);
+        profile = Collections.unmodifiableList(builder.profile);
+        variable = Collections.unmodifiableList(builder.variable);
+        setup = builder.setup;
+        test = Collections.unmodifiableList(builder.test);
+        teardown = builder.teardown;
     }
 
     /**
@@ -1356,8 +1357,8 @@ public class TestScript extends DomainResource {
 
         private Origin(Builder builder) {
             super(builder);
-            this.index = ValidationSupport.requireNonNull(builder.index, "index");
-            this.profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            index = ValidationSupport.requireNonNull(builder.index, "index");
+            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
         }
 
         /**
@@ -1533,9 +1534,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Origin origin) {
                 Builder builder = new Builder(origin.index, origin.profile);
-                builder.id = origin.id;
-                builder.extension.addAll(origin.extension);
-                builder.modifierExtension.addAll(origin.modifierExtension);
                 return builder;
             }
         }
@@ -1552,8 +1550,8 @@ public class TestScript extends DomainResource {
 
         private Destination(Builder builder) {
             super(builder);
-            this.index = ValidationSupport.requireNonNull(builder.index, "index");
-            this.profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            index = ValidationSupport.requireNonNull(builder.index, "index");
+            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
         }
 
         /**
@@ -1729,9 +1727,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Destination destination) {
                 Builder builder = new Builder(destination.index, destination.profile);
-                builder.id = destination.id;
-                builder.extension.addAll(destination.extension);
-                builder.modifierExtension.addAll(destination.modifierExtension);
                 return builder;
             }
         }
@@ -1748,8 +1743,8 @@ public class TestScript extends DomainResource {
 
         private Metadata(Builder builder) {
             super(builder);
-            this.link = builder.link;
-            this.capability = ValidationSupport.requireNonEmpty(builder.capability, "capability");
+            link = Collections.unmodifiableList(builder.link);
+            capability = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.capability, "capability"));
         }
 
         /**
@@ -1953,6 +1948,40 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
+             * </p>
+             * 
+             * @param capability
+             *     Capabilities that are assumed to function correctly on the FHIR server being tested
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder capability(Capability... capability) {
+                for (Capability value : capability) {
+                    this.capability.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
+             * </p>
+             * 
+             * @param capability
+             *     Capabilities that are assumed to function correctly on the FHIR server being tested
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder capability(Collection<Capability> capability) {
+                this.capability.addAll(capability);
+                return this;
+            }
+
             @Override
             public Metadata build() {
                 return new Metadata(this);
@@ -1960,9 +1989,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Metadata metadata) {
                 Builder builder = new Builder(metadata.capability);
-                builder.id = metadata.id;
-                builder.extension.addAll(metadata.extension);
-                builder.modifierExtension.addAll(metadata.modifierExtension);
                 builder.link.addAll(metadata.link);
                 return builder;
             }
@@ -1979,8 +2005,8 @@ public class TestScript extends DomainResource {
 
             private Link(Builder builder) {
                 super(builder);
-                this.url = ValidationSupport.requireNonNull(builder.url, "url");
-                this.description = builder.description;
+                url = ValidationSupport.requireNonNull(builder.url, "url");
+                description = builder.description;
             }
 
             /**
@@ -2173,9 +2199,6 @@ public class TestScript extends DomainResource {
 
                 private static Builder from(Link link) {
                     Builder builder = new Builder(link.url);
-                    builder.id = link.id;
-                    builder.extension.addAll(link.extension);
-                    builder.modifierExtension.addAll(link.modifierExtension);
                     builder.description = link.description;
                     return builder;
                 }
@@ -2198,13 +2221,13 @@ public class TestScript extends DomainResource {
 
             private Capability(Builder builder) {
                 super(builder);
-                this.required = ValidationSupport.requireNonNull(builder.required, "required");
-                this.validated = ValidationSupport.requireNonNull(builder.validated, "validated");
-                this.description = builder.description;
-                this.origin = builder.origin;
-                this.destination = builder.destination;
-                this.link = builder.link;
-                this.capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
+                required = ValidationSupport.requireNonNull(builder.required, "required");
+                validated = ValidationSupport.requireNonNull(builder.validated, "validated");
+                description = builder.description;
+                origin = Collections.unmodifiableList(builder.origin);
+                destination = builder.destination;
+                link = Collections.unmodifiableList(builder.link);
+                capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
             }
 
             /**
@@ -2556,9 +2579,6 @@ public class TestScript extends DomainResource {
 
                 private static Builder from(Capability capability) {
                     Builder builder = new Builder(capability.required, capability.validated, capability.capabilities);
-                    builder.id = capability.id;
-                    builder.extension.addAll(capability.extension);
-                    builder.modifierExtension.addAll(capability.modifierExtension);
                     builder.description = capability.description;
                     builder.origin.addAll(capability.origin);
                     builder.destination = capability.destination;
@@ -2581,9 +2601,9 @@ public class TestScript extends DomainResource {
 
         private Fixture(Builder builder) {
             super(builder);
-            this.autocreate = ValidationSupport.requireNonNull(builder.autocreate, "autocreate");
-            this.autodelete = ValidationSupport.requireNonNull(builder.autodelete, "autodelete");
-            this.resource = builder.resource;
+            autocreate = ValidationSupport.requireNonNull(builder.autocreate, "autocreate");
+            autodelete = ValidationSupport.requireNonNull(builder.autodelete, "autodelete");
+            resource = builder.resource;
         }
 
         /**
@@ -2795,9 +2815,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Fixture fixture) {
                 Builder builder = new Builder(fixture.autocreate, fixture.autodelete);
-                builder.id = fixture.id;
-                builder.extension.addAll(fixture.extension);
-                builder.modifierExtension.addAll(fixture.modifierExtension);
                 builder.resource = fixture.resource;
                 return builder;
             }
@@ -2821,14 +2838,14 @@ public class TestScript extends DomainResource {
 
         private Variable(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.defaultValue = builder.defaultValue;
-            this.description = builder.description;
-            this.expression = builder.expression;
-            this.headerField = builder.headerField;
-            this.hint = builder.hint;
-            this.path = builder.path;
-            this.sourceId = builder.sourceId;
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            defaultValue = builder.defaultValue;
+            description = builder.description;
+            expression = builder.expression;
+            headerField = builder.headerField;
+            hint = builder.hint;
+            path = builder.path;
+            sourceId = builder.sourceId;
         }
 
         /**
@@ -3205,9 +3222,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Variable variable) {
                 Builder builder = new Builder(variable.name);
-                builder.id = variable.id;
-                builder.extension.addAll(variable.extension);
-                builder.modifierExtension.addAll(variable.modifierExtension);
                 builder.defaultValue = variable.defaultValue;
                 builder.description = variable.description;
                 builder.expression = variable.expression;
@@ -3230,7 +3244,7 @@ public class TestScript extends DomainResource {
 
         private Setup(Builder builder) {
             super(builder);
-            this.action = ValidationSupport.requireNonEmpty(builder.action, "action");
+            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
         }
 
         /**
@@ -3384,6 +3398,40 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A setup operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A setup operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Collection<Action> action) {
+                this.action.addAll(action);
+                return this;
+            }
+
             @Override
             public Setup build() {
                 return new Setup(this);
@@ -3391,9 +3439,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Setup setup) {
                 Builder builder = new Builder(setup.action);
-                builder.id = setup.id;
-                builder.extension.addAll(setup.extension);
-                builder.modifierExtension.addAll(setup.modifierExtension);
                 return builder;
             }
         }
@@ -3409,8 +3454,8 @@ public class TestScript extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                this.operation = builder.operation;
-                this._assert = builder._assert;
+                operation = builder.operation;
+                _assert = builder._assert;
             }
 
             /**
@@ -3616,9 +3661,6 @@ public class TestScript extends DomainResource {
 
                 private static Builder from(Action action) {
                     Builder builder = new Builder();
-                    builder.id = action.id;
-                    builder.extension.addAll(action.extension);
-                    builder.modifierExtension.addAll(action.modifierExtension);
                     builder.operation = action.operation;
                     builder._assert = action._assert;
                     return builder;
@@ -3651,23 +3693,23 @@ public class TestScript extends DomainResource {
 
                 private Operation(Builder builder) {
                     super(builder);
-                    this.type = builder.type;
-                    this.resource = builder.resource;
-                    this.label = builder.label;
-                    this.description = builder.description;
-                    this.accept = builder.accept;
-                    this.contentType = builder.contentType;
-                    this.destination = builder.destination;
-                    this.encodeRequestUrl = ValidationSupport.requireNonNull(builder.encodeRequestUrl, "encodeRequestUrl");
-                    this.method = builder.method;
-                    this.origin = builder.origin;
-                    this.params = builder.params;
-                    this.requestHeader = builder.requestHeader;
-                    this.requestId = builder.requestId;
-                    this.responseId = builder.responseId;
-                    this.sourceId = builder.sourceId;
-                    this.targetId = builder.targetId;
-                    this.url = builder.url;
+                    type = builder.type;
+                    resource = builder.resource;
+                    label = builder.label;
+                    description = builder.description;
+                    accept = builder.accept;
+                    contentType = builder.contentType;
+                    destination = builder.destination;
+                    encodeRequestUrl = ValidationSupport.requireNonNull(builder.encodeRequestUrl, "encodeRequestUrl");
+                    method = builder.method;
+                    origin = builder.origin;
+                    params = builder.params;
+                    requestHeader = Collections.unmodifiableList(builder.requestHeader);
+                    requestId = builder.requestId;
+                    responseId = builder.responseId;
+                    sourceId = builder.sourceId;
+                    targetId = builder.targetId;
+                    url = builder.url;
                 }
 
                 /**
@@ -4333,9 +4375,6 @@ public class TestScript extends DomainResource {
 
                     private static Builder from(Operation operation) {
                         Builder builder = new Builder(operation.encodeRequestUrl);
-                        builder.id = operation.id;
-                        builder.extension.addAll(operation.extension);
-                        builder.modifierExtension.addAll(operation.modifierExtension);
                         builder.type = operation.type;
                         builder.resource = operation.resource;
                         builder.label = operation.label;
@@ -4367,8 +4406,8 @@ public class TestScript extends DomainResource {
 
                     private RequestHeader(Builder builder) {
                         super(builder);
-                        this.field = ValidationSupport.requireNonNull(builder.field, "field");
-                        this.value = ValidationSupport.requireNonNull(builder.value, "value");
+                        field = ValidationSupport.requireNonNull(builder.field, "field");
+                        value = ValidationSupport.requireNonNull(builder.value, "value");
                     }
 
                     /**
@@ -4544,9 +4583,6 @@ public class TestScript extends DomainResource {
 
                         private static Builder from(RequestHeader requestHeader) {
                             Builder builder = new Builder(requestHeader.field, requestHeader.value);
-                            builder.id = requestHeader.id;
-                            builder.extension.addAll(requestHeader.extension);
-                            builder.modifierExtension.addAll(requestHeader.modifierExtension);
                             return builder;
                         }
                     }
@@ -4584,28 +4620,28 @@ public class TestScript extends DomainResource {
 
                 private Assert(Builder builder) {
                     super(builder);
-                    this.label = builder.label;
-                    this.description = builder.description;
-                    this.direction = builder.direction;
-                    this.compareToSourceId = builder.compareToSourceId;
-                    this.compareToSourceExpression = builder.compareToSourceExpression;
-                    this.compareToSourcePath = builder.compareToSourcePath;
-                    this.contentType = builder.contentType;
-                    this.expression = builder.expression;
-                    this.headerField = builder.headerField;
-                    this.minimumId = builder.minimumId;
-                    this.navigationLinks = builder.navigationLinks;
-                    this.operator = builder.operator;
-                    this.path = builder.path;
-                    this.requestMethod = builder.requestMethod;
-                    this.requestURL = builder.requestURL;
-                    this.resource = builder.resource;
-                    this.response = builder.response;
-                    this.responseCode = builder.responseCode;
-                    this.sourceId = builder.sourceId;
-                    this.validateProfileId = builder.validateProfileId;
-                    this.value = builder.value;
-                    this.warningOnly = ValidationSupport.requireNonNull(builder.warningOnly, "warningOnly");
+                    label = builder.label;
+                    description = builder.description;
+                    direction = builder.direction;
+                    compareToSourceId = builder.compareToSourceId;
+                    compareToSourceExpression = builder.compareToSourceExpression;
+                    compareToSourcePath = builder.compareToSourcePath;
+                    contentType = builder.contentType;
+                    expression = builder.expression;
+                    headerField = builder.headerField;
+                    minimumId = builder.minimumId;
+                    navigationLinks = builder.navigationLinks;
+                    operator = builder.operator;
+                    path = builder.path;
+                    requestMethod = builder.requestMethod;
+                    requestURL = builder.requestURL;
+                    resource = builder.resource;
+                    response = builder.response;
+                    responseCode = builder.responseCode;
+                    sourceId = builder.sourceId;
+                    validateProfileId = builder.validateProfileId;
+                    value = builder.value;
+                    warningOnly = ValidationSupport.requireNonNull(builder.warningOnly, "warningOnly");
                 }
 
                 /**
@@ -5407,9 +5443,6 @@ public class TestScript extends DomainResource {
 
                     private static Builder from(Assert _assert) {
                         Builder builder = new Builder(_assert.warningOnly);
-                        builder.id = _assert.id;
-                        builder.extension.addAll(_assert.extension);
-                        builder.modifierExtension.addAll(_assert.modifierExtension);
                         builder.label = _assert.label;
                         builder.description = _assert.description;
                         builder.direction = _assert.direction;
@@ -5450,9 +5483,9 @@ public class TestScript extends DomainResource {
 
         private Test(Builder builder) {
             super(builder);
-            this.name = builder.name;
-            this.description = builder.description;
-            this.action = ValidationSupport.requireNonEmpty(builder.action, "action");
+            name = builder.name;
+            description = builder.description;
+            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
         }
 
         /**
@@ -5668,6 +5701,40 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A test operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A test operation or assert to perform
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Collection<Action> action) {
+                this.action.addAll(action);
+                return this;
+            }
+
             @Override
             public Test build() {
                 return new Test(this);
@@ -5675,9 +5742,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Test test) {
                 Builder builder = new Builder(test.action);
-                builder.id = test.id;
-                builder.extension.addAll(test.extension);
-                builder.modifierExtension.addAll(test.modifierExtension);
                 builder.name = test.name;
                 builder.description = test.description;
                 return builder;
@@ -5695,8 +5759,8 @@ public class TestScript extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                this.operation = builder.operation;
-                this._assert = builder._assert;
+                operation = builder.operation;
+                _assert = builder._assert;
             }
 
             /**
@@ -5902,9 +5966,6 @@ public class TestScript extends DomainResource {
 
                 private static Builder from(Action action) {
                     Builder builder = new Builder();
-                    builder.id = action.id;
-                    builder.extension.addAll(action.extension);
-                    builder.modifierExtension.addAll(action.modifierExtension);
                     builder.operation = action.operation;
                     builder._assert = action._assert;
                     return builder;
@@ -5923,7 +5984,7 @@ public class TestScript extends DomainResource {
 
         private Teardown(Builder builder) {
             super(builder);
-            this.action = ValidationSupport.requireNonEmpty(builder.action, "action");
+            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
         }
 
         /**
@@ -6077,6 +6138,40 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The teardown action will only contain an operation.
+             * </p>
+             * 
+             * @param action
+             *     One or more teardown operations to perform
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * The teardown action will only contain an operation.
+             * </p>
+             * 
+             * @param action
+             *     One or more teardown operations to perform
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Collection<Action> action) {
+                this.action.addAll(action);
+                return this;
+            }
+
             @Override
             public Teardown build() {
                 return new Teardown(this);
@@ -6084,9 +6179,6 @@ public class TestScript extends DomainResource {
 
             private static Builder from(Teardown teardown) {
                 Builder builder = new Builder(teardown.action);
-                builder.id = teardown.id;
-                builder.extension.addAll(teardown.extension);
-                builder.modifierExtension.addAll(teardown.modifierExtension);
                 return builder;
             }
         }
@@ -6101,7 +6193,7 @@ public class TestScript extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                this.operation = ValidationSupport.requireNonNull(builder.operation, "operation");
+                operation = ValidationSupport.requireNonNull(builder.operation, "operation");
             }
 
             /**
@@ -6262,9 +6354,6 @@ public class TestScript extends DomainResource {
 
                 private static Builder from(Action action) {
                     Builder builder = new Builder(action.operation);
-                    builder.id = action.id;
-                    builder.extension.addAll(action.extension);
-                    builder.modifierExtension.addAll(action.modifierExtension);
                     return builder;
                 }
             }

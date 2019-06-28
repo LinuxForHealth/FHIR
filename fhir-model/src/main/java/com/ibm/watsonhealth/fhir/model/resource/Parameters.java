@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -88,7 +89,7 @@ public class Parameters extends Resource {
 
     private Parameters(Builder builder) {
         super(builder);
-        this.parameter = builder.parameter;
+        parameter = Collections.unmodifiableList(builder.parameter);
     }
 
     /**
@@ -263,10 +264,10 @@ public class Parameters extends Resource {
 
         private Parameter(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.value = ValidationSupport.choiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
-            this.resource = builder.resource;
-            this.part = builder.part;
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            value = ValidationSupport.choiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
+            resource = builder.resource;
+            part = Collections.unmodifiableList(builder.part);
         }
 
         /**
@@ -537,9 +538,6 @@ public class Parameters extends Resource {
 
             private static Builder from(Parameter parameter) {
                 Builder builder = new Builder(parameter.name);
-                builder.id = parameter.id;
-                builder.extension.addAll(parameter.extension);
-                builder.modifierExtension.addAll(parameter.modifierExtension);
                 builder.value = parameter.value;
                 builder.resource = parameter.resource;
                 builder.part.addAll(parameter.part);

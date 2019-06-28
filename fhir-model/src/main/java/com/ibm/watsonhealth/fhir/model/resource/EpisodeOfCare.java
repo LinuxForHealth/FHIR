@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -51,18 +52,18 @@ public class EpisodeOfCare extends DomainResource {
 
     private EpisodeOfCare(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusHistory = builder.statusHistory;
-        this.type = builder.type;
-        this.diagnosis = builder.diagnosis;
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.managingOrganization = builder.managingOrganization;
-        this.period = builder.period;
-        this.referralRequest = builder.referralRequest;
-        this.careManager = builder.careManager;
-        this.team = builder.team;
-        this.account = builder.account;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusHistory = Collections.unmodifiableList(builder.statusHistory);
+        type = Collections.unmodifiableList(builder.type);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        managingOrganization = builder.managingOrganization;
+        period = builder.period;
+        referralRequest = Collections.unmodifiableList(builder.referralRequest);
+        careManager = builder.careManager;
+        team = Collections.unmodifiableList(builder.team);
+        account = Collections.unmodifiableList(builder.account);
     }
 
     /**
@@ -810,8 +811,8 @@ public class EpisodeOfCare extends DomainResource {
 
         private StatusHistory(Builder builder) {
             super(builder);
-            this.status = ValidationSupport.requireNonNull(builder.status, "status");
-            this.period = ValidationSupport.requireNonNull(builder.period, "period");
+            status = ValidationSupport.requireNonNull(builder.status, "status");
+            period = ValidationSupport.requireNonNull(builder.period, "period");
         }
 
         /**
@@ -987,9 +988,6 @@ public class EpisodeOfCare extends DomainResource {
 
             private static Builder from(StatusHistory statusHistory) {
                 Builder builder = new Builder(statusHistory.status, statusHistory.period);
-                builder.id = statusHistory.id;
-                builder.extension.addAll(statusHistory.extension);
-                builder.modifierExtension.addAll(statusHistory.modifierExtension);
                 return builder;
             }
         }
@@ -1007,9 +1005,9 @@ public class EpisodeOfCare extends DomainResource {
 
         private Diagnosis(Builder builder) {
             super(builder);
-            this.condition = ValidationSupport.requireNonNull(builder.condition, "condition");
-            this.role = builder.role;
-            this.rank = builder.rank;
+            condition = ValidationSupport.requireNonNull(builder.condition, "condition");
+            role = builder.role;
+            rank = builder.rank;
         }
 
         /**
@@ -1232,9 +1230,6 @@ public class EpisodeOfCare extends DomainResource {
 
             private static Builder from(Diagnosis diagnosis) {
                 Builder builder = new Builder(diagnosis.condition);
-                builder.id = diagnosis.id;
-                builder.extension.addAll(diagnosis.extension);
-                builder.modifierExtension.addAll(diagnosis.modifierExtension);
                 builder.role = diagnosis.role;
                 builder.rank = diagnosis.rank;
                 return builder;

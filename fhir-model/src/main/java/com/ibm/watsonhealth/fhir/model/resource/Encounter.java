@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -65,29 +66,29 @@ public class Encounter extends DomainResource {
 
     private Encounter(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusHistory = builder.statusHistory;
-        this.clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-        this.classHistory = builder.classHistory;
-        this.type = builder.type;
-        this.serviceType = builder.serviceType;
-        this.priority = builder.priority;
-        this.subject = builder.subject;
-        this.episodeOfCare = builder.episodeOfCare;
-        this.basedOn = builder.basedOn;
-        this.participant = builder.participant;
-        this.appointment = builder.appointment;
-        this.period = builder.period;
-        this.length = builder.length;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.diagnosis = builder.diagnosis;
-        this.account = builder.account;
-        this.hospitalization = builder.hospitalization;
-        this.location = builder.location;
-        this.serviceProvider = builder.serviceProvider;
-        this.partOf = builder.partOf;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusHistory = Collections.unmodifiableList(builder.statusHistory);
+        clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
+        classHistory = Collections.unmodifiableList(builder.classHistory);
+        type = Collections.unmodifiableList(builder.type);
+        serviceType = builder.serviceType;
+        priority = builder.priority;
+        subject = builder.subject;
+        episodeOfCare = Collections.unmodifiableList(builder.episodeOfCare);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        participant = Collections.unmodifiableList(builder.participant);
+        appointment = Collections.unmodifiableList(builder.appointment);
+        period = builder.period;
+        length = builder.length;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        account = Collections.unmodifiableList(builder.account);
+        hospitalization = builder.hospitalization;
+        location = Collections.unmodifiableList(builder.location);
+        serviceProvider = builder.serviceProvider;
+        partOf = builder.partOf;
     }
 
     /**
@@ -1318,8 +1319,8 @@ public class Encounter extends DomainResource {
 
         private StatusHistory(Builder builder) {
             super(builder);
-            this.status = ValidationSupport.requireNonNull(builder.status, "status");
-            this.period = ValidationSupport.requireNonNull(builder.period, "period");
+            status = ValidationSupport.requireNonNull(builder.status, "status");
+            period = ValidationSupport.requireNonNull(builder.period, "period");
         }
 
         /**
@@ -1495,9 +1496,6 @@ public class Encounter extends DomainResource {
 
             private static Builder from(StatusHistory statusHistory) {
                 Builder builder = new Builder(statusHistory.status, statusHistory.period);
-                builder.id = statusHistory.id;
-                builder.extension.addAll(statusHistory.extension);
-                builder.modifierExtension.addAll(statusHistory.modifierExtension);
                 return builder;
             }
         }
@@ -1518,8 +1516,8 @@ public class Encounter extends DomainResource {
 
         private ClassHistory(Builder builder) {
             super(builder);
-            this.clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-            this.period = ValidationSupport.requireNonNull(builder.period, "period");
+            clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
+            period = ValidationSupport.requireNonNull(builder.period, "period");
         }
 
         /**
@@ -1695,9 +1693,6 @@ public class Encounter extends DomainResource {
 
             private static Builder from(ClassHistory classHistory) {
                 Builder builder = new Builder(classHistory.clazz, classHistory.period);
-                builder.id = classHistory.id;
-                builder.extension.addAll(classHistory.extension);
-                builder.modifierExtension.addAll(classHistory.modifierExtension);
                 return builder;
             }
         }
@@ -1715,9 +1710,9 @@ public class Encounter extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.period = builder.period;
-            this.individual = builder.individual;
+            type = Collections.unmodifiableList(builder.type);
+            period = builder.period;
+            individual = builder.individual;
         }
 
         /**
@@ -1973,9 +1968,6 @@ public class Encounter extends DomainResource {
 
             private static Builder from(Participant participant) {
                 Builder builder = new Builder();
-                builder.id = participant.id;
-                builder.extension.addAll(participant.extension);
-                builder.modifierExtension.addAll(participant.modifierExtension);
                 builder.type.addAll(participant.type);
                 builder.period = participant.period;
                 builder.individual = participant.individual;
@@ -1996,9 +1988,9 @@ public class Encounter extends DomainResource {
 
         private Diagnosis(Builder builder) {
             super(builder);
-            this.condition = ValidationSupport.requireNonNull(builder.condition, "condition");
-            this.use = builder.use;
-            this.rank = builder.rank;
+            condition = ValidationSupport.requireNonNull(builder.condition, "condition");
+            use = builder.use;
+            rank = builder.rank;
         }
 
         /**
@@ -2223,9 +2215,6 @@ public class Encounter extends DomainResource {
 
             private static Builder from(Diagnosis diagnosis) {
                 Builder builder = new Builder(diagnosis.condition);
-                builder.id = diagnosis.id;
-                builder.extension.addAll(diagnosis.extension);
-                builder.modifierExtension.addAll(diagnosis.modifierExtension);
                 builder.use = diagnosis.use;
                 builder.rank = diagnosis.rank;
                 return builder;
@@ -2251,15 +2240,15 @@ public class Encounter extends DomainResource {
 
         private Hospitalization(Builder builder) {
             super(builder);
-            this.preAdmissionIdentifier = builder.preAdmissionIdentifier;
-            this.origin = builder.origin;
-            this.admitSource = builder.admitSource;
-            this.reAdmission = builder.reAdmission;
-            this.dietPreference = builder.dietPreference;
-            this.specialCourtesy = builder.specialCourtesy;
-            this.specialArrangement = builder.specialArrangement;
-            this.destination = builder.destination;
-            this.dischargeDisposition = builder.dischargeDisposition;
+            preAdmissionIdentifier = builder.preAdmissionIdentifier;
+            origin = builder.origin;
+            admitSource = builder.admitSource;
+            reAdmission = builder.reAdmission;
+            dietPreference = Collections.unmodifiableList(builder.dietPreference);
+            specialCourtesy = Collections.unmodifiableList(builder.specialCourtesy);
+            specialArrangement = Collections.unmodifiableList(builder.specialArrangement);
+            destination = builder.destination;
+            dischargeDisposition = builder.dischargeDisposition;
         }
 
         /**
@@ -2733,9 +2722,6 @@ public class Encounter extends DomainResource {
 
             private static Builder from(Hospitalization hospitalization) {
                 Builder builder = new Builder();
-                builder.id = hospitalization.id;
-                builder.extension.addAll(hospitalization.extension);
-                builder.modifierExtension.addAll(hospitalization.modifierExtension);
                 builder.preAdmissionIdentifier = hospitalization.preAdmissionIdentifier;
                 builder.origin = hospitalization.origin;
                 builder.admitSource = hospitalization.admitSource;
@@ -2763,10 +2749,10 @@ public class Encounter extends DomainResource {
 
         private Location(Builder builder) {
             super(builder);
-            this.location = ValidationSupport.requireNonNull(builder.location, "location");
-            this.status = builder.status;
-            this.physicalType = builder.physicalType;
-            this.period = builder.period;
+            location = ValidationSupport.requireNonNull(builder.location, "location");
+            status = builder.status;
+            physicalType = builder.physicalType;
+            period = builder.period;
         }
 
         /**
@@ -3023,9 +3009,6 @@ public class Encounter extends DomainResource {
 
             private static Builder from(Location location) {
                 Builder builder = new Builder(location.location);
-                builder.id = location.id;
-                builder.extension.addAll(location.extension);
-                builder.modifierExtension.addAll(location.modifierExtension);
                 builder.status = location.status;
                 builder.physicalType = location.physicalType;
                 builder.period = location.period;

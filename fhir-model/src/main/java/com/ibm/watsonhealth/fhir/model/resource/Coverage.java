@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -61,23 +62,23 @@ public class Coverage extends DomainResource {
 
     private Coverage(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = builder.type;
-        this.policyHolder = builder.policyHolder;
-        this.subscriber = builder.subscriber;
-        this.subscriberId = builder.subscriberId;
-        this.beneficiary = ValidationSupport.requireNonNull(builder.beneficiary, "beneficiary");
-        this.dependent = builder.dependent;
-        this.relationship = builder.relationship;
-        this.period = builder.period;
-        this.payor = ValidationSupport.requireNonEmpty(builder.payor, "payor");
-        this.clazz = builder.clazz;
-        this.order = builder.order;
-        this.network = builder.network;
-        this.costToBeneficiary = builder.costToBeneficiary;
-        this.subrogation = builder.subrogation;
-        this.contract = builder.contract;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = builder.type;
+        policyHolder = builder.policyHolder;
+        subscriber = builder.subscriber;
+        subscriberId = builder.subscriberId;
+        beneficiary = ValidationSupport.requireNonNull(builder.beneficiary, "beneficiary");
+        dependent = builder.dependent;
+        relationship = builder.relationship;
+        period = builder.period;
+        payor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payor, "payor"));
+        clazz = Collections.unmodifiableList(builder.clazz);
+        order = builder.order;
+        network = builder.network;
+        costToBeneficiary = Collections.unmodifiableList(builder.costToBeneficiary);
+        subrogation = builder.subrogation;
+        contract = Collections.unmodifiableList(builder.contract);
     }
 
     /**
@@ -750,6 +751,42 @@ public class Coverage extends DomainResource {
 
         /**
          * <p>
+         * The program or plan underwriter or payor including both insurance and non-insurance agreements, such as patient-pay 
+         * agreements.
+         * </p>
+         * 
+         * @param payor
+         *     Issuer of the policy
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder payor(Reference... payor) {
+            for (Reference value : payor) {
+                this.payor.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The program or plan underwriter or payor including both insurance and non-insurance agreements, such as patient-pay 
+         * agreements.
+         * </p>
+         * 
+         * @param payor
+         *     Issuer of the policy
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder payor(Collection<Reference> payor) {
+            this.payor.addAll(payor);
+            return this;
+        }
+
+        /**
+         * <p>
          * A suite of underwriter specific classifiers.
          * </p>
          * 
@@ -922,9 +959,9 @@ public class Coverage extends DomainResource {
 
         private Class(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.value = ValidationSupport.requireNonNull(builder.value, "value");
-            this.name = builder.name;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            value = ValidationSupport.requireNonNull(builder.value, "value");
+            name = builder.name;
         }
 
         /**
@@ -1133,9 +1170,6 @@ public class Coverage extends DomainResource {
 
             private static Builder from(Class _class) {
                 Builder builder = new Builder(_class.type, _class.value);
-                builder.id = _class.id;
-                builder.extension.addAll(_class.extension);
-                builder.modifierExtension.addAll(_class.modifierExtension);
                 builder.name = _class.name;
                 return builder;
             }
@@ -1155,9 +1189,9 @@ public class Coverage extends DomainResource {
 
         private CostToBeneficiary(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.value = ValidationSupport.requireChoiceElement(builder.value, "value", Quantity.class, Money.class);
-            this.exception = builder.exception;
+            type = builder.type;
+            value = ValidationSupport.requireChoiceElement(builder.value, "value", Quantity.class, Money.class);
+            exception = Collections.unmodifiableList(builder.exception);
         }
 
         /**
@@ -1398,9 +1432,6 @@ public class Coverage extends DomainResource {
 
             private static Builder from(CostToBeneficiary costToBeneficiary) {
                 Builder builder = new Builder(costToBeneficiary.value);
-                builder.id = costToBeneficiary.id;
-                builder.extension.addAll(costToBeneficiary.extension);
-                builder.modifierExtension.addAll(costToBeneficiary.modifierExtension);
                 builder.type = costToBeneficiary.type;
                 builder.exception.addAll(costToBeneficiary.exception);
                 return builder;
@@ -1418,8 +1449,8 @@ public class Coverage extends DomainResource {
 
             private Exception(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.period = builder.period;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                period = builder.period;
             }
 
             /**
@@ -1612,9 +1643,6 @@ public class Coverage extends DomainResource {
 
                 private static Builder from(Exception exception) {
                     Builder builder = new Builder(exception.type);
-                    builder.id = exception.id;
-                    builder.extension.addAll(exception.extension);
-                    builder.modifierExtension.addAll(exception.modifierExtension);
                     builder.period = exception.period;
                     return builder;
                 }

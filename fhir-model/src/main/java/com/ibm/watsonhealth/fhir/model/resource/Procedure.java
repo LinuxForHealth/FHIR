@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -73,34 +74,34 @@ public class Procedure extends DomainResource {
 
     private Procedure(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.category = builder.category;
-        this.code = builder.code;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.performed = ValidationSupport.choiceElement(builder.performed, "performed", DateTime.class, Period.class, String.class, Age.class, Range.class);
-        this.recorder = builder.recorder;
-        this.asserter = builder.asserter;
-        this.performer = builder.performer;
-        this.location = builder.location;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.bodySite = builder.bodySite;
-        this.outcome = builder.outcome;
-        this.report = builder.report;
-        this.complication = builder.complication;
-        this.complicationDetail = builder.complicationDetail;
-        this.followUp = builder.followUp;
-        this.note = builder.note;
-        this.focalDevice = builder.focalDevice;
-        this.usedReference = builder.usedReference;
-        this.usedCode = builder.usedCode;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = builder.statusReason;
+        category = builder.category;
+        code = builder.code;
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        performed = ValidationSupport.choiceElement(builder.performed, "performed", DateTime.class, Period.class, String.class, Age.class, Range.class);
+        recorder = builder.recorder;
+        asserter = builder.asserter;
+        performer = Collections.unmodifiableList(builder.performer);
+        location = builder.location;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        outcome = builder.outcome;
+        report = Collections.unmodifiableList(builder.report);
+        complication = Collections.unmodifiableList(builder.complication);
+        complicationDetail = Collections.unmodifiableList(builder.complicationDetail);
+        followUp = Collections.unmodifiableList(builder.followUp);
+        note = Collections.unmodifiableList(builder.note);
+        focalDevice = Collections.unmodifiableList(builder.focalDevice);
+        usedReference = Collections.unmodifiableList(builder.usedReference);
+        usedCode = Collections.unmodifiableList(builder.usedCode);
     }
 
     /**
@@ -1551,9 +1552,9 @@ public class Procedure extends DomainResource {
 
         private Performer(Builder builder) {
             super(builder);
-            this.function = builder.function;
-            this.actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            this.onBehalfOf = builder.onBehalfOf;
+            function = builder.function;
+            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            onBehalfOf = builder.onBehalfOf;
         }
 
         /**
@@ -1778,9 +1779,6 @@ public class Procedure extends DomainResource {
 
             private static Builder from(Performer performer) {
                 Builder builder = new Builder(performer.actor);
-                builder.id = performer.id;
-                builder.extension.addAll(performer.extension);
-                builder.modifierExtension.addAll(performer.modifierExtension);
                 builder.function = performer.function;
                 builder.onBehalfOf = performer.onBehalfOf;
                 return builder;
@@ -1800,8 +1798,8 @@ public class Procedure extends DomainResource {
 
         private FocalDevice(Builder builder) {
             super(builder);
-            this.action = builder.action;
-            this.manipulated = ValidationSupport.requireNonNull(builder.manipulated, "manipulated");
+            action = builder.action;
+            manipulated = ValidationSupport.requireNonNull(builder.manipulated, "manipulated");
         }
 
         /**
@@ -1994,9 +1992,6 @@ public class Procedure extends DomainResource {
 
             private static Builder from(FocalDevice focalDevice) {
                 Builder builder = new Builder(focalDevice.manipulated);
-                builder.id = focalDevice.id;
-                builder.extension.addAll(focalDevice.extension);
-                builder.modifierExtension.addAll(focalDevice.modifierExtension);
                 builder.action = focalDevice.action;
                 return builder;
             }

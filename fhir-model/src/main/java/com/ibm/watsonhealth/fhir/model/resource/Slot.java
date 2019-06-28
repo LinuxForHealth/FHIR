@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -49,17 +50,17 @@ public class Slot extends DomainResource {
 
     private Slot(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.serviceCategory = builder.serviceCategory;
-        this.serviceType = builder.serviceType;
-        this.specialty = builder.specialty;
-        this.appointmentType = builder.appointmentType;
-        this.schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.start = ValidationSupport.requireNonNull(builder.start, "start");
-        this.end = ValidationSupport.requireNonNull(builder.end, "end");
-        this.overbooked = builder.overbooked;
-        this.comment = builder.comment;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        appointmentType = builder.appointmentType;
+        schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        start = ValidationSupport.requireNonNull(builder.start, "start");
+        end = ValidationSupport.requireNonNull(builder.end, "end");
+        overbooked = builder.overbooked;
+        comment = builder.comment;
     }
 
     /**

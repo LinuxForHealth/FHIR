@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -34,8 +35,8 @@ public abstract class Element extends AbstractVisitable {
     protected final List<Extension> extension;
 
     protected Element(Builder builder) {
-        this.id = builder.id;
-        this.extension = builder.extension;
+        id = builder.id;
+        extension = Collections.unmodifiableList(builder.extension);
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -157,32 +158,32 @@ public class CapabilityStatement extends DomainResource {
 
     private CapabilityStatement(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = ValidationSupport.requireNonNull(builder.date, "date");
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        this.instantiates = builder.instantiates;
-        this.imports = builder.imports;
-        this.software = builder.software;
-        this.implementation = builder.implementation;
-        this.fhirVersion = ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion");
-        this.format = ValidationSupport.requireNonEmpty(builder.format, "format");
-        this.patchFormat = builder.patchFormat;
-        this.implementationGuide = builder.implementationGuide;
-        this.rest = builder.rest;
-        this.messaging = builder.messaging;
-        this.document = builder.document;
+        url = builder.url;
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = ValidationSupport.requireNonNull(builder.date, "date");
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        imports = Collections.unmodifiableList(builder.imports);
+        software = builder.software;
+        implementation = builder.implementation;
+        fhirVersion = ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion");
+        format = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.format, "format"));
+        patchFormat = Collections.unmodifiableList(builder.patchFormat);
+        implementationGuide = Collections.unmodifiableList(builder.implementationGuide);
+        rest = Collections.unmodifiableList(builder.rest);
+        messaging = Collections.unmodifiableList(builder.messaging);
+        document = Collections.unmodifiableList(builder.document);
     }
 
     /**
@@ -1228,6 +1229,40 @@ public class CapabilityStatement extends DomainResource {
 
         /**
          * <p>
+         * A list of the formats supported by this implementation using their content types.
+         * </p>
+         * 
+         * @param format
+         *     formats supported (xml | json | ttl | mime type)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder format(Code... format) {
+            for (Code value : format) {
+                this.format.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A list of the formats supported by this implementation using their content types.
+         * </p>
+         * 
+         * @param format
+         *     formats supported (xml | json | ttl | mime type)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder format(Collection<Code> format) {
+            this.format.addAll(format);
+            return this;
+        }
+
+        /**
+         * <p>
          * A list of the patch formats supported by this implementation using their content types.
          * </p>
          * 
@@ -1415,9 +1450,9 @@ public class CapabilityStatement extends DomainResource {
 
         private Software(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.version = builder.version;
-            this.releaseDate = builder.releaseDate;
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            version = builder.version;
+            releaseDate = builder.releaseDate;
         }
 
         /**
@@ -1640,9 +1675,6 @@ public class CapabilityStatement extends DomainResource {
 
             private static Builder from(Software software) {
                 Builder builder = new Builder(software.name);
-                builder.id = software.id;
-                builder.extension.addAll(software.extension);
-                builder.modifierExtension.addAll(software.modifierExtension);
                 builder.version = software.version;
                 builder.releaseDate = software.releaseDate;
                 return builder;
@@ -1663,9 +1695,9 @@ public class CapabilityStatement extends DomainResource {
 
         private Implementation(Builder builder) {
             super(builder);
-            this.description = ValidationSupport.requireNonNull(builder.description, "description");
-            this.url = builder.url;
-            this.custodian = builder.custodian;
+            description = ValidationSupport.requireNonNull(builder.description, "description");
+            url = builder.url;
+            custodian = builder.custodian;
         }
 
         /**
@@ -1892,9 +1924,6 @@ public class CapabilityStatement extends DomainResource {
 
             private static Builder from(Implementation implementation) {
                 Builder builder = new Builder(implementation.description);
-                builder.id = implementation.id;
-                builder.extension.addAll(implementation.extension);
-                builder.modifierExtension.addAll(implementation.modifierExtension);
                 builder.url = implementation.url;
                 builder.custodian = implementation.custodian;
                 return builder;
@@ -1919,14 +1948,14 @@ public class CapabilityStatement extends DomainResource {
 
         private Rest(Builder builder) {
             super(builder);
-            this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-            this.documentation = builder.documentation;
-            this.security = builder.security;
-            this.resource = builder.resource;
-            this.interaction = builder.interaction;
-            this.searchParam = builder.searchParam;
-            this.operation = builder.operation;
-            this.compartment = builder.compartment;
+            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            documentation = builder.documentation;
+            security = builder.security;
+            resource = Collections.unmodifiableList(builder.resource);
+            interaction = Collections.unmodifiableList(builder.interaction);
+            searchParam = Collections.unmodifiableList(builder.searchParam);
+            operation = Collections.unmodifiableList(builder.operation);
+            compartment = Collections.unmodifiableList(builder.compartment);
         }
 
         /**
@@ -2395,9 +2424,6 @@ public class CapabilityStatement extends DomainResource {
 
             private static Builder from(Rest rest) {
                 Builder builder = new Builder(rest.mode);
-                builder.id = rest.id;
-                builder.extension.addAll(rest.extension);
-                builder.modifierExtension.addAll(rest.modifierExtension);
                 builder.documentation = rest.documentation;
                 builder.security = rest.security;
                 builder.resource.addAll(rest.resource);
@@ -2421,9 +2447,9 @@ public class CapabilityStatement extends DomainResource {
 
             private Security(Builder builder) {
                 super(builder);
-                this.cors = builder.cors;
-                this.service = builder.service;
-                this.description = builder.description;
+                cors = builder.cors;
+                service = Collections.unmodifiableList(builder.service);
+                description = builder.description;
             }
 
             /**
@@ -2677,9 +2703,6 @@ public class CapabilityStatement extends DomainResource {
 
                 private static Builder from(Security security) {
                     Builder builder = new Builder();
-                    builder.id = security.id;
-                    builder.extension.addAll(security.extension);
-                    builder.modifierExtension.addAll(security.modifierExtension);
                     builder.cors = security.cors;
                     builder.service.addAll(security.service);
                     builder.description = security.description;
@@ -2714,23 +2737,23 @@ public class CapabilityStatement extends DomainResource {
 
             private Resource(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.profile = builder.profile;
-                this.supportedProfile = builder.supportedProfile;
-                this.documentation = builder.documentation;
-                this.interaction = builder.interaction;
-                this.versioning = builder.versioning;
-                this.readHistory = builder.readHistory;
-                this.updateCreate = builder.updateCreate;
-                this.conditionalCreate = builder.conditionalCreate;
-                this.conditionalRead = builder.conditionalRead;
-                this.conditionalUpdate = builder.conditionalUpdate;
-                this.conditionalDelete = builder.conditionalDelete;
-                this.referencePolicy = builder.referencePolicy;
-                this.searchInclude = builder.searchInclude;
-                this.searchRevInclude = builder.searchRevInclude;
-                this.searchParam = builder.searchParam;
-                this.operation = builder.operation;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                profile = builder.profile;
+                supportedProfile = Collections.unmodifiableList(builder.supportedProfile);
+                documentation = builder.documentation;
+                interaction = Collections.unmodifiableList(builder.interaction);
+                versioning = builder.versioning;
+                readHistory = builder.readHistory;
+                updateCreate = builder.updateCreate;
+                conditionalCreate = builder.conditionalCreate;
+                conditionalRead = builder.conditionalRead;
+                conditionalUpdate = builder.conditionalUpdate;
+                conditionalDelete = builder.conditionalDelete;
+                referencePolicy = Collections.unmodifiableList(builder.referencePolicy);
+                searchInclude = Collections.unmodifiableList(builder.searchInclude);
+                searchRevInclude = Collections.unmodifiableList(builder.searchRevInclude);
+                searchParam = Collections.unmodifiableList(builder.searchParam);
+                operation = Collections.unmodifiableList(builder.operation);
             }
 
             /**
@@ -3531,9 +3554,6 @@ public class CapabilityStatement extends DomainResource {
 
                 private static Builder from(Resource resource) {
                     Builder builder = new Builder(resource.type);
-                    builder.id = resource.id;
-                    builder.extension.addAll(resource.extension);
-                    builder.modifierExtension.addAll(resource.modifierExtension);
                     builder.profile = resource.profile;
                     builder.supportedProfile.addAll(resource.supportedProfile);
                     builder.documentation = resource.documentation;
@@ -3565,8 +3585,8 @@ public class CapabilityStatement extends DomainResource {
 
                 private Interaction(Builder builder) {
                     super(builder);
-                    this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                    this.documentation = builder.documentation;
+                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    documentation = builder.documentation;
                 }
 
                 /**
@@ -3761,9 +3781,6 @@ public class CapabilityStatement extends DomainResource {
 
                     private static Builder from(Interaction interaction) {
                         Builder builder = new Builder(interaction.code);
-                        builder.id = interaction.id;
-                        builder.extension.addAll(interaction.extension);
-                        builder.modifierExtension.addAll(interaction.modifierExtension);
                         builder.documentation = interaction.documentation;
                         return builder;
                     }
@@ -3784,10 +3801,10 @@ public class CapabilityStatement extends DomainResource {
 
                 private SearchParam(Builder builder) {
                     super(builder);
-                    this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                    this.definition = builder.definition;
-                    this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                    this.documentation = builder.documentation;
+                    name = ValidationSupport.requireNonNull(builder.name, "name");
+                    definition = builder.definition;
+                    type = ValidationSupport.requireNonNull(builder.type, "type");
+                    documentation = builder.documentation;
                 }
 
                 /**
@@ -4033,9 +4050,6 @@ public class CapabilityStatement extends DomainResource {
 
                     private static Builder from(SearchParam searchParam) {
                         Builder builder = new Builder(searchParam.name, searchParam.type);
-                        builder.id = searchParam.id;
-                        builder.extension.addAll(searchParam.extension);
-                        builder.modifierExtension.addAll(searchParam.modifierExtension);
                         builder.definition = searchParam.definition;
                         builder.documentation = searchParam.documentation;
                         return builder;
@@ -4056,9 +4070,9 @@ public class CapabilityStatement extends DomainResource {
 
                 private Operation(Builder builder) {
                     super(builder);
-                    this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                    this.definition = ValidationSupport.requireNonNull(builder.definition, "definition");
-                    this.documentation = builder.documentation;
+                    name = ValidationSupport.requireNonNull(builder.name, "name");
+                    definition = ValidationSupport.requireNonNull(builder.definition, "definition");
+                    documentation = builder.documentation;
                 }
 
                 /**
@@ -4273,9 +4287,6 @@ public class CapabilityStatement extends DomainResource {
 
                     private static Builder from(Operation operation) {
                         Builder builder = new Builder(operation.name, operation.definition);
-                        builder.id = operation.id;
-                        builder.extension.addAll(operation.extension);
-                        builder.modifierExtension.addAll(operation.modifierExtension);
                         builder.documentation = operation.documentation;
                         return builder;
                     }
@@ -4294,8 +4305,8 @@ public class CapabilityStatement extends DomainResource {
 
             private Interaction(Builder builder) {
                 super(builder);
-                this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                this.documentation = builder.documentation;
+                code = ValidationSupport.requireNonNull(builder.code, "code");
+                documentation = builder.documentation;
             }
 
             /**
@@ -4490,9 +4501,6 @@ public class CapabilityStatement extends DomainResource {
 
                 private static Builder from(Interaction interaction) {
                     Builder builder = new Builder(interaction.code);
-                    builder.id = interaction.id;
-                    builder.extension.addAll(interaction.extension);
-                    builder.modifierExtension.addAll(interaction.modifierExtension);
                     builder.documentation = interaction.documentation;
                     return builder;
                 }
@@ -4513,10 +4521,10 @@ public class CapabilityStatement extends DomainResource {
 
         private Messaging(Builder builder) {
             super(builder);
-            this.endpoint = builder.endpoint;
-            this.reliableCache = builder.reliableCache;
-            this.documentation = builder.documentation;
-            this.supportedMessage = builder.supportedMessage;
+            endpoint = Collections.unmodifiableList(builder.endpoint);
+            reliableCache = builder.reliableCache;
+            documentation = builder.documentation;
+            supportedMessage = Collections.unmodifiableList(builder.supportedMessage);
         }
 
         /**
@@ -4822,9 +4830,6 @@ public class CapabilityStatement extends DomainResource {
 
             private static Builder from(Messaging messaging) {
                 Builder builder = new Builder();
-                builder.id = messaging.id;
-                builder.extension.addAll(messaging.extension);
-                builder.modifierExtension.addAll(messaging.modifierExtension);
                 builder.endpoint.addAll(messaging.endpoint);
                 builder.reliableCache = messaging.reliableCache;
                 builder.documentation = messaging.documentation;
@@ -4844,8 +4849,8 @@ public class CapabilityStatement extends DomainResource {
 
             private Endpoint(Builder builder) {
                 super(builder);
-                this.protocol = ValidationSupport.requireNonNull(builder.protocol, "protocol");
-                this.address = ValidationSupport.requireNonNull(builder.address, "address");
+                protocol = ValidationSupport.requireNonNull(builder.protocol, "protocol");
+                address = ValidationSupport.requireNonNull(builder.address, "address");
             }
 
             /**
@@ -5022,9 +5027,6 @@ public class CapabilityStatement extends DomainResource {
 
                 private static Builder from(Endpoint endpoint) {
                     Builder builder = new Builder(endpoint.protocol, endpoint.address);
-                    builder.id = endpoint.id;
-                    builder.extension.addAll(endpoint.extension);
-                    builder.modifierExtension.addAll(endpoint.modifierExtension);
                     return builder;
                 }
             }
@@ -5041,8 +5043,8 @@ public class CapabilityStatement extends DomainResource {
 
             private SupportedMessage(Builder builder) {
                 super(builder);
-                this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-                this.definition = ValidationSupport.requireNonNull(builder.definition, "definition");
+                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+                definition = ValidationSupport.requireNonNull(builder.definition, "definition");
             }
 
             /**
@@ -5218,9 +5220,6 @@ public class CapabilityStatement extends DomainResource {
 
                 private static Builder from(SupportedMessage supportedMessage) {
                     Builder builder = new Builder(supportedMessage.mode, supportedMessage.definition);
-                    builder.id = supportedMessage.id;
-                    builder.extension.addAll(supportedMessage.extension);
-                    builder.modifierExtension.addAll(supportedMessage.modifierExtension);
                     return builder;
                 }
             }
@@ -5239,9 +5238,9 @@ public class CapabilityStatement extends DomainResource {
 
         private Document(Builder builder) {
             super(builder);
-            this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-            this.documentation = builder.documentation;
-            this.profile = ValidationSupport.requireNonNull(builder.profile, "profile");
+            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            documentation = builder.documentation;
+            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
         }
 
         /**
@@ -5451,9 +5450,6 @@ public class CapabilityStatement extends DomainResource {
 
             private static Builder from(Document document) {
                 Builder builder = new Builder(document.mode, document.profile);
-                builder.id = document.id;
-                builder.extension.addAll(document.extension);
-                builder.modifierExtension.addAll(document.modifierExtension);
                 builder.documentation = document.documentation;
                 return builder;
             }

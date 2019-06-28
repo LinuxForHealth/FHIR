@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -26,8 +27,8 @@ public class CodeableConcept extends Element {
 
     private CodeableConcept(Builder builder) {
         super(builder);
-        this.coding = builder.coding;
-        this.text = builder.text;
+        coding = Collections.unmodifiableList(builder.coding);
+        text = builder.text;
     }
 
     /**

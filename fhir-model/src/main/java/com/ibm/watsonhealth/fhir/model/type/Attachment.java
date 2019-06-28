@@ -38,14 +38,14 @@ public class Attachment extends Element {
 
     private Attachment(Builder builder) {
         super(builder);
-        this.contentType = builder.contentType;
-        this.language = builder.language;
-        this.data = builder.data;
-        this.url = builder.url;
-        this.size = builder.size;
-        this.hash = builder.hash;
-        this.title = builder.title;
-        this.creation = builder.creation;
+        contentType = builder.contentType;
+        language = builder.language;
+        data = builder.data;
+        url = builder.url;
+        size = builder.size;
+        hash = builder.hash;
+        title = builder.title;
+        creation = builder.creation;
     }
 
     /**

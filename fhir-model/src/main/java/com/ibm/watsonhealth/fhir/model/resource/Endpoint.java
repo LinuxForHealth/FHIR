@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -52,17 +53,17 @@ public class Endpoint extends DomainResource {
 
     private Endpoint(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
-        this.name = builder.name;
-        this.managingOrganization = builder.managingOrganization;
-        this.contact = builder.contact;
-        this.period = builder.period;
-        this.payloadType = ValidationSupport.requireNonEmpty(builder.payloadType, "payloadType");
-        this.payloadMimeType = builder.payloadMimeType;
-        this.address = ValidationSupport.requireNonNull(builder.address, "address");
-        this.header = builder.header;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
+        name = builder.name;
+        managingOrganization = builder.managingOrganization;
+        contact = Collections.unmodifiableList(builder.contact);
+        period = builder.period;
+        payloadType = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payloadType, "payloadType"));
+        payloadMimeType = Collections.unmodifiableList(builder.payloadMimeType);
+        address = ValidationSupport.requireNonNull(builder.address, "address");
+        header = Collections.unmodifiableList(builder.header);
     }
 
     /**
@@ -605,6 +606,40 @@ public class Endpoint extends DomainResource {
          */
         public Builder period(Period period) {
             this.period = period;
+            return this;
+        }
+
+        /**
+         * <p>
+         * The payload type describes the acceptable content that can be communicated on the endpoint.
+         * </p>
+         * 
+         * @param payloadType
+         *     The type of content that may be used at this endpoint (e.g. XDS Discharge summaries)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder payloadType(CodeableConcept... payloadType) {
+            for (CodeableConcept value : payloadType) {
+                this.payloadType.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The payload type describes the acceptable content that can be communicated on the endpoint.
+         * </p>
+         * 
+         * @param payloadType
+         *     The type of content that may be used at this endpoint (e.g. XDS Discharge summaries)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder payloadType(Collection<CodeableConcept> payloadType) {
+            this.payloadType.addAll(payloadType);
             return this;
         }
 

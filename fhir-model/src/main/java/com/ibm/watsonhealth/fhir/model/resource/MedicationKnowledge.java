@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -66,28 +67,28 @@ public class MedicationKnowledge extends DomainResource {
 
     private MedicationKnowledge(Builder builder) {
         super(builder);
-        this.code = builder.code;
-        this.status = builder.status;
-        this.manufacturer = builder.manufacturer;
-        this.doseForm = builder.doseForm;
-        this.amount = builder.amount;
-        this.synonym = builder.synonym;
-        this.relatedMedicationKnowledge = builder.relatedMedicationKnowledge;
-        this.associatedMedication = builder.associatedMedication;
-        this.productType = builder.productType;
-        this.monograph = builder.monograph;
-        this.ingredient = builder.ingredient;
-        this.preparationInstruction = builder.preparationInstruction;
-        this.intendedRoute = builder.intendedRoute;
-        this.cost = builder.cost;
-        this.monitoringProgram = builder.monitoringProgram;
-        this.administrationGuidelines = builder.administrationGuidelines;
-        this.medicineClassification = builder.medicineClassification;
-        this.packaging = builder.packaging;
-        this.drugCharacteristic = builder.drugCharacteristic;
-        this.contraindication = builder.contraindication;
-        this.regulatory = builder.regulatory;
-        this.kinetics = builder.kinetics;
+        code = builder.code;
+        status = builder.status;
+        manufacturer = builder.manufacturer;
+        doseForm = builder.doseForm;
+        amount = builder.amount;
+        synonym = Collections.unmodifiableList(builder.synonym);
+        relatedMedicationKnowledge = Collections.unmodifiableList(builder.relatedMedicationKnowledge);
+        associatedMedication = Collections.unmodifiableList(builder.associatedMedication);
+        productType = Collections.unmodifiableList(builder.productType);
+        monograph = Collections.unmodifiableList(builder.monograph);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
+        preparationInstruction = builder.preparationInstruction;
+        intendedRoute = Collections.unmodifiableList(builder.intendedRoute);
+        cost = Collections.unmodifiableList(builder.cost);
+        monitoringProgram = Collections.unmodifiableList(builder.monitoringProgram);
+        administrationGuidelines = Collections.unmodifiableList(builder.administrationGuidelines);
+        medicineClassification = Collections.unmodifiableList(builder.medicineClassification);
+        packaging = builder.packaging;
+        drugCharacteristic = Collections.unmodifiableList(builder.drugCharacteristic);
+        contraindication = Collections.unmodifiableList(builder.contraindication);
+        regulatory = Collections.unmodifiableList(builder.regulatory);
+        kinetics = Collections.unmodifiableList(builder.kinetics);
     }
 
     /**
@@ -1339,8 +1340,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private RelatedMedicationKnowledge(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.reference = ValidationSupport.requireNonEmpty(builder.reference, "reference");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
         }
 
         /**
@@ -1509,6 +1510,40 @@ public class MedicationKnowledge extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Associated documentation about the associated medication knowledge.
+             * </p>
+             * 
+             * @param reference
+             *     Associated documentation about the associated medication knowledge
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder reference(Reference... reference) {
+                for (Reference value : reference) {
+                    this.reference.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Associated documentation about the associated medication knowledge.
+             * </p>
+             * 
+             * @param reference
+             *     Associated documentation about the associated medication knowledge
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder reference(Collection<Reference> reference) {
+                this.reference.addAll(reference);
+                return this;
+            }
+
             @Override
             public RelatedMedicationKnowledge build() {
                 return new RelatedMedicationKnowledge(this);
@@ -1516,9 +1551,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(RelatedMedicationKnowledge relatedMedicationKnowledge) {
                 Builder builder = new Builder(relatedMedicationKnowledge.type, relatedMedicationKnowledge.reference);
-                builder.id = relatedMedicationKnowledge.id;
-                builder.extension.addAll(relatedMedicationKnowledge.extension);
-                builder.modifierExtension.addAll(relatedMedicationKnowledge.modifierExtension);
                 return builder;
             }
         }
@@ -1535,8 +1567,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private Monograph(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.source = builder.source;
+            type = builder.type;
+            source = builder.source;
         }
 
         /**
@@ -1742,9 +1774,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(Monograph monograph) {
                 Builder builder = new Builder();
-                builder.id = monograph.id;
-                builder.extension.addAll(monograph.extension);
-                builder.modifierExtension.addAll(monograph.modifierExtension);
                 builder.type = monograph.type;
                 builder.source = monograph.source;
                 return builder;
@@ -1764,9 +1793,9 @@ public class MedicationKnowledge extends DomainResource {
 
         private Ingredient(Builder builder) {
             super(builder);
-            this.item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-            this.isActive = builder.isActive;
-            this.strength = builder.strength;
+            item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            isActive = builder.isActive;
+            strength = builder.strength;
         }
 
         /**
@@ -1991,9 +2020,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(Ingredient ingredient) {
                 Builder builder = new Builder(ingredient.item);
-                builder.id = ingredient.id;
-                builder.extension.addAll(ingredient.extension);
-                builder.modifierExtension.addAll(ingredient.modifierExtension);
                 builder.isActive = ingredient.isActive;
                 builder.strength = ingredient.strength;
                 return builder;
@@ -2013,9 +2039,9 @@ public class MedicationKnowledge extends DomainResource {
 
         private Cost(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.source = builder.source;
-            this.cost = ValidationSupport.requireNonNull(builder.cost, "cost");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            source = builder.source;
+            cost = ValidationSupport.requireNonNull(builder.cost, "cost");
         }
 
         /**
@@ -2224,9 +2250,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(Cost cost) {
                 Builder builder = new Builder(cost.type, cost.cost);
-                builder.id = cost.id;
-                builder.extension.addAll(cost.extension);
-                builder.modifierExtension.addAll(cost.modifierExtension);
                 builder.source = cost.source;
                 return builder;
             }
@@ -2244,8 +2267,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private MonitoringProgram(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.name = builder.name;
+            type = builder.type;
+            name = builder.name;
         }
 
         /**
@@ -2451,9 +2474,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(MonitoringProgram monitoringProgram) {
                 Builder builder = new Builder();
-                builder.id = monitoringProgram.id;
-                builder.extension.addAll(monitoringProgram.extension);
-                builder.modifierExtension.addAll(monitoringProgram.modifierExtension);
                 builder.type = monitoringProgram.type;
                 builder.name = monitoringProgram.name;
                 return builder;
@@ -2473,9 +2493,9 @@ public class MedicationKnowledge extends DomainResource {
 
         private AdministrationGuidelines(Builder builder) {
             super(builder);
-            this.dosage = builder.dosage;
-            this.indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
-            this.patientCharacteristics = builder.patientCharacteristics;
+            dosage = Collections.unmodifiableList(builder.dosage);
+            indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
+            patientCharacteristics = Collections.unmodifiableList(builder.patientCharacteristics);
         }
 
         /**
@@ -2750,9 +2770,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(AdministrationGuidelines administrationGuidelines) {
                 Builder builder = new Builder();
-                builder.id = administrationGuidelines.id;
-                builder.extension.addAll(administrationGuidelines.extension);
-                builder.modifierExtension.addAll(administrationGuidelines.modifierExtension);
                 builder.dosage.addAll(administrationGuidelines.dosage);
                 builder.indication = administrationGuidelines.indication;
                 builder.patientCharacteristics.addAll(administrationGuidelines.patientCharacteristics);
@@ -2771,8 +2788,8 @@ public class MedicationKnowledge extends DomainResource {
 
             private Dosage(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.dosage = ValidationSupport.requireNonEmpty(builder.dosage, "dosage");
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                dosage = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.dosage, "dosage"));
             }
 
             /**
@@ -2941,6 +2958,40 @@ public class MedicationKnowledge extends DomainResource {
                     return (Builder) super.modifierExtension(modifierExtension);
                 }
 
+                /**
+                 * <p>
+                 * Dosage for the medication for the specific guidelines.
+                 * </p>
+                 * 
+                 * @param dosage
+                 *     Dosage for the medication for the specific guidelines
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder dosage(com.ibm.watsonhealth.fhir.model.type.Dosage... dosage) {
+                    for (com.ibm.watsonhealth.fhir.model.type.Dosage value : dosage) {
+                        this.dosage.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Dosage for the medication for the specific guidelines.
+                 * </p>
+                 * 
+                 * @param dosage
+                 *     Dosage for the medication for the specific guidelines
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder dosage(Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
+                    this.dosage.addAll(dosage);
+                    return this;
+                }
+
                 @Override
                 public Dosage build() {
                     return new Dosage(this);
@@ -2948,9 +2999,6 @@ public class MedicationKnowledge extends DomainResource {
 
                 private static Builder from(Dosage dosage) {
                     Builder builder = new Builder(dosage.type, dosage.dosage);
-                    builder.id = dosage.id;
-                    builder.extension.addAll(dosage.extension);
-                    builder.modifierExtension.addAll(dosage.modifierExtension);
                     return builder;
                 }
             }
@@ -2968,8 +3016,8 @@ public class MedicationKnowledge extends DomainResource {
 
             private PatientCharacteristics(Builder builder) {
                 super(builder);
-                this.characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, Quantity.class);
-                this.value = builder.value;
+                characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, Quantity.class);
+                value = Collections.unmodifiableList(builder.value);
             }
 
             /**
@@ -3180,9 +3228,6 @@ public class MedicationKnowledge extends DomainResource {
 
                 private static Builder from(PatientCharacteristics patientCharacteristics) {
                     Builder builder = new Builder(patientCharacteristics.characteristic);
-                    builder.id = patientCharacteristics.id;
-                    builder.extension.addAll(patientCharacteristics.extension);
-                    builder.modifierExtension.addAll(patientCharacteristics.modifierExtension);
                     builder.value.addAll(patientCharacteristics.value);
                     return builder;
                 }
@@ -3201,8 +3246,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private MedicineClassification(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.classification = builder.classification;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            classification = Collections.unmodifiableList(builder.classification);
         }
 
         /**
@@ -3413,9 +3458,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(MedicineClassification medicineClassification) {
                 Builder builder = new Builder(medicineClassification.type);
-                builder.id = medicineClassification.id;
-                builder.extension.addAll(medicineClassification.extension);
-                builder.modifierExtension.addAll(medicineClassification.modifierExtension);
                 builder.classification.addAll(medicineClassification.classification);
                 return builder;
             }
@@ -3433,8 +3475,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private Packaging(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.quantity = builder.quantity;
+            type = builder.type;
+            quantity = builder.quantity;
         }
 
         /**
@@ -3642,9 +3684,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(Packaging packaging) {
                 Builder builder = new Builder();
-                builder.id = packaging.id;
-                builder.extension.addAll(packaging.extension);
-                builder.modifierExtension.addAll(packaging.modifierExtension);
                 builder.type = packaging.type;
                 builder.quantity = packaging.quantity;
                 return builder;
@@ -3663,8 +3702,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private DrugCharacteristic(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, String.class, Quantity.class, Base64Binary.class);
+            type = builder.type;
+            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, String.class, Quantity.class, Base64Binary.class);
         }
 
         /**
@@ -3870,9 +3909,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(DrugCharacteristic drugCharacteristic) {
                 Builder builder = new Builder();
-                builder.id = drugCharacteristic.id;
-                builder.extension.addAll(drugCharacteristic.extension);
-                builder.modifierExtension.addAll(drugCharacteristic.modifierExtension);
                 builder.type = drugCharacteristic.type;
                 builder.value = drugCharacteristic.value;
                 return builder;
@@ -3893,10 +3929,10 @@ public class MedicationKnowledge extends DomainResource {
 
         private Regulatory(Builder builder) {
             super(builder);
-            this.regulatoryAuthority = ValidationSupport.requireNonNull(builder.regulatoryAuthority, "regulatoryAuthority");
-            this.substitution = builder.substitution;
-            this.schedule = builder.schedule;
-            this.maxDispense = builder.maxDispense;
+            regulatoryAuthority = ValidationSupport.requireNonNull(builder.regulatoryAuthority, "regulatoryAuthority");
+            substitution = Collections.unmodifiableList(builder.substitution);
+            schedule = Collections.unmodifiableList(builder.schedule);
+            maxDispense = builder.maxDispense;
         }
 
         /**
@@ -4185,9 +4221,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(Regulatory regulatory) {
                 Builder builder = new Builder(regulatory.regulatoryAuthority);
-                builder.id = regulatory.id;
-                builder.extension.addAll(regulatory.extension);
-                builder.modifierExtension.addAll(regulatory.modifierExtension);
                 builder.substitution.addAll(regulatory.substitution);
                 builder.schedule.addAll(regulatory.schedule);
                 builder.maxDispense = regulatory.maxDispense;
@@ -4206,8 +4239,8 @@ public class MedicationKnowledge extends DomainResource {
 
             private Substitution(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.allowed = ValidationSupport.requireNonNull(builder.allowed, "allowed");
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                allowed = ValidationSupport.requireNonNull(builder.allowed, "allowed");
             }
 
             /**
@@ -4383,9 +4416,6 @@ public class MedicationKnowledge extends DomainResource {
 
                 private static Builder from(Substitution substitution) {
                     Builder builder = new Builder(substitution.type, substitution.allowed);
-                    builder.id = substitution.id;
-                    builder.extension.addAll(substitution.extension);
-                    builder.modifierExtension.addAll(substitution.modifierExtension);
                     return builder;
                 }
             }
@@ -4401,7 +4431,7 @@ public class MedicationKnowledge extends DomainResource {
 
             private Schedule(Builder builder) {
                 super(builder);
-                this.schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
+                schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
             }
 
             /**
@@ -4562,9 +4592,6 @@ public class MedicationKnowledge extends DomainResource {
 
                 private static Builder from(Schedule schedule) {
                     Builder builder = new Builder(schedule.schedule);
-                    builder.id = schedule.id;
-                    builder.extension.addAll(schedule.extension);
-                    builder.modifierExtension.addAll(schedule.modifierExtension);
                     return builder;
                 }
             }
@@ -4581,8 +4608,8 @@ public class MedicationKnowledge extends DomainResource {
 
             private MaxDispense(Builder builder) {
                 super(builder);
-                this.quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-                this.period = builder.period;
+                quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
+                period = builder.period;
             }
 
             /**
@@ -4775,9 +4802,6 @@ public class MedicationKnowledge extends DomainResource {
 
                 private static Builder from(MaxDispense maxDispense) {
                     Builder builder = new Builder(maxDispense.quantity);
-                    builder.id = maxDispense.id;
-                    builder.extension.addAll(maxDispense.extension);
-                    builder.modifierExtension.addAll(maxDispense.modifierExtension);
                     builder.period = maxDispense.period;
                     return builder;
                 }
@@ -4797,9 +4821,9 @@ public class MedicationKnowledge extends DomainResource {
 
         private Kinetics(Builder builder) {
             super(builder);
-            this.areaUnderCurve = builder.areaUnderCurve;
-            this.lethalDose50 = builder.lethalDose50;
-            this.halfLifePeriod = builder.halfLifePeriod;
+            areaUnderCurve = Collections.unmodifiableList(builder.areaUnderCurve);
+            lethalDose50 = Collections.unmodifiableList(builder.lethalDose50);
+            halfLifePeriod = builder.halfLifePeriod;
         }
 
         /**
@@ -5071,9 +5095,6 @@ public class MedicationKnowledge extends DomainResource {
 
             private static Builder from(Kinetics kinetics) {
                 Builder builder = new Builder();
-                builder.id = kinetics.id;
-                builder.extension.addAll(kinetics.extension);
-                builder.modifierExtension.addAll(kinetics.modifierExtension);
                 builder.areaUnderCurve.addAll(kinetics.areaUnderCurve);
                 builder.lethalDose50.addAll(kinetics.lethalDose50);
                 builder.halfLifePeriod = kinetics.halfLifePeriod;

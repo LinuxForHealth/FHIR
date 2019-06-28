@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -81,34 +82,34 @@ public class Immunization extends DomainResource {
 
     private Immunization(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.vaccineCode = ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.encounter = builder.encounter;
-        this.occurrence = ValidationSupport.requireChoiceElement(builder.occurrence, "occurrence", DateTime.class, String.class);
-        this.recorded = builder.recorded;
-        this.primarySource = builder.primarySource;
-        this.reportOrigin = builder.reportOrigin;
-        this.location = builder.location;
-        this.manufacturer = builder.manufacturer;
-        this.lotNumber = builder.lotNumber;
-        this.expirationDate = builder.expirationDate;
-        this.site = builder.site;
-        this.route = builder.route;
-        this.doseQuantity = builder.doseQuantity;
-        this.performer = builder.performer;
-        this.note = builder.note;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.isSubpotent = builder.isSubpotent;
-        this.subpotentReason = builder.subpotentReason;
-        this.education = builder.education;
-        this.programEligibility = builder.programEligibility;
-        this.fundingSource = builder.fundingSource;
-        this.reaction = builder.reaction;
-        this.protocolApplied = builder.protocolApplied;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = builder.statusReason;
+        vaccineCode = ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode");
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        encounter = builder.encounter;
+        occurrence = ValidationSupport.requireChoiceElement(builder.occurrence, "occurrence", DateTime.class, String.class);
+        recorded = builder.recorded;
+        primarySource = builder.primarySource;
+        reportOrigin = builder.reportOrigin;
+        location = builder.location;
+        manufacturer = builder.manufacturer;
+        lotNumber = builder.lotNumber;
+        expirationDate = builder.expirationDate;
+        site = builder.site;
+        route = builder.route;
+        doseQuantity = builder.doseQuantity;
+        performer = Collections.unmodifiableList(builder.performer);
+        note = Collections.unmodifiableList(builder.note);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        isSubpotent = builder.isSubpotent;
+        subpotentReason = Collections.unmodifiableList(builder.subpotentReason);
+        education = Collections.unmodifiableList(builder.education);
+        programEligibility = Collections.unmodifiableList(builder.programEligibility);
+        fundingSource = builder.fundingSource;
+        reaction = Collections.unmodifiableList(builder.reaction);
+        protocolApplied = Collections.unmodifiableList(builder.protocolApplied);
     }
 
     /**
@@ -1379,8 +1380,8 @@ public class Immunization extends DomainResource {
 
         private Performer(Builder builder) {
             super(builder);
-            this.function = builder.function;
-            this.actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            function = builder.function;
+            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
         }
 
         /**
@@ -1573,9 +1574,6 @@ public class Immunization extends DomainResource {
 
             private static Builder from(Performer performer) {
                 Builder builder = new Builder(performer.actor);
-                builder.id = performer.id;
-                builder.extension.addAll(performer.extension);
-                builder.modifierExtension.addAll(performer.modifierExtension);
                 builder.function = performer.function;
                 return builder;
             }
@@ -1595,10 +1593,10 @@ public class Immunization extends DomainResource {
 
         private Education(Builder builder) {
             super(builder);
-            this.documentType = builder.documentType;
-            this.reference = builder.reference;
-            this.publicationDate = builder.publicationDate;
-            this.presentationDate = builder.presentationDate;
+            documentType = builder.documentType;
+            reference = builder.reference;
+            publicationDate = builder.publicationDate;
+            presentationDate = builder.presentationDate;
         }
 
         /**
@@ -1864,9 +1862,6 @@ public class Immunization extends DomainResource {
 
             private static Builder from(Education education) {
                 Builder builder = new Builder();
-                builder.id = education.id;
-                builder.extension.addAll(education.extension);
-                builder.modifierExtension.addAll(education.modifierExtension);
                 builder.documentType = education.documentType;
                 builder.reference = education.reference;
                 builder.publicationDate = education.publicationDate;
@@ -1888,9 +1883,9 @@ public class Immunization extends DomainResource {
 
         private Reaction(Builder builder) {
             super(builder);
-            this.date = builder.date;
-            this.detail = builder.detail;
-            this.reported = builder.reported;
+            date = builder.date;
+            detail = builder.detail;
+            reported = builder.reported;
         }
 
         /**
@@ -2126,9 +2121,6 @@ public class Immunization extends DomainResource {
 
             private static Builder from(Reaction reaction) {
                 Builder builder = new Builder();
-                builder.id = reaction.id;
-                builder.extension.addAll(reaction.extension);
-                builder.modifierExtension.addAll(reaction.modifierExtension);
                 builder.date = reaction.date;
                 builder.detail = reaction.detail;
                 builder.reported = reaction.reported;
@@ -2151,11 +2143,11 @@ public class Immunization extends DomainResource {
 
         private ProtocolApplied(Builder builder) {
             super(builder);
-            this.series = builder.series;
-            this.authority = builder.authority;
-            this.targetDisease = builder.targetDisease;
-            this.doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-            this.seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+            series = builder.series;
+            authority = builder.authority;
+            targetDisease = Collections.unmodifiableList(builder.targetDisease);
+            doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
+            seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
         }
 
         /**
@@ -2456,9 +2448,6 @@ public class Immunization extends DomainResource {
 
             private static Builder from(ProtocolApplied protocolApplied) {
                 Builder builder = new Builder(protocolApplied.doseNumber);
-                builder.id = protocolApplied.id;
-                builder.extension.addAll(protocolApplied.extension);
-                builder.modifierExtension.addAll(protocolApplied.modifierExtension);
                 builder.series = protocolApplied.series;
                 builder.authority = protocolApplied.authority;
                 builder.targetDisease.addAll(protocolApplied.targetDisease);

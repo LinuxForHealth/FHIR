@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -104,47 +105,47 @@ public class Measure extends DomainResource {
 
     private Measure(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.subtitle = builder.subtitle;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.usage = builder.usage;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.topic = builder.topic;
-        this.author = builder.author;
-        this.editor = builder.editor;
-        this.reviewer = builder.reviewer;
-        this.endorser = builder.endorser;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.library = builder.library;
-        this.disclaimer = builder.disclaimer;
-        this.scoring = builder.scoring;
-        this.compositeScoring = builder.compositeScoring;
-        this.type = builder.type;
-        this.riskAdjustment = builder.riskAdjustment;
-        this.rateAggregation = builder.rateAggregation;
-        this.rationale = builder.rationale;
-        this.clinicalRecommendationStatement = builder.clinicalRecommendationStatement;
-        this.improvementNotation = builder.improvementNotation;
-        this.definition = builder.definition;
-        this.guidance = builder.guidance;
-        this.group = builder.group;
-        this.supplementalData = builder.supplementalData;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        subtitle = builder.subtitle;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        usage = builder.usage;
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        disclaimer = builder.disclaimer;
+        scoring = builder.scoring;
+        compositeScoring = builder.compositeScoring;
+        type = Collections.unmodifiableList(builder.type);
+        riskAdjustment = builder.riskAdjustment;
+        rateAggregation = builder.rateAggregation;
+        rationale = builder.rationale;
+        clinicalRecommendationStatement = builder.clinicalRecommendationStatement;
+        improvementNotation = builder.improvementNotation;
+        definition = Collections.unmodifiableList(builder.definition);
+        guidance = builder.guidance;
+        group = Collections.unmodifiableList(builder.group);
+        supplementalData = Collections.unmodifiableList(builder.supplementalData);
     }
 
     /**
@@ -2012,10 +2013,10 @@ public class Measure extends DomainResource {
 
         private Group(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.description = builder.description;
-            this.population = builder.population;
-            this.stratifier = builder.stratifier;
+            code = builder.code;
+            description = builder.description;
+            population = Collections.unmodifiableList(builder.population);
+            stratifier = Collections.unmodifiableList(builder.stratifier);
         }
 
         /**
@@ -2322,9 +2323,6 @@ public class Measure extends DomainResource {
 
             private static Builder from(Group group) {
                 Builder builder = new Builder();
-                builder.id = group.id;
-                builder.extension.addAll(group.extension);
-                builder.modifierExtension.addAll(group.modifierExtension);
                 builder.code = group.code;
                 builder.description = group.description;
                 builder.population.addAll(group.population);
@@ -2345,9 +2343,9 @@ public class Measure extends DomainResource {
 
             private Population(Builder builder) {
                 super(builder);
-                this.code = builder.code;
-                this.description = builder.description;
-                this.criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+                code = builder.code;
+                description = builder.description;
+                criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
             }
 
             /**
@@ -2571,9 +2569,6 @@ public class Measure extends DomainResource {
 
                 private static Builder from(Population population) {
                     Builder builder = new Builder(population.criteria);
-                    builder.id = population.id;
-                    builder.extension.addAll(population.extension);
-                    builder.modifierExtension.addAll(population.modifierExtension);
                     builder.code = population.code;
                     builder.description = population.description;
                     return builder;
@@ -2595,10 +2590,10 @@ public class Measure extends DomainResource {
 
             private Stratifier(Builder builder) {
                 super(builder);
-                this.code = builder.code;
-                this.description = builder.description;
-                this.criteria = builder.criteria;
-                this.component = builder.component;
+                code = builder.code;
+                description = builder.description;
+                criteria = builder.criteria;
+                component = Collections.unmodifiableList(builder.component);
             }
 
             /**
@@ -2889,9 +2884,6 @@ public class Measure extends DomainResource {
 
                 private static Builder from(Stratifier stratifier) {
                     Builder builder = new Builder();
-                    builder.id = stratifier.id;
-                    builder.extension.addAll(stratifier.extension);
-                    builder.modifierExtension.addAll(stratifier.modifierExtension);
                     builder.code = stratifier.code;
                     builder.description = stratifier.description;
                     builder.criteria = stratifier.criteria;
@@ -2913,9 +2905,9 @@ public class Measure extends DomainResource {
 
                 private Component(Builder builder) {
                     super(builder);
-                    this.code = builder.code;
-                    this.description = builder.description;
-                    this.criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+                    code = builder.code;
+                    description = builder.description;
+                    criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
                 }
 
                 /**
@@ -3141,9 +3133,6 @@ public class Measure extends DomainResource {
 
                     private static Builder from(Component component) {
                         Builder builder = new Builder(component.criteria);
-                        builder.id = component.id;
-                        builder.extension.addAll(component.extension);
-                        builder.modifierExtension.addAll(component.modifierExtension);
                         builder.code = component.code;
                         builder.description = component.description;
                         return builder;
@@ -3167,10 +3156,10 @@ public class Measure extends DomainResource {
 
         private SupplementalData(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.usage = builder.usage;
-            this.description = builder.description;
-            this.criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+            code = builder.code;
+            usage = Collections.unmodifiableList(builder.usage);
+            description = builder.description;
+            criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
         }
 
         /**
@@ -3453,9 +3442,6 @@ public class Measure extends DomainResource {
 
             private static Builder from(SupplementalData supplementalData) {
                 Builder builder = new Builder(supplementalData.criteria);
-                builder.id = supplementalData.id;
-                builder.extension.addAll(supplementalData.extension);
-                builder.modifierExtension.addAll(supplementalData.modifierExtension);
                 builder.code = supplementalData.code;
                 builder.usage.addAll(supplementalData.usage);
                 builder.description = supplementalData.description;

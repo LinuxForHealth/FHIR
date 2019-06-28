@@ -27,7 +27,7 @@ public class String extends Element {
 
     protected String(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
         ValidationSupport.checkMaxLength(value);
         ValidationSupport.checkMinLength(value);
         ValidationSupport.checkValue(value, PATTERN);

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -75,23 +76,23 @@ public class RiskAssessment extends DomainResource {
 
     private RiskAssessment(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.parent = builder.parent;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.method = builder.method;
-        this.code = builder.code;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
-        this.condition = builder.condition;
-        this.performer = builder.performer;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.basis = builder.basis;
-        this.prediction = builder.prediction;
-        this.mitigation = builder.mitigation;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = builder.basedOn;
+        parent = builder.parent;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        method = builder.method;
+        code = builder.code;
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
+        condition = builder.condition;
+        performer = builder.performer;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        basis = Collections.unmodifiableList(builder.basis);
+        prediction = Collections.unmodifiableList(builder.prediction);
+        mitigation = builder.mitigation;
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -976,12 +977,12 @@ public class RiskAssessment extends DomainResource {
 
         private Prediction(Builder builder) {
             super(builder);
-            this.outcome = builder.outcome;
-            this.probability = ValidationSupport.choiceElement(builder.probability, "probability", Decimal.class, Range.class);
-            this.qualitativeRisk = builder.qualitativeRisk;
-            this.relativeRisk = builder.relativeRisk;
-            this.when = ValidationSupport.choiceElement(builder.when, "when", Period.class, Range.class);
-            this.rationale = builder.rationale;
+            outcome = builder.outcome;
+            probability = ValidationSupport.choiceElement(builder.probability, "probability", Decimal.class, Range.class);
+            qualitativeRisk = builder.qualitativeRisk;
+            relativeRisk = builder.relativeRisk;
+            when = ValidationSupport.choiceElement(builder.when, "when", Period.class, Range.class);
+            rationale = builder.rationale;
         }
 
         /**
@@ -1311,9 +1312,6 @@ public class RiskAssessment extends DomainResource {
 
             private static Builder from(Prediction prediction) {
                 Builder builder = new Builder();
-                builder.id = prediction.id;
-                builder.extension.addAll(prediction.extension);
-                builder.modifierExtension.addAll(prediction.modifierExtension);
                 builder.outcome = prediction.outcome;
                 builder.probability = prediction.probability;
                 builder.qualitativeRisk = prediction.qualitativeRisk;

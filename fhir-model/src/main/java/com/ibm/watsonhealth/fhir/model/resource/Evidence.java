@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -81,34 +82,34 @@ public class Evidence extends DomainResource {
 
     private Evidence(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.shortTitle = builder.shortTitle;
-        this.subtitle = builder.subtitle;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.note = builder.note;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.topic = builder.topic;
-        this.author = builder.author;
-        this.editor = builder.editor;
-        this.reviewer = builder.reviewer;
-        this.endorser = builder.endorser;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.exposureBackground = ValidationSupport.requireNonNull(builder.exposureBackground, "exposureBackground");
-        this.exposureVariant = builder.exposureVariant;
-        this.outcome = builder.outcome;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        shortTitle = builder.shortTitle;
+        subtitle = builder.subtitle;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        exposureBackground = ValidationSupport.requireNonNull(builder.exposureBackground, "exposureBackground");
+        exposureVariant = Collections.unmodifiableList(builder.exposureVariant);
+        outcome = Collections.unmodifiableList(builder.outcome);
     }
 
     /**

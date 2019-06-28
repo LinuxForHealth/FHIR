@@ -24,7 +24,7 @@ public class Decimal extends Element {
 
     private Decimal(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
     }
 
     /**

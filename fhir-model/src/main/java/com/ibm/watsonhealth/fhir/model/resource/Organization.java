@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -73,16 +74,16 @@ public class Organization extends DomainResource {
 
     private Organization(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.type = builder.type;
-        this.name = builder.name;
-        this.alias = builder.alias;
-        this.telecom = builder.telecom;
-        this.address = builder.address;
-        this.partOf = builder.partOf;
-        this.contact = builder.contact;
-        this.endpoint = builder.endpoint;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        type = Collections.unmodifiableList(builder.type);
+        name = builder.name;
+        alias = Collections.unmodifiableList(builder.alias);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        address = Collections.unmodifiableList(builder.address);
+        partOf = builder.partOf;
+        contact = Collections.unmodifiableList(builder.contact);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -793,10 +794,10 @@ public class Organization extends DomainResource {
 
         private Contact(Builder builder) {
             super(builder);
-            this.purpose = builder.purpose;
-            this.name = builder.name;
-            this.telecom = builder.telecom;
-            this.address = builder.address;
+            purpose = builder.purpose;
+            name = builder.name;
+            telecom = Collections.unmodifiableList(builder.telecom);
+            address = builder.address;
         }
 
         /**
@@ -1080,9 +1081,6 @@ public class Organization extends DomainResource {
 
             private static Builder from(Contact contact) {
                 Builder builder = new Builder();
-                builder.id = contact.id;
-                builder.extension.addAll(contact.extension);
-                builder.modifierExtension.addAll(contact.modifierExtension);
                 builder.purpose = contact.purpose;
                 builder.name = contact.name;
                 builder.telecom.addAll(contact.telecom);

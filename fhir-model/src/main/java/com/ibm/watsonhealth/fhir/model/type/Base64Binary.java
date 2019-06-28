@@ -24,7 +24,7 @@ public class Base64Binary extends Element {
 
     private Base64Binary(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
     }
 
     /**

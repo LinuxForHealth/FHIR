@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -54,11 +55,11 @@ public class TriggerDefinition extends Element {
 
     private TriggerDefinition(Builder builder) {
         super(builder);
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.name = builder.name;
-        this.timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
-        this.data = builder.data;
-        this.condition = builder.condition;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        name = builder.name;
+        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
+        data = Collections.unmodifiableList(builder.data);
+        condition = builder.condition;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -93,32 +94,32 @@ public class CodeSystem extends DomainResource {
 
     private CodeSystem(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.caseSensitive = builder.caseSensitive;
-        this.valueSet = builder.valueSet;
-        this.hierarchyMeaning = builder.hierarchyMeaning;
-        this.compositional = builder.compositional;
-        this.versionNeeded = builder.versionNeeded;
-        this.content = ValidationSupport.requireNonNull(builder.content, "content");
-        this.supplements = builder.supplements;
-        this.count = builder.count;
-        this.filter = builder.filter;
-        this.property = builder.property;
-        this.concept = builder.concept;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        caseSensitive = builder.caseSensitive;
+        valueSet = builder.valueSet;
+        hierarchyMeaning = builder.hierarchyMeaning;
+        compositional = builder.compositional;
+        versionNeeded = builder.versionNeeded;
+        content = ValidationSupport.requireNonNull(builder.content, "content");
+        supplements = builder.supplements;
+        count = builder.count;
+        filter = Collections.unmodifiableList(builder.filter);
+        property = Collections.unmodifiableList(builder.property);
+        concept = Collections.unmodifiableList(builder.concept);
     }
 
     /**
@@ -1338,10 +1339,10 @@ public class CodeSystem extends DomainResource {
 
         private Filter(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.description = builder.description;
-            this.operator = ValidationSupport.requireNonEmpty(builder.operator, "operator");
-            this.value = ValidationSupport.requireNonNull(builder.value, "value");
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            description = builder.description;
+            operator = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.operator, "operator"));
+            value = ValidationSupport.requireNonNull(builder.value, "value");
         }
 
         /**
@@ -1557,6 +1558,40 @@ public class CodeSystem extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * A list of operators that can be used with the filter.
+             * </p>
+             * 
+             * @param operator
+             *     Operators that can be used with filter
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder operator(FilterOperator... operator) {
+                for (FilterOperator value : operator) {
+                    this.operator.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A list of operators that can be used with the filter.
+             * </p>
+             * 
+             * @param operator
+             *     Operators that can be used with filter
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder operator(Collection<FilterOperator> operator) {
+                this.operator.addAll(operator);
+                return this;
+            }
+
             @Override
             public Filter build() {
                 return new Filter(this);
@@ -1564,9 +1599,6 @@ public class CodeSystem extends DomainResource {
 
             private static Builder from(Filter filter) {
                 Builder builder = new Builder(filter.code, filter.operator, filter.value);
-                builder.id = filter.id;
-                builder.extension.addAll(filter.extension);
-                builder.modifierExtension.addAll(filter.modifierExtension);
                 builder.description = filter.description;
                 return builder;
             }
@@ -1586,10 +1618,10 @@ public class CodeSystem extends DomainResource {
 
         private Property(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.uri = builder.uri;
-            this.description = builder.description;
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            uri = builder.uri;
+            description = builder.description;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
         }
 
         /**
@@ -1831,9 +1863,6 @@ public class CodeSystem extends DomainResource {
 
             private static Builder from(Property property) {
                 Builder builder = new Builder(property.code, property.type);
-                builder.id = property.id;
-                builder.extension.addAll(property.extension);
-                builder.modifierExtension.addAll(property.modifierExtension);
                 builder.uri = property.uri;
                 builder.description = property.description;
                 return builder;
@@ -1857,12 +1886,12 @@ public class CodeSystem extends DomainResource {
 
         private Concept(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.display = builder.display;
-            this.definition = builder.definition;
-            this.designation = builder.designation;
-            this.property = builder.property;
-            this.concept = builder.concept;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            display = builder.display;
+            definition = builder.definition;
+            designation = Collections.unmodifiableList(builder.designation);
+            property = Collections.unmodifiableList(builder.property);
+            concept = Collections.unmodifiableList(builder.concept);
         }
 
         /**
@@ -2239,9 +2268,6 @@ public class CodeSystem extends DomainResource {
 
             private static Builder from(Concept concept) {
                 Builder builder = new Builder(concept.code);
-                builder.id = concept.id;
-                builder.extension.addAll(concept.extension);
-                builder.modifierExtension.addAll(concept.modifierExtension);
                 builder.display = concept.display;
                 builder.definition = concept.definition;
                 builder.designation.addAll(concept.designation);
@@ -2264,9 +2290,9 @@ public class CodeSystem extends DomainResource {
 
             private Designation(Builder builder) {
                 super(builder);
-                this.language = builder.language;
-                this.use = builder.use;
-                this.value = ValidationSupport.requireNonNull(builder.value, "value");
+                language = builder.language;
+                use = builder.use;
+                value = ValidationSupport.requireNonNull(builder.value, "value");
             }
 
             /**
@@ -2489,9 +2515,6 @@ public class CodeSystem extends DomainResource {
 
                 private static Builder from(Designation designation) {
                     Builder builder = new Builder(designation.value);
-                    builder.id = designation.id;
-                    builder.extension.addAll(designation.extension);
-                    builder.modifierExtension.addAll(designation.modifierExtension);
                     builder.language = designation.language;
                     builder.use = designation.use;
                     return builder;
@@ -2510,8 +2533,8 @@ public class CodeSystem extends DomainResource {
 
             private Property(Builder builder) {
                 super(builder);
-                this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                this.value = ValidationSupport.requireChoiceElement(builder.value, "value", Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class);
+                code = ValidationSupport.requireNonNull(builder.code, "code");
+                value = ValidationSupport.requireChoiceElement(builder.value, "value", Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class);
             }
 
             /**
@@ -2687,9 +2710,6 @@ public class CodeSystem extends DomainResource {
 
                 private static Builder from(Property property) {
                     Builder builder = new Builder(property.code, property.value);
-                    builder.id = property.id;
-                    builder.extension.addAll(property.extension);
-                    builder.modifierExtension.addAll(property.modifierExtension);
                     return builder;
                 }
             }

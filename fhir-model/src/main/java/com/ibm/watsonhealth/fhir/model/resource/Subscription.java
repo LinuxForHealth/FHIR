@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -48,13 +49,13 @@ public class Subscription extends DomainResource {
 
     private Subscription(Builder builder) {
         super(builder);
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.contact = builder.contact;
-        this.end = builder.end;
-        this.reason = ValidationSupport.requireNonNull(builder.reason, "reason");
-        this.criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
-        this.error = builder.error;
-        this.channel = ValidationSupport.requireNonNull(builder.channel, "channel");
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        contact = Collections.unmodifiableList(builder.contact);
+        end = builder.end;
+        reason = ValidationSupport.requireNonNull(builder.reason, "reason");
+        criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+        error = builder.error;
+        channel = ValidationSupport.requireNonNull(builder.channel, "channel");
     }
 
     /**
@@ -505,10 +506,10 @@ public class Subscription extends DomainResource {
 
         private Channel(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.endpoint = builder.endpoint;
-            this.payload = builder.payload;
-            this.header = builder.header;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            endpoint = builder.endpoint;
+            payload = builder.payload;
+            header = Collections.unmodifiableList(builder.header);
         }
 
         /**
@@ -783,9 +784,6 @@ public class Subscription extends DomainResource {
 
             private static Builder from(Channel channel) {
                 Builder builder = new Builder(channel.type);
-                builder.id = channel.id;
-                builder.extension.addAll(channel.extension);
-                builder.modifierExtension.addAll(channel.modifierExtension);
                 builder.endpoint = channel.endpoint;
                 builder.payload = channel.payload;
                 builder.header.addAll(channel.header);

@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -45,9 +46,9 @@ public class Linkage extends DomainResource {
 
     private Linkage(Builder builder) {
         super(builder);
-        this.active = builder.active;
-        this.author = builder.author;
-        this.item = ValidationSupport.requireNonEmpty(builder.item, "item");
+        active = builder.active;
+        author = builder.author;
+        item = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.item, "item"));
     }
 
     /**
@@ -385,6 +386,42 @@ public class Linkage extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Identifies which record considered as the reference to the same real-world occurrence as well as how the items should 
+         * be evaluated within the collection of linked items.
+         * </p>
+         * 
+         * @param item
+         *     Item to be linked
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder item(Item... item) {
+            for (Item value : item) {
+                this.item.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies which record considered as the reference to the same real-world occurrence as well as how the items should 
+         * be evaluated within the collection of linked items.
+         * </p>
+         * 
+         * @param item
+         *     Item to be linked
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder item(Collection<Item> item) {
+            this.item.addAll(item);
+            return this;
+        }
+
         @Override
         public Linkage build() {
             return new Linkage(this);
@@ -403,8 +440,8 @@ public class Linkage extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.resource = ValidationSupport.requireNonNull(builder.resource, "resource");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            resource = ValidationSupport.requireNonNull(builder.resource, "resource");
         }
 
         /**
@@ -581,9 +618,6 @@ public class Linkage extends DomainResource {
 
             private static Builder from(Item item) {
                 Builder builder = new Builder(item.type, item.resource);
-                builder.id = item.id;
-                builder.extension.addAll(item.extension);
-                builder.modifierExtension.addAll(item.modifierExtension);
                 return builder;
             }
         }

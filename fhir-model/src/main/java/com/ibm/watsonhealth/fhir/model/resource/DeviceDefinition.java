@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -66,28 +67,28 @@ public class DeviceDefinition extends DomainResource {
 
     private DeviceDefinition(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.udiDeviceIdentifier = builder.udiDeviceIdentifier;
-        this.manufacturer = ValidationSupport.choiceElement(builder.manufacturer, "manufacturer", String.class, Reference.class);
-        this.deviceName = builder.deviceName;
-        this.modelNumber = builder.modelNumber;
-        this.type = builder.type;
-        this.specialization = builder.specialization;
-        this.version = builder.version;
-        this.safety = builder.safety;
-        this.shelfLifeStorage = builder.shelfLifeStorage;
-        this.physicalCharacteristics = builder.physicalCharacteristics;
-        this.languageCode = builder.languageCode;
-        this.capability = builder.capability;
-        this.property = builder.property;
-        this.owner = builder.owner;
-        this.contact = builder.contact;
-        this.url = builder.url;
-        this.onlineInformation = builder.onlineInformation;
-        this.note = builder.note;
-        this.quantity = builder.quantity;
-        this.parentDevice = builder.parentDevice;
-        this.material = builder.material;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        udiDeviceIdentifier = Collections.unmodifiableList(builder.udiDeviceIdentifier);
+        manufacturer = ValidationSupport.choiceElement(builder.manufacturer, "manufacturer", String.class, Reference.class);
+        deviceName = Collections.unmodifiableList(builder.deviceName);
+        modelNumber = builder.modelNumber;
+        type = builder.type;
+        specialization = Collections.unmodifiableList(builder.specialization);
+        version = Collections.unmodifiableList(builder.version);
+        safety = Collections.unmodifiableList(builder.safety);
+        shelfLifeStorage = Collections.unmodifiableList(builder.shelfLifeStorage);
+        physicalCharacteristics = builder.physicalCharacteristics;
+        languageCode = Collections.unmodifiableList(builder.languageCode);
+        capability = Collections.unmodifiableList(builder.capability);
+        property = Collections.unmodifiableList(builder.property);
+        owner = builder.owner;
+        contact = Collections.unmodifiableList(builder.contact);
+        url = builder.url;
+        onlineInformation = builder.onlineInformation;
+        note = Collections.unmodifiableList(builder.note);
+        quantity = builder.quantity;
+        parentDevice = builder.parentDevice;
+        material = Collections.unmodifiableList(builder.material);
     }
 
     /**
@@ -1296,9 +1297,9 @@ public class DeviceDefinition extends DomainResource {
 
         private UdiDeviceIdentifier(Builder builder) {
             super(builder);
-            this.deviceIdentifier = ValidationSupport.requireNonNull(builder.deviceIdentifier, "deviceIdentifier");
-            this.issuer = ValidationSupport.requireNonNull(builder.issuer, "issuer");
-            this.jurisdiction = ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction");
+            deviceIdentifier = ValidationSupport.requireNonNull(builder.deviceIdentifier, "deviceIdentifier");
+            issuer = ValidationSupport.requireNonNull(builder.issuer, "issuer");
+            jurisdiction = ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction");
         }
 
         /**
@@ -1490,9 +1491,6 @@ public class DeviceDefinition extends DomainResource {
 
             private static Builder from(UdiDeviceIdentifier udiDeviceIdentifier) {
                 Builder builder = new Builder(udiDeviceIdentifier.deviceIdentifier, udiDeviceIdentifier.issuer, udiDeviceIdentifier.jurisdiction);
-                builder.id = udiDeviceIdentifier.id;
-                builder.extension.addAll(udiDeviceIdentifier.extension);
-                builder.modifierExtension.addAll(udiDeviceIdentifier.modifierExtension);
                 return builder;
             }
         }
@@ -1509,8 +1507,8 @@ public class DeviceDefinition extends DomainResource {
 
         private DeviceName(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
         }
 
         /**
@@ -1687,9 +1685,6 @@ public class DeviceDefinition extends DomainResource {
 
             private static Builder from(DeviceName deviceName) {
                 Builder builder = new Builder(deviceName.name, deviceName.type);
-                builder.id = deviceName.id;
-                builder.extension.addAll(deviceName.extension);
-                builder.modifierExtension.addAll(deviceName.modifierExtension);
                 return builder;
             }
         }
@@ -1707,8 +1702,8 @@ public class DeviceDefinition extends DomainResource {
 
         private Specialization(Builder builder) {
             super(builder);
-            this.systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
-            this.version = builder.version;
+            systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
+            version = builder.version;
         }
 
         /**
@@ -1901,9 +1896,6 @@ public class DeviceDefinition extends DomainResource {
 
             private static Builder from(Specialization specialization) {
                 Builder builder = new Builder(specialization.systemType);
-                builder.id = specialization.id;
-                builder.extension.addAll(specialization.extension);
-                builder.modifierExtension.addAll(specialization.modifierExtension);
                 builder.version = specialization.version;
                 return builder;
             }
@@ -1921,8 +1913,8 @@ public class DeviceDefinition extends DomainResource {
 
         private Capability(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.description = builder.description;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            description = Collections.unmodifiableList(builder.description);
         }
 
         /**
@@ -2133,9 +2125,6 @@ public class DeviceDefinition extends DomainResource {
 
             private static Builder from(Capability capability) {
                 Builder builder = new Builder(capability.type);
-                builder.id = capability.id;
-                builder.extension.addAll(capability.extension);
-                builder.modifierExtension.addAll(capability.modifierExtension);
                 builder.description.addAll(capability.description);
                 return builder;
             }
@@ -2154,9 +2143,9 @@ public class DeviceDefinition extends DomainResource {
 
         private Property(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.valueQuantity = builder.valueQuantity;
-            this.valueCode = builder.valueCode;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
+            valueCode = Collections.unmodifiableList(builder.valueCode);
         }
 
         /**
@@ -2415,9 +2404,6 @@ public class DeviceDefinition extends DomainResource {
 
             private static Builder from(Property property) {
                 Builder builder = new Builder(property.type);
-                builder.id = property.id;
-                builder.extension.addAll(property.extension);
-                builder.modifierExtension.addAll(property.modifierExtension);
                 builder.valueQuantity.addAll(property.valueQuantity);
                 builder.valueCode.addAll(property.valueCode);
                 return builder;
@@ -2437,9 +2423,9 @@ public class DeviceDefinition extends DomainResource {
 
         private Material(Builder builder) {
             super(builder);
-            this.substance = ValidationSupport.requireNonNull(builder.substance, "substance");
-            this.alternate = builder.alternate;
-            this.allergenicIndicator = builder.allergenicIndicator;
+            substance = ValidationSupport.requireNonNull(builder.substance, "substance");
+            alternate = builder.alternate;
+            allergenicIndicator = builder.allergenicIndicator;
         }
 
         /**
@@ -2662,9 +2648,6 @@ public class DeviceDefinition extends DomainResource {
 
             private static Builder from(Material material) {
                 Builder builder = new Builder(material.substance);
-                builder.id = material.id;
-                builder.extension.addAll(material.extension);
-                builder.modifierExtension.addAll(material.modifierExtension);
                 builder.alternate = material.alternate;
                 builder.allergenicIndicator = material.allergenicIndicator;
                 return builder;

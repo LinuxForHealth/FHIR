@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -90,33 +91,33 @@ public class EvidenceVariable extends DomainResource {
 
     private EvidenceVariable(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.shortTitle = builder.shortTitle;
-        this.subtitle = builder.subtitle;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.note = builder.note;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.topic = builder.topic;
-        this.author = builder.author;
-        this.editor = builder.editor;
-        this.reviewer = builder.reviewer;
-        this.endorser = builder.endorser;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.type = builder.type;
-        this.characteristic = ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic");
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        shortTitle = builder.shortTitle;
+        subtitle = builder.subtitle;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        type = builder.type;
+        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
     }
 
     /**
@@ -1424,6 +1425,42 @@ public class EvidenceVariable extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * A characteristic that defines the members of the evidence element. Multiple characteristics are applied with "and" 
+         * semantics.
+         * </p>
+         * 
+         * @param characteristic
+         *     What defines the members of the evidence element
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder characteristic(Characteristic... characteristic) {
+            for (Characteristic value : characteristic) {
+                this.characteristic.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A characteristic that defines the members of the evidence element. Multiple characteristics are applied with "and" 
+         * semantics.
+         * </p>
+         * 
+         * @param characteristic
+         *     What defines the members of the evidence element
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder characteristic(Collection<Characteristic> characteristic) {
+            this.characteristic.addAll(characteristic);
+            return this;
+        }
+
         @Override
         public EvidenceVariable build() {
             return new EvidenceVariable(this);
@@ -1447,13 +1484,13 @@ public class EvidenceVariable extends DomainResource {
 
         private Characteristic(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
-            this.usageContext = builder.usageContext;
-            this.exclude = builder.exclude;
-            this.participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
-            this.timeFromStart = builder.timeFromStart;
-            this.groupMeasure = builder.groupMeasure;
+            description = builder.description;
+            definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
+            usageContext = Collections.unmodifiableList(builder.usageContext);
+            exclude = builder.exclude;
+            participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            timeFromStart = builder.timeFromStart;
+            groupMeasure = builder.groupMeasure;
         }
 
         /**
@@ -1818,9 +1855,6 @@ public class EvidenceVariable extends DomainResource {
 
             private static Builder from(Characteristic characteristic) {
                 Builder builder = new Builder(characteristic.definition);
-                builder.id = characteristic.id;
-                builder.extension.addAll(characteristic.extension);
-                builder.modifierExtension.addAll(characteristic.modifierExtension);
                 builder.description = characteristic.description;
                 builder.usageContext.addAll(characteristic.usageContext);
                 builder.exclude = characteristic.exclude;

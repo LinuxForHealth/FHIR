@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -69,23 +70,23 @@ public class ExampleScenario extends DomainResource {
 
     private ExampleScenario(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.copyright = builder.copyright;
-        this.purpose = builder.purpose;
-        this.actor = builder.actor;
-        this.instance = builder.instance;
-        this.process = builder.process;
-        this.workflow = builder.workflow;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        copyright = builder.copyright;
+        purpose = builder.purpose;
+        actor = Collections.unmodifiableList(builder.actor);
+        instance = Collections.unmodifiableList(builder.instance);
+        process = Collections.unmodifiableList(builder.process);
+        workflow = Collections.unmodifiableList(builder.workflow);
     }
 
     /**
@@ -1050,10 +1051,10 @@ public class ExampleScenario extends DomainResource {
 
         private Actor(Builder builder) {
             super(builder);
-            this.actorId = ValidationSupport.requireNonNull(builder.actorId, "actorId");
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.name = builder.name;
-            this.description = builder.description;
+            actorId = ValidationSupport.requireNonNull(builder.actorId, "actorId");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            name = builder.name;
+            description = builder.description;
         }
 
         /**
@@ -1291,9 +1292,6 @@ public class ExampleScenario extends DomainResource {
 
             private static Builder from(Actor actor) {
                 Builder builder = new Builder(actor.actorId, actor.type);
-                builder.id = actor.id;
-                builder.extension.addAll(actor.extension);
-                builder.modifierExtension.addAll(actor.modifierExtension);
                 builder.name = actor.name;
                 builder.description = actor.description;
                 return builder;
@@ -1316,12 +1314,12 @@ public class ExampleScenario extends DomainResource {
 
         private Instance(Builder builder) {
             super(builder);
-            this.resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
-            this.resourceType = ValidationSupport.requireNonNull(builder.resourceType, "resourceType");
-            this.name = builder.name;
-            this.description = builder.description;
-            this.version = builder.version;
-            this.containedInstance = builder.containedInstance;
+            resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
+            resourceType = ValidationSupport.requireNonNull(builder.resourceType, "resourceType");
+            name = builder.name;
+            description = builder.description;
+            version = Collections.unmodifiableList(builder.version);
+            containedInstance = Collections.unmodifiableList(builder.containedInstance);
         }
 
         /**
@@ -1655,9 +1653,6 @@ public class ExampleScenario extends DomainResource {
 
             private static Builder from(Instance instance) {
                 Builder builder = new Builder(instance.resourceId, instance.resourceType);
-                builder.id = instance.id;
-                builder.extension.addAll(instance.extension);
-                builder.modifierExtension.addAll(instance.modifierExtension);
                 builder.name = instance.name;
                 builder.description = instance.description;
                 builder.version.addAll(instance.version);
@@ -1677,8 +1672,8 @@ public class ExampleScenario extends DomainResource {
 
             private Version(Builder builder) {
                 super(builder);
-                this.versionId = ValidationSupport.requireNonNull(builder.versionId, "versionId");
-                this.description = ValidationSupport.requireNonNull(builder.description, "description");
+                versionId = ValidationSupport.requireNonNull(builder.versionId, "versionId");
+                description = ValidationSupport.requireNonNull(builder.description, "description");
             }
 
             /**
@@ -1854,9 +1849,6 @@ public class ExampleScenario extends DomainResource {
 
                 private static Builder from(Version version) {
                     Builder builder = new Builder(version.versionId, version.description);
-                    builder.id = version.id;
-                    builder.extension.addAll(version.extension);
-                    builder.modifierExtension.addAll(version.modifierExtension);
                     return builder;
                 }
             }
@@ -1873,8 +1865,8 @@ public class ExampleScenario extends DomainResource {
 
             private ContainedInstance(Builder builder) {
                 super(builder);
-                this.resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
-                this.versionId = builder.versionId;
+                resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
+                versionId = builder.versionId;
             }
 
             /**
@@ -2067,9 +2059,6 @@ public class ExampleScenario extends DomainResource {
 
                 private static Builder from(ContainedInstance containedInstance) {
                     Builder builder = new Builder(containedInstance.resourceId);
-                    builder.id = containedInstance.id;
-                    builder.extension.addAll(containedInstance.extension);
-                    builder.modifierExtension.addAll(containedInstance.modifierExtension);
                     builder.versionId = containedInstance.versionId;
                     return builder;
                 }
@@ -2091,11 +2080,11 @@ public class ExampleScenario extends DomainResource {
 
         private Process(Builder builder) {
             super(builder);
-            this.title = ValidationSupport.requireNonNull(builder.title, "title");
-            this.description = builder.description;
-            this.preConditions = builder.preConditions;
-            this.postConditions = builder.postConditions;
-            this.step = builder.step;
+            title = ValidationSupport.requireNonNull(builder.title, "title");
+            description = builder.description;
+            preConditions = builder.preConditions;
+            postConditions = builder.postConditions;
+            step = Collections.unmodifiableList(builder.step);
         }
 
         /**
@@ -2396,9 +2385,6 @@ public class ExampleScenario extends DomainResource {
 
             private static Builder from(Process process) {
                 Builder builder = new Builder(process.title);
-                builder.id = process.id;
-                builder.extension.addAll(process.extension);
-                builder.modifierExtension.addAll(process.modifierExtension);
                 builder.description = process.description;
                 builder.preConditions = process.preConditions;
                 builder.postConditions = process.postConditions;
@@ -2420,10 +2406,10 @@ public class ExampleScenario extends DomainResource {
 
             private Step(Builder builder) {
                 super(builder);
-                this.process = builder.process;
-                this.pause = builder.pause;
-                this.operation = builder.operation;
-                this.alternative = builder.alternative;
+                process = Collections.unmodifiableList(builder.process);
+                pause = builder.pause;
+                operation = builder.operation;
+                alternative = Collections.unmodifiableList(builder.alternative);
             }
 
             /**
@@ -2728,9 +2714,6 @@ public class ExampleScenario extends DomainResource {
 
                 private static Builder from(Step step) {
                     Builder builder = new Builder();
-                    builder.id = step.id;
-                    builder.extension.addAll(step.extension);
-                    builder.modifierExtension.addAll(step.modifierExtension);
                     builder.process.addAll(step.process);
                     builder.pause = step.pause;
                     builder.operation = step.operation;
@@ -2758,16 +2741,16 @@ public class ExampleScenario extends DomainResource {
 
                 private Operation(Builder builder) {
                     super(builder);
-                    this.number = ValidationSupport.requireNonNull(builder.number, "number");
-                    this.type = builder.type;
-                    this.name = builder.name;
-                    this.initiator = builder.initiator;
-                    this.receiver = builder.receiver;
-                    this.description = builder.description;
-                    this.initiatorActive = builder.initiatorActive;
-                    this.receiverActive = builder.receiverActive;
-                    this.request = builder.request;
-                    this.response = builder.response;
+                    number = ValidationSupport.requireNonNull(builder.number, "number");
+                    type = builder.type;
+                    name = builder.name;
+                    initiator = builder.initiator;
+                    receiver = builder.receiver;
+                    description = builder.description;
+                    initiatorActive = builder.initiatorActive;
+                    receiverActive = builder.receiverActive;
+                    request = builder.request;
+                    response = builder.response;
                 }
 
                 /**
@@ -3200,9 +3183,6 @@ public class ExampleScenario extends DomainResource {
 
                     private static Builder from(Operation operation) {
                         Builder builder = new Builder(operation.number);
-                        builder.id = operation.id;
-                        builder.extension.addAll(operation.extension);
-                        builder.modifierExtension.addAll(operation.modifierExtension);
                         builder.type = operation.type;
                         builder.name = operation.name;
                         builder.initiator = operation.initiator;
@@ -3230,9 +3210,9 @@ public class ExampleScenario extends DomainResource {
 
                 private Alternative(Builder builder) {
                     super(builder);
-                    this.title = ValidationSupport.requireNonNull(builder.title, "title");
-                    this.description = builder.description;
-                    this.step = builder.step;
+                    title = ValidationSupport.requireNonNull(builder.title, "title");
+                    description = builder.description;
+                    step = Collections.unmodifiableList(builder.step);
                 }
 
                 /**
@@ -3474,9 +3454,6 @@ public class ExampleScenario extends DomainResource {
 
                     private static Builder from(Alternative alternative) {
                         Builder builder = new Builder(alternative.title);
-                        builder.id = alternative.id;
-                        builder.extension.addAll(alternative.extension);
-                        builder.modifierExtension.addAll(alternative.modifierExtension);
                         builder.description = alternative.description;
                         builder.step.addAll(alternative.step);
                         return builder;

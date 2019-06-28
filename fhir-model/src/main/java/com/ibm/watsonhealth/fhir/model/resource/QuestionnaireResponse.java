@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -67,17 +68,17 @@ public class QuestionnaireResponse extends DomainResource {
 
     private QuestionnaireResponse(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.partOf = builder.partOf;
-        this.questionnaire = builder.questionnaire;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.authored = builder.authored;
-        this.author = builder.author;
-        this.source = builder.source;
-        this.item = builder.item;
+        identifier = builder.identifier;
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        questionnaire = builder.questionnaire;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        subject = builder.subject;
+        encounter = builder.encounter;
+        authored = builder.authored;
+        author = builder.author;
+        source = builder.source;
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -744,11 +745,11 @@ public class QuestionnaireResponse extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            this.linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
-            this.definition = builder.definition;
-            this.text = builder.text;
-            this.answer = builder.answer;
-            this.item = builder.item;
+            linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
+            definition = builder.definition;
+            text = builder.text;
+            answer = Collections.unmodifiableList(builder.answer);
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1067,9 +1068,6 @@ public class QuestionnaireResponse extends DomainResource {
 
             private static Builder from(Item item) {
                 Builder builder = new Builder(item.linkId);
-                builder.id = item.id;
-                builder.extension.addAll(item.extension);
-                builder.modifierExtension.addAll(item.modifierExtension);
                 builder.definition = item.definition;
                 builder.text = item.text;
                 builder.answer.addAll(item.answer);
@@ -1089,8 +1087,8 @@ public class QuestionnaireResponse extends DomainResource {
 
             private Answer(Builder builder) {
                 super(builder);
-                this.value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                this.item = builder.item;
+                value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
+                item = Collections.unmodifiableList(builder.item);
             }
 
             /**
@@ -1314,9 +1312,6 @@ public class QuestionnaireResponse extends DomainResource {
 
                 private static Builder from(Answer answer) {
                     Builder builder = new Builder();
-                    builder.id = answer.id;
-                    builder.extension.addAll(answer.extension);
-                    builder.modifierExtension.addAll(answer.modifierExtension);
                     builder.value = answer.value;
                     builder.item.addAll(answer.item);
                     return builder;

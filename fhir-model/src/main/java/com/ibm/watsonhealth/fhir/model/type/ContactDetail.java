@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -26,8 +27,8 @@ public class ContactDetail extends Element {
 
     private ContactDetail(Builder builder) {
         super(builder);
-        this.name = builder.name;
-        this.telecom = builder.telecom;
+        name = builder.name;
+        telecom = Collections.unmodifiableList(builder.telecom);
     }
 
     /**

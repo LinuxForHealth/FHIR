@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -49,15 +50,15 @@ public class MedicinalProductPackaged extends DomainResource {
 
     private MedicinalProductPackaged(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.subject = builder.subject;
-        this.description = builder.description;
-        this.legalStatusOfSupply = builder.legalStatusOfSupply;
-        this.marketingStatus = builder.marketingStatus;
-        this.marketingAuthorization = builder.marketingAuthorization;
-        this.manufacturer = builder.manufacturer;
-        this.batchIdentifier = builder.batchIdentifier;
-        this.packageItem = ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        subject = Collections.unmodifiableList(builder.subject);
+        description = builder.description;
+        legalStatusOfSupply = builder.legalStatusOfSupply;
+        marketingStatus = Collections.unmodifiableList(builder.marketingStatus);
+        marketingAuthorization = builder.marketingAuthorization;
+        manufacturer = Collections.unmodifiableList(builder.manufacturer);
+        batchIdentifier = Collections.unmodifiableList(builder.batchIdentifier);
+        packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
     }
 
     /**
@@ -668,6 +669,40 @@ public class MedicinalProductPackaged extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * A packaging item, as a contained for medicine, possibly with other packaging items within.
+         * </p>
+         * 
+         * @param packageItem
+         *     A packaging item, as a contained for medicine, possibly with other packaging items within
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder packageItem(PackageItem... packageItem) {
+            for (PackageItem value : packageItem) {
+                this.packageItem.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A packaging item, as a contained for medicine, possibly with other packaging items within.
+         * </p>
+         * 
+         * @param packageItem
+         *     A packaging item, as a contained for medicine, possibly with other packaging items within
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder packageItem(Collection<PackageItem> packageItem) {
+            this.packageItem.addAll(packageItem);
+            return this;
+        }
+
         @Override
         public MedicinalProductPackaged build() {
             return new MedicinalProductPackaged(this);
@@ -685,8 +720,8 @@ public class MedicinalProductPackaged extends DomainResource {
 
         private BatchIdentifier(Builder builder) {
             super(builder);
-            this.outerPackaging = ValidationSupport.requireNonNull(builder.outerPackaging, "outerPackaging");
-            this.immediatePackaging = builder.immediatePackaging;
+            outerPackaging = ValidationSupport.requireNonNull(builder.outerPackaging, "outerPackaging");
+            immediatePackaging = builder.immediatePackaging;
         }
 
         /**
@@ -879,9 +914,6 @@ public class MedicinalProductPackaged extends DomainResource {
 
             private static Builder from(BatchIdentifier batchIdentifier) {
                 Builder builder = new Builder(batchIdentifier.outerPackaging);
-                builder.id = batchIdentifier.id;
-                builder.extension.addAll(batchIdentifier.extension);
-                builder.modifierExtension.addAll(batchIdentifier.modifierExtension);
                 builder.immediatePackaging = batchIdentifier.immediatePackaging;
                 return builder;
             }
@@ -909,18 +941,18 @@ public class MedicinalProductPackaged extends DomainResource {
 
         private PackageItem(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-            this.material = builder.material;
-            this.alternateMaterial = builder.alternateMaterial;
-            this.device = builder.device;
-            this.manufacturedItem = builder.manufacturedItem;
-            this.packageItem = builder.packageItem;
-            this.physicalCharacteristics = builder.physicalCharacteristics;
-            this.otherCharacteristics = builder.otherCharacteristics;
-            this.shelfLifeStorage = builder.shelfLifeStorage;
-            this.manufacturer = builder.manufacturer;
+            identifier = Collections.unmodifiableList(builder.identifier);
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
+            material = Collections.unmodifiableList(builder.material);
+            alternateMaterial = Collections.unmodifiableList(builder.alternateMaterial);
+            device = Collections.unmodifiableList(builder.device);
+            manufacturedItem = Collections.unmodifiableList(builder.manufacturedItem);
+            packageItem = Collections.unmodifiableList(builder.packageItem);
+            physicalCharacteristics = builder.physicalCharacteristics;
+            otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
+            shelfLifeStorage = Collections.unmodifiableList(builder.shelfLifeStorage);
+            manufacturer = Collections.unmodifiableList(builder.manufacturer);
         }
 
         /**
@@ -1560,9 +1592,6 @@ public class MedicinalProductPackaged extends DomainResource {
 
             private static Builder from(PackageItem packageItem) {
                 Builder builder = new Builder(packageItem.type, packageItem.quantity);
-                builder.id = packageItem.id;
-                builder.extension.addAll(packageItem.extension);
-                builder.modifierExtension.addAll(packageItem.modifierExtension);
                 builder.identifier.addAll(packageItem.identifier);
                 builder.material.addAll(packageItem.material);
                 builder.alternateMaterial.addAll(packageItem.alternateMaterial);

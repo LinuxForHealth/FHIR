@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -127,24 +128,24 @@ public class StructureMap extends DomainResource {
 
     private StructureMap(Builder builder) {
         super(builder);
-        this.url = ValidationSupport.requireNonNull(builder.url, "url");
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.structure = builder.structure;
-        this._import = builder._import;
-        this.group = ValidationSupport.requireNonEmpty(builder.group, "group");
+        url = ValidationSupport.requireNonNull(builder.url, "url");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        structure = Collections.unmodifiableList(builder.structure);
+        _import = Collections.unmodifiableList(builder._import);
+        group = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.group, "group"));
     }
 
     /**
@@ -1034,6 +1035,40 @@ public class StructureMap extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Organizes the mapping into manageable chunks for human review/ease of maintenance.
+         * </p>
+         * 
+         * @param group
+         *     Named sections for reader convenience
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder group(Group... group) {
+            for (Group value : group) {
+                this.group.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Organizes the mapping into manageable chunks for human review/ease of maintenance.
+         * </p>
+         * 
+         * @param group
+         *     Named sections for reader convenience
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder group(Collection<Group> group) {
+            this.group.addAll(group);
+            return this;
+        }
+
         @Override
         public StructureMap build() {
             return new StructureMap(this);
@@ -1054,10 +1089,10 @@ public class StructureMap extends DomainResource {
 
         private Structure(Builder builder) {
             super(builder);
-            this.url = ValidationSupport.requireNonNull(builder.url, "url");
-            this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-            this.alias = builder.alias;
-            this.documentation = builder.documentation;
+            url = ValidationSupport.requireNonNull(builder.url, "url");
+            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            alias = builder.alias;
+            documentation = builder.documentation;
         }
 
         /**
@@ -1295,9 +1330,6 @@ public class StructureMap extends DomainResource {
 
             private static Builder from(Structure structure) {
                 Builder builder = new Builder(structure.url, structure.mode);
-                builder.id = structure.id;
-                builder.extension.addAll(structure.extension);
-                builder.modifierExtension.addAll(structure.modifierExtension);
                 builder.alias = structure.alias;
                 builder.documentation = structure.documentation;
                 return builder;
@@ -1320,12 +1352,12 @@ public class StructureMap extends DomainResource {
 
         private Group(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this._extends = builder._extends;
-            this.typeMode = ValidationSupport.requireNonNull(builder.typeMode, "typeMode");
-            this.documentation = builder.documentation;
-            this.input = ValidationSupport.requireNonEmpty(builder.input, "input");
-            this.rule = ValidationSupport.requireNonEmpty(builder.rule, "rule");
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            _extends = builder._extends;
+            typeMode = ValidationSupport.requireNonNull(builder.typeMode, "typeMode");
+            documentation = builder.documentation;
+            input = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.input, "input"));
+            rule = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.rule, "rule"));
         }
 
         /**
@@ -1586,6 +1618,74 @@ public class StructureMap extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
+             * </p>
+             * 
+             * @param input
+             *     Named instance provided when invoking the map
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder input(Input... input) {
+                for (Input value : input) {
+                    this.input.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
+             * </p>
+             * 
+             * @param input
+             *     Named instance provided when invoking the map
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder input(Collection<Input> input) {
+                this.input.addAll(input);
+                return this;
+            }
+
+            /**
+             * <p>
+             * Transform Rule from source to target.
+             * </p>
+             * 
+             * @param rule
+             *     Transform Rule from source to target
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder rule(Rule... rule) {
+                for (Rule value : rule) {
+                    this.rule.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Transform Rule from source to target.
+             * </p>
+             * 
+             * @param rule
+             *     Transform Rule from source to target
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder rule(Collection<Rule> rule) {
+                this.rule.addAll(rule);
+                return this;
+            }
+
             @Override
             public Group build() {
                 return new Group(this);
@@ -1593,9 +1693,6 @@ public class StructureMap extends DomainResource {
 
             private static Builder from(Group group) {
                 Builder builder = new Builder(group.name, group.typeMode, group.input, group.rule);
-                builder.id = group.id;
-                builder.extension.addAll(group.extension);
-                builder.modifierExtension.addAll(group.modifierExtension);
                 builder._extends = group._extends;
                 builder.documentation = group.documentation;
                 return builder;
@@ -1615,10 +1712,10 @@ public class StructureMap extends DomainResource {
 
             private Input(Builder builder) {
                 super(builder);
-                this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                this.type = builder.type;
-                this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-                this.documentation = builder.documentation;
+                name = ValidationSupport.requireNonNull(builder.name, "name");
+                type = builder.type;
+                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+                documentation = builder.documentation;
             }
 
             /**
@@ -1856,9 +1953,6 @@ public class StructureMap extends DomainResource {
 
                 private static Builder from(Input input) {
                     Builder builder = new Builder(input.name, input.mode);
-                    builder.id = input.id;
-                    builder.extension.addAll(input.extension);
-                    builder.modifierExtension.addAll(input.modifierExtension);
                     builder.type = input.type;
                     builder.documentation = input.documentation;
                     return builder;
@@ -1881,12 +1975,12 @@ public class StructureMap extends DomainResource {
 
             private Rule(Builder builder) {
                 super(builder);
-                this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                this.source = ValidationSupport.requireNonEmpty(builder.source, "source");
-                this.target = builder.target;
-                this.rule = builder.rule;
-                this.dependent = builder.dependent;
-                this.documentation = builder.documentation;
+                name = ValidationSupport.requireNonNull(builder.name, "name");
+                source = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.source, "source"));
+                target = Collections.unmodifiableList(builder.target);
+                rule = Collections.unmodifiableList(builder.rule);
+                dependent = Collections.unmodifiableList(builder.dependent);
+                documentation = builder.documentation;
             }
 
             /**
@@ -2115,6 +2209,40 @@ public class StructureMap extends DomainResource {
 
                 /**
                  * <p>
+                 * Source inputs to the mapping.
+                 * </p>
+                 * 
+                 * @param source
+                 *     Source inputs to the mapping
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder source(Source... source) {
+                    for (Source value : source) {
+                        this.source.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * Source inputs to the mapping.
+                 * </p>
+                 * 
+                 * @param source
+                 *     Source inputs to the mapping
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder source(Collection<Source> source) {
+                    this.source.addAll(source);
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * Content to create because of this mapping rule.
                  * </p>
                  * 
@@ -2238,9 +2366,6 @@ public class StructureMap extends DomainResource {
 
                 private static Builder from(Rule rule) {
                     Builder builder = new Builder(rule.name, rule.source);
-                    builder.id = rule.id;
-                    builder.extension.addAll(rule.extension);
-                    builder.modifierExtension.addAll(rule.modifierExtension);
                     builder.target.addAll(rule.target);
                     builder.rule.addAll(rule.rule);
                     builder.dependent.addAll(rule.dependent);
@@ -2269,17 +2394,17 @@ public class StructureMap extends DomainResource {
 
                 private Source(Builder builder) {
                     super(builder);
-                    this.context = ValidationSupport.requireNonNull(builder.context, "context");
-                    this.min = builder.min;
-                    this.max = builder.max;
-                    this.type = builder.type;
-                    this.defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
-                    this.element = builder.element;
-                    this.listMode = builder.listMode;
-                    this.variable = builder.variable;
-                    this.condition = builder.condition;
-                    this.check = builder.check;
-                    this.logMessage = builder.logMessage;
+                    context = ValidationSupport.requireNonNull(builder.context, "context");
+                    min = builder.min;
+                    max = builder.max;
+                    type = builder.type;
+                    defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
+                    element = builder.element;
+                    listMode = builder.listMode;
+                    variable = builder.variable;
+                    condition = builder.condition;
+                    check = builder.check;
+                    logMessage = builder.logMessage;
                 }
 
                 /**
@@ -2748,9 +2873,6 @@ public class StructureMap extends DomainResource {
 
                     private static Builder from(Source source) {
                         Builder builder = new Builder(source.context);
-                        builder.id = source.id;
-                        builder.extension.addAll(source.extension);
-                        builder.modifierExtension.addAll(source.modifierExtension);
                         builder.min = source.min;
                         builder.max = source.max;
                         builder.type = source.type;
@@ -2783,14 +2905,14 @@ public class StructureMap extends DomainResource {
 
                 private Target(Builder builder) {
                     super(builder);
-                    this.context = builder.context;
-                    this.contextType = builder.contextType;
-                    this.element = builder.element;
-                    this.variable = builder.variable;
-                    this.listMode = builder.listMode;
-                    this.listRuleId = builder.listRuleId;
-                    this.transform = builder.transform;
-                    this.parameter = builder.parameter;
+                    context = builder.context;
+                    contextType = builder.contextType;
+                    element = builder.element;
+                    variable = builder.variable;
+                    listMode = Collections.unmodifiableList(builder.listMode);
+                    listRuleId = builder.listRuleId;
+                    transform = builder.transform;
+                    parameter = Collections.unmodifiableList(builder.parameter);
                 }
 
                 /**
@@ -3212,9 +3334,6 @@ public class StructureMap extends DomainResource {
 
                     private static Builder from(Target target) {
                         Builder builder = new Builder();
-                        builder.id = target.id;
-                        builder.extension.addAll(target.extension);
-                        builder.modifierExtension.addAll(target.modifierExtension);
                         builder.context = target.context;
                         builder.contextType = target.contextType;
                         builder.element = target.element;
@@ -3237,7 +3356,7 @@ public class StructureMap extends DomainResource {
 
                     private Parameter(Builder builder) {
                         super(builder);
-                        this.value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
+                        value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
                     }
 
                     /**
@@ -3398,9 +3517,6 @@ public class StructureMap extends DomainResource {
 
                         private static Builder from(Parameter parameter) {
                             Builder builder = new Builder(parameter.value);
-                            builder.id = parameter.id;
-                            builder.extension.addAll(parameter.extension);
-                            builder.modifierExtension.addAll(parameter.modifierExtension);
                             return builder;
                         }
                     }
@@ -3418,8 +3534,8 @@ public class StructureMap extends DomainResource {
 
                 private Dependent(Builder builder) {
                     super(builder);
-                    this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                    this.variable = ValidationSupport.requireNonEmpty(builder.variable, "variable");
+                    name = ValidationSupport.requireNonNull(builder.name, "name");
+                    variable = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.variable, "variable"));
                 }
 
                 /**
@@ -3588,6 +3704,40 @@ public class StructureMap extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Variable to pass to the rule or group.
+                     * </p>
+                     * 
+                     * @param variable
+                     *     Variable to pass to the rule or group
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder variable(String... variable) {
+                        for (String value : variable) {
+                            this.variable.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Variable to pass to the rule or group.
+                     * </p>
+                     * 
+                     * @param variable
+                     *     Variable to pass to the rule or group
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder variable(Collection<String> variable) {
+                        this.variable.addAll(variable);
+                        return this;
+                    }
+
                     @Override
                     public Dependent build() {
                         return new Dependent(this);
@@ -3595,9 +3745,6 @@ public class StructureMap extends DomainResource {
 
                     private static Builder from(Dependent dependent) {
                         Builder builder = new Builder(dependent.name, dependent.variable);
-                        builder.id = dependent.id;
-                        builder.extension.addAll(dependent.extension);
-                        builder.modifierExtension.addAll(dependent.modifierExtension);
                         return builder;
                     }
                 }

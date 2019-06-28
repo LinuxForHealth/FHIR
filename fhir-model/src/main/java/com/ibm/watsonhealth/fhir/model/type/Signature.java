@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -33,13 +34,13 @@ public class Signature extends Element {
 
     private Signature(Builder builder) {
         super(builder);
-        this.type = ValidationSupport.requireNonEmpty(builder.type, "type");
-        this.when = ValidationSupport.requireNonNull(builder.when, "when");
-        this.who = ValidationSupport.requireNonNull(builder.who, "who");
-        this.onBehalfOf = builder.onBehalfOf;
-        this.targetFormat = builder.targetFormat;
-        this.sigFormat = builder.sigFormat;
-        this.data = builder.data;
+        type = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.type, "type"));
+        when = ValidationSupport.requireNonNull(builder.when, "when");
+        who = ValidationSupport.requireNonNull(builder.who, "who");
+        onBehalfOf = builder.onBehalfOf;
+        targetFormat = builder.targetFormat;
+        sigFormat = builder.sigFormat;
+        data = builder.data;
     }
 
     /**
@@ -239,6 +240,42 @@ public class Signature extends Element {
         @Override
         public Builder extension(Collection<Extension> extension) {
             return (Builder) super.extension(extension);
+        }
+
+        /**
+         * <p>
+         * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
+         * signature information and can be used when determining accountability for various actions concerning the document.
+         * </p>
+         * 
+         * @param type
+         *     Indication of the reason the entity signed the object(s)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder type(Coding... type) {
+            for (Coding value : type) {
+                this.type.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
+         * signature information and can be used when determining accountability for various actions concerning the document.
+         * </p>
+         * 
+         * @param type
+         *     Indication of the reason the entity signed the object(s)
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder type(Collection<Coding> type) {
+            this.type.addAll(type);
+            return this;
         }
 
         /**

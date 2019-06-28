@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -42,13 +43,13 @@ public class MedicinalProductManufactured extends DomainResource {
 
     private MedicinalProductManufactured(Builder builder) {
         super(builder);
-        this.manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");
-        this.unitOfPresentation = builder.unitOfPresentation;
-        this.quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        this.manufacturer = builder.manufacturer;
-        this.ingredient = builder.ingredient;
-        this.physicalCharacteristics = builder.physicalCharacteristics;
-        this.otherCharacteristics = builder.otherCharacteristics;
+        manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");
+        unitOfPresentation = builder.unitOfPresentation;
+        quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
+        manufacturer = Collections.unmodifiableList(builder.manufacturer);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
+        physicalCharacteristics = builder.physicalCharacteristics;
+        otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
     }
 
     /**

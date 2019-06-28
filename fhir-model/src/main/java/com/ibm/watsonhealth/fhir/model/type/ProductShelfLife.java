@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -29,10 +30,10 @@ public class ProductShelfLife extends BackboneElement {
 
     private ProductShelfLife(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.period = ValidationSupport.requireNonNull(builder.period, "period");
-        this.specialPrecautionsForStorage = builder.specialPrecautionsForStorage;
+        identifier = builder.identifier;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        period = ValidationSupport.requireNonNull(builder.period, "period");
+        specialPrecautionsForStorage = Collections.unmodifiableList(builder.specialPrecautionsForStorage);
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -79,19 +80,19 @@ public class NamingSystem extends DomainResource {
 
     private NamingSystem(Builder builder) {
         super(builder);
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        this.date = ValidationSupport.requireNonNull(builder.date, "date");
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.responsible = builder.responsible;
-        this.type = builder.type;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.usage = builder.usage;
-        this.uniqueId = ValidationSupport.requireNonEmpty(builder.uniqueId, "uniqueId");
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        date = ValidationSupport.requireNonNull(builder.date, "date");
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        responsible = builder.responsible;
+        type = builder.type;
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        usage = builder.usage;
+        uniqueId = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.uniqueId, "uniqueId"));
     }
 
     /**
@@ -741,6 +742,40 @@ public class NamingSystem extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Indicates how the system may be identified when referenced in electronic exchange.
+         * </p>
+         * 
+         * @param uniqueId
+         *     Unique identifiers used for system
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder uniqueId(UniqueId... uniqueId) {
+            for (UniqueId value : uniqueId) {
+                this.uniqueId.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Indicates how the system may be identified when referenced in electronic exchange.
+         * </p>
+         * 
+         * @param uniqueId
+         *     Unique identifiers used for system
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder uniqueId(Collection<UniqueId> uniqueId) {
+            this.uniqueId.addAll(uniqueId);
+            return this;
+        }
+
         @Override
         public NamingSystem build() {
             return new NamingSystem(this);
@@ -761,11 +796,11 @@ public class NamingSystem extends DomainResource {
 
         private UniqueId(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.value = ValidationSupport.requireNonNull(builder.value, "value");
-            this.preferred = builder.preferred;
-            this.comment = builder.comment;
-            this.period = builder.period;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            value = ValidationSupport.requireNonNull(builder.value, "value");
+            preferred = builder.preferred;
+            comment = builder.comment;
+            period = builder.period;
         }
 
         /**
@@ -1035,9 +1070,6 @@ public class NamingSystem extends DomainResource {
 
             private static Builder from(UniqueId uniqueId) {
                 Builder builder = new Builder(uniqueId.type, uniqueId.value);
-                builder.id = uniqueId.id;
-                builder.extension.addAll(uniqueId.extension);
-                builder.modifierExtension.addAll(uniqueId.modifierExtension);
                 builder.preferred = uniqueId.preferred;
                 builder.comment = uniqueId.comment;
                 builder.period = uniqueId.period;

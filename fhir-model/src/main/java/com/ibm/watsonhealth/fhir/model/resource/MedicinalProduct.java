@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -60,26 +61,26 @@ public class MedicinalProduct extends DomainResource {
 
     private MedicinalProduct(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.type = builder.type;
-        this.domain = builder.domain;
-        this.combinedPharmaceuticalDoseForm = builder.combinedPharmaceuticalDoseForm;
-        this.legalStatusOfSupply = builder.legalStatusOfSupply;
-        this.additionalMonitoringIndicator = builder.additionalMonitoringIndicator;
-        this.specialMeasures = builder.specialMeasures;
-        this.paediatricUseIndicator = builder.paediatricUseIndicator;
-        this.productClassification = builder.productClassification;
-        this.marketingStatus = builder.marketingStatus;
-        this.pharmaceuticalProduct = builder.pharmaceuticalProduct;
-        this.packagedMedicinalProduct = builder.packagedMedicinalProduct;
-        this.attachedDocument = builder.attachedDocument;
-        this.masterFile = builder.masterFile;
-        this.contact = builder.contact;
-        this.clinicalTrial = builder.clinicalTrial;
-        this.name = ValidationSupport.requireNonEmpty(builder.name, "name");
-        this.crossReference = builder.crossReference;
-        this.manufacturingBusinessOperation = builder.manufacturingBusinessOperation;
-        this.specialDesignation = builder.specialDesignation;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        type = builder.type;
+        domain = builder.domain;
+        combinedPharmaceuticalDoseForm = builder.combinedPharmaceuticalDoseForm;
+        legalStatusOfSupply = builder.legalStatusOfSupply;
+        additionalMonitoringIndicator = builder.additionalMonitoringIndicator;
+        specialMeasures = Collections.unmodifiableList(builder.specialMeasures);
+        paediatricUseIndicator = builder.paediatricUseIndicator;
+        productClassification = Collections.unmodifiableList(builder.productClassification);
+        marketingStatus = Collections.unmodifiableList(builder.marketingStatus);
+        pharmaceuticalProduct = Collections.unmodifiableList(builder.pharmaceuticalProduct);
+        packagedMedicinalProduct = Collections.unmodifiableList(builder.packagedMedicinalProduct);
+        attachedDocument = Collections.unmodifiableList(builder.attachedDocument);
+        masterFile = Collections.unmodifiableList(builder.masterFile);
+        contact = Collections.unmodifiableList(builder.contact);
+        clinicalTrial = Collections.unmodifiableList(builder.clinicalTrial);
+        name = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.name, "name"));
+        crossReference = Collections.unmodifiableList(builder.crossReference);
+        manufacturingBusinessOperation = Collections.unmodifiableList(builder.manufacturingBusinessOperation);
+        specialDesignation = Collections.unmodifiableList(builder.specialDesignation);
     }
 
     /**
@@ -1075,6 +1076,40 @@ public class MedicinalProduct extends DomainResource {
 
         /**
          * <p>
+         * The product's name, including full name and possibly coded parts.
+         * </p>
+         * 
+         * @param name
+         *     The product's name, including full name and possibly coded parts
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder name(Name... name) {
+            for (Name value : name) {
+                this.name.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The product's name, including full name and possibly coded parts.
+         * </p>
+         * 
+         * @param name
+         *     The product's name, including full name and possibly coded parts
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder name(Collection<Name> name) {
+            this.name.addAll(name);
+            return this;
+        }
+
+        /**
+         * <p>
          * Reference to another product, e.g. for linking authorised to investigational product.
          * </p>
          * 
@@ -1193,9 +1228,9 @@ public class MedicinalProduct extends DomainResource {
 
         private Name(Builder builder) {
             super(builder);
-            this.productName = ValidationSupport.requireNonNull(builder.productName, "productName");
-            this.namePart = builder.namePart;
-            this.countryLanguage = builder.countryLanguage;
+            productName = ValidationSupport.requireNonNull(builder.productName, "productName");
+            namePart = Collections.unmodifiableList(builder.namePart);
+            countryLanguage = Collections.unmodifiableList(builder.countryLanguage);
         }
 
         /**
@@ -1454,9 +1489,6 @@ public class MedicinalProduct extends DomainResource {
 
             private static Builder from(Name name) {
                 Builder builder = new Builder(name.productName);
-                builder.id = name.id;
-                builder.extension.addAll(name.extension);
-                builder.modifierExtension.addAll(name.modifierExtension);
                 builder.namePart.addAll(name.namePart);
                 builder.countryLanguage.addAll(name.countryLanguage);
                 return builder;
@@ -1474,8 +1506,8 @@ public class MedicinalProduct extends DomainResource {
 
             private NamePart(Builder builder) {
                 super(builder);
-                this.part = ValidationSupport.requireNonNull(builder.part, "part");
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
+                part = ValidationSupport.requireNonNull(builder.part, "part");
+                type = ValidationSupport.requireNonNull(builder.type, "type");
             }
 
             /**
@@ -1651,9 +1683,6 @@ public class MedicinalProduct extends DomainResource {
 
                 private static Builder from(NamePart namePart) {
                     Builder builder = new Builder(namePart.part, namePart.type);
-                    builder.id = namePart.id;
-                    builder.extension.addAll(namePart.extension);
-                    builder.modifierExtension.addAll(namePart.modifierExtension);
                     return builder;
                 }
             }
@@ -1671,9 +1700,9 @@ public class MedicinalProduct extends DomainResource {
 
             private CountryLanguage(Builder builder) {
                 super(builder);
-                this.country = ValidationSupport.requireNonNull(builder.country, "country");
-                this.jurisdiction = builder.jurisdiction;
-                this.language = ValidationSupport.requireNonNull(builder.language, "language");
+                country = ValidationSupport.requireNonNull(builder.country, "country");
+                jurisdiction = builder.jurisdiction;
+                language = ValidationSupport.requireNonNull(builder.language, "language");
             }
 
             /**
@@ -1881,9 +1910,6 @@ public class MedicinalProduct extends DomainResource {
 
                 private static Builder from(CountryLanguage countryLanguage) {
                     Builder builder = new Builder(countryLanguage.country, countryLanguage.language);
-                    builder.id = countryLanguage.id;
-                    builder.extension.addAll(countryLanguage.extension);
-                    builder.modifierExtension.addAll(countryLanguage.modifierExtension);
                     builder.jurisdiction = countryLanguage.jurisdiction;
                     return builder;
                 }
@@ -1906,12 +1932,12 @@ public class MedicinalProduct extends DomainResource {
 
         private ManufacturingBusinessOperation(Builder builder) {
             super(builder);
-            this.operationType = builder.operationType;
-            this.authorisationReferenceNumber = builder.authorisationReferenceNumber;
-            this.effectiveDate = builder.effectiveDate;
-            this.confidentialityIndicator = builder.confidentialityIndicator;
-            this.manufacturer = builder.manufacturer;
-            this.regulator = builder.regulator;
+            operationType = builder.operationType;
+            authorisationReferenceNumber = builder.authorisationReferenceNumber;
+            effectiveDate = builder.effectiveDate;
+            confidentialityIndicator = builder.confidentialityIndicator;
+            manufacturer = Collections.unmodifiableList(builder.manufacturer);
+            regulator = builder.regulator;
         }
 
         /**
@@ -2255,9 +2281,6 @@ public class MedicinalProduct extends DomainResource {
 
             private static Builder from(ManufacturingBusinessOperation manufacturingBusinessOperation) {
                 Builder builder = new Builder();
-                builder.id = manufacturingBusinessOperation.id;
-                builder.extension.addAll(manufacturingBusinessOperation.extension);
-                builder.modifierExtension.addAll(manufacturingBusinessOperation.modifierExtension);
                 builder.operationType = manufacturingBusinessOperation.operationType;
                 builder.authorisationReferenceNumber = manufacturingBusinessOperation.authorisationReferenceNumber;
                 builder.effectiveDate = manufacturingBusinessOperation.effectiveDate;
@@ -2285,13 +2308,13 @@ public class MedicinalProduct extends DomainResource {
 
         private SpecialDesignation(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.type = builder.type;
-            this.intendedUse = builder.intendedUse;
-            this.indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
-            this.status = builder.status;
-            this.date = builder.date;
-            this.species = builder.species;
+            identifier = Collections.unmodifiableList(builder.identifier);
+            type = builder.type;
+            intendedUse = builder.intendedUse;
+            indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
+            status = builder.status;
+            date = builder.date;
+            species = builder.species;
         }
 
         /**
@@ -2665,9 +2688,6 @@ public class MedicinalProduct extends DomainResource {
 
             private static Builder from(SpecialDesignation specialDesignation) {
                 Builder builder = new Builder();
-                builder.id = specialDesignation.id;
-                builder.extension.addAll(specialDesignation.extension);
-                builder.modifierExtension.addAll(specialDesignation.modifierExtension);
                 builder.identifier.addAll(specialDesignation.identifier);
                 builder.type = specialDesignation.type;
                 builder.intendedUse = specialDesignation.intendedUse;

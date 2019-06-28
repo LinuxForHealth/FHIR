@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -46,14 +47,14 @@ public class BodyStructure extends DomainResource {
 
     private BodyStructure(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.morphology = builder.morphology;
-        this.location = builder.location;
-        this.locationQualifier = builder.locationQualifier;
-        this.description = builder.description;
-        this.image = builder.image;
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        morphology = builder.morphology;
+        location = builder.location;
+        locationQualifier = Collections.unmodifiableList(builder.locationQualifier);
+        description = builder.description;
+        image = Collections.unmodifiableList(builder.image);
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
     }
 
     /**

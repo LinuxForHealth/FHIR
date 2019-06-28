@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -51,18 +52,18 @@ public class PaymentNotice extends DomainResource {
 
     private PaymentNotice(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.request = builder.request;
-        this.response = builder.response;
-        this.created = ValidationSupport.requireNonNull(builder.created, "created");
-        this.provider = builder.provider;
-        this.payment = ValidationSupport.requireNonNull(builder.payment, "payment");
-        this.paymentDate = builder.paymentDate;
-        this.payee = builder.payee;
-        this.recipient = ValidationSupport.requireNonNull(builder.recipient, "recipient");
-        this.amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-        this.paymentStatus = builder.paymentStatus;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        request = builder.request;
+        response = builder.response;
+        created = ValidationSupport.requireNonNull(builder.created, "created");
+        provider = builder.provider;
+        payment = ValidationSupport.requireNonNull(builder.payment, "payment");
+        paymentDate = builder.paymentDate;
+        payee = builder.payee;
+        recipient = ValidationSupport.requireNonNull(builder.recipient, "recipient");
+        amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+        paymentStatus = builder.paymentStatus;
     }
 
     /**

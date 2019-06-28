@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -55,19 +56,19 @@ public class Specimen extends DomainResource {
 
     private Specimen(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.accessionIdentifier = builder.accessionIdentifier;
-        this.status = builder.status;
-        this.type = builder.type;
-        this.subject = builder.subject;
-        this.receivedTime = builder.receivedTime;
-        this.parent = builder.parent;
-        this.request = builder.request;
-        this.collection = builder.collection;
-        this.processing = builder.processing;
-        this.container = builder.container;
-        this.condition = builder.condition;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        accessionIdentifier = builder.accessionIdentifier;
+        status = builder.status;
+        type = builder.type;
+        subject = builder.subject;
+        receivedTime = builder.receivedTime;
+        parent = Collections.unmodifiableList(builder.parent);
+        request = Collections.unmodifiableList(builder.request);
+        collection = builder.collection;
+        processing = Collections.unmodifiableList(builder.processing);
+        container = Collections.unmodifiableList(builder.container);
+        condition = Collections.unmodifiableList(builder.condition);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -888,13 +889,13 @@ public class Specimen extends DomainResource {
 
         private Collection(Builder builder) {
             super(builder);
-            this.collector = builder.collector;
-            this.collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
-            this.duration = builder.duration;
-            this.quantity = builder.quantity;
-            this.method = builder.method;
-            this.bodySite = builder.bodySite;
-            this.fastingStatus = ValidationSupport.choiceElement(builder.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
+            collector = builder.collector;
+            collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
+            duration = builder.duration;
+            quantity = builder.quantity;
+            method = builder.method;
+            bodySite = builder.bodySite;
+            fastingStatus = ValidationSupport.choiceElement(builder.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
         }
 
         /**
@@ -1254,9 +1255,6 @@ public class Specimen extends DomainResource {
 
             private static Builder from(Collection collection) {
                 Builder builder = new Builder();
-                builder.id = collection.id;
-                builder.extension.addAll(collection.extension);
-                builder.modifierExtension.addAll(collection.modifierExtension);
                 builder.collector = collection.collector;
                 builder.collected = collection.collected;
                 builder.duration = collection.duration;
@@ -1282,10 +1280,10 @@ public class Specimen extends DomainResource {
 
         private Processing(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.procedure = builder.procedure;
-            this.additive = builder.additive;
-            this.time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            description = builder.description;
+            procedure = builder.procedure;
+            additive = Collections.unmodifiableList(builder.additive);
+            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
         }
 
         /**
@@ -1571,9 +1569,6 @@ public class Specimen extends DomainResource {
 
             private static Builder from(Processing processing) {
                 Builder builder = new Builder();
-                builder.id = processing.id;
-                builder.extension.addAll(processing.extension);
-                builder.modifierExtension.addAll(processing.modifierExtension);
                 builder.description = processing.description;
                 builder.procedure = processing.procedure;
                 builder.additive.addAll(processing.additive);
@@ -1599,12 +1594,12 @@ public class Specimen extends DomainResource {
 
         private Container(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.description = builder.description;
-            this.type = builder.type;
-            this.capacity = builder.capacity;
-            this.specimenQuantity = builder.specimenQuantity;
-            this.additive = ValidationSupport.choiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
+            identifier = Collections.unmodifiableList(builder.identifier);
+            description = builder.description;
+            type = builder.type;
+            capacity = builder.capacity;
+            specimenQuantity = builder.specimenQuantity;
+            additive = ValidationSupport.choiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
         }
 
         /**
@@ -1953,9 +1948,6 @@ public class Specimen extends DomainResource {
 
             private static Builder from(Container container) {
                 Builder builder = new Builder();
-                builder.id = container.id;
-                builder.extension.addAll(container.extension);
-                builder.modifierExtension.addAll(container.modifierExtension);
                 builder.identifier.addAll(container.identifier);
                 builder.description = container.description;
                 builder.type = container.type;

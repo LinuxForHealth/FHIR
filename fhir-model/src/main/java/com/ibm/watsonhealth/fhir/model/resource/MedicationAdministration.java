@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -72,25 +73,25 @@ public class MedicationAdministration extends DomainResource {
 
     private MedicationAdministration(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiates = builder.instantiates;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.category = builder.category;
-        this.medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.context = builder.context;
-        this.supportingInformation = builder.supportingInformation;
-        this.effective = ValidationSupport.requireChoiceElement(builder.effective, "effective", DateTime.class, Period.class);
-        this.performer = builder.performer;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.request = builder.request;
-        this.device = builder.device;
-        this.note = builder.note;
-        this.dosage = builder.dosage;
-        this.eventHistory = builder.eventHistory;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = Collections.unmodifiableList(builder.statusReason);
+        category = builder.category;
+        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        context = builder.context;
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        effective = ValidationSupport.requireChoiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        performer = Collections.unmodifiableList(builder.performer);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        request = builder.request;
+        device = Collections.unmodifiableList(builder.device);
+        note = Collections.unmodifiableList(builder.note);
+        dosage = builder.dosage;
+        eventHistory = Collections.unmodifiableList(builder.eventHistory);
     }
 
     /**
@@ -1104,8 +1105,8 @@ public class MedicationAdministration extends DomainResource {
 
         private Performer(Builder builder) {
             super(builder);
-            this.function = builder.function;
-            this.actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            function = builder.function;
+            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
         }
 
         /**
@@ -1298,9 +1299,6 @@ public class MedicationAdministration extends DomainResource {
 
             private static Builder from(Performer performer) {
                 Builder builder = new Builder(performer.actor);
-                builder.id = performer.id;
-                builder.extension.addAll(performer.extension);
-                builder.modifierExtension.addAll(performer.modifierExtension);
                 builder.function = performer.function;
                 return builder;
             }
@@ -1322,12 +1320,12 @@ public class MedicationAdministration extends DomainResource {
 
         private Dosage(Builder builder) {
             super(builder);
-            this.text = builder.text;
-            this.site = builder.site;
-            this.route = builder.route;
-            this.method = builder.method;
-            this.dose = builder.dose;
-            this.rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Quantity.class);
+            text = builder.text;
+            site = builder.site;
+            route = builder.route;
+            method = builder.method;
+            dose = builder.dose;
+            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Quantity.class);
         }
 
         /**
@@ -1673,9 +1671,6 @@ The dosage instructions should reflect the
 
             private static Builder from(Dosage dosage) {
                 Builder builder = new Builder();
-                builder.id = dosage.id;
-                builder.extension.addAll(dosage.extension);
-                builder.modifierExtension.addAll(dosage.modifierExtension);
                 builder.text = dosage.text;
                 builder.site = dosage.site;
                 builder.route = dosage.route;

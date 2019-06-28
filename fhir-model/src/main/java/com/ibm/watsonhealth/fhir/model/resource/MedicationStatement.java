@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -72,23 +73,23 @@ public class MedicationStatement extends DomainResource {
 
     private MedicationStatement(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.category = builder.category;
-        this.medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.context = builder.context;
-        this.effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
-        this.dateAsserted = builder.dateAsserted;
-        this.informationSource = builder.informationSource;
-        this.derivedFrom = builder.derivedFrom;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.note = builder.note;
-        this.dosage = builder.dosage;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = Collections.unmodifiableList(builder.statusReason);
+        category = builder.category;
+        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        context = builder.context;
+        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        dateAsserted = builder.dateAsserted;
+        informationSource = builder.informationSource;
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        dosage = Collections.unmodifiableList(builder.dosage);
     }
 
     /**

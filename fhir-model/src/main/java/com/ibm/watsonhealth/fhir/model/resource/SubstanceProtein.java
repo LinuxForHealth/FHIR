@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -44,10 +45,10 @@ public class SubstanceProtein extends DomainResource {
 
     private SubstanceProtein(Builder builder) {
         super(builder);
-        this.sequenceType = builder.sequenceType;
-        this.numberOfSubunits = builder.numberOfSubunits;
-        this.disulfideLinkage = builder.disulfideLinkage;
-        this.subunit = builder.subunit;
+        sequenceType = builder.sequenceType;
+        numberOfSubunits = builder.numberOfSubunits;
+        disulfideLinkage = Collections.unmodifiableList(builder.disulfideLinkage);
+        subunit = Collections.unmodifiableList(builder.subunit);
     }
 
     /**
@@ -531,14 +532,14 @@ public class SubstanceProtein extends DomainResource {
 
         private Subunit(Builder builder) {
             super(builder);
-            this.subunit = builder.subunit;
-            this.sequence = builder.sequence;
-            this.length = builder.length;
-            this.sequenceAttachment = builder.sequenceAttachment;
-            this.nTerminalModificationId = builder.nTerminalModificationId;
-            this.nTerminalModification = builder.nTerminalModification;
-            this.cTerminalModificationId = builder.cTerminalModificationId;
-            this.cTerminalModification = builder.cTerminalModification;
+            subunit = builder.subunit;
+            sequence = builder.sequence;
+            length = builder.length;
+            sequenceAttachment = builder.sequenceAttachment;
+            nTerminalModificationId = builder.nTerminalModificationId;
+            nTerminalModification = builder.nTerminalModification;
+            cTerminalModificationId = builder.cTerminalModificationId;
+            cTerminalModification = builder.cTerminalModification;
         }
 
         /**
@@ -954,9 +955,6 @@ public class SubstanceProtein extends DomainResource {
 
             private static Builder from(Subunit subunit) {
                 Builder builder = new Builder();
-                builder.id = subunit.id;
-                builder.extension.addAll(subunit.extension);
-                builder.modifierExtension.addAll(subunit.modifierExtension);
                 builder.subunit = subunit.subunit;
                 builder.sequence = subunit.sequence;
                 builder.length = subunit.length;

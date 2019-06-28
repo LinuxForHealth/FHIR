@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -44,13 +45,13 @@ public class MedicinalProductContraindication extends DomainResource {
 
     private MedicinalProductContraindication(Builder builder) {
         super(builder);
-        this.subject = builder.subject;
-        this.disease = builder.disease;
-        this.diseaseStatus = builder.diseaseStatus;
-        this.comorbidity = builder.comorbidity;
-        this.therapeuticIndication = builder.therapeuticIndication;
-        this.otherTherapy = builder.otherTherapy;
-        this.population = builder.population;
+        subject = Collections.unmodifiableList(builder.subject);
+        disease = builder.disease;
+        diseaseStatus = builder.diseaseStatus;
+        comorbidity = Collections.unmodifiableList(builder.comorbidity);
+        therapeuticIndication = Collections.unmodifiableList(builder.therapeuticIndication);
+        otherTherapy = Collections.unmodifiableList(builder.otherTherapy);
+        population = Collections.unmodifiableList(builder.population);
     }
 
     /**
@@ -630,8 +631,8 @@ public class MedicinalProductContraindication extends DomainResource {
 
         private OtherTherapy(Builder builder) {
             super(builder);
-            this.therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
-            this.medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+            therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
+            medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         }
 
         /**
@@ -808,9 +809,6 @@ public class MedicinalProductContraindication extends DomainResource {
 
             private static Builder from(OtherTherapy otherTherapy) {
                 Builder builder = new Builder(otherTherapy.therapyRelationshipType, otherTherapy.medication);
-                builder.id = otherTherapy.id;
-                builder.extension.addAll(otherTherapy.extension);
-                builder.modifierExtension.addAll(otherTherapy.modifierExtension);
                 return builder;
             }
         }

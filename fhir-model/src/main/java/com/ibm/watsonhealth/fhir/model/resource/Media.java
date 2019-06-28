@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -67,28 +68,28 @@ public class Media extends DomainResource {
 
     private Media(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = builder.type;
-        this.modality = builder.modality;
-        this.view = builder.view;
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.created = ValidationSupport.choiceElement(builder.created, "created", DateTime.class, Period.class);
-        this.issued = builder.issued;
-        this.operator = builder.operator;
-        this.reasonCode = builder.reasonCode;
-        this.bodySite = builder.bodySite;
-        this.deviceName = builder.deviceName;
-        this.device = builder.device;
-        this.height = builder.height;
-        this.width = builder.width;
-        this.frames = builder.frames;
-        this.duration = builder.duration;
-        this.content = ValidationSupport.requireNonNull(builder.content, "content");
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = builder.type;
+        modality = builder.modality;
+        view = builder.view;
+        subject = builder.subject;
+        encounter = builder.encounter;
+        created = ValidationSupport.choiceElement(builder.created, "created", DateTime.class, Period.class);
+        issued = builder.issued;
+        operator = builder.operator;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        bodySite = builder.bodySite;
+        deviceName = builder.deviceName;
+        device = builder.device;
+        height = builder.height;
+        width = builder.width;
+        frames = builder.frames;
+        duration = builder.duration;
+        content = ValidationSupport.requireNonNull(builder.content, "content");
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**

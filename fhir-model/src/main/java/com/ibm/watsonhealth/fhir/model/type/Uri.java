@@ -27,7 +27,7 @@ public class Uri extends Element {
 
     protected Uri(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
         ValidationSupport.checkMaxLength(value);
         ValidationSupport.checkValue(value, PATTERN);
     }

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -52,17 +53,17 @@ public class Account extends DomainResource {
 
     private Account(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = builder.type;
-        this.name = builder.name;
-        this.subject = builder.subject;
-        this.servicePeriod = builder.servicePeriod;
-        this.coverage = builder.coverage;
-        this.owner = builder.owner;
-        this.description = builder.description;
-        this.guarantor = builder.guarantor;
-        this.partOf = builder.partOf;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = builder.type;
+        name = builder.name;
+        subject = Collections.unmodifiableList(builder.subject);
+        servicePeriod = builder.servicePeriod;
+        coverage = Collections.unmodifiableList(builder.coverage);
+        owner = builder.owner;
+        description = builder.description;
+        guarantor = Collections.unmodifiableList(builder.guarantor);
+        partOf = builder.partOf;
     }
 
     /**
@@ -746,8 +747,8 @@ public class Account extends DomainResource {
 
         private Coverage(Builder builder) {
             super(builder);
-            this.coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
-            this.priority = builder.priority;
+            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            priority = builder.priority;
         }
 
         /**
@@ -944,9 +945,6 @@ public class Account extends DomainResource {
 
             private static Builder from(Coverage coverage) {
                 Builder builder = new Builder(coverage.coverage);
-                builder.id = coverage.id;
-                builder.extension.addAll(coverage.extension);
-                builder.modifierExtension.addAll(coverage.modifierExtension);
                 builder.priority = coverage.priority;
                 return builder;
             }
@@ -965,9 +963,9 @@ public class Account extends DomainResource {
 
         private Guarantor(Builder builder) {
             super(builder);
-            this.party = ValidationSupport.requireNonNull(builder.party, "party");
-            this.onHold = builder.onHold;
-            this.period = builder.period;
+            party = ValidationSupport.requireNonNull(builder.party, "party");
+            onHold = builder.onHold;
+            period = builder.period;
         }
 
         /**
@@ -1190,9 +1188,6 @@ public class Account extends DomainResource {
 
             private static Builder from(Guarantor guarantor) {
                 Builder builder = new Builder(guarantor.party);
-                builder.id = guarantor.id;
-                builder.extension.addAll(guarantor.extension);
-                builder.modifierExtension.addAll(guarantor.modifierExtension);
                 builder.onHold = guarantor.onHold;
                 builder.period = guarantor.period;
                 return builder;

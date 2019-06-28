@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -78,33 +79,33 @@ public class ClaimResponse extends DomainResource {
 
     private ClaimResponse(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.subType = builder.subType;
-        this.use = ValidationSupport.requireNonNull(builder.use, "use");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.created = ValidationSupport.requireNonNull(builder.created, "created");
-        this.insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        this.requestor = builder.requestor;
-        this.request = builder.request;
-        this.outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
-        this.disposition = builder.disposition;
-        this.preAuthRef = builder.preAuthRef;
-        this.preAuthPeriod = builder.preAuthPeriod;
-        this.payeeType = builder.payeeType;
-        this.item = builder.item;
-        this.addItem = builder.addItem;
-        this.adjudication = builder.adjudication;
-        this.total = builder.total;
-        this.payment = builder.payment;
-        this.fundsReserve = builder.fundsReserve;
-        this.formCode = builder.formCode;
-        this.form = builder.form;
-        this.processNote = builder.processNote;
-        this.communicationRequest = builder.communicationRequest;
-        this.insurance = builder.insurance;
-        this.error = builder.error;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        subType = builder.subType;
+        use = ValidationSupport.requireNonNull(builder.use, "use");
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        created = ValidationSupport.requireNonNull(builder.created, "created");
+        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
+        requestor = builder.requestor;
+        request = builder.request;
+        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        disposition = builder.disposition;
+        preAuthRef = builder.preAuthRef;
+        preAuthPeriod = builder.preAuthPeriod;
+        payeeType = builder.payeeType;
+        item = Collections.unmodifiableList(builder.item);
+        addItem = Collections.unmodifiableList(builder.addItem);
+        adjudication = Collections.unmodifiableList(builder.adjudication);
+        total = Collections.unmodifiableList(builder.total);
+        payment = builder.payment;
+        fundsReserve = builder.fundsReserve;
+        formCode = builder.formCode;
+        form = builder.form;
+        processNote = Collections.unmodifiableList(builder.processNote);
+        communicationRequest = Collections.unmodifiableList(builder.communicationRequest);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        error = Collections.unmodifiableList(builder.error);
     }
 
     /**
@@ -1280,10 +1281,10 @@ public class ClaimResponse extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            this.itemSequence = ValidationSupport.requireNonNull(builder.itemSequence, "itemSequence");
-            this.noteNumber = builder.noteNumber;
-            this.adjudication = ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication");
-            this.detail = builder.detail;
+            itemSequence = ValidationSupport.requireNonNull(builder.itemSequence, "itemSequence");
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1519,6 +1520,42 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
+             * simple product or service then this is the result of the adjudication of this item.
+             * </p>
+             * 
+             * @param adjudication
+             *     Adjudication details
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder adjudication(Adjudication... adjudication) {
+                for (Adjudication value : adjudication) {
+                    this.adjudication.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
+             * simple product or service then this is the result of the adjudication of this item.
+             * </p>
+             * 
+             * @param adjudication
+             *     Adjudication details
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder adjudication(Collection<Adjudication> adjudication) {
+                this.adjudication.addAll(adjudication);
+                return this;
+            }
+
+            /**
+             * <p>
              * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
              * </p>
              * 
@@ -1558,9 +1595,6 @@ public class ClaimResponse extends DomainResource {
 
             private static Builder from(Item item) {
                 Builder builder = new Builder(item.itemSequence, item.adjudication);
-                builder.id = item.id;
-                builder.extension.addAll(item.extension);
-                builder.modifierExtension.addAll(item.modifierExtension);
                 builder.noteNumber.addAll(item.noteNumber);
                 builder.detail.addAll(item.detail);
                 return builder;
@@ -1581,10 +1615,10 @@ public class ClaimResponse extends DomainResource {
 
             private Adjudication(Builder builder) {
                 super(builder);
-                this.category = ValidationSupport.requireNonNull(builder.category, "category");
-                this.reason = builder.reason;
-                this.amount = builder.amount;
-                this.value = builder.value;
+                category = ValidationSupport.requireNonNull(builder.category, "category");
+                reason = builder.reason;
+                amount = builder.amount;
+                value = builder.value;
             }
 
             /**
@@ -1839,9 +1873,6 @@ public class ClaimResponse extends DomainResource {
 
                 private static Builder from(Adjudication adjudication) {
                     Builder builder = new Builder(adjudication.category);
-                    builder.id = adjudication.id;
-                    builder.extension.addAll(adjudication.extension);
-                    builder.modifierExtension.addAll(adjudication.modifierExtension);
                     builder.reason = adjudication.reason;
                     builder.amount = adjudication.amount;
                     builder.value = adjudication.value;
@@ -1863,10 +1894,10 @@ public class ClaimResponse extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                this.detailSequence = ValidationSupport.requireNonNull(builder.detailSequence, "detailSequence");
-                this.noteNumber = builder.noteNumber;
-                this.adjudication = ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication");
-                this.subDetail = builder.subDetail;
+                detailSequence = ValidationSupport.requireNonNull(builder.detailSequence, "detailSequence");
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -2101,6 +2132,40 @@ public class ClaimResponse extends DomainResource {
 
                 /**
                  * <p>
+                 * The adjudication results.
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Detail level adjudication details
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                    for (ClaimResponse.Item.Adjudication value : adjudication) {
+                        this.adjudication.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The adjudication results.
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Detail level adjudication details
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                    this.adjudication.addAll(adjudication);
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * A sub-detail adjudication of a simple product or service.
                  * </p>
                  * 
@@ -2140,9 +2205,6 @@ public class ClaimResponse extends DomainResource {
 
                 private static Builder from(Detail detail) {
                     Builder builder = new Builder(detail.detailSequence, detail.adjudication);
-                    builder.id = detail.id;
-                    builder.extension.addAll(detail.extension);
-                    builder.modifierExtension.addAll(detail.modifierExtension);
                     builder.noteNumber.addAll(detail.noteNumber);
                     builder.subDetail.addAll(detail.subDetail);
                     return builder;
@@ -2161,9 +2223,9 @@ public class ClaimResponse extends DomainResource {
 
                 private SubDetail(Builder builder) {
                     super(builder);
-                    this.subDetailSequence = ValidationSupport.requireNonNull(builder.subDetailSequence, "subDetailSequence");
-                    this.noteNumber = builder.noteNumber;
-                    this.adjudication = builder.adjudication;
+                    subDetailSequence = ValidationSupport.requireNonNull(builder.subDetailSequence, "subDetailSequence");
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(builder.adjudication);
                 }
 
                 /**
@@ -2422,9 +2484,6 @@ public class ClaimResponse extends DomainResource {
 
                     private static Builder from(SubDetail subDetail) {
                         Builder builder = new Builder(subDetail.subDetailSequence);
-                        builder.id = subDetail.id;
-                        builder.extension.addAll(subDetail.extension);
-                        builder.modifierExtension.addAll(subDetail.modifierExtension);
                         builder.noteNumber.addAll(subDetail.noteNumber);
                         builder.adjudication.addAll(subDetail.adjudication);
                         return builder;
@@ -2461,24 +2520,24 @@ public class ClaimResponse extends DomainResource {
 
         private AddItem(Builder builder) {
             super(builder);
-            this.itemSequence = builder.itemSequence;
-            this.detailSequence = builder.detailSequence;
-            this.subdetailSequence = builder.subdetailSequence;
-            this.provider = builder.provider;
-            this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            this.modifier = builder.modifier;
-            this.programCode = builder.programCode;
-            this.serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            this.location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
-            this.quantity = builder.quantity;
-            this.unitPrice = builder.unitPrice;
-            this.factor = builder.factor;
-            this.net = builder.net;
-            this.bodySite = builder.bodySite;
-            this.subSite = builder.subSite;
-            this.noteNumber = builder.noteNumber;
-            this.adjudication = ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication");
-            this.detail = builder.detail;
+            itemSequence = Collections.unmodifiableList(builder.itemSequence);
+            detailSequence = Collections.unmodifiableList(builder.detailSequence);
+            subdetailSequence = Collections.unmodifiableList(builder.subdetailSequence);
+            provider = Collections.unmodifiableList(builder.provider);
+            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
+            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            quantity = builder.quantity;
+            unitPrice = builder.unitPrice;
+            factor = builder.factor;
+            net = builder.net;
+            bodySite = builder.bodySite;
+            subSite = Collections.unmodifiableList(builder.subSite);
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -3264,6 +3323,40 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * <p>
+             * The adjudication results.
+             * </p>
+             * 
+             * @param adjudication
+             *     Added items adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                for (ClaimResponse.Item.Adjudication value : adjudication) {
+                    this.adjudication.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * The adjudication results.
+             * </p>
+             * 
+             * @param adjudication
+             *     Added items adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                this.adjudication.addAll(adjudication);
+                return this;
+            }
+
+            /**
+             * <p>
              * The second-tier service adjudications for payor added services.
              * </p>
              * 
@@ -3303,9 +3396,6 @@ public class ClaimResponse extends DomainResource {
 
             private static Builder from(AddItem addItem) {
                 Builder builder = new Builder(addItem.productOrService, addItem.adjudication);
-                builder.id = addItem.id;
-                builder.extension.addAll(addItem.extension);
-                builder.modifierExtension.addAll(addItem.modifierExtension);
                 builder.itemSequence.addAll(addItem.itemSequence);
                 builder.detailSequence.addAll(addItem.detailSequence);
                 builder.subdetailSequence.addAll(addItem.subdetailSequence);
@@ -3344,15 +3434,15 @@ public class ClaimResponse extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                this.modifier = builder.modifier;
-                this.quantity = builder.quantity;
-                this.unitPrice = builder.unitPrice;
-                this.factor = builder.factor;
-                this.net = builder.net;
-                this.noteNumber = builder.noteNumber;
-                this.adjudication = ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication");
-                this.subDetail = builder.subDetail;
+                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+                modifier = Collections.unmodifiableList(builder.modifier);
+                quantity = builder.quantity;
+                unitPrice = builder.unitPrice;
+                factor = builder.factor;
+                net = builder.net;
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -3760,6 +3850,40 @@ public class ClaimResponse extends DomainResource {
 
                 /**
                  * <p>
+                 * The adjudication results.
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Added items detail adjudication
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                    for (ClaimResponse.Item.Adjudication value : adjudication) {
+                        this.adjudication.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * <p>
+                 * The adjudication results.
+                 * </p>
+                 * 
+                 * @param adjudication
+                 *     Added items detail adjudication
+                 * 
+                 * @return
+                 *     A reference to this Builder instance.
+                 */
+                public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                    this.adjudication.addAll(adjudication);
+                    return this;
+                }
+
+                /**
+                 * <p>
                  * The third-tier service adjudications for payor added services.
                  * </p>
                  * 
@@ -3799,9 +3923,6 @@ public class ClaimResponse extends DomainResource {
 
                 private static Builder from(Detail detail) {
                     Builder builder = new Builder(detail.productOrService, detail.adjudication);
-                    builder.id = detail.id;
-                    builder.extension.addAll(detail.extension);
-                    builder.modifierExtension.addAll(detail.modifierExtension);
                     builder.modifier.addAll(detail.modifier);
                     builder.quantity = detail.quantity;
                     builder.unitPrice = detail.unitPrice;
@@ -3830,14 +3951,14 @@ public class ClaimResponse extends DomainResource {
 
                 private SubDetail(Builder builder) {
                     super(builder);
-                    this.productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    this.modifier = builder.modifier;
-                    this.quantity = builder.quantity;
-                    this.unitPrice = builder.unitPrice;
-                    this.factor = builder.factor;
-                    this.net = builder.net;
-                    this.noteNumber = builder.noteNumber;
-                    this.adjudication = ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication");
+                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
+                    modifier = Collections.unmodifiableList(builder.modifier);
+                    quantity = builder.quantity;
+                    unitPrice = builder.unitPrice;
+                    factor = builder.factor;
+                    net = builder.net;
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
                 }
 
                 /**
@@ -4229,6 +4350,40 @@ public class ClaimResponse extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * <p>
+                     * The adjudication results.
+                     * </p>
+                     * 
+                     * @param adjudication
+                     *     Added items detail adjudication
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder adjudication(ClaimResponse.Item.Adjudication... adjudication) {
+                        for (ClaimResponse.Item.Adjudication value : adjudication) {
+                            this.adjudication.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * The adjudication results.
+                     * </p>
+                     * 
+                     * @param adjudication
+                     *     Added items detail adjudication
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder adjudication(Collection<ClaimResponse.Item.Adjudication> adjudication) {
+                        this.adjudication.addAll(adjudication);
+                        return this;
+                    }
+
                     @Override
                     public SubDetail build() {
                         return new SubDetail(this);
@@ -4236,9 +4391,6 @@ public class ClaimResponse extends DomainResource {
 
                     private static Builder from(SubDetail subDetail) {
                         Builder builder = new Builder(subDetail.productOrService, subDetail.adjudication);
-                        builder.id = subDetail.id;
-                        builder.extension.addAll(subDetail.extension);
-                        builder.modifierExtension.addAll(subDetail.modifierExtension);
                         builder.modifier.addAll(subDetail.modifier);
                         builder.quantity = subDetail.quantity;
                         builder.unitPrice = subDetail.unitPrice;
@@ -4263,8 +4415,8 @@ public class ClaimResponse extends DomainResource {
 
         private Total(Builder builder) {
             super(builder);
-            this.category = ValidationSupport.requireNonNull(builder.category, "category");
-            this.amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+            category = ValidationSupport.requireNonNull(builder.category, "category");
+            amount = ValidationSupport.requireNonNull(builder.amount, "amount");
         }
 
         /**
@@ -4442,9 +4594,6 @@ public class ClaimResponse extends DomainResource {
 
             private static Builder from(Total total) {
                 Builder builder = new Builder(total.category, total.amount);
-                builder.id = total.id;
-                builder.extension.addAll(total.extension);
-                builder.modifierExtension.addAll(total.modifierExtension);
                 return builder;
             }
         }
@@ -4465,12 +4614,12 @@ public class ClaimResponse extends DomainResource {
 
         private Payment(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.adjustment = builder.adjustment;
-            this.adjustmentReason = builder.adjustmentReason;
-            this.date = builder.date;
-            this.amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-            this.identifier = builder.identifier;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            adjustment = builder.adjustment;
+            adjustmentReason = builder.adjustmentReason;
+            date = builder.date;
+            amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+            identifier = builder.identifier;
         }
 
         /**
@@ -4770,9 +4919,6 @@ public class ClaimResponse extends DomainResource {
 
             private static Builder from(Payment payment) {
                 Builder builder = new Builder(payment.type, payment.amount);
-                builder.id = payment.id;
-                builder.extension.addAll(payment.extension);
-                builder.modifierExtension.addAll(payment.modifierExtension);
                 builder.adjustment = payment.adjustment;
                 builder.adjustmentReason = payment.adjustmentReason;
                 builder.date = payment.date;
@@ -4795,10 +4941,10 @@ public class ClaimResponse extends DomainResource {
 
         private ProcessNote(Builder builder) {
             super(builder);
-            this.number = builder.number;
-            this.type = builder.type;
-            this.text = ValidationSupport.requireNonNull(builder.text, "text");
-            this.language = builder.language;
+            number = builder.number;
+            type = builder.type;
+            text = ValidationSupport.requireNonNull(builder.text, "text");
+            language = builder.language;
         }
 
         /**
@@ -5051,9 +5197,6 @@ public class ClaimResponse extends DomainResource {
 
             private static Builder from(ProcessNote processNote) {
                 Builder builder = new Builder(processNote.text);
-                builder.id = processNote.id;
-                builder.extension.addAll(processNote.extension);
-                builder.modifierExtension.addAll(processNote.modifierExtension);
                 builder.number = processNote.number;
                 builder.type = processNote.type;
                 builder.language = processNote.language;
@@ -5076,11 +5219,11 @@ public class ClaimResponse extends DomainResource {
 
         private Insurance(Builder builder) {
             super(builder);
-            this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            this.focal = ValidationSupport.requireNonNull(builder.focal, "focal");
-            this.coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
-            this.businessArrangement = builder.businessArrangement;
-            this.claimResponse = builder.claimResponse;
+            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+            focal = ValidationSupport.requireNonNull(builder.focal, "focal");
+            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            businessArrangement = builder.businessArrangement;
+            claimResponse = builder.claimResponse;
         }
 
         /**
@@ -5335,9 +5478,6 @@ public class ClaimResponse extends DomainResource {
 
             private static Builder from(Insurance insurance) {
                 Builder builder = new Builder(insurance.sequence, insurance.focal, insurance.coverage);
-                builder.id = insurance.id;
-                builder.extension.addAll(insurance.extension);
-                builder.modifierExtension.addAll(insurance.modifierExtension);
                 builder.businessArrangement = insurance.businessArrangement;
                 builder.claimResponse = insurance.claimResponse;
                 return builder;
@@ -5358,10 +5498,10 @@ public class ClaimResponse extends DomainResource {
 
         private Error(Builder builder) {
             super(builder);
-            this.itemSequence = builder.itemSequence;
-            this.detailSequence = builder.detailSequence;
-            this.subDetailSequence = builder.subDetailSequence;
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
+            itemSequence = builder.itemSequence;
+            detailSequence = builder.detailSequence;
+            subDetailSequence = builder.subDetailSequence;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
         }
 
         /**
@@ -5620,9 +5760,6 @@ public class ClaimResponse extends DomainResource {
 
             private static Builder from(Error error) {
                 Builder builder = new Builder(error.code);
-                builder.id = error.id;
-                builder.extension.addAll(error.extension);
-                builder.modifierExtension.addAll(error.modifierExtension);
                 builder.itemSequence = error.itemSequence;
                 builder.detailSequence = error.detailSequence;
                 builder.subDetailSequence = error.subDetailSequence;

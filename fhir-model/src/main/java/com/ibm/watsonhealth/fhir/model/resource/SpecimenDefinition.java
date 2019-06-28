@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -48,12 +49,12 @@ public class SpecimenDefinition extends DomainResource {
 
     private SpecimenDefinition(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.typeCollected = builder.typeCollected;
-        this.patientPreparation = builder.patientPreparation;
-        this.timeAspect = builder.timeAspect;
-        this.collection = builder.collection;
-        this.typeTested = builder.typeTested;
+        identifier = builder.identifier;
+        typeCollected = builder.typeCollected;
+        patientPreparation = Collections.unmodifiableList(builder.patientPreparation);
+        timeAspect = builder.timeAspect;
+        collection = Collections.unmodifiableList(builder.collection);
+        typeTested = Collections.unmodifiableList(builder.typeTested);
     }
 
     /**
@@ -572,14 +573,14 @@ public class SpecimenDefinition extends DomainResource {
 
         private TypeTested(Builder builder) {
             super(builder);
-            this.isDerived = builder.isDerived;
-            this.type = builder.type;
-            this.preference = ValidationSupport.requireNonNull(builder.preference, "preference");
-            this.container = builder.container;
-            this.requirement = builder.requirement;
-            this.retentionTime = builder.retentionTime;
-            this.rejectionCriterion = builder.rejectionCriterion;
-            this.handling = builder.handling;
+            isDerived = builder.isDerived;
+            type = builder.type;
+            preference = ValidationSupport.requireNonNull(builder.preference, "preference");
+            container = builder.container;
+            requirement = builder.requirement;
+            retentionTime = builder.retentionTime;
+            rejectionCriterion = Collections.unmodifiableList(builder.rejectionCriterion);
+            handling = Collections.unmodifiableList(builder.handling);
         }
 
         /**
@@ -993,9 +994,6 @@ public class SpecimenDefinition extends DomainResource {
 
             private static Builder from(TypeTested typeTested) {
                 Builder builder = new Builder(typeTested.preference);
-                builder.id = typeTested.id;
-                builder.extension.addAll(typeTested.extension);
-                builder.modifierExtension.addAll(typeTested.modifierExtension);
                 builder.isDerived = typeTested.isDerived;
                 builder.type = typeTested.type;
                 builder.container = typeTested.container;
@@ -1024,14 +1022,14 @@ public class SpecimenDefinition extends DomainResource {
 
             private Container(Builder builder) {
                 super(builder);
-                this.material = builder.material;
-                this.type = builder.type;
-                this.cap = builder.cap;
-                this.description = builder.description;
-                this.capacity = builder.capacity;
-                this.minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", Quantity.class, String.class);
-                this.additive = builder.additive;
-                this.preparation = builder.preparation;
+                material = builder.material;
+                type = builder.type;
+                cap = builder.cap;
+                description = builder.description;
+                capacity = builder.capacity;
+                minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", Quantity.class, String.class);
+                additive = Collections.unmodifiableList(builder.additive);
+                preparation = builder.preparation;
             }
 
             /**
@@ -1438,9 +1436,6 @@ public class SpecimenDefinition extends DomainResource {
 
                 private static Builder from(Container container) {
                     Builder builder = new Builder();
-                    builder.id = container.id;
-                    builder.extension.addAll(container.extension);
-                    builder.modifierExtension.addAll(container.modifierExtension);
                     builder.material = container.material;
                     builder.type = container.type;
                     builder.cap = container.cap;
@@ -1464,7 +1459,7 @@ public class SpecimenDefinition extends DomainResource {
 
                 private Additive(Builder builder) {
                     super(builder);
-                    this.additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
+                    additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
                 }
 
                 /**
@@ -1626,9 +1621,6 @@ public class SpecimenDefinition extends DomainResource {
 
                     private static Builder from(Additive additive) {
                         Builder builder = new Builder(additive.additive);
-                        builder.id = additive.id;
-                        builder.extension.addAll(additive.extension);
-                        builder.modifierExtension.addAll(additive.modifierExtension);
                         return builder;
                     }
                 }
@@ -1649,10 +1641,10 @@ public class SpecimenDefinition extends DomainResource {
 
             private Handling(Builder builder) {
                 super(builder);
-                this.temperatureQualifier = builder.temperatureQualifier;
-                this.temperatureRange = builder.temperatureRange;
-                this.maxDuration = builder.maxDuration;
-                this.instruction = builder.instruction;
+                temperatureQualifier = builder.temperatureQualifier;
+                temperatureRange = builder.temperatureRange;
+                maxDuration = builder.maxDuration;
+                instruction = builder.instruction;
             }
 
             /**
@@ -1922,9 +1914,6 @@ public class SpecimenDefinition extends DomainResource {
 
                 private static Builder from(Handling handling) {
                     Builder builder = new Builder();
-                    builder.id = handling.id;
-                    builder.extension.addAll(handling.extension);
-                    builder.modifierExtension.addAll(handling.modifierExtension);
                     builder.temperatureQualifier = handling.temperatureQualifier;
                     builder.temperatureRange = handling.temperatureRange;
                     builder.maxDuration = handling.maxDuration;

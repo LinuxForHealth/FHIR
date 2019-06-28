@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -96,23 +97,23 @@ public class Condition extends DomainResource {
 
     private Condition(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.clinicalStatus = builder.clinicalStatus;
-        this.verificationStatus = builder.verificationStatus;
-        this.category = builder.category;
-        this.severity = builder.severity;
-        this.code = builder.code;
-        this.bodySite = builder.bodySite;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
-        this.abatement = ValidationSupport.choiceElement(builder.abatement, "abatement", DateTime.class, Age.class, Period.class, Range.class, String.class);
-        this.recordedDate = builder.recordedDate;
-        this.recorder = builder.recorder;
-        this.asserter = builder.asserter;
-        this.stage = builder.stage;
-        this.evidence = builder.evidence;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        clinicalStatus = builder.clinicalStatus;
+        verificationStatus = builder.verificationStatus;
+        category = Collections.unmodifiableList(builder.category);
+        severity = builder.severity;
+        code = builder.code;
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+        abatement = ValidationSupport.choiceElement(builder.abatement, "abatement", DateTime.class, Age.class, Period.class, Range.class, String.class);
+        recordedDate = builder.recordedDate;
+        recorder = builder.recorder;
+        asserter = builder.asserter;
+        stage = Collections.unmodifiableList(builder.stage);
+        evidence = Collections.unmodifiableList(builder.evidence);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1022,9 +1023,9 @@ public class Condition extends DomainResource {
 
         private Stage(Builder builder) {
             super(builder);
-            this.summary = builder.summary;
-            this.assessment = builder.assessment;
-            this.type = builder.type;
+            summary = builder.summary;
+            assessment = Collections.unmodifiableList(builder.assessment);
+            type = builder.type;
         }
 
         /**
@@ -1278,9 +1279,6 @@ public class Condition extends DomainResource {
 
             private static Builder from(Stage stage) {
                 Builder builder = new Builder();
-                builder.id = stage.id;
-                builder.extension.addAll(stage.extension);
-                builder.modifierExtension.addAll(stage.modifierExtension);
                 builder.summary = stage.summary;
                 builder.assessment.addAll(stage.assessment);
                 builder.type = stage.type;
@@ -1301,8 +1299,8 @@ public class Condition extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.detail = builder.detail;
+            code = Collections.unmodifiableList(builder.code);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1544,9 +1542,6 @@ public class Condition extends DomainResource {
 
             private static Builder from(Evidence evidence) {
                 Builder builder = new Builder();
-                builder.id = evidence.id;
-                builder.extension.addAll(evidence.extension);
-                builder.modifierExtension.addAll(evidence.modifierExtension);
                 builder.code.addAll(evidence.code);
                 builder.detail.addAll(evidence.detail);
                 return builder;

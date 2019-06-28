@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -45,14 +46,14 @@ public class Schedule extends DomainResource {
 
     private Schedule(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.serviceCategory = builder.serviceCategory;
-        this.serviceType = builder.serviceType;
-        this.specialty = builder.specialty;
-        this.actor = ValidationSupport.requireNonEmpty(builder.actor, "actor");
-        this.planningHorizon = builder.planningHorizon;
-        this.comment = builder.comment;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
+        planningHorizon = builder.planningHorizon;
+        comment = builder.comment;
     }
 
     /**
@@ -582,6 +583,40 @@ public class Schedule extends DomainResource {
          */
         public Builder specialty(Collection<CodeableConcept> specialty) {
             this.specialty.addAll(specialty);
+            return this;
+        }
+
+        /**
+         * <p>
+         * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
+         * </p>
+         * 
+         * @param actor
+         *     Resource(s) that availability information is being provided for
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder actor(Reference... actor) {
+            for (Reference value : actor) {
+                this.actor.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
+         * </p>
+         * 
+         * @param actor
+         *     Resource(s) that availability information is being provided for
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder actor(Collection<Reference> actor) {
+            this.actor.addAll(actor);
             return this;
         }
 

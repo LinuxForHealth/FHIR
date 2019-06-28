@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -94,32 +95,32 @@ public class SearchParameter extends DomainResource {
 
     private SearchParameter(Builder builder) {
         super(builder);
-        this.url = ValidationSupport.requireNonNull(builder.url, "url");
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.derivedFrom = builder.derivedFrom;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = ValidationSupport.requireNonNull(builder.description, "description");
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.base = ValidationSupport.requireNonEmpty(builder.base, "base");
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.expression = builder.expression;
-        this.xpath = builder.xpath;
-        this.xpathUsage = builder.xpathUsage;
-        this.target = builder.target;
-        this.multipleOr = builder.multipleOr;
-        this.multipleAnd = builder.multipleAnd;
-        this.comparator = builder.comparator;
-        this.modifier = builder.modifier;
-        this.chain = builder.chain;
-        this.component = builder.component;
+        url = ValidationSupport.requireNonNull(builder.url, "url");
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        derivedFrom = builder.derivedFrom;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = ValidationSupport.requireNonNull(builder.description, "description");
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        base = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.base, "base"));
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        expression = builder.expression;
+        xpath = builder.xpath;
+        xpathUsage = builder.xpathUsage;
+        target = Collections.unmodifiableList(builder.target);
+        multipleOr = builder.multipleOr;
+        multipleAnd = builder.multipleAnd;
+        comparator = Collections.unmodifiableList(builder.comparator);
+        modifier = Collections.unmodifiableList(builder.modifier);
+        chain = Collections.unmodifiableList(builder.chain);
+        component = Collections.unmodifiableList(builder.component);
     }
 
     /**
@@ -998,6 +999,40 @@ public class SearchParameter extends DomainResource {
 
         /**
          * <p>
+         * The base resource type(s) that this search parameter can be used against.
+         * </p>
+         * 
+         * @param base
+         *     The resource type(s) this search parameter applies to
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder base(ResourceType... base) {
+            for (ResourceType value : base) {
+                this.base.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The base resource type(s) that this search parameter can be used against.
+         * </p>
+         * 
+         * @param base
+         *     The resource type(s) this search parameter applies to
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder base(Collection<ResourceType> base) {
+            this.base.addAll(base);
+            return this;
+        }
+
+        /**
+         * <p>
          * A FHIRPath expression that returns a set of elements for the search parameter.
          * </p>
          * 
@@ -1271,8 +1306,8 @@ public class SearchParameter extends DomainResource {
 
         private Component(Builder builder) {
             super(builder);
-            this.definition = ValidationSupport.requireNonNull(builder.definition, "definition");
-            this.expression = ValidationSupport.requireNonNull(builder.expression, "expression");
+            definition = ValidationSupport.requireNonNull(builder.definition, "definition");
+            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
         }
 
         /**
@@ -1449,9 +1484,6 @@ public class SearchParameter extends DomainResource {
 
             private static Builder from(Component component) {
                 Builder builder = new Builder(component.definition, component.expression);
-                builder.id = component.id;
-                builder.extension.addAll(component.extension);
-                builder.modifierExtension.addAll(component.modifierExtension);
                 return builder;
             }
         }

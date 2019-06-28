@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -48,13 +49,13 @@ public class Substance extends DomainResource {
 
     private Substance(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = builder.status;
-        this.category = builder.category;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.description = builder.description;
-        this.instance = builder.instance;
-        this.ingredient = builder.ingredient;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        description = builder.description;
+        instance = Collections.unmodifiableList(builder.instance);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
     }
 
     /**
@@ -603,9 +604,9 @@ public class Substance extends DomainResource {
 
         private Instance(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.expiry = builder.expiry;
-            this.quantity = builder.quantity;
+            identifier = builder.identifier;
+            expiry = builder.expiry;
+            quantity = builder.quantity;
         }
 
         /**
@@ -841,9 +842,6 @@ public class Substance extends DomainResource {
 
             private static Builder from(Instance instance) {
                 Builder builder = new Builder();
-                builder.id = instance.id;
-                builder.extension.addAll(instance.extension);
-                builder.modifierExtension.addAll(instance.modifierExtension);
                 builder.identifier = instance.identifier;
                 builder.expiry = instance.expiry;
                 builder.quantity = instance.quantity;
@@ -863,8 +861,8 @@ public class Substance extends DomainResource {
 
         private Ingredient(Builder builder) {
             super(builder);
-            this.quantity = builder.quantity;
-            this.substance = ValidationSupport.requireChoiceElement(builder.substance, "substance", CodeableConcept.class, Reference.class);
+            quantity = builder.quantity;
+            substance = ValidationSupport.requireChoiceElement(builder.substance, "substance", CodeableConcept.class, Reference.class);
         }
 
         /**
@@ -1057,9 +1055,6 @@ public class Substance extends DomainResource {
 
             private static Builder from(Ingredient ingredient) {
                 Builder builder = new Builder(ingredient.substance);
-                builder.id = ingredient.id;
-                builder.extension.addAll(ingredient.extension);
-                builder.modifierExtension.addAll(ingredient.modifierExtension);
                 builder.quantity = ingredient.quantity;
                 return builder;
             }

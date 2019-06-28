@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -69,30 +70,30 @@ public class ResearchStudy extends DomainResource {
 
     private ResearchStudy(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.title = builder.title;
-        this.protocol = builder.protocol;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.primaryPurposeType = builder.primaryPurposeType;
-        this.phase = builder.phase;
-        this.category = builder.category;
-        this.focus = builder.focus;
-        this.condition = builder.condition;
-        this.contact = builder.contact;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.keyword = builder.keyword;
-        this.location = builder.location;
-        this.description = builder.description;
-        this.enrollment = builder.enrollment;
-        this.period = builder.period;
-        this.sponsor = builder.sponsor;
-        this.principalInvestigator = builder.principalInvestigator;
-        this.site = builder.site;
-        this.reasonStopped = builder.reasonStopped;
-        this.note = builder.note;
-        this.arm = builder.arm;
-        this.objective = builder.objective;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        title = builder.title;
+        protocol = Collections.unmodifiableList(builder.protocol);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        primaryPurposeType = builder.primaryPurposeType;
+        phase = builder.phase;
+        category = Collections.unmodifiableList(builder.category);
+        focus = Collections.unmodifiableList(builder.focus);
+        condition = Collections.unmodifiableList(builder.condition);
+        contact = Collections.unmodifiableList(builder.contact);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        keyword = Collections.unmodifiableList(builder.keyword);
+        location = Collections.unmodifiableList(builder.location);
+        description = builder.description;
+        enrollment = Collections.unmodifiableList(builder.enrollment);
+        period = builder.period;
+        sponsor = builder.sponsor;
+        principalInvestigator = builder.principalInvestigator;
+        site = Collections.unmodifiableList(builder.site);
+        reasonStopped = builder.reasonStopped;
+        note = Collections.unmodifiableList(builder.note);
+        arm = Collections.unmodifiableList(builder.arm);
+        objective = Collections.unmodifiableList(builder.objective);
     }
 
     /**
@@ -1392,9 +1393,9 @@ public class ResearchStudy extends DomainResource {
 
         private Arm(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.type = builder.type;
-            this.description = builder.description;
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            type = builder.type;
+            description = builder.description;
         }
 
         /**
@@ -1617,9 +1618,6 @@ public class ResearchStudy extends DomainResource {
 
             private static Builder from(Arm arm) {
                 Builder builder = new Builder(arm.name);
-                builder.id = arm.id;
-                builder.extension.addAll(arm.extension);
-                builder.modifierExtension.addAll(arm.modifierExtension);
                 builder.type = arm.type;
                 builder.description = arm.description;
                 return builder;
@@ -1639,8 +1637,8 @@ public class ResearchStudy extends DomainResource {
 
         private Objective(Builder builder) {
             super(builder);
-            this.name = builder.name;
-            this.type = builder.type;
+            name = builder.name;
+            type = builder.type;
         }
 
         /**
@@ -1846,9 +1844,6 @@ public class ResearchStudy extends DomainResource {
 
             private static Builder from(Objective objective) {
                 Builder builder = new Builder();
-                builder.id = objective.id;
-                builder.extension.addAll(objective.extension);
-                builder.modifierExtension.addAll(objective.modifierExtension);
                 builder.name = objective.name;
                 builder.type = objective.type;
                 return builder;

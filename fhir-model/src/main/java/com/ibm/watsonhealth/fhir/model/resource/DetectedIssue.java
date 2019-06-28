@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -54,18 +55,18 @@ public class DetectedIssue extends DomainResource {
 
     private DetectedIssue(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.code = builder.code;
-        this.severity = builder.severity;
-        this.patient = builder.patient;
-        this.identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
-        this.author = builder.author;
-        this.implicated = builder.implicated;
-        this.evidence = builder.evidence;
-        this.detail = builder.detail;
-        this.reference = builder.reference;
-        this.mitigation = builder.mitigation;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        code = builder.code;
+        severity = builder.severity;
+        patient = builder.patient;
+        identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
+        author = builder.author;
+        implicated = Collections.unmodifiableList(builder.implicated);
+        evidence = Collections.unmodifiableList(builder.evidence);
+        detail = builder.detail;
+        reference = builder.reference;
+        mitigation = Collections.unmodifiableList(builder.mitigation);
     }
 
     /**
@@ -780,8 +781,8 @@ public class DetectedIssue extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.detail = builder.detail;
+            code = Collections.unmodifiableList(builder.code);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1023,9 +1024,6 @@ public class DetectedIssue extends DomainResource {
 
             private static Builder from(Evidence evidence) {
                 Builder builder = new Builder();
-                builder.id = evidence.id;
-                builder.extension.addAll(evidence.extension);
-                builder.modifierExtension.addAll(evidence.modifierExtension);
                 builder.code.addAll(evidence.code);
                 builder.detail.addAll(evidence.detail);
                 return builder;
@@ -1047,9 +1045,9 @@ public class DetectedIssue extends DomainResource {
 
         private Mitigation(Builder builder) {
             super(builder);
-            this.action = ValidationSupport.requireNonNull(builder.action, "action");
-            this.date = builder.date;
-            this.author = builder.author;
+            action = ValidationSupport.requireNonNull(builder.action, "action");
+            date = builder.date;
+            author = builder.author;
         }
 
         /**
@@ -1273,9 +1271,6 @@ public class DetectedIssue extends DomainResource {
 
             private static Builder from(Mitigation mitigation) {
                 Builder builder = new Builder(mitigation.action);
-                builder.id = mitigation.id;
-                builder.extension.addAll(mitigation.extension);
-                builder.modifierExtension.addAll(mitigation.modifierExtension);
                 builder.date = mitigation.date;
                 builder.author = mitigation.author;
                 return builder;

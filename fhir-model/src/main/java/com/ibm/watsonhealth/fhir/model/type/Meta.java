@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -31,12 +32,12 @@ public class Meta extends Element {
 
     private Meta(Builder builder) {
         super(builder);
-        this.versionId = builder.versionId;
-        this.lastUpdated = builder.lastUpdated;
-        this.source = builder.source;
-        this.profile = builder.profile;
-        this.security = builder.security;
-        this.tag = builder.tag;
+        versionId = builder.versionId;
+        lastUpdated = builder.lastUpdated;
+        source = builder.source;
+        profile = Collections.unmodifiableList(builder.profile);
+        security = Collections.unmodifiableList(builder.security);
+        tag = Collections.unmodifiableList(builder.tag);
     }
 
     /**

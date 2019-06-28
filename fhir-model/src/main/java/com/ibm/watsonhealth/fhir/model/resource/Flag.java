@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -44,14 +45,14 @@ public class Flag extends DomainResource {
 
     private Flag(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.category = builder.category;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.period = builder.period;
-        this.encounter = builder.encounter;
-        this.author = builder.author;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        category = Collections.unmodifiableList(builder.category);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        period = builder.period;
+        encounter = builder.encounter;
+        author = builder.author;
     }
 
     /**

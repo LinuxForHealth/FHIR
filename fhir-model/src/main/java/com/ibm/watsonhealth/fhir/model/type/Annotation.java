@@ -26,9 +26,9 @@ public class Annotation extends Element {
 
     private Annotation(Builder builder) {
         super(builder);
-        this.author = ValidationSupport.choiceElement(builder.author, "author", Reference.class, String.class);
-        this.time = builder.time;
-        this.text = ValidationSupport.requireNonNull(builder.text, "text");
+        author = ValidationSupport.choiceElement(builder.author, "author", Reference.class, String.class);
+        time = builder.time;
+        text = ValidationSupport.requireNonNull(builder.text, "text");
     }
 
     /**

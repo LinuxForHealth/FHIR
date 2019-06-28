@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -46,15 +47,15 @@ public class MedicinalProductIndication extends DomainResource {
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        this.subject = builder.subject;
-        this.diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
-        this.diseaseStatus = builder.diseaseStatus;
-        this.comorbidity = builder.comorbidity;
-        this.intendedEffect = builder.intendedEffect;
-        this.duration = builder.duration;
-        this.otherTherapy = builder.otherTherapy;
-        this.undesirableEffect = builder.undesirableEffect;
-        this.population = builder.population;
+        subject = Collections.unmodifiableList(builder.subject);
+        diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
+        diseaseStatus = builder.diseaseStatus;
+        comorbidity = Collections.unmodifiableList(builder.comorbidity);
+        intendedEffect = builder.intendedEffect;
+        duration = builder.duration;
+        otherTherapy = Collections.unmodifiableList(builder.otherTherapy);
+        undesirableEffect = Collections.unmodifiableList(builder.undesirableEffect);
+        population = Collections.unmodifiableList(builder.population);
     }
 
     /**
@@ -696,8 +697,8 @@ public class MedicinalProductIndication extends DomainResource {
 
         private OtherTherapy(Builder builder) {
             super(builder);
-            this.therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
-            this.medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+            therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
+            medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         }
 
         /**
@@ -874,9 +875,6 @@ public class MedicinalProductIndication extends DomainResource {
 
             private static Builder from(OtherTherapy otherTherapy) {
                 Builder builder = new Builder(otherTherapy.therapyRelationshipType, otherTherapy.medication);
-                builder.id = otherTherapy.id;
-                builder.extension.addAll(otherTherapy.extension);
-                builder.modifierExtension.addAll(otherTherapy.modifierExtension);
                 return builder;
             }
         }

@@ -424,14 +424,14 @@ public class CodeGenerator {
             }
             cb.comment("optional");
             for (JsonObject elementDefinition : optionalElementDefinitions) {
-                    String fieldName = getFieldName(elementDefinition, path);
-                    String fieldType = getFieldType(structureDefinition, elementDefinition);
-                    String init = null;
-                    if (isRepeating(elementDefinition)) {
-                        init = "new ArrayList<>()";
-                    }
-                    cb.field(mods(visibility), fieldType, fieldName, init);
-                    fieldCount++;
+                String fieldName = getFieldName(elementDefinition, path);
+                String fieldType = getFieldType(structureDefinition, elementDefinition);
+                String init = null;
+                if (isRepeating(elementDefinition)) {
+                    init = "new ArrayList<>()";
+                }
+                cb.field(mods(visibility), fieldType, fieldName, init);
+                fieldCount++;
             }
         }
         
@@ -457,8 +457,12 @@ public class CodeGenerator {
         }
         cb.end().newLine();
         
-        optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o)).collect(Collectors.toList());
-        for (JsonObject elementDefinition : optionalElementDefinitions) {
+//      optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o)).collect(Collectors.toList());
+//      for (JsonObject elementDefinition : optionalElementDefinitions) {
+        for (JsonObject elementDefinition : elementDefinitions) {
+            if (isRequired(elementDefinition) && !isRepeating(elementDefinition)) {
+                continue;
+            }
             String basePath = elementDefinition.getJsonObject("base").getString("path");
             boolean declaredBy = elementDefinition.getString("path").equals(basePath);
             
@@ -770,20 +774,25 @@ public class CodeGenerator {
                     String fieldName = getFieldName(elementName);
                     if (isRequired(elementDefinition)) {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(_this(fieldName), "ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + ")");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + "))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
-                                cb.assign(_this(fieldName), "ValidationSupport.requireChoiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
+                                cb.assign(fieldName, "ValidationSupport.requireChoiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
-                                cb.assign(_this(fieldName), "ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + ")");
+                                cb.assign(fieldName, "ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + ")");
                             }
                         }
                     } else {
-                        if (isChoiceElement(elementDefinition)) {
-                            String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
-                            cb.assign(_this(fieldName), "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");                        } else {
-                            cb.assign(_this(fieldName), "builder." + fieldName);
+                        if (isRepeating(elementDefinition)) {
+                            cb.assign(fieldName, "Collections.unmodifiableList(builder." + fieldName + ")");
+                        } else {
+                            if (isChoiceElement(elementDefinition)) {
+                                String types = getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code")) + ".class").collect(Collectors.joining(", "));
+                                cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
+                            } else {
+                                cb.assign(fieldName, "builder." + fieldName);
+                            }
                         }
                     }
                 }
@@ -1313,6 +1322,7 @@ public class CodeGenerator {
                     if (!isRequired(elementDefinition)) {
                         imports.add("java.util.ArrayList");
                     }
+                    imports.add("java.util.Collections");
                     if (!"List".equals(name)) {
                         imports.add("java.util.List");
                     }

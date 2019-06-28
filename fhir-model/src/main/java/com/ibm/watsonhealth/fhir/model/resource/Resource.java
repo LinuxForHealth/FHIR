@@ -28,10 +28,10 @@ public abstract class Resource extends AbstractVisitable {
     protected final Code language;
 
     protected Resource(Builder builder) {
-        this.id = builder.id;
-        this.meta = builder.meta;
-        this.implicitRules = builder.implicitRules;
-        this.language = builder.language;
+        id = builder.id;
+        meta = builder.meta;
+        implicitRules = builder.implicitRules;
+        language = builder.language;
     }
 
     /**

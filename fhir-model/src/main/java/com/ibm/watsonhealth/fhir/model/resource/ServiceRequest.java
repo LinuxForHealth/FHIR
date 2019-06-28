@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -89,39 +90,39 @@ public class ServiceRequest extends DomainResource {
 
     private ServiceRequest(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.replaces = builder.replaces;
-        this.requisition = builder.requisition;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        this.category = builder.category;
-        this.priority = builder.priority;
-        this.doNotPerform = builder.doNotPerform;
-        this.code = builder.code;
-        this.orderDetail = builder.orderDetail;
-        this.quantity = ValidationSupport.choiceElement(builder.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        this.asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
-        this.authoredOn = builder.authoredOn;
-        this.requester = builder.requester;
-        this.performerType = builder.performerType;
-        this.performer = builder.performer;
-        this.locationCode = builder.locationCode;
-        this.locationReference = builder.locationReference;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.insurance = builder.insurance;
-        this.supportingInfo = builder.supportingInfo;
-        this.specimen = builder.specimen;
-        this.bodySite = builder.bodySite;
-        this.note = builder.note;
-        this.patientInstruction = builder.patientInstruction;
-        this.relevantHistory = builder.relevantHistory;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        requisition = builder.requisition;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        category = Collections.unmodifiableList(builder.category);
+        priority = builder.priority;
+        doNotPerform = builder.doNotPerform;
+        code = builder.code;
+        orderDetail = Collections.unmodifiableList(builder.orderDetail);
+        quantity = ValidationSupport.choiceElement(builder.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+        authoredOn = builder.authoredOn;
+        requester = builder.requester;
+        performerType = builder.performerType;
+        performer = Collections.unmodifiableList(builder.performer);
+        locationCode = Collections.unmodifiableList(builder.locationCode);
+        locationReference = Collections.unmodifiableList(builder.locationReference);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        specimen = Collections.unmodifiableList(builder.specimen);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        note = Collections.unmodifiableList(builder.note);
+        patientInstruction = builder.patientInstruction;
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
     }
 
     /**

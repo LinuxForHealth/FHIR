@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -79,21 +80,21 @@ public class Composition extends DomainResource {
 
     private Composition(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.category = builder.category;
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.date = ValidationSupport.requireNonNull(builder.date, "date");
-        this.author = ValidationSupport.requireNonEmpty(builder.author, "author");
-        this.title = ValidationSupport.requireNonNull(builder.title, "title");
-        this.confidentiality = builder.confidentiality;
-        this.attester = builder.attester;
-        this.custodian = builder.custodian;
-        this.relatesTo = builder.relatesTo;
-        this.event = builder.event;
-        this.section = builder.section;
+        identifier = builder.identifier;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        category = Collections.unmodifiableList(builder.category);
+        subject = builder.subject;
+        encounter = builder.encounter;
+        date = ValidationSupport.requireNonNull(builder.date, "date");
+        author = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.author, "author"));
+        title = ValidationSupport.requireNonNull(builder.title, "title");
+        confidentiality = builder.confidentiality;
+        attester = Collections.unmodifiableList(builder.attester);
+        custodian = builder.custodian;
+        relatesTo = Collections.unmodifiableList(builder.relatesTo);
+        event = Collections.unmodifiableList(builder.event);
+        section = Collections.unmodifiableList(builder.section);
     }
 
     /**
@@ -671,6 +672,40 @@ public class Composition extends DomainResource {
 
         /**
          * <p>
+         * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
+         * </p>
+         * 
+         * @param author
+         *     Who and/or what authored the composition
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder author(Reference... author) {
+            for (Reference value : author) {
+                this.author.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
+         * </p>
+         * 
+         * @param author
+         *     Who and/or what authored the composition
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder author(Collection<Reference> author) {
+            this.author.addAll(author);
+            return this;
+        }
+
+        /**
+         * <p>
          * The code specifying the level of confidentiality of the Composition.
          * </p>
          * 
@@ -856,9 +891,9 @@ public class Composition extends DomainResource {
 
         private Attester(Builder builder) {
             super(builder);
-            this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-            this.time = builder.time;
-            this.party = builder.party;
+            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            time = builder.time;
+            party = builder.party;
         }
 
         /**
@@ -1081,9 +1116,6 @@ public class Composition extends DomainResource {
 
             private static Builder from(Attester attester) {
                 Builder builder = new Builder(attester.mode);
-                builder.id = attester.id;
-                builder.extension.addAll(attester.extension);
-                builder.modifierExtension.addAll(attester.modifierExtension);
                 builder.time = attester.time;
                 builder.party = attester.party;
                 return builder;
@@ -1102,8 +1134,8 @@ public class Composition extends DomainResource {
 
         private RelatesTo(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.target = ValidationSupport.requireChoiceElement(builder.target, "target", Identifier.class, Reference.class);
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            target = ValidationSupport.requireChoiceElement(builder.target, "target", Identifier.class, Reference.class);
         }
 
         /**
@@ -1279,9 +1311,6 @@ public class Composition extends DomainResource {
 
             private static Builder from(RelatesTo relatesTo) {
                 Builder builder = new Builder(relatesTo.code, relatesTo.target);
-                builder.id = relatesTo.id;
-                builder.extension.addAll(relatesTo.extension);
-                builder.modifierExtension.addAll(relatesTo.modifierExtension);
                 return builder;
             }
         }
@@ -1299,9 +1328,9 @@ public class Composition extends DomainResource {
 
         private Event(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.period = builder.period;
-            this.detail = builder.detail;
+            code = Collections.unmodifiableList(builder.code);
+            period = builder.period;
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1584,9 +1613,6 @@ public class Composition extends DomainResource {
 
             private static Builder from(Event event) {
                 Builder builder = new Builder();
-                builder.id = event.id;
-                builder.extension.addAll(event.extension);
-                builder.modifierExtension.addAll(event.modifierExtension);
                 builder.code.addAll(event.code);
                 builder.period = event.period;
                 builder.detail.addAll(event.detail);
@@ -1614,16 +1640,16 @@ public class Composition extends DomainResource {
 
         private Section(Builder builder) {
             super(builder);
-            this.title = builder.title;
-            this.code = builder.code;
-            this.author = builder.author;
-            this.focus = builder.focus;
-            this.text = builder.text;
-            this.mode = builder.mode;
-            this.orderedBy = builder.orderedBy;
-            this.entry = builder.entry;
-            this.emptyReason = builder.emptyReason;
-            this.section = builder.section;
+            title = builder.title;
+            code = builder.code;
+            author = Collections.unmodifiableList(builder.author);
+            focus = builder.focus;
+            text = builder.text;
+            mode = builder.mode;
+            orderedBy = builder.orderedBy;
+            entry = Collections.unmodifiableList(builder.entry);
+            emptyReason = builder.emptyReason;
+            section = Collections.unmodifiableList(builder.section);
         }
 
         /**
@@ -2141,9 +2167,6 @@ public class Composition extends DomainResource {
 
             private static Builder from(Section section) {
                 Builder builder = new Builder();
-                builder.id = section.id;
-                builder.extension.addAll(section.extension);
-                builder.modifierExtension.addAll(section.modifierExtension);
                 builder.title = section.title;
                 builder.code = section.code;
                 builder.author.addAll(section.author);

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -54,22 +55,22 @@ public class MedicinalProductAuthorization extends DomainResource {
 
     private MedicinalProductAuthorization(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.subject = builder.subject;
-        this.country = builder.country;
-        this.jurisdiction = builder.jurisdiction;
-        this.status = builder.status;
-        this.statusDate = builder.statusDate;
-        this.restoreDate = builder.restoreDate;
-        this.validityPeriod = builder.validityPeriod;
-        this.dataExclusivityPeriod = builder.dataExclusivityPeriod;
-        this.dateOfFirstAuthorization = builder.dateOfFirstAuthorization;
-        this.internationalBirthDate = builder.internationalBirthDate;
-        this.legalBasis = builder.legalBasis;
-        this.jurisdictionalAuthorization = builder.jurisdictionalAuthorization;
-        this.holder = builder.holder;
-        this.regulator = builder.regulator;
-        this.procedure = builder.procedure;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        subject = builder.subject;
+        country = Collections.unmodifiableList(builder.country);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        status = builder.status;
+        statusDate = builder.statusDate;
+        restoreDate = builder.restoreDate;
+        validityPeriod = builder.validityPeriod;
+        dataExclusivityPeriod = builder.dataExclusivityPeriod;
+        dateOfFirstAuthorization = builder.dateOfFirstAuthorization;
+        internationalBirthDate = builder.internationalBirthDate;
+        legalBasis = builder.legalBasis;
+        jurisdictionalAuthorization = Collections.unmodifiableList(builder.jurisdictionalAuthorization);
+        holder = builder.holder;
+        regulator = builder.regulator;
+        procedure = builder.procedure;
     }
 
     /**
@@ -916,11 +917,11 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         private JurisdictionalAuthorization(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.country = builder.country;
-            this.jurisdiction = builder.jurisdiction;
-            this.legalStatusOfSupply = builder.legalStatusOfSupply;
-            this.validityPeriod = builder.validityPeriod;
+            identifier = Collections.unmodifiableList(builder.identifier);
+            country = builder.country;
+            jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+            legalStatusOfSupply = builder.legalStatusOfSupply;
+            validityPeriod = builder.validityPeriod;
         }
 
         /**
@@ -1252,9 +1253,6 @@ public class MedicinalProductAuthorization extends DomainResource {
 
             private static Builder from(JurisdictionalAuthorization jurisdictionalAuthorization) {
                 Builder builder = new Builder();
-                builder.id = jurisdictionalAuthorization.id;
-                builder.extension.addAll(jurisdictionalAuthorization.extension);
-                builder.modifierExtension.addAll(jurisdictionalAuthorization.modifierExtension);
                 builder.identifier.addAll(jurisdictionalAuthorization.identifier);
                 builder.country = jurisdictionalAuthorization.country;
                 builder.jurisdiction.addAll(jurisdictionalAuthorization.jurisdiction);
@@ -1278,10 +1276,10 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         private Procedure(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.date = ValidationSupport.choiceElement(builder.date, "date", Period.class, DateTime.class);
-            this.application = builder.application;
+            identifier = builder.identifier;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            date = ValidationSupport.choiceElement(builder.date, "date", Period.class, DateTime.class);
+            application = Collections.unmodifiableList(builder.application);
         }
 
         /**
@@ -1552,9 +1550,6 @@ public class MedicinalProductAuthorization extends DomainResource {
 
             private static Builder from(Procedure procedure) {
                 Builder builder = new Builder(procedure.type);
-                builder.id = procedure.id;
-                builder.extension.addAll(procedure.extension);
-                builder.modifierExtension.addAll(procedure.modifierExtension);
                 builder.identifier = procedure.identifier;
                 builder.date = procedure.date;
                 builder.application.addAll(procedure.application);

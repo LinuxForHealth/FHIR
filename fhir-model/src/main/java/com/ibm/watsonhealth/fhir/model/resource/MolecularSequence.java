@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -83,22 +84,22 @@ public class MolecularSequence extends DomainResource {
 
     private MolecularSequence(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.type = builder.type;
-        this.coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
-        this.patient = builder.patient;
-        this.specimen = builder.specimen;
-        this.device = builder.device;
-        this.performer = builder.performer;
-        this.quantity = builder.quantity;
-        this.referenceSeq = builder.referenceSeq;
-        this.variant = builder.variant;
-        this.observedSeq = builder.observedSeq;
-        this.quality = builder.quality;
-        this.readCoverage = builder.readCoverage;
-        this.repository = builder.repository;
-        this.pointer = builder.pointer;
-        this.structureVariant = builder.structureVariant;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        type = builder.type;
+        coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
+        patient = builder.patient;
+        specimen = builder.specimen;
+        device = builder.device;
+        performer = builder.performer;
+        quantity = builder.quantity;
+        referenceSeq = builder.referenceSeq;
+        variant = Collections.unmodifiableList(builder.variant);
+        observedSeq = builder.observedSeq;
+        quality = Collections.unmodifiableList(builder.quality);
+        readCoverage = builder.readCoverage;
+        repository = Collections.unmodifiableList(builder.repository);
+        pointer = Collections.unmodifiableList(builder.pointer);
+        structureVariant = Collections.unmodifiableList(builder.structureVariant);
     }
 
     /**
@@ -988,15 +989,15 @@ public class MolecularSequence extends DomainResource {
 
         private ReferenceSeq(Builder builder) {
             super(builder);
-            this.chromosome = builder.chromosome;
-            this.genomeBuild = builder.genomeBuild;
-            this.orientation = builder.orientation;
-            this.referenceSeqId = builder.referenceSeqId;
-            this.referenceSeqPointer = builder.referenceSeqPointer;
-            this.referenceSeqString = builder.referenceSeqString;
-            this.strand = builder.strand;
-            this.windowStart = builder.windowStart;
-            this.windowEnd = builder.windowEnd;
+            chromosome = builder.chromosome;
+            genomeBuild = builder.genomeBuild;
+            orientation = builder.orientation;
+            referenceSeqId = builder.referenceSeqId;
+            referenceSeqPointer = builder.referenceSeqPointer;
+            referenceSeqString = builder.referenceSeqString;
+            strand = builder.strand;
+            windowStart = builder.windowStart;
+            windowEnd = builder.windowEnd;
         }
 
         /**
@@ -1432,9 +1433,6 @@ public class MolecularSequence extends DomainResource {
 
             private static Builder from(ReferenceSeq referenceSeq) {
                 Builder builder = new Builder();
-                builder.id = referenceSeq.id;
-                builder.extension.addAll(referenceSeq.extension);
-                builder.modifierExtension.addAll(referenceSeq.modifierExtension);
                 builder.chromosome = referenceSeq.chromosome;
                 builder.genomeBuild = referenceSeq.genomeBuild;
                 builder.orientation = referenceSeq.orientation;
@@ -1467,12 +1465,12 @@ public class MolecularSequence extends DomainResource {
 
         private Variant(Builder builder) {
             super(builder);
-            this.start = builder.start;
-            this.end = builder.end;
-            this.observedAllele = builder.observedAllele;
-            this.referenceAllele = builder.referenceAllele;
-            this.cigar = builder.cigar;
-            this.variantPointer = builder.variantPointer;
+            start = builder.start;
+            end = builder.end;
+            observedAllele = builder.observedAllele;
+            referenceAllele = builder.referenceAllele;
+            cigar = builder.cigar;
+            variantPointer = builder.variantPointer;
         }
 
         /**
@@ -1822,9 +1820,6 @@ public class MolecularSequence extends DomainResource {
 
             private static Builder from(Variant variant) {
                 Builder builder = new Builder();
-                builder.id = variant.id;
-                builder.extension.addAll(variant.extension);
-                builder.modifierExtension.addAll(variant.modifierExtension);
                 builder.start = variant.start;
                 builder.end = variant.end;
                 builder.observedAllele = variant.observedAllele;
@@ -1861,21 +1856,21 @@ public class MolecularSequence extends DomainResource {
 
         private Quality(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.standardSequence = builder.standardSequence;
-            this.start = builder.start;
-            this.end = builder.end;
-            this.score = builder.score;
-            this.method = builder.method;
-            this.truthTP = builder.truthTP;
-            this.queryTP = builder.queryTP;
-            this.truthFN = builder.truthFN;
-            this.queryFP = builder.queryFP;
-            this.gtFP = builder.gtFP;
-            this.precision = builder.precision;
-            this.recall = builder.recall;
-            this.fScore = builder.fScore;
-            this.roc = builder.roc;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            standardSequence = builder.standardSequence;
+            start = builder.start;
+            end = builder.end;
+            score = builder.score;
+            method = builder.method;
+            truthTP = builder.truthTP;
+            queryTP = builder.queryTP;
+            truthFN = builder.truthFN;
+            queryFP = builder.queryFP;
+            gtFP = builder.gtFP;
+            precision = builder.precision;
+            recall = builder.recall;
+            fScore = builder.fScore;
+            roc = builder.roc;
         }
 
         /**
@@ -2480,9 +2475,6 @@ public class MolecularSequence extends DomainResource {
 
             private static Builder from(Quality quality) {
                 Builder builder = new Builder(quality.type);
-                builder.id = quality.id;
-                builder.extension.addAll(quality.extension);
-                builder.modifierExtension.addAll(quality.modifierExtension);
                 builder.standardSequence = quality.standardSequence;
                 builder.start = quality.start;
                 builder.end = quality.end;
@@ -2517,13 +2509,13 @@ public class MolecularSequence extends DomainResource {
 
             private Roc(Builder builder) {
                 super(builder);
-                this.score = builder.score;
-                this.numTP = builder.numTP;
-                this.numFP = builder.numFP;
-                this.numFN = builder.numFN;
-                this.precision = builder.precision;
-                this.sensitivity = builder.sensitivity;
-                this.fMeasure = builder.fMeasure;
+                score = Collections.unmodifiableList(builder.score);
+                numTP = Collections.unmodifiableList(builder.numTP);
+                numFP = Collections.unmodifiableList(builder.numFP);
+                numFN = Collections.unmodifiableList(builder.numFN);
+                precision = Collections.unmodifiableList(builder.precision);
+                sensitivity = Collections.unmodifiableList(builder.sensitivity);
+                fMeasure = Collections.unmodifiableList(builder.fMeasure);
             }
 
             /**
@@ -3005,9 +2997,6 @@ public class MolecularSequence extends DomainResource {
 
                 private static Builder from(Roc roc) {
                     Builder builder = new Builder();
-                    builder.id = roc.id;
-                    builder.extension.addAll(roc.extension);
-                    builder.modifierExtension.addAll(roc.modifierExtension);
                     builder.score.addAll(roc.score);
                     builder.numTP.addAll(roc.numTP);
                     builder.numFP.addAll(roc.numFP);
@@ -3037,12 +3026,12 @@ public class MolecularSequence extends DomainResource {
 
         private Repository(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.url = builder.url;
-            this.name = builder.name;
-            this.datasetId = builder.datasetId;
-            this.variantsetId = builder.variantsetId;
-            this.readsetId = builder.readsetId;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            url = builder.url;
+            name = builder.name;
+            datasetId = builder.datasetId;
+            variantsetId = builder.variantsetId;
+            readsetId = builder.readsetId;
         }
 
         /**
@@ -3359,9 +3348,6 @@ public class MolecularSequence extends DomainResource {
 
             private static Builder from(Repository repository) {
                 Builder builder = new Builder(repository.type);
-                builder.id = repository.id;
-                builder.extension.addAll(repository.extension);
-                builder.modifierExtension.addAll(repository.modifierExtension);
                 builder.url = repository.url;
                 builder.name = repository.name;
                 builder.datasetId = repository.datasetId;
@@ -3386,11 +3372,11 @@ public class MolecularSequence extends DomainResource {
 
         private StructureVariant(Builder builder) {
             super(builder);
-            this.variantType = builder.variantType;
-            this.exact = builder.exact;
-            this.length = builder.length;
-            this.outer = builder.outer;
-            this.inner = builder.inner;
+            variantType = builder.variantType;
+            exact = builder.exact;
+            length = builder.length;
+            outer = builder.outer;
+            inner = builder.inner;
         }
 
         /**
@@ -3686,9 +3672,6 @@ public class MolecularSequence extends DomainResource {
 
             private static Builder from(StructureVariant structureVariant) {
                 Builder builder = new Builder();
-                builder.id = structureVariant.id;
-                builder.extension.addAll(structureVariant.extension);
-                builder.modifierExtension.addAll(structureVariant.modifierExtension);
                 builder.variantType = structureVariant.variantType;
                 builder.exact = structureVariant.exact;
                 builder.length = structureVariant.length;
@@ -3709,8 +3692,8 @@ public class MolecularSequence extends DomainResource {
 
             private Outer(Builder builder) {
                 super(builder);
-                this.start = builder.start;
-                this.end = builder.end;
+                start = builder.start;
+                end = builder.end;
             }
 
             /**
@@ -3920,9 +3903,6 @@ public class MolecularSequence extends DomainResource {
 
                 private static Builder from(Outer outer) {
                     Builder builder = new Builder();
-                    builder.id = outer.id;
-                    builder.extension.addAll(outer.extension);
-                    builder.modifierExtension.addAll(outer.modifierExtension);
                     builder.start = outer.start;
                     builder.end = outer.end;
                     return builder;
@@ -3941,8 +3921,8 @@ public class MolecularSequence extends DomainResource {
 
             private Inner(Builder builder) {
                 super(builder);
-                this.start = builder.start;
-                this.end = builder.end;
+                start = builder.start;
+                end = builder.end;
             }
 
             /**
@@ -4152,9 +4132,6 @@ public class MolecularSequence extends DomainResource {
 
                 private static Builder from(Inner inner) {
                     Builder builder = new Builder();
-                    builder.id = inner.id;
-                    builder.extension.addAll(inner.extension);
-                    builder.modifierExtension.addAll(inner.modifierExtension);
                     builder.start = inner.start;
                     builder.end = inner.end;
                     return builder;

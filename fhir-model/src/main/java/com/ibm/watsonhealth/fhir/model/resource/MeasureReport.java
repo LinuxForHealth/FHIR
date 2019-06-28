@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -69,17 +70,17 @@ public class MeasureReport extends DomainResource {
 
     private MeasureReport(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.measure = ValidationSupport.requireNonNull(builder.measure, "measure");
-        this.subject = builder.subject;
-        this.date = builder.date;
-        this.reporter = builder.reporter;
-        this.period = ValidationSupport.requireNonNull(builder.period, "period");
-        this.improvementNotation = builder.improvementNotation;
-        this.group = builder.group;
-        this.evaluatedResource = builder.evaluatedResource;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        measure = ValidationSupport.requireNonNull(builder.measure, "measure");
+        subject = builder.subject;
+        date = builder.date;
+        reporter = builder.reporter;
+        period = ValidationSupport.requireNonNull(builder.period, "period");
+        improvementNotation = builder.improvementNotation;
+        group = Collections.unmodifiableList(builder.group);
+        evaluatedResource = Collections.unmodifiableList(builder.evaluatedResource);
     }
 
     /**
@@ -694,10 +695,10 @@ public class MeasureReport extends DomainResource {
 
         private Group(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.population = builder.population;
-            this.measureScore = builder.measureScore;
-            this.stratifier = builder.stratifier;
+            code = builder.code;
+            population = Collections.unmodifiableList(builder.population);
+            measureScore = builder.measureScore;
+            stratifier = Collections.unmodifiableList(builder.stratifier);
         }
 
         /**
@@ -1004,9 +1005,6 @@ public class MeasureReport extends DomainResource {
 
             private static Builder from(Group group) {
                 Builder builder = new Builder();
-                builder.id = group.id;
-                builder.extension.addAll(group.extension);
-                builder.modifierExtension.addAll(group.modifierExtension);
                 builder.code = group.code;
                 builder.population.addAll(group.population);
                 builder.measureScore = group.measureScore;
@@ -1027,9 +1025,9 @@ public class MeasureReport extends DomainResource {
 
             private Population(Builder builder) {
                 super(builder);
-                this.code = builder.code;
-                this.count = builder.count;
-                this.subjectResults = builder.subjectResults;
+                code = builder.code;
+                count = builder.count;
+                subjectResults = builder.subjectResults;
             }
 
             /**
@@ -1266,9 +1264,6 @@ public class MeasureReport extends DomainResource {
 
                 private static Builder from(Population population) {
                     Builder builder = new Builder();
-                    builder.id = population.id;
-                    builder.extension.addAll(population.extension);
-                    builder.modifierExtension.addAll(population.modifierExtension);
                     builder.code = population.code;
                     builder.count = population.count;
                     builder.subjectResults = population.subjectResults;
@@ -1289,8 +1284,8 @@ public class MeasureReport extends DomainResource {
 
             private Stratifier(Builder builder) {
                 super(builder);
-                this.code = builder.code;
-                this.stratum = builder.stratum;
+                code = Collections.unmodifiableList(builder.code);
+                stratum = Collections.unmodifiableList(builder.stratum);
             }
 
             /**
@@ -1535,9 +1530,6 @@ public class MeasureReport extends DomainResource {
 
                 private static Builder from(Stratifier stratifier) {
                     Builder builder = new Builder();
-                    builder.id = stratifier.id;
-                    builder.extension.addAll(stratifier.extension);
-                    builder.modifierExtension.addAll(stratifier.modifierExtension);
                     builder.code.addAll(stratifier.code);
                     builder.stratum.addAll(stratifier.stratum);
                     return builder;
@@ -1558,10 +1550,10 @@ public class MeasureReport extends DomainResource {
 
                 private Stratum(Builder builder) {
                     super(builder);
-                    this.value = builder.value;
-                    this.component = builder.component;
-                    this.population = builder.population;
-                    this.measureScore = builder.measureScore;
+                    value = builder.value;
+                    component = Collections.unmodifiableList(builder.component);
+                    population = Collections.unmodifiableList(builder.population);
+                    measureScore = builder.measureScore;
                 }
 
                 /**
@@ -1867,9 +1859,6 @@ public class MeasureReport extends DomainResource {
 
                     private static Builder from(Stratum stratum) {
                         Builder builder = new Builder();
-                        builder.id = stratum.id;
-                        builder.extension.addAll(stratum.extension);
-                        builder.modifierExtension.addAll(stratum.modifierExtension);
                         builder.value = stratum.value;
                         builder.component.addAll(stratum.component);
                         builder.population.addAll(stratum.population);
@@ -1889,8 +1878,8 @@ public class MeasureReport extends DomainResource {
 
                     private Component(Builder builder) {
                         super(builder);
-                        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                        this.value = ValidationSupport.requireNonNull(builder.value, "value");
+                        code = ValidationSupport.requireNonNull(builder.code, "code");
+                        value = ValidationSupport.requireNonNull(builder.value, "value");
                     }
 
                     /**
@@ -2066,9 +2055,6 @@ public class MeasureReport extends DomainResource {
 
                         private static Builder from(Component component) {
                             Builder builder = new Builder(component.code, component.value);
-                            builder.id = component.id;
-                            builder.extension.addAll(component.extension);
-                            builder.modifierExtension.addAll(component.modifierExtension);
                             return builder;
                         }
                     }
@@ -2086,9 +2072,9 @@ public class MeasureReport extends DomainResource {
 
                     private Population(Builder builder) {
                         super(builder);
-                        this.code = builder.code;
-                        this.count = builder.count;
-                        this.subjectResults = builder.subjectResults;
+                        code = builder.code;
+                        count = builder.count;
+                        subjectResults = builder.subjectResults;
                     }
 
                     /**
@@ -2327,9 +2313,6 @@ public class MeasureReport extends DomainResource {
 
                         private static Builder from(Population population) {
                             Builder builder = new Builder();
-                            builder.id = population.id;
-                            builder.extension.addAll(population.extension);
-                            builder.modifierExtension.addAll(population.modifierExtension);
                             builder.code = population.code;
                             builder.count = population.count;
                             builder.subjectResults = population.subjectResults;

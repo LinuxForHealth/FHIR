@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -83,38 +84,38 @@ public class MedicationRequest extends DomainResource {
 
     private MedicationRequest(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        this.category = builder.category;
-        this.priority = builder.priority;
-        this.doNotPerform = builder.doNotPerform;
-        this.reported = ValidationSupport.choiceElement(builder.reported, "reported", Boolean.class, Reference.class);
-        this.medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.supportingInformation = builder.supportingInformation;
-        this.authoredOn = builder.authoredOn;
-        this.requester = builder.requester;
-        this.performer = builder.performer;
-        this.performerType = builder.performerType;
-        this.recorder = builder.recorder;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.groupIdentifier = builder.groupIdentifier;
-        this.courseOfTherapyType = builder.courseOfTherapyType;
-        this.insurance = builder.insurance;
-        this.note = builder.note;
-        this.dosageInstruction = builder.dosageInstruction;
-        this.dispenseRequest = builder.dispenseRequest;
-        this.substitution = builder.substitution;
-        this.priorPrescription = builder.priorPrescription;
-        this.detectedIssue = builder.detectedIssue;
-        this.eventHistory = builder.eventHistory;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = builder.statusReason;
+        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        category = Collections.unmodifiableList(builder.category);
+        priority = builder.priority;
+        doNotPerform = builder.doNotPerform;
+        reported = ValidationSupport.choiceElement(builder.reported, "reported", Boolean.class, Reference.class);
+        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        authoredOn = builder.authoredOn;
+        requester = builder.requester;
+        performer = builder.performer;
+        performerType = builder.performerType;
+        recorder = builder.recorder;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        groupIdentifier = builder.groupIdentifier;
+        courseOfTherapyType = builder.courseOfTherapyType;
+        insurance = Collections.unmodifiableList(builder.insurance);
+        note = Collections.unmodifiableList(builder.note);
+        dosageInstruction = Collections.unmodifiableList(builder.dosageInstruction);
+        dispenseRequest = builder.dispenseRequest;
+        substitution = builder.substitution;
+        priorPrescription = builder.priorPrescription;
+        detectedIssue = Collections.unmodifiableList(builder.detectedIssue);
+        eventHistory = Collections.unmodifiableList(builder.eventHistory);
     }
 
     /**
@@ -1607,13 +1608,13 @@ public class MedicationRequest extends DomainResource {
 
         private DispenseRequest(Builder builder) {
             super(builder);
-            this.initialFill = builder.initialFill;
-            this.dispenseInterval = builder.dispenseInterval;
-            this.validityPeriod = builder.validityPeriod;
-            this.numberOfRepeatsAllowed = builder.numberOfRepeatsAllowed;
-            this.quantity = builder.quantity;
-            this.expectedSupplyDuration = builder.expectedSupplyDuration;
-            this.performer = builder.performer;
+            initialFill = builder.initialFill;
+            dispenseInterval = builder.dispenseInterval;
+            validityPeriod = builder.validityPeriod;
+            numberOfRepeatsAllowed = builder.numberOfRepeatsAllowed;
+            quantity = builder.quantity;
+            expectedSupplyDuration = builder.expectedSupplyDuration;
+            performer = builder.performer;
         }
 
         /**
@@ -1979,9 +1980,6 @@ public class MedicationRequest extends DomainResource {
 
             private static Builder from(DispenseRequest dispenseRequest) {
                 Builder builder = new Builder();
-                builder.id = dispenseRequest.id;
-                builder.extension.addAll(dispenseRequest.extension);
-                builder.modifierExtension.addAll(dispenseRequest.modifierExtension);
                 builder.initialFill = dispenseRequest.initialFill;
                 builder.dispenseInterval = dispenseRequest.dispenseInterval;
                 builder.validityPeriod = dispenseRequest.validityPeriod;
@@ -2004,8 +2002,8 @@ public class MedicationRequest extends DomainResource {
 
             private InitialFill(Builder builder) {
                 super(builder);
-                this.quantity = builder.quantity;
-                this.duration = builder.duration;
+                quantity = builder.quantity;
+                duration = builder.duration;
             }
 
             /**
@@ -2211,9 +2209,6 @@ public class MedicationRequest extends DomainResource {
 
                 private static Builder from(InitialFill initialFill) {
                     Builder builder = new Builder();
-                    builder.id = initialFill.id;
-                    builder.extension.addAll(initialFill.extension);
-                    builder.modifierExtension.addAll(initialFill.modifierExtension);
                     builder.quantity = initialFill.quantity;
                     builder.duration = initialFill.duration;
                     return builder;
@@ -2235,8 +2230,8 @@ public class MedicationRequest extends DomainResource {
 
         private Substitution(Builder builder) {
             super(builder);
-            this.allowed = ValidationSupport.requireChoiceElement(builder.allowed, "allowed", Boolean.class, CodeableConcept.class);
-            this.reason = builder.reason;
+            allowed = ValidationSupport.requireChoiceElement(builder.allowed, "allowed", Boolean.class, CodeableConcept.class);
+            reason = builder.reason;
         }
 
         /**
@@ -2429,9 +2424,6 @@ public class MedicationRequest extends DomainResource {
 
             private static Builder from(Substitution substitution) {
                 Builder builder = new Builder(substitution.allowed);
-                builder.id = substitution.id;
-                builder.extension.addAll(substitution.extension);
-                builder.modifierExtension.addAll(substitution.modifierExtension);
                 builder.reason = substitution.reason;
                 return builder;
             }

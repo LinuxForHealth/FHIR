@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -63,24 +64,24 @@ public class DiagnosticReport extends DomainResource {
 
     private DiagnosticReport(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.basedOn = builder.basedOn;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.category = builder.category;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
-        this.issued = builder.issued;
-        this.performer = builder.performer;
-        this.resultsInterpreter = builder.resultsInterpreter;
-        this.specimen = builder.specimen;
-        this.result = builder.result;
-        this.imagingStudy = builder.imagingStudy;
-        this.media = builder.media;
-        this.conclusion = builder.conclusion;
-        this.conclusionCode = builder.conclusionCode;
-        this.presentedForm = builder.presentedForm;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        category = Collections.unmodifiableList(builder.category);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        subject = builder.subject;
+        encounter = builder.encounter;
+        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        issued = builder.issued;
+        performer = Collections.unmodifiableList(builder.performer);
+        resultsInterpreter = Collections.unmodifiableList(builder.resultsInterpreter);
+        specimen = Collections.unmodifiableList(builder.specimen);
+        result = Collections.unmodifiableList(builder.result);
+        imagingStudy = Collections.unmodifiableList(builder.imagingStudy);
+        media = Collections.unmodifiableList(builder.media);
+        conclusion = builder.conclusion;
+        conclusionCode = Collections.unmodifiableList(builder.conclusionCode);
+        presentedForm = Collections.unmodifiableList(builder.presentedForm);
     }
 
     /**
@@ -1103,8 +1104,8 @@ public class DiagnosticReport extends DomainResource {
 
         private Media(Builder builder) {
             super(builder);
-            this.comment = builder.comment;
-            this.link = ValidationSupport.requireNonNull(builder.link, "link");
+            comment = builder.comment;
+            link = ValidationSupport.requireNonNull(builder.link, "link");
         }
 
         /**
@@ -1299,9 +1300,6 @@ public class DiagnosticReport extends DomainResource {
 
             private static Builder from(Media media) {
                 Builder builder = new Builder(media.link);
-                builder.id = media.id;
-                builder.extension.addAll(media.extension);
-                builder.modifierExtension.addAll(media.modifierExtension);
                 builder.comment = media.comment;
                 return builder;
             }

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -90,39 +91,39 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
     private EffectEvidenceSynthesis(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.note = builder.note;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.topic = builder.topic;
-        this.author = builder.author;
-        this.editor = builder.editor;
-        this.reviewer = builder.reviewer;
-        this.endorser = builder.endorser;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.synthesisType = builder.synthesisType;
-        this.studyType = builder.studyType;
-        this.population = ValidationSupport.requireNonNull(builder.population, "population");
-        this.exposure = ValidationSupport.requireNonNull(builder.exposure, "exposure");
-        this.exposureAlternative = ValidationSupport.requireNonNull(builder.exposureAlternative, "exposureAlternative");
-        this.outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
-        this.sampleSize = builder.sampleSize;
-        this.resultsByExposure = builder.resultsByExposure;
-        this.effectEstimate = builder.effectEstimate;
-        this.certainty = builder.certainty;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        synthesisType = builder.synthesisType;
+        studyType = builder.studyType;
+        population = ValidationSupport.requireNonNull(builder.population, "population");
+        exposure = ValidationSupport.requireNonNull(builder.exposure, "exposure");
+        exposureAlternative = ValidationSupport.requireNonNull(builder.exposureAlternative, "exposureAlternative");
+        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        sampleSize = builder.sampleSize;
+        resultsByExposure = Collections.unmodifiableList(builder.resultsByExposure);
+        effectEstimate = Collections.unmodifiableList(builder.effectEstimate);
+        certainty = Collections.unmodifiableList(builder.certainty);
     }
 
     /**
@@ -1631,9 +1632,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         private SampleSize(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.numberOfStudies = builder.numberOfStudies;
-            this.numberOfParticipants = builder.numberOfParticipants;
+            description = builder.description;
+            numberOfStudies = builder.numberOfStudies;
+            numberOfParticipants = builder.numberOfParticipants;
         }
 
         /**
@@ -1869,9 +1870,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             private static Builder from(SampleSize sampleSize) {
                 Builder builder = new Builder();
-                builder.id = sampleSize.id;
-                builder.extension.addAll(sampleSize.extension);
-                builder.modifierExtension.addAll(sampleSize.modifierExtension);
                 builder.description = sampleSize.description;
                 builder.numberOfStudies = sampleSize.numberOfStudies;
                 builder.numberOfParticipants = sampleSize.numberOfParticipants;
@@ -1893,10 +1891,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         private ResultsByExposure(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.exposureState = builder.exposureState;
-            this.variantState = builder.variantState;
-            this.riskEvidenceSynthesis = ValidationSupport.requireNonNull(builder.riskEvidenceSynthesis, "riskEvidenceSynthesis");
+            description = builder.description;
+            exposureState = builder.exposureState;
+            variantState = builder.variantState;
+            riskEvidenceSynthesis = ValidationSupport.requireNonNull(builder.riskEvidenceSynthesis, "riskEvidenceSynthesis");
         }
 
         /**
@@ -2149,9 +2147,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             private static Builder from(ResultsByExposure resultsByExposure) {
                 Builder builder = new Builder(resultsByExposure.riskEvidenceSynthesis);
-                builder.id = resultsByExposure.id;
-                builder.extension.addAll(resultsByExposure.extension);
-                builder.modifierExtension.addAll(resultsByExposure.modifierExtension);
                 builder.description = resultsByExposure.description;
                 builder.exposureState = resultsByExposure.exposureState;
                 builder.variantState = resultsByExposure.variantState;
@@ -2175,12 +2170,12 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         private EffectEstimate(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.type = builder.type;
-            this.variantState = builder.variantState;
-            this.value = builder.value;
-            this.unitOfMeasure = builder.unitOfMeasure;
-            this.precisionEstimate = builder.precisionEstimate;
+            description = builder.description;
+            type = builder.type;
+            variantState = builder.variantState;
+            value = builder.value;
+            unitOfMeasure = builder.unitOfMeasure;
+            precisionEstimate = Collections.unmodifiableList(builder.precisionEstimate);
         }
 
         /**
@@ -2524,9 +2519,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             private static Builder from(EffectEstimate effectEstimate) {
                 Builder builder = new Builder();
-                builder.id = effectEstimate.id;
-                builder.extension.addAll(effectEstimate.extension);
-                builder.modifierExtension.addAll(effectEstimate.modifierExtension);
                 builder.description = effectEstimate.description;
                 builder.type = effectEstimate.type;
                 builder.variantState = effectEstimate.variantState;
@@ -2550,10 +2542,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             private PrecisionEstimate(Builder builder) {
                 super(builder);
-                this.type = builder.type;
-                this.level = builder.level;
-                this.from = builder.from;
-                this.to = builder.to;
+                type = builder.type;
+                level = builder.level;
+                from = builder.from;
+                to = builder.to;
             }
 
             /**
@@ -2819,9 +2811,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
                 private static Builder from(PrecisionEstimate precisionEstimate) {
                     Builder builder = new Builder();
-                    builder.id = precisionEstimate.id;
-                    builder.extension.addAll(precisionEstimate.extension);
-                    builder.modifierExtension.addAll(precisionEstimate.modifierExtension);
                     builder.type = precisionEstimate.type;
                     builder.level = precisionEstimate.level;
                     builder.from = precisionEstimate.from;
@@ -2844,9 +2833,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         private Certainty(Builder builder) {
             super(builder);
-            this.rating = builder.rating;
-            this.note = builder.note;
-            this.certaintySubcomponent = builder.certaintySubcomponent;
+            rating = Collections.unmodifiableList(builder.rating);
+            note = Collections.unmodifiableList(builder.note);
+            certaintySubcomponent = Collections.unmodifiableList(builder.certaintySubcomponent);
         }
 
         /**
@@ -3136,9 +3125,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             private static Builder from(Certainty certainty) {
                 Builder builder = new Builder();
-                builder.id = certainty.id;
-                builder.extension.addAll(certainty.extension);
-                builder.modifierExtension.addAll(certainty.modifierExtension);
                 builder.rating.addAll(certainty.rating);
                 builder.note.addAll(certainty.note);
                 builder.certaintySubcomponent.addAll(certainty.certaintySubcomponent);
@@ -3158,9 +3144,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
-                this.type = builder.type;
-                this.rating = builder.rating;
-                this.note = builder.note;
+                type = builder.type;
+                rating = Collections.unmodifiableList(builder.rating);
+                note = Collections.unmodifiableList(builder.note);
             }
 
             /**
@@ -3432,9 +3418,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
                 private static Builder from(CertaintySubcomponent certaintySubcomponent) {
                     Builder builder = new Builder();
-                    builder.id = certaintySubcomponent.id;
-                    builder.extension.addAll(certaintySubcomponent.extension);
-                    builder.modifierExtension.addAll(certaintySubcomponent.modifierExtension);
                     builder.type = certaintySubcomponent.type;
                     builder.rating.addAll(certaintySubcomponent.rating);
                     builder.note.addAll(certaintySubcomponent.note);

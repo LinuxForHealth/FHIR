@@ -31,9 +31,9 @@ public class Binary extends Resource {
 
     private Binary(Builder builder) {
         super(builder);
-        this.contentType = ValidationSupport.requireNonNull(builder.contentType, "contentType");
-        this.securityContext = builder.securityContext;
-        this.data = builder.data;
+        contentType = ValidationSupport.requireNonNull(builder.contentType, "contentType");
+        securityContext = builder.securityContext;
+        data = builder.data;
     }
 
     /**

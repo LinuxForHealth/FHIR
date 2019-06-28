@@ -31,13 +31,13 @@ public class SampledData extends Element {
 
     private SampledData(Builder builder) {
         super(builder);
-        this.origin = ValidationSupport.requireNonNull(builder.origin, "origin");
-        this.period = ValidationSupport.requireNonNull(builder.period, "period");
-        this.factor = builder.factor;
-        this.lowerLimit = builder.lowerLimit;
-        this.upperLimit = builder.upperLimit;
-        this.dimensions = ValidationSupport.requireNonNull(builder.dimensions, "dimensions");
-        this.data = builder.data;
+        origin = ValidationSupport.requireNonNull(builder.origin, "origin");
+        period = ValidationSupport.requireNonNull(builder.period, "period");
+        factor = builder.factor;
+        lowerLimit = builder.lowerLimit;
+        upperLimit = builder.upperLimit;
+        dimensions = ValidationSupport.requireNonNull(builder.dimensions, "dimensions");
+        data = builder.data;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -70,21 +71,21 @@ public class GraphDefinition extends DomainResource {
 
     private GraphDefinition(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.start = ValidationSupport.requireNonNull(builder.start, "start");
-        this.profile = builder.profile;
-        this.link = builder.link;
+        url = builder.url;
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        start = ValidationSupport.requireNonNull(builder.start, "start");
+        profile = builder.profile;
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -877,12 +878,12 @@ public class GraphDefinition extends DomainResource {
 
         private Link(Builder builder) {
             super(builder);
-            this.path = builder.path;
-            this.sliceName = builder.sliceName;
-            this.min = builder.min;
-            this.max = builder.max;
-            this.description = builder.description;
-            this.target = builder.target;
+            path = builder.path;
+            sliceName = builder.sliceName;
+            min = builder.min;
+            max = builder.max;
+            description = builder.description;
+            target = Collections.unmodifiableList(builder.target);
         }
 
         /**
@@ -1226,9 +1227,6 @@ public class GraphDefinition extends DomainResource {
 
             private static Builder from(Link link) {
                 Builder builder = new Builder();
-                builder.id = link.id;
-                builder.extension.addAll(link.extension);
-                builder.modifierExtension.addAll(link.modifierExtension);
                 builder.path = link.path;
                 builder.sliceName = link.sliceName;
                 builder.min = link.min;
@@ -1253,11 +1251,11 @@ public class GraphDefinition extends DomainResource {
 
             private Target(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.params = builder.params;
-                this.profile = builder.profile;
-                this.compartment = builder.compartment;
-                this.link = builder.link;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                params = builder.params;
+                profile = builder.profile;
+                compartment = Collections.unmodifiableList(builder.compartment);
+                link = Collections.unmodifiableList(builder.link);
             }
 
             /**
@@ -1576,9 +1574,6 @@ public class GraphDefinition extends DomainResource {
 
                 private static Builder from(Target target) {
                     Builder builder = new Builder(target.type);
-                    builder.id = target.id;
-                    builder.extension.addAll(target.extension);
-                    builder.modifierExtension.addAll(target.modifierExtension);
                     builder.params = target.params;
                     builder.profile = target.profile;
                     builder.compartment.addAll(target.compartment);
@@ -1601,11 +1596,11 @@ public class GraphDefinition extends DomainResource {
 
                 private Compartment(Builder builder) {
                     super(builder);
-                    this.use = ValidationSupport.requireNonNull(builder.use, "use");
-                    this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                    this.rule = ValidationSupport.requireNonNull(builder.rule, "rule");
-                    this.expression = builder.expression;
-                    this.description = builder.description;
+                    use = ValidationSupport.requireNonNull(builder.use, "use");
+                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    rule = ValidationSupport.requireNonNull(builder.rule, "rule");
+                    expression = builder.expression;
+                    description = builder.description;
                 }
 
                 /**
@@ -1859,9 +1854,6 @@ public class GraphDefinition extends DomainResource {
 
                     private static Builder from(Compartment compartment) {
                         Builder builder = new Builder(compartment.use, compartment.code, compartment.rule);
-                        builder.id = compartment.id;
-                        builder.extension.addAll(compartment.extension);
-                        builder.modifierExtension.addAll(compartment.modifierExtension);
                         builder.expression = compartment.expression;
                         builder.description = compartment.description;
                         return builder;

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -52,16 +53,16 @@ public class Person extends DomainResource {
 
     private Person(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.name = builder.name;
-        this.telecom = builder.telecom;
-        this.gender = builder.gender;
-        this.birthDate = builder.birthDate;
-        this.address = builder.address;
-        this.photo = builder.photo;
-        this.managingOrganization = builder.managingOrganization;
-        this.active = builder.active;
-        this.link = builder.link;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        gender = builder.gender;
+        birthDate = builder.birthDate;
+        address = Collections.unmodifiableList(builder.address);
+        photo = builder.photo;
+        managingOrganization = builder.managingOrganization;
+        active = builder.active;
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -734,8 +735,8 @@ public class Person extends DomainResource {
 
         private Link(Builder builder) {
             super(builder);
-            this.target = ValidationSupport.requireNonNull(builder.target, "target");
-            this.assurance = builder.assurance;
+            target = ValidationSupport.requireNonNull(builder.target, "target");
+            assurance = builder.assurance;
         }
 
         /**
@@ -928,9 +929,6 @@ public class Person extends DomainResource {
 
             private static Builder from(Link link) {
                 Builder builder = new Builder(link.target);
-                builder.id = link.id;
-                builder.extension.addAll(link.extension);
-                builder.modifierExtension.addAll(link.modifierExtension);
                 builder.assurance = link.assurance;
                 return builder;
             }

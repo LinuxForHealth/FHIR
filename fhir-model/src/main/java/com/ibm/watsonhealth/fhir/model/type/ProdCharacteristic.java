@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -36,17 +37,17 @@ public class ProdCharacteristic extends BackboneElement {
 
     private ProdCharacteristic(Builder builder) {
         super(builder);
-        this.height = builder.height;
-        this.width = builder.width;
-        this.depth = builder.depth;
-        this.weight = builder.weight;
-        this.nominalVolume = builder.nominalVolume;
-        this.externalDiameter = builder.externalDiameter;
-        this.shape = builder.shape;
-        this.color = builder.color;
-        this.imprint = builder.imprint;
-        this.image = builder.image;
-        this.scoring = builder.scoring;
+        height = builder.height;
+        width = builder.width;
+        depth = builder.depth;
+        weight = builder.weight;
+        nominalVolume = builder.nominalVolume;
+        externalDiameter = builder.externalDiameter;
+        shape = builder.shape;
+        color = Collections.unmodifiableList(builder.color);
+        imprint = Collections.unmodifiableList(builder.imprint);
+        image = Collections.unmodifiableList(builder.image);
+        scoring = builder.scoring;
     }
 
     /**

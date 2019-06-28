@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -53,14 +54,14 @@ public class AppointmentResponse extends DomainResource {
 
     private AppointmentResponse(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.appointment = ValidationSupport.requireNonNull(builder.appointment, "appointment");
-        this.start = builder.start;
-        this.end = builder.end;
-        this.participantType = builder.participantType;
-        this.actor = builder.actor;
-        this.participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
-        this.comment = builder.comment;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        appointment = ValidationSupport.requireNonNull(builder.appointment, "appointment");
+        start = builder.start;
+        end = builder.end;
+        participantType = Collections.unmodifiableList(builder.participantType);
+        actor = builder.actor;
+        participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
+        comment = builder.comment;
     }
 
     /**

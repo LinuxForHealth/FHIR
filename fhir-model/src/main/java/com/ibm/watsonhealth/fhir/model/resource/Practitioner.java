@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -53,16 +54,16 @@ public class Practitioner extends DomainResource {
 
     private Practitioner(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.name = builder.name;
-        this.telecom = builder.telecom;
-        this.address = builder.address;
-        this.gender = builder.gender;
-        this.birthDate = builder.birthDate;
-        this.photo = builder.photo;
-        this.qualification = builder.qualification;
-        this.communication = builder.communication;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        address = Collections.unmodifiableList(builder.address);
+        gender = builder.gender;
+        birthDate = builder.birthDate;
+        photo = Collections.unmodifiableList(builder.photo);
+        qualification = Collections.unmodifiableList(builder.qualification);
+        communication = Collections.unmodifiableList(builder.communication);
     }
 
     /**
@@ -789,10 +790,10 @@ Work addresses are not typically
 
         private Qualification(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.period = builder.period;
-            this.issuer = builder.issuer;
+            identifier = Collections.unmodifiableList(builder.identifier);
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            period = builder.period;
+            issuer = builder.issuer;
         }
 
         /**
@@ -1063,9 +1064,6 @@ Work addresses are not typically
 
             private static Builder from(Qualification qualification) {
                 Builder builder = new Builder(qualification.code);
-                builder.id = qualification.id;
-                builder.extension.addAll(qualification.extension);
-                builder.modifierExtension.addAll(qualification.modifierExtension);
                 builder.identifier.addAll(qualification.identifier);
                 builder.period = qualification.period;
                 builder.issuer = qualification.issuer;

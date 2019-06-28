@@ -29,12 +29,12 @@ public class Identifier extends Element {
 
     private Identifier(Builder builder) {
         super(builder);
-        this.use = builder.use;
-        this.type = builder.type;
-        this.system = builder.system;
-        this.value = builder.value;
-        this.period = builder.period;
-        this.assigner = builder.assigner;
+        use = builder.use;
+        type = builder.type;
+        system = builder.system;
+        value = builder.value;
+        period = builder.period;
+        assigner = builder.assigner;
     }
 
     /**

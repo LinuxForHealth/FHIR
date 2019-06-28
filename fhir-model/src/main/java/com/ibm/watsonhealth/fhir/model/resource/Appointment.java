@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -96,28 +97,28 @@ public class Appointment extends DomainResource {
 
     private Appointment(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.cancelationReason = builder.cancelationReason;
-        this.serviceCategory = builder.serviceCategory;
-        this.serviceType = builder.serviceType;
-        this.specialty = builder.specialty;
-        this.appointmentType = builder.appointmentType;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.priority = builder.priority;
-        this.description = builder.description;
-        this.supportingInformation = builder.supportingInformation;
-        this.start = builder.start;
-        this.end = builder.end;
-        this.minutesDuration = builder.minutesDuration;
-        this.slot = builder.slot;
-        this.created = builder.created;
-        this.comment = builder.comment;
-        this.patientInstruction = builder.patientInstruction;
-        this.basedOn = builder.basedOn;
-        this.participant = ValidationSupport.requireNonEmpty(builder.participant, "participant");
-        this.requestedPeriod = builder.requestedPeriod;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        cancelationReason = builder.cancelationReason;
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        appointmentType = builder.appointmentType;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        priority = builder.priority;
+        description = builder.description;
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        start = builder.start;
+        end = builder.end;
+        minutesDuration = builder.minutesDuration;
+        slot = Collections.unmodifiableList(builder.slot);
+        created = builder.created;
+        comment = builder.comment;
+        patientInstruction = builder.patientInstruction;
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        participant = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.participant, "participant"));
+        requestedPeriod = Collections.unmodifiableList(builder.requestedPeriod);
     }
 
     /**
@@ -1209,6 +1210,40 @@ public class Appointment extends DomainResource {
 
         /**
          * <p>
+         * List of participants involved in the appointment.
+         * </p>
+         * 
+         * @param participant
+         *     Participants involved in appointment
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder participant(Participant... participant) {
+            for (Participant value : participant) {
+                this.participant.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * List of participants involved in the appointment.
+         * </p>
+         * 
+         * @param participant
+         *     Participants involved in appointment
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder participant(Collection<Participant> participant) {
+            this.participant.addAll(participant);
+            return this;
+        }
+
+        /**
+         * <p>
          * A set of date ranges (potentially including times) that the appointment is preferred to be scheduled within.
          * </p>
          * <p>
@@ -1271,11 +1306,11 @@ public class Appointment extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.actor = builder.actor;
-            this.required = builder.required;
-            this.status = ValidationSupport.requireNonNull(builder.status, "status");
-            this.period = builder.period;
+            type = Collections.unmodifiableList(builder.type);
+            actor = builder.actor;
+            required = builder.required;
+            status = ValidationSupport.requireNonNull(builder.status, "status");
+            period = builder.period;
         }
 
         /**
@@ -1578,9 +1613,6 @@ public class Appointment extends DomainResource {
 
             private static Builder from(Participant participant) {
                 Builder builder = new Builder(participant.status);
-                builder.id = participant.id;
-                builder.extension.addAll(participant.extension);
-                builder.modifierExtension.addAll(participant.modifierExtension);
                 builder.type.addAll(participant.type);
                 builder.actor = participant.actor;
                 builder.required = participant.required;

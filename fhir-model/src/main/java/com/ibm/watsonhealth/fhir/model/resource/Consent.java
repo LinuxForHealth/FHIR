@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -94,19 +95,19 @@ public class Consent extends DomainResource {
 
     private Consent(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.scope = ValidationSupport.requireNonNull(builder.scope, "scope");
-        this.category = ValidationSupport.requireNonEmpty(builder.category, "category");
-        this.patient = builder.patient;
-        this.dateTime = builder.dateTime;
-        this.performer = builder.performer;
-        this.organization = builder.organization;
-        this.source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
-        this.policy = builder.policy;
-        this.policyRule = builder.policyRule;
-        this.verification = builder.verification;
-        this.provision = builder.provision;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        scope = ValidationSupport.requireNonNull(builder.scope, "scope");
+        category = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.category, "category"));
+        patient = builder.patient;
+        dateTime = builder.dateTime;
+        performer = Collections.unmodifiableList(builder.performer);
+        organization = Collections.unmodifiableList(builder.organization);
+        source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
+        policy = Collections.unmodifiableList(builder.policy);
+        policyRule = builder.policyRule;
+        verification = Collections.unmodifiableList(builder.verification);
+        provision = builder.provision;
     }
 
     /**
@@ -602,6 +603,42 @@ public class Consent extends DomainResource {
 
         /**
          * <p>
+         * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
+         * consent statements.
+         * </p>
+         * 
+         * @param category
+         *     Classification of the consent statement - for indexing/retrieval
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder category(CodeableConcept... category) {
+            for (CodeableConcept value : category) {
+                this.category.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
+         * consent statements.
+         * </p>
+         * 
+         * @param category
+         *     Classification of the consent statement - for indexing/retrieval
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder category(Collection<CodeableConcept> category) {
+            this.category.addAll(category);
+            return this;
+        }
+
+        /**
+         * <p>
          * The patient/healthcare consumer to whom this consent applies.
          * </p>
          * 
@@ -844,8 +881,8 @@ public class Consent extends DomainResource {
 
         private Policy(Builder builder) {
             super(builder);
-            this.authority = builder.authority;
-            this.uri = builder.uri;
+            authority = builder.authority;
+            uri = builder.uri;
         }
 
         /**
@@ -1055,9 +1092,6 @@ public class Consent extends DomainResource {
 
             private static Builder from(Policy policy) {
                 Builder builder = new Builder();
-                builder.id = policy.id;
-                builder.extension.addAll(policy.extension);
-                builder.modifierExtension.addAll(policy.modifierExtension);
                 builder.authority = policy.authority;
                 builder.uri = policy.uri;
                 return builder;
@@ -1078,9 +1112,9 @@ public class Consent extends DomainResource {
 
         private Verification(Builder builder) {
             super(builder);
-            this.verified = ValidationSupport.requireNonNull(builder.verified, "verified");
-            this.verifiedWith = builder.verifiedWith;
-            this.verificationDate = builder.verificationDate;
+            verified = ValidationSupport.requireNonNull(builder.verified, "verified");
+            verifiedWith = builder.verifiedWith;
+            verificationDate = builder.verificationDate;
         }
 
         /**
@@ -1303,9 +1337,6 @@ public class Consent extends DomainResource {
 
             private static Builder from(Verification verification) {
                 Builder builder = new Builder(verification.verified);
-                builder.id = verification.id;
-                builder.extension.addAll(verification.extension);
-                builder.modifierExtension.addAll(verification.modifierExtension);
                 builder.verifiedWith = verification.verifiedWith;
                 builder.verificationDate = verification.verificationDate;
                 return builder;
@@ -1333,17 +1364,17 @@ public class Consent extends DomainResource {
 
         private Provision(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.period = builder.period;
-            this.actor = builder.actor;
-            this.action = builder.action;
-            this.securityLabel = builder.securityLabel;
-            this.purpose = builder.purpose;
-            this.clazz = builder.clazz;
-            this.code = builder.code;
-            this.dataPeriod = builder.dataPeriod;
-            this.data = builder.data;
-            this.provision = builder.provision;
+            type = builder.type;
+            period = builder.period;
+            actor = Collections.unmodifiableList(builder.actor);
+            action = Collections.unmodifiableList(builder.action);
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            purpose = Collections.unmodifiableList(builder.purpose);
+            clazz = Collections.unmodifiableList(builder.clazz);
+            code = Collections.unmodifiableList(builder.code);
+            dataPeriod = builder.dataPeriod;
+            data = Collections.unmodifiableList(builder.data);
+            provision = Collections.unmodifiableList(builder.provision);
         }
 
         /**
@@ -1974,9 +2005,6 @@ public class Consent extends DomainResource {
 
             private static Builder from(Provision provision) {
                 Builder builder = new Builder();
-                builder.id = provision.id;
-                builder.extension.addAll(provision.extension);
-                builder.modifierExtension.addAll(provision.modifierExtension);
                 builder.type = provision.type;
                 builder.period = provision.period;
                 builder.actor.addAll(provision.actor);
@@ -2004,8 +2032,8 @@ public class Consent extends DomainResource {
 
             private Actor(Builder builder) {
                 super(builder);
-                this.role = ValidationSupport.requireNonNull(builder.role, "role");
-                this.reference = ValidationSupport.requireNonNull(builder.reference, "reference");
+                role = ValidationSupport.requireNonNull(builder.role, "role");
+                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
             }
 
             /**
@@ -2182,9 +2210,6 @@ public class Consent extends DomainResource {
 
                 private static Builder from(Actor actor) {
                     Builder builder = new Builder(actor.role, actor.reference);
-                    builder.id = actor.id;
-                    builder.extension.addAll(actor.extension);
-                    builder.modifierExtension.addAll(actor.modifierExtension);
                     return builder;
                 }
             }
@@ -2201,8 +2226,8 @@ public class Consent extends DomainResource {
 
             private Data(Builder builder) {
                 super(builder);
-                this.meaning = ValidationSupport.requireNonNull(builder.meaning, "meaning");
-                this.reference = ValidationSupport.requireNonNull(builder.reference, "reference");
+                meaning = ValidationSupport.requireNonNull(builder.meaning, "meaning");
+                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
             }
 
             /**
@@ -2378,9 +2403,6 @@ public class Consent extends DomainResource {
 
                 private static Builder from(Data data) {
                     Builder builder = new Builder(data.meaning, data.reference);
-                    builder.id = data.id;
-                    builder.extension.addAll(data.extension);
-                    builder.modifierExtension.addAll(data.modifierExtension);
                     return builder;
                 }
             }

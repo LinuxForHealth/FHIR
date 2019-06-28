@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -84,24 +85,24 @@ public class RequestGroup extends DomainResource {
 
     private RequestGroup(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.replaces = builder.replaces;
-        this.groupIdentifier = builder.groupIdentifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        this.priority = builder.priority;
-        this.code = builder.code;
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.authoredOn = builder.authoredOn;
-        this.author = builder.author;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.note = builder.note;
-        this.action = builder.action;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        groupIdentifier = builder.groupIdentifier;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        priority = builder.priority;
+        code = builder.code;
+        subject = builder.subject;
+        encounter = builder.encounter;
+        authoredOn = builder.authoredOn;
+        author = builder.author;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        action = Collections.unmodifiableList(builder.action);
     }
 
     /**
@@ -1090,25 +1091,25 @@ public class RequestGroup extends DomainResource {
 
         private Action(Builder builder) {
             super(builder);
-            this.prefix = builder.prefix;
-            this.title = builder.title;
-            this.description = builder.description;
-            this.textEquivalent = builder.textEquivalent;
-            this.priority = builder.priority;
-            this.code = builder.code;
-            this.documentation = builder.documentation;
-            this.condition = builder.condition;
-            this.relatedAction = builder.relatedAction;
-            this.timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
-            this.participant = builder.participant;
-            this.type = builder.type;
-            this.groupingBehavior = builder.groupingBehavior;
-            this.selectionBehavior = builder.selectionBehavior;
-            this.requiredBehavior = builder.requiredBehavior;
-            this.precheckBehavior = builder.precheckBehavior;
-            this.cardinalityBehavior = builder.cardinalityBehavior;
-            this.resource = builder.resource;
-            this.action = builder.action;
+            prefix = builder.prefix;
+            title = builder.title;
+            description = builder.description;
+            textEquivalent = builder.textEquivalent;
+            priority = builder.priority;
+            code = Collections.unmodifiableList(builder.code);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            condition = Collections.unmodifiableList(builder.condition);
+            relatedAction = Collections.unmodifiableList(builder.relatedAction);
+            timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
+            participant = Collections.unmodifiableList(builder.participant);
+            type = builder.type;
+            groupingBehavior = builder.groupingBehavior;
+            selectionBehavior = builder.selectionBehavior;
+            requiredBehavior = builder.requiredBehavior;
+            precheckBehavior = builder.precheckBehavior;
+            cardinalityBehavior = builder.cardinalityBehavior;
+            resource = builder.resource;
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -1940,9 +1941,6 @@ public class RequestGroup extends DomainResource {
 
             private static Builder from(Action action) {
                 Builder builder = new Builder();
-                builder.id = action.id;
-                builder.extension.addAll(action.extension);
-                builder.modifierExtension.addAll(action.modifierExtension);
                 builder.prefix = action.prefix;
                 builder.title = action.title;
                 builder.description = action.description;
@@ -1977,8 +1975,8 @@ public class RequestGroup extends DomainResource {
 
             private Condition(Builder builder) {
                 super(builder);
-                this.kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-                this.expression = builder.expression;
+                kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+                expression = builder.expression;
             }
 
             /**
@@ -2171,9 +2169,6 @@ public class RequestGroup extends DomainResource {
 
                 private static Builder from(Condition condition) {
                     Builder builder = new Builder(condition.kind);
-                    builder.id = condition.id;
-                    builder.extension.addAll(condition.extension);
-                    builder.modifierExtension.addAll(condition.modifierExtension);
                     builder.expression = condition.expression;
                     return builder;
                 }
@@ -2192,9 +2187,9 @@ public class RequestGroup extends DomainResource {
 
             private RelatedAction(Builder builder) {
                 super(builder);
-                this.actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
-                this.relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
-                this.offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
+                actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
+                relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
+                offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
             }
 
             /**
@@ -2402,9 +2397,6 @@ public class RequestGroup extends DomainResource {
 
                 private static Builder from(RelatedAction relatedAction) {
                     Builder builder = new Builder(relatedAction.actionId, relatedAction.relationship);
-                    builder.id = relatedAction.id;
-                    builder.extension.addAll(relatedAction.extension);
-                    builder.modifierExtension.addAll(relatedAction.modifierExtension);
                     builder.offset = relatedAction.offset;
                     return builder;
                 }

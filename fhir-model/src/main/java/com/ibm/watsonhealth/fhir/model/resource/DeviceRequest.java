@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -72,30 +73,30 @@ public class DeviceRequest extends DomainResource {
 
     private DeviceRequest(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.priorRequest = builder.priorRequest;
-        this.groupIdentifier = builder.groupIdentifier;
-        this.status = builder.status;
-        this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        this.priority = builder.priority;
-        this.code = ValidationSupport.requireChoiceElement(builder.code, "code", Reference.class, CodeableConcept.class);
-        this.parameter = builder.parameter;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        this.authoredOn = builder.authoredOn;
-        this.requester = builder.requester;
-        this.performerType = builder.performerType;
-        this.performer = builder.performer;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.insurance = builder.insurance;
-        this.supportingInfo = builder.supportingInfo;
-        this.note = builder.note;
-        this.relevantHistory = builder.relevantHistory;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        priorRequest = Collections.unmodifiableList(builder.priorRequest);
+        groupIdentifier = builder.groupIdentifier;
+        status = builder.status;
+        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        priority = builder.priority;
+        code = ValidationSupport.requireChoiceElement(builder.code, "code", Reference.class, CodeableConcept.class);
+        parameter = Collections.unmodifiableList(builder.parameter);
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        authoredOn = builder.authoredOn;
+        requester = builder.requester;
+        performerType = builder.performerType;
+        performer = builder.performer;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        note = Collections.unmodifiableList(builder.note);
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
     }
 
     /**
@@ -1301,8 +1302,8 @@ public class DeviceRequest extends DomainResource {
 
         private Parameter(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
+            code = builder.code;
+            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
         }
 
         /**
@@ -1508,9 +1509,6 @@ public class DeviceRequest extends DomainResource {
 
             private static Builder from(Parameter parameter) {
                 Builder builder = new Builder();
-                builder.id = parameter.id;
-                builder.extension.addAll(parameter.extension);
-                builder.modifierExtension.addAll(parameter.modifierExtension);
                 builder.code = parameter.code;
                 builder.value = parameter.value;
                 return builder;

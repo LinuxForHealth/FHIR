@@ -36,11 +36,11 @@ public class SimpleQuantity extends Quantity {
 
     private SimpleQuantity(Builder builder) {
         super(builder);
-        this.value = builder.value;
-        this.comparator = builder.comparator;
-        this.unit = builder.unit;
-        this.system = builder.system;
-        this.code = builder.code;
+        value = builder.value;
+        comparator = builder.comparator;
+        unit = builder.unit;
+        system = builder.system;
+        code = builder.code;
     }
 
     /**

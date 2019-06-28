@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -52,14 +53,14 @@ public class DataRequirement extends Element {
 
     private DataRequirement(Builder builder) {
         super(builder);
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.profile = builder.profile;
-        this.subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        this.mustSupport = builder.mustSupport;
-        this.codeFilter = builder.codeFilter;
-        this.dateFilter = builder.dateFilter;
-        this.limit = builder.limit;
-        this.sort = builder.sort;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        profile = Collections.unmodifiableList(builder.profile);
+        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        mustSupport = Collections.unmodifiableList(builder.mustSupport);
+        codeFilter = Collections.unmodifiableList(builder.codeFilter);
+        dateFilter = Collections.unmodifiableList(builder.dateFilter);
+        limit = builder.limit;
+        sort = Collections.unmodifiableList(builder.sort);
     }
 
     /**
@@ -522,10 +523,10 @@ public class DataRequirement extends Element {
 
         private CodeFilter(Builder builder) {
             super(builder);
-            this.path = builder.path;
-            this.searchParam = builder.searchParam;
-            this.valueSet = builder.valueSet;
-            this.code = builder.code;
+            path = builder.path;
+            searchParam = builder.searchParam;
+            valueSet = builder.valueSet;
+            code = Collections.unmodifiableList(builder.code);
         }
 
         /**
@@ -825,9 +826,6 @@ public class DataRequirement extends Element {
 
             private static Builder from(CodeFilter codeFilter) {
                 Builder builder = new Builder();
-                builder.id = codeFilter.id;
-                builder.extension.addAll(codeFilter.extension);
-                builder.modifierExtension.addAll(codeFilter.modifierExtension);
                 builder.path = codeFilter.path;
                 builder.searchParam = codeFilter.searchParam;
                 builder.valueSet = codeFilter.valueSet;
@@ -850,9 +848,9 @@ public class DataRequirement extends Element {
 
         private DateFilter(Builder builder) {
             super(builder);
-            this.path = builder.path;
-            this.searchParam = builder.searchParam;
-            this.value = ValidationSupport.choiceElement(builder.value, "value", DateTime.class, Period.class, Duration.class);
+            path = builder.path;
+            searchParam = builder.searchParam;
+            value = ValidationSupport.choiceElement(builder.value, "value", DateTime.class, Period.class, Duration.class);
         }
 
         /**
@@ -1100,9 +1098,6 @@ public class DataRequirement extends Element {
 
             private static Builder from(DateFilter dateFilter) {
                 Builder builder = new Builder();
-                builder.id = dateFilter.id;
-                builder.extension.addAll(dateFilter.extension);
-                builder.modifierExtension.addAll(dateFilter.modifierExtension);
                 builder.path = dateFilter.path;
                 builder.searchParam = dateFilter.searchParam;
                 builder.value = dateFilter.value;
@@ -1122,8 +1117,8 @@ public class DataRequirement extends Element {
 
         private Sort(Builder builder) {
             super(builder);
-            this.path = ValidationSupport.requireNonNull(builder.path, "path");
-            this.direction = ValidationSupport.requireNonNull(builder.direction, "direction");
+            path = ValidationSupport.requireNonNull(builder.path, "path");
+            direction = ValidationSupport.requireNonNull(builder.direction, "direction");
         }
 
         /**
@@ -1297,9 +1292,6 @@ public class DataRequirement extends Element {
 
             private static Builder from(Sort sort) {
                 Builder builder = new Builder(sort.path, sort.direction);
-                builder.id = sort.id;
-                builder.extension.addAll(sort.extension);
-                builder.modifierExtension.addAll(sort.modifierExtension);
                 return builder;
             }
         }

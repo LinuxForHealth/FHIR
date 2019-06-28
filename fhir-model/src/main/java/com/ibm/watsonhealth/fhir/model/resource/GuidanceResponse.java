@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -56,21 +57,21 @@ public class GuidanceResponse extends DomainResource {
 
     private GuidanceResponse(Builder builder) {
         super(builder);
-        this.requestIdentifier = builder.requestIdentifier;
-        this.identifier = builder.identifier;
-        this.module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.occurrenceDateTime = builder.occurrenceDateTime;
-        this.performer = builder.performer;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.note = builder.note;
-        this.evaluationMessage = builder.evaluationMessage;
-        this.outputParameters = builder.outputParameters;
-        this.result = builder.result;
-        this.dataRequirement = builder.dataRequirement;
+        requestIdentifier = builder.requestIdentifier;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        subject = builder.subject;
+        encounter = builder.encounter;
+        occurrenceDateTime = builder.occurrenceDateTime;
+        performer = builder.performer;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        evaluationMessage = Collections.unmodifiableList(builder.evaluationMessage);
+        outputParameters = builder.outputParameters;
+        result = builder.result;
+        dataRequirement = Collections.unmodifiableList(builder.dataRequirement);
     }
 
     /**

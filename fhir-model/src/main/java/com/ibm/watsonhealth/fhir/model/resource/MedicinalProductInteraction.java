@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -43,13 +44,13 @@ public class MedicinalProductInteraction extends DomainResource {
 
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
-        this.subject = builder.subject;
-        this.description = builder.description;
-        this.interactant = builder.interactant;
-        this.type = builder.type;
-        this.effect = builder.effect;
-        this.incidence = builder.incidence;
-        this.management = builder.management;
+        subject = Collections.unmodifiableList(builder.subject);
+        description = builder.description;
+        interactant = Collections.unmodifiableList(builder.interactant);
+        type = builder.type;
+        effect = builder.effect;
+        incidence = builder.incidence;
+        management = builder.management;
     }
 
     /**
@@ -574,7 +575,7 @@ public class MedicinalProductInteraction extends DomainResource {
 
         private Interactant(Builder builder) {
             super(builder);
-            this.item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
+            item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
         }
 
         /**
@@ -735,9 +736,6 @@ public class MedicinalProductInteraction extends DomainResource {
 
             private static Builder from(Interactant interactant) {
                 Builder builder = new Builder(interactant.item);
-                builder.id = interactant.id;
-                builder.extension.addAll(interactant.extension);
-                builder.modifierExtension.addAll(interactant.modifierExtension);
                 return builder;
             }
         }

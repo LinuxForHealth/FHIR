@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -56,18 +57,18 @@ public class RelatedPerson extends DomainResource {
 
     private RelatedPerson(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.relationship = builder.relationship;
-        this.name = builder.name;
-        this.telecom = builder.telecom;
-        this.gender = builder.gender;
-        this.birthDate = builder.birthDate;
-        this.address = builder.address;
-        this.photo = builder.photo;
-        this.period = builder.period;
-        this.communication = builder.communication;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        relationship = Collections.unmodifiableList(builder.relationship);
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        gender = builder.gender;
+        birthDate = builder.birthDate;
+        address = Collections.unmodifiableList(builder.address);
+        photo = Collections.unmodifiableList(builder.photo);
+        period = builder.period;
+        communication = Collections.unmodifiableList(builder.communication);
     }
 
     /**
@@ -828,8 +829,8 @@ public class RelatedPerson extends DomainResource {
 
         private Communication(Builder builder) {
             super(builder);
-            this.language = ValidationSupport.requireNonNull(builder.language, "language");
-            this.preferred = builder.preferred;
+            language = ValidationSupport.requireNonNull(builder.language, "language");
+            preferred = builder.preferred;
         }
 
         /**
@@ -1024,9 +1025,6 @@ public class RelatedPerson extends DomainResource {
 
             private static Builder from(Communication communication) {
                 Builder builder = new Builder(communication.language);
-                builder.id = communication.id;
-                builder.extension.addAll(communication.extension);
-                builder.modifierExtension.addAll(communication.modifierExtension);
                 builder.preferred = communication.preferred;
                 return builder;
             }

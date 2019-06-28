@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -80,29 +81,29 @@ public class CarePlan extends DomainResource {
 
     private CarePlan(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.replaces = builder.replaces;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        this.category = builder.category;
-        this.title = builder.title;
-        this.description = builder.description;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.period = builder.period;
-        this.created = builder.created;
-        this.author = builder.author;
-        this.contributor = builder.contributor;
-        this.careTeam = builder.careTeam;
-        this.addresses = builder.addresses;
-        this.supportingInfo = builder.supportingInfo;
-        this.goal = builder.goal;
-        this.activity = builder.activity;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        category = Collections.unmodifiableList(builder.category);
+        title = builder.title;
+        description = builder.description;
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        period = builder.period;
+        created = builder.created;
+        author = builder.author;
+        contributor = Collections.unmodifiableList(builder.contributor);
+        careTeam = Collections.unmodifiableList(builder.careTeam);
+        addresses = Collections.unmodifiableList(builder.addresses);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        goal = Collections.unmodifiableList(builder.goal);
+        activity = Collections.unmodifiableList(builder.activity);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1317,11 +1318,11 @@ public class CarePlan extends DomainResource {
 
         private Activity(Builder builder) {
             super(builder);
-            this.outcomeCodeableConcept = builder.outcomeCodeableConcept;
-            this.outcomeReference = builder.outcomeReference;
-            this.progress = builder.progress;
-            this.reference = builder.reference;
-            this.detail = builder.detail;
+            outcomeCodeableConcept = Collections.unmodifiableList(builder.outcomeCodeableConcept);
+            outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
+            progress = Collections.unmodifiableList(builder.progress);
+            reference = builder.reference;
+            detail = builder.detail;
         }
 
         /**
@@ -1682,9 +1683,6 @@ public class CarePlan extends DomainResource {
 
             private static Builder from(Activity activity) {
                 Builder builder = new Builder();
-                builder.id = activity.id;
-                builder.extension.addAll(activity.extension);
-                builder.modifierExtension.addAll(activity.modifierExtension);
                 builder.outcomeCodeableConcept.addAll(activity.outcomeCodeableConcept);
                 builder.outcomeReference.addAll(activity.outcomeReference);
                 builder.progress.addAll(activity.progress);
@@ -1721,23 +1719,23 @@ public class CarePlan extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                this.kind = builder.kind;
-                this.instantiatesCanonical = builder.instantiatesCanonical;
-                this.instantiatesUri = builder.instantiatesUri;
-                this.code = builder.code;
-                this.reasonCode = builder.reasonCode;
-                this.reasonReference = builder.reasonReference;
-                this.goal = builder.goal;
-                this.status = ValidationSupport.requireNonNull(builder.status, "status");
-                this.statusReason = builder.statusReason;
-                this.doNotPerform = builder.doNotPerform;
-                this.scheduled = ValidationSupport.choiceElement(builder.scheduled, "scheduled", Timing.class, Period.class, String.class);
-                this.location = builder.location;
-                this.performer = builder.performer;
-                this.product = ValidationSupport.choiceElement(builder.product, "product", CodeableConcept.class, Reference.class);
-                this.dailyAmount = builder.dailyAmount;
-                this.quantity = builder.quantity;
-                this.description = builder.description;
+                kind = builder.kind;
+                instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+                instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+                code = builder.code;
+                reasonCode = Collections.unmodifiableList(builder.reasonCode);
+                reasonReference = Collections.unmodifiableList(builder.reasonReference);
+                goal = Collections.unmodifiableList(builder.goal);
+                status = ValidationSupport.requireNonNull(builder.status, "status");
+                statusReason = builder.statusReason;
+                doNotPerform = builder.doNotPerform;
+                scheduled = ValidationSupport.choiceElement(builder.scheduled, "scheduled", Timing.class, Period.class, String.class);
+                location = builder.location;
+                performer = Collections.unmodifiableList(builder.performer);
+                product = ValidationSupport.choiceElement(builder.product, "product", CodeableConcept.class, Reference.class);
+                dailyAmount = builder.dailyAmount;
+                quantity = builder.quantity;
+                description = builder.description;
             }
 
             /**
@@ -2510,9 +2508,6 @@ public class CarePlan extends DomainResource {
 
                 private static Builder from(Detail detail) {
                     Builder builder = new Builder(detail.status);
-                    builder.id = detail.id;
-                    builder.extension.addAll(detail.extension);
-                    builder.modifierExtension.addAll(detail.modifierExtension);
                     builder.kind = detail.kind;
                     builder.instantiatesCanonical.addAll(detail.instantiatesCanonical);
                     builder.instantiatesUri.addAll(detail.instantiatesUri);

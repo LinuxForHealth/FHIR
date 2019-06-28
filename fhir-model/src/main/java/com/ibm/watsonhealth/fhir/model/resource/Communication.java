@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -67,29 +68,29 @@ public class Communication extends DomainResource {
 
     private Communication(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.basedOn = builder.basedOn;
-        this.partOf = builder.partOf;
-        this.inResponseTo = builder.inResponseTo;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.category = builder.category;
-        this.priority = builder.priority;
-        this.medium = builder.medium;
-        this.subject = builder.subject;
-        this.topic = builder.topic;
-        this.about = builder.about;
-        this.encounter = builder.encounter;
-        this.sent = builder.sent;
-        this.received = builder.received;
-        this.recipient = builder.recipient;
-        this.sender = builder.sender;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.payload = builder.payload;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        inResponseTo = Collections.unmodifiableList(builder.inResponseTo);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = builder.statusReason;
+        category = Collections.unmodifiableList(builder.category);
+        priority = builder.priority;
+        medium = Collections.unmodifiableList(builder.medium);
+        subject = builder.subject;
+        topic = builder.topic;
+        about = Collections.unmodifiableList(builder.about);
+        encounter = builder.encounter;
+        sent = builder.sent;
+        received = builder.received;
+        recipient = Collections.unmodifiableList(builder.recipient);
+        sender = builder.sender;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        payload = Collections.unmodifiableList(builder.payload);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1336,7 +1337,7 @@ public class Communication extends DomainResource {
 
         private Payload(Builder builder) {
             super(builder);
-            this.content = ValidationSupport.requireChoiceElement(builder.content, "content", String.class, Attachment.class, Reference.class);
+            content = ValidationSupport.requireChoiceElement(builder.content, "content", String.class, Attachment.class, Reference.class);
         }
 
         /**
@@ -1497,9 +1498,6 @@ public class Communication extends DomainResource {
 
             private static Builder from(Payload payload) {
                 Builder builder = new Builder(payload.content);
-                builder.id = payload.id;
-                builder.extension.addAll(payload.extension);
-                builder.modifierExtension.addAll(payload.modifierExtension);
                 return builder;
             }
         }

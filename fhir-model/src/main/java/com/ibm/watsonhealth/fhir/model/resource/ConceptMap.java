@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -93,24 +94,24 @@ public class ConceptMap extends DomainResource {
 
     private ConceptMap(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
-        this.target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
-        this.group = builder.group;
+        url = builder.url;
+        identifier = builder.identifier;
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
+        target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
+        group = Collections.unmodifiableList(builder.group);
     }
 
     /**
@@ -1037,12 +1038,12 @@ public class ConceptMap extends DomainResource {
 
         private Group(Builder builder) {
             super(builder);
-            this.source = builder.source;
-            this.sourceVersion = builder.sourceVersion;
-            this.target = builder.target;
-            this.targetVersion = builder.targetVersion;
-            this.element = ValidationSupport.requireNonEmpty(builder.element, "element");
-            this.unmapped = builder.unmapped;
+            source = builder.source;
+            sourceVersion = builder.sourceVersion;
+            target = builder.target;
+            targetVersion = builder.targetVersion;
+            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
+            unmapped = builder.unmapped;
         }
 
         /**
@@ -1335,6 +1336,40 @@ public class ConceptMap extends DomainResource {
 
             /**
              * <p>
+             * Mappings for an individual concept in the source to one or more concepts in the target.
+             * </p>
+             * 
+             * @param element
+             *     Mappings for a concept from the source set
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder element(Element... element) {
+                for (Element value : element) {
+                    this.element.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Mappings for an individual concept in the source to one or more concepts in the target.
+             * </p>
+             * 
+             * @param element
+             *     Mappings for a concept from the source set
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder element(Collection<Element> element) {
+                this.element.addAll(element);
+                return this;
+            }
+
+            /**
+             * <p>
              * What to do when there is no mapping for the source concept. "Unmapped" does not include codes that are unmatched, and 
              * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
              * </p>
@@ -1357,9 +1392,6 @@ public class ConceptMap extends DomainResource {
 
             private static Builder from(Group group) {
                 Builder builder = new Builder(group.element);
-                builder.id = group.id;
-                builder.extension.addAll(group.extension);
-                builder.modifierExtension.addAll(group.modifierExtension);
                 builder.source = group.source;
                 builder.sourceVersion = group.sourceVersion;
                 builder.target = group.target;
@@ -1381,9 +1413,9 @@ public class ConceptMap extends DomainResource {
 
             private Element(Builder builder) {
                 super(builder);
-                this.code = builder.code;
-                this.display = builder.display;
-                this.target = builder.target;
+                code = builder.code;
+                display = builder.display;
+                target = Collections.unmodifiableList(builder.target);
             }
 
             /**
@@ -1637,9 +1669,6 @@ public class ConceptMap extends DomainResource {
 
                 private static Builder from(Element element) {
                     Builder builder = new Builder();
-                    builder.id = element.id;
-                    builder.extension.addAll(element.extension);
-                    builder.modifierExtension.addAll(element.modifierExtension);
                     builder.code = element.code;
                     builder.display = element.display;
                     builder.target.addAll(element.target);
@@ -1662,12 +1691,12 @@ public class ConceptMap extends DomainResource {
 
                 private Target(Builder builder) {
                     super(builder);
-                    this.code = builder.code;
-                    this.display = builder.display;
-                    this.equivalence = ValidationSupport.requireNonNull(builder.equivalence, "equivalence");
-                    this.comment = builder.comment;
-                    this.dependsOn = builder.dependsOn;
-                    this.product = builder.product;
+                    code = builder.code;
+                    display = builder.display;
+                    equivalence = ValidationSupport.requireNonNull(builder.equivalence, "equivalence");
+                    comment = builder.comment;
+                    dependsOn = Collections.unmodifiableList(builder.dependsOn);
+                    product = Collections.unmodifiableList(builder.product);
                 }
 
                 /**
@@ -2026,9 +2055,6 @@ public class ConceptMap extends DomainResource {
 
                     private static Builder from(Target target) {
                         Builder builder = new Builder(target.equivalence);
-                        builder.id = target.id;
-                        builder.extension.addAll(target.extension);
-                        builder.modifierExtension.addAll(target.modifierExtension);
                         builder.code = target.code;
                         builder.display = target.display;
                         builder.comment = target.comment;
@@ -2052,10 +2078,10 @@ public class ConceptMap extends DomainResource {
 
                     private DependsOn(Builder builder) {
                         super(builder);
-                        this.property = ValidationSupport.requireNonNull(builder.property, "property");
-                        this.system = builder.system;
-                        this.value = ValidationSupport.requireNonNull(builder.value, "value");
-                        this.display = builder.display;
+                        property = ValidationSupport.requireNonNull(builder.property, "property");
+                        system = builder.system;
+                        value = ValidationSupport.requireNonNull(builder.value, "value");
+                        display = builder.display;
                     }
 
                     /**
@@ -2296,9 +2322,6 @@ public class ConceptMap extends DomainResource {
 
                         private static Builder from(DependsOn dependsOn) {
                             Builder builder = new Builder(dependsOn.property, dependsOn.value);
-                            builder.id = dependsOn.id;
-                            builder.extension.addAll(dependsOn.extension);
-                            builder.modifierExtension.addAll(dependsOn.modifierExtension);
                             builder.system = dependsOn.system;
                             builder.display = dependsOn.display;
                             return builder;
@@ -2322,10 +2345,10 @@ public class ConceptMap extends DomainResource {
 
             private Unmapped(Builder builder) {
                 super(builder);
-                this.mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-                this.code = builder.code;
-                this.display = builder.display;
-                this.url = builder.url;
+                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+                code = builder.code;
+                display = builder.display;
+                url = builder.url;
             }
 
             /**
@@ -2583,9 +2606,6 @@ public class ConceptMap extends DomainResource {
 
                 private static Builder from(Unmapped unmapped) {
                     Builder builder = new Builder(unmapped.mode);
-                    builder.id = unmapped.id;
-                    builder.extension.addAll(unmapped.extension);
-                    builder.modifierExtension.addAll(unmapped.modifierExtension);
                     builder.code = unmapped.code;
                     builder.display = unmapped.display;
                     builder.url = unmapped.url;

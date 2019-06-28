@@ -31,13 +31,13 @@ public class RelatedArtifact extends Element {
 
     private RelatedArtifact(Builder builder) {
         super(builder);
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.label = builder.label;
-        this.display = builder.display;
-        this.citation = builder.citation;
-        this.url = builder.url;
-        this.document = builder.document;
-        this.resource = builder.resource;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        label = builder.label;
+        display = builder.display;
+        citation = builder.citation;
+        url = builder.url;
+        document = builder.document;
+        resource = builder.resource;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -44,11 +45,11 @@ public class SubstanceReferenceInformation extends DomainResource {
 
     private SubstanceReferenceInformation(Builder builder) {
         super(builder);
-        this.comment = builder.comment;
-        this.gene = builder.gene;
-        this.geneElement = builder.geneElement;
-        this.classification = builder.classification;
-        this.target = builder.target;
+        comment = builder.comment;
+        gene = Collections.unmodifiableList(builder.gene);
+        geneElement = Collections.unmodifiableList(builder.geneElement);
+        classification = Collections.unmodifiableList(builder.classification);
+        target = Collections.unmodifiableList(builder.target);
     }
 
     /**
@@ -549,9 +550,9 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         private Gene(Builder builder) {
             super(builder);
-            this.geneSequenceOrigin = builder.geneSequenceOrigin;
-            this.gene = builder.gene;
-            this.source = builder.source;
+            geneSequenceOrigin = builder.geneSequenceOrigin;
+            gene = builder.gene;
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -805,9 +806,6 @@ public class SubstanceReferenceInformation extends DomainResource {
 
             private static Builder from(Gene gene) {
                 Builder builder = new Builder();
-                builder.id = gene.id;
-                builder.extension.addAll(gene.extension);
-                builder.modifierExtension.addAll(gene.modifierExtension);
                 builder.geneSequenceOrigin = gene.geneSequenceOrigin;
                 builder.gene = gene.gene;
                 builder.source.addAll(gene.source);
@@ -828,9 +826,9 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         private GeneElement(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.element = builder.element;
-            this.source = builder.source;
+            type = builder.type;
+            element = builder.element;
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -1084,9 +1082,6 @@ public class SubstanceReferenceInformation extends DomainResource {
 
             private static Builder from(GeneElement geneElement) {
                 Builder builder = new Builder();
-                builder.id = geneElement.id;
-                builder.extension.addAll(geneElement.extension);
-                builder.modifierExtension.addAll(geneElement.modifierExtension);
                 builder.type = geneElement.type;
                 builder.element = geneElement.element;
                 builder.source.addAll(geneElement.source);
@@ -1108,10 +1103,10 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         private Classification(Builder builder) {
             super(builder);
-            this.domain = builder.domain;
-            this.classification = builder.classification;
-            this.subtype = builder.subtype;
-            this.source = builder.source;
+            domain = builder.domain;
+            classification = builder.classification;
+            subtype = Collections.unmodifiableList(builder.subtype);
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -1413,9 +1408,6 @@ public class SubstanceReferenceInformation extends DomainResource {
 
             private static Builder from(Classification classification) {
                 Builder builder = new Builder();
-                builder.id = classification.id;
-                builder.extension.addAll(classification.extension);
-                builder.modifierExtension.addAll(classification.modifierExtension);
                 builder.domain = classification.domain;
                 builder.classification = classification.classification;
                 builder.subtype.addAll(classification.subtype);
@@ -1442,14 +1434,14 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         private Target(Builder builder) {
             super(builder);
-            this.target = builder.target;
-            this.type = builder.type;
-            this.interaction = builder.interaction;
-            this.organism = builder.organism;
-            this.organismType = builder.organismType;
-            this.amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
-            this.amountType = builder.amountType;
-            this.source = builder.source;
+            target = builder.target;
+            type = builder.type;
+            interaction = builder.interaction;
+            organism = builder.organism;
+            organismType = builder.organismType;
+            amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
+            amountType = builder.amountType;
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -1853,9 +1845,6 @@ public class SubstanceReferenceInformation extends DomainResource {
 
             private static Builder from(Target target) {
                 Builder builder = new Builder();
-                builder.id = target.id;
-                builder.extension.addAll(target.extension);
-                builder.modifierExtension.addAll(target.modifierExtension);
                 builder.target = target.target;
                 builder.type = target.type;
                 builder.interaction = target.interaction;

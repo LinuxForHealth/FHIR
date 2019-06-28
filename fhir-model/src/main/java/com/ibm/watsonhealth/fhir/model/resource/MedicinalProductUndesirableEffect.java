@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -38,11 +39,11 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
 
     private MedicinalProductUndesirableEffect(Builder builder) {
         super(builder);
-        this.subject = builder.subject;
-        this.symptomConditionEffect = builder.symptomConditionEffect;
-        this.classification = builder.classification;
-        this.frequencyOfOccurrence = builder.frequencyOfOccurrence;
-        this.population = builder.population;
+        subject = Collections.unmodifiableList(builder.subject);
+        symptomConditionEffect = builder.symptomConditionEffect;
+        classification = builder.classification;
+        frequencyOfOccurrence = builder.frequencyOfOccurrence;
+        population = Collections.unmodifiableList(builder.population);
     }
 
     /**

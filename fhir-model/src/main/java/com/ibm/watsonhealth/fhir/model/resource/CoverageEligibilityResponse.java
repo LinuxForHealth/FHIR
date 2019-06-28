@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -69,21 +70,21 @@ public class CoverageEligibilityResponse extends DomainResource {
 
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.purpose = ValidationSupport.requireNonEmpty(builder.purpose, "purpose");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-        this.created = ValidationSupport.requireNonNull(builder.created, "created");
-        this.requestor = builder.requestor;
-        this.request = ValidationSupport.requireNonNull(builder.request, "request");
-        this.outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
-        this.disposition = builder.disposition;
-        this.insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        this.insurance = builder.insurance;
-        this.preAuthRef = builder.preAuthRef;
-        this.form = builder.form;
-        this.error = builder.error;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
+        created = ValidationSupport.requireNonNull(builder.created, "created");
+        requestor = builder.requestor;
+        request = ValidationSupport.requireNonNull(builder.request, "request");
+        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        disposition = builder.disposition;
+        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
+        insurance = Collections.unmodifiableList(builder.insurance);
+        preAuthRef = builder.preAuthRef;
+        form = builder.form;
+        error = Collections.unmodifiableList(builder.error);
     }
 
     /**
@@ -605,6 +606,44 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         /**
          * <p>
+         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
+         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
+         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
+         * </p>
+         * 
+         * @param purpose
+         *     auth-requirements | benefits | discovery | validation
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder purpose(EligibilityResponsePurpose... purpose) {
+            for (EligibilityResponsePurpose value : purpose) {
+                this.purpose.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
+         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
+         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
+         * </p>
+         * 
+         * @param purpose
+         *     auth-requirements | benefits | discovery | validation
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder purpose(Collection<EligibilityResponsePurpose> purpose) {
+            this.purpose.addAll(purpose);
+            return this;
+        }
+
+        /**
+         * <p>
          * The date or dates when the enclosed suite of services were performed or completed.
          * </p>
          * 
@@ -771,10 +810,10 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         private Insurance(Builder builder) {
             super(builder);
-            this.coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
-            this.inforce = builder.inforce;
-            this.benefitPeriod = builder.benefitPeriod;
-            this.item = builder.item;
+            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            inforce = builder.inforce;
+            benefitPeriod = builder.benefitPeriod;
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1048,9 +1087,6 @@ public class CoverageEligibilityResponse extends DomainResource {
 
             private static Builder from(Insurance insurance) {
                 Builder builder = new Builder(insurance.coverage);
-                builder.id = insurance.id;
-                builder.extension.addAll(insurance.extension);
-                builder.modifierExtension.addAll(insurance.modifierExtension);
                 builder.inforce = insurance.inforce;
                 builder.benefitPeriod = insurance.benefitPeriod;
                 builder.item.addAll(insurance.item);
@@ -1081,20 +1117,20 @@ public class CoverageEligibilityResponse extends DomainResource {
 
             private Item(Builder builder) {
                 super(builder);
-                this.category = builder.category;
-                this.productOrService = builder.productOrService;
-                this.modifier = builder.modifier;
-                this.provider = builder.provider;
-                this.excluded = builder.excluded;
-                this.name = builder.name;
-                this.description = builder.description;
-                this.network = builder.network;
-                this.unit = builder.unit;
-                this.term = builder.term;
-                this.benefit = builder.benefit;
-                this.authorizationRequired = builder.authorizationRequired;
-                this.authorizationSupporting = builder.authorizationSupporting;
-                this.authorizationUrl = builder.authorizationUrl;
+                category = builder.category;
+                productOrService = builder.productOrService;
+                modifier = Collections.unmodifiableList(builder.modifier);
+                provider = builder.provider;
+                excluded = builder.excluded;
+                name = builder.name;
+                description = builder.description;
+                network = builder.network;
+                unit = builder.unit;
+                term = builder.term;
+                benefit = Collections.unmodifiableList(builder.benefit);
+                authorizationRequired = builder.authorizationRequired;
+                authorizationSupporting = Collections.unmodifiableList(builder.authorizationSupporting);
+                authorizationUrl = builder.authorizationUrl;
             }
 
             /**
@@ -1716,9 +1752,6 @@ public class CoverageEligibilityResponse extends DomainResource {
 
                 private static Builder from(Item item) {
                     Builder builder = new Builder();
-                    builder.id = item.id;
-                    builder.extension.addAll(item.extension);
-                    builder.modifierExtension.addAll(item.modifierExtension);
                     builder.category = item.category;
                     builder.productOrService = item.productOrService;
                     builder.modifier.addAll(item.modifier);
@@ -1749,9 +1782,9 @@ public class CoverageEligibilityResponse extends DomainResource {
 
                 private Benefit(Builder builder) {
                     super(builder);
-                    this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                    this.allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
-                    this.used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, String.class, Money.class);
+                    type = ValidationSupport.requireNonNull(builder.type, "type");
+                    allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
+                    used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, String.class, Money.class);
                 }
 
                 /**
@@ -1974,9 +2007,6 @@ public class CoverageEligibilityResponse extends DomainResource {
 
                     private static Builder from(Benefit benefit) {
                         Builder builder = new Builder(benefit.type);
-                        builder.id = benefit.id;
-                        builder.extension.addAll(benefit.extension);
-                        builder.modifierExtension.addAll(benefit.modifierExtension);
                         builder.allowed = benefit.allowed;
                         builder.used = benefit.used;
                         return builder;
@@ -1996,7 +2026,7 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         private Error(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = ValidationSupport.requireNonNull(builder.code, "code");
         }
 
         /**
@@ -2157,9 +2187,6 @@ public class CoverageEligibilityResponse extends DomainResource {
 
             private static Builder from(Error error) {
                 Builder builder = new Builder(error.code);
-                builder.id = error.id;
-                builder.extension.addAll(error.extension);
-                builder.modifierExtension.addAll(error.modifierExtension);
                 return builder;
             }
         }

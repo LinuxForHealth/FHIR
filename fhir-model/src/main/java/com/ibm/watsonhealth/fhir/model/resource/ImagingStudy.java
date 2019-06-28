@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -64,26 +65,26 @@ public class ImagingStudy extends DomainResource {
 
     private ImagingStudy(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.modality = builder.modality;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.started = builder.started;
-        this.basedOn = builder.basedOn;
-        this.referrer = builder.referrer;
-        this.interpreter = builder.interpreter;
-        this.endpoint = builder.endpoint;
-        this.numberOfSeries = builder.numberOfSeries;
-        this.numberOfInstances = builder.numberOfInstances;
-        this.procedureReference = builder.procedureReference;
-        this.procedureCode = builder.procedureCode;
-        this.location = builder.location;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.note = builder.note;
-        this.description = builder.description;
-        this.series = builder.series;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        modality = Collections.unmodifiableList(builder.modality);
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        started = builder.started;
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        referrer = builder.referrer;
+        interpreter = Collections.unmodifiableList(builder.interpreter);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
+        numberOfSeries = builder.numberOfSeries;
+        numberOfInstances = builder.numberOfInstances;
+        procedureReference = builder.procedureReference;
+        procedureCode = Collections.unmodifiableList(builder.procedureCode);
+        location = builder.location;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        description = builder.description;
+        series = Collections.unmodifiableList(builder.series);
     }
 
     /**
@@ -1161,18 +1162,18 @@ public class ImagingStudy extends DomainResource {
 
         private Series(Builder builder) {
             super(builder);
-            this.uid = ValidationSupport.requireNonNull(builder.uid, "uid");
-            this.number = builder.number;
-            this.modality = ValidationSupport.requireNonNull(builder.modality, "modality");
-            this.description = builder.description;
-            this.numberOfInstances = builder.numberOfInstances;
-            this.endpoint = builder.endpoint;
-            this.bodySite = builder.bodySite;
-            this.laterality = builder.laterality;
-            this.specimen = builder.specimen;
-            this.started = builder.started;
-            this.performer = builder.performer;
-            this.instance = builder.instance;
+            uid = ValidationSupport.requireNonNull(builder.uid, "uid");
+            number = builder.number;
+            modality = ValidationSupport.requireNonNull(builder.modality, "modality");
+            description = builder.description;
+            numberOfInstances = builder.numberOfInstances;
+            endpoint = Collections.unmodifiableList(builder.endpoint);
+            bodySite = builder.bodySite;
+            laterality = builder.laterality;
+            specimen = Collections.unmodifiableList(builder.specimen);
+            started = builder.started;
+            performer = Collections.unmodifiableList(builder.performer);
+            instance = Collections.unmodifiableList(builder.instance);
         }
 
         /**
@@ -1740,9 +1741,6 @@ public class ImagingStudy extends DomainResource {
 
             private static Builder from(Series series) {
                 Builder builder = new Builder(series.uid, series.modality);
-                builder.id = series.id;
-                builder.extension.addAll(series.extension);
-                builder.modifierExtension.addAll(series.modifierExtension);
                 builder.number = series.number;
                 builder.description = series.description;
                 builder.numberOfInstances = series.numberOfInstances;
@@ -1768,8 +1766,8 @@ public class ImagingStudy extends DomainResource {
 
             private Performer(Builder builder) {
                 super(builder);
-                this.function = builder.function;
-                this.actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+                function = builder.function;
+                actor = ValidationSupport.requireNonNull(builder.actor, "actor");
             }
 
             /**
@@ -1962,9 +1960,6 @@ public class ImagingStudy extends DomainResource {
 
                 private static Builder from(Performer performer) {
                     Builder builder = new Builder(performer.actor);
-                    builder.id = performer.id;
-                    builder.extension.addAll(performer.extension);
-                    builder.modifierExtension.addAll(performer.modifierExtension);
                     builder.function = performer.function;
                     return builder;
                 }
@@ -1984,10 +1979,10 @@ public class ImagingStudy extends DomainResource {
 
             private Instance(Builder builder) {
                 super(builder);
-                this.uid = ValidationSupport.requireNonNull(builder.uid, "uid");
-                this.sopClass = ValidationSupport.requireNonNull(builder.sopClass, "sopClass");
-                this.number = builder.number;
-                this.title = builder.title;
+                uid = ValidationSupport.requireNonNull(builder.uid, "uid");
+                sopClass = ValidationSupport.requireNonNull(builder.sopClass, "sopClass");
+                number = builder.number;
+                title = builder.title;
             }
 
             /**
@@ -2225,9 +2220,6 @@ public class ImagingStudy extends DomainResource {
 
                 private static Builder from(Instance instance) {
                     Builder builder = new Builder(instance.uid, instance.sopClass);
-                    builder.id = instance.id;
-                    builder.extension.addAll(instance.extension);
-                    builder.modifierExtension.addAll(instance.modifierExtension);
                     builder.number = instance.number;
                     builder.title = instance.title;
                     return builder;

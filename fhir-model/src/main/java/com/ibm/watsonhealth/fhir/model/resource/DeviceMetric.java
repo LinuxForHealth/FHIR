@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -52,16 +53,16 @@ public class DeviceMetric extends DomainResource {
 
     private DeviceMetric(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.unit = builder.unit;
-        this.source = builder.source;
-        this.parent = builder.parent;
-        this.operationalStatus = builder.operationalStatus;
-        this.color = builder.color;
-        this.category = ValidationSupport.requireNonNull(builder.category, "category");
-        this.measurementPeriod = builder.measurementPeriod;
-        this.calibration = builder.calibration;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        unit = builder.unit;
+        source = builder.source;
+        parent = builder.parent;
+        operationalStatus = builder.operationalStatus;
+        color = builder.color;
+        category = ValidationSupport.requireNonNull(builder.category, "category");
+        measurementPeriod = builder.measurementPeriod;
+        calibration = Collections.unmodifiableList(builder.calibration);
     }
 
     /**
@@ -675,9 +676,9 @@ public class DeviceMetric extends DomainResource {
 
         private Calibration(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.state = builder.state;
-            this.time = builder.time;
+            type = builder.type;
+            state = builder.state;
+            time = builder.time;
         }
 
         /**
@@ -913,9 +914,6 @@ public class DeviceMetric extends DomainResource {
 
             private static Builder from(Calibration calibration) {
                 Builder builder = new Builder();
-                builder.id = calibration.id;
-                builder.extension.addAll(calibration.extension);
-                builder.modifierExtension.addAll(calibration.modifierExtension);
                 builder.type = calibration.type;
                 builder.state = calibration.state;
                 builder.time = calibration.time;

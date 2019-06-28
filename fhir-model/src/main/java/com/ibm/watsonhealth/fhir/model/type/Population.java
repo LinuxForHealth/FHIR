@@ -27,10 +27,10 @@ public class Population extends BackboneElement {
 
     private Population(Builder builder) {
         super(builder);
-        this.age = ValidationSupport.choiceElement(builder.age, "age", Range.class, CodeableConcept.class);
-        this.gender = builder.gender;
-        this.race = builder.race;
-        this.physiologicalCondition = builder.physiologicalCondition;
+        age = ValidationSupport.choiceElement(builder.age, "age", Range.class, CodeableConcept.class);
+        gender = builder.gender;
+        race = builder.race;
+        physiologicalCondition = builder.physiologicalCondition;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -75,32 +76,32 @@ public class ChargeItem extends DomainResource {
 
     private ChargeItem(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.definitionUri = builder.definitionUri;
-        this.definitionCanonical = builder.definitionCanonical;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.partOf = builder.partOf;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.context = builder.context;
-        this.occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        this.performer = builder.performer;
-        this.performingOrganization = builder.performingOrganization;
-        this.requestingOrganization = builder.requestingOrganization;
-        this.costCenter = builder.costCenter;
-        this.quantity = builder.quantity;
-        this.bodysite = builder.bodysite;
-        this.factorOverride = builder.factorOverride;
-        this.priceOverride = builder.priceOverride;
-        this.overrideReason = builder.overrideReason;
-        this.enterer = builder.enterer;
-        this.enteredDate = builder.enteredDate;
-        this.reason = builder.reason;
-        this.service = builder.service;
-        this.product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
-        this.account = builder.account;
-        this.note = builder.note;
-        this.supportingInformation = builder.supportingInformation;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        definitionUri = Collections.unmodifiableList(builder.definitionUri);
+        definitionCanonical = Collections.unmodifiableList(builder.definitionCanonical);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        partOf = Collections.unmodifiableList(builder.partOf);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        context = builder.context;
+        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        performer = Collections.unmodifiableList(builder.performer);
+        performingOrganization = builder.performingOrganization;
+        requestingOrganization = builder.requestingOrganization;
+        costCenter = builder.costCenter;
+        quantity = builder.quantity;
+        bodysite = Collections.unmodifiableList(builder.bodysite);
+        factorOverride = builder.factorOverride;
+        priceOverride = builder.priceOverride;
+        overrideReason = builder.overrideReason;
+        enterer = builder.enterer;
+        enteredDate = builder.enteredDate;
+        reason = Collections.unmodifiableList(builder.reason);
+        service = Collections.unmodifiableList(builder.service);
+        product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
+        account = Collections.unmodifiableList(builder.account);
+        note = Collections.unmodifiableList(builder.note);
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
     }
 
     /**
@@ -1333,8 +1334,8 @@ public class ChargeItem extends DomainResource {
 
         private Performer(Builder builder) {
             super(builder);
-            this.function = builder.function;
-            this.actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            function = builder.function;
+            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
         }
 
         /**
@@ -1527,9 +1528,6 @@ public class ChargeItem extends DomainResource {
 
             private static Builder from(Performer performer) {
                 Builder builder = new Builder(performer.actor);
-                builder.id = performer.id;
-                builder.extension.addAll(performer.extension);
-                builder.modifierExtension.addAll(performer.modifierExtension);
                 builder.function = performer.function;
                 return builder;
             }

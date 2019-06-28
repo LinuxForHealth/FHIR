@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -71,32 +72,32 @@ public class Device extends DomainResource {
 
     private Device(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.definition = builder.definition;
-        this.udiCarrier = builder.udiCarrier;
-        this.status = builder.status;
-        this.statusReason = builder.statusReason;
-        this.distinctIdentifier = builder.distinctIdentifier;
-        this.manufacturer = builder.manufacturer;
-        this.manufactureDate = builder.manufactureDate;
-        this.expirationDate = builder.expirationDate;
-        this.lotNumber = builder.lotNumber;
-        this.serialNumber = builder.serialNumber;
-        this.deviceName = builder.deviceName;
-        this.modelNumber = builder.modelNumber;
-        this.partNumber = builder.partNumber;
-        this.type = builder.type;
-        this.specialization = builder.specialization;
-        this.version = builder.version;
-        this.property = builder.property;
-        this.patient = builder.patient;
-        this.owner = builder.owner;
-        this.contact = builder.contact;
-        this.location = builder.location;
-        this.url = builder.url;
-        this.note = builder.note;
-        this.safety = builder.safety;
-        this.parent = builder.parent;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        definition = builder.definition;
+        udiCarrier = Collections.unmodifiableList(builder.udiCarrier);
+        status = builder.status;
+        statusReason = Collections.unmodifiableList(builder.statusReason);
+        distinctIdentifier = builder.distinctIdentifier;
+        manufacturer = builder.manufacturer;
+        manufactureDate = builder.manufactureDate;
+        expirationDate = builder.expirationDate;
+        lotNumber = builder.lotNumber;
+        serialNumber = builder.serialNumber;
+        deviceName = Collections.unmodifiableList(builder.deviceName);
+        modelNumber = builder.modelNumber;
+        partNumber = builder.partNumber;
+        type = builder.type;
+        specialization = Collections.unmodifiableList(builder.specialization);
+        version = Collections.unmodifiableList(builder.version);
+        property = Collections.unmodifiableList(builder.property);
+        patient = builder.patient;
+        owner = builder.owner;
+        contact = Collections.unmodifiableList(builder.contact);
+        location = builder.location;
+        url = builder.url;
+        note = Collections.unmodifiableList(builder.note);
+        safety = Collections.unmodifiableList(builder.safety);
+        parent = builder.parent;
     }
 
     /**
@@ -1380,12 +1381,12 @@ public class Device extends DomainResource {
 
         private UdiCarrier(Builder builder) {
             super(builder);
-            this.deviceIdentifier = builder.deviceIdentifier;
-            this.issuer = builder.issuer;
-            this.jurisdiction = builder.jurisdiction;
-            this.carrierAIDC = builder.carrierAIDC;
-            this.carrierHRF = builder.carrierHRF;
-            this.entryType = builder.entryType;
+            deviceIdentifier = builder.deviceIdentifier;
+            issuer = builder.issuer;
+            jurisdiction = builder.jurisdiction;
+            carrierAIDC = builder.carrierAIDC;
+            carrierHRF = builder.carrierHRF;
+            entryType = builder.entryType;
         }
 
         /**
@@ -1739,9 +1740,6 @@ public class Device extends DomainResource {
 
             private static Builder from(UdiCarrier udiCarrier) {
                 Builder builder = new Builder();
-                builder.id = udiCarrier.id;
-                builder.extension.addAll(udiCarrier.extension);
-                builder.modifierExtension.addAll(udiCarrier.modifierExtension);
                 builder.deviceIdentifier = udiCarrier.deviceIdentifier;
                 builder.issuer = udiCarrier.issuer;
                 builder.jurisdiction = udiCarrier.jurisdiction;
@@ -1766,8 +1764,8 @@ public class Device extends DomainResource {
 
         private DeviceName(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
         }
 
         /**
@@ -1944,9 +1942,6 @@ public class Device extends DomainResource {
 
             private static Builder from(DeviceName deviceName) {
                 Builder builder = new Builder(deviceName.name, deviceName.type);
-                builder.id = deviceName.id;
-                builder.extension.addAll(deviceName.extension);
-                builder.modifierExtension.addAll(deviceName.modifierExtension);
                 return builder;
             }
         }
@@ -1964,8 +1959,8 @@ public class Device extends DomainResource {
 
         private Specialization(Builder builder) {
             super(builder);
-            this.systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
-            this.version = builder.version;
+            systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
+            version = builder.version;
         }
 
         /**
@@ -2158,9 +2153,6 @@ public class Device extends DomainResource {
 
             private static Builder from(Specialization specialization) {
                 Builder builder = new Builder(specialization.systemType);
-                builder.id = specialization.id;
-                builder.extension.addAll(specialization.extension);
-                builder.modifierExtension.addAll(specialization.modifierExtension);
                 builder.version = specialization.version;
                 return builder;
             }
@@ -2179,9 +2171,9 @@ public class Device extends DomainResource {
 
         private Version(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.component = builder.component;
-            this.value = ValidationSupport.requireNonNull(builder.value, "value");
+            type = builder.type;
+            component = builder.component;
+            value = ValidationSupport.requireNonNull(builder.value, "value");
         }
 
         /**
@@ -2404,9 +2396,6 @@ public class Device extends DomainResource {
 
             private static Builder from(Version version) {
                 Builder builder = new Builder(version.value);
-                builder.id = version.id;
-                builder.extension.addAll(version.extension);
-                builder.modifierExtension.addAll(version.modifierExtension);
                 builder.type = version.type;
                 builder.component = version.component;
                 return builder;
@@ -2426,9 +2415,9 @@ public class Device extends DomainResource {
 
         private Property(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.valueQuantity = builder.valueQuantity;
-            this.valueCode = builder.valueCode;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
+            valueCode = Collections.unmodifiableList(builder.valueCode);
         }
 
         /**
@@ -2687,9 +2676,6 @@ public class Device extends DomainResource {
 
             private static Builder from(Property property) {
                 Builder builder = new Builder(property.type);
-                builder.id = property.id;
-                builder.extension.addAll(property.extension);
-                builder.modifierExtension.addAll(property.modifierExtension);
                 builder.valueQuantity.addAll(property.valueQuantity);
                 builder.valueCode.addAll(property.valueCode);
                 return builder;

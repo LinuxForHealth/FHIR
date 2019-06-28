@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -112,30 +113,30 @@ public class TerminologyCapabilities extends DomainResource {
 
     private TerminologyCapabilities(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = ValidationSupport.requireNonNull(builder.date, "date");
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        this.software = builder.software;
-        this.implementation = builder.implementation;
-        this.lockedDate = builder.lockedDate;
-        this.codeSystem = builder.codeSystem;
-        this.expansion = builder.expansion;
-        this.codeSearch = builder.codeSearch;
-        this.validateCode = builder.validateCode;
-        this.translation = builder.translation;
-        this.closure = builder.closure;
+        url = builder.url;
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = ValidationSupport.requireNonNull(builder.date, "date");
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        software = builder.software;
+        implementation = builder.implementation;
+        lockedDate = builder.lockedDate;
+        codeSystem = Collections.unmodifiableList(builder.codeSystem);
+        expansion = builder.expansion;
+        codeSearch = builder.codeSearch;
+        validateCode = builder.validateCode;
+        translation = builder.translation;
+        closure = builder.closure;
     }
 
     /**
@@ -1219,8 +1220,8 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Software(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.version = builder.version;
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            version = builder.version;
         }
 
         /**
@@ -1413,9 +1414,6 @@ public class TerminologyCapabilities extends DomainResource {
 
             private static Builder from(Software software) {
                 Builder builder = new Builder(software.name);
-                builder.id = software.id;
-                builder.extension.addAll(software.extension);
-                builder.modifierExtension.addAll(software.modifierExtension);
                 builder.version = software.version;
                 return builder;
             }
@@ -1434,8 +1432,8 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Implementation(Builder builder) {
             super(builder);
-            this.description = ValidationSupport.requireNonNull(builder.description, "description");
-            this.url = builder.url;
+            description = ValidationSupport.requireNonNull(builder.description, "description");
+            url = builder.url;
         }
 
         /**
@@ -1628,9 +1626,6 @@ public class TerminologyCapabilities extends DomainResource {
 
             private static Builder from(Implementation implementation) {
                 Builder builder = new Builder(implementation.description);
-                builder.id = implementation.id;
-                builder.extension.addAll(implementation.extension);
-                builder.modifierExtension.addAll(implementation.modifierExtension);
                 builder.url = implementation.url;
                 return builder;
             }
@@ -1650,9 +1645,9 @@ public class TerminologyCapabilities extends DomainResource {
 
         private CodeSystem(Builder builder) {
             super(builder);
-            this.uri = builder.uri;
-            this.version = builder.version;
-            this.subsumption = builder.subsumption;
+            uri = builder.uri;
+            version = Collections.unmodifiableList(builder.version);
+            subsumption = builder.subsumption;
         }
 
         /**
@@ -1906,9 +1901,6 @@ public class TerminologyCapabilities extends DomainResource {
 
             private static Builder from(CodeSystem codeSystem) {
                 Builder builder = new Builder();
-                builder.id = codeSystem.id;
-                builder.extension.addAll(codeSystem.extension);
-                builder.modifierExtension.addAll(codeSystem.modifierExtension);
                 builder.uri = codeSystem.uri;
                 builder.version.addAll(codeSystem.version);
                 builder.subsumption = codeSystem.subsumption;
@@ -1931,12 +1923,12 @@ public class TerminologyCapabilities extends DomainResource {
 
             private Version(Builder builder) {
                 super(builder);
-                this.code = builder.code;
-                this.isDefault = builder.isDefault;
-                this.compositional = builder.compositional;
-                this.language = builder.language;
-                this.filter = builder.filter;
-                this.property = builder.property;
+                code = builder.code;
+                isDefault = builder.isDefault;
+                compositional = builder.compositional;
+                language = Collections.unmodifiableList(builder.language);
+                filter = Collections.unmodifiableList(builder.filter);
+                property = Collections.unmodifiableList(builder.property);
             }
 
             /**
@@ -2316,9 +2308,6 @@ public class TerminologyCapabilities extends DomainResource {
 
                 private static Builder from(Version version) {
                     Builder builder = new Builder();
-                    builder.id = version.id;
-                    builder.extension.addAll(version.extension);
-                    builder.modifierExtension.addAll(version.modifierExtension);
                     builder.code = version.code;
                     builder.isDefault = version.isDefault;
                     builder.compositional = version.compositional;
@@ -2340,8 +2329,8 @@ public class TerminologyCapabilities extends DomainResource {
 
                 private Filter(Builder builder) {
                     super(builder);
-                    this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                    this.op = ValidationSupport.requireNonEmpty(builder.op, "op");
+                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    op = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.op, "op"));
                 }
 
                 /**
@@ -2510,6 +2499,40 @@ public class TerminologyCapabilities extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
+                    /**
+                     * <p>
+                     * Operations supported for the property.
+                     * </p>
+                     * 
+                     * @param op
+                     *     Operations supported for the property
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder op(Code... op) {
+                        for (Code value : op) {
+                            this.op.add(value);
+                        }
+                        return this;
+                    }
+
+                    /**
+                     * <p>
+                     * Operations supported for the property.
+                     * </p>
+                     * 
+                     * @param op
+                     *     Operations supported for the property
+                     * 
+                     * @return
+                     *     A reference to this Builder instance.
+                     */
+                    public Builder op(Collection<Code> op) {
+                        this.op.addAll(op);
+                        return this;
+                    }
+
                     @Override
                     public Filter build() {
                         return new Filter(this);
@@ -2517,9 +2540,6 @@ public class TerminologyCapabilities extends DomainResource {
 
                     private static Builder from(Filter filter) {
                         Builder builder = new Builder(filter.code, filter.op);
-                        builder.id = filter.id;
-                        builder.extension.addAll(filter.extension);
-                        builder.modifierExtension.addAll(filter.modifierExtension);
                         return builder;
                     }
                 }
@@ -2541,11 +2561,11 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Expansion(Builder builder) {
             super(builder);
-            this.hierarchical = builder.hierarchical;
-            this.paging = builder.paging;
-            this.incomplete = builder.incomplete;
-            this.parameter = builder.parameter;
-            this.textFilter = builder.textFilter;
+            hierarchical = builder.hierarchical;
+            paging = builder.paging;
+            incomplete = builder.incomplete;
+            parameter = Collections.unmodifiableList(builder.parameter);
+            textFilter = builder.textFilter;
         }
 
         /**
@@ -2859,9 +2879,6 @@ public class TerminologyCapabilities extends DomainResource {
 
             private static Builder from(Expansion expansion) {
                 Builder builder = new Builder();
-                builder.id = expansion.id;
-                builder.extension.addAll(expansion.extension);
-                builder.modifierExtension.addAll(expansion.modifierExtension);
                 builder.hierarchical = expansion.hierarchical;
                 builder.paging = expansion.paging;
                 builder.incomplete = expansion.incomplete;
@@ -2882,8 +2899,8 @@ public class TerminologyCapabilities extends DomainResource {
 
             private Parameter(Builder builder) {
                 super(builder);
-                this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                this.documentation = builder.documentation;
+                name = ValidationSupport.requireNonNull(builder.name, "name");
+                documentation = builder.documentation;
             }
 
             /**
@@ -3076,9 +3093,6 @@ public class TerminologyCapabilities extends DomainResource {
 
                 private static Builder from(Parameter parameter) {
                     Builder builder = new Builder(parameter.name);
-                    builder.id = parameter.id;
-                    builder.extension.addAll(parameter.extension);
-                    builder.modifierExtension.addAll(parameter.modifierExtension);
                     builder.documentation = parameter.documentation;
                     return builder;
                 }
@@ -3096,7 +3110,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         private ValidateCode(Builder builder) {
             super(builder);
-            this.translations = ValidationSupport.requireNonNull(builder.translations, "translations");
+            translations = ValidationSupport.requireNonNull(builder.translations, "translations");
         }
 
         /**
@@ -3257,9 +3271,6 @@ public class TerminologyCapabilities extends DomainResource {
 
             private static Builder from(ValidateCode validateCode) {
                 Builder builder = new Builder(validateCode.translations);
-                builder.id = validateCode.id;
-                builder.extension.addAll(validateCode.extension);
-                builder.modifierExtension.addAll(validateCode.modifierExtension);
                 return builder;
             }
         }
@@ -3275,7 +3286,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Translation(Builder builder) {
             super(builder);
-            this.needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
+            needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
         }
 
         /**
@@ -3436,9 +3447,6 @@ public class TerminologyCapabilities extends DomainResource {
 
             private static Builder from(Translation translation) {
                 Builder builder = new Builder(translation.needsMap);
-                builder.id = translation.id;
-                builder.extension.addAll(translation.extension);
-                builder.modifierExtension.addAll(translation.modifierExtension);
                 return builder;
             }
         }
@@ -3454,7 +3462,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Closure(Builder builder) {
             super(builder);
-            this.translation = builder.translation;
+            translation = builder.translation;
         }
 
         /**
@@ -3630,9 +3638,6 @@ public class TerminologyCapabilities extends DomainResource {
 
             private static Builder from(Closure closure) {
                 Builder builder = new Builder();
-                builder.id = closure.id;
-                builder.extension.addAll(closure.extension);
-                builder.modifierExtension.addAll(closure.modifierExtension);
                 builder.translation = closure.translation;
                 return builder;
             }

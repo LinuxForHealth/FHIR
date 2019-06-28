@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -72,22 +73,22 @@ public class Patient extends DomainResource {
 
     private Patient(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.name = builder.name;
-        this.telecom = builder.telecom;
-        this.gender = builder.gender;
-        this.birthDate = builder.birthDate;
-        this.deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, DateTime.class);
-        this.address = builder.address;
-        this.maritalStatus = builder.maritalStatus;
-        this.multipleBirth = ValidationSupport.choiceElement(builder.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
-        this.photo = builder.photo;
-        this.contact = builder.contact;
-        this.communication = builder.communication;
-        this.generalPractitioner = builder.generalPractitioner;
-        this.managingOrganization = builder.managingOrganization;
-        this.link = builder.link;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        gender = builder.gender;
+        birthDate = builder.birthDate;
+        deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, DateTime.class);
+        address = Collections.unmodifiableList(builder.address);
+        maritalStatus = builder.maritalStatus;
+        multipleBirth = ValidationSupport.choiceElement(builder.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
+        photo = Collections.unmodifiableList(builder.photo);
+        contact = Collections.unmodifiableList(builder.contact);
+        communication = Collections.unmodifiableList(builder.communication);
+        generalPractitioner = Collections.unmodifiableList(builder.generalPractitioner);
+        managingOrganization = builder.managingOrganization;
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -1041,13 +1042,13 @@ public class Patient extends DomainResource {
 
         private Contact(Builder builder) {
             super(builder);
-            this.relationship = builder.relationship;
-            this.name = builder.name;
-            this.telecom = builder.telecom;
-            this.address = builder.address;
-            this.gender = builder.gender;
-            this.organization = builder.organization;
-            this.period = builder.period;
+            relationship = Collections.unmodifiableList(builder.relationship);
+            name = builder.name;
+            telecom = Collections.unmodifiableList(builder.telecom);
+            address = builder.address;
+            gender = builder.gender;
+            organization = builder.organization;
+            period = builder.period;
         }
 
         /**
@@ -1441,9 +1442,6 @@ public class Patient extends DomainResource {
 
             private static Builder from(Contact contact) {
                 Builder builder = new Builder();
-                builder.id = contact.id;
-                builder.extension.addAll(contact.extension);
-                builder.modifierExtension.addAll(contact.modifierExtension);
                 builder.relationship.addAll(contact.relationship);
                 builder.name = contact.name;
                 builder.telecom.addAll(contact.telecom);
@@ -1467,8 +1465,8 @@ public class Patient extends DomainResource {
 
         private Communication(Builder builder) {
             super(builder);
-            this.language = ValidationSupport.requireNonNull(builder.language, "language");
-            this.preferred = builder.preferred;
+            language = ValidationSupport.requireNonNull(builder.language, "language");
+            preferred = builder.preferred;
         }
 
         /**
@@ -1663,9 +1661,6 @@ public class Patient extends DomainResource {
 
             private static Builder from(Communication communication) {
                 Builder builder = new Builder(communication.language);
-                builder.id = communication.id;
-                builder.extension.addAll(communication.extension);
-                builder.modifierExtension.addAll(communication.modifierExtension);
                 builder.preferred = communication.preferred;
                 return builder;
             }
@@ -1683,8 +1678,8 @@ public class Patient extends DomainResource {
 
         private Link(Builder builder) {
             super(builder);
-            this.other = ValidationSupport.requireNonNull(builder.other, "other");
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
+            other = ValidationSupport.requireNonNull(builder.other, "other");
+            type = ValidationSupport.requireNonNull(builder.type, "type");
         }
 
         /**
@@ -1860,9 +1855,6 @@ public class Patient extends DomainResource {
 
             private static Builder from(Link link) {
                 Builder builder = new Builder(link.other, link.type);
-                builder.id = link.id;
-                builder.extension.addAll(link.extension);
-                builder.modifierExtension.addAll(link.modifierExtension);
                 return builder;
             }
         }

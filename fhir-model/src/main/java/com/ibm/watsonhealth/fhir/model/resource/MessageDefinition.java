@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -88,30 +89,30 @@ public class MessageDefinition extends DomainResource {
 
     private MessageDefinition(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.replaces = builder.replaces;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = ValidationSupport.requireNonNull(builder.date, "date");
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.base = builder.base;
-        this.parent = builder.parent;
-        this.event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
-        this.category = builder.category;
-        this.focus = builder.focus;
-        this.responseRequired = builder.responseRequired;
-        this.allowedResponse = builder.allowedResponse;
-        this.graph = builder.graph;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        replaces = Collections.unmodifiableList(builder.replaces);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = ValidationSupport.requireNonNull(builder.date, "date");
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        base = builder.base;
+        parent = Collections.unmodifiableList(builder.parent);
+        event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
+        category = builder.category;
+        focus = Collections.unmodifiableList(builder.focus);
+        responseRequired = builder.responseRequired;
+        allowedResponse = Collections.unmodifiableList(builder.allowedResponse);
+        graph = Collections.unmodifiableList(builder.graph);
     }
 
     /**
@@ -1281,10 +1282,10 @@ public class MessageDefinition extends DomainResource {
 
         private Focus(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.profile = builder.profile;
-            this.min = ValidationSupport.requireNonNull(builder.min, "min");
-            this.max = builder.max;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            profile = builder.profile;
+            min = ValidationSupport.requireNonNull(builder.min, "min");
+            max = builder.max;
         }
 
         /**
@@ -1525,9 +1526,6 @@ public class MessageDefinition extends DomainResource {
 
             private static Builder from(Focus focus) {
                 Builder builder = new Builder(focus.code, focus.min);
-                builder.id = focus.id;
-                builder.extension.addAll(focus.extension);
-                builder.modifierExtension.addAll(focus.modifierExtension);
                 builder.profile = focus.profile;
                 builder.max = focus.max;
                 return builder;
@@ -1546,8 +1544,8 @@ public class MessageDefinition extends DomainResource {
 
         private AllowedResponse(Builder builder) {
             super(builder);
-            this.message = ValidationSupport.requireNonNull(builder.message, "message");
-            this.situation = builder.situation;
+            message = ValidationSupport.requireNonNull(builder.message, "message");
+            situation = builder.situation;
         }
 
         /**
@@ -1742,9 +1740,6 @@ public class MessageDefinition extends DomainResource {
 
             private static Builder from(AllowedResponse allowedResponse) {
                 Builder builder = new Builder(allowedResponse.message);
-                builder.id = allowedResponse.id;
-                builder.extension.addAll(allowedResponse.extension);
-                builder.modifierExtension.addAll(allowedResponse.modifierExtension);
                 builder.situation = allowedResponse.situation;
                 return builder;
             }

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -63,23 +64,23 @@ public class Location extends DomainResource {
 
     private Location(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = builder.status;
-        this.operationalStatus = builder.operationalStatus;
-        this.name = builder.name;
-        this.alias = builder.alias;
-        this.description = builder.description;
-        this.mode = builder.mode;
-        this.type = builder.type;
-        this.telecom = builder.telecom;
-        this.address = builder.address;
-        this.physicalType = builder.physicalType;
-        this.position = builder.position;
-        this.managingOrganization = builder.managingOrganization;
-        this.partOf = builder.partOf;
-        this.hoursOfOperation = builder.hoursOfOperation;
-        this.availabilityExceptions = builder.availabilityExceptions;
-        this.endpoint = builder.endpoint;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        operationalStatus = builder.operationalStatus;
+        name = builder.name;
+        alias = Collections.unmodifiableList(builder.alias);
+        description = builder.description;
+        mode = builder.mode;
+        type = Collections.unmodifiableList(builder.type);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        address = builder.address;
+        physicalType = builder.physicalType;
+        position = builder.position;
+        managingOrganization = builder.managingOrganization;
+        partOf = builder.partOf;
+        hoursOfOperation = Collections.unmodifiableList(builder.hoursOfOperation);
+        availabilityExceptions = builder.availabilityExceptions;
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -1003,9 +1004,9 @@ public class Location extends DomainResource {
 
         private Position(Builder builder) {
             super(builder);
-            this.longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
-            this.latitude = ValidationSupport.requireNonNull(builder.latitude, "latitude");
-            this.altitude = builder.altitude;
+            longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
+            latitude = ValidationSupport.requireNonNull(builder.latitude, "latitude");
+            altitude = builder.altitude;
         }
 
         /**
@@ -1217,9 +1218,6 @@ public class Location extends DomainResource {
 
             private static Builder from(Position position) {
                 Builder builder = new Builder(position.longitude, position.latitude);
-                builder.id = position.id;
-                builder.extension.addAll(position.extension);
-                builder.modifierExtension.addAll(position.modifierExtension);
                 builder.altitude = position.altitude;
                 return builder;
             }
@@ -1239,10 +1237,10 @@ public class Location extends DomainResource {
 
         private HoursOfOperation(Builder builder) {
             super(builder);
-            this.daysOfWeek = builder.daysOfWeek;
-            this.allDay = builder.allDay;
-            this.openingTime = builder.openingTime;
-            this.closingTime = builder.closingTime;
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
+            allDay = builder.allDay;
+            openingTime = builder.openingTime;
+            closingTime = builder.closingTime;
         }
 
         /**
@@ -1526,9 +1524,6 @@ public class Location extends DomainResource {
 
             private static Builder from(HoursOfOperation hoursOfOperation) {
                 Builder builder = new Builder();
-                builder.id = hoursOfOperation.id;
-                builder.extension.addAll(hoursOfOperation.extension);
-                builder.modifierExtension.addAll(hoursOfOperation.modifierExtension);
                 builder.daysOfWeek.addAll(hoursOfOperation.daysOfWeek);
                 builder.allDay = hoursOfOperation.allDay;
                 builder.openingTime = hoursOfOperation.openingTime;

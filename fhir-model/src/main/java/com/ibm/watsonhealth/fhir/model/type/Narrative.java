@@ -41,8 +41,8 @@ public class Narrative extends Element {
 
     private Narrative(Builder builder) {
         super(builder);
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.div = ValidationSupport.requireNonNull(builder.div, "div");
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        div = ValidationSupport.requireNonNull(builder.div, "div");
         ValidationSupport.checkXHTMLContent(div);
     }
 

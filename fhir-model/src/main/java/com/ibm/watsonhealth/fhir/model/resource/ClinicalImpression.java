@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -65,26 +66,26 @@ public class ClinicalImpression extends DomainResource {
 
     private ClinicalImpression(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = builder.statusReason;
-        this.code = builder.code;
-        this.description = builder.description;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
-        this.date = builder.date;
-        this.assessor = builder.assessor;
-        this.previous = builder.previous;
-        this.problem = builder.problem;
-        this.investigation = builder.investigation;
-        this.protocol = builder.protocol;
-        this.summary = builder.summary;
-        this.finding = builder.finding;
-        this.prognosisCodeableConcept = builder.prognosisCodeableConcept;
-        this.prognosisReference = builder.prognosisReference;
-        this.supportingInfo = builder.supportingInfo;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = builder.statusReason;
+        code = builder.code;
+        description = builder.description;
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        date = builder.date;
+        assessor = builder.assessor;
+        previous = builder.previous;
+        problem = Collections.unmodifiableList(builder.problem);
+        investigation = Collections.unmodifiableList(builder.investigation);
+        protocol = Collections.unmodifiableList(builder.protocol);
+        summary = builder.summary;
+        finding = Collections.unmodifiableList(builder.finding);
+        prognosisCodeableConcept = Collections.unmodifiableList(builder.prognosisCodeableConcept);
+        prognosisReference = Collections.unmodifiableList(builder.prognosisReference);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1134,8 +1135,8 @@ public class ClinicalImpression extends DomainResource {
 
         private Investigation(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.item = builder.item;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1348,9 +1349,6 @@ public class ClinicalImpression extends DomainResource {
 
             private static Builder from(Investigation investigation) {
                 Builder builder = new Builder(investigation.code);
-                builder.id = investigation.id;
-                builder.extension.addAll(investigation.extension);
-                builder.modifierExtension.addAll(investigation.modifierExtension);
                 builder.item.addAll(investigation.item);
                 return builder;
             }
@@ -1369,9 +1367,9 @@ public class ClinicalImpression extends DomainResource {
 
         private Finding(Builder builder) {
             super(builder);
-            this.itemCodeableConcept = builder.itemCodeableConcept;
-            this.itemReference = builder.itemReference;
-            this.basis = builder.basis;
+            itemCodeableConcept = builder.itemCodeableConcept;
+            itemReference = builder.itemReference;
+            basis = builder.basis;
         }
 
         /**
@@ -1607,9 +1605,6 @@ public class ClinicalImpression extends DomainResource {
 
             private static Builder from(Finding finding) {
                 Builder builder = new Builder();
-                builder.id = finding.id;
-                builder.extension.addAll(finding.extension);
-                builder.modifierExtension.addAll(finding.modifierExtension);
                 builder.itemCodeableConcept = finding.itemCodeableConcept;
                 builder.itemReference = finding.itemReference;
                 builder.basis = finding.basis;

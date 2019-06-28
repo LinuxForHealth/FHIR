@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -29,9 +30,9 @@ public class Contributor extends Element {
 
     private Contributor(Builder builder) {
         super(builder);
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.contact = builder.contact;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        contact = Collections.unmodifiableList(builder.contact);
     }
 
     /**

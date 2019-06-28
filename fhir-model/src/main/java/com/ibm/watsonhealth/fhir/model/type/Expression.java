@@ -37,11 +37,11 @@ public class Expression extends Element {
 
     private Expression(Builder builder) {
         super(builder);
-        this.description = builder.description;
-        this.name = builder.name;
-        this.language = ValidationSupport.requireNonNull(builder.language, "language");
-        this.expression = builder.expression;
-        this.reference = builder.reference;
+        description = builder.description;
+        name = builder.name;
+        language = ValidationSupport.requireNonNull(builder.language, "language");
+        expression = builder.expression;
+        reference = builder.reference;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -76,30 +77,30 @@ public class MedicationDispense extends DomainResource {
 
     private MedicationDispense(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.partOf = builder.partOf;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusReason = ValidationSupport.choiceElement(builder.statusReason, "statusReason", CodeableConcept.class, Reference.class);
-        this.category = builder.category;
-        this.medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        this.subject = builder.subject;
-        this.context = builder.context;
-        this.supportingInformation = builder.supportingInformation;
-        this.performer = builder.performer;
-        this.location = builder.location;
-        this.authorizingPrescription = builder.authorizingPrescription;
-        this.type = builder.type;
-        this.quantity = builder.quantity;
-        this.daysSupply = builder.daysSupply;
-        this.whenPrepared = builder.whenPrepared;
-        this.whenHandedOver = builder.whenHandedOver;
-        this.destination = builder.destination;
-        this.receiver = builder.receiver;
-        this.note = builder.note;
-        this.dosageInstruction = builder.dosageInstruction;
-        this.substitution = builder.substitution;
-        this.detectedIssue = builder.detectedIssue;
-        this.eventHistory = builder.eventHistory;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusReason = ValidationSupport.choiceElement(builder.statusReason, "statusReason", CodeableConcept.class, Reference.class);
+        category = builder.category;
+        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
+        context = builder.context;
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        performer = Collections.unmodifiableList(builder.performer);
+        location = builder.location;
+        authorizingPrescription = Collections.unmodifiableList(builder.authorizingPrescription);
+        type = builder.type;
+        quantity = builder.quantity;
+        daysSupply = builder.daysSupply;
+        whenPrepared = builder.whenPrepared;
+        whenHandedOver = builder.whenHandedOver;
+        destination = builder.destination;
+        receiver = Collections.unmodifiableList(builder.receiver);
+        note = Collections.unmodifiableList(builder.note);
+        dosageInstruction = Collections.unmodifiableList(builder.dosageInstruction);
+        substitution = builder.substitution;
+        detectedIssue = Collections.unmodifiableList(builder.detectedIssue);
+        eventHistory = Collections.unmodifiableList(builder.eventHistory);
     }
 
     /**
@@ -1290,8 +1291,8 @@ public class MedicationDispense extends DomainResource {
 
         private Performer(Builder builder) {
             super(builder);
-            this.function = builder.function;
-            this.actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            function = builder.function;
+            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
         }
 
         /**
@@ -1485,9 +1486,6 @@ public class MedicationDispense extends DomainResource {
 
             private static Builder from(Performer performer) {
                 Builder builder = new Builder(performer.actor);
-                builder.id = performer.id;
-                builder.extension.addAll(performer.extension);
-                builder.modifierExtension.addAll(performer.modifierExtension);
                 builder.function = performer.function;
                 return builder;
             }
@@ -1509,10 +1507,10 @@ public class MedicationDispense extends DomainResource {
 
         private Substitution(Builder builder) {
             super(builder);
-            this.wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
-            this.type = builder.type;
-            this.reason = builder.reason;
-            this.responsibleParty = builder.responsibleParty;
+            wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
+            type = builder.type;
+            reason = Collections.unmodifiableList(builder.reason);
+            responsibleParty = Collections.unmodifiableList(builder.responsibleParty);
         }
 
         /**
@@ -1801,9 +1799,6 @@ public class MedicationDispense extends DomainResource {
 
             private static Builder from(Substitution substitution) {
                 Builder builder = new Builder(substitution.wasSubstituted);
-                builder.id = substitution.id;
-                builder.extension.addAll(substitution.extension);
-                builder.modifierExtension.addAll(substitution.modifierExtension);
                 builder.type = substitution.type;
                 builder.reason.addAll(substitution.reason);
                 builder.responsibleParty.addAll(substitution.responsibleParty);

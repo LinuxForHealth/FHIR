@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -50,14 +51,14 @@ public class Medication extends DomainResource {
 
     private Medication(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.code = builder.code;
-        this.status = builder.status;
-        this.manufacturer = builder.manufacturer;
-        this.form = builder.form;
-        this.amount = builder.amount;
-        this.ingredient = builder.ingredient;
-        this.batch = builder.batch;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        code = builder.code;
+        status = builder.status;
+        manufacturer = builder.manufacturer;
+        form = builder.form;
+        amount = builder.amount;
+        ingredient = Collections.unmodifiableList(builder.ingredient);
+        batch = builder.batch;
     }
 
     /**
@@ -625,9 +626,9 @@ public class Medication extends DomainResource {
 
         private Ingredient(Builder builder) {
             super(builder);
-            this.item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-            this.isActive = builder.isActive;
-            this.strength = builder.strength;
+            item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            isActive = builder.isActive;
+            strength = builder.strength;
         }
 
         /**
@@ -852,9 +853,6 @@ public class Medication extends DomainResource {
 
             private static Builder from(Ingredient ingredient) {
                 Builder builder = new Builder(ingredient.item);
-                builder.id = ingredient.id;
-                builder.extension.addAll(ingredient.extension);
-                builder.modifierExtension.addAll(ingredient.modifierExtension);
                 builder.isActive = ingredient.isActive;
                 builder.strength = ingredient.strength;
                 return builder;
@@ -873,8 +871,8 @@ public class Medication extends DomainResource {
 
         private Batch(Builder builder) {
             super(builder);
-            this.lotNumber = builder.lotNumber;
-            this.expirationDate = builder.expirationDate;
+            lotNumber = builder.lotNumber;
+            expirationDate = builder.expirationDate;
         }
 
         /**
@@ -1080,9 +1078,6 @@ public class Medication extends DomainResource {
 
             private static Builder from(Batch batch) {
                 Builder builder = new Builder();
-                builder.id = batch.id;
-                builder.extension.addAll(batch.extension);
-                builder.modifierExtension.addAll(batch.modifierExtension);
                 builder.lotNumber = batch.lotNumber;
                 builder.expirationDate = batch.expirationDate;
                 return builder;

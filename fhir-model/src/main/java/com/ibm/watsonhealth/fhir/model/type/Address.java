@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -38,16 +39,16 @@ public class Address extends Element {
 
     private Address(Builder builder) {
         super(builder);
-        this.use = builder.use;
-        this.type = builder.type;
-        this.text = builder.text;
-        this.line = builder.line;
-        this.city = builder.city;
-        this.district = builder.district;
-        this.state = builder.state;
-        this.postalCode = builder.postalCode;
-        this.country = builder.country;
-        this.period = builder.period;
+        use = builder.use;
+        type = builder.type;
+        text = builder.text;
+        line = Collections.unmodifiableList(builder.line);
+        city = builder.city;
+        district = builder.district;
+        state = builder.state;
+        postalCode = builder.postalCode;
+        country = builder.country;
+        period = builder.period;
     }
 
     /**

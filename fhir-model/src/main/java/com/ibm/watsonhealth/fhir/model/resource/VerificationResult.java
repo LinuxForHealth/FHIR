@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -54,20 +55,20 @@ public class VerificationResult extends DomainResource {
 
     private VerificationResult(Builder builder) {
         super(builder);
-        this.target = builder.target;
-        this.targetLocation = builder.targetLocation;
-        this.need = builder.need;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.statusDate = builder.statusDate;
-        this.validationType = builder.validationType;
-        this.validationProcess = builder.validationProcess;
-        this.frequency = builder.frequency;
-        this.lastPerformed = builder.lastPerformed;
-        this.nextScheduled = builder.nextScheduled;
-        this.failureAction = builder.failureAction;
-        this.primarySource = builder.primarySource;
-        this.attestation = builder.attestation;
-        this.validator = builder.validator;
+        target = Collections.unmodifiableList(builder.target);
+        targetLocation = Collections.unmodifiableList(builder.targetLocation);
+        need = builder.need;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        statusDate = builder.statusDate;
+        validationType = builder.validationType;
+        validationProcess = Collections.unmodifiableList(builder.validationProcess);
+        frequency = builder.frequency;
+        lastPerformed = builder.lastPerformed;
+        nextScheduled = builder.nextScheduled;
+        failureAction = builder.failureAction;
+        primarySource = Collections.unmodifiableList(builder.primarySource);
+        attestation = builder.attestation;
+        validator = Collections.unmodifiableList(builder.validator);
     }
 
     /**
@@ -861,13 +862,13 @@ public class VerificationResult extends DomainResource {
 
         private PrimarySource(Builder builder) {
             super(builder);
-            this.who = builder.who;
-            this.type = builder.type;
-            this.communicationMethod = builder.communicationMethod;
-            this.validationStatus = builder.validationStatus;
-            this.validationDate = builder.validationDate;
-            this.canPushUpdates = builder.canPushUpdates;
-            this.pushTypeAvailable = builder.pushTypeAvailable;
+            who = builder.who;
+            type = Collections.unmodifiableList(builder.type);
+            communicationMethod = Collections.unmodifiableList(builder.communicationMethod);
+            validationStatus = builder.validationStatus;
+            validationDate = builder.validationDate;
+            canPushUpdates = builder.canPushUpdates;
+            pushTypeAvailable = Collections.unmodifiableList(builder.pushTypeAvailable);
         }
 
         /**
@@ -1282,9 +1283,6 @@ public class VerificationResult extends DomainResource {
 
             private static Builder from(PrimarySource primarySource) {
                 Builder builder = new Builder();
-                builder.id = primarySource.id;
-                builder.extension.addAll(primarySource.extension);
-                builder.modifierExtension.addAll(primarySource.modifierExtension);
                 builder.who = primarySource.who;
                 builder.type.addAll(primarySource.type);
                 builder.communicationMethod.addAll(primarySource.communicationMethod);
@@ -1314,14 +1312,14 @@ public class VerificationResult extends DomainResource {
 
         private Attestation(Builder builder) {
             super(builder);
-            this.who = builder.who;
-            this.onBehalfOf = builder.onBehalfOf;
-            this.communicationMethod = builder.communicationMethod;
-            this.date = builder.date;
-            this.sourceIdentityCertificate = builder.sourceIdentityCertificate;
-            this.proxyIdentityCertificate = builder.proxyIdentityCertificate;
-            this.proxySignature = builder.proxySignature;
-            this.sourceSignature = builder.sourceSignature;
+            who = builder.who;
+            onBehalfOf = builder.onBehalfOf;
+            communicationMethod = builder.communicationMethod;
+            date = builder.date;
+            sourceIdentityCertificate = builder.sourceIdentityCertificate;
+            proxyIdentityCertificate = builder.proxyIdentityCertificate;
+            proxySignature = builder.proxySignature;
+            sourceSignature = builder.sourceSignature;
         }
 
         /**
@@ -1712,9 +1710,6 @@ public class VerificationResult extends DomainResource {
 
             private static Builder from(Attestation attestation) {
                 Builder builder = new Builder();
-                builder.id = attestation.id;
-                builder.extension.addAll(attestation.extension);
-                builder.modifierExtension.addAll(attestation.modifierExtension);
                 builder.who = attestation.who;
                 builder.onBehalfOf = attestation.onBehalfOf;
                 builder.communicationMethod = attestation.communicationMethod;
@@ -1740,9 +1735,9 @@ public class VerificationResult extends DomainResource {
 
         private Validator(Builder builder) {
             super(builder);
-            this.organization = ValidationSupport.requireNonNull(builder.organization, "organization");
-            this.identityCertificate = builder.identityCertificate;
-            this.attestationSignature = builder.attestationSignature;
+            organization = ValidationSupport.requireNonNull(builder.organization, "organization");
+            identityCertificate = builder.identityCertificate;
+            attestationSignature = builder.attestationSignature;
         }
 
         /**
@@ -1965,9 +1960,6 @@ public class VerificationResult extends DomainResource {
 
             private static Builder from(Validator validator) {
                 Builder builder = new Builder(validator.organization);
-                builder.id = validator.id;
-                builder.extension.addAll(validator.extension);
-                builder.modifierExtension.addAll(validator.modifierExtension);
                 builder.identityCertificate = validator.identityCertificate;
                 builder.attestationSignature = validator.attestationSignature;
                 return builder;

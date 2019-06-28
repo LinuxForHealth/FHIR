@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -32,13 +33,13 @@ public class HumanName extends Element {
 
     private HumanName(Builder builder) {
         super(builder);
-        this.use = builder.use;
-        this.text = builder.text;
-        this.family = builder.family;
-        this.given = builder.given;
-        this.prefix = builder.prefix;
-        this.suffix = builder.suffix;
-        this.period = builder.period;
+        use = builder.use;
+        text = builder.text;
+        family = builder.family;
+        given = Collections.unmodifiableList(builder.given);
+        prefix = Collections.unmodifiableList(builder.prefix);
+        suffix = Collections.unmodifiableList(builder.suffix);
+        period = builder.period;
     }
 
     /**

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -63,16 +64,16 @@ public class Group extends DomainResource {
 
     private Group(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.actual = ValidationSupport.requireNonNull(builder.actual, "actual");
-        this.code = builder.code;
-        this.name = builder.name;
-        this.quantity = builder.quantity;
-        this.managingEntity = builder.managingEntity;
-        this.characteristic = builder.characteristic;
-        this.member = builder.member;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        actual = ValidationSupport.requireNonNull(builder.actual, "actual");
+        code = builder.code;
+        name = builder.name;
+        quantity = builder.quantity;
+        managingEntity = builder.managingEntity;
+        characteristic = Collections.unmodifiableList(builder.characteristic);
+        member = Collections.unmodifiableList(builder.member);
     }
 
     /**
@@ -682,10 +683,10 @@ public class Group extends DomainResource {
 
         private Characteristic(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class);
-            this.exclude = ValidationSupport.requireNonNull(builder.exclude, "exclude");
-            this.period = builder.period;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class);
+            exclude = ValidationSupport.requireNonNull(builder.exclude, "exclude");
+            period = builder.period;
         }
 
         /**
@@ -908,9 +909,6 @@ public class Group extends DomainResource {
 
             private static Builder from(Characteristic characteristic) {
                 Builder builder = new Builder(characteristic.code, characteristic.value, characteristic.exclude);
-                builder.id = characteristic.id;
-                builder.extension.addAll(characteristic.extension);
-                builder.modifierExtension.addAll(characteristic.modifierExtension);
                 builder.period = characteristic.period;
                 return builder;
             }
@@ -929,9 +927,9 @@ public class Group extends DomainResource {
 
         private Member(Builder builder) {
             super(builder);
-            this.entity = ValidationSupport.requireNonNull(builder.entity, "entity");
-            this.period = builder.period;
-            this.inactive = builder.inactive;
+            entity = ValidationSupport.requireNonNull(builder.entity, "entity");
+            period = builder.period;
+            inactive = builder.inactive;
         }
 
         /**
@@ -1155,9 +1153,6 @@ public class Group extends DomainResource {
 
             private static Builder from(Member member) {
                 Builder builder = new Builder(member.entity);
-                builder.id = member.id;
-                builder.extension.addAll(member.extension);
-                builder.modifierExtension.addAll(member.modifierExtension);
                 builder.period = member.period;
                 builder.inactive = member.inactive;
                 return builder;

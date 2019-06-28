@@ -32,8 +32,8 @@ public class Period extends Element {
 
     private Period(Builder builder) {
         super(builder);
-        this.start = builder.start;
-        this.end = builder.end;
+        start = builder.start;
+        end = builder.end;
     }
 
     /**

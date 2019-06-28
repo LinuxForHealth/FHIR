@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -56,20 +57,20 @@ public class PractitionerRole extends DomainResource {
 
     private PractitionerRole(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.active = builder.active;
-        this.period = builder.period;
-        this.practitioner = builder.practitioner;
-        this.organization = builder.organization;
-        this.code = builder.code;
-        this.specialty = builder.specialty;
-        this.location = builder.location;
-        this.healthcareService = builder.healthcareService;
-        this.telecom = builder.telecom;
-        this.availableTime = builder.availableTime;
-        this.notAvailable = builder.notAvailable;
-        this.availabilityExceptions = builder.availabilityExceptions;
-        this.endpoint = builder.endpoint;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        active = builder.active;
+        period = builder.period;
+        practitioner = builder.practitioner;
+        organization = builder.organization;
+        code = Collections.unmodifiableList(builder.code);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
+        healthcareService = Collections.unmodifiableList(builder.healthcareService);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        availableTime = Collections.unmodifiableList(builder.availableTime);
+        notAvailable = Collections.unmodifiableList(builder.notAvailable);
+        availabilityExceptions = builder.availabilityExceptions;
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -942,10 +943,10 @@ public class PractitionerRole extends DomainResource {
 
         private AvailableTime(Builder builder) {
             super(builder);
-            this.daysOfWeek = builder.daysOfWeek;
-            this.allDay = builder.allDay;
-            this.availableStartTime = builder.availableStartTime;
-            this.availableEndTime = builder.availableEndTime;
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
+            allDay = builder.allDay;
+            availableStartTime = builder.availableStartTime;
+            availableEndTime = builder.availableEndTime;
         }
 
         /**
@@ -1229,9 +1230,6 @@ public class PractitionerRole extends DomainResource {
 
             private static Builder from(AvailableTime availableTime) {
                 Builder builder = new Builder();
-                builder.id = availableTime.id;
-                builder.extension.addAll(availableTime.extension);
-                builder.modifierExtension.addAll(availableTime.modifierExtension);
                 builder.daysOfWeek.addAll(availableTime.daysOfWeek);
                 builder.allDay = availableTime.allDay;
                 builder.availableStartTime = availableTime.availableStartTime;
@@ -1252,8 +1250,8 @@ public class PractitionerRole extends DomainResource {
 
         private NotAvailable(Builder builder) {
             super(builder);
-            this.description = ValidationSupport.requireNonNull(builder.description, "description");
-            this.during = builder.during;
+            description = ValidationSupport.requireNonNull(builder.description, "description");
+            during = builder.during;
         }
 
         /**
@@ -1446,9 +1444,6 @@ public class PractitionerRole extends DomainResource {
 
             private static Builder from(NotAvailable notAvailable) {
                 Builder builder = new Builder(notAvailable.description);
-                builder.id = notAvailable.id;
-                builder.extension.addAll(notAvailable.extension);
-                builder.modifierExtension.addAll(notAvailable.modifierExtension);
                 builder.during = notAvailable.during;
                 return builder;
             }

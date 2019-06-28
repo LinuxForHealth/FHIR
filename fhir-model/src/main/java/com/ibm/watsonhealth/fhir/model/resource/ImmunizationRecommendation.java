@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -53,11 +54,11 @@ public class ImmunizationRecommendation extends DomainResource {
 
     private ImmunizationRecommendation(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.date = ValidationSupport.requireNonNull(builder.date, "date");
-        this.authority = builder.authority;
-        this.recommendation = ValidationSupport.requireNonEmpty(builder.recommendation, "recommendation");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        date = ValidationSupport.requireNonNull(builder.date, "date");
+        authority = builder.authority;
+        recommendation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.recommendation, "recommendation"));
     }
 
     /**
@@ -440,6 +441,40 @@ public class ImmunizationRecommendation extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Vaccine administration recommendations.
+         * </p>
+         * 
+         * @param recommendation
+         *     Vaccine administration recommendations
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder recommendation(Recommendation... recommendation) {
+            for (Recommendation value : recommendation) {
+                this.recommendation.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Vaccine administration recommendations.
+         * </p>
+         * 
+         * @param recommendation
+         *     Vaccine administration recommendations
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder recommendation(Collection<Recommendation> recommendation) {
+            this.recommendation.addAll(recommendation);
+            return this;
+        }
+
         @Override
         public ImmunizationRecommendation build() {
             return new ImmunizationRecommendation(this);
@@ -467,18 +502,18 @@ public class ImmunizationRecommendation extends DomainResource {
 
         private Recommendation(Builder builder) {
             super(builder);
-            this.vaccineCode = builder.vaccineCode;
-            this.targetDisease = builder.targetDisease;
-            this.contraindicatedVaccineCode = builder.contraindicatedVaccineCode;
-            this.forecastStatus = ValidationSupport.requireNonNull(builder.forecastStatus, "forecastStatus");
-            this.forecastReason = builder.forecastReason;
-            this.dateCriterion = builder.dateCriterion;
-            this.description = builder.description;
-            this.series = builder.series;
-            this.doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-            this.seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            this.supportingImmunization = builder.supportingImmunization;
-            this.supportingPatientInformation = builder.supportingPatientInformation;
+            vaccineCode = Collections.unmodifiableList(builder.vaccineCode);
+            targetDisease = builder.targetDisease;
+            contraindicatedVaccineCode = Collections.unmodifiableList(builder.contraindicatedVaccineCode);
+            forecastStatus = ValidationSupport.requireNonNull(builder.forecastStatus, "forecastStatus");
+            forecastReason = Collections.unmodifiableList(builder.forecastReason);
+            dateCriterion = Collections.unmodifiableList(builder.dateCriterion);
+            description = builder.description;
+            series = builder.series;
+            doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
+            seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+            supportingImmunization = Collections.unmodifiableList(builder.supportingImmunization);
+            supportingPatientInformation = Collections.unmodifiableList(builder.supportingPatientInformation);
         }
 
         /**
@@ -1082,9 +1117,6 @@ public class ImmunizationRecommendation extends DomainResource {
 
             private static Builder from(Recommendation recommendation) {
                 Builder builder = new Builder(recommendation.forecastStatus);
-                builder.id = recommendation.id;
-                builder.extension.addAll(recommendation.extension);
-                builder.modifierExtension.addAll(recommendation.modifierExtension);
                 builder.vaccineCode.addAll(recommendation.vaccineCode);
                 builder.targetDisease = recommendation.targetDisease;
                 builder.contraindicatedVaccineCode.addAll(recommendation.contraindicatedVaccineCode);
@@ -1111,8 +1143,8 @@ public class ImmunizationRecommendation extends DomainResource {
 
             private DateCriterion(Builder builder) {
                 super(builder);
-                this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                this.value = ValidationSupport.requireNonNull(builder.value, "value");
+                code = ValidationSupport.requireNonNull(builder.code, "code");
+                value = ValidationSupport.requireNonNull(builder.value, "value");
             }
 
             /**
@@ -1288,9 +1320,6 @@ public class ImmunizationRecommendation extends DomainResource {
 
                 private static Builder from(DateCriterion dateCriterion) {
                     Builder builder = new Builder(dateCriterion.code, dateCriterion.value);
-                    builder.id = dateCriterion.id;
-                    builder.extension.addAll(dateCriterion.extension);
-                    builder.modifierExtension.addAll(dateCriterion.modifierExtension);
                     return builder;
                 }
             }

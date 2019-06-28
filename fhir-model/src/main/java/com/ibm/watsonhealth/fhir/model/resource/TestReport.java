@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -69,18 +70,18 @@ public class TestReport extends DomainResource {
 
     private TestReport(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.name = builder.name;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.testScript = ValidationSupport.requireNonNull(builder.testScript, "testScript");
-        this.result = ValidationSupport.requireNonNull(builder.result, "result");
-        this.score = builder.score;
-        this.tester = builder.tester;
-        this.issued = builder.issued;
-        this.participant = builder.participant;
-        this.setup = builder.setup;
-        this.test = builder.test;
-        this.teardown = builder.teardown;
+        identifier = builder.identifier;
+        name = builder.name;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        testScript = ValidationSupport.requireNonNull(builder.testScript, "testScript");
+        result = ValidationSupport.requireNonNull(builder.result, "result");
+        score = builder.score;
+        tester = builder.tester;
+        issued = builder.issued;
+        participant = Collections.unmodifiableList(builder.participant);
+        setup = builder.setup;
+        test = Collections.unmodifiableList(builder.test);
+        teardown = builder.teardown;
     }
 
     /**
@@ -719,9 +720,9 @@ public class TestReport extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.uri = ValidationSupport.requireNonNull(builder.uri, "uri");
-            this.display = builder.display;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            uri = ValidationSupport.requireNonNull(builder.uri, "uri");
+            display = builder.display;
         }
 
         /**
@@ -929,9 +930,6 @@ public class TestReport extends DomainResource {
 
             private static Builder from(Participant participant) {
                 Builder builder = new Builder(participant.type, participant.uri);
-                builder.id = participant.id;
-                builder.extension.addAll(participant.extension);
-                builder.modifierExtension.addAll(participant.modifierExtension);
                 builder.display = participant.display;
                 return builder;
             }
@@ -948,7 +946,7 @@ public class TestReport extends DomainResource {
 
         private Setup(Builder builder) {
             super(builder);
-            this.action = ValidationSupport.requireNonEmpty(builder.action, "action");
+            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
         }
 
         /**
@@ -1102,6 +1100,40 @@ public class TestReport extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A setup operation or assert that was executed
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A setup operation or assert that was executed
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Collection<Action> action) {
+                this.action.addAll(action);
+                return this;
+            }
+
             @Override
             public Setup build() {
                 return new Setup(this);
@@ -1109,9 +1141,6 @@ public class TestReport extends DomainResource {
 
             private static Builder from(Setup setup) {
                 Builder builder = new Builder(setup.action);
-                builder.id = setup.id;
-                builder.extension.addAll(setup.extension);
-                builder.modifierExtension.addAll(setup.modifierExtension);
                 return builder;
             }
         }
@@ -1127,8 +1156,8 @@ public class TestReport extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                this.operation = builder.operation;
-                this._assert = builder._assert;
+                operation = builder.operation;
+                _assert = builder._assert;
             }
 
             /**
@@ -1334,9 +1363,6 @@ public class TestReport extends DomainResource {
 
                 private static Builder from(Action action) {
                     Builder builder = new Builder();
-                    builder.id = action.id;
-                    builder.extension.addAll(action.extension);
-                    builder.modifierExtension.addAll(action.modifierExtension);
                     builder.operation = action.operation;
                     builder._assert = action._assert;
                     return builder;
@@ -1355,9 +1381,9 @@ public class TestReport extends DomainResource {
 
                 private Operation(Builder builder) {
                     super(builder);
-                    this.result = ValidationSupport.requireNonNull(builder.result, "result");
-                    this.message = builder.message;
-                    this.detail = builder.detail;
+                    result = ValidationSupport.requireNonNull(builder.result, "result");
+                    message = builder.message;
+                    detail = builder.detail;
                 }
 
                 /**
@@ -1580,9 +1606,6 @@ public class TestReport extends DomainResource {
 
                     private static Builder from(Operation operation) {
                         Builder builder = new Builder(operation.result);
-                        builder.id = operation.id;
-                        builder.extension.addAll(operation.extension);
-                        builder.modifierExtension.addAll(operation.modifierExtension);
                         builder.message = operation.message;
                         builder.detail = operation.detail;
                         return builder;
@@ -1602,9 +1625,9 @@ public class TestReport extends DomainResource {
 
                 private Assert(Builder builder) {
                     super(builder);
-                    this.result = ValidationSupport.requireNonNull(builder.result, "result");
-                    this.message = builder.message;
-                    this.detail = builder.detail;
+                    result = ValidationSupport.requireNonNull(builder.result, "result");
+                    message = builder.message;
+                    detail = builder.detail;
                 }
 
                 /**
@@ -1827,9 +1850,6 @@ public class TestReport extends DomainResource {
 
                     private static Builder from(Assert _assert) {
                         Builder builder = new Builder(_assert.result);
-                        builder.id = _assert.id;
-                        builder.extension.addAll(_assert.extension);
-                        builder.modifierExtension.addAll(_assert.modifierExtension);
                         builder.message = _assert.message;
                         builder.detail = _assert.detail;
                         return builder;
@@ -1851,9 +1871,9 @@ public class TestReport extends DomainResource {
 
         private Test(Builder builder) {
             super(builder);
-            this.name = builder.name;
-            this.description = builder.description;
-            this.action = ValidationSupport.requireNonEmpty(builder.action, "action");
+            name = builder.name;
+            description = builder.description;
+            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
         }
 
         /**
@@ -2069,6 +2089,40 @@ public class TestReport extends DomainResource {
                 return this;
             }
 
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A test operation or assert that was performed
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Action would contain either an operation or an assertion.
+             * </p>
+             * 
+             * @param action
+             *     A test operation or assert that was performed
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Collection<Action> action) {
+                this.action.addAll(action);
+                return this;
+            }
+
             @Override
             public Test build() {
                 return new Test(this);
@@ -2076,9 +2130,6 @@ public class TestReport extends DomainResource {
 
             private static Builder from(Test test) {
                 Builder builder = new Builder(test.action);
-                builder.id = test.id;
-                builder.extension.addAll(test.extension);
-                builder.modifierExtension.addAll(test.modifierExtension);
                 builder.name = test.name;
                 builder.description = test.description;
                 return builder;
@@ -2096,8 +2147,8 @@ public class TestReport extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                this.operation = builder.operation;
-                this._assert = builder._assert;
+                operation = builder.operation;
+                _assert = builder._assert;
             }
 
             /**
@@ -2303,9 +2354,6 @@ public class TestReport extends DomainResource {
 
                 private static Builder from(Action action) {
                     Builder builder = new Builder();
-                    builder.id = action.id;
-                    builder.extension.addAll(action.extension);
-                    builder.modifierExtension.addAll(action.modifierExtension);
                     builder.operation = action.operation;
                     builder._assert = action._assert;
                     return builder;
@@ -2325,7 +2373,7 @@ public class TestReport extends DomainResource {
 
         private Teardown(Builder builder) {
             super(builder);
-            this.action = ValidationSupport.requireNonEmpty(builder.action, "action");
+            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
         }
 
         /**
@@ -2479,6 +2527,40 @@ public class TestReport extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
+            /**
+             * <p>
+             * The teardown action will only contain an operation.
+             * </p>
+             * 
+             * @param action
+             *     One or more teardown operations performed
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Action... action) {
+                for (Action value : action) {
+                    this.action.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * The teardown action will only contain an operation.
+             * </p>
+             * 
+             * @param action
+             *     One or more teardown operations performed
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder action(Collection<Action> action) {
+                this.action.addAll(action);
+                return this;
+            }
+
             @Override
             public Teardown build() {
                 return new Teardown(this);
@@ -2486,9 +2568,6 @@ public class TestReport extends DomainResource {
 
             private static Builder from(Teardown teardown) {
                 Builder builder = new Builder(teardown.action);
-                builder.id = teardown.id;
-                builder.extension.addAll(teardown.extension);
-                builder.modifierExtension.addAll(teardown.modifierExtension);
                 return builder;
             }
         }
@@ -2503,7 +2582,7 @@ public class TestReport extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                this.operation = ValidationSupport.requireNonNull(builder.operation, "operation");
+                operation = ValidationSupport.requireNonNull(builder.operation, "operation");
             }
 
             /**
@@ -2664,9 +2743,6 @@ public class TestReport extends DomainResource {
 
                 private static Builder from(Action action) {
                     Builder builder = new Builder(action.operation);
-                    builder.id = action.id;
-                    builder.extension.addAll(action.extension);
-                    builder.modifierExtension.addAll(action.modifierExtension);
                     return builder;
                 }
             }

@@ -33,13 +33,13 @@ public class ParameterDefinition extends Element {
 
     private ParameterDefinition(Builder builder) {
         super(builder);
-        this.name = builder.name;
-        this.use = ValidationSupport.requireNonNull(builder.use, "use");
-        this.min = builder.min;
-        this.max = builder.max;
-        this.documentation = builder.documentation;
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.profile = builder.profile;
+        name = builder.name;
+        use = ValidationSupport.requireNonNull(builder.use, "use");
+        min = builder.min;
+        max = builder.max;
+        documentation = builder.documentation;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        profile = builder.profile;
     }
 
     /**

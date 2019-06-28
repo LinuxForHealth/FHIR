@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -69,10 +70,10 @@ public abstract class DomainResource extends Resource {
 
     protected DomainResource(Builder builder) {
         super(builder);
-        this.text = builder.text;
-        this.contained = builder.contained;
-        this.extension = builder.extension;
-        this.modifierExtension = builder.modifierExtension;
+        text = builder.text;
+        contained = Collections.unmodifiableList(builder.contained);
+        extension = Collections.unmodifiableList(builder.extension);
+        modifierExtension = Collections.unmodifiableList(builder.modifierExtension);
     }
 
     /**

@@ -32,8 +32,8 @@ public class Range extends Element {
 
     private Range(Builder builder) {
         super(builder);
-        this.low = builder.low;
-        this.high = builder.high;
+        low = builder.low;
+        high = builder.high;
     }
 
     /**

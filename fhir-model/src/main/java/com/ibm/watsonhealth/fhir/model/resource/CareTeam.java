@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -61,19 +62,19 @@ public class CareTeam extends DomainResource {
 
     private CareTeam(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = builder.status;
-        this.category = builder.category;
-        this.name = builder.name;
-        this.subject = builder.subject;
-        this.encounter = builder.encounter;
-        this.period = builder.period;
-        this.participant = builder.participant;
-        this.reasonCode = builder.reasonCode;
-        this.reasonReference = builder.reasonReference;
-        this.managingOrganization = builder.managingOrganization;
-        this.telecom = builder.telecom;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        name = builder.name;
+        subject = builder.subject;
+        encounter = builder.encounter;
+        period = builder.period;
+        participant = Collections.unmodifiableList(builder.participant);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        managingOrganization = Collections.unmodifiableList(builder.managingOrganization);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -901,10 +902,10 @@ public class CareTeam extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            this.role = builder.role;
-            this.member = builder.member;
-            this.onBehalfOf = builder.onBehalfOf;
-            this.period = builder.period;
+            role = Collections.unmodifiableList(builder.role);
+            member = builder.member;
+            onBehalfOf = builder.onBehalfOf;
+            period = builder.period;
         }
 
         /**
@@ -1191,9 +1192,6 @@ public class CareTeam extends DomainResource {
 
             private static Builder from(Participant participant) {
                 Builder builder = new Builder();
-                builder.id = participant.id;
-                builder.extension.addAll(participant.extension);
-                builder.modifierExtension.addAll(participant.modifierExtension);
                 builder.role.addAll(participant.role);
                 builder.member = participant.member;
                 builder.onBehalfOf = participant.onBehalfOf;

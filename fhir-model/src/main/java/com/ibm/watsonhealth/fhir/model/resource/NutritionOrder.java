@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -70,23 +71,23 @@ public class NutritionOrder extends DomainResource {
 
     private NutritionOrder(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.instantiatesCanonical = builder.instantiatesCanonical;
-        this.instantiatesUri = builder.instantiatesUri;
-        this.instantiates = builder.instantiates;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.encounter = builder.encounter;
-        this.dateTime = ValidationSupport.requireNonNull(builder.dateTime, "dateTime");
-        this.orderer = builder.orderer;
-        this.allergyIntolerance = builder.allergyIntolerance;
-        this.foodPreferenceModifier = builder.foodPreferenceModifier;
-        this.excludeFoodModifier = builder.excludeFoodModifier;
-        this.oralDiet = builder.oralDiet;
-        this.supplement = builder.supplement;
-        this.enteralFormula = builder.enteralFormula;
-        this.note = builder.note;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        encounter = builder.encounter;
+        dateTime = ValidationSupport.requireNonNull(builder.dateTime, "dateTime");
+        orderer = builder.orderer;
+        allergyIntolerance = Collections.unmodifiableList(builder.allergyIntolerance);
+        foodPreferenceModifier = Collections.unmodifiableList(builder.foodPreferenceModifier);
+        excludeFoodModifier = Collections.unmodifiableList(builder.excludeFoodModifier);
+        oralDiet = builder.oralDiet;
+        supplement = Collections.unmodifiableList(builder.supplement);
+        enteralFormula = builder.enteralFormula;
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1024,12 +1025,12 @@ public class NutritionOrder extends DomainResource {
 
         private OralDiet(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.schedule = builder.schedule;
-            this.nutrient = builder.nutrient;
-            this.texture = builder.texture;
-            this.fluidConsistencyType = builder.fluidConsistencyType;
-            this.instruction = builder.instruction;
+            type = Collections.unmodifiableList(builder.type);
+            schedule = Collections.unmodifiableList(builder.schedule);
+            nutrient = Collections.unmodifiableList(builder.nutrient);
+            texture = Collections.unmodifiableList(builder.texture);
+            fluidConsistencyType = Collections.unmodifiableList(builder.fluidConsistencyType);
+            instruction = builder.instruction;
         }
 
         /**
@@ -1451,9 +1452,6 @@ public class NutritionOrder extends DomainResource {
 
             private static Builder from(OralDiet oralDiet) {
                 Builder builder = new Builder();
-                builder.id = oralDiet.id;
-                builder.extension.addAll(oralDiet.extension);
-                builder.modifierExtension.addAll(oralDiet.modifierExtension);
                 builder.type.addAll(oralDiet.type);
                 builder.schedule.addAll(oralDiet.schedule);
                 builder.nutrient.addAll(oralDiet.nutrient);
@@ -1476,8 +1474,8 @@ public class NutritionOrder extends DomainResource {
 
             private Nutrient(Builder builder) {
                 super(builder);
-                this.modifier = builder.modifier;
-                this.amount = builder.amount;
+                modifier = builder.modifier;
+                amount = builder.amount;
             }
 
             /**
@@ -1683,9 +1681,6 @@ public class NutritionOrder extends DomainResource {
 
                 private static Builder from(Nutrient nutrient) {
                     Builder builder = new Builder();
-                    builder.id = nutrient.id;
-                    builder.extension.addAll(nutrient.extension);
-                    builder.modifierExtension.addAll(nutrient.modifierExtension);
                     builder.modifier = nutrient.modifier;
                     builder.amount = nutrient.amount;
                     return builder;
@@ -1704,8 +1699,8 @@ public class NutritionOrder extends DomainResource {
 
             private Texture(Builder builder) {
                 super(builder);
-                this.modifier = builder.modifier;
-                this.foodType = builder.foodType;
+                modifier = builder.modifier;
+                foodType = builder.foodType;
             }
 
             /**
@@ -1911,9 +1906,6 @@ public class NutritionOrder extends DomainResource {
 
                 private static Builder from(Texture texture) {
                     Builder builder = new Builder();
-                    builder.id = texture.id;
-                    builder.extension.addAll(texture.extension);
-                    builder.modifierExtension.addAll(texture.modifierExtension);
                     builder.modifier = texture.modifier;
                     builder.foodType = texture.foodType;
                     return builder;
@@ -1936,11 +1928,11 @@ public class NutritionOrder extends DomainResource {
 
         private Supplement(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.productName = builder.productName;
-            this.schedule = builder.schedule;
-            this.quantity = builder.quantity;
-            this.instruction = builder.instruction;
+            type = builder.type;
+            productName = builder.productName;
+            schedule = Collections.unmodifiableList(builder.schedule);
+            quantity = builder.quantity;
+            instruction = builder.instruction;
         }
 
         /**
@@ -2257,9 +2249,6 @@ public class NutritionOrder extends DomainResource {
 
             private static Builder from(Supplement supplement) {
                 Builder builder = new Builder();
-                builder.id = supplement.id;
-                builder.extension.addAll(supplement.extension);
-                builder.modifierExtension.addAll(supplement.modifierExtension);
                 builder.type = supplement.type;
                 builder.productName = supplement.productName;
                 builder.schedule.addAll(supplement.schedule);
@@ -2289,15 +2278,15 @@ public class NutritionOrder extends DomainResource {
 
         private EnteralFormula(Builder builder) {
             super(builder);
-            this.baseFormulaType = builder.baseFormulaType;
-            this.baseFormulaProductName = builder.baseFormulaProductName;
-            this.additiveType = builder.additiveType;
-            this.additiveProductName = builder.additiveProductName;
-            this.caloricDensity = builder.caloricDensity;
-            this.routeofAdministration = builder.routeofAdministration;
-            this.administration = builder.administration;
-            this.maxVolumeToDeliver = builder.maxVolumeToDeliver;
-            this.administrationInstruction = builder.administrationInstruction;
+            baseFormulaType = builder.baseFormulaType;
+            baseFormulaProductName = builder.baseFormulaProductName;
+            additiveType = builder.additiveType;
+            additiveProductName = builder.additiveProductName;
+            caloricDensity = builder.caloricDensity;
+            routeofAdministration = builder.routeofAdministration;
+            administration = Collections.unmodifiableList(builder.administration);
+            maxVolumeToDeliver = builder.maxVolumeToDeliver;
+            administrationInstruction = builder.administrationInstruction;
         }
 
         /**
@@ -2747,9 +2736,6 @@ public class NutritionOrder extends DomainResource {
 
             private static Builder from(EnteralFormula enteralFormula) {
                 Builder builder = new Builder();
-                builder.id = enteralFormula.id;
-                builder.extension.addAll(enteralFormula.extension);
-                builder.modifierExtension.addAll(enteralFormula.modifierExtension);
                 builder.baseFormulaType = enteralFormula.baseFormulaType;
                 builder.baseFormulaProductName = enteralFormula.baseFormulaProductName;
                 builder.additiveType = enteralFormula.additiveType;
@@ -2777,9 +2763,9 @@ public class NutritionOrder extends DomainResource {
 
             private Administration(Builder builder) {
                 super(builder);
-                this.schedule = builder.schedule;
-                this.quantity = builder.quantity;
-                this.rate = ValidationSupport.choiceElement(builder.rate, "rate", Quantity.class, Ratio.class);
+                schedule = builder.schedule;
+                quantity = builder.quantity;
+                rate = ValidationSupport.choiceElement(builder.rate, "rate", Quantity.class, Ratio.class);
             }
 
             /**
@@ -3015,9 +3001,6 @@ public class NutritionOrder extends DomainResource {
 
                 private static Builder from(Administration administration) {
                     Builder builder = new Builder();
-                    builder.id = administration.id;
-                    builder.extension.addAll(administration.extension);
-                    builder.modifierExtension.addAll(administration.modifierExtension);
                     builder.schedule = administration.schedule;
                     builder.quantity = administration.quantity;
                     builder.rate = administration.rate;

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -39,19 +40,19 @@ public class Dosage extends BackboneElement {
 
     private Dosage(Builder builder) {
         super(builder);
-        this.sequence = builder.sequence;
-        this.text = builder.text;
-        this.additionalInstruction = builder.additionalInstruction;
-        this.patientInstruction = builder.patientInstruction;
-        this.timing = builder.timing;
-        this.asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
-        this.site = builder.site;
-        this.route = builder.route;
-        this.method = builder.method;
-        this.doseAndRate = builder.doseAndRate;
-        this.maxDosePerPeriod = builder.maxDosePerPeriod;
-        this.maxDosePerAdministration = builder.maxDosePerAdministration;
-        this.maxDosePerLifetime = builder.maxDosePerLifetime;
+        sequence = builder.sequence;
+        text = builder.text;
+        additionalInstruction = Collections.unmodifiableList(builder.additionalInstruction);
+        patientInstruction = builder.patientInstruction;
+        timing = builder.timing;
+        asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+        site = builder.site;
+        route = builder.route;
+        method = builder.method;
+        doseAndRate = Collections.unmodifiableList(builder.doseAndRate);
+        maxDosePerPeriod = builder.maxDosePerPeriod;
+        maxDosePerAdministration = builder.maxDosePerAdministration;
+        maxDosePerLifetime = builder.maxDosePerLifetime;
     }
 
     /**
@@ -659,9 +660,9 @@ public class Dosage extends BackboneElement {
 
         private DoseAndRate(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, Quantity.class);
-            this.rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, Quantity.class);
+            type = builder.type;
+            dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, Quantity.class);
+            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, Quantity.class);
         }
 
         /**
@@ -893,9 +894,6 @@ public class Dosage extends BackboneElement {
 
             private static Builder from(DoseAndRate doseAndRate) {
                 Builder builder = new Builder();
-                builder.id = doseAndRate.id;
-                builder.extension.addAll(doseAndRate.extension);
-                builder.modifierExtension.addAll(doseAndRate.modifierExtension);
                 builder.type = doseAndRate.type;
                 builder.dose = doseAndRate.dose;
                 builder.rate = doseAndRate.rate;

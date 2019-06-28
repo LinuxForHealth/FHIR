@@ -36,7 +36,7 @@ public class DateTime extends Element {
 
     private DateTime(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
         ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
     }
 

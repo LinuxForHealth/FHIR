@@ -24,8 +24,8 @@ public class Money extends Element {
 
     private Money(Builder builder) {
         super(builder);
-        this.value = builder.value;
-        this.currency = builder.currency;
+        value = builder.value;
+        currency = builder.currency;
     }
 
     /**

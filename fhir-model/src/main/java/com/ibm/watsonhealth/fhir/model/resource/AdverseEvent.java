@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -60,26 +61,26 @@ public class AdverseEvent extends DomainResource {
 
     private AdverseEvent(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.actuality = ValidationSupport.requireNonNull(builder.actuality, "actuality");
-        this.category = builder.category;
-        this.event = builder.event;
-        this.subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        this.encounter = builder.encounter;
-        this.date = builder.date;
-        this.detected = builder.detected;
-        this.recordedDate = builder.recordedDate;
-        this.resultingCondition = builder.resultingCondition;
-        this.location = builder.location;
-        this.seriousness = builder.seriousness;
-        this.severity = builder.severity;
-        this.outcome = builder.outcome;
-        this.recorder = builder.recorder;
-        this.contributor = builder.contributor;
-        this.suspectEntity = builder.suspectEntity;
-        this.subjectMedicalHistory = builder.subjectMedicalHistory;
-        this.referenceDocument = builder.referenceDocument;
-        this.study = builder.study;
+        identifier = builder.identifier;
+        actuality = ValidationSupport.requireNonNull(builder.actuality, "actuality");
+        category = Collections.unmodifiableList(builder.category);
+        event = builder.event;
+        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        encounter = builder.encounter;
+        date = builder.date;
+        detected = builder.detected;
+        recordedDate = builder.recordedDate;
+        resultingCondition = Collections.unmodifiableList(builder.resultingCondition);
+        location = builder.location;
+        seriousness = builder.seriousness;
+        severity = builder.severity;
+        outcome = builder.outcome;
+        recorder = builder.recorder;
+        contributor = Collections.unmodifiableList(builder.contributor);
+        suspectEntity = Collections.unmodifiableList(builder.suspectEntity);
+        subjectMedicalHistory = Collections.unmodifiableList(builder.subjectMedicalHistory);
+        referenceDocument = Collections.unmodifiableList(builder.referenceDocument);
+        study = Collections.unmodifiableList(builder.study);
     }
 
     /**
@@ -1089,8 +1090,8 @@ public class AdverseEvent extends DomainResource {
 
         private SuspectEntity(Builder builder) {
             super(builder);
-            this.instance = ValidationSupport.requireNonNull(builder.instance, "instance");
-            this.causality = builder.causality;
+            instance = ValidationSupport.requireNonNull(builder.instance, "instance");
+            causality = Collections.unmodifiableList(builder.causality);
         }
 
         /**
@@ -1302,9 +1303,6 @@ public class AdverseEvent extends DomainResource {
 
             private static Builder from(SuspectEntity suspectEntity) {
                 Builder builder = new Builder(suspectEntity.instance);
-                builder.id = suspectEntity.id;
-                builder.extension.addAll(suspectEntity.extension);
-                builder.modifierExtension.addAll(suspectEntity.modifierExtension);
                 builder.causality.addAll(suspectEntity.causality);
                 return builder;
             }
@@ -1323,10 +1321,10 @@ public class AdverseEvent extends DomainResource {
 
             private Causality(Builder builder) {
                 super(builder);
-                this.assessment = builder.assessment;
-                this.productRelatedness = builder.productRelatedness;
-                this.author = builder.author;
-                this.method = builder.method;
+                assessment = builder.assessment;
+                productRelatedness = builder.productRelatedness;
+                author = builder.author;
+                method = builder.method;
             }
 
             /**
@@ -1592,9 +1590,6 @@ public class AdverseEvent extends DomainResource {
 
                 private static Builder from(Causality causality) {
                     Builder builder = new Builder();
-                    builder.id = causality.id;
-                    builder.extension.addAll(causality.extension);
-                    builder.modifierExtension.addAll(causality.modifierExtension);
                     builder.assessment = causality.assessment;
                     builder.productRelatedness = causality.productRelatedness;
                     builder.author = causality.author;

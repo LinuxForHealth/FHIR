@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -81,29 +82,29 @@ public class ChargeItemDefinition extends DomainResource {
 
     private ChargeItemDefinition(Builder builder) {
         super(builder);
-        this.url = ValidationSupport.requireNonNull(builder.url, "url");
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.title = builder.title;
-        this.derivedFromUri = builder.derivedFromUri;
-        this.partOf = builder.partOf;
-        this.replaces = builder.replaces;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.code = builder.code;
-        this.instance = builder.instance;
-        this.applicability = builder.applicability;
-        this.propertyGroup = builder.propertyGroup;
+        url = ValidationSupport.requireNonNull(builder.url, "url");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        title = builder.title;
+        derivedFromUri = Collections.unmodifiableList(builder.derivedFromUri);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        code = builder.code;
+        instance = Collections.unmodifiableList(builder.instance);
+        applicability = Collections.unmodifiableList(builder.applicability);
+        propertyGroup = Collections.unmodifiableList(builder.propertyGroup);
     }
 
     /**
@@ -1286,9 +1287,9 @@ public class ChargeItemDefinition extends DomainResource {
 
         private Applicability(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.language = builder.language;
-            this.expression = builder.expression;
+            description = builder.description;
+            language = builder.language;
+            expression = builder.expression;
         }
 
         /**
@@ -1530,9 +1531,6 @@ public class ChargeItemDefinition extends DomainResource {
 
             private static Builder from(Applicability applicability) {
                 Builder builder = new Builder();
-                builder.id = applicability.id;
-                builder.extension.addAll(applicability.extension);
-                builder.modifierExtension.addAll(applicability.modifierExtension);
                 builder.description = applicability.description;
                 builder.language = applicability.language;
                 builder.expression = applicability.expression;
@@ -1553,8 +1551,8 @@ public class ChargeItemDefinition extends DomainResource {
 
         private PropertyGroup(Builder builder) {
             super(builder);
-            this.applicability = builder.applicability;
-            this.priceComponent = builder.priceComponent;
+            applicability = Collections.unmodifiableList(builder.applicability);
+            priceComponent = Collections.unmodifiableList(builder.priceComponent);
         }
 
         /**
@@ -1805,9 +1803,6 @@ public class ChargeItemDefinition extends DomainResource {
 
             private static Builder from(PropertyGroup propertyGroup) {
                 Builder builder = new Builder();
-                builder.id = propertyGroup.id;
-                builder.extension.addAll(propertyGroup.extension);
-                builder.modifierExtension.addAll(propertyGroup.modifierExtension);
                 builder.applicability.addAll(propertyGroup.applicability);
                 builder.priceComponent.addAll(propertyGroup.priceComponent);
                 return builder;
@@ -1830,10 +1825,10 @@ public class ChargeItemDefinition extends DomainResource {
 
             private PriceComponent(Builder builder) {
                 super(builder);
-                this.type = ValidationSupport.requireNonNull(builder.type, "type");
-                this.code = builder.code;
-                this.factor = builder.factor;
-                this.amount = builder.amount;
+                type = ValidationSupport.requireNonNull(builder.type, "type");
+                code = builder.code;
+                factor = builder.factor;
+                amount = builder.amount;
             }
 
             /**
@@ -2088,9 +2083,6 @@ public class ChargeItemDefinition extends DomainResource {
 
                 private static Builder from(PriceComponent priceComponent) {
                     Builder builder = new Builder(priceComponent.type);
-                    builder.id = priceComponent.id;
-                    builder.extension.addAll(priceComponent.extension);
-                    builder.modifierExtension.addAll(priceComponent.modifierExtension);
                     builder.code = priceComponent.code;
                     builder.factor = priceComponent.factor;
                     builder.amount = priceComponent.amount;

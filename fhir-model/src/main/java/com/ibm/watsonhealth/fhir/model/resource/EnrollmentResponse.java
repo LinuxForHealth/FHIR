@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -44,14 +45,14 @@ public class EnrollmentResponse extends DomainResource {
 
     private EnrollmentResponse(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = builder.status;
-        this.request = builder.request;
-        this.outcome = builder.outcome;
-        this.disposition = builder.disposition;
-        this.created = builder.created;
-        this.organization = builder.organization;
-        this.requestProvider = builder.requestProvider;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        request = builder.request;
+        outcome = builder.outcome;
+        disposition = builder.disposition;
+        created = builder.created;
+        organization = builder.organization;
+        requestProvider = builder.requestProvider;
     }
 
     /**

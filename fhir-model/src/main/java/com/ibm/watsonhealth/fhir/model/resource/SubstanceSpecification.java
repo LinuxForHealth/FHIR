@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -61,25 +62,25 @@ public class SubstanceSpecification extends DomainResource {
 
     private SubstanceSpecification(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.type = builder.type;
-        this.status = builder.status;
-        this.domain = builder.domain;
-        this.description = builder.description;
-        this.source = builder.source;
-        this.comment = builder.comment;
-        this.moiety = builder.moiety;
-        this.property = builder.property;
-        this.referenceInformation = builder.referenceInformation;
-        this.structure = builder.structure;
-        this.code = builder.code;
-        this.name = builder.name;
-        this.molecularWeight = builder.molecularWeight;
-        this.relationship = builder.relationship;
-        this.nucleicAcid = builder.nucleicAcid;
-        this.polymer = builder.polymer;
-        this.protein = builder.protein;
-        this.sourceMaterial = builder.sourceMaterial;
+        identifier = builder.identifier;
+        type = builder.type;
+        status = builder.status;
+        domain = builder.domain;
+        description = builder.description;
+        source = Collections.unmodifiableList(builder.source);
+        comment = builder.comment;
+        moiety = Collections.unmodifiableList(builder.moiety);
+        property = Collections.unmodifiableList(builder.property);
+        referenceInformation = builder.referenceInformation;
+        structure = builder.structure;
+        code = Collections.unmodifiableList(builder.code);
+        name = Collections.unmodifiableList(builder.name);
+        molecularWeight = Collections.unmodifiableList(builder.molecularWeight);
+        relationship = Collections.unmodifiableList(builder.relationship);
+        nucleicAcid = builder.nucleicAcid;
+        polymer = builder.polymer;
+        protein = builder.protein;
+        sourceMaterial = builder.sourceMaterial;
     }
 
     /**
@@ -1072,13 +1073,13 @@ public class SubstanceSpecification extends DomainResource {
 
         private Moiety(Builder builder) {
             super(builder);
-            this.role = builder.role;
-            this.identifier = builder.identifier;
-            this.name = builder.name;
-            this.stereochemistry = builder.stereochemistry;
-            this.opticalActivity = builder.opticalActivity;
-            this.molecularFormula = builder.molecularFormula;
-            this.amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
+            role = builder.role;
+            identifier = builder.identifier;
+            name = builder.name;
+            stereochemistry = builder.stereochemistry;
+            opticalActivity = builder.opticalActivity;
+            molecularFormula = builder.molecularFormula;
+            amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
         }
 
         /**
@@ -1434,9 +1435,6 @@ public class SubstanceSpecification extends DomainResource {
 
             private static Builder from(Moiety moiety) {
                 Builder builder = new Builder();
-                builder.id = moiety.id;
-                builder.extension.addAll(moiety.extension);
-                builder.modifierExtension.addAll(moiety.modifierExtension);
                 builder.role = moiety.role;
                 builder.identifier = moiety.identifier;
                 builder.name = moiety.name;
@@ -1463,11 +1461,11 @@ public class SubstanceSpecification extends DomainResource {
 
         private Property(Builder builder) {
             super(builder);
-            this.category = builder.category;
-            this.code = builder.code;
-            this.parameters = builder.parameters;
-            this.definingSubstance = ValidationSupport.choiceElement(builder.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
-            this.amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
+            category = builder.category;
+            code = builder.code;
+            parameters = builder.parameters;
+            definingSubstance = ValidationSupport.choiceElement(builder.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
+            amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
         }
 
         /**
@@ -1763,9 +1761,6 @@ public class SubstanceSpecification extends DomainResource {
 
             private static Builder from(Property property) {
                 Builder builder = new Builder();
-                builder.id = property.id;
-                builder.extension.addAll(property.extension);
-                builder.modifierExtension.addAll(property.modifierExtension);
                 builder.category = property.category;
                 builder.code = property.code;
                 builder.parameters = property.parameters;
@@ -1793,14 +1788,14 @@ public class SubstanceSpecification extends DomainResource {
 
         private Structure(Builder builder) {
             super(builder);
-            this.stereochemistry = builder.stereochemistry;
-            this.opticalActivity = builder.opticalActivity;
-            this.molecularFormula = builder.molecularFormula;
-            this.molecularFormulaByMoiety = builder.molecularFormulaByMoiety;
-            this.isotope = builder.isotope;
-            this.molecularWeight = builder.molecularWeight;
-            this.source = builder.source;
-            this.representation = builder.representation;
+            stereochemistry = builder.stereochemistry;
+            opticalActivity = builder.opticalActivity;
+            molecularFormula = builder.molecularFormula;
+            molecularFormulaByMoiety = builder.molecularFormulaByMoiety;
+            isotope = Collections.unmodifiableList(builder.isotope);
+            molecularWeight = builder.molecularWeight;
+            source = Collections.unmodifiableList(builder.source);
+            representation = Collections.unmodifiableList(builder.representation);
         }
 
         /**
@@ -2243,9 +2238,6 @@ public class SubstanceSpecification extends DomainResource {
 
             private static Builder from(Structure structure) {
                 Builder builder = new Builder();
-                builder.id = structure.id;
-                builder.extension.addAll(structure.extension);
-                builder.modifierExtension.addAll(structure.modifierExtension);
                 builder.stereochemistry = structure.stereochemistry;
                 builder.opticalActivity = structure.opticalActivity;
                 builder.molecularFormula = structure.molecularFormula;
@@ -2272,11 +2264,11 @@ public class SubstanceSpecification extends DomainResource {
 
             private Isotope(Builder builder) {
                 super(builder);
-                this.identifier = builder.identifier;
-                this.name = builder.name;
-                this.substitution = builder.substitution;
-                this.halfLife = builder.halfLife;
-                this.molecularWeight = builder.molecularWeight;
+                identifier = builder.identifier;
+                name = builder.name;
+                substitution = builder.substitution;
+                halfLife = builder.halfLife;
+                molecularWeight = builder.molecularWeight;
             }
 
             /**
@@ -2572,9 +2564,6 @@ public class SubstanceSpecification extends DomainResource {
 
                 private static Builder from(Isotope isotope) {
                     Builder builder = new Builder();
-                    builder.id = isotope.id;
-                    builder.extension.addAll(isotope.extension);
-                    builder.modifierExtension.addAll(isotope.modifierExtension);
                     builder.identifier = isotope.identifier;
                     builder.name = isotope.name;
                     builder.substitution = isotope.substitution;
@@ -2596,9 +2585,9 @@ public class SubstanceSpecification extends DomainResource {
 
                 private MolecularWeight(Builder builder) {
                     super(builder);
-                    this.method = builder.method;
-                    this.type = builder.type;
-                    this.amount = builder.amount;
+                    method = builder.method;
+                    type = builder.type;
+                    amount = builder.amount;
                 }
 
                 /**
@@ -2837,9 +2826,6 @@ public class SubstanceSpecification extends DomainResource {
 
                     private static Builder from(MolecularWeight molecularWeight) {
                         Builder builder = new Builder();
-                        builder.id = molecularWeight.id;
-                        builder.extension.addAll(molecularWeight.extension);
-                        builder.modifierExtension.addAll(molecularWeight.modifierExtension);
                         builder.method = molecularWeight.method;
                         builder.type = molecularWeight.type;
                         builder.amount = molecularWeight.amount;
@@ -2861,9 +2847,9 @@ public class SubstanceSpecification extends DomainResource {
 
             private Representation(Builder builder) {
                 super(builder);
-                this.type = builder.type;
-                this.representation = builder.representation;
-                this.attachment = builder.attachment;
+                type = builder.type;
+                representation = builder.representation;
+                attachment = builder.attachment;
             }
 
             /**
@@ -3099,9 +3085,6 @@ public class SubstanceSpecification extends DomainResource {
 
                 private static Builder from(Representation representation) {
                     Builder builder = new Builder();
-                    builder.id = representation.id;
-                    builder.extension.addAll(representation.extension);
-                    builder.modifierExtension.addAll(representation.modifierExtension);
                     builder.type = representation.type;
                     builder.representation = representation.representation;
                     builder.attachment = representation.attachment;
@@ -3125,11 +3108,11 @@ public class SubstanceSpecification extends DomainResource {
 
         private Code(Builder builder) {
             super(builder);
-            this.code = builder.code;
-            this.status = builder.status;
-            this.statusDate = builder.statusDate;
-            this.comment = builder.comment;
-            this.source = builder.source;
+            code = builder.code;
+            status = builder.status;
+            statusDate = builder.statusDate;
+            comment = builder.comment;
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -3443,9 +3426,6 @@ public class SubstanceSpecification extends DomainResource {
 
             private static Builder from(Code code) {
                 Builder builder = new Builder();
-                builder.id = code.id;
-                builder.extension.addAll(code.extension);
-                builder.modifierExtension.addAll(code.modifierExtension);
                 builder.code = code.code;
                 builder.status = code.status;
                 builder.statusDate = code.statusDate;
@@ -3476,17 +3456,17 @@ public class SubstanceSpecification extends DomainResource {
 
         private Name(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.type = builder.type;
-            this.status = builder.status;
-            this.preferred = builder.preferred;
-            this.language = builder.language;
-            this.domain = builder.domain;
-            this.jurisdiction = builder.jurisdiction;
-            this.synonym = builder.synonym;
-            this.translation = builder.translation;
-            this.official = builder.official;
-            this.source = builder.source;
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            type = builder.type;
+            status = builder.status;
+            preferred = builder.preferred;
+            language = Collections.unmodifiableList(builder.language);
+            domain = Collections.unmodifiableList(builder.domain);
+            jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+            synonym = Collections.unmodifiableList(builder.synonym);
+            translation = Collections.unmodifiableList(builder.translation);
+            official = Collections.unmodifiableList(builder.official);
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -4080,9 +4060,6 @@ public class SubstanceSpecification extends DomainResource {
 
             private static Builder from(Name name) {
                 Builder builder = new Builder(name.name);
-                builder.id = name.id;
-                builder.extension.addAll(name.extension);
-                builder.modifierExtension.addAll(name.modifierExtension);
                 builder.type = name.type;
                 builder.status = name.status;
                 builder.preferred = name.preferred;
@@ -4109,9 +4086,9 @@ public class SubstanceSpecification extends DomainResource {
 
             private Official(Builder builder) {
                 super(builder);
-                this.authority = builder.authority;
-                this.status = builder.status;
-                this.date = builder.date;
+                authority = builder.authority;
+                status = builder.status;
+                date = builder.date;
             }
 
             /**
@@ -4347,9 +4324,6 @@ public class SubstanceSpecification extends DomainResource {
 
                 private static Builder from(Official official) {
                     Builder builder = new Builder();
-                    builder.id = official.id;
-                    builder.extension.addAll(official.extension);
-                    builder.modifierExtension.addAll(official.modifierExtension);
                     builder.authority = official.authority;
                     builder.status = official.status;
                     builder.date = official.date;
@@ -4375,13 +4349,13 @@ public class SubstanceSpecification extends DomainResource {
 
         private Relationship(Builder builder) {
             super(builder);
-            this.substance = ValidationSupport.choiceElement(builder.substance, "substance", Reference.class, CodeableConcept.class);
-            this.relationship = builder.relationship;
-            this.isDefining = builder.isDefining;
-            this.amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
-            this.amountRatioLowLimit = builder.amountRatioLowLimit;
-            this.amountType = builder.amountType;
-            this.source = builder.source;
+            substance = ValidationSupport.choiceElement(builder.substance, "substance", Reference.class, CodeableConcept.class);
+            relationship = builder.relationship;
+            isDefining = builder.isDefining;
+            amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
+            amountRatioLowLimit = builder.amountRatioLowLimit;
+            amountType = builder.amountType;
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -4761,9 +4735,6 @@ public class SubstanceSpecification extends DomainResource {
 
             private static Builder from(Relationship relationship) {
                 Builder builder = new Builder();
-                builder.id = relationship.id;
-                builder.extension.addAll(relationship.extension);
-                builder.modifierExtension.addAll(relationship.modifierExtension);
                 builder.substance = relationship.substance;
                 builder.relationship = relationship.relationship;
                 builder.isDefining = relationship.isDefining;

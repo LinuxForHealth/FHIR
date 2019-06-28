@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -62,20 +63,20 @@ public class CoverageEligibilityRequest extends DomainResource {
 
     private CoverageEligibilityRequest(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.priority = builder.priority;
-        this.purpose = ValidationSupport.requireNonEmpty(builder.purpose, "purpose");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-        this.created = ValidationSupport.requireNonNull(builder.created, "created");
-        this.enterer = builder.enterer;
-        this.provider = builder.provider;
-        this.insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        this.facility = builder.facility;
-        this.supportingInfo = builder.supportingInfo;
-        this.insurance = builder.insurance;
-        this.item = builder.item;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        priority = builder.priority;
+        purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
+        created = ValidationSupport.requireNonNull(builder.created, "created");
+        enterer = builder.enterer;
+        provider = builder.provider;
+        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
+        facility = builder.facility;
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -599,6 +600,44 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         /**
          * <p>
+         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
+         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
+         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
+         * </p>
+         * 
+         * @param purpose
+         *     auth-requirements | benefits | discovery | validation
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder purpose(EligibilityRequestPurpose... purpose) {
+            for (EligibilityRequestPurpose value : purpose) {
+                this.purpose.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
+         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
+         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
+         * </p>
+         * 
+         * @param purpose
+         *     auth-requirements | benefits | discovery | validation
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder purpose(Collection<EligibilityRequestPurpose> purpose) {
+            this.purpose.addAll(purpose);
+            return this;
+        }
+
+        /**
+         * <p>
          * The date or dates when the enclosed suite of services were performed or completed.
          * </p>
          * 
@@ -786,9 +825,9 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         private SupportingInfo(Builder builder) {
             super(builder);
-            this.sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            this.information = ValidationSupport.requireNonNull(builder.information, "information");
-            this.appliesToAll = builder.appliesToAll;
+            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+            information = ValidationSupport.requireNonNull(builder.information, "information");
+            appliesToAll = builder.appliesToAll;
         }
 
         /**
@@ -997,9 +1036,6 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             private static Builder from(SupportingInfo supportingInfo) {
                 Builder builder = new Builder(supportingInfo.sequence, supportingInfo.information);
-                builder.id = supportingInfo.id;
-                builder.extension.addAll(supportingInfo.extension);
-                builder.modifierExtension.addAll(supportingInfo.modifierExtension);
                 builder.appliesToAll = supportingInfo.appliesToAll;
                 return builder;
             }
@@ -1018,9 +1054,9 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         private Insurance(Builder builder) {
             super(builder);
-            this.focal = builder.focal;
-            this.coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
-            this.businessArrangement = builder.businessArrangement;
+            focal = builder.focal;
+            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            businessArrangement = builder.businessArrangement;
         }
 
         /**
@@ -1244,9 +1280,6 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             private static Builder from(Insurance insurance) {
                 Builder builder = new Builder(insurance.coverage);
-                builder.id = insurance.id;
-                builder.extension.addAll(insurance.extension);
-                builder.modifierExtension.addAll(insurance.modifierExtension);
                 builder.focal = insurance.focal;
                 builder.businessArrangement = insurance.businessArrangement;
                 return builder;
@@ -1274,16 +1307,16 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            this.supportingInfoSequence = builder.supportingInfoSequence;
-            this.category = builder.category;
-            this.productOrService = builder.productOrService;
-            this.modifier = builder.modifier;
-            this.provider = builder.provider;
-            this.quantity = builder.quantity;
-            this.unitPrice = builder.unitPrice;
-            this.facility = builder.facility;
-            this.diagnosis = builder.diagnosis;
-            this.detail = builder.detail;
+            supportingInfoSequence = Collections.unmodifiableList(builder.supportingInfoSequence);
+            category = builder.category;
+            productOrService = builder.productOrService;
+            modifier = Collections.unmodifiableList(builder.modifier);
+            provider = builder.provider;
+            quantity = builder.quantity;
+            unitPrice = builder.unitPrice;
+            facility = builder.facility;
+            diagnosis = Collections.unmodifiableList(builder.diagnosis);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1801,9 +1834,6 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             private static Builder from(Item item) {
                 Builder builder = new Builder();
-                builder.id = item.id;
-                builder.extension.addAll(item.extension);
-                builder.modifierExtension.addAll(item.modifierExtension);
                 builder.supportingInfoSequence.addAll(item.supportingInfoSequence);
                 builder.category = item.category;
                 builder.productOrService = item.productOrService;
@@ -1828,7 +1858,7 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             private Diagnosis(Builder builder) {
                 super(builder);
-                this.diagnosis = ValidationSupport.choiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+                diagnosis = ValidationSupport.choiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
             }
 
             /**
@@ -2004,9 +2034,6 @@ public class CoverageEligibilityRequest extends DomainResource {
 
                 private static Builder from(Diagnosis diagnosis) {
                     Builder builder = new Builder();
-                    builder.id = diagnosis.id;
-                    builder.extension.addAll(diagnosis.extension);
-                    builder.modifierExtension.addAll(diagnosis.modifierExtension);
                     builder.diagnosis = diagnosis.diagnosis;
                     return builder;
                 }

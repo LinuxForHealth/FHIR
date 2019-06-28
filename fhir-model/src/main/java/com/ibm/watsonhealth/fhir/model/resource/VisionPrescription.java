@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -52,14 +53,14 @@ public class VisionPrescription extends DomainResource {
 
     private VisionPrescription(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.created = ValidationSupport.requireNonNull(builder.created, "created");
-        this.patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        this.encounter = builder.encounter;
-        this.dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
-        this.prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
-        this.lensSpecification = ValidationSupport.requireNonEmpty(builder.lensSpecification, "lensSpecification");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        created = ValidationSupport.requireNonNull(builder.created, "created");
+        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        encounter = builder.encounter;
+        dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
+        prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
+        lensSpecification = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.lensSpecification, "lensSpecification"));
     }
 
     /**
@@ -490,6 +491,42 @@ public class VisionPrescription extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
+         * certified professionals.
+         * </p>
+         * 
+         * @param lensSpecification
+         *     Vision lens authorization
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder lensSpecification(LensSpecification... lensSpecification) {
+            for (LensSpecification value : lensSpecification) {
+                this.lensSpecification.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
+         * certified professionals.
+         * </p>
+         * 
+         * @param lensSpecification
+         *     Vision lens authorization
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder lensSpecification(Collection<LensSpecification> lensSpecification) {
+            this.lensSpecification.addAll(lensSpecification);
+            return this;
+        }
+
         @Override
         public VisionPrescription build() {
             return new VisionPrescription(this);
@@ -520,20 +557,20 @@ public class VisionPrescription extends DomainResource {
 
         private LensSpecification(Builder builder) {
             super(builder);
-            this.product = ValidationSupport.requireNonNull(builder.product, "product");
-            this.eye = ValidationSupport.requireNonNull(builder.eye, "eye");
-            this.sphere = builder.sphere;
-            this.cylinder = builder.cylinder;
-            this.axis = builder.axis;
-            this.prism = builder.prism;
-            this.add = builder.add;
-            this.power = builder.power;
-            this.backCurve = builder.backCurve;
-            this.diameter = builder.diameter;
-            this.duration = builder.duration;
-            this.color = builder.color;
-            this.brand = builder.brand;
-            this.note = builder.note;
+            product = ValidationSupport.requireNonNull(builder.product, "product");
+            eye = ValidationSupport.requireNonNull(builder.eye, "eye");
+            sphere = builder.sphere;
+            cylinder = builder.cylinder;
+            axis = builder.axis;
+            prism = Collections.unmodifiableList(builder.prism);
+            add = builder.add;
+            power = builder.power;
+            backCurve = builder.backCurve;
+            diameter = builder.diameter;
+            duration = builder.duration;
+            color = builder.color;
+            brand = builder.brand;
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1107,9 +1144,6 @@ public class VisionPrescription extends DomainResource {
 
             private static Builder from(LensSpecification lensSpecification) {
                 Builder builder = new Builder(lensSpecification.product, lensSpecification.eye);
-                builder.id = lensSpecification.id;
-                builder.extension.addAll(lensSpecification.extension);
-                builder.modifierExtension.addAll(lensSpecification.modifierExtension);
                 builder.sphere = lensSpecification.sphere;
                 builder.cylinder = lensSpecification.cylinder;
                 builder.axis = lensSpecification.axis;
@@ -1137,8 +1171,8 @@ public class VisionPrescription extends DomainResource {
 
             private Prism(Builder builder) {
                 super(builder);
-                this.amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-                this.base = ValidationSupport.requireNonNull(builder.base, "base");
+                amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+                base = ValidationSupport.requireNonNull(builder.base, "base");
             }
 
             /**
@@ -1314,9 +1348,6 @@ public class VisionPrescription extends DomainResource {
 
                 private static Builder from(Prism prism) {
                     Builder builder = new Builder(prism.amount, prism.base);
-                    builder.id = prism.id;
-                    builder.extension.addAll(prism.extension);
-                    builder.modifierExtension.addAll(prism.modifierExtension);
                     return builder;
                 }
             }

@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -55,19 +56,19 @@ public class SubstanceSourceMaterial extends DomainResource {
 
     private SubstanceSourceMaterial(Builder builder) {
         super(builder);
-        this.sourceMaterialClass = builder.sourceMaterialClass;
-        this.sourceMaterialType = builder.sourceMaterialType;
-        this.sourceMaterialState = builder.sourceMaterialState;
-        this.organismId = builder.organismId;
-        this.organismName = builder.organismName;
-        this.parentSubstanceId = builder.parentSubstanceId;
-        this.parentSubstanceName = builder.parentSubstanceName;
-        this.countryOfOrigin = builder.countryOfOrigin;
-        this.geographicalLocation = builder.geographicalLocation;
-        this.developmentStage = builder.developmentStage;
-        this.fractionDescription = builder.fractionDescription;
-        this.organism = builder.organism;
-        this.partDescription = builder.partDescription;
+        sourceMaterialClass = builder.sourceMaterialClass;
+        sourceMaterialType = builder.sourceMaterialType;
+        sourceMaterialState = builder.sourceMaterialState;
+        organismId = builder.organismId;
+        organismName = builder.organismName;
+        parentSubstanceId = Collections.unmodifiableList(builder.parentSubstanceId);
+        parentSubstanceName = Collections.unmodifiableList(builder.parentSubstanceName);
+        countryOfOrigin = Collections.unmodifiableList(builder.countryOfOrigin);
+        geographicalLocation = Collections.unmodifiableList(builder.geographicalLocation);
+        developmentStage = builder.developmentStage;
+        fractionDescription = Collections.unmodifiableList(builder.fractionDescription);
+        organism = builder.organism;
+        partDescription = Collections.unmodifiableList(builder.partDescription);
     }
 
     /**
@@ -908,8 +909,8 @@ public class SubstanceSourceMaterial extends DomainResource {
 
         private FractionDescription(Builder builder) {
             super(builder);
-            this.fraction = builder.fraction;
-            this.materialType = builder.materialType;
+            fraction = builder.fraction;
+            materialType = builder.materialType;
         }
 
         /**
@@ -1118,9 +1119,6 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             private static Builder from(FractionDescription fractionDescription) {
                 Builder builder = new Builder();
-                builder.id = fractionDescription.id;
-                builder.extension.addAll(fractionDescription.extension);
-                builder.modifierExtension.addAll(fractionDescription.modifierExtension);
                 builder.fraction = fractionDescription.fraction;
                 builder.materialType = fractionDescription.materialType;
                 return builder;
@@ -1147,14 +1145,14 @@ public class SubstanceSourceMaterial extends DomainResource {
 
         private Organism(Builder builder) {
             super(builder);
-            this.family = builder.family;
-            this.genus = builder.genus;
-            this.species = builder.species;
-            this.intraspecificType = builder.intraspecificType;
-            this.intraspecificDescription = builder.intraspecificDescription;
-            this.author = builder.author;
-            this.hybrid = builder.hybrid;
-            this.organismGeneral = builder.organismGeneral;
+            family = builder.family;
+            genus = builder.genus;
+            species = builder.species;
+            intraspecificType = builder.intraspecificType;
+            intraspecificDescription = builder.intraspecificDescription;
+            author = Collections.unmodifiableList(builder.author);
+            hybrid = builder.hybrid;
+            organismGeneral = builder.organismGeneral;
         }
 
         /**
@@ -1567,9 +1565,6 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             private static Builder from(Organism organism) {
                 Builder builder = new Builder();
-                builder.id = organism.id;
-                builder.extension.addAll(organism.extension);
-                builder.modifierExtension.addAll(organism.modifierExtension);
                 builder.family = organism.family;
                 builder.genus = organism.genus;
                 builder.species = organism.species;
@@ -1593,8 +1588,8 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             private Author(Builder builder) {
                 super(builder);
-                this.authorType = builder.authorType;
-                this.authorDescription = builder.authorDescription;
+                authorType = builder.authorType;
+                authorDescription = builder.authorDescription;
             }
 
             /**
@@ -1811,9 +1806,6 @@ public class SubstanceSourceMaterial extends DomainResource {
 
                 private static Builder from(Author author) {
                     Builder builder = new Builder();
-                    builder.id = author.id;
-                    builder.extension.addAll(author.extension);
-                    builder.modifierExtension.addAll(author.modifierExtension);
                     builder.authorType = author.authorType;
                     builder.authorDescription = author.authorDescription;
                     return builder;
@@ -1835,11 +1827,11 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             private Hybrid(Builder builder) {
                 super(builder);
-                this.maternalOrganismId = builder.maternalOrganismId;
-                this.maternalOrganismName = builder.maternalOrganismName;
-                this.paternalOrganismId = builder.paternalOrganismId;
-                this.paternalOrganismName = builder.paternalOrganismName;
-                this.hybridType = builder.hybridType;
+                maternalOrganismId = builder.maternalOrganismId;
+                maternalOrganismName = builder.maternalOrganismName;
+                paternalOrganismId = builder.paternalOrganismId;
+                paternalOrganismName = builder.paternalOrganismName;
+                hybridType = builder.hybridType;
             }
 
             /**
@@ -2147,9 +2139,6 @@ public class SubstanceSourceMaterial extends DomainResource {
 
                 private static Builder from(Hybrid hybrid) {
                     Builder builder = new Builder();
-                    builder.id = hybrid.id;
-                    builder.extension.addAll(hybrid.extension);
-                    builder.modifierExtension.addAll(hybrid.modifierExtension);
                     builder.maternalOrganismId = hybrid.maternalOrganismId;
                     builder.maternalOrganismName = hybrid.maternalOrganismName;
                     builder.paternalOrganismId = hybrid.paternalOrganismId;
@@ -2173,10 +2162,10 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             private OrganismGeneral(Builder builder) {
                 super(builder);
-                this.kingdom = builder.kingdom;
-                this.phylum = builder.phylum;
-                this.clazz = builder.clazz;
-                this.order = builder.order;
+                kingdom = builder.kingdom;
+                phylum = builder.phylum;
+                clazz = builder.clazz;
+                order = builder.order;
             }
 
             /**
@@ -2442,9 +2431,6 @@ public class SubstanceSourceMaterial extends DomainResource {
 
                 private static Builder from(OrganismGeneral organismGeneral) {
                     Builder builder = new Builder();
-                    builder.id = organismGeneral.id;
-                    builder.extension.addAll(organismGeneral.extension);
-                    builder.modifierExtension.addAll(organismGeneral.modifierExtension);
                     builder.kingdom = organismGeneral.kingdom;
                     builder.phylum = organismGeneral.phylum;
                     builder.clazz = organismGeneral.clazz;
@@ -2466,8 +2452,8 @@ public class SubstanceSourceMaterial extends DomainResource {
 
         private PartDescription(Builder builder) {
             super(builder);
-            this.part = builder.part;
-            this.partLocation = builder.partLocation;
+            part = builder.part;
+            partLocation = builder.partLocation;
         }
 
         /**
@@ -2676,9 +2662,6 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             private static Builder from(PartDescription partDescription) {
                 Builder builder = new Builder();
-                builder.id = partDescription.id;
-                builder.extension.addAll(partDescription.extension);
-                builder.modifierExtension.addAll(partDescription.modifierExtension);
                 builder.part = partDescription.part;
                 builder.partLocation = partDescription.partLocation;
                 return builder;

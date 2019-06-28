@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -57,19 +58,19 @@ public class ObservationDefinition extends DomainResource {
 
     private ObservationDefinition(Builder builder) {
         super(builder);
-        this.category = builder.category;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.identifier = builder.identifier;
-        this.permittedDataType = builder.permittedDataType;
-        this.multipleResultsAllowed = builder.multipleResultsAllowed;
-        this.method = builder.method;
-        this.preferredReportName = builder.preferredReportName;
-        this.quantitativeDetails = builder.quantitativeDetails;
-        this.qualifiedInterval = builder.qualifiedInterval;
-        this.validCodedValueSet = builder.validCodedValueSet;
-        this.normalCodedValueSet = builder.normalCodedValueSet;
-        this.abnormalCodedValueSet = builder.abnormalCodedValueSet;
-        this.criticalCodedValueSet = builder.criticalCodedValueSet;
+        category = Collections.unmodifiableList(builder.category);
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        permittedDataType = Collections.unmodifiableList(builder.permittedDataType);
+        multipleResultsAllowed = builder.multipleResultsAllowed;
+        method = builder.method;
+        preferredReportName = builder.preferredReportName;
+        quantitativeDetails = builder.quantitativeDetails;
+        qualifiedInterval = Collections.unmodifiableList(builder.qualifiedInterval);
+        validCodedValueSet = builder.validCodedValueSet;
+        normalCodedValueSet = builder.normalCodedValueSet;
+        abnormalCodedValueSet = builder.abnormalCodedValueSet;
+        criticalCodedValueSet = builder.criticalCodedValueSet;
     }
 
     /**
@@ -808,10 +809,10 @@ public class ObservationDefinition extends DomainResource {
 
         private QuantitativeDetails(Builder builder) {
             super(builder);
-            this.customaryUnit = builder.customaryUnit;
-            this.unit = builder.unit;
-            this.conversionFactor = builder.conversionFactor;
-            this.decimalPrecision = builder.decimalPrecision;
+            customaryUnit = builder.customaryUnit;
+            unit = builder.unit;
+            conversionFactor = builder.conversionFactor;
+            decimalPrecision = builder.decimalPrecision;
         }
 
         /**
@@ -1077,9 +1078,6 @@ public class ObservationDefinition extends DomainResource {
 
             private static Builder from(QuantitativeDetails quantitativeDetails) {
                 Builder builder = new Builder();
-                builder.id = quantitativeDetails.id;
-                builder.extension.addAll(quantitativeDetails.extension);
-                builder.modifierExtension.addAll(quantitativeDetails.modifierExtension);
                 builder.customaryUnit = quantitativeDetails.customaryUnit;
                 builder.unit = quantitativeDetails.unit;
                 builder.conversionFactor = quantitativeDetails.conversionFactor;
@@ -1107,14 +1105,14 @@ public class ObservationDefinition extends DomainResource {
 
         private QualifiedInterval(Builder builder) {
             super(builder);
-            this.category = builder.category;
-            this.range = builder.range;
-            this.context = builder.context;
-            this.appliesTo = builder.appliesTo;
-            this.gender = builder.gender;
-            this.age = builder.age;
-            this.gestationalAge = builder.gestationalAge;
-            this.condition = builder.condition;
+            category = builder.category;
+            range = builder.range;
+            context = builder.context;
+            appliesTo = Collections.unmodifiableList(builder.appliesTo);
+            gender = builder.gender;
+            age = builder.age;
+            gestationalAge = builder.gestationalAge;
+            condition = builder.condition;
         }
 
         /**
@@ -1520,9 +1518,6 @@ public class ObservationDefinition extends DomainResource {
 
             private static Builder from(QualifiedInterval qualifiedInterval) {
                 Builder builder = new Builder();
-                builder.id = qualifiedInterval.id;
-                builder.extension.addAll(qualifiedInterval.extension);
-                builder.modifierExtension.addAll(qualifiedInterval.modifierExtension);
                 builder.category = qualifiedInterval.category;
                 builder.range = qualifiedInterval.range;
                 builder.context = qualifiedInterval.context;

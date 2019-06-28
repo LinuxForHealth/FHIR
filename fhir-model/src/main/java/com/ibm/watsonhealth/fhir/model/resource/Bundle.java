@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -125,13 +126,13 @@ public class Bundle extends Resource {
 
     private Bundle(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.timestamp = builder.timestamp;
-        this.total = builder.total;
-        this.link = builder.link;
-        this.entry = builder.entry;
-        this.signature = builder.signature;
+        identifier = builder.identifier;
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        timestamp = builder.timestamp;
+        total = builder.total;
+        link = Collections.unmodifiableList(builder.link);
+        entry = Collections.unmodifiableList(builder.entry);
+        signature = builder.signature;
     }
 
     /**
@@ -501,8 +502,8 @@ public class Bundle extends Resource {
 
         private Link(Builder builder) {
             super(builder);
-            this.relation = ValidationSupport.requireNonNull(builder.relation, "relation");
-            this.url = ValidationSupport.requireNonNull(builder.url, "url");
+            relation = ValidationSupport.requireNonNull(builder.relation, "relation");
+            url = ValidationSupport.requireNonNull(builder.url, "url");
         }
 
         /**
@@ -680,9 +681,6 @@ public class Bundle extends Resource {
 
             private static Builder from(Link link) {
                 Builder builder = new Builder(link.relation, link.url);
-                builder.id = link.id;
-                builder.extension.addAll(link.extension);
-                builder.modifierExtension.addAll(link.modifierExtension);
                 return builder;
             }
         }
@@ -704,12 +702,12 @@ public class Bundle extends Resource {
 
         private Entry(Builder builder) {
             super(builder);
-            this.link = builder.link;
-            this.fullUrl = builder.fullUrl;
-            this.resource = builder.resource;
-            this.search = builder.search;
-            this.request = builder.request;
-            this.response = builder.response;
+            link = Collections.unmodifiableList(builder.link);
+            fullUrl = builder.fullUrl;
+            resource = builder.resource;
+            search = builder.search;
+            request = builder.request;
+            response = builder.response;
         }
 
         /**
@@ -1067,9 +1065,6 @@ public class Bundle extends Resource {
 
             private static Builder from(Entry entry) {
                 Builder builder = new Builder();
-                builder.id = entry.id;
-                builder.extension.addAll(entry.extension);
-                builder.modifierExtension.addAll(entry.modifierExtension);
                 builder.link.addAll(entry.link);
                 builder.fullUrl = entry.fullUrl;
                 builder.resource = entry.resource;
@@ -1091,8 +1086,8 @@ public class Bundle extends Resource {
 
             private Search(Builder builder) {
                 super(builder);
-                this.mode = builder.mode;
-                this.score = builder.score;
+                mode = builder.mode;
+                score = builder.score;
             }
 
             /**
@@ -1300,9 +1295,6 @@ public class Bundle extends Resource {
 
                 private static Builder from(Search search) {
                     Builder builder = new Builder();
-                    builder.id = search.id;
-                    builder.extension.addAll(search.extension);
-                    builder.modifierExtension.addAll(search.modifierExtension);
                     builder.mode = search.mode;
                     builder.score = search.score;
                     return builder;
@@ -1326,12 +1318,12 @@ public class Bundle extends Resource {
 
             private Request(Builder builder) {
                 super(builder);
-                this.method = ValidationSupport.requireNonNull(builder.method, "method");
-                this.url = ValidationSupport.requireNonNull(builder.url, "url");
-                this.ifNoneMatch = builder.ifNoneMatch;
-                this.ifModifiedSince = builder.ifModifiedSince;
-                this.ifMatch = builder.ifMatch;
-                this.ifNoneExist = builder.ifNoneExist;
+                method = ValidationSupport.requireNonNull(builder.method, "method");
+                url = ValidationSupport.requireNonNull(builder.url, "url");
+                ifNoneMatch = builder.ifNoneMatch;
+                ifModifiedSince = builder.ifModifiedSince;
+                ifMatch = builder.ifMatch;
+                ifNoneExist = builder.ifNoneExist;
             }
 
             /**
@@ -1640,9 +1632,6 @@ public class Bundle extends Resource {
 
                 private static Builder from(Request request) {
                     Builder builder = new Builder(request.method, request.url);
-                    builder.id = request.id;
-                    builder.extension.addAll(request.extension);
-                    builder.modifierExtension.addAll(request.modifierExtension);
                     builder.ifNoneMatch = request.ifNoneMatch;
                     builder.ifModifiedSince = request.ifModifiedSince;
                     builder.ifMatch = request.ifMatch;
@@ -1667,11 +1656,11 @@ public class Bundle extends Resource {
 
             private Response(Builder builder) {
                 super(builder);
-                this.status = ValidationSupport.requireNonNull(builder.status, "status");
-                this.location = builder.location;
-                this.etag = builder.etag;
-                this.lastModified = builder.lastModified;
-                this.outcome = builder.outcome;
+                status = ValidationSupport.requireNonNull(builder.status, "status");
+                location = builder.location;
+                etag = builder.etag;
+                lastModified = builder.lastModified;
+                outcome = builder.outcome;
             }
 
             /**
@@ -1957,9 +1946,6 @@ public class Bundle extends Resource {
 
                 private static Builder from(Response response) {
                     Builder builder = new Builder(response.status);
-                    builder.id = response.id;
-                    builder.extension.addAll(response.extension);
-                    builder.modifierExtension.addAll(response.modifierExtension);
                     builder.location = response.location;
                     builder.etag = response.etag;
                     builder.lastModified = response.lastModified;

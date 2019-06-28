@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -96,39 +97,39 @@ public class ResearchElementDefinition extends DomainResource {
 
     private ResearchElementDefinition(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.shortTitle = builder.shortTitle;
-        this.subtitle = builder.subtitle;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.comment = builder.comment;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.usage = builder.usage;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.topic = builder.topic;
-        this.author = builder.author;
-        this.editor = builder.editor;
-        this.reviewer = builder.reviewer;
-        this.endorser = builder.endorser;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.library = builder.library;
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.variableType = builder.variableType;
-        this.characteristic = ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic");
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        shortTitle = builder.shortTitle;
+        subtitle = builder.subtitle;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        comment = Collections.unmodifiableList(builder.comment);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        usage = builder.usage;
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        variableType = builder.variableType;
+        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
     }
 
     /**
@@ -1628,6 +1629,42 @@ public class ResearchElementDefinition extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * A characteristic that defines the members of the research element. Multiple characteristics are applied with "and" 
+         * semantics.
+         * </p>
+         * 
+         * @param characteristic
+         *     What defines the members of the research element
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder characteristic(Characteristic... characteristic) {
+            for (Characteristic value : characteristic) {
+                this.characteristic.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * A characteristic that defines the members of the research element. Multiple characteristics are applied with "and" 
+         * semantics.
+         * </p>
+         * 
+         * @param characteristic
+         *     What defines the members of the research element
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder characteristic(Collection<Characteristic> characteristic) {
+            this.characteristic.addAll(characteristic);
+            return this;
+        }
+
         @Override
         public ResearchElementDefinition build() {
             return new ResearchElementDefinition(this);
@@ -1656,18 +1693,18 @@ public class ResearchElementDefinition extends DomainResource {
 
         private Characteristic(Builder builder) {
             super(builder);
-            this.definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
-            this.usageContext = builder.usageContext;
-            this.exclude = builder.exclude;
-            this.unitOfMeasure = builder.unitOfMeasure;
-            this.studyEffectiveDescription = builder.studyEffectiveDescription;
-            this.studyEffective = ValidationSupport.choiceElement(builder.studyEffective, "studyEffective", DateTime.class, Period.class, Duration.class, Timing.class);
-            this.studyEffectiveTimeFromStart = builder.studyEffectiveTimeFromStart;
-            this.studyEffectiveGroupMeasure = builder.studyEffectiveGroupMeasure;
-            this.participantEffectiveDescription = builder.participantEffectiveDescription;
-            this.participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
-            this.participantEffectiveTimeFromStart = builder.participantEffectiveTimeFromStart;
-            this.participantEffectiveGroupMeasure = builder.participantEffectiveGroupMeasure;
+            definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
+            usageContext = Collections.unmodifiableList(builder.usageContext);
+            exclude = builder.exclude;
+            unitOfMeasure = builder.unitOfMeasure;
+            studyEffectiveDescription = builder.studyEffectiveDescription;
+            studyEffective = ValidationSupport.choiceElement(builder.studyEffective, "studyEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            studyEffectiveTimeFromStart = builder.studyEffectiveTimeFromStart;
+            studyEffectiveGroupMeasure = builder.studyEffectiveGroupMeasure;
+            participantEffectiveDescription = builder.participantEffectiveDescription;
+            participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            participantEffectiveTimeFromStart = builder.participantEffectiveTimeFromStart;
+            participantEffectiveGroupMeasure = builder.participantEffectiveGroupMeasure;
         }
 
         /**
@@ -2180,9 +2217,6 @@ public class ResearchElementDefinition extends DomainResource {
 
             private static Builder from(Characteristic characteristic) {
                 Builder builder = new Builder(characteristic.definition);
-                builder.id = characteristic.id;
-                builder.extension.addAll(characteristic.extension);
-                builder.modifierExtension.addAll(characteristic.modifierExtension);
                 builder.usageContext.addAll(characteristic.usageContext);
                 builder.exclude = characteristic.exclude;
                 builder.unitOfMeasure = characteristic.unitOfMeasure;

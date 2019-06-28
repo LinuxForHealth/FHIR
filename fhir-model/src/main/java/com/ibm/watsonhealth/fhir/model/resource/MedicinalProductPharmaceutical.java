@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -46,13 +47,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
     private MedicinalProductPharmaceutical(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.administrableDoseForm = ValidationSupport.requireNonNull(builder.administrableDoseForm, "administrableDoseForm");
-        this.unitOfPresentation = builder.unitOfPresentation;
-        this.ingredient = builder.ingredient;
-        this.device = builder.device;
-        this.characteristics = builder.characteristics;
-        this.routeOfAdministration = ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        administrableDoseForm = ValidationSupport.requireNonNull(builder.administrableDoseForm, "administrableDoseForm");
+        unitOfPresentation = builder.unitOfPresentation;
+        ingredient = Collections.unmodifiableList(builder.ingredient);
+        device = Collections.unmodifiableList(builder.device);
+        characteristics = Collections.unmodifiableList(builder.characteristics);
+        routeOfAdministration = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration"));
     }
 
     /**
@@ -567,6 +568,40 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             return this;
         }
 
+        /**
+         * <p>
+         * The path by which the pharmaceutical product is taken into or makes contact with the body.
+         * </p>
+         * 
+         * @param routeOfAdministration
+         *     The path by which the pharmaceutical product is taken into or makes contact with the body
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder routeOfAdministration(RouteOfAdministration... routeOfAdministration) {
+            for (RouteOfAdministration value : routeOfAdministration) {
+                this.routeOfAdministration.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The path by which the pharmaceutical product is taken into or makes contact with the body.
+         * </p>
+         * 
+         * @param routeOfAdministration
+         *     The path by which the pharmaceutical product is taken into or makes contact with the body
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder routeOfAdministration(Collection<RouteOfAdministration> routeOfAdministration) {
+            this.routeOfAdministration.addAll(routeOfAdministration);
+            return this;
+        }
+
         @Override
         public MedicinalProductPharmaceutical build() {
             return new MedicinalProductPharmaceutical(this);
@@ -584,8 +619,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
         private Characteristics(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.status = builder.status;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            status = builder.status;
         }
 
         /**
@@ -778,9 +813,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
             private static Builder from(Characteristics characteristics) {
                 Builder builder = new Builder(characteristics.code);
-                builder.id = characteristics.id;
-                builder.extension.addAll(characteristics.extension);
-                builder.modifierExtension.addAll(characteristics.modifierExtension);
                 builder.status = characteristics.status;
                 return builder;
             }
@@ -803,13 +835,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
         private RouteOfAdministration(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.firstDose = builder.firstDose;
-            this.maxSingleDose = builder.maxSingleDose;
-            this.maxDosePerDay = builder.maxDosePerDay;
-            this.maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
-            this.maxTreatmentPeriod = builder.maxTreatmentPeriod;
-            this.targetSpecies = builder.targetSpecies;
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            firstDose = builder.firstDose;
+            maxSingleDose = builder.maxSingleDose;
+            maxDosePerDay = builder.maxDosePerDay;
+            maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
+            maxTreatmentPeriod = builder.maxTreatmentPeriod;
+            targetSpecies = Collections.unmodifiableList(builder.targetSpecies);
         }
 
         /**
@@ -1185,9 +1217,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
             private static Builder from(RouteOfAdministration routeOfAdministration) {
                 Builder builder = new Builder(routeOfAdministration.code);
-                builder.id = routeOfAdministration.id;
-                builder.extension.addAll(routeOfAdministration.extension);
-                builder.modifierExtension.addAll(routeOfAdministration.modifierExtension);
                 builder.firstDose = routeOfAdministration.firstDose;
                 builder.maxSingleDose = routeOfAdministration.maxSingleDose;
                 builder.maxDosePerDay = routeOfAdministration.maxDosePerDay;
@@ -1209,8 +1238,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
             private TargetSpecies(Builder builder) {
                 super(builder);
-                this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                this.withdrawalPeriod = builder.withdrawalPeriod;
+                code = ValidationSupport.requireNonNull(builder.code, "code");
+                withdrawalPeriod = Collections.unmodifiableList(builder.withdrawalPeriod);
             }
 
             /**
@@ -1421,9 +1450,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
                 private static Builder from(TargetSpecies targetSpecies) {
                     Builder builder = new Builder(targetSpecies.code);
-                    builder.id = targetSpecies.id;
-                    builder.extension.addAll(targetSpecies.extension);
-                    builder.modifierExtension.addAll(targetSpecies.modifierExtension);
                     builder.withdrawalPeriod.addAll(targetSpecies.withdrawalPeriod);
                     return builder;
                 }
@@ -1441,9 +1467,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
                 private WithdrawalPeriod(Builder builder) {
                     super(builder);
-                    this.tissue = ValidationSupport.requireNonNull(builder.tissue, "tissue");
-                    this.value = ValidationSupport.requireNonNull(builder.value, "value");
-                    this.supportingInformation = builder.supportingInformation;
+                    tissue = ValidationSupport.requireNonNull(builder.tissue, "tissue");
+                    value = ValidationSupport.requireNonNull(builder.value, "value");
+                    supportingInformation = builder.supportingInformation;
                 }
 
                 /**
@@ -1651,9 +1677,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
                     private static Builder from(WithdrawalPeriod withdrawalPeriod) {
                         Builder builder = new Builder(withdrawalPeriod.tissue, withdrawalPeriod.value);
-                        builder.id = withdrawalPeriod.id;
-                        builder.extension.addAll(withdrawalPeriod.extension);
-                        builder.modifierExtension.addAll(withdrawalPeriod.modifierExtension);
                         builder.supportingInformation = withdrawalPeriod.supportingInformation;
                         return builder;
                     }

@@ -23,7 +23,7 @@ public class Integer extends Element {
 
     protected Integer(Builder builder) {
         super(builder);
-        this.value = builder.value;
+        value = builder.value;
     }
 
     /**

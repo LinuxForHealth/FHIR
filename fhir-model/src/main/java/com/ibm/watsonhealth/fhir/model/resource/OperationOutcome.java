@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -37,7 +38,7 @@ public class OperationOutcome extends DomainResource {
 
     private OperationOutcome(Builder builder) {
         super(builder);
-        this.issue = ValidationSupport.requireNonEmpty(builder.issue, "issue");
+        issue = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.issue, "issue"));
     }
 
     /**
@@ -308,6 +309,40 @@ public class OperationOutcome extends DomainResource {
             return (Builder) super.modifierExtension(modifierExtension);
         }
 
+        /**
+         * <p>
+         * An error, warning, or information message that results from a system action.
+         * </p>
+         * 
+         * @param issue
+         *     A single issue associated with the action
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder issue(Issue... issue) {
+            for (Issue value : issue) {
+                this.issue.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * An error, warning, or information message that results from a system action.
+         * </p>
+         * 
+         * @param issue
+         *     A single issue associated with the action
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder issue(Collection<Issue> issue) {
+            this.issue.addAll(issue);
+            return this;
+        }
+
         @Override
         public OperationOutcome build() {
             return new OperationOutcome(this);
@@ -329,12 +364,12 @@ public class OperationOutcome extends DomainResource {
 
         private Issue(Builder builder) {
             super(builder);
-            this.severity = ValidationSupport.requireNonNull(builder.severity, "severity");
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.details = builder.details;
-            this.diagnostics = builder.diagnostics;
-            this.location = builder.location;
-            this.expression = builder.expression;
+            severity = ValidationSupport.requireNonNull(builder.severity, "severity");
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            details = builder.details;
+            diagnostics = builder.diagnostics;
+            location = Collections.unmodifiableList(builder.location);
+            expression = Collections.unmodifiableList(builder.expression);
         }
 
         /**
@@ -692,9 +727,6 @@ public class OperationOutcome extends DomainResource {
 
             private static Builder from(Issue issue) {
                 Builder builder = new Builder(issue.severity, issue.code);
-                builder.id = issue.id;
-                builder.extension.addAll(issue.extension);
-                builder.modifierExtension.addAll(issue.modifierExtension);
                 builder.details = issue.details;
                 builder.diagnostics = issue.diagnostics;
                 builder.location.addAll(issue.location);

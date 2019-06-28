@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -61,22 +62,22 @@ public class DocumentReference extends DomainResource {
 
     private DocumentReference(Builder builder) {
         super(builder);
-        this.masterIdentifier = builder.masterIdentifier;
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.docStatus = builder.docStatus;
-        this.type = builder.type;
-        this.category = builder.category;
-        this.subject = builder.subject;
-        this.date = builder.date;
-        this.author = builder.author;
-        this.authenticator = builder.authenticator;
-        this.custodian = builder.custodian;
-        this.relatesTo = builder.relatesTo;
-        this.description = builder.description;
-        this.securityLabel = builder.securityLabel;
-        this.content = ValidationSupport.requireNonEmpty(builder.content, "content");
-        this.context = builder.context;
+        masterIdentifier = builder.masterIdentifier;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        docStatus = builder.docStatus;
+        type = builder.type;
+        category = Collections.unmodifiableList(builder.category);
+        subject = builder.subject;
+        date = builder.date;
+        author = Collections.unmodifiableList(builder.author);
+        authenticator = builder.authenticator;
+        custodian = builder.custodian;
+        relatesTo = Collections.unmodifiableList(builder.relatesTo);
+        description = builder.description;
+        securityLabel = Collections.unmodifiableList(builder.securityLabel);
+        content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
+        context = builder.context;
     }
 
     /**
@@ -891,6 +892,40 @@ public class DocumentReference extends DomainResource {
 
         /**
          * <p>
+         * The document and format referenced. There may be multiple content element repetitions, each with a different format.
+         * </p>
+         * 
+         * @param content
+         *     Document referenced
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder content(Content... content) {
+            for (Content value : content) {
+                this.content.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * The document and format referenced. There may be multiple content element repetitions, each with a different format.
+         * </p>
+         * 
+         * @param content
+         *     Document referenced
+         * 
+         * @return
+         *     A reference to this Builder instance.
+         */
+        public Builder content(Collection<Content> content) {
+            this.content.addAll(content);
+            return this;
+        }
+
+        /**
+         * <p>
          * The clinical context in which the document was prepared.
          * </p>
          * 
@@ -922,8 +957,8 @@ public class DocumentReference extends DomainResource {
 
         private RelatesTo(Builder builder) {
             super(builder);
-            this.code = ValidationSupport.requireNonNull(builder.code, "code");
-            this.target = ValidationSupport.requireNonNull(builder.target, "target");
+            code = ValidationSupport.requireNonNull(builder.code, "code");
+            target = ValidationSupport.requireNonNull(builder.target, "target");
         }
 
         /**
@@ -1099,9 +1134,6 @@ public class DocumentReference extends DomainResource {
 
             private static Builder from(RelatesTo relatesTo) {
                 Builder builder = new Builder(relatesTo.code, relatesTo.target);
-                builder.id = relatesTo.id;
-                builder.extension.addAll(relatesTo.extension);
-                builder.modifierExtension.addAll(relatesTo.modifierExtension);
                 return builder;
             }
         }
@@ -1118,8 +1150,8 @@ public class DocumentReference extends DomainResource {
 
         private Content(Builder builder) {
             super(builder);
-            this.attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
-            this.format = builder.format;
+            attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
+            format = builder.format;
         }
 
         /**
@@ -1314,9 +1346,6 @@ public class DocumentReference extends DomainResource {
 
             private static Builder from(Content content) {
                 Builder builder = new Builder(content.attachment);
-                builder.id = content.id;
-                builder.extension.addAll(content.extension);
-                builder.modifierExtension.addAll(content.modifierExtension);
                 builder.format = content.format;
                 return builder;
             }
@@ -1339,13 +1368,13 @@ public class DocumentReference extends DomainResource {
 
         private Context(Builder builder) {
             super(builder);
-            this.encounter = builder.encounter;
-            this.event = builder.event;
-            this.period = builder.period;
-            this.facilityType = builder.facilityType;
-            this.practiceSetting = builder.practiceSetting;
-            this.sourcePatientInfo = builder.sourcePatientInfo;
-            this.related = builder.related;
+            encounter = Collections.unmodifiableList(builder.encounter);
+            event = Collections.unmodifiableList(builder.event);
+            period = builder.period;
+            facilityType = builder.facilityType;
+            practiceSetting = builder.practiceSetting;
+            sourcePatientInfo = builder.sourcePatientInfo;
+            related = Collections.unmodifiableList(builder.related);
         }
 
         /**
@@ -1765,9 +1794,6 @@ public class DocumentReference extends DomainResource {
 
             private static Builder from(Context context) {
                 Builder builder = new Builder();
-                builder.id = context.id;
-                builder.extension.addAll(context.extension);
-                builder.modifierExtension.addAll(context.modifierExtension);
                 builder.encounter.addAll(context.encounter);
                 builder.event.addAll(context.event);
                 builder.period = context.period;

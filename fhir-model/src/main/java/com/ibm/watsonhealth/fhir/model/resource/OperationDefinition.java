@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -104,32 +105,32 @@ public class OperationDefinition extends DomainResource {
 
     private OperationDefinition(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.version = builder.version;
-        this.name = ValidationSupport.requireNonNull(builder.name, "name");
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.affectsState = builder.affectsState;
-        this.code = ValidationSupport.requireNonNull(builder.code, "code");
-        this.comment = builder.comment;
-        this.base = builder.base;
-        this.resource = builder.resource;
-        this.system = ValidationSupport.requireNonNull(builder.system, "system");
-        this.type = ValidationSupport.requireNonNull(builder.type, "type");
-        this.instance = ValidationSupport.requireNonNull(builder.instance, "instance");
-        this.inputProfile = builder.inputProfile;
-        this.outputProfile = builder.outputProfile;
-        this.parameter = builder.parameter;
-        this.overload = builder.overload;
+        url = builder.url;
+        version = builder.version;
+        name = ValidationSupport.requireNonNull(builder.name, "name");
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        affectsState = builder.affectsState;
+        code = ValidationSupport.requireNonNull(builder.code, "code");
+        comment = builder.comment;
+        base = builder.base;
+        resource = Collections.unmodifiableList(builder.resource);
+        system = ValidationSupport.requireNonNull(builder.system, "system");
+        type = ValidationSupport.requireNonNull(builder.type, "type");
+        instance = ValidationSupport.requireNonNull(builder.instance, "instance");
+        inputProfile = builder.inputProfile;
+        outputProfile = builder.outputProfile;
+        parameter = Collections.unmodifiableList(builder.parameter);
+        overload = Collections.unmodifiableList(builder.overload);
     }
 
     /**
@@ -1253,17 +1254,17 @@ public class OperationDefinition extends DomainResource {
 
         private Parameter(Builder builder) {
             super(builder);
-            this.name = ValidationSupport.requireNonNull(builder.name, "name");
-            this.use = ValidationSupport.requireNonNull(builder.use, "use");
-            this.min = ValidationSupport.requireNonNull(builder.min, "min");
-            this.max = ValidationSupport.requireNonNull(builder.max, "max");
-            this.documentation = builder.documentation;
-            this.type = builder.type;
-            this.targetProfile = builder.targetProfile;
-            this.searchType = builder.searchType;
-            this.binding = builder.binding;
-            this.referencedFrom = builder.referencedFrom;
-            this.part = builder.part;
+            name = ValidationSupport.requireNonNull(builder.name, "name");
+            use = ValidationSupport.requireNonNull(builder.use, "use");
+            min = ValidationSupport.requireNonNull(builder.min, "min");
+            max = ValidationSupport.requireNonNull(builder.max, "max");
+            documentation = builder.documentation;
+            type = builder.type;
+            targetProfile = Collections.unmodifiableList(builder.targetProfile);
+            searchType = builder.searchType;
+            binding = builder.binding;
+            referencedFrom = Collections.unmodifiableList(builder.referencedFrom);
+            part = Collections.unmodifiableList(builder.part);
         }
 
         /**
@@ -1747,9 +1748,6 @@ public class OperationDefinition extends DomainResource {
 
             private static Builder from(Parameter parameter) {
                 Builder builder = new Builder(parameter.name, parameter.use, parameter.min, parameter.max);
-                builder.id = parameter.id;
-                builder.extension.addAll(parameter.extension);
-                builder.modifierExtension.addAll(parameter.modifierExtension);
                 builder.documentation = parameter.documentation;
                 builder.type = parameter.type;
                 builder.targetProfile.addAll(parameter.targetProfile);
@@ -1772,8 +1770,8 @@ public class OperationDefinition extends DomainResource {
 
             private Binding(Builder builder) {
                 super(builder);
-                this.strength = ValidationSupport.requireNonNull(builder.strength, "strength");
-                this.valueSet = ValidationSupport.requireNonNull(builder.valueSet, "valueSet");
+                strength = ValidationSupport.requireNonNull(builder.strength, "strength");
+                valueSet = ValidationSupport.requireNonNull(builder.valueSet, "valueSet");
             }
 
             /**
@@ -1950,9 +1948,6 @@ public class OperationDefinition extends DomainResource {
 
                 private static Builder from(Binding binding) {
                     Builder builder = new Builder(binding.strength, binding.valueSet);
-                    builder.id = binding.id;
-                    builder.extension.addAll(binding.extension);
-                    builder.modifierExtension.addAll(binding.modifierExtension);
                     return builder;
                 }
             }
@@ -1969,8 +1964,8 @@ public class OperationDefinition extends DomainResource {
 
             private ReferencedFrom(Builder builder) {
                 super(builder);
-                this.source = ValidationSupport.requireNonNull(builder.source, "source");
-                this.sourceId = builder.sourceId;
+                source = ValidationSupport.requireNonNull(builder.source, "source");
+                sourceId = builder.sourceId;
             }
 
             /**
@@ -2164,9 +2159,6 @@ public class OperationDefinition extends DomainResource {
 
                 private static Builder from(ReferencedFrom referencedFrom) {
                     Builder builder = new Builder(referencedFrom.source);
-                    builder.id = referencedFrom.id;
-                    builder.extension.addAll(referencedFrom.extension);
-                    builder.modifierExtension.addAll(referencedFrom.modifierExtension);
                     builder.sourceId = referencedFrom.sourceId;
                     return builder;
                 }
@@ -2186,8 +2178,8 @@ public class OperationDefinition extends DomainResource {
 
         private Overload(Builder builder) {
             super(builder);
-            this.parameterName = builder.parameterName;
-            this.comment = builder.comment;
+            parameterName = Collections.unmodifiableList(builder.parameterName);
+            comment = builder.comment;
         }
 
         /**
@@ -2411,9 +2403,6 @@ public class OperationDefinition extends DomainResource {
 
             private static Builder from(Overload overload) {
                 Builder builder = new Builder();
-                builder.id = overload.id;
-                builder.extension.addAll(overload.extension);
-                builder.modifierExtension.addAll(overload.modifierExtension);
                 builder.parameterName.addAll(overload.parameterName);
                 builder.comment = overload.comment;
                 return builder;

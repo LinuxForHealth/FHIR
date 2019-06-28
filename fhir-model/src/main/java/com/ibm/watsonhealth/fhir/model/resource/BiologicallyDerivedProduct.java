@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -55,17 +56,17 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.productCategory = builder.productCategory;
-        this.productCode = builder.productCode;
-        this.status = builder.status;
-        this.request = builder.request;
-        this.quantity = builder.quantity;
-        this.parent = builder.parent;
-        this.collection = builder.collection;
-        this.processing = builder.processing;
-        this.manipulation = builder.manipulation;
-        this.storage = builder.storage;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        productCategory = builder.productCategory;
+        productCode = builder.productCode;
+        status = builder.status;
+        request = Collections.unmodifiableList(builder.request);
+        quantity = builder.quantity;
+        parent = Collections.unmodifiableList(builder.parent);
+        collection = builder.collection;
+        processing = Collections.unmodifiableList(builder.processing);
+        manipulation = builder.manipulation;
+        storage = Collections.unmodifiableList(builder.storage);
     }
 
     /**
@@ -781,9 +782,9 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         private Collection(Builder builder) {
             super(builder);
-            this.collector = builder.collector;
-            this.source = builder.source;
-            this.collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
+            collector = builder.collector;
+            source = builder.source;
+            collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
         }
 
         /**
@@ -1021,9 +1022,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
             private static Builder from(Collection collection) {
                 Builder builder = new Builder();
-                builder.id = collection.id;
-                builder.extension.addAll(collection.extension);
-                builder.modifierExtension.addAll(collection.modifierExtension);
                 builder.collector = collection.collector;
                 builder.source = collection.source;
                 builder.collected = collection.collected;
@@ -1046,10 +1044,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         private Processing(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.procedure = builder.procedure;
-            this.additive = builder.additive;
-            this.time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            description = builder.description;
+            procedure = builder.procedure;
+            additive = builder.additive;
+            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
         }
 
         /**
@@ -1315,9 +1313,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
             private static Builder from(Processing processing) {
                 Builder builder = new Builder();
-                builder.id = processing.id;
-                builder.extension.addAll(processing.extension);
-                builder.modifierExtension.addAll(processing.modifierExtension);
                 builder.description = processing.description;
                 builder.procedure = processing.procedure;
                 builder.additive = processing.additive;
@@ -1339,8 +1334,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         private Manipulation(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            description = builder.description;
+            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
         }
 
         /**
@@ -1546,9 +1541,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
             private static Builder from(Manipulation manipulation) {
                 Builder builder = new Builder();
-                builder.id = manipulation.id;
-                builder.extension.addAll(manipulation.extension);
-                builder.modifierExtension.addAll(manipulation.modifierExtension);
                 builder.description = manipulation.description;
                 builder.time = manipulation.time;
                 return builder;
@@ -1569,10 +1561,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         private Storage(Builder builder) {
             super(builder);
-            this.description = builder.description;
-            this.temperature = builder.temperature;
-            this.scale = builder.scale;
-            this.duration = builder.duration;
+            description = builder.description;
+            temperature = builder.temperature;
+            scale = builder.scale;
+            duration = builder.duration;
         }
 
         /**
@@ -1838,9 +1830,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
             private static Builder from(Storage storage) {
                 Builder builder = new Builder();
-                builder.id = storage.id;
-                builder.extension.addAll(storage.extension);
-                builder.modifierExtension.addAll(storage.modifierExtension);
                 builder.description = storage.description;
                 builder.temperature = storage.temperature;
                 builder.scale = storage.scale;

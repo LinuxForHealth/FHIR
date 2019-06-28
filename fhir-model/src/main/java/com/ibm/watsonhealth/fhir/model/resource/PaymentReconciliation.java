@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -58,21 +59,21 @@ public class PaymentReconciliation extends DomainResource {
 
     private PaymentReconciliation(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.period = builder.period;
-        this.created = ValidationSupport.requireNonNull(builder.created, "created");
-        this.paymentIssuer = builder.paymentIssuer;
-        this.request = builder.request;
-        this.requestor = builder.requestor;
-        this.outcome = builder.outcome;
-        this.disposition = builder.disposition;
-        this.paymentDate = ValidationSupport.requireNonNull(builder.paymentDate, "paymentDate");
-        this.paymentAmount = ValidationSupport.requireNonNull(builder.paymentAmount, "paymentAmount");
-        this.paymentIdentifier = builder.paymentIdentifier;
-        this.detail = builder.detail;
-        this.formCode = builder.formCode;
-        this.processNote = builder.processNote;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        period = builder.period;
+        created = ValidationSupport.requireNonNull(builder.created, "created");
+        paymentIssuer = builder.paymentIssuer;
+        request = builder.request;
+        requestor = builder.requestor;
+        outcome = builder.outcome;
+        disposition = builder.disposition;
+        paymentDate = ValidationSupport.requireNonNull(builder.paymentDate, "paymentDate");
+        paymentAmount = ValidationSupport.requireNonNull(builder.paymentAmount, "paymentAmount");
+        paymentIdentifier = builder.paymentIdentifier;
+        detail = Collections.unmodifiableList(builder.detail);
+        formCode = builder.formCode;
+        processNote = Collections.unmodifiableList(builder.processNote);
     }
 
     /**
@@ -810,16 +811,16 @@ public class PaymentReconciliation extends DomainResource {
 
         private Detail(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.predecessor = builder.predecessor;
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.request = builder.request;
-            this.submitter = builder.submitter;
-            this.response = builder.response;
-            this.date = builder.date;
-            this.responsible = builder.responsible;
-            this.payee = builder.payee;
-            this.amount = builder.amount;
+            identifier = builder.identifier;
+            predecessor = builder.predecessor;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            request = builder.request;
+            submitter = builder.submitter;
+            response = builder.response;
+            date = builder.date;
+            responsible = builder.responsible;
+            payee = builder.payee;
+            amount = builder.amount;
         }
 
         /**
@@ -1252,9 +1253,6 @@ public class PaymentReconciliation extends DomainResource {
 
             private static Builder from(Detail detail) {
                 Builder builder = new Builder(detail.type);
-                builder.id = detail.id;
-                builder.extension.addAll(detail.extension);
-                builder.modifierExtension.addAll(detail.modifierExtension);
                 builder.identifier = detail.identifier;
                 builder.predecessor = detail.predecessor;
                 builder.request = detail.request;
@@ -1280,8 +1278,8 @@ public class PaymentReconciliation extends DomainResource {
 
         private ProcessNote(Builder builder) {
             super(builder);
-            this.type = builder.type;
-            this.text = builder.text;
+            type = builder.type;
+            text = builder.text;
         }
 
         /**
@@ -1487,9 +1485,6 @@ public class PaymentReconciliation extends DomainResource {
 
             private static Builder from(ProcessNote processNote) {
                 Builder builder = new Builder();
-                builder.id = processNote.id;
-                builder.extension.addAll(processNote.extension);
-                builder.modifierExtension.addAll(processNote.modifierExtension);
                 builder.type = processNote.type;
                 builder.text = processNote.text;
                 return builder;

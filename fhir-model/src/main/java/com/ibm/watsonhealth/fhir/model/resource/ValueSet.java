@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -118,24 +119,24 @@ public class ValueSet extends DomainResource {
 
     private ValueSet(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.immutable = builder.immutable;
-        this.purpose = builder.purpose;
-        this.copyright = builder.copyright;
-        this.compose = builder.compose;
-        this.expansion = builder.expansion;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        immutable = builder.immutable;
+        purpose = builder.purpose;
+        copyright = builder.copyright;
+        compose = builder.compose;
+        expansion = builder.expansion;
     }
 
     /**
@@ -1065,10 +1066,10 @@ public class ValueSet extends DomainResource {
 
         private Compose(Builder builder) {
             super(builder);
-            this.lockedDate = builder.lockedDate;
-            this.inactive = builder.inactive;
-            this.include = ValidationSupport.requireNonEmpty(builder.include, "include");
-            this.exclude = builder.exclude;
+            lockedDate = builder.lockedDate;
+            inactive = builder.inactive;
+            include = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.include, "include"));
+            exclude = Collections.unmodifiableList(builder.exclude);
         }
 
         /**
@@ -1308,6 +1309,40 @@ public class ValueSet extends DomainResource {
 
             /**
              * <p>
+             * Include one or more codes from a code system or other value set(s).
+             * </p>
+             * 
+             * @param include
+             *     Include one or more codes from a code system or other value set(s)
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder include(Include... include) {
+                for (Include value : include) {
+                    this.include.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * <p>
+             * Include one or more codes from a code system or other value set(s).
+             * </p>
+             * 
+             * @param include
+             *     Include one or more codes from a code system or other value set(s)
+             * 
+             * @return
+             *     A reference to this Builder instance.
+             */
+            public Builder include(Collection<Include> include) {
+                this.include.addAll(include);
+                return this;
+            }
+
+            /**
+             * <p>
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * </p>
              * 
@@ -1347,9 +1382,6 @@ public class ValueSet extends DomainResource {
 
             private static Builder from(Compose compose) {
                 Builder builder = new Builder(compose.include);
-                builder.id = compose.id;
-                builder.extension.addAll(compose.extension);
-                builder.modifierExtension.addAll(compose.modifierExtension);
                 builder.lockedDate = compose.lockedDate;
                 builder.inactive = compose.inactive;
                 builder.exclude.addAll(compose.exclude);
@@ -1371,11 +1403,11 @@ public class ValueSet extends DomainResource {
 
             private Include(Builder builder) {
                 super(builder);
-                this.system = builder.system;
-                this.version = builder.version;
-                this.concept = builder.concept;
-                this.filter = builder.filter;
-                this.valueSet = builder.valueSet;
+                system = builder.system;
+                version = builder.version;
+                concept = Collections.unmodifiableList(builder.concept);
+                filter = Collections.unmodifiableList(builder.filter);
+                valueSet = Collections.unmodifiableList(builder.valueSet);
             }
 
             /**
@@ -1734,9 +1766,6 @@ public class ValueSet extends DomainResource {
 
                 private static Builder from(Include include) {
                     Builder builder = new Builder();
-                    builder.id = include.id;
-                    builder.extension.addAll(include.extension);
-                    builder.modifierExtension.addAll(include.modifierExtension);
                     builder.system = include.system;
                     builder.version = include.version;
                     builder.concept.addAll(include.concept);
@@ -1758,9 +1787,9 @@ public class ValueSet extends DomainResource {
 
                 private Concept(Builder builder) {
                     super(builder);
-                    this.code = ValidationSupport.requireNonNull(builder.code, "code");
-                    this.display = builder.display;
-                    this.designation = builder.designation;
+                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    display = builder.display;
+                    designation = Collections.unmodifiableList(builder.designation);
                 }
 
                 /**
@@ -2006,9 +2035,6 @@ public class ValueSet extends DomainResource {
 
                     private static Builder from(Concept concept) {
                         Builder builder = new Builder(concept.code);
-                        builder.id = concept.id;
-                        builder.extension.addAll(concept.extension);
-                        builder.modifierExtension.addAll(concept.modifierExtension);
                         builder.display = concept.display;
                         builder.designation.addAll(concept.designation);
                         return builder;
@@ -2028,9 +2054,9 @@ public class ValueSet extends DomainResource {
 
                     private Designation(Builder builder) {
                         super(builder);
-                        this.language = builder.language;
-                        this.use = builder.use;
-                        this.value = ValidationSupport.requireNonNull(builder.value, "value");
+                        language = builder.language;
+                        use = builder.use;
+                        value = ValidationSupport.requireNonNull(builder.value, "value");
                     }
 
                     /**
@@ -2253,9 +2279,6 @@ public class ValueSet extends DomainResource {
 
                         private static Builder from(Designation designation) {
                             Builder builder = new Builder(designation.value);
-                            builder.id = designation.id;
-                            builder.extension.addAll(designation.extension);
-                            builder.modifierExtension.addAll(designation.modifierExtension);
                             builder.language = designation.language;
                             builder.use = designation.use;
                             return builder;
@@ -2277,9 +2300,9 @@ public class ValueSet extends DomainResource {
 
                 private Filter(Builder builder) {
                     super(builder);
-                    this.property = ValidationSupport.requireNonNull(builder.property, "property");
-                    this.op = ValidationSupport.requireNonNull(builder.op, "op");
-                    this.value = ValidationSupport.requireNonNull(builder.value, "value");
+                    property = ValidationSupport.requireNonNull(builder.property, "property");
+                    op = ValidationSupport.requireNonNull(builder.op, "op");
+                    value = ValidationSupport.requireNonNull(builder.value, "value");
                 }
 
                 /**
@@ -2473,9 +2496,6 @@ public class ValueSet extends DomainResource {
 
                     private static Builder from(Filter filter) {
                         Builder builder = new Builder(filter.property, filter.op, filter.value);
-                        builder.id = filter.id;
-                        builder.extension.addAll(filter.extension);
-                        builder.modifierExtension.addAll(filter.modifierExtension);
                         return builder;
                     }
                 }
@@ -2499,12 +2519,12 @@ public class ValueSet extends DomainResource {
 
         private Expansion(Builder builder) {
             super(builder);
-            this.identifier = builder.identifier;
-            this.timestamp = ValidationSupport.requireNonNull(builder.timestamp, "timestamp");
-            this.total = builder.total;
-            this.offset = builder.offset;
-            this.parameter = builder.parameter;
-            this.contains = builder.contains;
+            identifier = builder.identifier;
+            timestamp = ValidationSupport.requireNonNull(builder.timestamp, "timestamp");
+            total = builder.total;
+            offset = builder.offset;
+            parameter = Collections.unmodifiableList(builder.parameter);
+            contains = Collections.unmodifiableList(builder.contains);
         }
 
         /**
@@ -2866,9 +2886,6 @@ public class ValueSet extends DomainResource {
 
             private static Builder from(Expansion expansion) {
                 Builder builder = new Builder(expansion.timestamp);
-                builder.id = expansion.id;
-                builder.extension.addAll(expansion.extension);
-                builder.modifierExtension.addAll(expansion.modifierExtension);
                 builder.identifier = expansion.identifier;
                 builder.total = expansion.total;
                 builder.offset = expansion.offset;
@@ -2890,8 +2907,8 @@ public class ValueSet extends DomainResource {
 
             private Parameter(Builder builder) {
                 super(builder);
-                this.name = ValidationSupport.requireNonNull(builder.name, "name");
-                this.value = ValidationSupport.choiceElement(builder.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
+                name = ValidationSupport.requireNonNull(builder.name, "name");
+                value = ValidationSupport.choiceElement(builder.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
             }
 
             /**
@@ -3085,9 +3102,6 @@ public class ValueSet extends DomainResource {
 
                 private static Builder from(Parameter parameter) {
                     Builder builder = new Builder(parameter.name);
-                    builder.id = parameter.id;
-                    builder.extension.addAll(parameter.extension);
-                    builder.modifierExtension.addAll(parameter.modifierExtension);
                     builder.value = parameter.value;
                     return builder;
                 }
@@ -3111,14 +3125,14 @@ public class ValueSet extends DomainResource {
 
             private Contains(Builder builder) {
                 super(builder);
-                this.system = builder.system;
-                this._abstract = builder._abstract;
-                this.inactive = builder.inactive;
-                this.version = builder.version;
-                this.code = builder.code;
-                this.display = builder.display;
-                this.designation = builder.designation;
-                this.contains = builder.contains;
+                system = builder.system;
+                _abstract = builder._abstract;
+                inactive = builder.inactive;
+                version = builder.version;
+                code = builder.code;
+                display = builder.display;
+                designation = Collections.unmodifiableList(builder.designation);
+                contains = Collections.unmodifiableList(builder.contains);
             }
 
             /**
@@ -3555,9 +3569,6 @@ public class ValueSet extends DomainResource {
 
                 private static Builder from(Contains contains) {
                     Builder builder = new Builder();
-                    builder.id = contains.id;
-                    builder.extension.addAll(contains.extension);
-                    builder.modifierExtension.addAll(contains.modifierExtension);
                     builder.system = contains.system;
                     builder._abstract = contains._abstract;
                     builder.inactive = contains.inactive;

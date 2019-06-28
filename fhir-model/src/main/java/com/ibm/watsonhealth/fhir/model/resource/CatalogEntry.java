@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -53,19 +54,19 @@ public class CatalogEntry extends DomainResource {
 
     private CatalogEntry(Builder builder) {
         super(builder);
-        this.identifier = builder.identifier;
-        this.type = builder.type;
-        this.orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
-        this.referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
-        this.additionalIdentifier = builder.additionalIdentifier;
-        this.classification = builder.classification;
-        this.status = builder.status;
-        this.validityPeriod = builder.validityPeriod;
-        this.validTo = builder.validTo;
-        this.lastUpdated = builder.lastUpdated;
-        this.additionalCharacteristic = builder.additionalCharacteristic;
-        this.additionalClassification = builder.additionalClassification;
-        this.relatedEntry = builder.relatedEntry;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        type = builder.type;
+        orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
+        referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
+        additionalIdentifier = Collections.unmodifiableList(builder.additionalIdentifier);
+        classification = Collections.unmodifiableList(builder.classification);
+        status = builder.status;
+        validityPeriod = builder.validityPeriod;
+        validTo = builder.validTo;
+        lastUpdated = builder.lastUpdated;
+        additionalCharacteristic = Collections.unmodifiableList(builder.additionalCharacteristic);
+        additionalClassification = Collections.unmodifiableList(builder.additionalClassification);
+        relatedEntry = Collections.unmodifiableList(builder.relatedEntry);
     }
 
     /**
@@ -823,8 +824,8 @@ public class CatalogEntry extends DomainResource {
 
         private RelatedEntry(Builder builder) {
             super(builder);
-            this.relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
-            this.item = ValidationSupport.requireNonNull(builder.item, "item");
+            relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
+            item = ValidationSupport.requireNonNull(builder.item, "item");
         }
 
         /**
@@ -1000,9 +1001,6 @@ public class CatalogEntry extends DomainResource {
 
             private static Builder from(RelatedEntry relatedEntry) {
                 Builder builder = new Builder(relatedEntry.relationtype, relatedEntry.item);
-                builder.id = relatedEntry.id;
-                builder.extension.addAll(relatedEntry.extension);
-                builder.modifierExtension.addAll(relatedEntry.modifierExtension);
                 return builder;
             }
         }

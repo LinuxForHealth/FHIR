@@ -32,8 +32,8 @@ public class Ratio extends Element {
 
     private Ratio(Builder builder) {
         super(builder);
-        this.numerator = builder.numerator;
-        this.denominator = builder.denominator;
+        numerator = builder.numerator;
+        denominator = builder.denominator;
     }
 
     /**

@@ -29,11 +29,11 @@ public class MarketingStatus extends BackboneElement {
 
     private MarketingStatus(Builder builder) {
         super(builder);
-        this.country = ValidationSupport.requireNonNull(builder.country, "country");
-        this.jurisdiction = builder.jurisdiction;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.dateRange = ValidationSupport.requireNonNull(builder.dateRange, "dateRange");
-        this.restoreDate = builder.restoreDate;
+        country = ValidationSupport.requireNonNull(builder.country, "country");
+        jurisdiction = builder.jurisdiction;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        dateRange = ValidationSupport.requireNonNull(builder.dateRange, "dateRange");
+        restoreDate = builder.restoreDate;
     }
 
     /**

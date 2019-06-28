@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -113,52 +114,52 @@ public class ActivityDefinition extends DomainResource {
 
     private ActivityDefinition(Builder builder) {
         super(builder);
-        this.url = builder.url;
-        this.identifier = builder.identifier;
-        this.version = builder.version;
-        this.name = builder.name;
-        this.title = builder.title;
-        this.subtitle = builder.subtitle;
-        this.status = ValidationSupport.requireNonNull(builder.status, "status");
-        this.experimental = builder.experimental;
-        this.subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        this.date = builder.date;
-        this.publisher = builder.publisher;
-        this.contact = builder.contact;
-        this.description = builder.description;
-        this.useContext = builder.useContext;
-        this.jurisdiction = builder.jurisdiction;
-        this.purpose = builder.purpose;
-        this.usage = builder.usage;
-        this.copyright = builder.copyright;
-        this.approvalDate = builder.approvalDate;
-        this.lastReviewDate = builder.lastReviewDate;
-        this.effectivePeriod = builder.effectivePeriod;
-        this.topic = builder.topic;
-        this.author = builder.author;
-        this.editor = builder.editor;
-        this.reviewer = builder.reviewer;
-        this.endorser = builder.endorser;
-        this.relatedArtifact = builder.relatedArtifact;
-        this.library = builder.library;
-        this.kind = builder.kind;
-        this.profile = builder.profile;
-        this.code = builder.code;
-        this.intent = builder.intent;
-        this.priority = builder.priority;
-        this.doNotPerform = builder.doNotPerform;
-        this.timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class);
-        this.location = builder.location;
-        this.participant = builder.participant;
-        this.product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
-        this.quantity = builder.quantity;
-        this.dosage = builder.dosage;
-        this.bodySite = builder.bodySite;
-        this.specimenRequirement = builder.specimenRequirement;
-        this.observationRequirement = builder.observationRequirement;
-        this.observationResultRequirement = builder.observationResultRequirement;
-        this.transform = builder.transform;
-        this.dynamicValue = builder.dynamicValue;
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        version = builder.version;
+        name = builder.name;
+        title = builder.title;
+        subtitle = builder.subtitle;
+        status = ValidationSupport.requireNonNull(builder.status, "status");
+        experimental = builder.experimental;
+        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        date = builder.date;
+        publisher = builder.publisher;
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+        purpose = builder.purpose;
+        usage = builder.usage;
+        copyright = builder.copyright;
+        approvalDate = builder.approvalDate;
+        lastReviewDate = builder.lastReviewDate;
+        effectivePeriod = builder.effectivePeriod;
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        kind = builder.kind;
+        profile = builder.profile;
+        code = builder.code;
+        intent = builder.intent;
+        priority = builder.priority;
+        doNotPerform = builder.doNotPerform;
+        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class);
+        location = builder.location;
+        participant = Collections.unmodifiableList(builder.participant);
+        product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
+        quantity = builder.quantity;
+        dosage = Collections.unmodifiableList(builder.dosage);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        specimenRequirement = Collections.unmodifiableList(builder.specimenRequirement);
+        observationRequirement = Collections.unmodifiableList(builder.observationRequirement);
+        observationResultRequirement = Collections.unmodifiableList(builder.observationResultRequirement);
+        transform = builder.transform;
+        dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
     }
 
     /**
@@ -2229,8 +2230,8 @@ public class ActivityDefinition extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            this.type = ValidationSupport.requireNonNull(builder.type, "type");
-            this.role = builder.role;
+            type = ValidationSupport.requireNonNull(builder.type, "type");
+            role = builder.role;
         }
 
         /**
@@ -2423,9 +2424,6 @@ public class ActivityDefinition extends DomainResource {
 
             private static Builder from(Participant participant) {
                 Builder builder = new Builder(participant.type);
-                builder.id = participant.id;
-                builder.extension.addAll(participant.extension);
-                builder.modifierExtension.addAll(participant.modifierExtension);
                 builder.role = participant.role;
                 return builder;
             }
@@ -2445,8 +2443,8 @@ public class ActivityDefinition extends DomainResource {
 
         private DynamicValue(Builder builder) {
             super(builder);
-            this.path = ValidationSupport.requireNonNull(builder.path, "path");
-            this.expression = ValidationSupport.requireNonNull(builder.expression, "expression");
+            path = ValidationSupport.requireNonNull(builder.path, "path");
+            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
         }
 
         /**
@@ -2626,9 +2624,6 @@ public class ActivityDefinition extends DomainResource {
 
             private static Builder from(DynamicValue dynamicValue) {
                 Builder builder = new Builder(dynamicValue.path, dynamicValue.expression);
-                builder.id = dynamicValue.id;
-                builder.extension.addAll(dynamicValue.extension);
-                builder.modifierExtension.addAll(dynamicValue.modifierExtension);
                 return builder;
             }
         }

@@ -31,10 +31,10 @@ public class SubstanceAmount extends BackboneElement {
 
     private SubstanceAmount(Builder builder) {
         super(builder);
-        this.amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
-        this.amountType = builder.amountType;
-        this.amountText = builder.amountText;
-        this.referenceRange = builder.referenceRange;
+        amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
+        amountType = builder.amountType;
+        amountText = builder.amountText;
+        referenceRange = builder.referenceRange;
     }
 
     /**
@@ -333,8 +333,8 @@ public class SubstanceAmount extends BackboneElement {
 
         private ReferenceRange(Builder builder) {
             super(builder);
-            this.lowLimit = builder.lowLimit;
-            this.highLimit = builder.highLimit;
+            lowLimit = builder.lowLimit;
+            highLimit = builder.highLimit;
         }
 
         /**
@@ -536,9 +536,6 @@ public class SubstanceAmount extends BackboneElement {
 
             private static Builder from(ReferenceRange referenceRange) {
                 Builder builder = new Builder();
-                builder.id = referenceRange.id;
-                builder.extension.addAll(referenceRange.extension);
-                builder.modifierExtension.addAll(referenceRange.modifierExtension);
                 builder.lowLimit = referenceRange.lowLimit;
                 builder.highLimit = referenceRange.highLimit;
                 return builder;
