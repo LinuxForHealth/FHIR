@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
-import com.ibm.watsonhealth.fhir.model.resource.IssueType;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class FHIRPersistenceResourceNotFoundException extends FHIRPersistenceException {
@@ -14,12 +14,12 @@ public class FHIRPersistenceResourceNotFoundException extends FHIRPersistenceExc
     
     public FHIRPersistenceResourceNotFoundException(String message) {
         super(message);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueTypeList.NOT_FOUND));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueType.ValueSet.NOT_FOUND));
     }
     
     public FHIRPersistenceResourceNotFoundException(String message, Throwable cause) {
         super(message, cause);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueTypeList.NOT_FOUND));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueType.ValueSet.NOT_FOUND));
     }
     
 }

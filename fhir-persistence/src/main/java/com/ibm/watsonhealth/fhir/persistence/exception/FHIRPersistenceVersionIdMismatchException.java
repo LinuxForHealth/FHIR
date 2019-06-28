@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.exception;
 
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 /**
@@ -22,12 +22,12 @@ public class FHIRPersistenceVersionIdMismatchException extends FHIRPersistenceEx
 
     public FHIRPersistenceVersionIdMismatchException(String message) {
         super(message);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueType.ValueSet.CONFLICT));
     }
 
     public FHIRPersistenceVersionIdMismatchException(String message, Throwable cause) {
         super(message, cause);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueTypeList.CONFLICT));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueType.ValueSet.CONFLICT));
     }
 
 }
