@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -40,6 +41,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * prescription, and the specific encounter between patient and health care practitioner.
  * </p>
  */
+@Constraint(
+    id = "mad-1",
+    level = "Rule",
+    location = "MedicationAdministration.dosage",
+    description = "SHALL have at least one of dosage.dose or dosage.rate[x]",
+    expression = "dose.exists() or rate.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MedicationAdministration extends DomainResource {
     private final List<Identifier> identifier;

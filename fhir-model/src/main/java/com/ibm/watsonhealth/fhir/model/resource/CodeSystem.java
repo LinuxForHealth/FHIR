@@ -49,16 +49,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "csd-1",
-    severity = "error",
-    human = "Within a code system definition, all the codes SHALL be unique",
-    expression = "concept.code.combine($this.descendants().concept.code).isDistinct()"
+    id = "csd-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
 @Constraint(
-    key = "csd-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    id = "csd-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Within a code system definition, all the codes SHALL be unique",
+    expression = "concept.code.combine($this.descendants().concept.code).isDistinct()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CodeSystem extends DomainResource {

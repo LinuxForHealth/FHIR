@@ -41,9 +41,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "esc-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    id = "esc-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

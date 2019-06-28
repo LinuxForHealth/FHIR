@@ -45,16 +45,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "mea-1",
-    severity = "error",
-    human = "Stratifier SHALL be either a single criteria or a set of criteria components",
-    expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())"
+    id = "mea-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
 @Constraint(
-    key = "mea-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    id = "mea-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Stratifier SHALL be either a single criteria or a set of criteria components",
+    expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Measure extends DomainResource {

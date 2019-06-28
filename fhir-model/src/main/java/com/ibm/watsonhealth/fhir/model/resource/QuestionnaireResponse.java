@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -43,6 +44,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * corresponding to the structure of the grouping of the questionnaire being responded to.
  * </p>
  */
+@Constraint(
+    id = "qrs-1",
+    level = "Rule",
+    location = "QuestionnaireResponse.item",
+    description = "Nested item can't be beneath both item and answer",
+    expression = "(answer.exists() and item.exists()).not()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class QuestionnaireResponse extends DomainResource {
     private final Identifier identifier;

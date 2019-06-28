@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.CareTeamStatus;
@@ -35,6 +36,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * care for a patient.
  * </p>
  */
+@Constraint(
+    id = "ctm-1",
+    level = "Rule",
+    location = "CareTeam.participant",
+    description = "CareTeam.participant.onBehalfOf can only be populated when CareTeam.participant.member is a Practitioner",
+    expression = "onBehalfOf.exists() implies (member.resolve() is Practitioner)"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CareTeam extends DomainResource {
     private final List<Identifier> identifier;

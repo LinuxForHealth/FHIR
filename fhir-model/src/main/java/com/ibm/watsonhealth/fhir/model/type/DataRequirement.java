@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.FHIRAllTypes;
 import com.ibm.watsonhealth.fhir.model.type.SortDirection;
@@ -24,6 +25,20 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * the data.
  * </p>
  */
+@Constraint(
+    id = "drq-1",
+    level = "Rule",
+    location = "DataRequirement.codeFilter",
+    description = "Either a path or a searchParam must be provided, but not both",
+    expression = "path.exists() xor searchParam.exists()"
+)
+@Constraint(
+    id = "drq-2",
+    level = "Rule",
+    location = "DataRequirement.dateFilter",
+    description = "Either a path or a searchParam must be provided, but not both",
+    expression = "path.exists() xor searchParam.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class DataRequirement extends Element {
     private final FHIRAllTypes type;

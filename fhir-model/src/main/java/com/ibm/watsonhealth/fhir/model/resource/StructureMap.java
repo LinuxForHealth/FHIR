@@ -84,10 +84,25 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "smp-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    id = "smp-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    id = "smp-1",
+    level = "Rule",
+    location = "StructureMap.group.rule.target",
+    description = "Can only have an element if you have a context",
+    expression = "element.exists() implies context.exists()"
+)
+@Constraint(
+    id = "smp-2",
+    level = "Rule",
+    location = "StructureMap.group.rule.target",
+    description = "Must have a contextType if you have a context",
+    expression = "context.exists() implies contextType.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class StructureMap extends DomainResource {

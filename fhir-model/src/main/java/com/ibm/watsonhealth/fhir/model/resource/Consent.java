@@ -42,34 +42,39 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "ppc-4",
-    severity = "error",
-    human = "IF Scope=adr, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()"
+    id = "ppc-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Either a Policy or PolicyRule",
+    expression = "policy.exists() or policyRule.exists()"
 )
 @Constraint(
-    key = "ppc-5",
-    severity = "error",
-    human = "IF Scope=treatment, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()"
-)
-@Constraint(
-    key = "ppc-2",
-    severity = "error",
-    human = "IF Scope=privacy, there must be a patient",
+    id = "ppc-2",
+    level = "Rule",
+    location = "(base)",
+    description = "IF Scope=privacy, there must be a patient",
     expression = "patient.exists() or scope.coding.where(system='something' and code='patient-privacy').exists().not()"
 )
 @Constraint(
-    key = "ppc-3",
-    severity = "error",
-    human = "IF Scope=research, there must be a patient",
+    id = "ppc-3",
+    level = "Rule",
+    location = "(base)",
+    description = "IF Scope=research, there must be a patient",
     expression = "patient.exists() or scope.coding.where(system='something' and code='research').exists().not()"
 )
 @Constraint(
-    key = "ppc-1",
-    severity = "error",
-    human = "Either a Policy or PolicyRule",
-    expression = "policy.exists() or policyRule.exists()"
+    id = "ppc-4",
+    level = "Rule",
+    location = "(base)",
+    description = "IF Scope=adr, there must be a patient",
+    expression = "patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()"
+)
+@Constraint(
+    id = "ppc-5",
+    level = "Rule",
+    location = "(base)",
+    description = "IF Scope=treatment, there must be a patient",
+    expression = "patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Consent extends DomainResource {

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -38,6 +39,20 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
  * </p>
  */
+@Constraint(
+    id = "ras-1",
+    level = "Rule",
+    location = "RiskAssessment.prediction.probability[x]",
+    description = "low and high must be percentages, if present",
+    expression = "(low.empty() or ((low.code = '%') and (low.system = %ucum))) and (high.empty() or ((high.code = '%') and (high.system = %ucum)))"
+)
+@Constraint(
+    id = "ras-2",
+    level = "Rule",
+    location = "RiskAssessment.prediction",
+    description = "Must be <= 100",
+    expression = "probability is decimal implies (probability as decimal) <= 100"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class RiskAssessment extends DomainResource {
     private final List<Identifier> identifier;

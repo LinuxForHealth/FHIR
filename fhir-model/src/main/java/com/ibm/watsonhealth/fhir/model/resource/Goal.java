@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -42,6 +43,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
  * </p>
  */
+@Constraint(
+    id = "gol-1",
+    level = "Rule",
+    location = "Goal.target",
+    description = "Goal.target.measure is required if Goal.target.detail is populated",
+    expression = "(detail.exists() and measure.exists()) or detail.exists().not()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Goal extends DomainResource {
     private final List<Identifier> identifier;

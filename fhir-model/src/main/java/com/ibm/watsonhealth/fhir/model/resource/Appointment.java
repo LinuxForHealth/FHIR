@@ -42,22 +42,32 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "app-4",
-    severity = "error",
-    human = "Cancelation reason is only used for appointments that have been cancelled, or no-show",
-    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')"
+    id = "app-1",
+    level = "Rule",
+    location = "Appointment.participant",
+    description = "Either the type or actor on the participant SHALL be specified",
+    expression = "type.exists() or actor.exists()"
 )
 @Constraint(
-    key = "app-3",
-    severity = "error",
-    human = "Only proposed or cancelled appointments can be missing start/end dates",
+    id = "app-2",
+    level = "Rule",
+    location = "(base)",
+    description = "Either start and end are specified, or neither",
+    expression = "start.exists() = end.exists()"
+)
+@Constraint(
+    id = "app-3",
+    level = "Rule",
+    location = "(base)",
+    description = "Only proposed or cancelled appointments can be missing start/end dates",
     expression = "(start.exists() and end.exists()) or (status in ('proposed' | 'cancelled' | 'waitlist'))"
 )
 @Constraint(
-    key = "app-2",
-    severity = "error",
-    human = "Either start and end are specified, or neither",
-    expression = "start.exists() = end.exists()"
+    id = "app-4",
+    level = "Rule",
+    location = "(base)",
+    description = "Cancelation reason is only used for appointments that have been cancelled, or no-show",
+    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Appointment extends DomainResource {

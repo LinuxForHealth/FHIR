@@ -45,9 +45,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "prr-1",
-    severity = "error",
-    human = "orderDetail SHALL only be present if code is present",
+    id = "prr-1",
+    level = "Rule",
+    location = "(base)",
+    description = "orderDetail SHALL only be present if code is present",
     expression = "orderDetail.empty() or code.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

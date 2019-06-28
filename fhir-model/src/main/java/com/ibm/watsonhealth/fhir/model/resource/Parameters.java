@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
@@ -74,6 +75,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * It has no other use, and there is no RESTful endpoint associated with it.
  * </p>
  */
+@Constraint(
+    id = "inv-1",
+    level = "Rule",
+    location = "Parameters.parameter",
+    description = "A parameter must have one and only one of (value, resource, part)",
+    expression = "(part.exists() and value.empty() and resource.empty()) or (part.empty() and (value.exists() xor resource.exists()))"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Parameters extends Resource {
     private final List<Parameter> parameter;

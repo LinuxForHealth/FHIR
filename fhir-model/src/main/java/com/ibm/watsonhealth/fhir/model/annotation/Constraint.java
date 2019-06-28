@@ -16,8 +16,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Constraint {
-    String key();
-    String severity();
-    String human();
+    String id();
+    String level();
+    String location();
+    String description();
     String expression();
 }

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.ActionCardinalityBehavior;
 import com.ibm.watsonhealth.fhir.model.type.ActionConditionKind;
 import com.ibm.watsonhealth.fhir.model.type.ActionGroupingBehavior;
@@ -53,6 +54,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * this medication after that one".
  * </p>
  */
+@Constraint(
+    id = "rqg-1",
+    level = "Rule",
+    location = "RequestGroup.action",
+    description = "Must have resource or action but not both",
+    expression = "resource.exists() != action.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class RequestGroup extends DomainResource {
     private final List<Identifier> identifier;

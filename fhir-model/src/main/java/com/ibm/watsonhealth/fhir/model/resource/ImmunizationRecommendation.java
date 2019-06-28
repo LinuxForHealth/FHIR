@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -35,6 +36,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * supporting justification.
  * </p>
  */
+@Constraint(
+    id = "imr-1",
+    level = "Rule",
+    location = "ImmunizationRecommendation.recommendation",
+    description = "One of vaccineCode or targetDisease SHALL be present",
+    expression = "vaccineCode.exists() or targetDisease.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ImmunizationRecommendation extends DomainResource {
     private final List<Identifier> identifier;

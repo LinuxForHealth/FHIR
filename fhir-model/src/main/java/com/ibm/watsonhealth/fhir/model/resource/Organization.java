@@ -38,10 +38,25 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "org-1",
-    severity = "error",
-    human = "The organization SHALL at least have a name or an identifier, and possibly more than one",
+    id = "org-1",
+    level = "Rule",
+    location = "(base)",
+    description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0"
+)
+@Constraint(
+    id = "org-2",
+    level = "Rule",
+    location = "Organization.address",
+    description = "An address of an organization can never be of use 'home'",
+    expression = "where(use = 'home').empty()"
+)
+@Constraint(
+    id = "org-3",
+    level = "Rule",
+    location = "Organization.telecom",
+    description = "The telecom of an organization can never be of use 'home'",
+    expression = "where(use = 'home').empty()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Organization extends DomainResource {

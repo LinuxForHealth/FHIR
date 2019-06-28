@@ -34,9 +34,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "apr-1",
-    severity = "error",
-    human = "Either the participantType or actor must be specified",
+    id = "apr-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Either the participantType or actor must be specified",
     expression = "participantType.exists() or actor.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

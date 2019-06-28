@@ -31,9 +31,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "lnk-1",
-    severity = "error",
-    human = "Must have at least two items",
+    id = "lnk-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Must have at least two items",
     expression = "item.count()>1"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

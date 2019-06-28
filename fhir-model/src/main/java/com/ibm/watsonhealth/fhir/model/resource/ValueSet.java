@@ -47,10 +47,53 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "vsd-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    id = "vsd-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    id = "vsd-1",
+    level = "Rule",
+    location = "ValueSet.compose.include",
+    description = "A value set include/exclude SHALL have a value set or a system",
+    expression = "valueSet.exists() or system.exists()"
+)
+@Constraint(
+    id = "vsd-2",
+    level = "Rule",
+    location = "ValueSet.compose.include",
+    description = "A value set with concepts or filters SHALL include a system",
+    expression = "(concept.exists() or filter.exists()) implies system.exists()"
+)
+@Constraint(
+    id = "vsd-3",
+    level = "Rule",
+    location = "ValueSet.compose.include",
+    description = "Cannot have both concept and filter",
+    expression = "concept.empty() or filter.empty()"
+)
+@Constraint(
+    id = "vsd-6",
+    level = "Rule",
+    location = "ValueSet.expansion.contains",
+    description = "SHALL have a code or a display",
+    expression = "code.exists() or display.exists()"
+)
+@Constraint(
+    id = "vsd-9",
+    level = "Rule",
+    location = "ValueSet.expansion.contains",
+    description = "Must have a code if not abstract",
+    expression = "code.exists() or abstract = true"
+)
+@Constraint(
+    id = "vsd-10",
+    level = "Rule",
+    location = "ValueSet.expansion.contains",
+    description = "Must have a system if a code is present",
+    expression = "code.empty() or system.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ValueSet extends DomainResource {

@@ -48,15 +48,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "ig-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    id = "ig-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
 @Constraint(
-    key = "ig-2",
-    severity = "error",
-    human = "If a resource has a fhirVersion, it must be oe of the versions defined for the Implementation Guide",
+    id = "ig-1",
+    level = "Rule",
+    location = "ImplementationGuide.definition",
+    description = "If a resource has a groupingId, it must refer to a grouping defined in the Implementation Guide",
+    expression = "resource.groupingId.all(%context.grouping.id contains $this)"
+)
+@Constraint(
+    id = "ig-2",
+    level = "Rule",
+    location = "(base)",
+    description = "If a resource has a fhirVersion, it must be oe of the versions defined for the Implementation Guide",
     expression = "definition.resource.fhirVersion.all(%context.fhirVersion contains $this)"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

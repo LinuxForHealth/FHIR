@@ -43,16 +43,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "fhs-2",
-    severity = "error",
-    human = "Can only have estimatedAge if age[x] is present",
-    expression = "age.exists() or estimatedAge.empty()"
+    id = "fhs-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Can have age[x] or born[x], but not both",
+    expression = "age.empty() or born.empty()"
 )
 @Constraint(
-    key = "fhs-1",
-    severity = "error",
-    human = "Can have age[x] or born[x], but not both",
-    expression = "age.empty() or born.empty()"
+    id = "fhs-2",
+    level = "Rule",
+    location = "(base)",
+    description = "Can only have estimatedAge if age[x] is present",
+    expression = "age.exists() or estimatedAge.empty()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class FamilyMemberHistory extends DomainResource {

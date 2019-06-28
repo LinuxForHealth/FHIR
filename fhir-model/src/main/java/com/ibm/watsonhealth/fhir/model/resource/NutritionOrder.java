@@ -42,9 +42,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "nor-1",
-    severity = "warning",
-    human = "Nutrition Order SHALL contain either Oral Diet , Supplement, or Enteral Formula class",
+    id = "nor-1",
+    level = "Warning",
+    location = "(base)",
+    description = "Nutrition Order SHALL contain either Oral Diet , Supplement, or Enteral Formula class",
     expression = "oralDiet.exists() or supplement.exists() or enteralFormula.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

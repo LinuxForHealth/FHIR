@@ -213,7 +213,6 @@ public class CodeGenerator {
         generateAbstractVisitorClass(basePath);
         generateCollectingVisitor(basePath);
         generateJsonParser(basePath);
-        
     }
 
     private void generateAbstractVisitorClass(String basePath) {
@@ -900,31 +899,73 @@ public class CodeGenerator {
     }
 
     private void generateConstraintAnnotations(JsonObject structureDefinition, CodeBuilder cb) {
-        List<JsonObject> constraints = getConstraints(structureDefinition);
-        for (JsonObject constraint : constraints) {
+        String name = structureDefinition.getString("name");
+        
+        List<JsonObject> allConstraints = new ArrayList<>();
+        
+        Map<String, String> pathMap = new HashMap<>();
+        
+        for (JsonObject elementDefinition : getElementDefinitions(structureDefinition).stream().filter(e -> e.containsKey("constraint")).collect(Collectors.toList())) {
+            String path = elementDefinition.getString("path");
+            List<JsonObject> constraints = elementDefinition.getJsonArray("constraint").stream().map(o -> o.asJsonObject()).collect(Collectors.toList());
+            constraints.forEach(c -> pathMap.put(c.getString("key"), path));
+            allConstraints.addAll(constraints);
+        }
+        
+        Collections.sort(allConstraints, new Comparator<JsonObject>() {
+            @Override
+            public int compare(JsonObject first, JsonObject second) {
+                String firstKey = first.getString("key");
+                firstKey = firstKey.substring(firstKey.indexOf("-") + 1);
+                String firstSuffix = "";
+                if (Character.isLetter(firstKey.charAt(firstKey.length() - 1))) {
+                    firstSuffix = firstKey.substring(firstKey.length() - 1);
+                    firstKey = firstKey.substring(0, firstKey.length() - 1);
+                }
+                
+                String secondKey = second.getString("key");
+                secondKey = secondKey.substring(secondKey.indexOf("-") + 1);
+                String secondSuffix = "";
+                if (Character.isLetter(secondKey.charAt(secondKey.length() - 1))) {
+                    secondSuffix = secondKey.substring(secondKey.length() - 1);
+                    secondKey = secondKey.substring(0, secondKey.length() - 1);
+                }
+                
+                int firstValue = Integer.parseInt(firstKey);
+                int secondValue = Integer.parseInt(secondKey);
+                
+                if (firstValue == secondValue) {
+                    return firstSuffix.compareTo(secondSuffix);
+                }
+
+                return firstValue - secondValue;
+            }
+        });
+        
+        for (JsonObject constraint : allConstraints) {
+            String key = constraint.getString("key");
+            String path = pathMap.get(key);
+            String severity = constraint.getString("severity");
+            String human = constraint.getString("human");
+            String expression = constraint.getString("expression");
+            
             Map<String, String> valueMap = new LinkedHashMap<>();
-            valueMap.put("key", constraint.getString("key"));
-            valueMap.put("severity", constraint.getString("severity"));
-            valueMap.put("human", constraint.getString("human"));
-            valueMap.put("expression", constraint.getString("expression"));
+            valueMap.put("id", key);
+            valueMap.put("level", "error".equals(severity) ? "Rule" : "Warning");
+            valueMap.put("location", path.equals(name) ? "(base)" : path);
+            valueMap.put("description", human.replace("\"", "\\\""));
+            valueMap.put("expression", expression.replace("\"", "\\\""));
             cb.annotation("Constraint", valueMap);
         }
     }
     
-    private boolean hasConstraints(JsonObject structureDefinition) {
-        return !getConstraints(structureDefinition).isEmpty();
-    }
-
-    private List<JsonObject> getConstraints(JsonObject structureDefinition) {
-        List<JsonObject> constraints = new ArrayList<>();
-        JsonObject elementDefinition = getElementDefinitions(structureDefinition).get(0);
-        JsonArray jsonArray = elementDefinition.getJsonArray("constraint");
-        if (jsonArray != null) {
-            for (JsonValue value : jsonArray) {
-                constraints.add(value.asJsonObject());
+    private boolean hasConstraints(JsonObject structureDefinition) {        
+        for (JsonObject elementDefinition : getElementDefinitions(structureDefinition)) {
+            if (elementDefinition.containsKey("constraint")) {
+                return true;
             }
         }
-        return constraints;
+        return false;
     }
 
     private void generateGetterMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType, CodeBuilder cb) {

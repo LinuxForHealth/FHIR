@@ -44,15 +44,17 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "ait-1",
-    severity = "error",
-    human = "AllergyIntolerance.clinicalStatus SHALL be present if verificationStatus is not entered-in-error.",
+    id = "ait-1",
+    level = "Rule",
+    location = "(base)",
+    description = "AllergyIntolerance.clinicalStatus SHALL be present if verificationStatus is not entered-in-error.",
     expression = "verificationStatus='entered-in-error' or clinicalStatus.exists()"
 )
 @Constraint(
-    key = "ait-2",
-    severity = "error",
-    human = "AllergyIntolerance.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
+    id = "ait-2",
+    level = "Rule",
+    location = "(base)",
+    description = "AllergyIntolerance.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
     expression = "verificationStatus!='entered-in-error' or clinicalStatus.empty()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

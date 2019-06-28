@@ -43,10 +43,32 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "cmd-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    id = "cmd-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    id = "cmd-1",
+    level = "Rule",
+    location = "ConceptMap.group.element.target",
+    description = "If the map is narrower or inexact, there SHALL be some comments",
+    expression = "comment.exists() or equivalence.empty() or ((equivalence != 'narrower') and (equivalence != 'inexact'))"
+)
+@Constraint(
+    id = "cmd-2",
+    level = "Rule",
+    location = "ConceptMap.group.unmapped",
+    description = "If the mode is 'fixed', a code must be provided",
+    expression = "(mode = 'fixed') implies code.exists()"
+)
+@Constraint(
+    id = "cmd-3",
+    level = "Rule",
+    location = "ConceptMap.group.unmapped",
+    description = "If the mode is 'other-map', a url must be provided",
+    expression = "(mode = 'other-map') implies url.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ConceptMap extends DomainResource {

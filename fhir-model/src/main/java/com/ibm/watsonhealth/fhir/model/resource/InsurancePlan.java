@@ -41,9 +41,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "ipn-1",
-    severity = "error",
-    human = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
+    id = "ipn-1",
+    level = "Rule",
+    location = "(base)",
+    description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

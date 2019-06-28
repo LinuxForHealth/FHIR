@@ -42,9 +42,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "grp-1",
-    severity = "error",
-    human = "Can only have members if group is \"actual\"",
+    id = "grp-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Can only have members if group is \"actual\"",
     expression = "member.empty() or (actual = true)"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

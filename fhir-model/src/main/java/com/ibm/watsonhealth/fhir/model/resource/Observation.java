@@ -47,16 +47,25 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "obs-7",
-    severity = "error",
-    human = "If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
-    expression = "value.empty() or component.code.where( (coding.code = %resource.code.coding.code) and (coding.system = %resource.code.coding.system)).empty()"
+    id = "obs-3",
+    level = "Rule",
+    location = "Observation.referenceRange",
+    description = "Must have at least a low or a high or text",
+    expression = "low.exists() or high.exists() or text.exists()"
 )
 @Constraint(
-    key = "obs-6",
-    severity = "error",
-    human = "dataAbsentReason SHALL only be present if Observation.value[x] is not present",
+    id = "obs-6",
+    level = "Rule",
+    location = "(base)",
+    description = "dataAbsentReason SHALL only be present if Observation.value[x] is not present",
     expression = "dataAbsentReason.empty() or value.empty()"
+)
+@Constraint(
+    id = "obs-7",
+    level = "Rule",
+    location = "(base)",
+    description = "If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
+    expression = "value.empty() or component.code.where( (coding.code = %resource.code.coding.code) and (coding.system = %resource.code.coding.system)).empty()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Observation extends DomainResource {

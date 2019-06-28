@@ -42,10 +42,25 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "msq-3",
-    severity = "error",
-    human = "Only 0 and 1 are valid for coordinateSystem",
+    id = "msq-3",
+    level = "Rule",
+    location = "(base)",
+    description = "Only 0 and 1 are valid for coordinateSystem",
     expression = "coordinateSystem = 1 or coordinateSystem = 0"
+)
+@Constraint(
+    id = "msq-5",
+    level = "Rule",
+    location = "MolecularSequence.referenceSeq",
+    description = "GenomeBuild and chromosome must be both contained if either one of them is contained",
+    expression = "(chromosome.empty() and genomeBuild.empty()) or (chromosome.exists() and genomeBuild.exists())"
+)
+@Constraint(
+    id = "msq-6",
+    level = "Rule",
+    location = "MolecularSequence.referenceSeq",
+    description = "Have and only have one of the following elements in referenceSeq : 1. genomeBuild ; 2 referenceSeqId; 3. referenceSeqPointer;  4. referenceSeqString;",
+    expression = "(genomeBuild.count()+referenceSeqId.count()+ referenceSeqPointer.count()+ referenceSeqString.count()) = 1"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MolecularSequence extends DomainResource {

@@ -41,9 +41,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "mdd-1",
-    severity = "error",
-    human = "whenHandedOver cannot be before whenPrepared",
+    id = "mdd-1",
+    level = "Rule",
+    location = "(base)",
+    description = "whenHandedOver cannot be before whenPrepared",
     expression = "whenHandedOver.empty() or whenPrepared.empty() or whenHandedOver >= whenPrepared"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

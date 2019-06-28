@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.AuditEventAction;
 import com.ibm.watsonhealth.fhir.model.type.AuditEventAgentNetworkType;
 import com.ibm.watsonhealth.fhir.model.type.AuditEventOutcome;
@@ -40,6 +41,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * attempts and monitoring for inappropriate usage.
  * </p>
  */
+@Constraint(
+    id = "sev-1",
+    level = "Rule",
+    location = "AuditEvent.entity",
+    description = "Either a name or a query (NOT both)",
+    expression = "name.empty() or query.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class AuditEvent extends DomainResource {
     private final Coding type;

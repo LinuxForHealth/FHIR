@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.DayOfWeek;
 import com.ibm.watsonhealth.fhir.model.type.EventTiming;
@@ -27,6 +28,69 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * carried out.
  * </p>
  */
+@Constraint(
+    id = "tim-1",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "if there's a duration, there needs to be duration units",
+    expression = "duration.empty() or durationUnit.exists()"
+)
+@Constraint(
+    id = "tim-2",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "if there's a period, there needs to be period units",
+    expression = "period.empty() or periodUnit.exists()"
+)
+@Constraint(
+    id = "tim-4",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "duration SHALL be a non-negative value",
+    expression = "duration.exists() implies duration >= 0"
+)
+@Constraint(
+    id = "tim-5",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "period SHALL be a non-negative value",
+    expression = "period.exists() implies period >= 0"
+)
+@Constraint(
+    id = "tim-6",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "If there's a periodMax, there must be a period",
+    expression = "periodMax.empty() or period.exists()"
+)
+@Constraint(
+    id = "tim-7",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "If there's a durationMax, there must be a duration",
+    expression = "durationMax.empty() or duration.exists()"
+)
+@Constraint(
+    id = "tim-8",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "If there's a countMax, there must be a count",
+    expression = "countMax.empty() or count.exists()"
+)
+@Constraint(
+    id = "tim-9",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "If there's an offset, there must be a when (and not C, CM, CD, CV)",
+    expression = "offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))"
+)
+@Constraint(
+    id = "tim-10",
+    level = "Rule",
+    location = "Timing.repeat",
+    description = "If there's a timeOfDay, there cannot be a when, or vice versa",
+    expression = "timeOfDay.empty() or when.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Timing extends BackboneElement {
     private final List<DateTime> event;

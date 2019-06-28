@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
@@ -43,6 +44,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * services.
  * </p>
  */
+@Constraint(
+    id = "pat-1",
+    level = "Rule",
+    location = "Patient.contact",
+    description = "SHALL at least contain a contact's details or a reference to an organization",
+    expression = "name.exists() or telecom.exists() or address.exists() or organization.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Patient extends DomainResource {
     private final List<Identifier> identifier;

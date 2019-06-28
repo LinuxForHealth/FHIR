@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -44,6 +45,20 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * the Bundle (for example Patient, Practitioner, Encounter, etc.).
  * </p>
  */
+@Constraint(
+    id = "cmp-1",
+    level = "Rule",
+    location = "Composition.section",
+    description = "A section must contain at least one of text, entries, or sub-sections",
+    expression = "text.exists() or entry.exists() or section.exists()"
+)
+@Constraint(
+    id = "cmp-2",
+    level = "Rule",
+    location = "Composition.section",
+    description = "A section can only have an emptyReason if it is empty",
+    expression = "emptyReason.empty() or entry.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Composition extends DomainResource {
     private final Identifier identifier;

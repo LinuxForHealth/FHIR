@@ -19,9 +19,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "per-1",
-    severity = "error",
-    human = "If present, start SHALL have a lower value than end",
+    id = "per-1",
+    level = "Rule",
+    location = "(base)",
+    description = "If present, start SHALL have a lower value than end",
     expression = "start.hasValue().not() or end.hasValue().not() or (start <= end)"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

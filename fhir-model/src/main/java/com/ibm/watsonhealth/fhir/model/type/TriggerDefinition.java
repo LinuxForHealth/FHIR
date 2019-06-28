@@ -24,22 +24,25 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "trd-3",
-    severity = "error",
-    human = "A named event requires a name, a periodic event requires timing, and a data event requires data",
-    expression = "(type = 'named-event' implies name.exists()) and (type = 'periodic' implies timing.exists()) and (type.startsWith('data-') implies data.exists())"
+    id = "trd-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Either timing, or a data requirement, but not both",
+    expression = "data.empty() or timing.empty()"
 )
 @Constraint(
-    key = "trd-2",
-    severity = "error",
-    human = "A condition only if there is a data requirement",
+    id = "trd-2",
+    level = "Rule",
+    location = "(base)",
+    description = "A condition only if there is a data requirement",
     expression = "condition.exists() implies data.exists()"
 )
 @Constraint(
-    key = "trd-1",
-    severity = "error",
-    human = "Either timing, or a data requirement, but not both",
-    expression = "data.empty() or timing.empty()"
+    id = "trd-3",
+    level = "Rule",
+    location = "(base)",
+    description = "A named event requires a name, a periodic event requires timing, and a data event requires data",
+    expression = "(type = 'named-event' implies name.exists()) and (type = 'periodic' implies timing.exists()) and (type.startsWith('data-') implies data.exists())"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class TriggerDefinition extends Element {

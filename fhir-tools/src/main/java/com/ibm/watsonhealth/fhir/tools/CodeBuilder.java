@@ -91,7 +91,7 @@ public class CodeBuilder {
     }
     
     public static String quote(String str) {
-        return String.format("\"%s\"", str.replace("\"", "\\\""));
+        return String.format("\"%s\"", str/* .replace("\"", "\\\"") */);
     }
     
     public CodeBuilder newLine() {

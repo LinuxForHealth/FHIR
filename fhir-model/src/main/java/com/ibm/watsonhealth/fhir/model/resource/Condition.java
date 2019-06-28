@@ -40,22 +40,39 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "con-5",
-    severity = "error",
-    human = "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
-    expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()"
+    id = "con-1",
+    level = "Rule",
+    location = "Condition.stage",
+    description = "Stage SHALL have summary or assessment",
+    expression = "summary.exists() or assessment.exists()"
 )
 @Constraint(
-    key = "con-4",
-    severity = "error",
-    human = "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+    id = "con-2",
+    level = "Rule",
+    location = "Condition.evidence",
+    description = "evidence SHALL have code or details",
+    expression = "code.exists() or detail.exists()"
+)
+@Constraint(
+    id = "con-3",
+    level = "Warning",
+    location = "(base)",
+    description = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
+    expression = "clinicalStatus.exists() or verificationStatus='entered-in-error' or category.select($this='problem-list-item').empty()"
+)
+@Constraint(
+    id = "con-4",
+    level = "Rule",
+    location = "(base)",
+    description = "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
     expression = "abatement.empty() or clinicalStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-clinical' and (code='resolved' or code='remission' or code='inactive')).exists()"
 )
 @Constraint(
-    key = "con-3",
-    severity = "warning",
-    human = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
-    expression = "clinicalStatus.exists() or verificationStatus='entered-in-error' or category.select($this='problem-list-item').empty()"
+    id = "con-5",
+    level = "Rule",
+    location = "(base)",
+    description = "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
+    expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Condition extends DomainResource {

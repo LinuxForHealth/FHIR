@@ -20,9 +20,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "ext-1",
-    severity = "error",
-    human = "Must have either extensions or value[x], not both",
+    id = "ext-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Must have either extensions or value[x], not both",
     expression = "extension.exists() != value.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

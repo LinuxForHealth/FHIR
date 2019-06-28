@@ -20,9 +20,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "drt-1",
-    severity = "error",
-    human = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.",
+    id = "drt-1",
+    level = "Rule",
+    location = "(base)",
+    description = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.",
     expression = "code.exists() implies ((system = %ucum) and value.exists())"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

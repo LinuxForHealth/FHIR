@@ -21,9 +21,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "qty-3",
-    severity = "error",
-    human = "If a code for the unit is present, the system SHALL also be present",
+    id = "qty-3",
+    level = "Rule",
+    location = "(base)",
+    description = "If a code for the unit is present, the system SHALL also be present",
     expression = "code.empty() or system.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

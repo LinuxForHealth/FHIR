@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -44,6 +45,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * community for a period of time, possibly limited to care for a specific condition or set of conditions.
  * </p>
  */
+@Constraint(
+    id = "cpl-3",
+    level = "Rule",
+    location = "CarePlan.activity",
+    description = "Provide a reference or detail, not both",
+    expression = "detail.empty() or reference.empty()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CarePlan extends DomainResource {
     private final List<Identifier> identifier;

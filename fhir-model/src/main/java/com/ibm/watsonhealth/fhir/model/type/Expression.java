@@ -21,9 +21,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "exp-1",
-    severity = "error",
-    human = "An expression or a reference must be provided",
+    id = "exp-1",
+    level = "Rule",
+    location = "(base)",
+    description = "An expression or a reference must be provided",
     expression = "expression.exists() or reference.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

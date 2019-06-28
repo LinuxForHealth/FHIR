@@ -19,9 +19,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "rat-1",
-    severity = "error",
-    human = "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
+    id = "rat-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
     expression = "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

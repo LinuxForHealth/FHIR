@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
@@ -37,6 +38,20 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * A summary of information based on the results of executing a TestScript.
  * </p>
  */
+@Constraint(
+    id = "inv-1",
+    level = "Rule",
+    location = "TestReport.setup.action",
+    description = "Setup action SHALL contain either an operation or assert but not both.",
+    expression = "operation.exists() xor assert.exists()"
+)
+@Constraint(
+    id = "inv-2",
+    level = "Rule",
+    location = "TestReport.test.action",
+    description = "Test action SHALL contain either an operation or assert but not both.",
+    expression = "operation.exists() xor assert.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class TestReport extends DomainResource {
     private final Identifier identifier;

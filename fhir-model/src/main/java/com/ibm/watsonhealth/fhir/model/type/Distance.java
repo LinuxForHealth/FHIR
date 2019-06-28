@@ -20,9 +20,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "dis-1",
-    severity = "error",
-    human = "There SHALL be a code if there is a value and it SHALL be an expression of length.  If system is present, it SHALL be UCUM.",
+    id = "dis-1",
+    level = "Rule",
+    location = "(base)",
+    description = "There SHALL be a code if there is a value and it SHALL be an expression of length.  If system is present, it SHALL be UCUM.",
     expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum)"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

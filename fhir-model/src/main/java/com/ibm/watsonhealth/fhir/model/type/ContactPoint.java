@@ -22,9 +22,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "cpt-2",
-    severity = "error",
-    human = "A system is required if a value is provided.",
+    id = "cpt-2",
+    level = "Rule",
+    location = "(base)",
+    description = "A system is required if a value is provided.",
     expression = "value.empty() or system.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

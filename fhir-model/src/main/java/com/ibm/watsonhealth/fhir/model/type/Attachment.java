@@ -19,9 +19,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "att-1",
-    severity = "error",
-    human = "If the Attachment has data, it SHALL have a contentType",
+    id = "att-1",
+    level = "Rule",
+    location = "(base)",
+    description = "If the Attachment has data, it SHALL have a contentType",
     expression = "data.empty() or contentType.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

@@ -37,22 +37,25 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "lst-3",
-    severity = "error",
-    human = "An entry date can only be used if the mode of the list is \"working\"",
-    expression = "mode = 'working' or entry.date.empty()"
+    id = "lst-1",
+    level = "Rule",
+    location = "(base)",
+    description = "A list can only have an emptyReason if it is empty",
+    expression = "emptyReason.empty() or entry.empty()"
 )
 @Constraint(
-    key = "lst-2",
-    severity = "error",
-    human = "The deleted flag can only be used if the mode of the list is \"changes\"",
+    id = "lst-2",
+    level = "Rule",
+    location = "(base)",
+    description = "The deleted flag can only be used if the mode of the list is \"changes\"",
     expression = "mode = 'changes' or entry.deleted.empty()"
 )
 @Constraint(
-    key = "lst-1",
-    severity = "error",
-    human = "A list can only have an emptyReason if it is empty",
-    expression = "emptyReason.empty() or entry.empty()"
+    id = "lst-3",
+    level = "Rule",
+    location = "(base)",
+    description = "An entry date can only be used if the mode of the list is \"working\"",
+    expression = "mode = 'working' or entry.date.empty()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class List extends DomainResource {

@@ -40,16 +40,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "mrp-2",
-    severity = "error",
-    human = "Stratifiers SHALL be either a single criteria or a set of criteria components",
-    expression = "group.stratifier.stratum.all(value.exists() xor component.exists())"
+    id = "mrp-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Measure Reports used for data collection SHALL NOT communicate group and score information",
+    expression = "(type != 'data-collection') or group.exists().not()"
 )
 @Constraint(
-    key = "mrp-1",
-    severity = "error",
-    human = "Measure Reports used for data collection SHALL NOT communicate group and score information",
-    expression = "(type != 'data-collection') or group.exists().not()"
+    id = "mrp-2",
+    level = "Rule",
+    location = "(base)",
+    description = "Stratifiers SHALL be either a single criteria or a set of criteria components",
+    expression = "group.stratifier.stratum.all(value.exists() xor component.exists())"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MeasureReport extends DomainResource {

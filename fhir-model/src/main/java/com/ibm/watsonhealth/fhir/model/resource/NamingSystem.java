@@ -41,21 +41,24 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "nsd-1",
-    severity = "error",
-    human = "Root systems cannot have uuid identifiers",
-    expression = "kind != 'root' or uniqueId.all(type != 'uuid')"
-)
-@Constraint(
-    key = "nsd-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    id = "nsd-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
 @Constraint(
-    key = "nsd-2",
-    severity = "error",
-    human = "Can't have more than one preferred identifier for a type",
+    id = "nsd-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Root systems cannot have uuid identifiers",
+    expression = "kind != 'root' or uniqueId.all(type != 'uuid')"
+)
+@Constraint(
+    id = "nsd-2",
+    level = "Rule",
+    location = "(base)",
+    description = "Can't have more than one preferred identifier for a type",
     expression = "uniqueId.where(preferred = true).select(type).isDistinct()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

@@ -46,10 +46,32 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "opd-0",
-    severity = "warning",
-    human = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
+    id = "opd-0",
+    level = "Warning",
+    location = "(base)",
+    description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+)
+@Constraint(
+    id = "opd-1",
+    level = "Rule",
+    location = "OperationDefinition.parameter",
+    description = "Either a type must be provided, or parts",
+    expression = "type.exists() or part.exists()"
+)
+@Constraint(
+    id = "opd-2",
+    level = "Rule",
+    location = "OperationDefinition.parameter",
+    description = "A search type can only be specified for parameters of type string",
+    expression = "searchType.exists() implies type = 'string'"
+)
+@Constraint(
+    id = "opd-3",
+    level = "Rule",
+    location = "OperationDefinition.parameter",
+    description = "A targetProfile can only be specified for parameters of type Reference or Canonical",
+    expression = "targetProfile.exists() implies (type = 'Reference' or type = 'canonical')"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class OperationDefinition extends DomainResource {

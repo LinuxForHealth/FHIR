@@ -79,9 +79,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "inv-1",
-    severity = "error",
-    human = "Last modified date must be greater than or equal to authored-on date.",
+    id = "inv-1",
+    level = "Rule",
+    location = "(base)",
+    description = "Last modified date must be greater than or equal to authored-on date.",
     expression = "lastModified.exists().not() or authoredOn.exists().not() or lastModified >= authoredOn"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

@@ -19,9 +19,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "rng-2",
-    severity = "error",
-    human = "If present, low SHALL have a lower value than high",
+    id = "rng-2",
+    level = "Rule",
+    location = "(base)",
+    description = "If present, low SHALL have a lower value than high",
     expression = "low.empty() or high.empty() or (low <= high)"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

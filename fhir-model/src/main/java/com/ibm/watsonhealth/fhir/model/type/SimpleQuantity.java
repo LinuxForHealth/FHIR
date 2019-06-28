@@ -20,9 +20,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * </p>
  */
 @Constraint(
-    key = "sqty-1",
-    severity = "error",
-    human = "The comparator is not used on a SimpleQuantity",
+    id = "sqty-1",
+    level = "Rule",
+    location = "Quantity",
+    description = "The comparator is not used on a SimpleQuantity",
     expression = "comparator.empty()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

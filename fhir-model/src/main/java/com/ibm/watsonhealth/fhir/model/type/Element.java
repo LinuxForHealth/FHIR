@@ -22,9 +22,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
  * </p>
  */
 @Constraint(
-    key = "ele-1",
-    severity = "error",
-    human = "All FHIR elements must have a @value or children",
+    id = "ele-1",
+    level = "Rule",
+    location = "(base)",
+    description = "All FHIR elements must have a @value or children",
     expression = "hasValue() or (children().count() > id.count())"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")

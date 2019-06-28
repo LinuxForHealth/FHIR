@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -41,6 +42,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * This resource provides eligibility and plan details from the processing of an CoverageEligibilityRequest resource.
  * </p>
  */
+@Constraint(
+    id = "ces-1",
+    level = "Rule",
+    location = "CoverageEligibilityResponse.insurance.item",
+    description = "SHALL contain a category or a billcode but not both.",
+    expression = "category.exists() xor productOrService.exists()"
+)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CoverageEligibilityResponse extends DomainResource {
     private final List<Identifier> identifier;
