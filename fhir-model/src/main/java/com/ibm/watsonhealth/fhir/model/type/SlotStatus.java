@@ -46,6 +46,14 @@ public class SlotStatus extends Code {
         return SlotStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return SlotStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return SlotStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

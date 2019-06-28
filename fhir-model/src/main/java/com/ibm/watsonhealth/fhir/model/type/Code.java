@@ -32,6 +32,14 @@ public class Code extends String {
         return Code.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return Code.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return Code.builder().value(value).build();
+    }
+
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder();

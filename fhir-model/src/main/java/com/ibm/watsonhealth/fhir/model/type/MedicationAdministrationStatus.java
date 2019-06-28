@@ -56,6 +56,14 @@ public class MedicationAdministrationStatus extends Code {
         return MedicationAdministrationStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return MedicationAdministrationStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return MedicationAdministrationStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

@@ -41,6 +41,14 @@ public class ConsentDataMeaning extends Code {
         return ConsentDataMeaning.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return ConsentDataMeaning.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return ConsentDataMeaning.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

@@ -46,6 +46,14 @@ public class TestReportStatus extends Code {
         return TestReportStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return TestReportStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return TestReportStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

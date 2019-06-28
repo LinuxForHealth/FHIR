@@ -31,6 +31,14 @@ public class ConsentProvisionType extends Code {
         return ConsentProvisionType.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return ConsentProvisionType.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return ConsentProvisionType.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

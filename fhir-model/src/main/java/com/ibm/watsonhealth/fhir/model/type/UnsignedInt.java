@@ -34,6 +34,10 @@ public class UnsignedInt extends Integer {
         return UnsignedInt.builder().value(value).build();
     }
 
+    public static Integer integer(java.lang.String value) {
+        return UnsignedInt.builder().value(value).build();
+    }
+
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder();

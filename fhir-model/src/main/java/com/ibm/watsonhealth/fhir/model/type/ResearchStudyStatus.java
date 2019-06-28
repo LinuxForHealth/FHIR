@@ -76,6 +76,14 @@ public class ResearchStudyStatus extends Code {
         return ResearchStudyStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return ResearchStudyStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return ResearchStudyStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

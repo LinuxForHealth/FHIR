@@ -31,6 +31,10 @@ public class Markdown extends String {
         return Markdown.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return Markdown.builder().value(value).build();
+    }
+
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder();

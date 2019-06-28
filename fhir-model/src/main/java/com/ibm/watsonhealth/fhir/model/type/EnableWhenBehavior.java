@@ -31,6 +31,14 @@ public class EnableWhenBehavior extends Code {
         return EnableWhenBehavior.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return EnableWhenBehavior.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return EnableWhenBehavior.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

@@ -761,6 +761,14 @@ public class FHIRResourceType extends Code {
         return FHIRResourceType.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return FHIRResourceType.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return FHIRResourceType.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

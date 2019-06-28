@@ -41,6 +41,14 @@ public class NarrativeStatus extends Code {
         return NarrativeStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return NarrativeStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return NarrativeStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

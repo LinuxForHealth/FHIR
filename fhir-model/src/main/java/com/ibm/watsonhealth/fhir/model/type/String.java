@@ -49,6 +49,10 @@ public class String extends Element {
         return String.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return String.builder().value(value).build();
+    }
+
     @Override
     public void accept(java.lang.String elementName, Visitor visitor) {
         if (visitor.preVisit(this)) {

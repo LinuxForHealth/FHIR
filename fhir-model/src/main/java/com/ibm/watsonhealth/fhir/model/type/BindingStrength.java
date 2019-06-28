@@ -41,6 +41,14 @@ public class BindingStrength extends Code {
         return BindingStrength.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return BindingStrength.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return BindingStrength.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

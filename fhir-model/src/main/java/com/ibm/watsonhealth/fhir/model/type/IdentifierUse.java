@@ -46,6 +46,14 @@ public class IdentifierUse extends Code {
         return IdentifierUse.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return IdentifierUse.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return IdentifierUse.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

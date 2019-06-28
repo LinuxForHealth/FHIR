@@ -51,6 +51,14 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
         return ChargeItemDefinitionPriceComponentType.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return ChargeItemDefinitionPriceComponentType.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return ChargeItemDefinitionPriceComponentType.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

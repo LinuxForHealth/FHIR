@@ -41,6 +41,14 @@ public class FHIRDeviceStatus extends Code {
         return FHIRDeviceStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return FHIRDeviceStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return FHIRDeviceStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

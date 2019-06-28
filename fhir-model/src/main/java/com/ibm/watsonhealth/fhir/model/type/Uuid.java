@@ -32,6 +32,10 @@ public class Uuid extends Uri {
         return Uuid.builder().value(value).build();
     }
 
+    public static Uri uri(java.lang.String value) {
+        return Uuid.builder().value(value).build();
+    }
+
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder();

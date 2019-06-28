@@ -51,6 +51,14 @@ public class EndpointStatus extends Code {
         return EndpointStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return EndpointStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return EndpointStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

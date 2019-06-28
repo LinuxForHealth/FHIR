@@ -46,6 +46,10 @@ public class Integer extends Element {
         return Integer.builder().value(value).build();
     }
 
+    public static Integer integer(java.lang.String value) {
+        return Integer.builder().value(value).build();
+    }
+
     @Override
     public void accept(java.lang.String elementName, Visitor visitor) {
         if (visitor.preVisit(this)) {

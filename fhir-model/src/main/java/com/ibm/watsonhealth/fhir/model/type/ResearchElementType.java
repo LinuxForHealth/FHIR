@@ -36,6 +36,14 @@ public class ResearchElementType extends Code {
         return ResearchElementType.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return ResearchElementType.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return ResearchElementType.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

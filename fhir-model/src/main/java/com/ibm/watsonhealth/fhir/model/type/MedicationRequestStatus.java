@@ -61,6 +61,14 @@ public class MedicationRequestStatus extends Code {
         return MedicationRequestStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return MedicationRequestStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return MedicationRequestStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

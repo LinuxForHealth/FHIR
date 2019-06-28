@@ -36,6 +36,14 @@ public class MeasureReportStatus extends Code {
         return MeasureReportStatus.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return MeasureReportStatus.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return MeasureReportStatus.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

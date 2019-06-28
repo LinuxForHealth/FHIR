@@ -1243,10 +1243,34 @@ public class CodeGenerator {
             .end().newLine();
         }
         
-        if (isCode(structureDefinition) || isUri(structureDefinition) || isUriSubtype(structureDefinition) || 
-                isString(structureDefinition) || isStringSubtype(structureDefinition)) {
+        if (isString(structureDefinition) || isStringSubtype(structureDefinition) || 
+                isUri(structureDefinition) || isUriSubtype(structureDefinition)) {
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
                 ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+        }
+        
+        if (isString(structureDefinition) || isStringSubtype(structureDefinition)) {
+            cb.method(mods("public", "static"), "String", "string", params("java.lang.String value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+        }
+        
+        if (isUri(structureDefinition) || isUriSubtype(structureDefinition)) {
+            cb.method(mods("public", "static"), "Uri", "uri", params("java.lang.String value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+        }
+        
+        if (isInteger(structureDefinition) || isIntegerSubtype(structureDefinition)) {
+            cb.method(mods("public", "static"), "Integer", "integer", params("java.lang.String value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+        }
+        
+        if (isCode(structureDefinition)) {
+            cb.method(mods("public", "static"), "Code", "code", params("java.lang.String value"))
+                ._return("Code.builder().value(value).build()")
             .end().newLine();
         }
     }
@@ -2039,6 +2063,14 @@ public class CodeGenerator {
                 .end().newLine();
                 
                 cb.method(mods("public", "static"), bindingName, "of", args("ValueSet value"))
+                    ._return(bindingName + ".builder().value(value).build()")
+                .end().newLine();
+                
+                cb.method(mods("public", "static"), "String", "string", args("java.lang.String value"))
+                    ._return(bindingName + ".builder().value(value).build()")
+                .end().newLine();
+                
+                cb.method(mods("public", "static"), "Code", "code", args("java.lang.String value"))
                     ._return(bindingName + ".builder().value(value).build()")
                 .end().newLine();
                 

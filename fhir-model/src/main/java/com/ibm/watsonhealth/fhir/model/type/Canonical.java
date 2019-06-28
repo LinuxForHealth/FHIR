@@ -32,6 +32,10 @@ public class Canonical extends Uri {
         return Canonical.builder().value(value).build();
     }
 
+    public static Uri uri(java.lang.String value) {
+        return Canonical.builder().value(value).build();
+    }
+
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder();

@@ -36,6 +36,14 @@ public class CapabilityStatementKind extends Code {
         return CapabilityStatementKind.builder().value(value).build();
     }
 
+    public static String string(java.lang.String value) {
+        return CapabilityStatementKind.builder().value(value).build();
+    }
+
+    public static Code code(java.lang.String value) {
+        return CapabilityStatementKind.builder().value(value).build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }
