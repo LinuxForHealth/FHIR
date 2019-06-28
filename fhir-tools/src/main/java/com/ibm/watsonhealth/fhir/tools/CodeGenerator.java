@@ -902,15 +902,12 @@ public class CodeGenerator {
     private void generateConstraintAnnotations(JsonObject structureDefinition, CodeBuilder cb) {
         List<JsonObject> constraints = getConstraints(structureDefinition);
         for (JsonObject constraint : constraints) {
-            String source = constraint.getString("source", null);
-            if (source == null) {
-                Map<String, String> valueMap = new LinkedHashMap<>();
-                valueMap.put("key", constraint.getString("key"));
-                valueMap.put("severity", constraint.getString("severity"));
-                valueMap.put("human", constraint.getString("human"));
-                valueMap.put("expression", constraint.getString("expression"));
-                cb.annotation("Constraint", valueMap);
-            }
+            Map<String, String> valueMap = new LinkedHashMap<>();
+            valueMap.put("key", constraint.getString("key"));
+            valueMap.put("severity", constraint.getString("severity"));
+            valueMap.put("human", constraint.getString("human"));
+            valueMap.put("expression", constraint.getString("expression"));
+            cb.annotation("Constraint", valueMap);
         }
     }
     
