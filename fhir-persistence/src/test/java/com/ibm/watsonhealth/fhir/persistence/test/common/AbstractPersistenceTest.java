@@ -20,8 +20,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;

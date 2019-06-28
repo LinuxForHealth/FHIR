@@ -16,9 +16,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Device;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Device;
+import com.ibm.watsonhealth.fhir.model.resource.Device.UdiCarrier;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -31,7 +31,6 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDe
  */
 
 public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
-    protected ObjectFactory objFactory = new ObjectFactory();
     protected String deviceId;
     protected String deviceId1;
     
@@ -152,7 +151,6 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     @Test(groups = { "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice1" })
     public void testUpdateDeletedDevice() throws Exception { 
         
-        ObjectFactory objectFactory = new ObjectFactory();
         FHIRHistoryContext historyContext = FHIRPersistenceContextFactory.createHistoryContext();
         FHIRPersistenceContext context = this.getPersistenceContextForHistory(historyContext);
         Map<String, List<Integer>> deletedResources;
@@ -166,7 +164,7 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         persistence.delete(getDefaultPersistenceContext(), Device.class, this.deviceId1);
         
         // Then update deleted device
-        device.setUdi(objectFactory.createString().withValue(updatedUdiValue));
+        device = device.toBuilder().udiCarrier(UdiCarrier.builder().deviceIdentifier(str2model(updatedUdiValue)).build()).build();
         persistence.update(getDefaultPersistenceContext(), deviceId1, device);
         
         // Verify device history
@@ -183,10 +181,6 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         
         // Verify latest device
         Device latestDeviceVersion = (Device)resources.get(0);
-        assertEquals(updatedUdiValue,latestDeviceVersion.getUdi().getValue());
-        
-        
-        
-     
+        assertEquals(updatedUdiValue,latestDeviceVersion.getUdiCarrier().get(0).getDeviceIdentifier().getValue());
     }
 }
