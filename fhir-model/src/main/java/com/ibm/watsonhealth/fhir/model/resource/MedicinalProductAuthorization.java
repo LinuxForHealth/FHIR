@@ -304,32 +304,7 @@ public class MedicinalProductAuthorization extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.subject = subject;
-        builder.country.addAll(country);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.status = status;
-        builder.statusDate = statusDate;
-        builder.restoreDate = restoreDate;
-        builder.validityPeriod = validityPeriod;
-        builder.dataExclusivityPeriod = dataExclusivityPeriod;
-        builder.dateOfFirstAuthorization = dateOfFirstAuthorization;
-        builder.internationalBirthDate = internationalBirthDate;
-        builder.legalBasis = legalBasis;
-        builder.jurisdictionalAuthorization.addAll(jurisdictionalAuthorization);
-        builder.holder = holder;
-        builder.regulator = regulator;
-        builder.procedure = procedure;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -901,6 +876,34 @@ public class MedicinalProductAuthorization extends DomainResource {
         public MedicinalProductAuthorization build() {
             return new MedicinalProductAuthorization(this);
         }
+
+        private Builder from(MedicinalProductAuthorization medicinalProductAuthorization) {
+            id = medicinalProductAuthorization.id;
+            meta = medicinalProductAuthorization.meta;
+            implicitRules = medicinalProductAuthorization.implicitRules;
+            language = medicinalProductAuthorization.language;
+            text = medicinalProductAuthorization.text;
+            contained.addAll(medicinalProductAuthorization.contained);
+            extension.addAll(medicinalProductAuthorization.extension);
+            modifierExtension.addAll(medicinalProductAuthorization.modifierExtension);
+            identifier.addAll(medicinalProductAuthorization.identifier);
+            subject = medicinalProductAuthorization.subject;
+            country.addAll(medicinalProductAuthorization.country);
+            jurisdiction.addAll(medicinalProductAuthorization.jurisdiction);
+            status = medicinalProductAuthorization.status;
+            statusDate = medicinalProductAuthorization.statusDate;
+            restoreDate = medicinalProductAuthorization.restoreDate;
+            validityPeriod = medicinalProductAuthorization.validityPeriod;
+            dataExclusivityPeriod = medicinalProductAuthorization.dataExclusivityPeriod;
+            dateOfFirstAuthorization = medicinalProductAuthorization.dateOfFirstAuthorization;
+            internationalBirthDate = medicinalProductAuthorization.internationalBirthDate;
+            legalBasis = medicinalProductAuthorization.legalBasis;
+            jurisdictionalAuthorization.addAll(medicinalProductAuthorization.jurisdictionalAuthorization);
+            holder = medicinalProductAuthorization.holder;
+            regulator = medicinalProductAuthorization.regulator;
+            procedure = medicinalProductAuthorization.procedure;
+            return this;
+        }
     }
 
     /**
@@ -1006,7 +1009,7 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1251,14 +1254,16 @@ public class MedicinalProductAuthorization extends DomainResource {
                 return new JurisdictionalAuthorization(this);
             }
 
-            private static Builder from(JurisdictionalAuthorization jurisdictionalAuthorization) {
-                Builder builder = new Builder();
-                builder.identifier.addAll(jurisdictionalAuthorization.identifier);
-                builder.country = jurisdictionalAuthorization.country;
-                builder.jurisdiction.addAll(jurisdictionalAuthorization.jurisdiction);
-                builder.legalStatusOfSupply = jurisdictionalAuthorization.legalStatusOfSupply;
-                builder.validityPeriod = jurisdictionalAuthorization.validityPeriod;
-                return builder;
+            private Builder from(JurisdictionalAuthorization jurisdictionalAuthorization) {
+                id = jurisdictionalAuthorization.id;
+                extension.addAll(jurisdictionalAuthorization.extension);
+                modifierExtension.addAll(jurisdictionalAuthorization.modifierExtension);
+                identifier.addAll(jurisdictionalAuthorization.identifier);
+                country = jurisdictionalAuthorization.country;
+                jurisdiction.addAll(jurisdictionalAuthorization.jurisdiction);
+                legalStatusOfSupply = jurisdictionalAuthorization.legalStatusOfSupply;
+                validityPeriod = jurisdictionalAuthorization.validityPeriod;
+                return this;
             }
         }
     }
@@ -1351,7 +1356,11 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
@@ -1548,12 +1557,14 @@ public class MedicinalProductAuthorization extends DomainResource {
                 return new Procedure(this);
             }
 
-            private static Builder from(Procedure procedure) {
-                Builder builder = new Builder(procedure.type);
-                builder.identifier = procedure.identifier;
-                builder.date = procedure.date;
-                builder.application.addAll(procedure.application);
-                return builder;
+            private Builder from(Procedure procedure) {
+                id = procedure.id;
+                extension.addAll(procedure.extension);
+                modifierExtension.addAll(procedure.modifierExtension);
+                identifier = procedure.identifier;
+                date = procedure.date;
+                application.addAll(procedure.application);
+                return this;
             }
         }
     }

@@ -111,13 +111,11 @@ public class ProductShelfLife extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type, period);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.specialPrecautionsForStorage.addAll(specialPrecautionsForStorage);
-        return builder;
+        return new Builder(type, period).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept type, Quantity period) {
+        return new Builder(type, period).from(this);
     }
 
     public static Builder builder(CodeableConcept type, Quantity period) {
@@ -301,6 +299,15 @@ public class ProductShelfLife extends BackboneElement {
         @Override
         public ProductShelfLife build() {
             return new ProductShelfLife(this);
+        }
+
+        private Builder from(ProductShelfLife productShelfLife) {
+            id = productShelfLife.id;
+            extension.addAll(productShelfLife.extension);
+            modifierExtension.addAll(productShelfLife.modifierExtension);
+            identifier = productShelfLife.identifier;
+            specialPrecautionsForStorage.addAll(productShelfLife.specialPrecautionsForStorage);
+            return this;
         }
     }
 }

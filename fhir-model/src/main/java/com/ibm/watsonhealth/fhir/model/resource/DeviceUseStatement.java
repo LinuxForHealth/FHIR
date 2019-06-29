@@ -264,26 +264,11 @@ public class DeviceUseStatement extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, subject, device);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn.addAll(basedOn);
-        builder.derivedFrom.addAll(derivedFrom);
-        builder.timing = timing;
-        builder.recordedOn = recordedOn;
-        builder.source = source;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.bodySite = bodySite;
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status, subject, device).from(this);
+    }
+
+    public Builder toBuilder(DeviceUseStatementStatus status, Reference subject, Reference device) {
+        return new Builder(status, subject, device).from(this);
     }
 
     public static Builder builder(DeviceUseStatementStatus status, Reference subject, Reference device) {
@@ -798,6 +783,28 @@ public class DeviceUseStatement extends DomainResource {
         @Override
         public DeviceUseStatement build() {
             return new DeviceUseStatement(this);
+        }
+
+        private Builder from(DeviceUseStatement deviceUseStatement) {
+            id = deviceUseStatement.id;
+            meta = deviceUseStatement.meta;
+            implicitRules = deviceUseStatement.implicitRules;
+            language = deviceUseStatement.language;
+            text = deviceUseStatement.text;
+            contained.addAll(deviceUseStatement.contained);
+            extension.addAll(deviceUseStatement.extension);
+            modifierExtension.addAll(deviceUseStatement.modifierExtension);
+            identifier.addAll(deviceUseStatement.identifier);
+            basedOn.addAll(deviceUseStatement.basedOn);
+            derivedFrom.addAll(deviceUseStatement.derivedFrom);
+            timing = deviceUseStatement.timing;
+            recordedOn = deviceUseStatement.recordedOn;
+            source = deviceUseStatement.source;
+            reasonCode.addAll(deviceUseStatement.reasonCode);
+            reasonReference.addAll(deviceUseStatement.reasonReference);
+            bodySite = deviceUseStatement.bodySite;
+            note.addAll(deviceUseStatement.note);
+            return this;
         }
     }
 }

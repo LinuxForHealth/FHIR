@@ -98,14 +98,11 @@ public class Binary extends Resource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(contentType);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.securityContext = securityContext;
-        builder.data = data;
-        return builder;
+        return new Builder(contentType).from(this);
+    }
+
+    public Builder toBuilder(Code contentType) {
+        return new Builder(contentType).from(this);
     }
 
     public static Builder builder(Code contentType) {
@@ -232,6 +229,16 @@ public class Binary extends Resource {
         @Override
         public Binary build() {
             return new Binary(this);
+        }
+
+        private Builder from(Binary binary) {
+            id = binary.id;
+            meta = binary.meta;
+            implicitRules = binary.implicitRules;
+            language = binary.language;
+            securityContext = binary.securityContext;
+            data = binary.data;
+            return this;
         }
     }
 }

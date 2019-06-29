@@ -277,29 +277,11 @@ public class VerificationResult extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.target.addAll(target);
-        builder.targetLocation.addAll(targetLocation);
-        builder.need = need;
-        builder.statusDate = statusDate;
-        builder.validationType = validationType;
-        builder.validationProcess.addAll(validationProcess);
-        builder.frequency = frequency;
-        builder.lastPerformed = lastPerformed;
-        builder.nextScheduled = nextScheduled;
-        builder.failureAction = failureAction;
-        builder.primarySource.addAll(primarySource);
-        builder.attestation = attestation;
-        builder.validator.addAll(validator);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(Status status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(Status status) {
@@ -844,6 +826,31 @@ public class VerificationResult extends DomainResource {
         public VerificationResult build() {
             return new VerificationResult(this);
         }
+
+        private Builder from(VerificationResult verificationResult) {
+            id = verificationResult.id;
+            meta = verificationResult.meta;
+            implicitRules = verificationResult.implicitRules;
+            language = verificationResult.language;
+            text = verificationResult.text;
+            contained.addAll(verificationResult.contained);
+            extension.addAll(verificationResult.extension);
+            modifierExtension.addAll(verificationResult.modifierExtension);
+            target.addAll(verificationResult.target);
+            targetLocation.addAll(verificationResult.targetLocation);
+            need = verificationResult.need;
+            statusDate = verificationResult.statusDate;
+            validationType = verificationResult.validationType;
+            validationProcess.addAll(verificationResult.validationProcess);
+            frequency = verificationResult.frequency;
+            lastPerformed = verificationResult.lastPerformed;
+            nextScheduled = verificationResult.nextScheduled;
+            failureAction = verificationResult.failureAction;
+            primarySource.addAll(verificationResult.primarySource);
+            attestation = verificationResult.attestation;
+            validator.addAll(verificationResult.validator);
+            return this;
+        }
     }
 
     /**
@@ -980,7 +987,7 @@ public class VerificationResult extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1281,16 +1288,18 @@ public class VerificationResult extends DomainResource {
                 return new PrimarySource(this);
             }
 
-            private static Builder from(PrimarySource primarySource) {
-                Builder builder = new Builder();
-                builder.who = primarySource.who;
-                builder.type.addAll(primarySource.type);
-                builder.communicationMethod.addAll(primarySource.communicationMethod);
-                builder.validationStatus = primarySource.validationStatus;
-                builder.validationDate = primarySource.validationDate;
-                builder.canPushUpdates = primarySource.canPushUpdates;
-                builder.pushTypeAvailable.addAll(primarySource.pushTypeAvailable);
-                return builder;
+            private Builder from(PrimarySource primarySource) {
+                id = primarySource.id;
+                extension.addAll(primarySource.extension);
+                modifierExtension.addAll(primarySource.modifierExtension);
+                who = primarySource.who;
+                type.addAll(primarySource.type);
+                communicationMethod.addAll(primarySource.communicationMethod);
+                validationStatus = primarySource.validationStatus;
+                validationDate = primarySource.validationDate;
+                canPushUpdates = primarySource.canPushUpdates;
+                pushTypeAvailable.addAll(primarySource.pushTypeAvailable);
+                return this;
             }
         }
     }
@@ -1445,7 +1454,7 @@ public class VerificationResult extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1708,17 +1717,19 @@ public class VerificationResult extends DomainResource {
                 return new Attestation(this);
             }
 
-            private static Builder from(Attestation attestation) {
-                Builder builder = new Builder();
-                builder.who = attestation.who;
-                builder.onBehalfOf = attestation.onBehalfOf;
-                builder.communicationMethod = attestation.communicationMethod;
-                builder.date = attestation.date;
-                builder.sourceIdentityCertificate = attestation.sourceIdentityCertificate;
-                builder.proxyIdentityCertificate = attestation.proxyIdentityCertificate;
-                builder.proxySignature = attestation.proxySignature;
-                builder.sourceSignature = attestation.sourceSignature;
-                return builder;
+            private Builder from(Attestation attestation) {
+                id = attestation.id;
+                extension.addAll(attestation.extension);
+                modifierExtension.addAll(attestation.modifierExtension);
+                who = attestation.who;
+                onBehalfOf = attestation.onBehalfOf;
+                communicationMethod = attestation.communicationMethod;
+                date = attestation.date;
+                sourceIdentityCertificate = attestation.sourceIdentityCertificate;
+                proxyIdentityCertificate = attestation.proxyIdentityCertificate;
+                proxySignature = attestation.proxySignature;
+                sourceSignature = attestation.sourceSignature;
+                return this;
             }
         }
     }
@@ -1796,7 +1807,11 @@ public class VerificationResult extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(organization).from(this);
+        }
+
+        public Builder toBuilder(Reference organization) {
+            return new Builder(organization).from(this);
         }
 
         public static Builder builder(Reference organization) {
@@ -1958,11 +1973,13 @@ public class VerificationResult extends DomainResource {
                 return new Validator(this);
             }
 
-            private static Builder from(Validator validator) {
-                Builder builder = new Builder(validator.organization);
-                builder.identityCertificate = validator.identityCertificate;
-                builder.attestationSignature = validator.attestationSignature;
-                return builder;
+            private Builder from(Validator validator) {
+                id = validator.id;
+                extension.addAll(validator.extension);
+                modifierExtension.addAll(validator.modifierExtension);
+                identityCertificate = validator.identityCertificate;
+                attestationSignature = validator.attestationSignature;
+                return this;
             }
         }
     }

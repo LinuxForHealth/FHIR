@@ -320,26 +320,11 @@ public class Composition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, type, date, author, title);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.category.addAll(category);
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.confidentiality = confidentiality;
-        builder.attester.addAll(attester);
-        builder.custodian = custodian;
-        builder.relatesTo.addAll(relatesTo);
-        builder.event.addAll(event);
-        builder.section.addAll(section);
-        return builder;
+        return new Builder(status, type, date, author, title).from(this);
+    }
+
+    public Builder toBuilder(CompositionStatus status, CodeableConcept type, DateTime date, List<Reference> author, String title) {
+        return new Builder(status, type, date, author, title).from(this);
     }
 
     public static Builder builder(CompositionStatus status, CodeableConcept type, DateTime date, List<Reference> author, String title) {
@@ -672,40 +657,6 @@ public class Composition extends DomainResource {
 
         /**
          * <p>
-         * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
-         * </p>
-         * 
-         * @param author
-         *     Who and/or what authored the composition
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder author(Reference... author) {
-            for (Reference value : author) {
-                this.author.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
-         * </p>
-         * 
-         * @param author
-         *     Who and/or what authored the composition
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder author(Collection<Reference> author) {
-            this.author.addAll(author);
-            return this;
-        }
-
-        /**
-         * <p>
          * The code specifying the level of confidentiality of the Composition.
          * </p>
          * 
@@ -877,6 +828,28 @@ public class Composition extends DomainResource {
         public Composition build() {
             return new Composition(this);
         }
+
+        private Builder from(Composition composition) {
+            id = composition.id;
+            meta = composition.meta;
+            implicitRules = composition.implicitRules;
+            language = composition.language;
+            text = composition.text;
+            contained.addAll(composition.contained);
+            extension.addAll(composition.extension);
+            modifierExtension.addAll(composition.modifierExtension);
+            identifier = composition.identifier;
+            category.addAll(composition.category);
+            subject = composition.subject;
+            encounter = composition.encounter;
+            confidentiality = composition.confidentiality;
+            attester.addAll(composition.attester);
+            custodian = composition.custodian;
+            relatesTo.addAll(composition.relatesTo);
+            event.addAll(composition.event);
+            section.addAll(composition.section);
+            return this;
+        }
     }
 
     /**
@@ -952,7 +925,11 @@ public class Composition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(mode).from(this);
+        }
+
+        public Builder toBuilder(CompositionAttestationMode mode) {
+            return new Builder(mode).from(this);
         }
 
         public static Builder builder(CompositionAttestationMode mode) {
@@ -1114,11 +1091,13 @@ public class Composition extends DomainResource {
                 return new Attester(this);
             }
 
-            private static Builder from(Attester attester) {
-                Builder builder = new Builder(attester.mode);
-                builder.time = attester.time;
-                builder.party = attester.party;
-                return builder;
+            private Builder from(Attester attester) {
+                id = attester.id;
+                extension.addAll(attester.extension);
+                modifierExtension.addAll(attester.modifierExtension);
+                time = attester.time;
+                party = attester.party;
+                return this;
             }
         }
     }
@@ -1181,7 +1160,11 @@ public class Composition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code, target).from(this);
+        }
+
+        public Builder toBuilder(DocumentRelationshipType code, Element target) {
+            return new Builder(code, target).from(this);
         }
 
         public static Builder builder(DocumentRelationshipType code, Element target) {
@@ -1309,9 +1292,11 @@ public class Composition extends DomainResource {
                 return new RelatesTo(this);
             }
 
-            private static Builder from(RelatesTo relatesTo) {
-                Builder builder = new Builder(relatesTo.code, relatesTo.target);
-                return builder;
+            private Builder from(RelatesTo relatesTo) {
+                id = relatesTo.id;
+                extension.addAll(relatesTo.extension);
+                modifierExtension.addAll(relatesTo.modifierExtension);
+                return this;
             }
         }
     }
@@ -1393,7 +1378,7 @@ public class Composition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1611,12 +1596,14 @@ public class Composition extends DomainResource {
                 return new Event(this);
             }
 
-            private static Builder from(Event event) {
-                Builder builder = new Builder();
-                builder.code.addAll(event.code);
-                builder.period = event.period;
-                builder.detail.addAll(event.detail);
-                return builder;
+            private Builder from(Event event) {
+                id = event.id;
+                extension.addAll(event.extension);
+                modifierExtension.addAll(event.modifierExtension);
+                code.addAll(event.code);
+                period = event.period;
+                detail.addAll(event.detail);
+                return this;
             }
         }
     }
@@ -1808,7 +1795,7 @@ public class Composition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2165,19 +2152,21 @@ public class Composition extends DomainResource {
                 return new Section(this);
             }
 
-            private static Builder from(Section section) {
-                Builder builder = new Builder();
-                builder.title = section.title;
-                builder.code = section.code;
-                builder.author.addAll(section.author);
-                builder.focus = section.focus;
-                builder.text = section.text;
-                builder.mode = section.mode;
-                builder.orderedBy = section.orderedBy;
-                builder.entry.addAll(section.entry);
-                builder.emptyReason = section.emptyReason;
-                builder.section.addAll(section.section);
-                return builder;
+            private Builder from(Section section) {
+                id = section.id;
+                extension.addAll(section.extension);
+                modifierExtension.addAll(section.modifierExtension);
+                title = section.title;
+                code = section.code;
+                author.addAll(section.author);
+                focus = section.focus;
+                text = section.text;
+                mode = section.mode;
+                orderedBy = section.orderedBy;
+                entry.addAll(section.entry);
+                emptyReason = section.emptyReason;
+                this.section.addAll(section.section);
+                return this;
             }
         }
     }

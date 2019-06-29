@@ -502,42 +502,11 @@ public class Procedure extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.basedOn.addAll(basedOn);
-        builder.partOf.addAll(partOf);
-        builder.statusReason = statusReason;
-        builder.category = category;
-        builder.code = code;
-        builder.encounter = encounter;
-        builder.performed = performed;
-        builder.recorder = recorder;
-        builder.asserter = asserter;
-        builder.performer.addAll(performer);
-        builder.location = location;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.bodySite.addAll(bodySite);
-        builder.outcome = outcome;
-        builder.report.addAll(report);
-        builder.complication.addAll(complication);
-        builder.complicationDetail.addAll(complicationDetail);
-        builder.followUp.addAll(followUp);
-        builder.note.addAll(note);
-        builder.focalDevice.addAll(focalDevice);
-        builder.usedReference.addAll(usedReference);
-        builder.usedCode.addAll(usedCode);
-        return builder;
+        return new Builder(status, subject).from(this);
+    }
+
+    public Builder toBuilder(ProcedureStatus status, Reference subject) {
+        return new Builder(status, subject).from(this);
     }
 
     public static Builder builder(ProcedureStatus status, Reference subject) {
@@ -1538,6 +1507,44 @@ public class Procedure extends DomainResource {
         public Procedure build() {
             return new Procedure(this);
         }
+
+        private Builder from(Procedure procedure) {
+            id = procedure.id;
+            meta = procedure.meta;
+            implicitRules = procedure.implicitRules;
+            language = procedure.language;
+            text = procedure.text;
+            contained.addAll(procedure.contained);
+            extension.addAll(procedure.extension);
+            modifierExtension.addAll(procedure.modifierExtension);
+            identifier.addAll(procedure.identifier);
+            instantiatesCanonical.addAll(procedure.instantiatesCanonical);
+            instantiatesUri.addAll(procedure.instantiatesUri);
+            basedOn.addAll(procedure.basedOn);
+            partOf.addAll(procedure.partOf);
+            statusReason = procedure.statusReason;
+            category = procedure.category;
+            code = procedure.code;
+            encounter = procedure.encounter;
+            performed = procedure.performed;
+            recorder = procedure.recorder;
+            asserter = procedure.asserter;
+            performer.addAll(procedure.performer);
+            location = procedure.location;
+            reasonCode.addAll(procedure.reasonCode);
+            reasonReference.addAll(procedure.reasonReference);
+            bodySite.addAll(procedure.bodySite);
+            outcome = procedure.outcome;
+            report.addAll(procedure.report);
+            complication.addAll(procedure.complication);
+            complicationDetail.addAll(procedure.complicationDetail);
+            followUp.addAll(procedure.followUp);
+            note.addAll(procedure.note);
+            focalDevice.addAll(procedure.focalDevice);
+            usedReference.addAll(procedure.usedReference);
+            usedCode.addAll(procedure.usedCode);
+            return this;
+        }
     }
 
     /**
@@ -1614,7 +1621,11 @@ public class Procedure extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(actor).from(this);
+        }
+
+        public Builder toBuilder(Reference actor) {
+            return new Builder(actor).from(this);
         }
 
         public static Builder builder(Reference actor) {
@@ -1777,11 +1788,13 @@ public class Procedure extends DomainResource {
                 return new Performer(this);
             }
 
-            private static Builder from(Performer performer) {
-                Builder builder = new Builder(performer.actor);
-                builder.function = performer.function;
-                builder.onBehalfOf = performer.onBehalfOf;
-                return builder;
+            private Builder from(Performer performer) {
+                id = performer.id;
+                extension.addAll(performer.extension);
+                modifierExtension.addAll(performer.modifierExtension);
+                function = performer.function;
+                onBehalfOf = performer.onBehalfOf;
+                return this;
             }
         }
     }
@@ -1845,7 +1858,11 @@ public class Procedure extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(manipulated).from(this);
+        }
+
+        public Builder toBuilder(Reference manipulated) {
+            return new Builder(manipulated).from(this);
         }
 
         public static Builder builder(Reference manipulated) {
@@ -1990,10 +2007,12 @@ public class Procedure extends DomainResource {
                 return new FocalDevice(this);
             }
 
-            private static Builder from(FocalDevice focalDevice) {
-                Builder builder = new Builder(focalDevice.manipulated);
-                builder.action = focalDevice.action;
-                return builder;
+            private Builder from(FocalDevice focalDevice) {
+                id = focalDevice.id;
+                extension.addAll(focalDevice.extension);
+                modifierExtension.addAll(focalDevice.modifierExtension);
+                action = focalDevice.action;
+                return this;
             }
         }
     }

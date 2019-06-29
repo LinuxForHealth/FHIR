@@ -165,21 +165,11 @@ public class MedicinalProductManufactured extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(manufacturedDoseForm, quantity);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.unitOfPresentation = unitOfPresentation;
-        builder.manufacturer.addAll(manufacturer);
-        builder.ingredient.addAll(ingredient);
-        builder.physicalCharacteristics = physicalCharacteristics;
-        builder.otherCharacteristics.addAll(otherCharacteristics);
-        return builder;
+        return new Builder(manufacturedDoseForm, quantity).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept manufacturedDoseForm, Quantity quantity) {
+        return new Builder(manufacturedDoseForm, quantity).from(this);
     }
 
     public static Builder builder(CodeableConcept manufacturedDoseForm, Quantity quantity) {
@@ -549,6 +539,23 @@ public class MedicinalProductManufactured extends DomainResource {
         @Override
         public MedicinalProductManufactured build() {
             return new MedicinalProductManufactured(this);
+        }
+
+        private Builder from(MedicinalProductManufactured medicinalProductManufactured) {
+            id = medicinalProductManufactured.id;
+            meta = medicinalProductManufactured.meta;
+            implicitRules = medicinalProductManufactured.implicitRules;
+            language = medicinalProductManufactured.language;
+            text = medicinalProductManufactured.text;
+            contained.addAll(medicinalProductManufactured.contained);
+            extension.addAll(medicinalProductManufactured.extension);
+            modifierExtension.addAll(medicinalProductManufactured.modifierExtension);
+            unitOfPresentation = medicinalProductManufactured.unitOfPresentation;
+            manufacturer.addAll(medicinalProductManufactured.manufacturer);
+            ingredient.addAll(medicinalProductManufactured.ingredient);
+            physicalCharacteristics = medicinalProductManufactured.physicalCharacteristics;
+            otherCharacteristics.addAll(medicinalProductManufactured.otherCharacteristics);
+            return this;
         }
     }
 }

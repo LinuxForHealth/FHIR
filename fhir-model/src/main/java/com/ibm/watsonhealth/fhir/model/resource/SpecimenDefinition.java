@@ -157,22 +157,7 @@ public class SpecimenDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.typeCollected = typeCollected;
-        builder.patientPreparation.addAll(patientPreparation);
-        builder.timeAspect = timeAspect;
-        builder.collection.addAll(collection);
-        builder.typeTested.addAll(typeTested);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -554,6 +539,24 @@ public class SpecimenDefinition extends DomainResource {
         public SpecimenDefinition build() {
             return new SpecimenDefinition(this);
         }
+
+        private Builder from(SpecimenDefinition specimenDefinition) {
+            id = specimenDefinition.id;
+            meta = specimenDefinition.meta;
+            implicitRules = specimenDefinition.implicitRules;
+            language = specimenDefinition.language;
+            text = specimenDefinition.text;
+            contained.addAll(specimenDefinition.contained);
+            extension.addAll(specimenDefinition.extension);
+            modifierExtension.addAll(specimenDefinition.modifierExtension);
+            identifier = specimenDefinition.identifier;
+            typeCollected = specimenDefinition.typeCollected;
+            patientPreparation.addAll(specimenDefinition.patientPreparation);
+            timeAspect = specimenDefinition.timeAspect;
+            collection.addAll(specimenDefinition.collection);
+            typeTested.addAll(specimenDefinition.typeTested);
+            return this;
+        }
     }
 
     /**
@@ -706,7 +709,11 @@ public class SpecimenDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(preference).from(this);
+        }
+
+        public Builder toBuilder(SpecimenContainedPreference preference) {
+            return new Builder(preference).from(this);
         }
 
         public static Builder builder(SpecimenContainedPreference preference) {
@@ -992,16 +999,18 @@ public class SpecimenDefinition extends DomainResource {
                 return new TypeTested(this);
             }
 
-            private static Builder from(TypeTested typeTested) {
-                Builder builder = new Builder(typeTested.preference);
-                builder.isDerived = typeTested.isDerived;
-                builder.type = typeTested.type;
-                builder.container = typeTested.container;
-                builder.requirement = typeTested.requirement;
-                builder.retentionTime = typeTested.retentionTime;
-                builder.rejectionCriterion.addAll(typeTested.rejectionCriterion);
-                builder.handling.addAll(typeTested.handling);
-                return builder;
+            private Builder from(TypeTested typeTested) {
+                id = typeTested.id;
+                extension.addAll(typeTested.extension);
+                modifierExtension.addAll(typeTested.modifierExtension);
+                isDerived = typeTested.isDerived;
+                type = typeTested.type;
+                container = typeTested.container;
+                requirement = typeTested.requirement;
+                retentionTime = typeTested.retentionTime;
+                rejectionCriterion.addAll(typeTested.rejectionCriterion);
+                handling.addAll(typeTested.handling);
+                return this;
             }
         }
 
@@ -1154,7 +1163,7 @@ public class SpecimenDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1434,17 +1443,19 @@ public class SpecimenDefinition extends DomainResource {
                     return new Container(this);
                 }
 
-                private static Builder from(Container container) {
-                    Builder builder = new Builder();
-                    builder.material = container.material;
-                    builder.type = container.type;
-                    builder.cap = container.cap;
-                    builder.description = container.description;
-                    builder.capacity = container.capacity;
-                    builder.minimumVolume = container.minimumVolume;
-                    builder.additive.addAll(container.additive);
-                    builder.preparation = container.preparation;
-                    return builder;
+                private Builder from(Container container) {
+                    id = container.id;
+                    extension.addAll(container.extension);
+                    modifierExtension.addAll(container.modifierExtension);
+                    material = container.material;
+                    type = container.type;
+                    cap = container.cap;
+                    description = container.description;
+                    capacity = container.capacity;
+                    minimumVolume = container.minimumVolume;
+                    additive.addAll(container.additive);
+                    preparation = container.preparation;
+                    return this;
                 }
             }
 
@@ -1493,7 +1504,11 @@ public class SpecimenDefinition extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(additive).from(this);
+                }
+
+                public Builder toBuilder(Element additive) {
+                    return new Builder(additive).from(this);
                 }
 
                 public static Builder builder(Element additive) {
@@ -1619,9 +1634,11 @@ public class SpecimenDefinition extends DomainResource {
                         return new Additive(this);
                     }
 
-                    private static Builder from(Additive additive) {
-                        Builder builder = new Builder(additive.additive);
-                        return builder;
+                    private Builder from(Additive additive) {
+                        id = additive.id;
+                        extension.addAll(additive.extension);
+                        modifierExtension.addAll(additive.modifierExtension);
+                        return this;
                     }
                 }
             }
@@ -1718,7 +1735,7 @@ public class SpecimenDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1912,13 +1929,15 @@ public class SpecimenDefinition extends DomainResource {
                     return new Handling(this);
                 }
 
-                private static Builder from(Handling handling) {
-                    Builder builder = new Builder();
-                    builder.temperatureQualifier = handling.temperatureQualifier;
-                    builder.temperatureRange = handling.temperatureRange;
-                    builder.maxDuration = handling.maxDuration;
-                    builder.instruction = handling.instruction;
-                    return builder;
+                private Builder from(Handling handling) {
+                    id = handling.id;
+                    extension.addAll(handling.extension);
+                    modifierExtension.addAll(handling.modifierExtension);
+                    temperatureQualifier = handling.temperatureQualifier;
+                    temperatureRange = handling.temperatureRange;
+                    maxDuration = handling.maxDuration;
+                    instruction = handling.instruction;
+                    return this;
                 }
             }
         }

@@ -139,21 +139,7 @@ public class SubstanceReferenceInformation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.comment = comment;
-        builder.gene.addAll(gene);
-        builder.geneElement.addAll(geneElement);
-        builder.classification.addAll(classification);
-        builder.target.addAll(target);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -536,6 +522,23 @@ public class SubstanceReferenceInformation extends DomainResource {
         public SubstanceReferenceInformation build() {
             return new SubstanceReferenceInformation(this);
         }
+
+        private Builder from(SubstanceReferenceInformation substanceReferenceInformation) {
+            id = substanceReferenceInformation.id;
+            meta = substanceReferenceInformation.meta;
+            implicitRules = substanceReferenceInformation.implicitRules;
+            language = substanceReferenceInformation.language;
+            text = substanceReferenceInformation.text;
+            contained.addAll(substanceReferenceInformation.contained);
+            extension.addAll(substanceReferenceInformation.extension);
+            modifierExtension.addAll(substanceReferenceInformation.modifierExtension);
+            comment = substanceReferenceInformation.comment;
+            gene.addAll(substanceReferenceInformation.gene);
+            geneElement.addAll(substanceReferenceInformation.geneElement);
+            classification.addAll(substanceReferenceInformation.classification);
+            target.addAll(substanceReferenceInformation.target);
+            return this;
+        }
     }
 
     /**
@@ -611,7 +614,7 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -804,12 +807,14 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new Gene(this);
             }
 
-            private static Builder from(Gene gene) {
-                Builder builder = new Builder();
-                builder.geneSequenceOrigin = gene.geneSequenceOrigin;
-                builder.gene = gene.gene;
-                builder.source.addAll(gene.source);
-                return builder;
+            private Builder from(Gene gene) {
+                id = gene.id;
+                extension.addAll(gene.extension);
+                modifierExtension.addAll(gene.modifierExtension);
+                geneSequenceOrigin = gene.geneSequenceOrigin;
+                this.gene = gene.gene;
+                source.addAll(gene.source);
+                return this;
             }
         }
     }
@@ -887,7 +892,7 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1080,12 +1085,14 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new GeneElement(this);
             }
 
-            private static Builder from(GeneElement geneElement) {
-                Builder builder = new Builder();
-                builder.type = geneElement.type;
-                builder.element = geneElement.element;
-                builder.source.addAll(geneElement.source);
-                return builder;
+            private Builder from(GeneElement geneElement) {
+                id = geneElement.id;
+                extension.addAll(geneElement.extension);
+                modifierExtension.addAll(geneElement.modifierExtension);
+                type = geneElement.type;
+                element = geneElement.element;
+                source.addAll(geneElement.source);
+                return this;
             }
         }
     }
@@ -1178,7 +1185,7 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1406,13 +1413,15 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new Classification(this);
             }
 
-            private static Builder from(Classification classification) {
-                Builder builder = new Builder();
-                builder.domain = classification.domain;
-                builder.classification = classification.classification;
-                builder.subtype.addAll(classification.subtype);
-                builder.source.addAll(classification.source);
-                return builder;
+            private Builder from(Classification classification) {
+                id = classification.id;
+                extension.addAll(classification.extension);
+                modifierExtension.addAll(classification.modifierExtension);
+                domain = classification.domain;
+                this.classification = classification.classification;
+                subtype.addAll(classification.subtype);
+                source.addAll(classification.source);
+                return this;
             }
         }
     }
@@ -1565,7 +1574,7 @@ public class SubstanceReferenceInformation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1843,17 +1852,19 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return new Target(this);
             }
 
-            private static Builder from(Target target) {
-                Builder builder = new Builder();
-                builder.target = target.target;
-                builder.type = target.type;
-                builder.interaction = target.interaction;
-                builder.organism = target.organism;
-                builder.organismType = target.organismType;
-                builder.amount = target.amount;
-                builder.amountType = target.amountType;
-                builder.source.addAll(target.source);
-                return builder;
+            private Builder from(Target target) {
+                id = target.id;
+                extension.addAll(target.extension);
+                modifierExtension.addAll(target.modifierExtension);
+                this.target = target.target;
+                type = target.type;
+                interaction = target.interaction;
+                organism = target.organism;
+                organismType = target.organismType;
+                amount = target.amount;
+                amountType = target.amountType;
+                source.addAll(target.source);
+                return this;
             }
         }
     }

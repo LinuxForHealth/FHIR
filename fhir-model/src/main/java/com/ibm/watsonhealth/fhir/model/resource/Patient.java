@@ -330,32 +330,7 @@ public class Patient extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.name.addAll(name);
-        builder.telecom.addAll(telecom);
-        builder.gender = gender;
-        builder.birthDate = birthDate;
-        builder.deceased = deceased;
-        builder.address.addAll(address);
-        builder.maritalStatus = maritalStatus;
-        builder.multipleBirth = multipleBirth;
-        builder.photo.addAll(photo);
-        builder.contact.addAll(contact);
-        builder.communication.addAll(communication);
-        builder.generalPractitioner.addAll(generalPractitioner);
-        builder.managingOrganization = managingOrganization;
-        builder.link.addAll(link);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -1024,6 +999,34 @@ public class Patient extends DomainResource {
         public Patient build() {
             return new Patient(this);
         }
+
+        private Builder from(Patient patient) {
+            id = patient.id;
+            meta = patient.meta;
+            implicitRules = patient.implicitRules;
+            language = patient.language;
+            text = patient.text;
+            contained.addAll(patient.contained);
+            extension.addAll(patient.extension);
+            modifierExtension.addAll(patient.modifierExtension);
+            identifier.addAll(patient.identifier);
+            active = patient.active;
+            name.addAll(patient.name);
+            telecom.addAll(patient.telecom);
+            gender = patient.gender;
+            birthDate = patient.birthDate;
+            deceased = patient.deceased;
+            address.addAll(patient.address);
+            maritalStatus = patient.maritalStatus;
+            multipleBirth = patient.multipleBirth;
+            photo.addAll(patient.photo);
+            contact.addAll(patient.contact);
+            communication.addAll(patient.communication);
+            generalPractitioner.addAll(patient.generalPractitioner);
+            managingOrganization = patient.managingOrganization;
+            link.addAll(patient.link);
+            return this;
+        }
     }
 
     /**
@@ -1160,7 +1163,7 @@ public class Patient extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1440,16 +1443,18 @@ public class Patient extends DomainResource {
                 return new Contact(this);
             }
 
-            private static Builder from(Contact contact) {
-                Builder builder = new Builder();
-                builder.relationship.addAll(contact.relationship);
-                builder.name = contact.name;
-                builder.telecom.addAll(contact.telecom);
-                builder.address = contact.address;
-                builder.gender = contact.gender;
-                builder.organization = contact.organization;
-                builder.period = contact.period;
-                return builder;
+            private Builder from(Contact contact) {
+                id = contact.id;
+                extension.addAll(contact.extension);
+                modifierExtension.addAll(contact.modifierExtension);
+                relationship.addAll(contact.relationship);
+                name = contact.name;
+                telecom.addAll(contact.telecom);
+                address = contact.address;
+                gender = contact.gender;
+                organization = contact.organization;
+                period = contact.period;
+                return this;
             }
         }
     }
@@ -1514,7 +1519,11 @@ public class Patient extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(language).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept language) {
+            return new Builder(language).from(this);
         }
 
         public static Builder builder(CodeableConcept language) {
@@ -1659,10 +1668,12 @@ public class Patient extends DomainResource {
                 return new Communication(this);
             }
 
-            private static Builder from(Communication communication) {
-                Builder builder = new Builder(communication.language);
-                builder.preferred = communication.preferred;
-                return builder;
+            private Builder from(Communication communication) {
+                id = communication.id;
+                extension.addAll(communication.extension);
+                modifierExtension.addAll(communication.modifierExtension);
+                preferred = communication.preferred;
+                return this;
             }
         }
     }
@@ -1725,7 +1736,11 @@ public class Patient extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(other, type).from(this);
+        }
+
+        public Builder toBuilder(Reference other, LinkType type) {
+            return new Builder(other, type).from(this);
         }
 
         public static Builder builder(Reference other, LinkType type) {
@@ -1853,9 +1868,11 @@ public class Patient extends DomainResource {
                 return new Link(this);
             }
 
-            private static Builder from(Link link) {
-                Builder builder = new Builder(link.other, link.type);
-                return builder;
+            private Builder from(Link link) {
+                id = link.id;
+                extension.addAll(link.extension);
+                modifierExtension.addAll(link.modifierExtension);
+                return this;
             }
         }
     }

@@ -133,21 +133,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.subject.addAll(subject);
-        builder.symptomConditionEffect = symptomConditionEffect;
-        builder.classification = classification;
-        builder.frequencyOfOccurrence = frequencyOfOccurrence;
-        builder.population.addAll(population);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -493,6 +479,23 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
         @Override
         public MedicinalProductUndesirableEffect build() {
             return new MedicinalProductUndesirableEffect(this);
+        }
+
+        private Builder from(MedicinalProductUndesirableEffect medicinalProductUndesirableEffect) {
+            id = medicinalProductUndesirableEffect.id;
+            meta = medicinalProductUndesirableEffect.meta;
+            implicitRules = medicinalProductUndesirableEffect.implicitRules;
+            language = medicinalProductUndesirableEffect.language;
+            text = medicinalProductUndesirableEffect.text;
+            contained.addAll(medicinalProductUndesirableEffect.contained);
+            extension.addAll(medicinalProductUndesirableEffect.extension);
+            modifierExtension.addAll(medicinalProductUndesirableEffect.modifierExtension);
+            subject.addAll(medicinalProductUndesirableEffect.subject);
+            symptomConditionEffect = medicinalProductUndesirableEffect.symptomConditionEffect;
+            classification = medicinalProductUndesirableEffect.classification;
+            frequencyOfOccurrence = medicinalProductUndesirableEffect.frequencyOfOccurrence;
+            population.addAll(medicinalProductUndesirableEffect.population);
+            return this;
         }
     }
 }

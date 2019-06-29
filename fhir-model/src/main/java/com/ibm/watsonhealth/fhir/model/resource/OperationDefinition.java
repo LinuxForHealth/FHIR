@@ -512,35 +512,11 @@ public class OperationDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(name, status, kind, code, system, type, instance);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.version = version;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.affectsState = affectsState;
-        builder.comment = comment;
-        builder.base = base;
-        builder.resource.addAll(resource);
-        builder.inputProfile = inputProfile;
-        builder.outputProfile = outputProfile;
-        builder.parameter.addAll(parameter);
-        builder.overload.addAll(overload);
-        return builder;
+        return new Builder(name, status, kind, code, system, type, instance).from(this);
+    }
+
+    public Builder toBuilder(String name, PublicationStatus status, OperationKind kind, Code code, Boolean system, Boolean type, Boolean instance) {
+        return new Builder(name, status, kind, code, system, type, instance).from(this);
     }
 
     public static Builder builder(String name, PublicationStatus status, OperationKind kind, Code code, Boolean system, Boolean type, Boolean instance) {
@@ -1232,6 +1208,37 @@ public class OperationDefinition extends DomainResource {
         public OperationDefinition build() {
             return new OperationDefinition(this);
         }
+
+        private Builder from(OperationDefinition operationDefinition) {
+            id = operationDefinition.id;
+            meta = operationDefinition.meta;
+            implicitRules = operationDefinition.implicitRules;
+            language = operationDefinition.language;
+            text = operationDefinition.text;
+            contained.addAll(operationDefinition.contained);
+            extension.addAll(operationDefinition.extension);
+            modifierExtension.addAll(operationDefinition.modifierExtension);
+            url = operationDefinition.url;
+            version = operationDefinition.version;
+            title = operationDefinition.title;
+            experimental = operationDefinition.experimental;
+            date = operationDefinition.date;
+            publisher = operationDefinition.publisher;
+            contact.addAll(operationDefinition.contact);
+            description = operationDefinition.description;
+            useContext.addAll(operationDefinition.useContext);
+            jurisdiction.addAll(operationDefinition.jurisdiction);
+            purpose = operationDefinition.purpose;
+            affectsState = operationDefinition.affectsState;
+            comment = operationDefinition.comment;
+            base = operationDefinition.base;
+            resource.addAll(operationDefinition.resource);
+            inputProfile = operationDefinition.inputProfile;
+            outputProfile = operationDefinition.outputProfile;
+            parameter.addAll(operationDefinition.parameter);
+            overload.addAll(operationDefinition.overload);
+            return this;
+        }
     }
 
     /**
@@ -1431,7 +1438,11 @@ public class OperationDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name, use, min, max).from(this);
+        }
+
+        public Builder toBuilder(Code name, OperationParameterUse use, Integer min, String max) {
+            return new Builder(name, use, min, max).from(this);
         }
 
         public static Builder builder(Code name, OperationParameterUse use, Integer min, String max) {
@@ -1746,16 +1757,18 @@ public class OperationDefinition extends DomainResource {
                 return new Parameter(this);
             }
 
-            private static Builder from(Parameter parameter) {
-                Builder builder = new Builder(parameter.name, parameter.use, parameter.min, parameter.max);
-                builder.documentation = parameter.documentation;
-                builder.type = parameter.type;
-                builder.targetProfile.addAll(parameter.targetProfile);
-                builder.searchType = parameter.searchType;
-                builder.binding = parameter.binding;
-                builder.referencedFrom.addAll(parameter.referencedFrom);
-                builder.part.addAll(parameter.part);
-                return builder;
+            private Builder from(Parameter parameter) {
+                id = parameter.id;
+                extension.addAll(parameter.extension);
+                modifierExtension.addAll(parameter.modifierExtension);
+                documentation = parameter.documentation;
+                type = parameter.type;
+                targetProfile.addAll(parameter.targetProfile);
+                searchType = parameter.searchType;
+                binding = parameter.binding;
+                referencedFrom.addAll(parameter.referencedFrom);
+                part.addAll(parameter.part);
+                return this;
             }
         }
 
@@ -1818,7 +1831,11 @@ public class OperationDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(strength, valueSet).from(this);
+            }
+
+            public Builder toBuilder(BindingStrength strength, Canonical valueSet) {
+                return new Builder(strength, valueSet).from(this);
             }
 
             public static Builder builder(BindingStrength strength, Canonical valueSet) {
@@ -1946,9 +1963,11 @@ public class OperationDefinition extends DomainResource {
                     return new Binding(this);
                 }
 
-                private static Builder from(Binding binding) {
-                    Builder builder = new Builder(binding.strength, binding.valueSet);
-                    return builder;
+                private Builder from(Binding binding) {
+                    id = binding.id;
+                    extension.addAll(binding.extension);
+                    modifierExtension.addAll(binding.modifierExtension);
+                    return this;
                 }
             }
         }
@@ -2012,7 +2031,11 @@ public class OperationDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(source).from(this);
+            }
+
+            public Builder toBuilder(String source) {
+                return new Builder(source).from(this);
             }
 
             public static Builder builder(String source) {
@@ -2157,10 +2180,12 @@ public class OperationDefinition extends DomainResource {
                     return new ReferencedFrom(this);
                 }
 
-                private static Builder from(ReferencedFrom referencedFrom) {
-                    Builder builder = new Builder(referencedFrom.source);
-                    builder.sourceId = referencedFrom.sourceId;
-                    return builder;
+                private Builder from(ReferencedFrom referencedFrom) {
+                    id = referencedFrom.id;
+                    extension.addAll(referencedFrom.extension);
+                    modifierExtension.addAll(referencedFrom.modifierExtension);
+                    sourceId = referencedFrom.sourceId;
+                    return this;
                 }
             }
         }
@@ -2225,7 +2250,7 @@ public class OperationDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2401,11 +2426,13 @@ public class OperationDefinition extends DomainResource {
                 return new Overload(this);
             }
 
-            private static Builder from(Overload overload) {
-                Builder builder = new Builder();
-                builder.parameterName.addAll(overload.parameterName);
-                builder.comment = overload.comment;
-                return builder;
+            private Builder from(Overload overload) {
+                id = overload.id;
+                extension.addAll(overload.extension);
+                modifierExtension.addAll(overload.modifierExtension);
+                parameterName.addAll(overload.parameterName);
+                comment = overload.comment;
+                return this;
             }
         }
     }

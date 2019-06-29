@@ -364,31 +364,11 @@ public class FamilyMemberHistory extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, patient, relationship);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.dataAbsentReason = dataAbsentReason;
-        builder.date = date;
-        builder.name = name;
-        builder.sex = sex;
-        builder.born = born;
-        builder.age = age;
-        builder.estimatedAge = estimatedAge;
-        builder.deceased = deceased;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.note.addAll(note);
-        builder.condition.addAll(condition);
-        return builder;
+        return new Builder(status, patient, relationship).from(this);
+    }
+
+    public Builder toBuilder(FamilyHistoryStatus status, Reference patient, CodeableConcept relationship) {
+        return new Builder(status, patient, relationship).from(this);
     }
 
     public static Builder builder(FamilyHistoryStatus status, Reference patient, CodeableConcept relationship) {
@@ -1018,6 +998,33 @@ public class FamilyMemberHistory extends DomainResource {
         public FamilyMemberHistory build() {
             return new FamilyMemberHistory(this);
         }
+
+        private Builder from(FamilyMemberHistory familyMemberHistory) {
+            id = familyMemberHistory.id;
+            meta = familyMemberHistory.meta;
+            implicitRules = familyMemberHistory.implicitRules;
+            language = familyMemberHistory.language;
+            text = familyMemberHistory.text;
+            contained.addAll(familyMemberHistory.contained);
+            extension.addAll(familyMemberHistory.extension);
+            modifierExtension.addAll(familyMemberHistory.modifierExtension);
+            identifier.addAll(familyMemberHistory.identifier);
+            instantiatesCanonical.addAll(familyMemberHistory.instantiatesCanonical);
+            instantiatesUri.addAll(familyMemberHistory.instantiatesUri);
+            dataAbsentReason = familyMemberHistory.dataAbsentReason;
+            date = familyMemberHistory.date;
+            name = familyMemberHistory.name;
+            sex = familyMemberHistory.sex;
+            born = familyMemberHistory.born;
+            age = familyMemberHistory.age;
+            estimatedAge = familyMemberHistory.estimatedAge;
+            deceased = familyMemberHistory.deceased;
+            reasonCode.addAll(familyMemberHistory.reasonCode);
+            reasonReference.addAll(familyMemberHistory.reasonReference);
+            note.addAll(familyMemberHistory.note);
+            condition.addAll(familyMemberHistory.condition);
+            return this;
+        }
     }
 
     /**
@@ -1129,7 +1136,11 @@ public class FamilyMemberHistory extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -1346,13 +1357,15 @@ public class FamilyMemberHistory extends DomainResource {
                 return new Condition(this);
             }
 
-            private static Builder from(Condition condition) {
-                Builder builder = new Builder(condition.code);
-                builder.outcome = condition.outcome;
-                builder.contributedToDeath = condition.contributedToDeath;
-                builder.onset = condition.onset;
-                builder.note.addAll(condition.note);
-                return builder;
+            private Builder from(Condition condition) {
+                id = condition.id;
+                extension.addAll(condition.extension);
+                modifierExtension.addAll(condition.modifierExtension);
+                outcome = condition.outcome;
+                contributedToDeath = condition.contributedToDeath;
+                onset = condition.onset;
+                note.addAll(condition.note);
+                return this;
             }
         }
     }

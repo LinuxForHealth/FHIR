@@ -308,26 +308,11 @@ public class Consent extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, scope, category);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.patient = patient;
-        builder.dateTime = dateTime;
-        builder.performer.addAll(performer);
-        builder.organization.addAll(organization);
-        builder.source = source;
-        builder.policy.addAll(policy);
-        builder.policyRule = policyRule;
-        builder.verification.addAll(verification);
-        builder.provision = provision;
-        return builder;
+        return new Builder(status, scope, category).from(this);
+    }
+
+    public Builder toBuilder(ConsentState status, CodeableConcept scope, List<CodeableConcept> category) {
+        return new Builder(status, scope, category).from(this);
     }
 
     public static Builder builder(ConsentState status, CodeableConcept scope, List<CodeableConcept> category) {
@@ -603,42 +588,6 @@ public class Consent extends DomainResource {
 
         /**
          * <p>
-         * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
-         * consent statements.
-         * </p>
-         * 
-         * @param category
-         *     Classification of the consent statement - for indexing/retrieval
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder category(CodeableConcept... category) {
-            for (CodeableConcept value : category) {
-                this.category.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
-         * consent statements.
-         * </p>
-         * 
-         * @param category
-         *     Classification of the consent statement - for indexing/retrieval
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder category(Collection<CodeableConcept> category) {
-            this.category.addAll(category);
-            return this;
-        }
-
-        /**
-         * <p>
          * The patient/healthcare consumer to whom this consent applies.
          * </p>
          * 
@@ -867,6 +816,28 @@ public class Consent extends DomainResource {
         public Consent build() {
             return new Consent(this);
         }
+
+        private Builder from(Consent consent) {
+            id = consent.id;
+            meta = consent.meta;
+            implicitRules = consent.implicitRules;
+            language = consent.language;
+            text = consent.text;
+            contained.addAll(consent.contained);
+            extension.addAll(consent.extension);
+            modifierExtension.addAll(consent.modifierExtension);
+            identifier.addAll(consent.identifier);
+            patient = consent.patient;
+            dateTime = consent.dateTime;
+            performer.addAll(consent.performer);
+            organization.addAll(consent.organization);
+            source = consent.source;
+            policy.addAll(consent.policy);
+            policyRule = consent.policyRule;
+            verification.addAll(consent.verification);
+            provision = consent.provision;
+            return this;
+        }
     }
 
     /**
@@ -930,7 +901,7 @@ public class Consent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1090,11 +1061,13 @@ public class Consent extends DomainResource {
                 return new Policy(this);
             }
 
-            private static Builder from(Policy policy) {
-                Builder builder = new Builder();
-                builder.authority = policy.authority;
-                builder.uri = policy.uri;
-                return builder;
+            private Builder from(Policy policy) {
+                id = policy.id;
+                extension.addAll(policy.extension);
+                modifierExtension.addAll(policy.modifierExtension);
+                authority = policy.authority;
+                uri = policy.uri;
+                return this;
             }
         }
     }
@@ -1173,7 +1146,11 @@ public class Consent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(verified).from(this);
+        }
+
+        public Builder toBuilder(Boolean verified) {
+            return new Builder(verified).from(this);
         }
 
         public static Builder builder(Boolean verified) {
@@ -1335,11 +1312,13 @@ public class Consent extends DomainResource {
                 return new Verification(this);
             }
 
-            private static Builder from(Verification verification) {
-                Builder builder = new Builder(verification.verified);
-                builder.verifiedWith = verification.verifiedWith;
-                builder.verificationDate = verification.verificationDate;
-                return builder;
+            private Builder from(Verification verification) {
+                id = verification.id;
+                extension.addAll(verification.extension);
+                modifierExtension.addAll(verification.modifierExtension);
+                verifiedWith = verification.verifiedWith;
+                verificationDate = verification.verificationDate;
+                return this;
             }
         }
     }
@@ -1541,7 +1520,7 @@ public class Consent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2003,20 +1982,22 @@ public class Consent extends DomainResource {
                 return new Provision(this);
             }
 
-            private static Builder from(Provision provision) {
-                Builder builder = new Builder();
-                builder.type = provision.type;
-                builder.period = provision.period;
-                builder.actor.addAll(provision.actor);
-                builder.action.addAll(provision.action);
-                builder.securityLabel.addAll(provision.securityLabel);
-                builder.purpose.addAll(provision.purpose);
-                builder.clazz.addAll(provision.clazz);
-                builder.code.addAll(provision.code);
-                builder.dataPeriod = provision.dataPeriod;
-                builder.data.addAll(provision.data);
-                builder.provision.addAll(provision.provision);
-                return builder;
+            private Builder from(Provision provision) {
+                id = provision.id;
+                extension.addAll(provision.extension);
+                modifierExtension.addAll(provision.modifierExtension);
+                type = provision.type;
+                period = provision.period;
+                actor.addAll(provision.actor);
+                action.addAll(provision.action);
+                securityLabel.addAll(provision.securityLabel);
+                purpose.addAll(provision.purpose);
+                clazz.addAll(provision.clazz);
+                code.addAll(provision.code);
+                dataPeriod = provision.dataPeriod;
+                data.addAll(provision.data);
+                this.provision.addAll(provision.provision);
+                return this;
             }
         }
 
@@ -2080,7 +2061,11 @@ public class Consent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(role, reference).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept role, Reference reference) {
+                return new Builder(role, reference).from(this);
             }
 
             public static Builder builder(CodeableConcept role, Reference reference) {
@@ -2208,9 +2193,11 @@ public class Consent extends DomainResource {
                     return new Actor(this);
                 }
 
-                private static Builder from(Actor actor) {
-                    Builder builder = new Builder(actor.role, actor.reference);
-                    return builder;
+                private Builder from(Actor actor) {
+                    id = actor.id;
+                    extension.addAll(actor.extension);
+                    modifierExtension.addAll(actor.modifierExtension);
+                    return this;
                 }
             }
         }
@@ -2273,7 +2260,11 @@ public class Consent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(meaning, reference).from(this);
+            }
+
+            public Builder toBuilder(ConsentDataMeaning meaning, Reference reference) {
+                return new Builder(meaning, reference).from(this);
             }
 
             public static Builder builder(ConsentDataMeaning meaning, Reference reference) {
@@ -2401,9 +2392,11 @@ public class Consent extends DomainResource {
                     return new Data(this);
                 }
 
-                private static Builder from(Data data) {
-                    Builder builder = new Builder(data.meaning, data.reference);
-                    return builder;
+                private Builder from(Data data) {
+                    id = data.id;
+                    extension.addAll(data.extension);
+                    modifierExtension.addAll(data.modifierExtension);
+                    return this;
                 }
             }
         }

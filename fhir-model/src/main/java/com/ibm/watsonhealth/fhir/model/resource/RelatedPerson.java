@@ -251,27 +251,11 @@ public class RelatedPerson extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(patient);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.relationship.addAll(relationship);
-        builder.name.addAll(name);
-        builder.telecom.addAll(telecom);
-        builder.gender = gender;
-        builder.birthDate = birthDate;
-        builder.address.addAll(address);
-        builder.photo.addAll(photo);
-        builder.period = period;
-        builder.communication.addAll(communication);
-        return builder;
+        return new Builder(patient).from(this);
+    }
+
+    public Builder toBuilder(Reference patient) {
+        return new Builder(patient).from(this);
     }
 
     public static Builder builder(Reference patient) {
@@ -816,6 +800,29 @@ public class RelatedPerson extends DomainResource {
         public RelatedPerson build() {
             return new RelatedPerson(this);
         }
+
+        private Builder from(RelatedPerson relatedPerson) {
+            id = relatedPerson.id;
+            meta = relatedPerson.meta;
+            implicitRules = relatedPerson.implicitRules;
+            language = relatedPerson.language;
+            text = relatedPerson.text;
+            contained.addAll(relatedPerson.contained);
+            extension.addAll(relatedPerson.extension);
+            modifierExtension.addAll(relatedPerson.modifierExtension);
+            identifier.addAll(relatedPerson.identifier);
+            active = relatedPerson.active;
+            relationship.addAll(relatedPerson.relationship);
+            name.addAll(relatedPerson.name);
+            telecom.addAll(relatedPerson.telecom);
+            gender = relatedPerson.gender;
+            birthDate = relatedPerson.birthDate;
+            address.addAll(relatedPerson.address);
+            photo.addAll(relatedPerson.photo);
+            period = relatedPerson.period;
+            communication.addAll(relatedPerson.communication);
+            return this;
+        }
     }
 
     /**
@@ -878,7 +885,11 @@ public class RelatedPerson extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(language).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept language) {
+            return new Builder(language).from(this);
         }
 
         public static Builder builder(CodeableConcept language) {
@@ -1023,10 +1034,12 @@ public class RelatedPerson extends DomainResource {
                 return new Communication(this);
             }
 
-            private static Builder from(Communication communication) {
-                Builder builder = new Builder(communication.language);
-                builder.preferred = communication.preferred;
-                return builder;
+            private Builder from(Communication communication) {
+                id = communication.id;
+                extension.addAll(communication.extension);
+                modifierExtension.addAll(communication.modifierExtension);
+                preferred = communication.preferred;
+                return this;
             }
         }
     }

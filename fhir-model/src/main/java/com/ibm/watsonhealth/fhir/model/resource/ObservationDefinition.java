@@ -265,28 +265,11 @@ public class ObservationDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(code);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.category.addAll(category);
-        builder.identifier.addAll(identifier);
-        builder.permittedDataType.addAll(permittedDataType);
-        builder.multipleResultsAllowed = multipleResultsAllowed;
-        builder.method = method;
-        builder.preferredReportName = preferredReportName;
-        builder.quantitativeDetails = quantitativeDetails;
-        builder.qualifiedInterval.addAll(qualifiedInterval);
-        builder.validCodedValueSet = validCodedValueSet;
-        builder.normalCodedValueSet = normalCodedValueSet;
-        builder.abnormalCodedValueSet = abnormalCodedValueSet;
-        builder.criticalCodedValueSet = criticalCodedValueSet;
-        return builder;
+        return new Builder(code).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept code) {
+        return new Builder(code).from(this);
     }
 
     public static Builder builder(CodeableConcept code) {
@@ -794,6 +777,30 @@ public class ObservationDefinition extends DomainResource {
         public ObservationDefinition build() {
             return new ObservationDefinition(this);
         }
+
+        private Builder from(ObservationDefinition observationDefinition) {
+            id = observationDefinition.id;
+            meta = observationDefinition.meta;
+            implicitRules = observationDefinition.implicitRules;
+            language = observationDefinition.language;
+            text = observationDefinition.text;
+            contained.addAll(observationDefinition.contained);
+            extension.addAll(observationDefinition.extension);
+            modifierExtension.addAll(observationDefinition.modifierExtension);
+            category.addAll(observationDefinition.category);
+            identifier.addAll(observationDefinition.identifier);
+            permittedDataType.addAll(observationDefinition.permittedDataType);
+            multipleResultsAllowed = observationDefinition.multipleResultsAllowed;
+            method = observationDefinition.method;
+            preferredReportName = observationDefinition.preferredReportName;
+            quantitativeDetails = observationDefinition.quantitativeDetails;
+            qualifiedInterval.addAll(observationDefinition.qualifiedInterval);
+            validCodedValueSet = observationDefinition.validCodedValueSet;
+            normalCodedValueSet = observationDefinition.normalCodedValueSet;
+            abnormalCodedValueSet = observationDefinition.abnormalCodedValueSet;
+            criticalCodedValueSet = observationDefinition.criticalCodedValueSet;
+            return this;
+        }
     }
 
     /**
@@ -884,7 +891,7 @@ public class ObservationDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1076,13 +1083,15 @@ public class ObservationDefinition extends DomainResource {
                 return new QuantitativeDetails(this);
             }
 
-            private static Builder from(QuantitativeDetails quantitativeDetails) {
-                Builder builder = new Builder();
-                builder.customaryUnit = quantitativeDetails.customaryUnit;
-                builder.unit = quantitativeDetails.unit;
-                builder.conversionFactor = quantitativeDetails.conversionFactor;
-                builder.decimalPrecision = quantitativeDetails.decimalPrecision;
-                return builder;
+            private Builder from(QuantitativeDetails quantitativeDetails) {
+                id = quantitativeDetails.id;
+                extension.addAll(quantitativeDetails.extension);
+                modifierExtension.addAll(quantitativeDetails.modifierExtension);
+                customaryUnit = quantitativeDetails.customaryUnit;
+                unit = quantitativeDetails.unit;
+                conversionFactor = quantitativeDetails.conversionFactor;
+                decimalPrecision = quantitativeDetails.decimalPrecision;
+                return this;
             }
         }
     }
@@ -1237,7 +1246,7 @@ public class ObservationDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1516,17 +1525,19 @@ public class ObservationDefinition extends DomainResource {
                 return new QualifiedInterval(this);
             }
 
-            private static Builder from(QualifiedInterval qualifiedInterval) {
-                Builder builder = new Builder();
-                builder.category = qualifiedInterval.category;
-                builder.range = qualifiedInterval.range;
-                builder.context = qualifiedInterval.context;
-                builder.appliesTo.addAll(qualifiedInterval.appliesTo);
-                builder.gender = qualifiedInterval.gender;
-                builder.age = qualifiedInterval.age;
-                builder.gestationalAge = qualifiedInterval.gestationalAge;
-                builder.condition = qualifiedInterval.condition;
-                return builder;
+            private Builder from(QualifiedInterval qualifiedInterval) {
+                id = qualifiedInterval.id;
+                extension.addAll(qualifiedInterval.extension);
+                modifierExtension.addAll(qualifiedInterval.modifierExtension);
+                category = qualifiedInterval.category;
+                range = qualifiedInterval.range;
+                context = qualifiedInterval.context;
+                appliesTo.addAll(qualifiedInterval.appliesTo);
+                gender = qualifiedInterval.gender;
+                age = qualifiedInterval.age;
+                gestationalAge = qualifiedInterval.gestationalAge;
+                condition = qualifiedInterval.condition;
+                return this;
             }
         }
     }

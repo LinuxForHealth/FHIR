@@ -372,34 +372,11 @@ public class AdverseEvent extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(actuality, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.category.addAll(category);
-        builder.event = event;
-        builder.encounter = encounter;
-        builder.date = date;
-        builder.detected = detected;
-        builder.recordedDate = recordedDate;
-        builder.resultingCondition.addAll(resultingCondition);
-        builder.location = location;
-        builder.seriousness = seriousness;
-        builder.severity = severity;
-        builder.outcome = outcome;
-        builder.recorder = recorder;
-        builder.contributor.addAll(contributor);
-        builder.suspectEntity.addAll(suspectEntity);
-        builder.subjectMedicalHistory.addAll(subjectMedicalHistory);
-        builder.referenceDocument.addAll(referenceDocument);
-        builder.study.addAll(study);
-        return builder;
+        return new Builder(actuality, subject).from(this);
+    }
+
+    public Builder toBuilder(AdverseEventActuality actuality, Reference subject) {
+        return new Builder(actuality, subject).from(this);
     }
 
     public static Builder builder(AdverseEventActuality actuality, Reference subject) {
@@ -1077,6 +1054,36 @@ public class AdverseEvent extends DomainResource {
         public AdverseEvent build() {
             return new AdverseEvent(this);
         }
+
+        private Builder from(AdverseEvent adverseEvent) {
+            id = adverseEvent.id;
+            meta = adverseEvent.meta;
+            implicitRules = adverseEvent.implicitRules;
+            language = adverseEvent.language;
+            text = adverseEvent.text;
+            contained.addAll(adverseEvent.contained);
+            extension.addAll(adverseEvent.extension);
+            modifierExtension.addAll(adverseEvent.modifierExtension);
+            identifier = adverseEvent.identifier;
+            category.addAll(adverseEvent.category);
+            event = adverseEvent.event;
+            encounter = adverseEvent.encounter;
+            date = adverseEvent.date;
+            detected = adverseEvent.detected;
+            recordedDate = adverseEvent.recordedDate;
+            resultingCondition.addAll(adverseEvent.resultingCondition);
+            location = adverseEvent.location;
+            seriousness = adverseEvent.seriousness;
+            severity = adverseEvent.severity;
+            outcome = adverseEvent.outcome;
+            recorder = adverseEvent.recorder;
+            contributor.addAll(adverseEvent.contributor);
+            suspectEntity.addAll(adverseEvent.suspectEntity);
+            subjectMedicalHistory.addAll(adverseEvent.subjectMedicalHistory);
+            referenceDocument.addAll(adverseEvent.referenceDocument);
+            study.addAll(adverseEvent.study);
+            return this;
+        }
     }
 
     /**
@@ -1138,7 +1145,11 @@ public class AdverseEvent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(instance).from(this);
+        }
+
+        public Builder toBuilder(Reference instance) {
+            return new Builder(instance).from(this);
         }
 
         public static Builder builder(Reference instance) {
@@ -1301,10 +1312,12 @@ public class AdverseEvent extends DomainResource {
                 return new SuspectEntity(this);
             }
 
-            private static Builder from(SuspectEntity suspectEntity) {
-                Builder builder = new Builder(suspectEntity.instance);
-                builder.causality.addAll(suspectEntity.causality);
-                return builder;
+            private Builder from(SuspectEntity suspectEntity) {
+                id = suspectEntity.id;
+                extension.addAll(suspectEntity.extension);
+                modifierExtension.addAll(suspectEntity.modifierExtension);
+                causality.addAll(suspectEntity.causality);
+                return this;
             }
         }
 
@@ -1396,7 +1409,7 @@ public class AdverseEvent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1588,13 +1601,15 @@ public class AdverseEvent extends DomainResource {
                     return new Causality(this);
                 }
 
-                private static Builder from(Causality causality) {
-                    Builder builder = new Builder();
-                    builder.assessment = causality.assessment;
-                    builder.productRelatedness = causality.productRelatedness;
-                    builder.author = causality.author;
-                    builder.method = causality.method;
-                    return builder;
+                private Builder from(Causality causality) {
+                    id = causality.id;
+                    extension.addAll(causality.extension);
+                    modifierExtension.addAll(causality.modifierExtension);
+                    assessment = causality.assessment;
+                    productRelatedness = causality.productRelatedness;
+                    author = causality.author;
+                    method = causality.method;
+                    return this;
                 }
             }
         }

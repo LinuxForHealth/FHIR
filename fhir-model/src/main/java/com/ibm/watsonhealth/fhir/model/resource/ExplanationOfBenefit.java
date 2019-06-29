@@ -735,50 +735,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.subType = subType;
-        builder.billablePeriod = billablePeriod;
-        builder.enterer = enterer;
-        builder.priority = priority;
-        builder.fundsReserveRequested = fundsReserveRequested;
-        builder.fundsReserve = fundsReserve;
-        builder.related.addAll(related);
-        builder.prescription = prescription;
-        builder.originalPrescription = originalPrescription;
-        builder.payee = payee;
-        builder.referral = referral;
-        builder.facility = facility;
-        builder.claim = claim;
-        builder.claimResponse = claimResponse;
-        builder.disposition = disposition;
-        builder.preAuthRef.addAll(preAuthRef);
-        builder.preAuthRefPeriod.addAll(preAuthRefPeriod);
-        builder.careTeam.addAll(careTeam);
-        builder.supportingInfo.addAll(supportingInfo);
-        builder.diagnosis.addAll(diagnosis);
-        builder.procedure.addAll(procedure);
-        builder.precedence = precedence;
-        builder.accident = accident;
-        builder.item.addAll(item);
-        builder.addItem.addAll(addItem);
-        builder.adjudication.addAll(adjudication);
-        builder.total.addAll(total);
-        builder.payment = payment;
-        builder.formCode = formCode;
-        builder.form = form;
-        builder.processNote.addAll(processNote);
-        builder.benefitPeriod = benefitPeriod;
-        builder.benefitBalance.addAll(benefitBalance);
-        return builder;
+        return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance).from(this);
+    }
+
+    public Builder toBuilder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, List<Insurance> insurance) {
+        return new Builder(status, type, use, patient, created, insurer, provider, outcome, insurance).from(this);
     }
 
     public static Builder builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, List<Insurance> insurance) {
@@ -1578,40 +1539,6 @@ public class ExplanationOfBenefit extends DomainResource {
 
         /**
          * <p>
-         * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * 
-         * @param insurance
-         *     Patient insurance information
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder insurance(Insurance... insurance) {
-            for (Insurance value : insurance) {
-                this.insurance.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * 
-         * @param insurance
-         *     Patient insurance information
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder insurance(Collection<Insurance> insurance) {
-            this.insurance.addAll(insurance);
-            return this;
-        }
-
-        /**
-         * <p>
          * Details of a accident which resulted in injuries which required the products and services listed in the claim.
          * </p>
          * 
@@ -1900,6 +1827,52 @@ public class ExplanationOfBenefit extends DomainResource {
         public ExplanationOfBenefit build() {
             return new ExplanationOfBenefit(this);
         }
+
+        private Builder from(ExplanationOfBenefit explanationOfBenefit) {
+            id = explanationOfBenefit.id;
+            meta = explanationOfBenefit.meta;
+            implicitRules = explanationOfBenefit.implicitRules;
+            language = explanationOfBenefit.language;
+            text = explanationOfBenefit.text;
+            contained.addAll(explanationOfBenefit.contained);
+            extension.addAll(explanationOfBenefit.extension);
+            modifierExtension.addAll(explanationOfBenefit.modifierExtension);
+            identifier.addAll(explanationOfBenefit.identifier);
+            subType = explanationOfBenefit.subType;
+            billablePeriod = explanationOfBenefit.billablePeriod;
+            enterer = explanationOfBenefit.enterer;
+            priority = explanationOfBenefit.priority;
+            fundsReserveRequested = explanationOfBenefit.fundsReserveRequested;
+            fundsReserve = explanationOfBenefit.fundsReserve;
+            related.addAll(explanationOfBenefit.related);
+            prescription = explanationOfBenefit.prescription;
+            originalPrescription = explanationOfBenefit.originalPrescription;
+            payee = explanationOfBenefit.payee;
+            referral = explanationOfBenefit.referral;
+            facility = explanationOfBenefit.facility;
+            claim = explanationOfBenefit.claim;
+            claimResponse = explanationOfBenefit.claimResponse;
+            disposition = explanationOfBenefit.disposition;
+            preAuthRef.addAll(explanationOfBenefit.preAuthRef);
+            preAuthRefPeriod.addAll(explanationOfBenefit.preAuthRefPeriod);
+            careTeam.addAll(explanationOfBenefit.careTeam);
+            supportingInfo.addAll(explanationOfBenefit.supportingInfo);
+            diagnosis.addAll(explanationOfBenefit.diagnosis);
+            procedure.addAll(explanationOfBenefit.procedure);
+            precedence = explanationOfBenefit.precedence;
+            accident = explanationOfBenefit.accident;
+            item.addAll(explanationOfBenefit.item);
+            addItem.addAll(explanationOfBenefit.addItem);
+            adjudication.addAll(explanationOfBenefit.adjudication);
+            total.addAll(explanationOfBenefit.total);
+            payment = explanationOfBenefit.payment;
+            formCode = explanationOfBenefit.formCode;
+            form = explanationOfBenefit.form;
+            processNote.addAll(explanationOfBenefit.processNote);
+            benefitPeriod = explanationOfBenefit.benefitPeriod;
+            benefitBalance.addAll(explanationOfBenefit.benefitBalance);
+            return this;
+        }
     }
 
     /**
@@ -1976,7 +1949,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2151,12 +2124,14 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Related(this);
             }
 
-            private static Builder from(Related related) {
-                Builder builder = new Builder();
-                builder.claim = related.claim;
-                builder.relationship = related.relationship;
-                builder.reference = related.reference;
-                return builder;
+            private Builder from(Related related) {
+                id = related.id;
+                extension.addAll(related.extension);
+                modifierExtension.addAll(related.modifierExtension);
+                claim = related.claim;
+                relationship = related.relationship;
+                reference = related.reference;
+                return this;
             }
         }
     }
@@ -2219,7 +2194,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2377,11 +2352,13 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Payee(this);
             }
 
-            private static Builder from(Payee payee) {
-                Builder builder = new Builder();
-                builder.type = payee.type;
-                builder.party = payee.party;
-                return builder;
+            private Builder from(Payee payee) {
+                id = payee.id;
+                extension.addAll(payee.extension);
+                modifierExtension.addAll(payee.modifierExtension);
+                type = payee.type;
+                party = payee.party;
+                return this;
             }
         }
     }
@@ -2489,7 +2466,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, provider).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Reference provider) {
+            return new Builder(sequence, provider).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Reference provider) {
@@ -2670,12 +2651,14 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new CareTeam(this);
             }
 
-            private static Builder from(CareTeam careTeam) {
-                Builder builder = new Builder(careTeam.sequence, careTeam.provider);
-                builder.responsible = careTeam.responsible;
-                builder.role = careTeam.role;
-                builder.qualification = careTeam.qualification;
-                return builder;
+            private Builder from(CareTeam careTeam) {
+                id = careTeam.id;
+                extension.addAll(careTeam.extension);
+                modifierExtension.addAll(careTeam.modifierExtension);
+                responsible = careTeam.responsible;
+                role = careTeam.role;
+                qualification = careTeam.qualification;
+                return this;
             }
         }
     }
@@ -2801,7 +2784,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, category).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, CodeableConcept category) {
+            return new Builder(sequence, category).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, CodeableConcept category) {
@@ -3001,13 +2988,15 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new SupportingInfo(this);
             }
 
-            private static Builder from(SupportingInfo supportingInfo) {
-                Builder builder = new Builder(supportingInfo.sequence, supportingInfo.category);
-                builder.code = supportingInfo.code;
-                builder.timing = supportingInfo.timing;
-                builder.value = supportingInfo.value;
-                builder.reason = supportingInfo.reason;
-                return builder;
+            private Builder from(SupportingInfo supportingInfo) {
+                id = supportingInfo.id;
+                extension.addAll(supportingInfo.extension);
+                modifierExtension.addAll(supportingInfo.modifierExtension);
+                code = supportingInfo.code;
+                timing = supportingInfo.timing;
+                value = supportingInfo.value;
+                reason = supportingInfo.reason;
+                return this;
             }
         }
     }
@@ -3116,7 +3105,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, diagnosis).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Element diagnosis) {
+            return new Builder(sequence, diagnosis).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Element diagnosis) {
@@ -3316,12 +3309,14 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Diagnosis(this);
             }
 
-            private static Builder from(Diagnosis diagnosis) {
-                Builder builder = new Builder(diagnosis.sequence, diagnosis.diagnosis);
-                builder.type.addAll(diagnosis.type);
-                builder.onAdmission = diagnosis.onAdmission;
-                builder.packageCode = diagnosis.packageCode;
-                return builder;
+            private Builder from(Diagnosis diagnosis) {
+                id = diagnosis.id;
+                extension.addAll(diagnosis.extension);
+                modifierExtension.addAll(diagnosis.modifierExtension);
+                type.addAll(diagnosis.type);
+                onAdmission = diagnosis.onAdmission;
+                packageCode = diagnosis.packageCode;
+                return this;
             }
         }
     }
@@ -3429,7 +3424,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, procedure).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Element procedure) {
+            return new Builder(sequence, procedure).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Element procedure) {
@@ -3646,12 +3645,14 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Procedure(this);
             }
 
-            private static Builder from(Procedure procedure) {
-                Builder builder = new Builder(procedure.sequence, procedure.procedure);
-                builder.type.addAll(procedure.type);
-                builder.date = procedure.date;
-                builder.udi.addAll(procedure.udi);
-                return builder;
+            private Builder from(Procedure procedure) {
+                id = procedure.id;
+                extension.addAll(procedure.extension);
+                modifierExtension.addAll(procedure.modifierExtension);
+                type.addAll(procedure.type);
+                date = procedure.date;
+                udi.addAll(procedure.udi);
+                return this;
             }
         }
     }
@@ -3731,7 +3732,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(focal, coverage).from(this);
+        }
+
+        public Builder toBuilder(Boolean focal, Reference coverage) {
+            return new Builder(focal, coverage).from(this);
         }
 
         public static Builder builder(Boolean focal, Reference coverage) {
@@ -3898,10 +3903,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Insurance(this);
             }
 
-            private static Builder from(Insurance insurance) {
-                Builder builder = new Builder(insurance.focal, insurance.coverage);
-                builder.preAuthRef.addAll(insurance.preAuthRef);
-                return builder;
+            private Builder from(Insurance insurance) {
+                id = insurance.id;
+                extension.addAll(insurance.extension);
+                modifierExtension.addAll(insurance.modifierExtension);
+                preAuthRef.addAll(insurance.preAuthRef);
+                return this;
             }
         }
     }
@@ -3980,7 +3987,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -4156,12 +4163,14 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Accident(this);
             }
 
-            private static Builder from(Accident accident) {
-                Builder builder = new Builder();
-                builder.date = accident.date;
-                builder.type = accident.type;
-                builder.location = accident.location;
-                return builder;
+            private Builder from(Accident accident) {
+                id = accident.id;
+                extension.addAll(accident.extension);
+                modifierExtension.addAll(accident.modifierExtension);
+                date = accident.date;
+                type = accident.type;
+                location = accident.location;
+                return this;
             }
         }
     }
@@ -4544,7 +4553,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, productOrService).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
+            return new Builder(sequence, productOrService).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
@@ -5251,30 +5264,32 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Item(this);
             }
 
-            private static Builder from(Item item) {
-                Builder builder = new Builder(item.sequence, item.productOrService);
-                builder.careTeamSequence.addAll(item.careTeamSequence);
-                builder.diagnosisSequence.addAll(item.diagnosisSequence);
-                builder.procedureSequence.addAll(item.procedureSequence);
-                builder.informationSequence.addAll(item.informationSequence);
-                builder.revenue = item.revenue;
-                builder.category = item.category;
-                builder.modifier.addAll(item.modifier);
-                builder.programCode.addAll(item.programCode);
-                builder.serviced = item.serviced;
-                builder.location = item.location;
-                builder.quantity = item.quantity;
-                builder.unitPrice = item.unitPrice;
-                builder.factor = item.factor;
-                builder.net = item.net;
-                builder.udi.addAll(item.udi);
-                builder.bodySite = item.bodySite;
-                builder.subSite.addAll(item.subSite);
-                builder.encounter.addAll(item.encounter);
-                builder.noteNumber.addAll(item.noteNumber);
-                builder.adjudication.addAll(item.adjudication);
-                builder.detail.addAll(item.detail);
-                return builder;
+            private Builder from(Item item) {
+                id = item.id;
+                extension.addAll(item.extension);
+                modifierExtension.addAll(item.modifierExtension);
+                careTeamSequence.addAll(item.careTeamSequence);
+                diagnosisSequence.addAll(item.diagnosisSequence);
+                procedureSequence.addAll(item.procedureSequence);
+                informationSequence.addAll(item.informationSequence);
+                revenue = item.revenue;
+                category = item.category;
+                modifier.addAll(item.modifier);
+                programCode.addAll(item.programCode);
+                serviced = item.serviced;
+                location = item.location;
+                quantity = item.quantity;
+                unitPrice = item.unitPrice;
+                factor = item.factor;
+                net = item.net;
+                udi.addAll(item.udi);
+                bodySite = item.bodySite;
+                subSite.addAll(item.subSite);
+                encounter.addAll(item.encounter);
+                noteNumber.addAll(item.noteNumber);
+                adjudication.addAll(item.adjudication);
+                detail.addAll(item.detail);
+                return this;
             }
         }
 
@@ -5369,7 +5384,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(category).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept category) {
+                return new Builder(category).from(this);
             }
 
             public static Builder builder(CodeableConcept category) {
@@ -5548,12 +5567,14 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Adjudication(this);
                 }
 
-                private static Builder from(Adjudication adjudication) {
-                    Builder builder = new Builder(adjudication.category);
-                    builder.reason = adjudication.reason;
-                    builder.amount = adjudication.amount;
-                    builder.value = adjudication.value;
-                    return builder;
+                private Builder from(Adjudication adjudication) {
+                    id = adjudication.id;
+                    extension.addAll(adjudication.extension);
+                    modifierExtension.addAll(adjudication.modifierExtension);
+                    reason = adjudication.reason;
+                    amount = adjudication.amount;
+                    value = adjudication.value;
+                    return this;
                 }
             }
         }
@@ -5799,7 +5820,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(sequence, productOrService).from(this);
+            }
+
+            public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
+                return new Builder(sequence, productOrService).from(this);
             }
 
             public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
@@ -6243,21 +6268,23 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Detail(this);
                 }
 
-                private static Builder from(Detail detail) {
-                    Builder builder = new Builder(detail.sequence, detail.productOrService);
-                    builder.revenue = detail.revenue;
-                    builder.category = detail.category;
-                    builder.modifier.addAll(detail.modifier);
-                    builder.programCode.addAll(detail.programCode);
-                    builder.quantity = detail.quantity;
-                    builder.unitPrice = detail.unitPrice;
-                    builder.factor = detail.factor;
-                    builder.net = detail.net;
-                    builder.udi.addAll(detail.udi);
-                    builder.noteNumber.addAll(detail.noteNumber);
-                    builder.adjudication.addAll(detail.adjudication);
-                    builder.subDetail.addAll(detail.subDetail);
-                    return builder;
+                private Builder from(Detail detail) {
+                    id = detail.id;
+                    extension.addAll(detail.extension);
+                    modifierExtension.addAll(detail.modifierExtension);
+                    revenue = detail.revenue;
+                    category = detail.category;
+                    modifier.addAll(detail.modifier);
+                    programCode.addAll(detail.programCode);
+                    quantity = detail.quantity;
+                    unitPrice = detail.unitPrice;
+                    factor = detail.factor;
+                    net = detail.net;
+                    udi.addAll(detail.udi);
+                    noteNumber.addAll(detail.noteNumber);
+                    adjudication.addAll(detail.adjudication);
+                    subDetail.addAll(detail.subDetail);
+                    return this;
                 }
             }
 
@@ -6487,7 +6514,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(sequence, productOrService).from(this);
+                }
+
+                public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
+                    return new Builder(sequence, productOrService).from(this);
                 }
 
                 public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
@@ -6896,20 +6927,22 @@ public class ExplanationOfBenefit extends DomainResource {
                         return new SubDetail(this);
                     }
 
-                    private static Builder from(SubDetail subDetail) {
-                        Builder builder = new Builder(subDetail.sequence, subDetail.productOrService);
-                        builder.revenue = subDetail.revenue;
-                        builder.category = subDetail.category;
-                        builder.modifier.addAll(subDetail.modifier);
-                        builder.programCode.addAll(subDetail.programCode);
-                        builder.quantity = subDetail.quantity;
-                        builder.unitPrice = subDetail.unitPrice;
-                        builder.factor = subDetail.factor;
-                        builder.net = subDetail.net;
-                        builder.udi.addAll(subDetail.udi);
-                        builder.noteNumber.addAll(subDetail.noteNumber);
-                        builder.adjudication.addAll(subDetail.adjudication);
-                        return builder;
+                    private Builder from(SubDetail subDetail) {
+                        id = subDetail.id;
+                        extension.addAll(subDetail.extension);
+                        modifierExtension.addAll(subDetail.modifierExtension);
+                        revenue = subDetail.revenue;
+                        category = subDetail.category;
+                        modifier.addAll(subDetail.modifier);
+                        programCode.addAll(subDetail.programCode);
+                        quantity = subDetail.quantity;
+                        unitPrice = subDetail.unitPrice;
+                        factor = subDetail.factor;
+                        net = subDetail.net;
+                        udi.addAll(subDetail.udi);
+                        noteNumber.addAll(subDetail.noteNumber);
+                        adjudication.addAll(subDetail.adjudication);
+                        return this;
                     }
                 }
             }
@@ -7218,7 +7251,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(productOrService).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept productOrService) {
+            return new Builder(productOrService).from(this);
         }
 
         public static Builder builder(CodeableConcept productOrService) {
@@ -7819,26 +7856,28 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new AddItem(this);
             }
 
-            private static Builder from(AddItem addItem) {
-                Builder builder = new Builder(addItem.productOrService);
-                builder.itemSequence.addAll(addItem.itemSequence);
-                builder.detailSequence.addAll(addItem.detailSequence);
-                builder.subDetailSequence.addAll(addItem.subDetailSequence);
-                builder.provider.addAll(addItem.provider);
-                builder.modifier.addAll(addItem.modifier);
-                builder.programCode.addAll(addItem.programCode);
-                builder.serviced = addItem.serviced;
-                builder.location = addItem.location;
-                builder.quantity = addItem.quantity;
-                builder.unitPrice = addItem.unitPrice;
-                builder.factor = addItem.factor;
-                builder.net = addItem.net;
-                builder.bodySite = addItem.bodySite;
-                builder.subSite.addAll(addItem.subSite);
-                builder.noteNumber.addAll(addItem.noteNumber);
-                builder.adjudication.addAll(addItem.adjudication);
-                builder.detail.addAll(addItem.detail);
-                return builder;
+            private Builder from(AddItem addItem) {
+                id = addItem.id;
+                extension.addAll(addItem.extension);
+                modifierExtension.addAll(addItem.modifierExtension);
+                itemSequence.addAll(addItem.itemSequence);
+                detailSequence.addAll(addItem.detailSequence);
+                subDetailSequence.addAll(addItem.subDetailSequence);
+                provider.addAll(addItem.provider);
+                modifier.addAll(addItem.modifier);
+                programCode.addAll(addItem.programCode);
+                serviced = addItem.serviced;
+                location = addItem.location;
+                quantity = addItem.quantity;
+                unitPrice = addItem.unitPrice;
+                factor = addItem.factor;
+                net = addItem.net;
+                bodySite = addItem.bodySite;
+                subSite.addAll(addItem.subSite);
+                noteNumber.addAll(addItem.noteNumber);
+                adjudication.addAll(addItem.adjudication);
+                detail.addAll(addItem.detail);
+                return this;
             }
         }
 
@@ -8008,7 +8047,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(productOrService).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept productOrService) {
+                return new Builder(productOrService).from(this);
             }
 
             public static Builder builder(CodeableConcept productOrService) {
@@ -8346,17 +8389,19 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Detail(this);
                 }
 
-                private static Builder from(Detail detail) {
-                    Builder builder = new Builder(detail.productOrService);
-                    builder.modifier.addAll(detail.modifier);
-                    builder.quantity = detail.quantity;
-                    builder.unitPrice = detail.unitPrice;
-                    builder.factor = detail.factor;
-                    builder.net = detail.net;
-                    builder.noteNumber.addAll(detail.noteNumber);
-                    builder.adjudication.addAll(detail.adjudication);
-                    builder.subDetail.addAll(detail.subDetail);
-                    return builder;
+                private Builder from(Detail detail) {
+                    id = detail.id;
+                    extension.addAll(detail.extension);
+                    modifierExtension.addAll(detail.modifierExtension);
+                    modifier.addAll(detail.modifier);
+                    quantity = detail.quantity;
+                    unitPrice = detail.unitPrice;
+                    factor = detail.factor;
+                    net = detail.net;
+                    noteNumber.addAll(detail.noteNumber);
+                    adjudication.addAll(detail.adjudication);
+                    subDetail.addAll(detail.subDetail);
+                    return this;
                 }
             }
 
@@ -8511,7 +8556,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(productOrService).from(this);
+                }
+
+                public Builder toBuilder(CodeableConcept productOrService) {
+                    return new Builder(productOrService).from(this);
                 }
 
                 public static Builder builder(CodeableConcept productOrService) {
@@ -8814,16 +8863,18 @@ public class ExplanationOfBenefit extends DomainResource {
                         return new SubDetail(this);
                     }
 
-                    private static Builder from(SubDetail subDetail) {
-                        Builder builder = new Builder(subDetail.productOrService);
-                        builder.modifier.addAll(subDetail.modifier);
-                        builder.quantity = subDetail.quantity;
-                        builder.unitPrice = subDetail.unitPrice;
-                        builder.factor = subDetail.factor;
-                        builder.net = subDetail.net;
-                        builder.noteNumber.addAll(subDetail.noteNumber);
-                        builder.adjudication.addAll(subDetail.adjudication);
-                        return builder;
+                    private Builder from(SubDetail subDetail) {
+                        id = subDetail.id;
+                        extension.addAll(subDetail.extension);
+                        modifierExtension.addAll(subDetail.modifierExtension);
+                        modifier.addAll(subDetail.modifier);
+                        quantity = subDetail.quantity;
+                        unitPrice = subDetail.unitPrice;
+                        factor = subDetail.factor;
+                        net = subDetail.net;
+                        noteNumber.addAll(subDetail.noteNumber);
+                        adjudication.addAll(subDetail.adjudication);
+                        return this;
                     }
                 }
             }
@@ -8890,7 +8941,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(category, amount).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept category, Money amount) {
+            return new Builder(category, amount).from(this);
         }
 
         public static Builder builder(CodeableConcept category, Money amount) {
@@ -9018,9 +9073,11 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Total(this);
             }
 
-            private static Builder from(Total total) {
-                Builder builder = new Builder(total.category, total.amount);
-                return builder;
+            private Builder from(Total total) {
+                id = total.id;
+                extension.addAll(total.extension);
+                modifierExtension.addAll(total.modifierExtension);
+                return this;
             }
         }
     }
@@ -9144,7 +9201,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -9371,15 +9428,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Payment(this);
             }
 
-            private static Builder from(Payment payment) {
-                Builder builder = new Builder();
-                builder.type = payment.type;
-                builder.adjustment = payment.adjustment;
-                builder.adjustmentReason = payment.adjustmentReason;
-                builder.date = payment.date;
-                builder.amount = payment.amount;
-                builder.identifier = payment.identifier;
-                return builder;
+            private Builder from(Payment payment) {
+                id = payment.id;
+                extension.addAll(payment.extension);
+                modifierExtension.addAll(payment.modifierExtension);
+                type = payment.type;
+                adjustment = payment.adjustment;
+                adjustmentReason = payment.adjustmentReason;
+                date = payment.date;
+                amount = payment.amount;
+                identifier = payment.identifier;
+                return this;
             }
         }
     }
@@ -9472,7 +9531,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -9664,13 +9723,15 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new ProcessNote(this);
             }
 
-            private static Builder from(ProcessNote processNote) {
-                Builder builder = new Builder();
-                builder.number = processNote.number;
-                builder.type = processNote.type;
-                builder.text = processNote.text;
-                builder.language = processNote.language;
-                return builder;
+            private Builder from(ProcessNote processNote) {
+                id = processNote.id;
+                extension.addAll(processNote.extension);
+                modifierExtension.addAll(processNote.modifierExtension);
+                number = processNote.number;
+                type = processNote.type;
+                text = processNote.text;
+                language = processNote.language;
+                return this;
             }
         }
     }
@@ -9824,7 +9885,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(category).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept category) {
+            return new Builder(category).from(this);
         }
 
         public static Builder builder(CodeableConcept category) {
@@ -10090,16 +10155,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new BenefitBalance(this);
             }
 
-            private static Builder from(BenefitBalance benefitBalance) {
-                Builder builder = new Builder(benefitBalance.category);
-                builder.excluded = benefitBalance.excluded;
-                builder.name = benefitBalance.name;
-                builder.description = benefitBalance.description;
-                builder.network = benefitBalance.network;
-                builder.unit = benefitBalance.unit;
-                builder.term = benefitBalance.term;
-                builder.financial.addAll(benefitBalance.financial);
-                return builder;
+            private Builder from(BenefitBalance benefitBalance) {
+                id = benefitBalance.id;
+                extension.addAll(benefitBalance.extension);
+                modifierExtension.addAll(benefitBalance.modifierExtension);
+                excluded = benefitBalance.excluded;
+                name = benefitBalance.name;
+                description = benefitBalance.description;
+                network = benefitBalance.network;
+                unit = benefitBalance.unit;
+                term = benefitBalance.term;
+                financial.addAll(benefitBalance.financial);
+                return this;
             }
         }
 
@@ -10176,7 +10243,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(CodeableConcept type) {
@@ -10338,11 +10409,13 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Financial(this);
                 }
 
-                private static Builder from(Financial financial) {
-                    Builder builder = new Builder(financial.type);
-                    builder.allowed = financial.allowed;
-                    builder.used = financial.used;
-                    return builder;
+                private Builder from(Financial financial) {
+                    id = financial.id;
+                    extension.addAll(financial.extension);
+                    modifierExtension.addAll(financial.modifierExtension);
+                    allowed = financial.allowed;
+                    used = financial.used;
+                    return this;
                 }
             }
         }

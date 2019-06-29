@@ -53,15 +53,7 @@ public class Duration extends Quantity {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.comparator = comparator;
-        builder.unit = unit;
-        builder.system = system;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -212,6 +204,17 @@ public class Duration extends Quantity {
         @Override
         public Duration build() {
             return new Duration(this);
+        }
+
+        private Builder from(Duration duration) {
+            id = duration.id;
+            extension.addAll(duration.extension);
+            value = duration.value;
+            comparator = duration.comparator;
+            unit = duration.unit;
+            system = duration.system;
+            code = duration.code;
+            return this;
         }
     }
 }

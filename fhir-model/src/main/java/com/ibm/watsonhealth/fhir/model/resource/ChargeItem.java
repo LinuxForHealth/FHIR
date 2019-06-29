@@ -465,39 +465,11 @@ public class ChargeItem extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, code, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.definitionUri.addAll(definitionUri);
-        builder.definitionCanonical.addAll(definitionCanonical);
-        builder.partOf.addAll(partOf);
-        builder.context = context;
-        builder.occurrence = occurrence;
-        builder.performer.addAll(performer);
-        builder.performingOrganization = performingOrganization;
-        builder.requestingOrganization = requestingOrganization;
-        builder.costCenter = costCenter;
-        builder.quantity = quantity;
-        builder.bodysite.addAll(bodysite);
-        builder.factorOverride = factorOverride;
-        builder.priceOverride = priceOverride;
-        builder.overrideReason = overrideReason;
-        builder.enterer = enterer;
-        builder.enteredDate = enteredDate;
-        builder.reason.addAll(reason);
-        builder.service.addAll(service);
-        builder.product = product;
-        builder.account.addAll(account);
-        builder.note.addAll(note);
-        builder.supportingInformation.addAll(supportingInformation);
-        return builder;
+        return new Builder(status, code, subject).from(this);
+    }
+
+    public Builder toBuilder(ChargeItemStatus status, CodeableConcept code, Reference subject) {
+        return new Builder(status, code, subject).from(this);
     }
 
     public static Builder builder(ChargeItemStatus status, CodeableConcept code, Reference subject) {
@@ -1321,6 +1293,41 @@ public class ChargeItem extends DomainResource {
         public ChargeItem build() {
             return new ChargeItem(this);
         }
+
+        private Builder from(ChargeItem chargeItem) {
+            id = chargeItem.id;
+            meta = chargeItem.meta;
+            implicitRules = chargeItem.implicitRules;
+            language = chargeItem.language;
+            text = chargeItem.text;
+            contained.addAll(chargeItem.contained);
+            extension.addAll(chargeItem.extension);
+            modifierExtension.addAll(chargeItem.modifierExtension);
+            identifier.addAll(chargeItem.identifier);
+            definitionUri.addAll(chargeItem.definitionUri);
+            definitionCanonical.addAll(chargeItem.definitionCanonical);
+            partOf.addAll(chargeItem.partOf);
+            context = chargeItem.context;
+            occurrence = chargeItem.occurrence;
+            performer.addAll(chargeItem.performer);
+            performingOrganization = chargeItem.performingOrganization;
+            requestingOrganization = chargeItem.requestingOrganization;
+            costCenter = chargeItem.costCenter;
+            quantity = chargeItem.quantity;
+            bodysite.addAll(chargeItem.bodysite);
+            factorOverride = chargeItem.factorOverride;
+            priceOverride = chargeItem.priceOverride;
+            overrideReason = chargeItem.overrideReason;
+            enterer = chargeItem.enterer;
+            enteredDate = chargeItem.enteredDate;
+            reason.addAll(chargeItem.reason);
+            service.addAll(chargeItem.service);
+            product = chargeItem.product;
+            account.addAll(chargeItem.account);
+            note.addAll(chargeItem.note);
+            supportingInformation.addAll(chargeItem.supportingInformation);
+            return this;
+        }
     }
 
     /**
@@ -1381,7 +1388,11 @@ public class ChargeItem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(actor).from(this);
+        }
+
+        public Builder toBuilder(Reference actor) {
+            return new Builder(actor).from(this);
         }
 
         public static Builder builder(Reference actor) {
@@ -1526,10 +1537,12 @@ public class ChargeItem extends DomainResource {
                 return new Performer(this);
             }
 
-            private static Builder from(Performer performer) {
-                Builder builder = new Builder(performer.actor);
-                builder.function = performer.function;
-                return builder;
+            private Builder from(Performer performer) {
+                id = performer.id;
+                extension.addAll(performer.extension);
+                modifierExtension.addAll(performer.modifierExtension);
+                function = performer.function;
+                return this;
             }
         }
     }

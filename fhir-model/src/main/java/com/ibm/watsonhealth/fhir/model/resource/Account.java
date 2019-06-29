@@ -234,26 +234,11 @@ public class Account extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.type = type;
-        builder.name = name;
-        builder.subject.addAll(subject);
-        builder.servicePeriod = servicePeriod;
-        builder.coverage.addAll(coverage);
-        builder.owner = owner;
-        builder.description = description;
-        builder.guarantor.addAll(guarantor);
-        builder.partOf = partOf;
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(AccountStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(AccountStatus status) {
@@ -733,6 +718,28 @@ public class Account extends DomainResource {
         public Account build() {
             return new Account(this);
         }
+
+        private Builder from(Account account) {
+            id = account.id;
+            meta = account.meta;
+            implicitRules = account.implicitRules;
+            language = account.language;
+            text = account.text;
+            contained.addAll(account.contained);
+            extension.addAll(account.extension);
+            modifierExtension.addAll(account.modifierExtension);
+            identifier.addAll(account.identifier);
+            type = account.type;
+            name = account.name;
+            subject.addAll(account.subject);
+            servicePeriod = account.servicePeriod;
+            coverage.addAll(account.coverage);
+            owner = account.owner;
+            description = account.description;
+            guarantor.addAll(account.guarantor);
+            partOf = account.partOf;
+            return this;
+        }
     }
 
     /**
@@ -798,7 +805,11 @@ public class Account extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(coverage).from(this);
+        }
+
+        public Builder toBuilder(Reference coverage) {
+            return new Builder(coverage).from(this);
         }
 
         public static Builder builder(Reference coverage) {
@@ -943,10 +954,12 @@ public class Account extends DomainResource {
                 return new Coverage(this);
             }
 
-            private static Builder from(Coverage coverage) {
-                Builder builder = new Builder(coverage.coverage);
-                builder.priority = coverage.priority;
-                return builder;
+            private Builder from(Coverage coverage) {
+                id = coverage.id;
+                extension.addAll(coverage.extension);
+                modifierExtension.addAll(coverage.modifierExtension);
+                priority = coverage.priority;
+                return this;
             }
         }
     }
@@ -1024,7 +1037,11 @@ public class Account extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(party).from(this);
+        }
+
+        public Builder toBuilder(Reference party) {
+            return new Builder(party).from(this);
         }
 
         public static Builder builder(Reference party) {
@@ -1186,11 +1203,13 @@ public class Account extends DomainResource {
                 return new Guarantor(this);
             }
 
-            private static Builder from(Guarantor guarantor) {
-                Builder builder = new Builder(guarantor.party);
-                builder.onHold = guarantor.onHold;
-                builder.period = guarantor.period;
-                return builder;
+            private Builder from(Guarantor guarantor) {
+                id = guarantor.id;
+                extension.addAll(guarantor.extension);
+                modifierExtension.addAll(guarantor.modifierExtension);
+                onHold = guarantor.onHold;
+                period = guarantor.period;
+                return this;
             }
         }
     }

@@ -464,37 +464,11 @@ public class MessageDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, date, event);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.replaces.addAll(replaces);
-        builder.experimental = experimental;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.base = base;
-        builder.parent.addAll(parent);
-        builder.category = category;
-        builder.focus.addAll(focus);
-        builder.responseRequired = responseRequired;
-        builder.allowedResponse.addAll(allowedResponse);
-        builder.graph.addAll(graph);
-        return builder;
+        return new Builder(status, date, event).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, DateTime date, Element event) {
+        return new Builder(status, date, event).from(this);
     }
 
     public static Builder builder(PublicationStatus status, DateTime date, Element event) {
@@ -1266,6 +1240,39 @@ public class MessageDefinition extends DomainResource {
         public MessageDefinition build() {
             return new MessageDefinition(this);
         }
+
+        private Builder from(MessageDefinition messageDefinition) {
+            id = messageDefinition.id;
+            meta = messageDefinition.meta;
+            implicitRules = messageDefinition.implicitRules;
+            language = messageDefinition.language;
+            text = messageDefinition.text;
+            contained.addAll(messageDefinition.contained);
+            extension.addAll(messageDefinition.extension);
+            modifierExtension.addAll(messageDefinition.modifierExtension);
+            url = messageDefinition.url;
+            identifier.addAll(messageDefinition.identifier);
+            version = messageDefinition.version;
+            name = messageDefinition.name;
+            title = messageDefinition.title;
+            replaces.addAll(messageDefinition.replaces);
+            experimental = messageDefinition.experimental;
+            publisher = messageDefinition.publisher;
+            contact.addAll(messageDefinition.contact);
+            description = messageDefinition.description;
+            useContext.addAll(messageDefinition.useContext);
+            jurisdiction.addAll(messageDefinition.jurisdiction);
+            purpose = messageDefinition.purpose;
+            copyright = messageDefinition.copyright;
+            base = messageDefinition.base;
+            parent.addAll(messageDefinition.parent);
+            category = messageDefinition.category;
+            focus.addAll(messageDefinition.focus);
+            responseRequired = messageDefinition.responseRequired;
+            allowedResponse.addAll(messageDefinition.allowedResponse);
+            graph.addAll(messageDefinition.graph);
+            return this;
+        }
     }
 
     /**
@@ -1359,7 +1366,11 @@ public class MessageDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code, min).from(this);
+        }
+
+        public Builder toBuilder(ResourceType code, UnsignedInt min) {
+            return new Builder(code, min).from(this);
         }
 
         public static Builder builder(ResourceType code, UnsignedInt min) {
@@ -1524,11 +1535,13 @@ public class MessageDefinition extends DomainResource {
                 return new Focus(this);
             }
 
-            private static Builder from(Focus focus) {
-                Builder builder = new Builder(focus.code, focus.min);
-                builder.profile = focus.profile;
-                builder.max = focus.max;
-                return builder;
+            private Builder from(Focus focus) {
+                id = focus.id;
+                extension.addAll(focus.extension);
+                modifierExtension.addAll(focus.modifierExtension);
+                profile = focus.profile;
+                max = focus.max;
+                return this;
             }
         }
     }
@@ -1592,7 +1605,11 @@ public class MessageDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(message).from(this);
+        }
+
+        public Builder toBuilder(Canonical message) {
+            return new Builder(message).from(this);
         }
 
         public static Builder builder(Canonical message) {
@@ -1738,10 +1755,12 @@ public class MessageDefinition extends DomainResource {
                 return new AllowedResponse(this);
             }
 
-            private static Builder from(AllowedResponse allowedResponse) {
-                Builder builder = new Builder(allowedResponse.message);
-                builder.situation = allowedResponse.situation;
-                return builder;
+            private Builder from(AllowedResponse allowedResponse) {
+                id = allowedResponse.id;
+                extension.addAll(allowedResponse.extension);
+                modifierExtension.addAll(allowedResponse.modifierExtension);
+                situation = allowedResponse.situation;
+                return this;
             }
         }
     }

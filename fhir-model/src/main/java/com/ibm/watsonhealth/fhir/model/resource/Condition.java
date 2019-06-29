@@ -365,32 +365,11 @@ public class Condition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.clinicalStatus = clinicalStatus;
-        builder.verificationStatus = verificationStatus;
-        builder.category.addAll(category);
-        builder.severity = severity;
-        builder.code = code;
-        builder.bodySite.addAll(bodySite);
-        builder.encounter = encounter;
-        builder.onset = onset;
-        builder.abatement = abatement;
-        builder.recordedDate = recordedDate;
-        builder.recorder = recorder;
-        builder.asserter = asserter;
-        builder.stage.addAll(stage);
-        builder.evidence.addAll(evidence);
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(subject).from(this);
+    }
+
+    public Builder toBuilder(Reference subject) {
+        return new Builder(subject).from(this);
     }
 
     public static Builder builder(Reference subject) {
@@ -1009,6 +988,34 @@ public class Condition extends DomainResource {
         public Condition build() {
             return new Condition(this);
         }
+
+        private Builder from(Condition condition) {
+            id = condition.id;
+            meta = condition.meta;
+            implicitRules = condition.implicitRules;
+            language = condition.language;
+            text = condition.text;
+            contained.addAll(condition.contained);
+            extension.addAll(condition.extension);
+            modifierExtension.addAll(condition.modifierExtension);
+            identifier.addAll(condition.identifier);
+            clinicalStatus = condition.clinicalStatus;
+            verificationStatus = condition.verificationStatus;
+            category.addAll(condition.category);
+            severity = condition.severity;
+            code = condition.code;
+            bodySite.addAll(condition.bodySite);
+            encounter = condition.encounter;
+            onset = condition.onset;
+            abatement = condition.abatement;
+            recordedDate = condition.recordedDate;
+            recorder = condition.recorder;
+            asserter = condition.asserter;
+            stage.addAll(condition.stage);
+            evidence.addAll(condition.evidence);
+            note.addAll(condition.note);
+            return this;
+        }
     }
 
     /**
@@ -1084,7 +1091,7 @@ public class Condition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1277,12 +1284,14 @@ public class Condition extends DomainResource {
                 return new Stage(this);
             }
 
-            private static Builder from(Stage stage) {
-                Builder builder = new Builder();
-                builder.summary = stage.summary;
-                builder.assessment.addAll(stage.assessment);
-                builder.type = stage.type;
-                return builder;
+            private Builder from(Stage stage) {
+                id = stage.id;
+                extension.addAll(stage.extension);
+                modifierExtension.addAll(stage.modifierExtension);
+                summary = stage.summary;
+                assessment.addAll(stage.assessment);
+                type = stage.type;
+                return this;
             }
         }
     }
@@ -1346,7 +1355,7 @@ public class Condition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1540,11 +1549,13 @@ public class Condition extends DomainResource {
                 return new Evidence(this);
             }
 
-            private static Builder from(Evidence evidence) {
-                Builder builder = new Builder();
-                builder.code.addAll(evidence.code);
-                builder.detail.addAll(evidence.detail);
-                return builder;
+            private Builder from(Evidence evidence) {
+                id = evidence.id;
+                extension.addAll(evidence.extension);
+                modifierExtension.addAll(evidence.modifierExtension);
+                code.addAll(evidence.code);
+                detail.addAll(evidence.detail);
+                return this;
             }
         }
     }

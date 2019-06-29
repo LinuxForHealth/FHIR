@@ -169,21 +169,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(administrableDoseForm, routeOfAdministration);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.unitOfPresentation = unitOfPresentation;
-        builder.ingredient.addAll(ingredient);
-        builder.device.addAll(device);
-        builder.characteristics.addAll(characteristics);
-        return builder;
+        return new Builder(administrableDoseForm, routeOfAdministration).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept administrableDoseForm, List<RouteOfAdministration> routeOfAdministration) {
+        return new Builder(administrableDoseForm, routeOfAdministration).from(this);
     }
 
     public static Builder builder(CodeableConcept administrableDoseForm, List<RouteOfAdministration> routeOfAdministration) {
@@ -568,43 +558,26 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * The path by which the pharmaceutical product is taken into or makes contact with the body.
-         * </p>
-         * 
-         * @param routeOfAdministration
-         *     The path by which the pharmaceutical product is taken into or makes contact with the body
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder routeOfAdministration(RouteOfAdministration... routeOfAdministration) {
-            for (RouteOfAdministration value : routeOfAdministration) {
-                this.routeOfAdministration.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * The path by which the pharmaceutical product is taken into or makes contact with the body.
-         * </p>
-         * 
-         * @param routeOfAdministration
-         *     The path by which the pharmaceutical product is taken into or makes contact with the body
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder routeOfAdministration(Collection<RouteOfAdministration> routeOfAdministration) {
-            this.routeOfAdministration.addAll(routeOfAdministration);
-            return this;
-        }
-
         @Override
         public MedicinalProductPharmaceutical build() {
             return new MedicinalProductPharmaceutical(this);
+        }
+
+        private Builder from(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {
+            id = medicinalProductPharmaceutical.id;
+            meta = medicinalProductPharmaceutical.meta;
+            implicitRules = medicinalProductPharmaceutical.implicitRules;
+            language = medicinalProductPharmaceutical.language;
+            text = medicinalProductPharmaceutical.text;
+            contained.addAll(medicinalProductPharmaceutical.contained);
+            extension.addAll(medicinalProductPharmaceutical.extension);
+            modifierExtension.addAll(medicinalProductPharmaceutical.modifierExtension);
+            identifier.addAll(medicinalProductPharmaceutical.identifier);
+            unitOfPresentation = medicinalProductPharmaceutical.unitOfPresentation;
+            ingredient.addAll(medicinalProductPharmaceutical.ingredient);
+            device.addAll(medicinalProductPharmaceutical.device);
+            characteristics.addAll(medicinalProductPharmaceutical.characteristics);
+            return this;
         }
     }
 
@@ -666,7 +639,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -811,10 +788,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 return new Characteristics(this);
             }
 
-            private static Builder from(Characteristics characteristics) {
-                Builder builder = new Builder(characteristics.code);
-                builder.status = characteristics.status;
-                return builder;
+            private Builder from(Characteristics characteristics) {
+                id = characteristics.id;
+                extension.addAll(characteristics.extension);
+                modifierExtension.addAll(characteristics.modifierExtension);
+                status = characteristics.status;
+                return this;
             }
         }
     }
@@ -957,7 +936,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -1215,15 +1198,17 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 return new RouteOfAdministration(this);
             }
 
-            private static Builder from(RouteOfAdministration routeOfAdministration) {
-                Builder builder = new Builder(routeOfAdministration.code);
-                builder.firstDose = routeOfAdministration.firstDose;
-                builder.maxSingleDose = routeOfAdministration.maxSingleDose;
-                builder.maxDosePerDay = routeOfAdministration.maxDosePerDay;
-                builder.maxDosePerTreatmentPeriod = routeOfAdministration.maxDosePerTreatmentPeriod;
-                builder.maxTreatmentPeriod = routeOfAdministration.maxTreatmentPeriod;
-                builder.targetSpecies.addAll(routeOfAdministration.targetSpecies);
-                return builder;
+            private Builder from(RouteOfAdministration routeOfAdministration) {
+                id = routeOfAdministration.id;
+                extension.addAll(routeOfAdministration.extension);
+                modifierExtension.addAll(routeOfAdministration.modifierExtension);
+                firstDose = routeOfAdministration.firstDose;
+                maxSingleDose = routeOfAdministration.maxSingleDose;
+                maxDosePerDay = routeOfAdministration.maxDosePerDay;
+                maxDosePerTreatmentPeriod = routeOfAdministration.maxDosePerTreatmentPeriod;
+                maxTreatmentPeriod = routeOfAdministration.maxTreatmentPeriod;
+                targetSpecies.addAll(routeOfAdministration.targetSpecies);
+                return this;
             }
         }
 
@@ -1285,7 +1270,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(code).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept code) {
+                return new Builder(code).from(this);
             }
 
             public static Builder builder(CodeableConcept code) {
@@ -1448,10 +1437,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     return new TargetSpecies(this);
                 }
 
-                private static Builder from(TargetSpecies targetSpecies) {
-                    Builder builder = new Builder(targetSpecies.code);
-                    builder.withdrawalPeriod.addAll(targetSpecies.withdrawalPeriod);
-                    return builder;
+                private Builder from(TargetSpecies targetSpecies) {
+                    id = targetSpecies.id;
+                    extension.addAll(targetSpecies.extension);
+                    modifierExtension.addAll(targetSpecies.modifierExtension);
+                    withdrawalPeriod.addAll(targetSpecies.withdrawalPeriod);
+                    return this;
                 }
             }
 
@@ -1528,7 +1519,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(tissue, value).from(this);
+                }
+
+                public Builder toBuilder(CodeableConcept tissue, Quantity value) {
+                    return new Builder(tissue, value).from(this);
                 }
 
                 public static Builder builder(CodeableConcept tissue, Quantity value) {
@@ -1675,10 +1670,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                         return new WithdrawalPeriod(this);
                     }
 
-                    private static Builder from(WithdrawalPeriod withdrawalPeriod) {
-                        Builder builder = new Builder(withdrawalPeriod.tissue, withdrawalPeriod.value);
-                        builder.supportingInformation = withdrawalPeriod.supportingInformation;
-                        return builder;
+                    private Builder from(WithdrawalPeriod withdrawalPeriod) {
+                        id = withdrawalPeriod.id;
+                        extension.addAll(withdrawalPeriod.extension);
+                        modifierExtension.addAll(withdrawalPeriod.modifierExtension);
+                        supportingInformation = withdrawalPeriod.supportingInformation;
+                        return this;
                     }
                 }
             }

@@ -287,25 +287,11 @@ public class CoverageEligibilityRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, purpose, patient, created, insurer);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.priority = priority;
-        builder.serviced = serviced;
-        builder.enterer = enterer;
-        builder.provider = provider;
-        builder.facility = facility;
-        builder.supportingInfo.addAll(supportingInfo);
-        builder.insurance.addAll(insurance);
-        builder.item.addAll(item);
-        return builder;
+        return new Builder(status, purpose, patient, created, insurer).from(this);
+    }
+
+    public Builder toBuilder(EligibilityRequestStatus status, List<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
+        return new Builder(status, purpose, patient, created, insurer).from(this);
     }
 
     public static Builder builder(EligibilityRequestStatus status, List<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
@@ -600,44 +586,6 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         /**
          * <p>
-         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
-         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
-         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-         * </p>
-         * 
-         * @param purpose
-         *     auth-requirements | benefits | discovery | validation
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder purpose(EligibilityRequestPurpose... purpose) {
-            for (EligibilityRequestPurpose value : purpose) {
-                this.purpose.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
-         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
-         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-         * </p>
-         * 
-         * @param purpose
-         *     auth-requirements | benefits | discovery | validation
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder purpose(Collection<EligibilityRequestPurpose> purpose) {
-            this.purpose.addAll(purpose);
-            return this;
-        }
-
-        /**
-         * <p>
          * The date or dates when the enclosed suite of services were performed or completed.
          * </p>
          * 
@@ -810,6 +758,27 @@ public class CoverageEligibilityRequest extends DomainResource {
         public CoverageEligibilityRequest build() {
             return new CoverageEligibilityRequest(this);
         }
+
+        private Builder from(CoverageEligibilityRequest coverageEligibilityRequest) {
+            id = coverageEligibilityRequest.id;
+            meta = coverageEligibilityRequest.meta;
+            implicitRules = coverageEligibilityRequest.implicitRules;
+            language = coverageEligibilityRequest.language;
+            text = coverageEligibilityRequest.text;
+            contained.addAll(coverageEligibilityRequest.contained);
+            extension.addAll(coverageEligibilityRequest.extension);
+            modifierExtension.addAll(coverageEligibilityRequest.modifierExtension);
+            identifier.addAll(coverageEligibilityRequest.identifier);
+            priority = coverageEligibilityRequest.priority;
+            serviced = coverageEligibilityRequest.serviced;
+            enterer = coverageEligibilityRequest.enterer;
+            provider = coverageEligibilityRequest.provider;
+            facility = coverageEligibilityRequest.facility;
+            supportingInfo.addAll(coverageEligibilityRequest.supportingInfo);
+            insurance.addAll(coverageEligibilityRequest.insurance);
+            item.addAll(coverageEligibilityRequest.item);
+            return this;
+        }
     }
 
     /**
@@ -887,7 +856,11 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, information).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Reference information) {
+            return new Builder(sequence, information).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Reference information) {
@@ -1034,10 +1007,12 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return new SupportingInfo(this);
             }
 
-            private static Builder from(SupportingInfo supportingInfo) {
-                Builder builder = new Builder(supportingInfo.sequence, supportingInfo.information);
-                builder.appliesToAll = supportingInfo.appliesToAll;
-                return builder;
+            private Builder from(SupportingInfo supportingInfo) {
+                id = supportingInfo.id;
+                extension.addAll(supportingInfo.extension);
+                modifierExtension.addAll(supportingInfo.modifierExtension);
+                appliesToAll = supportingInfo.appliesToAll;
+                return this;
             }
         }
     }
@@ -1116,7 +1091,11 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(coverage).from(this);
+        }
+
+        public Builder toBuilder(Reference coverage) {
+            return new Builder(coverage).from(this);
         }
 
         public static Builder builder(Reference coverage) {
@@ -1278,11 +1257,13 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return new Insurance(this);
             }
 
-            private static Builder from(Insurance insurance) {
-                Builder builder = new Builder(insurance.coverage);
-                builder.focal = insurance.focal;
-                builder.businessArrangement = insurance.businessArrangement;
-                return builder;
+            private Builder from(Insurance insurance) {
+                id = insurance.id;
+                extension.addAll(insurance.extension);
+                modifierExtension.addAll(insurance.modifierExtension);
+                focal = insurance.focal;
+                businessArrangement = insurance.businessArrangement;
+                return this;
             }
         }
     }
@@ -1466,7 +1447,7 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1832,19 +1813,21 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return new Item(this);
             }
 
-            private static Builder from(Item item) {
-                Builder builder = new Builder();
-                builder.supportingInfoSequence.addAll(item.supportingInfoSequence);
-                builder.category = item.category;
-                builder.productOrService = item.productOrService;
-                builder.modifier.addAll(item.modifier);
-                builder.provider = item.provider;
-                builder.quantity = item.quantity;
-                builder.unitPrice = item.unitPrice;
-                builder.facility = item.facility;
-                builder.diagnosis.addAll(item.diagnosis);
-                builder.detail.addAll(item.detail);
-                return builder;
+            private Builder from(Item item) {
+                id = item.id;
+                extension.addAll(item.extension);
+                modifierExtension.addAll(item.modifierExtension);
+                supportingInfoSequence.addAll(item.supportingInfoSequence);
+                category = item.category;
+                productOrService = item.productOrService;
+                modifier.addAll(item.modifier);
+                provider = item.provider;
+                quantity = item.quantity;
+                unitPrice = item.unitPrice;
+                facility = item.facility;
+                diagnosis.addAll(item.diagnosis);
+                detail.addAll(item.detail);
+                return this;
             }
         }
 
@@ -1891,7 +1874,7 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2032,10 +2015,12 @@ public class CoverageEligibilityRequest extends DomainResource {
                     return new Diagnosis(this);
                 }
 
-                private static Builder from(Diagnosis diagnosis) {
-                    Builder builder = new Builder();
-                    builder.diagnosis = diagnosis.diagnosis;
-                    return builder;
+                private Builder from(Diagnosis diagnosis) {
+                    id = diagnosis.id;
+                    extension.addAll(diagnosis.extension);
+                    modifierExtension.addAll(diagnosis.modifierExtension);
+                    this.diagnosis = diagnosis.diagnosis;
+                    return this;
                 }
             }
         }

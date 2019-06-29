@@ -349,32 +349,11 @@ public class DiagnosticReport extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, code);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn.addAll(basedOn);
-        builder.category.addAll(category);
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.effective = effective;
-        builder.issued = issued;
-        builder.performer.addAll(performer);
-        builder.resultsInterpreter.addAll(resultsInterpreter);
-        builder.specimen.addAll(specimen);
-        builder.result.addAll(result);
-        builder.imagingStudy.addAll(imagingStudy);
-        builder.media.addAll(media);
-        builder.conclusion = conclusion;
-        builder.conclusionCode.addAll(conclusionCode);
-        builder.presentedForm.addAll(presentedForm);
-        return builder;
+        return new Builder(status, code).from(this);
+    }
+
+    public Builder toBuilder(DiagnosticReportStatus status, CodeableConcept code) {
+        return new Builder(status, code).from(this);
     }
 
     public static Builder builder(DiagnosticReportStatus status, CodeableConcept code) {
@@ -1090,6 +1069,34 @@ public class DiagnosticReport extends DomainResource {
         public DiagnosticReport build() {
             return new DiagnosticReport(this);
         }
+
+        private Builder from(DiagnosticReport diagnosticReport) {
+            id = diagnosticReport.id;
+            meta = diagnosticReport.meta;
+            implicitRules = diagnosticReport.implicitRules;
+            language = diagnosticReport.language;
+            text = diagnosticReport.text;
+            contained.addAll(diagnosticReport.contained);
+            extension.addAll(diagnosticReport.extension);
+            modifierExtension.addAll(diagnosticReport.modifierExtension);
+            identifier.addAll(diagnosticReport.identifier);
+            basedOn.addAll(diagnosticReport.basedOn);
+            category.addAll(diagnosticReport.category);
+            subject = diagnosticReport.subject;
+            encounter = diagnosticReport.encounter;
+            effective = diagnosticReport.effective;
+            issued = diagnosticReport.issued;
+            performer.addAll(diagnosticReport.performer);
+            resultsInterpreter.addAll(diagnosticReport.resultsInterpreter);
+            specimen.addAll(diagnosticReport.specimen);
+            result.addAll(diagnosticReport.result);
+            imagingStudy.addAll(diagnosticReport.imagingStudy);
+            media.addAll(diagnosticReport.media);
+            conclusion = diagnosticReport.conclusion;
+            conclusionCode.addAll(diagnosticReport.conclusionCode);
+            presentedForm.addAll(diagnosticReport.presentedForm);
+            return this;
+        }
     }
 
     /**
@@ -1152,7 +1159,11 @@ public class DiagnosticReport extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(link).from(this);
+        }
+
+        public Builder toBuilder(Reference link) {
+            return new Builder(link).from(this);
         }
 
         public static Builder builder(Reference link) {
@@ -1298,10 +1309,12 @@ public class DiagnosticReport extends DomainResource {
                 return new Media(this);
             }
 
-            private static Builder from(Media media) {
-                Builder builder = new Builder(media.link);
-                builder.comment = media.comment;
-                return builder;
+            private Builder from(Media media) {
+                id = media.id;
+                extension.addAll(media.extension);
+                modifierExtension.addAll(media.modifierExtension);
+                comment = media.comment;
+                return this;
             }
         }
     }

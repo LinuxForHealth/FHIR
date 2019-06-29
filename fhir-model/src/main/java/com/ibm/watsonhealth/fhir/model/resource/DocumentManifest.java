@@ -249,26 +249,11 @@ public class DocumentManifest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, content);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.masterIdentifier = masterIdentifier;
-        builder.identifier.addAll(identifier);
-        builder.type = type;
-        builder.subject = subject;
-        builder.created = created;
-        builder.author.addAll(author);
-        builder.recipient.addAll(recipient);
-        builder.source = source;
-        builder.description = description;
-        builder.related.addAll(related);
-        return builder;
+        return new Builder(status, content).from(this);
+    }
+
+    public Builder toBuilder(DocumentReferenceStatus status, List<Reference> content) {
+        return new Builder(status, content).from(this);
     }
 
     public static Builder builder(DocumentReferenceStatus status, List<Reference> content) {
@@ -712,40 +697,6 @@ public class DocumentManifest extends DomainResource {
 
         /**
          * <p>
-         * The list of Resources that consist of the parts of this manifest.
-         * </p>
-         * 
-         * @param content
-         *     Items in manifest
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder content(Reference... content) {
-            for (Reference value : content) {
-                this.content.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * The list of Resources that consist of the parts of this manifest.
-         * </p>
-         * 
-         * @param content
-         *     Items in manifest
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder content(Collection<Reference> content) {
-            this.content.addAll(content);
-            return this;
-        }
-
-        /**
-         * <p>
          * Related identifiers or resources associated with the DocumentManifest.
          * </p>
          * 
@@ -781,6 +732,28 @@ public class DocumentManifest extends DomainResource {
         @Override
         public DocumentManifest build() {
             return new DocumentManifest(this);
+        }
+
+        private Builder from(DocumentManifest documentManifest) {
+            id = documentManifest.id;
+            meta = documentManifest.meta;
+            implicitRules = documentManifest.implicitRules;
+            language = documentManifest.language;
+            text = documentManifest.text;
+            contained.addAll(documentManifest.contained);
+            extension.addAll(documentManifest.extension);
+            modifierExtension.addAll(documentManifest.modifierExtension);
+            masterIdentifier = documentManifest.masterIdentifier;
+            identifier.addAll(documentManifest.identifier);
+            type = documentManifest.type;
+            subject = documentManifest.subject;
+            created = documentManifest.created;
+            author.addAll(documentManifest.author);
+            recipient.addAll(documentManifest.recipient);
+            source = documentManifest.source;
+            description = documentManifest.description;
+            related.addAll(documentManifest.related);
+            return this;
         }
     }
 
@@ -842,7 +815,7 @@ public class DocumentManifest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1000,11 +973,13 @@ public class DocumentManifest extends DomainResource {
                 return new Related(this);
             }
 
-            private static Builder from(Related related) {
-                Builder builder = new Builder();
-                builder.identifier = related.identifier;
-                builder.ref = related.ref;
-                return builder;
+            private Builder from(Related related) {
+                id = related.id;
+                extension.addAll(related.extension);
+                modifierExtension.addAll(related.modifierExtension);
+                identifier = related.identifier;
+                ref = related.ref;
+                return this;
             }
         }
     }

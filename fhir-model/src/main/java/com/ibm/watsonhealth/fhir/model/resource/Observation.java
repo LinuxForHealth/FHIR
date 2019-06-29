@@ -475,38 +475,11 @@ public class Observation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, code);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn.addAll(basedOn);
-        builder.partOf.addAll(partOf);
-        builder.category.addAll(category);
-        builder.subject = subject;
-        builder.focus.addAll(focus);
-        builder.encounter = encounter;
-        builder.effective = effective;
-        builder.issued = issued;
-        builder.performer.addAll(performer);
-        builder.value = value;
-        builder.dataAbsentReason = dataAbsentReason;
-        builder.interpretation.addAll(interpretation);
-        builder.note.addAll(note);
-        builder.bodySite = bodySite;
-        builder.method = method;
-        builder.specimen = specimen;
-        builder.device = device;
-        builder.referenceRange.addAll(referenceRange);
-        builder.hasMember.addAll(hasMember);
-        builder.derivedFrom.addAll(derivedFrom);
-        builder.component.addAll(component);
-        return builder;
+        return new Builder(status, code).from(this);
+    }
+
+    public Builder toBuilder(ObservationStatus status, CodeableConcept code) {
+        return new Builder(status, code).from(this);
     }
 
     public static Builder builder(ObservationStatus status, CodeableConcept code) {
@@ -1359,6 +1332,40 @@ public class Observation extends DomainResource {
         public Observation build() {
             return new Observation(this);
         }
+
+        private Builder from(Observation observation) {
+            id = observation.id;
+            meta = observation.meta;
+            implicitRules = observation.implicitRules;
+            language = observation.language;
+            text = observation.text;
+            contained.addAll(observation.contained);
+            extension.addAll(observation.extension);
+            modifierExtension.addAll(observation.modifierExtension);
+            identifier.addAll(observation.identifier);
+            basedOn.addAll(observation.basedOn);
+            partOf.addAll(observation.partOf);
+            category.addAll(observation.category);
+            subject = observation.subject;
+            focus.addAll(observation.focus);
+            encounter = observation.encounter;
+            effective = observation.effective;
+            issued = observation.issued;
+            performer.addAll(observation.performer);
+            value = observation.value;
+            dataAbsentReason = observation.dataAbsentReason;
+            interpretation.addAll(observation.interpretation);
+            note.addAll(observation.note);
+            bodySite = observation.bodySite;
+            method = observation.method;
+            specimen = observation.specimen;
+            device = observation.device;
+            referenceRange.addAll(observation.referenceRange);
+            hasMember.addAll(observation.hasMember);
+            derivedFrom.addAll(observation.derivedFrom);
+            component.addAll(observation.component);
+            return this;
+        }
     }
 
     /**
@@ -1491,7 +1498,7 @@ public class Observation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1748,15 +1755,17 @@ public class Observation extends DomainResource {
                 return new ReferenceRange(this);
             }
 
-            private static Builder from(ReferenceRange referenceRange) {
-                Builder builder = new Builder();
-                builder.low = referenceRange.low;
-                builder.high = referenceRange.high;
-                builder.type = referenceRange.type;
-                builder.appliesTo.addAll(referenceRange.appliesTo);
-                builder.age = referenceRange.age;
-                builder.text = referenceRange.text;
-                return builder;
+            private Builder from(ReferenceRange referenceRange) {
+                id = referenceRange.id;
+                extension.addAll(referenceRange.extension);
+                modifierExtension.addAll(referenceRange.modifierExtension);
+                low = referenceRange.low;
+                high = referenceRange.high;
+                type = referenceRange.type;
+                appliesTo.addAll(referenceRange.appliesTo);
+                age = referenceRange.age;
+                text = referenceRange.text;
+                return this;
             }
         }
     }
@@ -1866,7 +1875,11 @@ public class Observation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -2098,13 +2111,15 @@ public class Observation extends DomainResource {
                 return new Component(this);
             }
 
-            private static Builder from(Component component) {
-                Builder builder = new Builder(component.code);
-                builder.value = component.value;
-                builder.dataAbsentReason = component.dataAbsentReason;
-                builder.interpretation.addAll(component.interpretation);
-                builder.referenceRange.addAll(component.referenceRange);
-                return builder;
+            private Builder from(Component component) {
+                id = component.id;
+                extension.addAll(component.extension);
+                modifierExtension.addAll(component.modifierExtension);
+                value = component.value;
+                dataAbsentReason = component.dataAbsentReason;
+                interpretation.addAll(component.interpretation);
+                referenceRange.addAll(component.referenceRange);
+                return this;
             }
         }
     }

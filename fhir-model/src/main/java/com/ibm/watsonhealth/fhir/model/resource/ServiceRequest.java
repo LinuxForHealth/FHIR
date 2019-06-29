@@ -594,46 +594,11 @@ public class ServiceRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, intent, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.basedOn.addAll(basedOn);
-        builder.replaces.addAll(replaces);
-        builder.requisition = requisition;
-        builder.category.addAll(category);
-        builder.priority = priority;
-        builder.doNotPerform = doNotPerform;
-        builder.code = code;
-        builder.orderDetail.addAll(orderDetail);
-        builder.quantity = quantity;
-        builder.encounter = encounter;
-        builder.occurrence = occurrence;
-        builder.asNeeded = asNeeded;
-        builder.authoredOn = authoredOn;
-        builder.requester = requester;
-        builder.performerType = performerType;
-        builder.performer.addAll(performer);
-        builder.locationCode.addAll(locationCode);
-        builder.locationReference.addAll(locationReference);
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.insurance.addAll(insurance);
-        builder.supportingInfo.addAll(supportingInfo);
-        builder.specimen.addAll(specimen);
-        builder.bodySite.addAll(bodySite);
-        builder.note.addAll(note);
-        builder.patientInstruction = patientInstruction;
-        builder.relevantHistory.addAll(relevantHistory);
-        return builder;
+        return new Builder(status, intent, subject).from(this);
+    }
+
+    public Builder toBuilder(ServiceRequestStatus status, ServiceRequestIntent intent, Reference subject) {
+        return new Builder(status, intent, subject).from(this);
     }
 
     public static Builder builder(ServiceRequestStatus status, ServiceRequestIntent intent, Reference subject) {
@@ -1730,6 +1695,48 @@ public class ServiceRequest extends DomainResource {
         @Override
         public ServiceRequest build() {
             return new ServiceRequest(this);
+        }
+
+        private Builder from(ServiceRequest serviceRequest) {
+            id = serviceRequest.id;
+            meta = serviceRequest.meta;
+            implicitRules = serviceRequest.implicitRules;
+            language = serviceRequest.language;
+            text = serviceRequest.text;
+            contained.addAll(serviceRequest.contained);
+            extension.addAll(serviceRequest.extension);
+            modifierExtension.addAll(serviceRequest.modifierExtension);
+            identifier.addAll(serviceRequest.identifier);
+            instantiatesCanonical.addAll(serviceRequest.instantiatesCanonical);
+            instantiatesUri.addAll(serviceRequest.instantiatesUri);
+            basedOn.addAll(serviceRequest.basedOn);
+            replaces.addAll(serviceRequest.replaces);
+            requisition = serviceRequest.requisition;
+            category.addAll(serviceRequest.category);
+            priority = serviceRequest.priority;
+            doNotPerform = serviceRequest.doNotPerform;
+            code = serviceRequest.code;
+            orderDetail.addAll(serviceRequest.orderDetail);
+            quantity = serviceRequest.quantity;
+            encounter = serviceRequest.encounter;
+            occurrence = serviceRequest.occurrence;
+            asNeeded = serviceRequest.asNeeded;
+            authoredOn = serviceRequest.authoredOn;
+            requester = serviceRequest.requester;
+            performerType = serviceRequest.performerType;
+            performer.addAll(serviceRequest.performer);
+            locationCode.addAll(serviceRequest.locationCode);
+            locationReference.addAll(serviceRequest.locationReference);
+            reasonCode.addAll(serviceRequest.reasonCode);
+            reasonReference.addAll(serviceRequest.reasonReference);
+            insurance.addAll(serviceRequest.insurance);
+            supportingInfo.addAll(serviceRequest.supportingInfo);
+            specimen.addAll(serviceRequest.specimen);
+            bodySite.addAll(serviceRequest.bodySite);
+            note.addAll(serviceRequest.note);
+            patientInstruction = serviceRequest.patientInstruction;
+            relevantHistory.addAll(serviceRequest.relevantHistory);
+            return this;
         }
     }
 }

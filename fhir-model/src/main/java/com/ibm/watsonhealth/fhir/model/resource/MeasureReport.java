@@ -253,23 +253,11 @@ public class MeasureReport extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, type, measure, period);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.subject = subject;
-        builder.date = date;
-        builder.reporter = reporter;
-        builder.improvementNotation = improvementNotation;
-        builder.group.addAll(group);
-        builder.evaluatedResource.addAll(evaluatedResource);
-        return builder;
+        return new Builder(status, type, measure, period).from(this);
+    }
+
+    public Builder toBuilder(MeasureReportStatus status, MeasureReportType type, Canonical measure, Period period) {
+        return new Builder(status, type, measure, period).from(this);
     }
 
     public static Builder builder(MeasureReportStatus status, MeasureReportType type, Canonical measure, Period period) {
@@ -680,6 +668,25 @@ public class MeasureReport extends DomainResource {
         public MeasureReport build() {
             return new MeasureReport(this);
         }
+
+        private Builder from(MeasureReport measureReport) {
+            id = measureReport.id;
+            meta = measureReport.meta;
+            implicitRules = measureReport.implicitRules;
+            language = measureReport.language;
+            text = measureReport.text;
+            contained.addAll(measureReport.contained);
+            extension.addAll(measureReport.extension);
+            modifierExtension.addAll(measureReport.modifierExtension);
+            identifier.addAll(measureReport.identifier);
+            subject = measureReport.subject;
+            date = measureReport.date;
+            reporter = measureReport.reporter;
+            improvementNotation = measureReport.improvementNotation;
+            group.addAll(measureReport.group);
+            evaluatedResource.addAll(measureReport.evaluatedResource);
+            return this;
+        }
     }
 
     /**
@@ -772,7 +779,7 @@ public class MeasureReport extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1003,13 +1010,15 @@ public class MeasureReport extends DomainResource {
                 return new Group(this);
             }
 
-            private static Builder from(Group group) {
-                Builder builder = new Builder();
-                builder.code = group.code;
-                builder.population.addAll(group.population);
-                builder.measureScore = group.measureScore;
-                builder.stratifier.addAll(group.stratifier);
-                return builder;
+            private Builder from(Group group) {
+                id = group.id;
+                extension.addAll(group.extension);
+                modifierExtension.addAll(group.modifierExtension);
+                code = group.code;
+                population.addAll(group.population);
+                measureScore = group.measureScore;
+                stratifier.addAll(group.stratifier);
+                return this;
             }
         }
 
@@ -1086,7 +1095,7 @@ public class MeasureReport extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1262,12 +1271,14 @@ public class MeasureReport extends DomainResource {
                     return new Population(this);
                 }
 
-                private static Builder from(Population population) {
-                    Builder builder = new Builder();
-                    builder.code = population.code;
-                    builder.count = population.count;
-                    builder.subjectResults = population.subjectResults;
-                    return builder;
+                private Builder from(Population population) {
+                    id = population.id;
+                    extension.addAll(population.extension);
+                    modifierExtension.addAll(population.modifierExtension);
+                    code = population.code;
+                    count = population.count;
+                    subjectResults = population.subjectResults;
+                    return this;
                 }
             }
         }
@@ -1332,7 +1343,7 @@ public class MeasureReport extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1528,11 +1539,13 @@ public class MeasureReport extends DomainResource {
                     return new Stratifier(this);
                 }
 
-                private static Builder from(Stratifier stratifier) {
-                    Builder builder = new Builder();
-                    builder.code.addAll(stratifier.code);
-                    builder.stratum.addAll(stratifier.stratum);
-                    return builder;
+                private Builder from(Stratifier stratifier) {
+                    id = stratifier.id;
+                    extension.addAll(stratifier.extension);
+                    modifierExtension.addAll(stratifier.modifierExtension);
+                    code.addAll(stratifier.code);
+                    stratum.addAll(stratifier.stratum);
+                    return this;
                 }
             }
 
@@ -1627,7 +1640,7 @@ public class MeasureReport extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder() {
@@ -1857,13 +1870,15 @@ public class MeasureReport extends DomainResource {
                         return new Stratum(this);
                     }
 
-                    private static Builder from(Stratum stratum) {
-                        Builder builder = new Builder();
-                        builder.value = stratum.value;
-                        builder.component.addAll(stratum.component);
-                        builder.population.addAll(stratum.population);
-                        builder.measureScore = stratum.measureScore;
-                        return builder;
+                    private Builder from(Stratum stratum) {
+                        id = stratum.id;
+                        extension.addAll(stratum.extension);
+                        modifierExtension.addAll(stratum.modifierExtension);
+                        value = stratum.value;
+                        component.addAll(stratum.component);
+                        population.addAll(stratum.population);
+                        measureScore = stratum.measureScore;
+                        return this;
                     }
                 }
 
@@ -1925,7 +1940,11 @@ public class MeasureReport extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return Builder.from(this);
+                        return new Builder(code, value).from(this);
+                    }
+
+                    public Builder toBuilder(CodeableConcept code, CodeableConcept value) {
+                        return new Builder(code, value).from(this);
                     }
 
                     public static Builder builder(CodeableConcept code, CodeableConcept value) {
@@ -2053,9 +2072,11 @@ public class MeasureReport extends DomainResource {
                             return new Component(this);
                         }
 
-                        private static Builder from(Component component) {
-                            Builder builder = new Builder(component.code, component.value);
-                            return builder;
+                        private Builder from(Component component) {
+                            id = component.id;
+                            extension.addAll(component.extension);
+                            modifierExtension.addAll(component.modifierExtension);
+                            return this;
                         }
                     }
                 }
@@ -2134,7 +2155,7 @@ public class MeasureReport extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return Builder.from(this);
+                        return new Builder().from(this);
                     }
 
                     public static Builder builder() {
@@ -2311,12 +2332,14 @@ public class MeasureReport extends DomainResource {
                             return new Population(this);
                         }
 
-                        private static Builder from(Population population) {
-                            Builder builder = new Builder();
-                            builder.code = population.code;
-                            builder.count = population.count;
-                            builder.subjectResults = population.subjectResults;
-                            return builder;
+                        private Builder from(Population population) {
+                            id = population.id;
+                            extension.addAll(population.extension);
+                            modifierExtension.addAll(population.modifierExtension);
+                            code = population.code;
+                            count = population.count;
+                            subjectResults = population.subjectResults;
+                            return this;
                         }
                     }
                 }

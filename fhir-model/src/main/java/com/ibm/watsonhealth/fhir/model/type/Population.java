@@ -102,15 +102,7 @@ public class Population extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.age = age;
-        builder.gender = gender;
-        builder.race = race;
-        builder.physiologicalCondition = physiologicalCondition;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -300,6 +292,17 @@ public class Population extends BackboneElement {
         @Override
         public Population build() {
             return new Population(this);
+        }
+
+        private Builder from(Population population) {
+            id = population.id;
+            extension.addAll(population.extension);
+            modifierExtension.addAll(population.modifierExtension);
+            age = population.age;
+            gender = population.gender;
+            race = population.race;
+            physiologicalCondition = population.physiologicalCondition;
+            return this;
         }
     }
 }

@@ -235,23 +235,11 @@ public class Endpoint extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, connectionType, payloadType, address);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.name = name;
-        builder.managingOrganization = managingOrganization;
-        builder.contact.addAll(contact);
-        builder.period = period;
-        builder.payloadMimeType.addAll(payloadMimeType);
-        builder.header.addAll(header);
-        return builder;
+        return new Builder(status, connectionType, payloadType, address).from(this);
+    }
+
+    public Builder toBuilder(EndpointStatus status, Coding connectionType, List<CodeableConcept> payloadType, Url address) {
+        return new Builder(status, connectionType, payloadType, address).from(this);
     }
 
     public static Builder builder(EndpointStatus status, Coding connectionType, List<CodeableConcept> payloadType, Url address) {
@@ -611,40 +599,6 @@ public class Endpoint extends DomainResource {
 
         /**
          * <p>
-         * The payload type describes the acceptable content that can be communicated on the endpoint.
-         * </p>
-         * 
-         * @param payloadType
-         *     The type of content that may be used at this endpoint (e.g. XDS Discharge summaries)
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder payloadType(CodeableConcept... payloadType) {
-            for (CodeableConcept value : payloadType) {
-                this.payloadType.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * The payload type describes the acceptable content that can be communicated on the endpoint.
-         * </p>
-         * 
-         * @param payloadType
-         *     The type of content that may be used at this endpoint (e.g. XDS Discharge summaries)
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder payloadType(Collection<CodeableConcept> payloadType) {
-            this.payloadType.addAll(payloadType);
-            return this;
-        }
-
-        /**
-         * <p>
          * The mime type to send the payload in - e.g. application/fhir+xml, application/fhir+json. If the mime type is not 
          * specified, then the sender could send any content (including no content depending on the connectionType).
          * </p>
@@ -718,6 +672,25 @@ public class Endpoint extends DomainResource {
         @Override
         public Endpoint build() {
             return new Endpoint(this);
+        }
+
+        private Builder from(Endpoint endpoint) {
+            id = endpoint.id;
+            meta = endpoint.meta;
+            implicitRules = endpoint.implicitRules;
+            language = endpoint.language;
+            text = endpoint.text;
+            contained.addAll(endpoint.contained);
+            extension.addAll(endpoint.extension);
+            modifierExtension.addAll(endpoint.modifierExtension);
+            identifier.addAll(endpoint.identifier);
+            name = endpoint.name;
+            managingOrganization = endpoint.managingOrganization;
+            contact.addAll(endpoint.contact);
+            period = endpoint.period;
+            payloadMimeType.addAll(endpoint.payloadMimeType);
+            header.addAll(endpoint.header);
+            return this;
         }
     }
 }

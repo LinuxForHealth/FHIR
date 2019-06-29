@@ -386,33 +386,11 @@ public class ConceptMap extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier = identifier;
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.source = source;
-        builder.target = target;
-        builder.group.addAll(group);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -1021,6 +999,35 @@ public class ConceptMap extends DomainResource {
         public ConceptMap build() {
             return new ConceptMap(this);
         }
+
+        private Builder from(ConceptMap conceptMap) {
+            id = conceptMap.id;
+            meta = conceptMap.meta;
+            implicitRules = conceptMap.implicitRules;
+            language = conceptMap.language;
+            text = conceptMap.text;
+            contained.addAll(conceptMap.contained);
+            extension.addAll(conceptMap.extension);
+            modifierExtension.addAll(conceptMap.modifierExtension);
+            url = conceptMap.url;
+            identifier = conceptMap.identifier;
+            version = conceptMap.version;
+            name = conceptMap.name;
+            title = conceptMap.title;
+            experimental = conceptMap.experimental;
+            date = conceptMap.date;
+            publisher = conceptMap.publisher;
+            contact.addAll(conceptMap.contact);
+            description = conceptMap.description;
+            useContext.addAll(conceptMap.useContext);
+            jurisdiction.addAll(conceptMap.jurisdiction);
+            purpose = conceptMap.purpose;
+            copyright = conceptMap.copyright;
+            source = conceptMap.source;
+            target = conceptMap.target;
+            group.addAll(conceptMap.group);
+            return this;
+        }
     }
 
     /**
@@ -1142,7 +1149,11 @@ public class ConceptMap extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(element).from(this);
+        }
+
+        public Builder toBuilder(List<Element> element) {
+            return new Builder(element).from(this);
         }
 
         public static Builder builder(List<Element> element) {
@@ -1336,40 +1347,6 @@ public class ConceptMap extends DomainResource {
 
             /**
              * <p>
-             * Mappings for an individual concept in the source to one or more concepts in the target.
-             * </p>
-             * 
-             * @param element
-             *     Mappings for a concept from the source set
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder element(Element... element) {
-                for (Element value : element) {
-                    this.element.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Mappings for an individual concept in the source to one or more concepts in the target.
-             * </p>
-             * 
-             * @param element
-             *     Mappings for a concept from the source set
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder element(Collection<Element> element) {
-                this.element.addAll(element);
-                return this;
-            }
-
-            /**
-             * <p>
              * What to do when there is no mapping for the source concept. "Unmapped" does not include codes that are unmatched, and 
              * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
              * </p>
@@ -1390,14 +1367,16 @@ public class ConceptMap extends DomainResource {
                 return new Group(this);
             }
 
-            private static Builder from(Group group) {
-                Builder builder = new Builder(group.element);
-                builder.source = group.source;
-                builder.sourceVersion = group.sourceVersion;
-                builder.target = group.target;
-                builder.targetVersion = group.targetVersion;
-                builder.unmapped = group.unmapped;
-                return builder;
+            private Builder from(Group group) {
+                id = group.id;
+                extension.addAll(group.extension);
+                modifierExtension.addAll(group.modifierExtension);
+                source = group.source;
+                sourceVersion = group.sourceVersion;
+                target = group.target;
+                targetVersion = group.targetVersion;
+                unmapped = group.unmapped;
+                return this;
             }
         }
 
@@ -1474,7 +1453,7 @@ public class ConceptMap extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1667,12 +1646,14 @@ public class ConceptMap extends DomainResource {
                     return new Element(this);
                 }
 
-                private static Builder from(Element element) {
-                    Builder builder = new Builder();
-                    builder.code = element.code;
-                    builder.display = element.display;
-                    builder.target.addAll(element.target);
-                    return builder;
+                private Builder from(Element element) {
+                    id = element.id;
+                    extension.addAll(element.extension);
+                    modifierExtension.addAll(element.modifierExtension);
+                    code = element.code;
+                    display = element.display;
+                    target.addAll(element.target);
+                    return this;
                 }
             }
 
@@ -1798,7 +1779,11 @@ public class ConceptMap extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(equivalence).from(this);
+                }
+
+                public Builder toBuilder(ConceptMapEquivalence equivalence) {
+                    return new Builder(equivalence).from(this);
                 }
 
                 public static Builder builder(ConceptMapEquivalence equivalence) {
@@ -2053,14 +2038,16 @@ public class ConceptMap extends DomainResource {
                         return new Target(this);
                     }
 
-                    private static Builder from(Target target) {
-                        Builder builder = new Builder(target.equivalence);
-                        builder.code = target.code;
-                        builder.display = target.display;
-                        builder.comment = target.comment;
-                        builder.dependsOn.addAll(target.dependsOn);
-                        builder.product.addAll(target.product);
-                        return builder;
+                    private Builder from(Target target) {
+                        id = target.id;
+                        extension.addAll(target.extension);
+                        modifierExtension.addAll(target.modifierExtension);
+                        code = target.code;
+                        display = target.display;
+                        comment = target.comment;
+                        dependsOn.addAll(target.dependsOn);
+                        product.addAll(target.product);
+                        return this;
                     }
                 }
 
@@ -2155,7 +2142,11 @@ public class ConceptMap extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return Builder.from(this);
+                        return new Builder(property, value).from(this);
+                    }
+
+                    public Builder toBuilder(Uri property, String value) {
+                        return new Builder(property, value).from(this);
                     }
 
                     public static Builder builder(Uri property, String value) {
@@ -2320,11 +2311,13 @@ public class ConceptMap extends DomainResource {
                             return new DependsOn(this);
                         }
 
-                        private static Builder from(DependsOn dependsOn) {
-                            Builder builder = new Builder(dependsOn.property, dependsOn.value);
-                            builder.system = dependsOn.system;
-                            builder.display = dependsOn.display;
-                            return builder;
+                        private Builder from(DependsOn dependsOn) {
+                            id = dependsOn.id;
+                            extension.addAll(dependsOn.extension);
+                            modifierExtension.addAll(dependsOn.modifierExtension);
+                            system = dependsOn.system;
+                            display = dependsOn.display;
+                            return this;
                         }
                     }
                 }
@@ -2424,7 +2417,11 @@ public class ConceptMap extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(mode).from(this);
+            }
+
+            public Builder toBuilder(ConceptMapGroupUnmappedMode mode) {
+                return new Builder(mode).from(this);
             }
 
             public static Builder builder(ConceptMapGroupUnmappedMode mode) {
@@ -2604,12 +2601,14 @@ public class ConceptMap extends DomainResource {
                     return new Unmapped(this);
                 }
 
-                private static Builder from(Unmapped unmapped) {
-                    Builder builder = new Builder(unmapped.mode);
-                    builder.code = unmapped.code;
-                    builder.display = unmapped.display;
-                    builder.url = unmapped.url;
-                    return builder;
+                private Builder from(Unmapped unmapped) {
+                    id = unmapped.id;
+                    extension.addAll(unmapped.extension);
+                    modifierExtension.addAll(unmapped.modifierExtension);
+                    code = unmapped.code;
+                    display = unmapped.display;
+                    url = unmapped.url;
+                    return this;
                 }
             }
         }

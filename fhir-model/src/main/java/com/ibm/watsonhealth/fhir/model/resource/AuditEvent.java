@@ -244,23 +244,11 @@ public class AuditEvent extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type, recorded, agent, source);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.subtype.addAll(subtype);
-        builder.action = action;
-        builder.period = period;
-        builder.outcome = outcome;
-        builder.outcomeDesc = outcomeDesc;
-        builder.purposeOfEvent.addAll(purposeOfEvent);
-        builder.entity.addAll(entity);
-        return builder;
+        return new Builder(type, recorded, agent, source).from(this);
+    }
+
+    public Builder toBuilder(Coding type, Instant recorded, List<Agent> agent, Source source) {
+        return new Builder(type, recorded, agent, source).from(this);
     }
 
     public static Builder builder(Coding type, Instant recorded, List<Agent> agent, Source source) {
@@ -633,40 +621,6 @@ public class AuditEvent extends DomainResource {
 
         /**
          * <p>
-         * An actor taking an active role in the event or activity that is logged.
-         * </p>
-         * 
-         * @param agent
-         *     Actor involved in the event
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder agent(Agent... agent) {
-            for (Agent value : agent) {
-                this.agent.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * An actor taking an active role in the event or activity that is logged.
-         * </p>
-         * 
-         * @param agent
-         *     Actor involved in the event
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder agent(Collection<Agent> agent) {
-            this.agent.addAll(agent);
-            return this;
-        }
-
-        /**
-         * <p>
          * Specific instances of data or objects that have been accessed.
          * </p>
          * 
@@ -702,6 +656,25 @@ public class AuditEvent extends DomainResource {
         @Override
         public AuditEvent build() {
             return new AuditEvent(this);
+        }
+
+        private Builder from(AuditEvent auditEvent) {
+            id = auditEvent.id;
+            meta = auditEvent.meta;
+            implicitRules = auditEvent.implicitRules;
+            language = auditEvent.language;
+            text = auditEvent.text;
+            contained.addAll(auditEvent.contained);
+            extension.addAll(auditEvent.extension);
+            modifierExtension.addAll(auditEvent.modifierExtension);
+            subtype.addAll(auditEvent.subtype);
+            action = auditEvent.action;
+            period = auditEvent.period;
+            outcome = auditEvent.outcome;
+            outcomeDesc = auditEvent.outcomeDesc;
+            purposeOfEvent.addAll(auditEvent.purposeOfEvent);
+            entity.addAll(auditEvent.entity);
+            return this;
         }
     }
 
@@ -902,7 +875,11 @@ public class AuditEvent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(requestor).from(this);
+        }
+
+        public Builder toBuilder(Boolean requestor) {
+            return new Builder(requestor).from(this);
         }
 
         public static Builder builder(Boolean requestor) {
@@ -1261,19 +1238,21 @@ public class AuditEvent extends DomainResource {
                 return new Agent(this);
             }
 
-            private static Builder from(Agent agent) {
-                Builder builder = new Builder(agent.requestor);
-                builder.type = agent.type;
-                builder.role.addAll(agent.role);
-                builder.who = agent.who;
-                builder.altId = agent.altId;
-                builder.name = agent.name;
-                builder.location = agent.location;
-                builder.policy.addAll(agent.policy);
-                builder.media = agent.media;
-                builder.network = agent.network;
-                builder.purposeOfUse.addAll(agent.purposeOfUse);
-                return builder;
+            private Builder from(Agent agent) {
+                id = agent.id;
+                extension.addAll(agent.extension);
+                modifierExtension.addAll(agent.modifierExtension);
+                type = agent.type;
+                role.addAll(agent.role);
+                who = agent.who;
+                altId = agent.altId;
+                name = agent.name;
+                location = agent.location;
+                policy.addAll(agent.policy);
+                media = agent.media;
+                network = agent.network;
+                purposeOfUse.addAll(agent.purposeOfUse);
+                return this;
             }
         }
 
@@ -1335,7 +1314,7 @@ public class AuditEvent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1493,11 +1472,13 @@ public class AuditEvent extends DomainResource {
                     return new Network(this);
                 }
 
-                private static Builder from(Network network) {
-                    Builder builder = new Builder();
-                    builder.address = network.address;
-                    builder.type = network.type;
-                    return builder;
+                private Builder from(Network network) {
+                    id = network.id;
+                    extension.addAll(network.extension);
+                    modifierExtension.addAll(network.modifierExtension);
+                    address = network.address;
+                    type = network.type;
+                    return this;
                 }
             }
         }
@@ -1577,7 +1558,11 @@ public class AuditEvent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(observer).from(this);
+        }
+
+        public Builder toBuilder(Reference observer) {
+            return new Builder(observer).from(this);
         }
 
         public static Builder builder(Reference observer) {
@@ -1758,11 +1743,13 @@ public class AuditEvent extends DomainResource {
                 return new Source(this);
             }
 
-            private static Builder from(Source source) {
-                Builder builder = new Builder(source.observer);
-                builder.site = source.site;
-                builder.type.addAll(source.type);
-                return builder;
+            private Builder from(Source source) {
+                id = source.id;
+                extension.addAll(source.extension);
+                modifierExtension.addAll(source.modifierExtension);
+                site = source.site;
+                type.addAll(source.type);
+                return this;
             }
         }
     }
@@ -1930,7 +1917,7 @@ public class AuditEvent extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2243,18 +2230,20 @@ public class AuditEvent extends DomainResource {
                 return new Entity(this);
             }
 
-            private static Builder from(Entity entity) {
-                Builder builder = new Builder();
-                builder.what = entity.what;
-                builder.type = entity.type;
-                builder.role = entity.role;
-                builder.lifecycle = entity.lifecycle;
-                builder.securityLabel.addAll(entity.securityLabel);
-                builder.name = entity.name;
-                builder.description = entity.description;
-                builder.query = entity.query;
-                builder.detail.addAll(entity.detail);
-                return builder;
+            private Builder from(Entity entity) {
+                id = entity.id;
+                extension.addAll(entity.extension);
+                modifierExtension.addAll(entity.modifierExtension);
+                what = entity.what;
+                type = entity.type;
+                role = entity.role;
+                lifecycle = entity.lifecycle;
+                securityLabel.addAll(entity.securityLabel);
+                name = entity.name;
+                description = entity.description;
+                query = entity.query;
+                detail.addAll(entity.detail);
+                return this;
             }
         }
 
@@ -2316,7 +2305,11 @@ public class AuditEvent extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type, value).from(this);
+            }
+
+            public Builder toBuilder(String type, Element value) {
+                return new Builder(type, value).from(this);
             }
 
             public static Builder builder(String type, Element value) {
@@ -2444,9 +2437,11 @@ public class AuditEvent extends DomainResource {
                     return new Detail(this);
                 }
 
-                private static Builder from(Detail detail) {
-                    Builder builder = new Builder(detail.type, detail.value);
-                    return builder;
+                private Builder from(Detail detail) {
+                    id = detail.id;
+                    extension.addAll(detail.extension);
+                    modifierExtension.addAll(detail.modifierExtension);
+                    return this;
                 }
             }
         }

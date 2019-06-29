@@ -267,29 +267,7 @@ public class Specimen extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.accessionIdentifier = accessionIdentifier;
-        builder.status = status;
-        builder.type = type;
-        builder.subject = subject;
-        builder.receivedTime = receivedTime;
-        builder.parent.addAll(parent);
-        builder.request.addAll(request);
-        builder.collection = collection;
-        builder.processing.addAll(processing);
-        builder.container.addAll(container);
-        builder.condition.addAll(condition);
-        builder.note.addAll(note);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -871,6 +849,31 @@ public class Specimen extends DomainResource {
         public Specimen build() {
             return new Specimen(this);
         }
+
+        private Builder from(Specimen specimen) {
+            id = specimen.id;
+            meta = specimen.meta;
+            implicitRules = specimen.implicitRules;
+            language = specimen.language;
+            text = specimen.text;
+            contained.addAll(specimen.contained);
+            extension.addAll(specimen.extension);
+            modifierExtension.addAll(specimen.modifierExtension);
+            identifier.addAll(specimen.identifier);
+            accessionIdentifier = specimen.accessionIdentifier;
+            status = specimen.status;
+            type = specimen.type;
+            subject = specimen.subject;
+            receivedTime = specimen.receivedTime;
+            parent.addAll(specimen.parent);
+            request.addAll(specimen.request);
+            collection = specimen.collection;
+            processing.addAll(specimen.processing);
+            container.addAll(specimen.container);
+            condition.addAll(specimen.condition);
+            note.addAll(specimen.note);
+            return this;
+        }
     }
 
     /**
@@ -1008,7 +1011,7 @@ public class Specimen extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1253,16 +1256,18 @@ public class Specimen extends DomainResource {
                 return new Collection(this);
             }
 
-            private static Builder from(Collection collection) {
-                Builder builder = new Builder();
-                builder.collector = collection.collector;
-                builder.collected = collection.collected;
-                builder.duration = collection.duration;
-                builder.quantity = collection.quantity;
-                builder.method = collection.method;
-                builder.bodySite = collection.bodySite;
-                builder.fastingStatus = collection.fastingStatus;
-                return builder;
+            private Builder from(Collection collection) {
+                id = collection.id;
+                extension.addAll(collection.extension);
+                modifierExtension.addAll(collection.modifierExtension);
+                collector = collection.collector;
+                collected = collection.collected;
+                duration = collection.duration;
+                quantity = collection.quantity;
+                method = collection.method;
+                bodySite = collection.bodySite;
+                fastingStatus = collection.fastingStatus;
+                return this;
             }
         }
     }
@@ -1356,7 +1361,7 @@ public class Specimen extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1567,13 +1572,15 @@ public class Specimen extends DomainResource {
                 return new Processing(this);
             }
 
-            private static Builder from(Processing processing) {
-                Builder builder = new Builder();
-                builder.description = processing.description;
-                builder.procedure = processing.procedure;
-                builder.additive.addAll(processing.additive);
-                builder.time = processing.time;
-                return builder;
+            private Builder from(Processing processing) {
+                id = processing.id;
+                extension.addAll(processing.extension);
+                modifierExtension.addAll(processing.modifierExtension);
+                description = processing.description;
+                procedure = processing.procedure;
+                additive.addAll(processing.additive);
+                time = processing.time;
+                return this;
             }
         }
     }
@@ -1699,7 +1706,7 @@ public class Specimen extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1946,15 +1953,17 @@ public class Specimen extends DomainResource {
                 return new Container(this);
             }
 
-            private static Builder from(Container container) {
-                Builder builder = new Builder();
-                builder.identifier.addAll(container.identifier);
-                builder.description = container.description;
-                builder.type = container.type;
-                builder.capacity = container.capacity;
-                builder.specimenQuantity = container.specimenQuantity;
-                builder.additive = container.additive;
-                return builder;
+            private Builder from(Container container) {
+                id = container.id;
+                extension.addAll(container.extension);
+                modifierExtension.addAll(container.modifierExtension);
+                identifier.addAll(container.identifier);
+                description = container.description;
+                type = container.type;
+                capacity = container.capacity;
+                specimenQuantity = container.specimenQuantity;
+                additive = container.additive;
+                return this;
             }
         }
     }

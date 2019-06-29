@@ -733,56 +733,11 @@ public class Measure extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.subtitle = subtitle;
-        builder.experimental = experimental;
-        builder.subject = subject;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.usage = usage;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.library.addAll(library);
-        builder.disclaimer = disclaimer;
-        builder.scoring = scoring;
-        builder.compositeScoring = compositeScoring;
-        builder.type.addAll(type);
-        builder.riskAdjustment = riskAdjustment;
-        builder.rateAggregation = rateAggregation;
-        builder.rationale = rationale;
-        builder.clinicalRecommendationStatement = clinicalRecommendationStatement;
-        builder.improvementNotation = improvementNotation;
-        builder.definition.addAll(definition);
-        builder.guidance = guidance;
-        builder.group.addAll(group);
-        builder.supplementalData.addAll(supplementalData);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -1998,6 +1953,58 @@ public class Measure extends DomainResource {
         public Measure build() {
             return new Measure(this);
         }
+
+        private Builder from(Measure measure) {
+            id = measure.id;
+            meta = measure.meta;
+            implicitRules = measure.implicitRules;
+            language = measure.language;
+            text = measure.text;
+            contained.addAll(measure.contained);
+            extension.addAll(measure.extension);
+            modifierExtension.addAll(measure.modifierExtension);
+            url = measure.url;
+            identifier.addAll(measure.identifier);
+            version = measure.version;
+            name = measure.name;
+            title = measure.title;
+            subtitle = measure.subtitle;
+            experimental = measure.experimental;
+            subject = measure.subject;
+            date = measure.date;
+            publisher = measure.publisher;
+            contact.addAll(measure.contact);
+            description = measure.description;
+            useContext.addAll(measure.useContext);
+            jurisdiction.addAll(measure.jurisdiction);
+            purpose = measure.purpose;
+            usage = measure.usage;
+            copyright = measure.copyright;
+            approvalDate = measure.approvalDate;
+            lastReviewDate = measure.lastReviewDate;
+            effectivePeriod = measure.effectivePeriod;
+            topic.addAll(measure.topic);
+            author.addAll(measure.author);
+            editor.addAll(measure.editor);
+            reviewer.addAll(measure.reviewer);
+            endorser.addAll(measure.endorser);
+            relatedArtifact.addAll(measure.relatedArtifact);
+            library.addAll(measure.library);
+            disclaimer = measure.disclaimer;
+            scoring = measure.scoring;
+            compositeScoring = measure.compositeScoring;
+            type.addAll(measure.type);
+            riskAdjustment = measure.riskAdjustment;
+            rateAggregation = measure.rateAggregation;
+            rationale = measure.rationale;
+            clinicalRecommendationStatement = measure.clinicalRecommendationStatement;
+            improvementNotation = measure.improvementNotation;
+            definition.addAll(measure.definition);
+            guidance = measure.guidance;
+            group.addAll(measure.group);
+            supplementalData.addAll(measure.supplementalData);
+            return this;
+        }
     }
 
     /**
@@ -2090,7 +2097,7 @@ public class Measure extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2321,13 +2328,15 @@ public class Measure extends DomainResource {
                 return new Group(this);
             }
 
-            private static Builder from(Group group) {
-                Builder builder = new Builder();
-                builder.code = group.code;
-                builder.description = group.description;
-                builder.population.addAll(group.population);
-                builder.stratifier.addAll(group.stratifier);
-                return builder;
+            private Builder from(Group group) {
+                id = group.id;
+                extension.addAll(group.extension);
+                modifierExtension.addAll(group.modifierExtension);
+                code = group.code;
+                description = group.description;
+                population.addAll(group.population);
+                stratifier.addAll(group.stratifier);
+                return this;
             }
         }
 
@@ -2404,7 +2413,11 @@ public class Measure extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(criteria).from(this);
+            }
+
+            public Builder toBuilder(Expression criteria) {
+                return new Builder(criteria).from(this);
             }
 
             public static Builder builder(Expression criteria) {
@@ -2567,11 +2580,13 @@ public class Measure extends DomainResource {
                     return new Population(this);
                 }
 
-                private static Builder from(Population population) {
-                    Builder builder = new Builder(population.criteria);
-                    builder.code = population.code;
-                    builder.description = population.description;
-                    return builder;
+                private Builder from(Population population) {
+                    id = population.id;
+                    extension.addAll(population.extension);
+                    modifierExtension.addAll(population.modifierExtension);
+                    code = population.code;
+                    description = population.description;
+                    return this;
                 }
             }
         }
@@ -2668,7 +2683,7 @@ public class Measure extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2882,13 +2897,15 @@ public class Measure extends DomainResource {
                     return new Stratifier(this);
                 }
 
-                private static Builder from(Stratifier stratifier) {
-                    Builder builder = new Builder();
-                    builder.code = stratifier.code;
-                    builder.description = stratifier.description;
-                    builder.criteria = stratifier.criteria;
-                    builder.component.addAll(stratifier.component);
-                    return builder;
+                private Builder from(Stratifier stratifier) {
+                    id = stratifier.id;
+                    extension.addAll(stratifier.extension);
+                    modifierExtension.addAll(stratifier.modifierExtension);
+                    code = stratifier.code;
+                    description = stratifier.description;
+                    criteria = stratifier.criteria;
+                    component.addAll(stratifier.component);
+                    return this;
                 }
             }
 
@@ -2968,7 +2985,11 @@ public class Measure extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(criteria).from(this);
+                }
+
+                public Builder toBuilder(Expression criteria) {
+                    return new Builder(criteria).from(this);
                 }
 
                 public static Builder builder(Expression criteria) {
@@ -3131,11 +3152,13 @@ public class Measure extends DomainResource {
                         return new Component(this);
                     }
 
-                    private static Builder from(Component component) {
-                        Builder builder = new Builder(component.criteria);
-                        builder.code = component.code;
-                        builder.description = component.description;
-                        return builder;
+                    private Builder from(Component component) {
+                        id = component.id;
+                        extension.addAll(component.extension);
+                        modifierExtension.addAll(component.modifierExtension);
+                        code = component.code;
+                        description = component.description;
+                        return this;
                     }
                 }
             }
@@ -3237,7 +3260,11 @@ public class Measure extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(criteria).from(this);
+        }
+
+        public Builder toBuilder(Expression criteria) {
+            return new Builder(criteria).from(this);
         }
 
         public static Builder builder(Expression criteria) {
@@ -3440,12 +3467,14 @@ public class Measure extends DomainResource {
                 return new SupplementalData(this);
             }
 
-            private static Builder from(SupplementalData supplementalData) {
-                Builder builder = new Builder(supplementalData.criteria);
-                builder.code = supplementalData.code;
-                builder.usage.addAll(supplementalData.usage);
-                builder.description = supplementalData.description;
-                return builder;
+            private Builder from(SupplementalData supplementalData) {
+                id = supplementalData.id;
+                extension.addAll(supplementalData.extension);
+                modifierExtension.addAll(supplementalData.modifierExtension);
+                code = supplementalData.code;
+                usage.addAll(supplementalData.usage);
+                description = supplementalData.description;
+                return this;
             }
         }
     }

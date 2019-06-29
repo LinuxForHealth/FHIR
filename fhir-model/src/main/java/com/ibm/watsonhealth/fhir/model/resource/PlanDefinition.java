@@ -586,46 +586,11 @@ public class PlanDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.subtitle = subtitle;
-        builder.type = type;
-        builder.experimental = experimental;
-        builder.subject = subject;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.usage = usage;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.library.addAll(library);
-        builder.goal.addAll(goal);
-        builder.action.addAll(action);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -1626,6 +1591,48 @@ public class PlanDefinition extends DomainResource {
         public PlanDefinition build() {
             return new PlanDefinition(this);
         }
+
+        private Builder from(PlanDefinition planDefinition) {
+            id = planDefinition.id;
+            meta = planDefinition.meta;
+            implicitRules = planDefinition.implicitRules;
+            language = planDefinition.language;
+            text = planDefinition.text;
+            contained.addAll(planDefinition.contained);
+            extension.addAll(planDefinition.extension);
+            modifierExtension.addAll(planDefinition.modifierExtension);
+            url = planDefinition.url;
+            identifier.addAll(planDefinition.identifier);
+            version = planDefinition.version;
+            name = planDefinition.name;
+            title = planDefinition.title;
+            subtitle = planDefinition.subtitle;
+            type = planDefinition.type;
+            experimental = planDefinition.experimental;
+            subject = planDefinition.subject;
+            date = planDefinition.date;
+            publisher = planDefinition.publisher;
+            contact.addAll(planDefinition.contact);
+            description = planDefinition.description;
+            useContext.addAll(planDefinition.useContext);
+            jurisdiction.addAll(planDefinition.jurisdiction);
+            purpose = planDefinition.purpose;
+            usage = planDefinition.usage;
+            copyright = planDefinition.copyright;
+            approvalDate = planDefinition.approvalDate;
+            lastReviewDate = planDefinition.lastReviewDate;
+            effectivePeriod = planDefinition.effectivePeriod;
+            topic.addAll(planDefinition.topic);
+            author.addAll(planDefinition.author);
+            editor.addAll(planDefinition.editor);
+            reviewer.addAll(planDefinition.reviewer);
+            endorser.addAll(planDefinition.endorser);
+            relatedArtifact.addAll(planDefinition.relatedArtifact);
+            library.addAll(planDefinition.library);
+            goal.addAll(planDefinition.goal);
+            action.addAll(planDefinition.action);
+            return this;
+        }
     }
 
     /**
@@ -1764,7 +1771,11 @@ public class PlanDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(description).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept description) {
+            return new Builder(description).from(this);
         }
 
         public static Builder builder(CodeableConcept description) {
@@ -2050,15 +2061,17 @@ public class PlanDefinition extends DomainResource {
                 return new Goal(this);
             }
 
-            private static Builder from(Goal goal) {
-                Builder builder = new Builder(goal.description);
-                builder.category = goal.category;
-                builder.priority = goal.priority;
-                builder.start = goal.start;
-                builder.addresses.addAll(goal.addresses);
-                builder.documentation.addAll(goal.documentation);
-                builder.target.addAll(goal.target);
-                return builder;
+            private Builder from(Goal goal) {
+                id = goal.id;
+                extension.addAll(goal.extension);
+                modifierExtension.addAll(goal.modifierExtension);
+                category = goal.category;
+                priority = goal.priority;
+                start = goal.start;
+                addresses.addAll(goal.addresses);
+                documentation.addAll(goal.documentation);
+                target.addAll(goal.target);
+                return this;
             }
         }
 
@@ -2138,7 +2151,7 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2316,12 +2329,14 @@ public class PlanDefinition extends DomainResource {
                     return new Target(this);
                 }
 
-                private static Builder from(Target target) {
-                    Builder builder = new Builder();
-                    builder.measure = target.measure;
-                    builder.detail = target.detail;
-                    builder.due = target.due;
-                    return builder;
+                private Builder from(Target target) {
+                    id = target.id;
+                    extension.addAll(target.extension);
+                    modifierExtension.addAll(target.modifierExtension);
+                    measure = target.measure;
+                    detail = target.detail;
+                    due = target.due;
+                    return this;
                 }
             }
         }
@@ -2770,7 +2785,7 @@ public class PlanDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -3586,36 +3601,38 @@ public class PlanDefinition extends DomainResource {
                 return new Action(this);
             }
 
-            private static Builder from(Action action) {
-                Builder builder = new Builder();
-                builder.prefix = action.prefix;
-                builder.title = action.title;
-                builder.description = action.description;
-                builder.textEquivalent = action.textEquivalent;
-                builder.priority = action.priority;
-                builder.code.addAll(action.code);
-                builder.reason.addAll(action.reason);
-                builder.documentation.addAll(action.documentation);
-                builder.goalId.addAll(action.goalId);
-                builder.subject = action.subject;
-                builder.trigger.addAll(action.trigger);
-                builder.condition.addAll(action.condition);
-                builder.input.addAll(action.input);
-                builder.output.addAll(action.output);
-                builder.relatedAction.addAll(action.relatedAction);
-                builder.timing = action.timing;
-                builder.participant.addAll(action.participant);
-                builder.type = action.type;
-                builder.groupingBehavior = action.groupingBehavior;
-                builder.selectionBehavior = action.selectionBehavior;
-                builder.requiredBehavior = action.requiredBehavior;
-                builder.precheckBehavior = action.precheckBehavior;
-                builder.cardinalityBehavior = action.cardinalityBehavior;
-                builder.definition = action.definition;
-                builder.transform = action.transform;
-                builder.dynamicValue.addAll(action.dynamicValue);
-                builder.action.addAll(action.action);
-                return builder;
+            private Builder from(Action action) {
+                id = action.id;
+                extension.addAll(action.extension);
+                modifierExtension.addAll(action.modifierExtension);
+                prefix = action.prefix;
+                title = action.title;
+                description = action.description;
+                textEquivalent = action.textEquivalent;
+                priority = action.priority;
+                code.addAll(action.code);
+                reason.addAll(action.reason);
+                documentation.addAll(action.documentation);
+                goalId.addAll(action.goalId);
+                subject = action.subject;
+                trigger.addAll(action.trigger);
+                condition.addAll(action.condition);
+                input.addAll(action.input);
+                output.addAll(action.output);
+                relatedAction.addAll(action.relatedAction);
+                timing = action.timing;
+                participant.addAll(action.participant);
+                type = action.type;
+                groupingBehavior = action.groupingBehavior;
+                selectionBehavior = action.selectionBehavior;
+                requiredBehavior = action.requiredBehavior;
+                precheckBehavior = action.precheckBehavior;
+                cardinalityBehavior = action.cardinalityBehavior;
+                definition = action.definition;
+                transform = action.transform;
+                dynamicValue.addAll(action.dynamicValue);
+                this.action.addAll(action.action);
+                return this;
             }
         }
 
@@ -3677,7 +3694,11 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(kind).from(this);
+            }
+
+            public Builder toBuilder(ActionConditionKind kind) {
+                return new Builder(kind).from(this);
             }
 
             public static Builder builder(ActionConditionKind kind) {
@@ -3822,10 +3843,12 @@ public class PlanDefinition extends DomainResource {
                     return new Condition(this);
                 }
 
-                private static Builder from(Condition condition) {
-                    Builder builder = new Builder(condition.kind);
-                    builder.expression = condition.expression;
-                    return builder;
+                private Builder from(Condition condition) {
+                    id = condition.id;
+                    extension.addAll(condition.extension);
+                    modifierExtension.addAll(condition.modifierExtension);
+                    expression = condition.expression;
+                    return this;
                 }
             }
         }
@@ -3903,7 +3926,11 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(actionId, relationship).from(this);
+            }
+
+            public Builder toBuilder(Id actionId, ActionRelationshipType relationship) {
+                return new Builder(actionId, relationship).from(this);
             }
 
             public static Builder builder(Id actionId, ActionRelationshipType relationship) {
@@ -4050,10 +4077,12 @@ public class PlanDefinition extends DomainResource {
                     return new RelatedAction(this);
                 }
 
-                private static Builder from(RelatedAction relatedAction) {
-                    Builder builder = new Builder(relatedAction.actionId, relatedAction.relationship);
-                    builder.offset = relatedAction.offset;
-                    return builder;
+                private Builder from(RelatedAction relatedAction) {
+                    id = relatedAction.id;
+                    extension.addAll(relatedAction.extension);
+                    modifierExtension.addAll(relatedAction.modifierExtension);
+                    offset = relatedAction.offset;
+                    return this;
                 }
             }
         }
@@ -4116,7 +4145,11 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(ActionParticipantType type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(ActionParticipantType type) {
@@ -4261,10 +4294,12 @@ public class PlanDefinition extends DomainResource {
                     return new Participant(this);
                 }
 
-                private static Builder from(Participant participant) {
-                    Builder builder = new Builder(participant.type);
-                    builder.role = participant.role;
-                    return builder;
+                private Builder from(Participant participant) {
+                    id = participant.id;
+                    extension.addAll(participant.extension);
+                    modifierExtension.addAll(participant.modifierExtension);
+                    role = participant.role;
+                    return this;
                 }
             }
         }
@@ -4333,7 +4368,7 @@ public class PlanDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -4495,11 +4530,13 @@ public class PlanDefinition extends DomainResource {
                     return new DynamicValue(this);
                 }
 
-                private static Builder from(DynamicValue dynamicValue) {
-                    Builder builder = new Builder();
-                    builder.path = dynamicValue.path;
-                    builder.expression = dynamicValue.expression;
-                    return builder;
+                private Builder from(DynamicValue dynamicValue) {
+                    id = dynamicValue.id;
+                    extension.addAll(dynamicValue.extension);
+                    modifierExtension.addAll(dynamicValue.modifierExtension);
+                    path = dynamicValue.path;
+                    expression = dynamicValue.expression;
+                    return this;
                 }
             }
         }

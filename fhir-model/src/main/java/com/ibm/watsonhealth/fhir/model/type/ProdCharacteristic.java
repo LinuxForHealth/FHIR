@@ -226,22 +226,7 @@ public class ProdCharacteristic extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.height = height;
-        builder.width = width;
-        builder.depth = depth;
-        builder.weight = weight;
-        builder.nominalVolume = nominalVolume;
-        builder.externalDiameter = externalDiameter;
-        builder.shape = shape;
-        builder.color.addAll(color);
-        builder.imprint.addAll(imprint);
-        builder.image.addAll(image);
-        builder.scoring = scoring;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -640,6 +625,24 @@ public class ProdCharacteristic extends BackboneElement {
         @Override
         public ProdCharacteristic build() {
             return new ProdCharacteristic(this);
+        }
+
+        private Builder from(ProdCharacteristic prodCharacteristic) {
+            id = prodCharacteristic.id;
+            extension.addAll(prodCharacteristic.extension);
+            modifierExtension.addAll(prodCharacteristic.modifierExtension);
+            height = prodCharacteristic.height;
+            width = prodCharacteristic.width;
+            depth = prodCharacteristic.depth;
+            weight = prodCharacteristic.weight;
+            nominalVolume = prodCharacteristic.nominalVolume;
+            externalDiameter = prodCharacteristic.externalDiameter;
+            shape = prodCharacteristic.shape;
+            color.addAll(prodCharacteristic.color);
+            imprint.addAll(prodCharacteristic.imprint);
+            image.addAll(prodCharacteristic.image);
+            scoring = prodCharacteristic.scoring;
+            return this;
         }
     }
 }

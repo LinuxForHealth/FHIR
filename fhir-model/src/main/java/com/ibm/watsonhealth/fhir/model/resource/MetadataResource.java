@@ -265,27 +265,11 @@ public class MetadataResource extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -770,6 +754,29 @@ public class MetadataResource extends DomainResource {
         @Override
         public MetadataResource build() {
             return new MetadataResource(this);
+        }
+
+        private Builder from(MetadataResource metadataResource) {
+            id = metadataResource.id;
+            meta = metadataResource.meta;
+            implicitRules = metadataResource.implicitRules;
+            language = metadataResource.language;
+            text = metadataResource.text;
+            contained.addAll(metadataResource.contained);
+            extension.addAll(metadataResource.extension);
+            modifierExtension.addAll(metadataResource.modifierExtension);
+            url = metadataResource.url;
+            version = metadataResource.version;
+            name = metadataResource.name;
+            title = metadataResource.title;
+            experimental = metadataResource.experimental;
+            date = metadataResource.date;
+            publisher = metadataResource.publisher;
+            contact.addAll(metadataResource.contact);
+            description = metadataResource.description;
+            useContext.addAll(metadataResource.useContext);
+            jurisdiction.addAll(metadataResource.jurisdiction);
+            return this;
         }
     }
 }

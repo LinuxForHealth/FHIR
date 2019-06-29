@@ -810,61 +810,11 @@ public class ActivityDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.subtitle = subtitle;
-        builder.experimental = experimental;
-        builder.subject = subject;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.usage = usage;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.library.addAll(library);
-        builder.kind = kind;
-        builder.profile = profile;
-        builder.code = code;
-        builder.intent = intent;
-        builder.priority = priority;
-        builder.doNotPerform = doNotPerform;
-        builder.timing = timing;
-        builder.location = location;
-        builder.participant.addAll(participant);
-        builder.product = product;
-        builder.quantity = quantity;
-        builder.dosage.addAll(dosage);
-        builder.bodySite.addAll(bodySite);
-        builder.specimenRequirement.addAll(specimenRequirement);
-        builder.observationRequirement.addAll(observationRequirement);
-        builder.observationResultRequirement.addAll(observationResultRequirement);
-        builder.transform = transform;
-        builder.dynamicValue.addAll(dynamicValue);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -2217,6 +2167,63 @@ public class ActivityDefinition extends DomainResource {
         public ActivityDefinition build() {
             return new ActivityDefinition(this);
         }
+
+        private Builder from(ActivityDefinition activityDefinition) {
+            id = activityDefinition.id;
+            meta = activityDefinition.meta;
+            implicitRules = activityDefinition.implicitRules;
+            language = activityDefinition.language;
+            text = activityDefinition.text;
+            contained.addAll(activityDefinition.contained);
+            extension.addAll(activityDefinition.extension);
+            modifierExtension.addAll(activityDefinition.modifierExtension);
+            url = activityDefinition.url;
+            identifier.addAll(activityDefinition.identifier);
+            version = activityDefinition.version;
+            name = activityDefinition.name;
+            title = activityDefinition.title;
+            subtitle = activityDefinition.subtitle;
+            experimental = activityDefinition.experimental;
+            subject = activityDefinition.subject;
+            date = activityDefinition.date;
+            publisher = activityDefinition.publisher;
+            contact.addAll(activityDefinition.contact);
+            description = activityDefinition.description;
+            useContext.addAll(activityDefinition.useContext);
+            jurisdiction.addAll(activityDefinition.jurisdiction);
+            purpose = activityDefinition.purpose;
+            usage = activityDefinition.usage;
+            copyright = activityDefinition.copyright;
+            approvalDate = activityDefinition.approvalDate;
+            lastReviewDate = activityDefinition.lastReviewDate;
+            effectivePeriod = activityDefinition.effectivePeriod;
+            topic.addAll(activityDefinition.topic);
+            author.addAll(activityDefinition.author);
+            editor.addAll(activityDefinition.editor);
+            reviewer.addAll(activityDefinition.reviewer);
+            endorser.addAll(activityDefinition.endorser);
+            relatedArtifact.addAll(activityDefinition.relatedArtifact);
+            library.addAll(activityDefinition.library);
+            kind = activityDefinition.kind;
+            profile = activityDefinition.profile;
+            code = activityDefinition.code;
+            intent = activityDefinition.intent;
+            priority = activityDefinition.priority;
+            doNotPerform = activityDefinition.doNotPerform;
+            timing = activityDefinition.timing;
+            location = activityDefinition.location;
+            participant.addAll(activityDefinition.participant);
+            product = activityDefinition.product;
+            quantity = activityDefinition.quantity;
+            dosage.addAll(activityDefinition.dosage);
+            bodySite.addAll(activityDefinition.bodySite);
+            specimenRequirement.addAll(activityDefinition.specimenRequirement);
+            observationRequirement.addAll(activityDefinition.observationRequirement);
+            observationResultRequirement.addAll(activityDefinition.observationResultRequirement);
+            transform = activityDefinition.transform;
+            dynamicValue.addAll(activityDefinition.dynamicValue);
+            return this;
+        }
     }
 
     /**
@@ -2277,7 +2284,11 @@ public class ActivityDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(ActivityParticipantType type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(ActivityParticipantType type) {
@@ -2422,10 +2433,12 @@ public class ActivityDefinition extends DomainResource {
                 return new Participant(this);
             }
 
-            private static Builder from(Participant participant) {
-                Builder builder = new Builder(participant.type);
-                builder.role = participant.role;
-                return builder;
+            private Builder from(Participant participant) {
+                id = participant.id;
+                extension.addAll(participant.extension);
+                modifierExtension.addAll(participant.modifierExtension);
+                role = participant.role;
+                return this;
             }
         }
     }
@@ -2494,7 +2507,11 @@ public class ActivityDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(path, expression).from(this);
+        }
+
+        public Builder toBuilder(String path, Expression expression) {
+            return new Builder(path, expression).from(this);
         }
 
         public static Builder builder(String path, Expression expression) {
@@ -2622,9 +2639,11 @@ public class ActivityDefinition extends DomainResource {
                 return new DynamicValue(this);
             }
 
-            private static Builder from(DynamicValue dynamicValue) {
-                Builder builder = new Builder(dynamicValue.path, dynamicValue.expression);
-                return builder;
+            private Builder from(DynamicValue dynamicValue) {
+                id = dynamicValue.id;
+                extension.addAll(dynamicValue.extension);
+                modifierExtension.addAll(dynamicValue.modifierExtension);
+                return this;
             }
         }
     }

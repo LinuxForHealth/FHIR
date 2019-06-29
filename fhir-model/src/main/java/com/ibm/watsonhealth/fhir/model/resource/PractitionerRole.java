@@ -278,30 +278,7 @@ public class PractitionerRole extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.period = period;
-        builder.practitioner = practitioner;
-        builder.organization = organization;
-        builder.code.addAll(code);
-        builder.specialty.addAll(specialty);
-        builder.location.addAll(location);
-        builder.healthcareService.addAll(healthcareService);
-        builder.telecom.addAll(telecom);
-        builder.availableTime.addAll(availableTime);
-        builder.notAvailable.addAll(notAvailable);
-        builder.availabilityExceptions = availabilityExceptions;
-        builder.endpoint.addAll(endpoint);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -928,6 +905,32 @@ public class PractitionerRole extends DomainResource {
         public PractitionerRole build() {
             return new PractitionerRole(this);
         }
+
+        private Builder from(PractitionerRole practitionerRole) {
+            id = practitionerRole.id;
+            meta = practitionerRole.meta;
+            implicitRules = practitionerRole.implicitRules;
+            language = practitionerRole.language;
+            text = practitionerRole.text;
+            contained.addAll(practitionerRole.contained);
+            extension.addAll(practitionerRole.extension);
+            modifierExtension.addAll(practitionerRole.modifierExtension);
+            identifier.addAll(practitionerRole.identifier);
+            active = practitionerRole.active;
+            period = practitionerRole.period;
+            practitioner = practitionerRole.practitioner;
+            organization = practitionerRole.organization;
+            code.addAll(practitionerRole.code);
+            specialty.addAll(practitionerRole.specialty);
+            location.addAll(practitionerRole.location);
+            healthcareService.addAll(practitionerRole.healthcareService);
+            telecom.addAll(practitionerRole.telecom);
+            availableTime.addAll(practitionerRole.availableTime);
+            notAvailable.addAll(practitionerRole.notAvailable);
+            availabilityExceptions = practitionerRole.availabilityExceptions;
+            endpoint.addAll(practitionerRole.endpoint);
+            return this;
+        }
     }
 
     /**
@@ -1018,7 +1021,7 @@ public class PractitionerRole extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1228,13 +1231,15 @@ public class PractitionerRole extends DomainResource {
                 return new AvailableTime(this);
             }
 
-            private static Builder from(AvailableTime availableTime) {
-                Builder builder = new Builder();
-                builder.daysOfWeek.addAll(availableTime.daysOfWeek);
-                builder.allDay = availableTime.allDay;
-                builder.availableStartTime = availableTime.availableStartTime;
-                builder.availableEndTime = availableTime.availableEndTime;
-                return builder;
+            private Builder from(AvailableTime availableTime) {
+                id = availableTime.id;
+                extension.addAll(availableTime.extension);
+                modifierExtension.addAll(availableTime.modifierExtension);
+                daysOfWeek.addAll(availableTime.daysOfWeek);
+                allDay = availableTime.allDay;
+                availableStartTime = availableTime.availableStartTime;
+                availableEndTime = availableTime.availableEndTime;
+                return this;
             }
         }
     }
@@ -1297,7 +1302,11 @@ public class PractitionerRole extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(description).from(this);
+        }
+
+        public Builder toBuilder(String description) {
+            return new Builder(description).from(this);
         }
 
         public static Builder builder(String description) {
@@ -1442,10 +1451,12 @@ public class PractitionerRole extends DomainResource {
                 return new NotAvailable(this);
             }
 
-            private static Builder from(NotAvailable notAvailable) {
-                Builder builder = new Builder(notAvailable.description);
-                builder.during = notAvailable.during;
-                return builder;
+            private Builder from(NotAvailable notAvailable) {
+                id = notAvailable.id;
+                extension.addAll(notAvailable.extension);
+                modifierExtension.addAll(notAvailable.modifierExtension);
+                during = notAvailable.during;
+                return this;
             }
         }
     }

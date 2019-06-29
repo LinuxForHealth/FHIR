@@ -436,40 +436,7 @@ public class HealthcareService extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.providedBy = providedBy;
-        builder.category.addAll(category);
-        builder.type.addAll(type);
-        builder.specialty.addAll(specialty);
-        builder.location.addAll(location);
-        builder.name = name;
-        builder.comment = comment;
-        builder.extraDetails = extraDetails;
-        builder.photo = photo;
-        builder.telecom.addAll(telecom);
-        builder.coverageArea.addAll(coverageArea);
-        builder.serviceProvisionCode.addAll(serviceProvisionCode);
-        builder.eligibility.addAll(eligibility);
-        builder.program.addAll(program);
-        builder.characteristic.addAll(characteristic);
-        builder.communication.addAll(communication);
-        builder.referralMethod.addAll(referralMethod);
-        builder.appointmentRequired = appointmentRequired;
-        builder.availableTime.addAll(availableTime);
-        builder.notAvailable.addAll(notAvailable);
-        builder.availabilityExceptions = availabilityExceptions;
-        builder.endpoint.addAll(endpoint);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -1402,6 +1369,42 @@ public class HealthcareService extends DomainResource {
         public HealthcareService build() {
             return new HealthcareService(this);
         }
+
+        private Builder from(HealthcareService healthcareService) {
+            id = healthcareService.id;
+            meta = healthcareService.meta;
+            implicitRules = healthcareService.implicitRules;
+            language = healthcareService.language;
+            text = healthcareService.text;
+            contained.addAll(healthcareService.contained);
+            extension.addAll(healthcareService.extension);
+            modifierExtension.addAll(healthcareService.modifierExtension);
+            identifier.addAll(healthcareService.identifier);
+            active = healthcareService.active;
+            providedBy = healthcareService.providedBy;
+            category.addAll(healthcareService.category);
+            type.addAll(healthcareService.type);
+            specialty.addAll(healthcareService.specialty);
+            location.addAll(healthcareService.location);
+            name = healthcareService.name;
+            comment = healthcareService.comment;
+            extraDetails = healthcareService.extraDetails;
+            photo = healthcareService.photo;
+            telecom.addAll(healthcareService.telecom);
+            coverageArea.addAll(healthcareService.coverageArea);
+            serviceProvisionCode.addAll(healthcareService.serviceProvisionCode);
+            eligibility.addAll(healthcareService.eligibility);
+            program.addAll(healthcareService.program);
+            characteristic.addAll(healthcareService.characteristic);
+            communication.addAll(healthcareService.communication);
+            referralMethod.addAll(healthcareService.referralMethod);
+            appointmentRequired = healthcareService.appointmentRequired;
+            availableTime.addAll(healthcareService.availableTime);
+            notAvailable.addAll(healthcareService.notAvailable);
+            availabilityExceptions = healthcareService.availabilityExceptions;
+            endpoint.addAll(healthcareService.endpoint);
+            return this;
+        }
     }
 
     /**
@@ -1462,7 +1465,7 @@ public class HealthcareService extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1620,11 +1623,13 @@ public class HealthcareService extends DomainResource {
                 return new Eligibility(this);
             }
 
-            private static Builder from(Eligibility eligibility) {
-                Builder builder = new Builder();
-                builder.code = eligibility.code;
-                builder.comment = eligibility.comment;
-                return builder;
+            private Builder from(Eligibility eligibility) {
+                id = eligibility.id;
+                extension.addAll(eligibility.extension);
+                modifierExtension.addAll(eligibility.modifierExtension);
+                code = eligibility.code;
+                comment = eligibility.comment;
+                return this;
             }
         }
     }
@@ -1717,7 +1722,7 @@ public class HealthcareService extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1927,13 +1932,15 @@ public class HealthcareService extends DomainResource {
                 return new AvailableTime(this);
             }
 
-            private static Builder from(AvailableTime availableTime) {
-                Builder builder = new Builder();
-                builder.daysOfWeek.addAll(availableTime.daysOfWeek);
-                builder.allDay = availableTime.allDay;
-                builder.availableStartTime = availableTime.availableStartTime;
-                builder.availableEndTime = availableTime.availableEndTime;
-                return builder;
+            private Builder from(AvailableTime availableTime) {
+                id = availableTime.id;
+                extension.addAll(availableTime.extension);
+                modifierExtension.addAll(availableTime.modifierExtension);
+                daysOfWeek.addAll(availableTime.daysOfWeek);
+                allDay = availableTime.allDay;
+                availableStartTime = availableTime.availableStartTime;
+                availableEndTime = availableTime.availableEndTime;
+                return this;
             }
         }
     }
@@ -1996,7 +2003,11 @@ public class HealthcareService extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(description).from(this);
+        }
+
+        public Builder toBuilder(String description) {
+            return new Builder(description).from(this);
         }
 
         public static Builder builder(String description) {
@@ -2141,10 +2152,12 @@ public class HealthcareService extends DomainResource {
                 return new NotAvailable(this);
             }
 
-            private static Builder from(NotAvailable notAvailable) {
-                Builder builder = new Builder(notAvailable.description);
-                builder.during = notAvailable.during;
-                return builder;
+            private Builder from(NotAvailable notAvailable) {
+                id = notAvailable.id;
+                extension.addAll(notAvailable.extension);
+                modifierExtension.addAll(notAvailable.modifierExtension);
+                during = notAvailable.during;
+                return this;
             }
         }
     }

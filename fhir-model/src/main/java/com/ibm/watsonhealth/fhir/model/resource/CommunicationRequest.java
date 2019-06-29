@@ -407,37 +407,11 @@ public class CommunicationRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn.addAll(basedOn);
-        builder.replaces.addAll(replaces);
-        builder.groupIdentifier = groupIdentifier;
-        builder.statusReason = statusReason;
-        builder.category.addAll(category);
-        builder.priority = priority;
-        builder.doNotPerform = doNotPerform;
-        builder.medium.addAll(medium);
-        builder.subject = subject;
-        builder.about.addAll(about);
-        builder.encounter = encounter;
-        builder.payload.addAll(payload);
-        builder.occurrence = occurrence;
-        builder.authoredOn = authoredOn;
-        builder.requester = requester;
-        builder.recipient.addAll(recipient);
-        builder.sender = sender;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(CommunicationRequestStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(CommunicationRequestStatus status) {
@@ -1232,6 +1206,39 @@ public class CommunicationRequest extends DomainResource {
         public CommunicationRequest build() {
             return new CommunicationRequest(this);
         }
+
+        private Builder from(CommunicationRequest communicationRequest) {
+            id = communicationRequest.id;
+            meta = communicationRequest.meta;
+            implicitRules = communicationRequest.implicitRules;
+            language = communicationRequest.language;
+            text = communicationRequest.text;
+            contained.addAll(communicationRequest.contained);
+            extension.addAll(communicationRequest.extension);
+            modifierExtension.addAll(communicationRequest.modifierExtension);
+            identifier.addAll(communicationRequest.identifier);
+            basedOn.addAll(communicationRequest.basedOn);
+            replaces.addAll(communicationRequest.replaces);
+            groupIdentifier = communicationRequest.groupIdentifier;
+            statusReason = communicationRequest.statusReason;
+            category.addAll(communicationRequest.category);
+            priority = communicationRequest.priority;
+            doNotPerform = communicationRequest.doNotPerform;
+            medium.addAll(communicationRequest.medium);
+            subject = communicationRequest.subject;
+            about.addAll(communicationRequest.about);
+            encounter = communicationRequest.encounter;
+            payload.addAll(communicationRequest.payload);
+            occurrence = communicationRequest.occurrence;
+            authoredOn = communicationRequest.authoredOn;
+            requester = communicationRequest.requester;
+            recipient.addAll(communicationRequest.recipient);
+            sender = communicationRequest.sender;
+            reasonCode.addAll(communicationRequest.reasonCode);
+            reasonReference.addAll(communicationRequest.reasonReference);
+            note.addAll(communicationRequest.note);
+            return this;
+        }
     }
 
     /**
@@ -1277,7 +1284,11 @@ public class CommunicationRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(content).from(this);
+        }
+
+        public Builder toBuilder(Element content) {
+            return new Builder(content).from(this);
         }
 
         public static Builder builder(Element content) {
@@ -1403,9 +1414,11 @@ public class CommunicationRequest extends DomainResource {
                 return new Payload(this);
             }
 
-            private static Builder from(Payload payload) {
-                Builder builder = new Builder(payload.content);
-                return builder;
+            private Builder from(Payload payload) {
+                id = payload.id;
+                extension.addAll(payload.extension);
+                modifierExtension.addAll(payload.modifierExtension);
+                return this;
             }
         }
     }

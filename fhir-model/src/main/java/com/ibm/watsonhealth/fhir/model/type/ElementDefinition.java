@@ -758,44 +758,11 @@ public class ElementDefinition extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(path);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.representation.addAll(representation);
-        builder.sliceName = sliceName;
-        builder.sliceIsConstraining = sliceIsConstraining;
-        builder.label = label;
-        builder.code.addAll(code);
-        builder.slicing = slicing;
-        builder._short = _short;
-        builder.definition = definition;
-        builder.comment = comment;
-        builder.requirements = requirements;
-        builder.alias.addAll(alias);
-        builder.min = min;
-        builder.max = max;
-        builder.base = base;
-        builder.contentReference = contentReference;
-        builder.type.addAll(type);
-        builder.defaultValue = defaultValue;
-        builder.meaningWhenMissing = meaningWhenMissing;
-        builder.orderMeaning = orderMeaning;
-        builder.fixed = fixed;
-        builder.pattern = pattern;
-        builder.example.addAll(example);
-        builder.minValue = minValue;
-        builder.maxValue = maxValue;
-        builder.maxLength = maxLength;
-        builder.condition.addAll(condition);
-        builder.constraint.addAll(constraint);
-        builder.mustSupport = mustSupport;
-        builder.isModifier = isModifier;
-        builder.isModifierReason = isModifierReason;
-        builder.isSummary = isSummary;
-        builder.binding = binding;
-        builder.mapping.addAll(mapping);
-        return builder;
+        return new Builder(path).from(this);
+    }
+
+    public Builder toBuilder(String path) {
+        return new Builder(path).from(this);
     }
 
     public static Builder builder(String path) {
@@ -1681,6 +1648,46 @@ public class ElementDefinition extends BackboneElement {
         public ElementDefinition build() {
             return new ElementDefinition(this);
         }
+
+        private Builder from(ElementDefinition elementDefinition) {
+            id = elementDefinition.id;
+            extension.addAll(elementDefinition.extension);
+            modifierExtension.addAll(elementDefinition.modifierExtension);
+            representation.addAll(elementDefinition.representation);
+            sliceName = elementDefinition.sliceName;
+            sliceIsConstraining = elementDefinition.sliceIsConstraining;
+            label = elementDefinition.label;
+            code.addAll(elementDefinition.code);
+            slicing = elementDefinition.slicing;
+            _short = elementDefinition._short;
+            definition = elementDefinition.definition;
+            comment = elementDefinition.comment;
+            requirements = elementDefinition.requirements;
+            alias.addAll(elementDefinition.alias);
+            min = elementDefinition.min;
+            max = elementDefinition.max;
+            base = elementDefinition.base;
+            contentReference = elementDefinition.contentReference;
+            type.addAll(elementDefinition.type);
+            defaultValue = elementDefinition.defaultValue;
+            meaningWhenMissing = elementDefinition.meaningWhenMissing;
+            orderMeaning = elementDefinition.orderMeaning;
+            fixed = elementDefinition.fixed;
+            pattern = elementDefinition.pattern;
+            example.addAll(elementDefinition.example);
+            minValue = elementDefinition.minValue;
+            maxValue = elementDefinition.maxValue;
+            maxLength = elementDefinition.maxLength;
+            condition.addAll(elementDefinition.condition);
+            constraint.addAll(elementDefinition.constraint);
+            mustSupport = elementDefinition.mustSupport;
+            isModifier = elementDefinition.isModifier;
+            isModifierReason = elementDefinition.isModifierReason;
+            isSummary = elementDefinition.isSummary;
+            binding = elementDefinition.binding;
+            mapping.addAll(elementDefinition.mapping);
+            return this;
+        }
     }
 
     /**
@@ -1779,7 +1786,11 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(rules).from(this);
+        }
+
+        public Builder toBuilder(SlicingRules rules) {
+            return new Builder(rules).from(this);
         }
 
         public static Builder builder(SlicingRules rules) {
@@ -1977,12 +1988,14 @@ public class ElementDefinition extends BackboneElement {
                 return new Slicing(this);
             }
 
-            private static Builder from(Slicing slicing) {
-                Builder builder = new Builder(slicing.rules);
-                builder.discriminator.addAll(slicing.discriminator);
-                builder.description = slicing.description;
-                builder.ordered = slicing.ordered;
-                return builder;
+            private Builder from(Slicing slicing) {
+                id = slicing.id;
+                extension.addAll(slicing.extension);
+                modifierExtension.addAll(slicing.modifierExtension);
+                discriminator.addAll(slicing.discriminator);
+                description = slicing.description;
+                ordered = slicing.ordered;
+                return this;
             }
         }
 
@@ -2047,7 +2060,11 @@ public class ElementDefinition extends BackboneElement {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type, path).from(this);
+            }
+
+            public Builder toBuilder(DiscriminatorType type, String path) {
+                return new Builder(type, path).from(this);
             }
 
             public static Builder builder(DiscriminatorType type, String path) {
@@ -2171,9 +2188,11 @@ public class ElementDefinition extends BackboneElement {
                     return new Discriminator(this);
                 }
 
-                private static Builder from(Discriminator discriminator) {
-                    Builder builder = new Builder(discriminator.type, discriminator.path);
-                    return builder;
+                private Builder from(Discriminator discriminator) {
+                    id = discriminator.id;
+                    extension.addAll(discriminator.extension);
+                    modifierExtension.addAll(discriminator.modifierExtension);
+                    return this;
                 }
             }
         }
@@ -2258,7 +2277,11 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(path, min, max).from(this);
+        }
+
+        public Builder toBuilder(String path, UnsignedInt min, String max) {
+            return new Builder(path, min, max).from(this);
         }
 
         public static Builder builder(String path, UnsignedInt min, String max) {
@@ -2384,9 +2407,11 @@ public class ElementDefinition extends BackboneElement {
                 return new Base(this);
             }
 
-            private static Builder from(Base base) {
-                Builder builder = new Builder(base.path, base.min, base.max);
-                return builder;
+            private Builder from(Base base) {
+                id = base.id;
+                extension.addAll(base.extension);
+                modifierExtension.addAll(base.modifierExtension);
+                return this;
             }
         }
     }
@@ -2505,7 +2530,11 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(Uri code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(Uri code) {
@@ -2769,13 +2798,15 @@ public class ElementDefinition extends BackboneElement {
                 return new Type(this);
             }
 
-            private static Builder from(Type type) {
-                Builder builder = new Builder(type.code);
-                builder.profile.addAll(type.profile);
-                builder.targetProfile.addAll(type.targetProfile);
-                builder.aggregation.addAll(type.aggregation);
-                builder.versioning = type.versioning;
-                return builder;
+            private Builder from(Type type) {
+                id = type.id;
+                extension.addAll(type.extension);
+                modifierExtension.addAll(type.modifierExtension);
+                profile.addAll(type.profile);
+                targetProfile.addAll(type.targetProfile);
+                aggregation.addAll(type.aggregation);
+                versioning = type.versioning;
+                return this;
             }
         }
     }
@@ -2838,7 +2869,11 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(label, value).from(this);
+        }
+
+        public Builder toBuilder(String label, Element value) {
+            return new Builder(label, value).from(this);
         }
 
         public static Builder builder(String label, Element value) {
@@ -2962,9 +2997,11 @@ public class ElementDefinition extends BackboneElement {
                 return new Example(this);
             }
 
-            private static Builder from(Example example) {
-                Builder builder = new Builder(example.label, example.value);
-                return builder;
+            private Builder from(Example example) {
+                id = example.id;
+                extension.addAll(example.extension);
+                modifierExtension.addAll(example.modifierExtension);
+                return this;
             }
         }
     }
@@ -3104,7 +3141,11 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(key, severity, human).from(this);
+        }
+
+        public Builder toBuilder(Id key, ConstraintSeverity severity, String human) {
+            return new Builder(key, severity, human).from(this);
         }
 
         public static Builder builder(Id key, ConstraintSeverity severity, String human) {
@@ -3300,13 +3341,15 @@ public class ElementDefinition extends BackboneElement {
                 return new Constraint(this);
             }
 
-            private static Builder from(Constraint constraint) {
-                Builder builder = new Builder(constraint.key, constraint.severity, constraint.human);
-                builder.requirements = constraint.requirements;
-                builder.expression = constraint.expression;
-                builder.xpath = constraint.xpath;
-                builder.source = constraint.source;
-                return builder;
+            private Builder from(Constraint constraint) {
+                id = constraint.id;
+                extension.addAll(constraint.extension);
+                modifierExtension.addAll(constraint.modifierExtension);
+                requirements = constraint.requirements;
+                expression = constraint.expression;
+                xpath = constraint.xpath;
+                source = constraint.source;
+                return this;
             }
         }
     }
@@ -3386,7 +3429,11 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(strength).from(this);
+        }
+
+        public Builder toBuilder(BindingStrength strength) {
+            return new Builder(strength).from(this);
         }
 
         public static Builder builder(BindingStrength strength) {
@@ -3544,11 +3591,13 @@ public class ElementDefinition extends BackboneElement {
                 return new Binding(this);
             }
 
-            private static Builder from(Binding binding) {
-                Builder builder = new Builder(binding.strength);
-                builder.description = binding.description;
-                builder.valueSet = binding.valueSet;
-                return builder;
+            private Builder from(Binding binding) {
+                id = binding.id;
+                extension.addAll(binding.extension);
+                modifierExtension.addAll(binding.modifierExtension);
+                description = binding.description;
+                valueSet = binding.valueSet;
+                return this;
             }
         }
     }
@@ -3641,7 +3690,11 @@ public class ElementDefinition extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(identity, map).from(this);
+        }
+
+        public Builder toBuilder(Id identity, String map) {
+            return new Builder(identity, map).from(this);
         }
 
         public static Builder builder(Id identity, String map) {
@@ -3801,11 +3854,13 @@ public class ElementDefinition extends BackboneElement {
                 return new Mapping(this);
             }
 
-            private static Builder from(Mapping mapping) {
-                Builder builder = new Builder(mapping.identity, mapping.map);
-                builder.language = mapping.language;
-                builder.comment = mapping.comment;
-                return builder;
+            private Builder from(Mapping mapping) {
+                id = mapping.id;
+                extension.addAll(mapping.extension);
+                modifierExtension.addAll(mapping.modifierExtension);
+                language = mapping.language;
+                comment = mapping.comment;
+                return this;
             }
         }
     }

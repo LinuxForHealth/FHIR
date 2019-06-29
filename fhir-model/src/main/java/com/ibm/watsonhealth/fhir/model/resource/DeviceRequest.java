@@ -440,37 +440,11 @@ public class DeviceRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(intent, code, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.basedOn.addAll(basedOn);
-        builder.priorRequest.addAll(priorRequest);
-        builder.groupIdentifier = groupIdentifier;
-        builder.status = status;
-        builder.priority = priority;
-        builder.parameter.addAll(parameter);
-        builder.encounter = encounter;
-        builder.occurrence = occurrence;
-        builder.authoredOn = authoredOn;
-        builder.requester = requester;
-        builder.performerType = performerType;
-        builder.performer = performer;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.insurance.addAll(insurance);
-        builder.supportingInfo.addAll(supportingInfo);
-        builder.note.addAll(note);
-        builder.relevantHistory.addAll(relevantHistory);
-        return builder;
+        return new Builder(intent, code, subject).from(this);
+    }
+
+    public Builder toBuilder(RequestIntent intent, Element code, Reference subject) {
+        return new Builder(intent, code, subject).from(this);
     }
 
     public static Builder builder(RequestIntent intent, Element code, Reference subject) {
@@ -1289,6 +1263,39 @@ public class DeviceRequest extends DomainResource {
         public DeviceRequest build() {
             return new DeviceRequest(this);
         }
+
+        private Builder from(DeviceRequest deviceRequest) {
+            id = deviceRequest.id;
+            meta = deviceRequest.meta;
+            implicitRules = deviceRequest.implicitRules;
+            language = deviceRequest.language;
+            text = deviceRequest.text;
+            contained.addAll(deviceRequest.contained);
+            extension.addAll(deviceRequest.extension);
+            modifierExtension.addAll(deviceRequest.modifierExtension);
+            identifier.addAll(deviceRequest.identifier);
+            instantiatesCanonical.addAll(deviceRequest.instantiatesCanonical);
+            instantiatesUri.addAll(deviceRequest.instantiatesUri);
+            basedOn.addAll(deviceRequest.basedOn);
+            priorRequest.addAll(deviceRequest.priorRequest);
+            groupIdentifier = deviceRequest.groupIdentifier;
+            status = deviceRequest.status;
+            priority = deviceRequest.priority;
+            parameter.addAll(deviceRequest.parameter);
+            encounter = deviceRequest.encounter;
+            occurrence = deviceRequest.occurrence;
+            authoredOn = deviceRequest.authoredOn;
+            requester = deviceRequest.requester;
+            performerType = deviceRequest.performerType;
+            performer = deviceRequest.performer;
+            reasonCode.addAll(deviceRequest.reasonCode);
+            reasonReference.addAll(deviceRequest.reasonReference);
+            insurance.addAll(deviceRequest.insurance);
+            supportingInfo.addAll(deviceRequest.supportingInfo);
+            note.addAll(deviceRequest.note);
+            relevantHistory.addAll(deviceRequest.relevantHistory);
+            return this;
+        }
     }
 
     /**
@@ -1349,7 +1356,7 @@ public class DeviceRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1507,11 +1514,13 @@ public class DeviceRequest extends DomainResource {
                 return new Parameter(this);
             }
 
-            private static Builder from(Parameter parameter) {
-                Builder builder = new Builder();
-                builder.code = parameter.code;
-                builder.value = parameter.value;
-                return builder;
+            private Builder from(Parameter parameter) {
+                id = parameter.id;
+                extension.addAll(parameter.extension);
+                modifierExtension.addAll(parameter.modifierExtension);
+                code = parameter.code;
+                value = parameter.value;
+                return this;
             }
         }
     }

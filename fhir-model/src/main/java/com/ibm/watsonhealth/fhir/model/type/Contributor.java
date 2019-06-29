@@ -90,11 +90,11 @@ public class Contributor extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type, name);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.contact.addAll(contact);
-        return builder;
+        return new Builder(type, name).from(this);
+    }
+
+    public Builder toBuilder(ContributorType type, String name) {
+        return new Builder(type, name).from(this);
     }
 
     public static Builder builder(ContributorType type, String name) {
@@ -207,6 +207,13 @@ public class Contributor extends Element {
         @Override
         public Contributor build() {
             return new Contributor(this);
+        }
+
+        private Builder from(Contributor contributor) {
+            id = contributor.id;
+            extension.addAll(contributor.extension);
+            contact.addAll(contributor.contact);
+            return this;
         }
     }
 }

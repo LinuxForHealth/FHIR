@@ -89,10 +89,11 @@ public class Narrative extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, div);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        return builder;
+        return new Builder(status, div).from(this);
+    }
+
+    public Builder toBuilder(NarrativeStatus status, java.lang.String div) {
+        return new Builder(status, div).from(this);
     }
 
     public static Builder builder(NarrativeStatus status, java.lang.String div) {
@@ -168,6 +169,12 @@ public class Narrative extends Element {
         @Override
         public Narrative build() {
             return new Narrative(this);
+        }
+
+        private Builder from(Narrative narrative) {
+            id = narrative.id;
+            extension.addAll(narrative.extension);
+            return this;
         }
     }
 }

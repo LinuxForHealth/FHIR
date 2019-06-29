@@ -230,23 +230,11 @@ public class Slot extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(schedule, status, start, end);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.serviceCategory.addAll(serviceCategory);
-        builder.serviceType.addAll(serviceType);
-        builder.specialty.addAll(specialty);
-        builder.appointmentType = appointmentType;
-        builder.overbooked = overbooked;
-        builder.comment = comment;
-        return builder;
+        return new Builder(schedule, status, start, end).from(this);
+    }
+
+    public Builder toBuilder(Reference schedule, SlotStatus status, Instant start, Instant end) {
+        return new Builder(schedule, status, start, end).from(this);
     }
 
     public static Builder builder(Reference schedule, SlotStatus status, Instant start, Instant end) {
@@ -680,6 +668,25 @@ public class Slot extends DomainResource {
         @Override
         public Slot build() {
             return new Slot(this);
+        }
+
+        private Builder from(Slot slot) {
+            id = slot.id;
+            meta = slot.meta;
+            implicitRules = slot.implicitRules;
+            language = slot.language;
+            text = slot.text;
+            contained.addAll(slot.contained);
+            extension.addAll(slot.extension);
+            modifierExtension.addAll(slot.modifierExtension);
+            identifier.addAll(slot.identifier);
+            serviceCategory.addAll(slot.serviceCategory);
+            serviceType.addAll(slot.serviceType);
+            specialty.addAll(slot.specialty);
+            appointmentType = slot.appointmentType;
+            overbooked = slot.overbooked;
+            comment = slot.comment;
+            return this;
         }
     }
 }

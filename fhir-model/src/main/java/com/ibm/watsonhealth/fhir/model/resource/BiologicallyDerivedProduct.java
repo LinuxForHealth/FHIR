@@ -238,27 +238,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.productCategory = productCategory;
-        builder.productCode = productCode;
-        builder.status = status;
-        builder.request.addAll(request);
-        builder.quantity = quantity;
-        builder.parent.addAll(parent);
-        builder.collection = collection;
-        builder.processing.addAll(processing);
-        builder.manipulation = manipulation;
-        builder.storage.addAll(storage);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -768,6 +748,29 @@ public class BiologicallyDerivedProduct extends DomainResource {
         public BiologicallyDerivedProduct build() {
             return new BiologicallyDerivedProduct(this);
         }
+
+        private Builder from(BiologicallyDerivedProduct biologicallyDerivedProduct) {
+            id = biologicallyDerivedProduct.id;
+            meta = biologicallyDerivedProduct.meta;
+            implicitRules = biologicallyDerivedProduct.implicitRules;
+            language = biologicallyDerivedProduct.language;
+            text = biologicallyDerivedProduct.text;
+            contained.addAll(biologicallyDerivedProduct.contained);
+            extension.addAll(biologicallyDerivedProduct.extension);
+            modifierExtension.addAll(biologicallyDerivedProduct.modifierExtension);
+            identifier.addAll(biologicallyDerivedProduct.identifier);
+            productCategory = biologicallyDerivedProduct.productCategory;
+            productCode = biologicallyDerivedProduct.productCode;
+            status = biologicallyDerivedProduct.status;
+            request.addAll(biologicallyDerivedProduct.request);
+            quantity = biologicallyDerivedProduct.quantity;
+            parent.addAll(biologicallyDerivedProduct.parent);
+            collection = biologicallyDerivedProduct.collection;
+            processing.addAll(biologicallyDerivedProduct.processing);
+            manipulation = biologicallyDerivedProduct.manipulation;
+            storage.addAll(biologicallyDerivedProduct.storage);
+            return this;
+        }
     }
 
     /**
@@ -844,7 +847,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1020,12 +1023,14 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Collection(this);
             }
 
-            private static Builder from(Collection collection) {
-                Builder builder = new Builder();
-                builder.collector = collection.collector;
-                builder.source = collection.source;
-                builder.collected = collection.collected;
-                return builder;
+            private Builder from(Collection collection) {
+                id = collection.id;
+                extension.addAll(collection.extension);
+                modifierExtension.addAll(collection.modifierExtension);
+                collector = collection.collector;
+                source = collection.source;
+                collected = collection.collected;
+                return this;
             }
         }
     }
@@ -1119,7 +1124,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1311,13 +1316,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Processing(this);
             }
 
-            private static Builder from(Processing processing) {
-                Builder builder = new Builder();
-                builder.description = processing.description;
-                builder.procedure = processing.procedure;
-                builder.additive = processing.additive;
-                builder.time = processing.time;
-                return builder;
+            private Builder from(Processing processing) {
+                id = processing.id;
+                extension.addAll(processing.extension);
+                modifierExtension.addAll(processing.modifierExtension);
+                description = processing.description;
+                procedure = processing.procedure;
+                additive = processing.additive;
+                time = processing.time;
+                return this;
             }
         }
     }
@@ -1381,7 +1388,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1539,11 +1546,13 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Manipulation(this);
             }
 
-            private static Builder from(Manipulation manipulation) {
-                Builder builder = new Builder();
-                builder.description = manipulation.description;
-                builder.time = manipulation.time;
-                return builder;
+            private Builder from(Manipulation manipulation) {
+                id = manipulation.id;
+                extension.addAll(manipulation.extension);
+                modifierExtension.addAll(manipulation.modifierExtension);
+                description = manipulation.description;
+                time = manipulation.time;
+                return this;
             }
         }
     }
@@ -1636,7 +1645,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1828,13 +1837,15 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 return new Storage(this);
             }
 
-            private static Builder from(Storage storage) {
-                Builder builder = new Builder();
-                builder.description = storage.description;
-                builder.temperature = storage.temperature;
-                builder.scale = storage.scale;
-                builder.duration = storage.duration;
-                return builder;
+            private Builder from(Storage storage) {
+                id = storage.id;
+                extension.addAll(storage.extension);
+                modifierExtension.addAll(storage.modifierExtension);
+                description = storage.description;
+                temperature = storage.temperature;
+                scale = storage.scale;
+                duration = storage.duration;
+                return this;
             }
         }
     }

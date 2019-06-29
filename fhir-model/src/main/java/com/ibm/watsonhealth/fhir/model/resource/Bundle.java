@@ -247,18 +247,11 @@ public class Bundle extends Resource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.identifier = identifier;
-        builder.timestamp = timestamp;
-        builder.total = total;
-        builder.link.addAll(link);
-        builder.entry.addAll(entry);
-        builder.signature = signature;
-        return builder;
+        return new Builder(type).from(this);
+    }
+
+    public Builder toBuilder(BundleType type) {
+        return new Builder(type).from(this);
     }
 
     public static Builder builder(BundleType type) {
@@ -489,6 +482,20 @@ public class Bundle extends Resource {
         public Bundle build() {
             return new Bundle(this);
         }
+
+        private Builder from(Bundle bundle) {
+            id = bundle.id;
+            meta = bundle.meta;
+            implicitRules = bundle.implicitRules;
+            language = bundle.language;
+            identifier = bundle.identifier;
+            timestamp = bundle.timestamp;
+            total = bundle.total;
+            link.addAll(bundle.link);
+            entry.addAll(bundle.entry);
+            signature = bundle.signature;
+            return this;
+        }
     }
 
     /**
@@ -551,7 +558,11 @@ public class Bundle extends Resource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(relation, url).from(this);
+        }
+
+        public Builder toBuilder(String relation, Uri url) {
+            return new Builder(relation, url).from(this);
         }
 
         public static Builder builder(String relation, Uri url) {
@@ -679,9 +690,11 @@ public class Bundle extends Resource {
                 return new Link(this);
             }
 
-            private static Builder from(Link link) {
-                Builder builder = new Builder(link.relation, link.url);
-                return builder;
+            private Builder from(Link link) {
+                id = link.id;
+                extension.addAll(link.extension);
+                modifierExtension.addAll(link.modifierExtension);
+                return this;
             }
         }
     }
@@ -812,7 +825,7 @@ public class Bundle extends Resource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1063,15 +1076,17 @@ public class Bundle extends Resource {
                 return new Entry(this);
             }
 
-            private static Builder from(Entry entry) {
-                Builder builder = new Builder();
-                builder.link.addAll(entry.link);
-                builder.fullUrl = entry.fullUrl;
-                builder.resource = entry.resource;
-                builder.search = entry.search;
-                builder.request = entry.request;
-                builder.response = entry.response;
-                return builder;
+            private Builder from(Entry entry) {
+                id = entry.id;
+                extension.addAll(entry.extension);
+                modifierExtension.addAll(entry.modifierExtension);
+                link.addAll(entry.link);
+                fullUrl = entry.fullUrl;
+                resource = entry.resource;
+                search = entry.search;
+                request = entry.request;
+                response = entry.response;
+                return this;
             }
         }
 
@@ -1134,7 +1149,7 @@ public class Bundle extends Resource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1293,11 +1308,13 @@ public class Bundle extends Resource {
                     return new Search(this);
                 }
 
-                private static Builder from(Search search) {
-                    Builder builder = new Builder();
-                    builder.mode = search.mode;
-                    builder.score = search.score;
-                    return builder;
+                private Builder from(Search search) {
+                    id = search.id;
+                    extension.addAll(search.extension);
+                    modifierExtension.addAll(search.modifierExtension);
+                    mode = search.mode;
+                    score = search.score;
+                    return this;
                 }
             }
         }
@@ -1427,7 +1444,11 @@ public class Bundle extends Resource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(method, url).from(this);
+            }
+
+            public Builder toBuilder(HTTPVerb method, Uri url) {
+                return new Builder(method, url).from(this);
             }
 
             public static Builder builder(HTTPVerb method, Uri url) {
@@ -1630,13 +1651,15 @@ public class Bundle extends Resource {
                     return new Request(this);
                 }
 
-                private static Builder from(Request request) {
-                    Builder builder = new Builder(request.method, request.url);
-                    builder.ifNoneMatch = request.ifNoneMatch;
-                    builder.ifModifiedSince = request.ifModifiedSince;
-                    builder.ifMatch = request.ifMatch;
-                    builder.ifNoneExist = request.ifNoneExist;
-                    return builder;
+                private Builder from(Request request) {
+                    id = request.id;
+                    extension.addAll(request.extension);
+                    modifierExtension.addAll(request.modifierExtension);
+                    ifNoneMatch = request.ifNoneMatch;
+                    ifModifiedSince = request.ifModifiedSince;
+                    ifMatch = request.ifMatch;
+                    ifNoneExist = request.ifNoneExist;
+                    return this;
                 }
             }
         }
@@ -1747,7 +1770,11 @@ public class Bundle extends Resource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(status).from(this);
+            }
+
+            public Builder toBuilder(String status) {
+                return new Builder(status).from(this);
             }
 
             public static Builder builder(String status) {
@@ -1944,13 +1971,15 @@ public class Bundle extends Resource {
                     return new Response(this);
                 }
 
-                private static Builder from(Response response) {
-                    Builder builder = new Builder(response.status);
-                    builder.location = response.location;
-                    builder.etag = response.etag;
-                    builder.lastModified = response.lastModified;
-                    builder.outcome = response.outcome;
-                    return builder;
+                private Builder from(Response response) {
+                    id = response.id;
+                    extension.addAll(response.extension);
+                    modifierExtension.addAll(response.modifierExtension);
+                    location = response.location;
+                    etag = response.etag;
+                    lastModified = response.lastModified;
+                    outcome = response.outcome;
+                    return this;
                 }
             }
         }

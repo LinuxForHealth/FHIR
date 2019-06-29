@@ -69,11 +69,7 @@ public class Uri extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -161,6 +157,13 @@ public class Uri extends Element {
         @Override
         public Uri build() {
             return new Uri(this);
+        }
+
+        private Builder from(Uri uri) {
+            id = uri.id;
+            extension.addAll(uri.extension);
+            value = uri.value;
+            return this;
         }
     }
 }

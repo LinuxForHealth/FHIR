@@ -111,15 +111,7 @@ public class SubstanceAmount extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.amount = amount;
-        builder.amountType = amountType;
-        builder.amountText = amountText;
-        builder.referenceRange = referenceRange;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -320,6 +312,17 @@ public class SubstanceAmount extends BackboneElement {
         public SubstanceAmount build() {
             return new SubstanceAmount(this);
         }
+
+        private Builder from(SubstanceAmount substanceAmount) {
+            id = substanceAmount.id;
+            extension.addAll(substanceAmount.extension);
+            modifierExtension.addAll(substanceAmount.modifierExtension);
+            amount = substanceAmount.amount;
+            amountType = substanceAmount.amountType;
+            amountText = substanceAmount.amountText;
+            referenceRange = substanceAmount.referenceRange;
+            return this;
+        }
     }
 
     /**
@@ -380,7 +383,7 @@ public class SubstanceAmount extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -534,11 +537,13 @@ public class SubstanceAmount extends BackboneElement {
                 return new ReferenceRange(this);
             }
 
-            private static Builder from(ReferenceRange referenceRange) {
-                Builder builder = new Builder();
-                builder.lowLimit = referenceRange.lowLimit;
-                builder.highLimit = referenceRange.highLimit;
-                return builder;
+            private Builder from(ReferenceRange referenceRange) {
+                id = referenceRange.id;
+                extension.addAll(referenceRange.extension);
+                modifierExtension.addAll(referenceRange.modifierExtension);
+                lowLimit = referenceRange.lowLimit;
+                highLimit = referenceRange.highLimit;
+                return this;
             }
         }
     }

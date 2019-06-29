@@ -427,37 +427,11 @@ public class Encounter extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, clazz);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.statusHistory.addAll(statusHistory);
-        builder.classHistory.addAll(classHistory);
-        builder.type.addAll(type);
-        builder.serviceType = serviceType;
-        builder.priority = priority;
-        builder.subject = subject;
-        builder.episodeOfCare.addAll(episodeOfCare);
-        builder.basedOn.addAll(basedOn);
-        builder.participant.addAll(participant);
-        builder.appointment.addAll(appointment);
-        builder.period = period;
-        builder.length = length;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.diagnosis.addAll(diagnosis);
-        builder.account.addAll(account);
-        builder.hospitalization = hospitalization;
-        builder.location.addAll(location);
-        builder.serviceProvider = serviceProvider;
-        builder.partOf = partOf;
-        return builder;
+        return new Builder(status, clazz).from(this);
+    }
+
+    public Builder toBuilder(EncounterStatus status, Coding clazz) {
+        return new Builder(status, clazz).from(this);
     }
 
     public static Builder builder(EncounterStatus status, Coding clazz) {
@@ -1305,6 +1279,39 @@ public class Encounter extends DomainResource {
         public Encounter build() {
             return new Encounter(this);
         }
+
+        private Builder from(Encounter encounter) {
+            id = encounter.id;
+            meta = encounter.meta;
+            implicitRules = encounter.implicitRules;
+            language = encounter.language;
+            text = encounter.text;
+            contained.addAll(encounter.contained);
+            extension.addAll(encounter.extension);
+            modifierExtension.addAll(encounter.modifierExtension);
+            identifier.addAll(encounter.identifier);
+            statusHistory.addAll(encounter.statusHistory);
+            classHistory.addAll(encounter.classHistory);
+            type.addAll(encounter.type);
+            serviceType = encounter.serviceType;
+            priority = encounter.priority;
+            subject = encounter.subject;
+            episodeOfCare.addAll(encounter.episodeOfCare);
+            basedOn.addAll(encounter.basedOn);
+            participant.addAll(encounter.participant);
+            appointment.addAll(encounter.appointment);
+            period = encounter.period;
+            length = encounter.length;
+            reasonCode.addAll(encounter.reasonCode);
+            reasonReference.addAll(encounter.reasonReference);
+            diagnosis.addAll(encounter.diagnosis);
+            account.addAll(encounter.account);
+            hospitalization = encounter.hospitalization;
+            location.addAll(encounter.location);
+            serviceProvider = encounter.serviceProvider;
+            partOf = encounter.partOf;
+            return this;
+        }
     }
 
     /**
@@ -1366,7 +1373,11 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(status, period).from(this);
+        }
+
+        public Builder toBuilder(EncounterStatus status, Period period) {
+            return new Builder(status, period).from(this);
         }
 
         public static Builder builder(EncounterStatus status, Period period) {
@@ -1494,9 +1505,11 @@ public class Encounter extends DomainResource {
                 return new StatusHistory(this);
             }
 
-            private static Builder from(StatusHistory statusHistory) {
-                Builder builder = new Builder(statusHistory.status, statusHistory.period);
-                return builder;
+            private Builder from(StatusHistory statusHistory) {
+                id = statusHistory.id;
+                extension.addAll(statusHistory.extension);
+                modifierExtension.addAll(statusHistory.modifierExtension);
+                return this;
             }
         }
     }
@@ -1563,7 +1576,11 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(clazz, period).from(this);
+        }
+
+        public Builder toBuilder(Coding clazz, Period period) {
+            return new Builder(clazz, period).from(this);
         }
 
         public static Builder builder(Coding clazz, Period period) {
@@ -1691,9 +1708,11 @@ public class Encounter extends DomainResource {
                 return new ClassHistory(this);
             }
 
-            private static Builder from(ClassHistory classHistory) {
-                Builder builder = new Builder(classHistory.clazz, classHistory.period);
-                return builder;
+            private Builder from(ClassHistory classHistory) {
+                id = classHistory.id;
+                extension.addAll(classHistory.extension);
+                modifierExtension.addAll(classHistory.modifierExtension);
+                return this;
             }
         }
     }
@@ -1772,7 +1791,7 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1966,12 +1985,14 @@ public class Encounter extends DomainResource {
                 return new Participant(this);
             }
 
-            private static Builder from(Participant participant) {
-                Builder builder = new Builder();
-                builder.type.addAll(participant.type);
-                builder.period = participant.period;
-                builder.individual = participant.individual;
-                return builder;
+            private Builder from(Participant participant) {
+                id = participant.id;
+                extension.addAll(participant.extension);
+                modifierExtension.addAll(participant.modifierExtension);
+                type.addAll(participant.type);
+                period = participant.period;
+                individual = participant.individual;
+                return this;
             }
         }
     }
@@ -2051,7 +2072,11 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(condition).from(this);
+        }
+
+        public Builder toBuilder(Reference condition) {
+            return new Builder(condition).from(this);
         }
 
         public static Builder builder(Reference condition) {
@@ -2213,11 +2238,13 @@ public class Encounter extends DomainResource {
                 return new Diagnosis(this);
             }
 
-            private static Builder from(Diagnosis diagnosis) {
-                Builder builder = new Builder(diagnosis.condition);
-                builder.use = diagnosis.use;
-                builder.rank = diagnosis.rank;
-                return builder;
+            private Builder from(Diagnosis diagnosis) {
+                id = diagnosis.id;
+                extension.addAll(diagnosis.extension);
+                modifierExtension.addAll(diagnosis.modifierExtension);
+                use = diagnosis.use;
+                rank = diagnosis.rank;
+                return this;
             }
         }
     }
@@ -2386,7 +2413,7 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2720,18 +2747,20 @@ public class Encounter extends DomainResource {
                 return new Hospitalization(this);
             }
 
-            private static Builder from(Hospitalization hospitalization) {
-                Builder builder = new Builder();
-                builder.preAdmissionIdentifier = hospitalization.preAdmissionIdentifier;
-                builder.origin = hospitalization.origin;
-                builder.admitSource = hospitalization.admitSource;
-                builder.reAdmission = hospitalization.reAdmission;
-                builder.dietPreference.addAll(hospitalization.dietPreference);
-                builder.specialCourtesy.addAll(hospitalization.specialCourtesy);
-                builder.specialArrangement.addAll(hospitalization.specialArrangement);
-                builder.destination = hospitalization.destination;
-                builder.dischargeDisposition = hospitalization.dischargeDisposition;
-                return builder;
+            private Builder from(Hospitalization hospitalization) {
+                id = hospitalization.id;
+                extension.addAll(hospitalization.extension);
+                modifierExtension.addAll(hospitalization.modifierExtension);
+                preAdmissionIdentifier = hospitalization.preAdmissionIdentifier;
+                origin = hospitalization.origin;
+                admitSource = hospitalization.admitSource;
+                reAdmission = hospitalization.reAdmission;
+                dietPreference.addAll(hospitalization.dietPreference);
+                specialCourtesy.addAll(hospitalization.specialCourtesy);
+                specialArrangement.addAll(hospitalization.specialArrangement);
+                destination = hospitalization.destination;
+                dischargeDisposition = hospitalization.dischargeDisposition;
+                return this;
             }
         }
     }
@@ -2826,7 +2855,11 @@ public class Encounter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(location).from(this);
+        }
+
+        public Builder toBuilder(Reference location) {
+            return new Builder(location).from(this);
         }
 
         public static Builder builder(Reference location) {
@@ -3007,12 +3040,14 @@ public class Encounter extends DomainResource {
                 return new Location(this);
             }
 
-            private static Builder from(Location location) {
-                Builder builder = new Builder(location.location);
-                builder.status = location.status;
-                builder.physicalType = location.physicalType;
-                builder.period = location.period;
-                return builder;
+            private Builder from(Location location) {
+                id = location.id;
+                extension.addAll(location.extension);
+                modifierExtension.addAll(location.modifierExtension);
+                status = location.status;
+                physicalType = location.physicalType;
+                period = location.period;
+                return this;
             }
         }
     }

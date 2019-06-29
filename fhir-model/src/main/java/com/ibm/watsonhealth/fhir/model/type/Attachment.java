@@ -169,18 +169,7 @@ public class Attachment extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.contentType = contentType;
-        builder.language = language;
-        builder.data = data;
-        builder.url = url;
-        builder.size = size;
-        builder.hash = hash;
-        builder.title = title;
-        builder.creation = creation;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -389,6 +378,20 @@ public class Attachment extends Element {
         @Override
         public Attachment build() {
             return new Attachment(this);
+        }
+
+        private Builder from(Attachment attachment) {
+            id = attachment.id;
+            extension.addAll(attachment.extension);
+            contentType = attachment.contentType;
+            language = attachment.language;
+            data = attachment.data;
+            url = attachment.url;
+            size = attachment.size;
+            hash = attachment.hash;
+            title = attachment.title;
+            creation = attachment.creation;
+            return this;
         }
     }
 }

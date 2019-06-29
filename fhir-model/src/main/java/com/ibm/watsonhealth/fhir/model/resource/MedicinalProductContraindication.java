@@ -167,23 +167,7 @@ public class MedicinalProductContraindication extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.subject.addAll(subject);
-        builder.disease = disease;
-        builder.diseaseStatus = diseaseStatus;
-        builder.comorbidity.addAll(comorbidity);
-        builder.therapeuticIndication.addAll(therapeuticIndication);
-        builder.otherTherapy.addAll(otherTherapy);
-        builder.population.addAll(population);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -618,6 +602,25 @@ public class MedicinalProductContraindication extends DomainResource {
         public MedicinalProductContraindication build() {
             return new MedicinalProductContraindication(this);
         }
+
+        private Builder from(MedicinalProductContraindication medicinalProductContraindication) {
+            id = medicinalProductContraindication.id;
+            meta = medicinalProductContraindication.meta;
+            implicitRules = medicinalProductContraindication.implicitRules;
+            language = medicinalProductContraindication.language;
+            text = medicinalProductContraindication.text;
+            contained.addAll(medicinalProductContraindication.contained);
+            extension.addAll(medicinalProductContraindication.extension);
+            modifierExtension.addAll(medicinalProductContraindication.modifierExtension);
+            subject.addAll(medicinalProductContraindication.subject);
+            disease = medicinalProductContraindication.disease;
+            diseaseStatus = medicinalProductContraindication.diseaseStatus;
+            comorbidity.addAll(medicinalProductContraindication.comorbidity);
+            therapeuticIndication.addAll(medicinalProductContraindication.therapeuticIndication);
+            otherTherapy.addAll(medicinalProductContraindication.otherTherapy);
+            population.addAll(medicinalProductContraindication.population);
+            return this;
+        }
     }
 
     /**
@@ -679,7 +682,11 @@ public class MedicinalProductContraindication extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(therapyRelationshipType, medication).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept therapyRelationshipType, Element medication) {
+            return new Builder(therapyRelationshipType, medication).from(this);
         }
 
         public static Builder builder(CodeableConcept therapyRelationshipType, Element medication) {
@@ -807,9 +814,11 @@ public class MedicinalProductContraindication extends DomainResource {
                 return new OtherTherapy(this);
             }
 
-            private static Builder from(OtherTherapy otherTherapy) {
-                Builder builder = new Builder(otherTherapy.therapyRelationshipType, otherTherapy.medication);
-                return builder;
+            private Builder from(OtherTherapy otherTherapy) {
+                id = otherTherapy.id;
+                extension.addAll(otherTherapy.extension);
+                modifierExtension.addAll(otherTherapy.modifierExtension);
+                return this;
             }
         }
     }

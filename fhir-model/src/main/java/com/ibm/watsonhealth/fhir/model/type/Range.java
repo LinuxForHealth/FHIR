@@ -78,12 +78,7 @@ public class Range extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.low = low;
-        builder.high = high;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -189,6 +184,14 @@ public class Range extends Element {
         @Override
         public Range build() {
             return new Range(this);
+        }
+
+        private Builder from(Range range) {
+            id = range.id;
+            extension.addAll(range.extension);
+            low = range.low;
+            high = range.high;
+            return this;
         }
     }
 }

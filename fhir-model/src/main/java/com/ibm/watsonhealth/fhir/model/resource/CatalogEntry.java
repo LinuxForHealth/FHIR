@@ -262,27 +262,11 @@ public class CatalogEntry extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(orderable, referencedItem);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.type = type;
-        builder.additionalIdentifier.addAll(additionalIdentifier);
-        builder.classification.addAll(classification);
-        builder.status = status;
-        builder.validityPeriod = validityPeriod;
-        builder.validTo = validTo;
-        builder.lastUpdated = lastUpdated;
-        builder.additionalCharacteristic.addAll(additionalCharacteristic);
-        builder.additionalClassification.addAll(additionalClassification);
-        builder.relatedEntry.addAll(relatedEntry);
-        return builder;
+        return new Builder(orderable, referencedItem).from(this);
+    }
+
+    public Builder toBuilder(Boolean orderable, Reference referencedItem) {
+        return new Builder(orderable, referencedItem).from(this);
     }
 
     public static Builder builder(Boolean orderable, Reference referencedItem) {
@@ -811,6 +795,29 @@ public class CatalogEntry extends DomainResource {
         public CatalogEntry build() {
             return new CatalogEntry(this);
         }
+
+        private Builder from(CatalogEntry catalogEntry) {
+            id = catalogEntry.id;
+            meta = catalogEntry.meta;
+            implicitRules = catalogEntry.implicitRules;
+            language = catalogEntry.language;
+            text = catalogEntry.text;
+            contained.addAll(catalogEntry.contained);
+            extension.addAll(catalogEntry.extension);
+            modifierExtension.addAll(catalogEntry.modifierExtension);
+            identifier.addAll(catalogEntry.identifier);
+            type = catalogEntry.type;
+            additionalIdentifier.addAll(catalogEntry.additionalIdentifier);
+            classification.addAll(catalogEntry.classification);
+            status = catalogEntry.status;
+            validityPeriod = catalogEntry.validityPeriod;
+            validTo = catalogEntry.validTo;
+            lastUpdated = catalogEntry.lastUpdated;
+            additionalCharacteristic.addAll(catalogEntry.additionalCharacteristic);
+            additionalClassification.addAll(catalogEntry.additionalClassification);
+            relatedEntry.addAll(catalogEntry.relatedEntry);
+            return this;
+        }
     }
 
     /**
@@ -871,7 +878,11 @@ public class CatalogEntry extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(relationtype, item).from(this);
+        }
+
+        public Builder toBuilder(CatalogEntryRelationType relationtype, Reference item) {
+            return new Builder(relationtype, item).from(this);
         }
 
         public static Builder builder(CatalogEntryRelationType relationtype, Reference item) {
@@ -999,9 +1010,11 @@ public class CatalogEntry extends DomainResource {
                 return new RelatedEntry(this);
             }
 
-            private static Builder from(RelatedEntry relatedEntry) {
-                Builder builder = new Builder(relatedEntry.relationtype, relatedEntry.item);
-                return builder;
+            private Builder from(RelatedEntry relatedEntry) {
+                id = relatedEntry.id;
+                extension.addAll(relatedEntry.extension);
+                modifierExtension.addAll(relatedEntry.modifierExtension);
+                return this;
             }
         }
     }

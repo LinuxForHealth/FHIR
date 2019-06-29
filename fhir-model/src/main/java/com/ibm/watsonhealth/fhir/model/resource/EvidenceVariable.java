@@ -515,41 +515,11 @@ public class EvidenceVariable extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, characteristic);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.shortTitle = shortTitle;
-        builder.subtitle = subtitle;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.note.addAll(note);
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.type = type;
-        return builder;
+        return new Builder(status, characteristic).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, List<Characteristic> characteristic) {
+        return new Builder(status, characteristic).from(this);
     }
 
     public static Builder builder(PublicationStatus status, List<Characteristic> characteristic) {
@@ -1425,45 +1395,46 @@ public class EvidenceVariable extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * A characteristic that defines the members of the evidence element. Multiple characteristics are applied with "and" 
-         * semantics.
-         * </p>
-         * 
-         * @param characteristic
-         *     What defines the members of the evidence element
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder characteristic(Characteristic... characteristic) {
-            for (Characteristic value : characteristic) {
-                this.characteristic.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * A characteristic that defines the members of the evidence element. Multiple characteristics are applied with "and" 
-         * semantics.
-         * </p>
-         * 
-         * @param characteristic
-         *     What defines the members of the evidence element
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder characteristic(Collection<Characteristic> characteristic) {
-            this.characteristic.addAll(characteristic);
-            return this;
-        }
-
         @Override
         public EvidenceVariable build() {
             return new EvidenceVariable(this);
+        }
+
+        private Builder from(EvidenceVariable evidenceVariable) {
+            id = evidenceVariable.id;
+            meta = evidenceVariable.meta;
+            implicitRules = evidenceVariable.implicitRules;
+            language = evidenceVariable.language;
+            text = evidenceVariable.text;
+            contained.addAll(evidenceVariable.contained);
+            extension.addAll(evidenceVariable.extension);
+            modifierExtension.addAll(evidenceVariable.modifierExtension);
+            url = evidenceVariable.url;
+            identifier.addAll(evidenceVariable.identifier);
+            version = evidenceVariable.version;
+            name = evidenceVariable.name;
+            title = evidenceVariable.title;
+            shortTitle = evidenceVariable.shortTitle;
+            subtitle = evidenceVariable.subtitle;
+            date = evidenceVariable.date;
+            publisher = evidenceVariable.publisher;
+            contact.addAll(evidenceVariable.contact);
+            description = evidenceVariable.description;
+            note.addAll(evidenceVariable.note);
+            useContext.addAll(evidenceVariable.useContext);
+            jurisdiction.addAll(evidenceVariable.jurisdiction);
+            copyright = evidenceVariable.copyright;
+            approvalDate = evidenceVariable.approvalDate;
+            lastReviewDate = evidenceVariable.lastReviewDate;
+            effectivePeriod = evidenceVariable.effectivePeriod;
+            topic.addAll(evidenceVariable.topic);
+            author.addAll(evidenceVariable.author);
+            editor.addAll(evidenceVariable.editor);
+            reviewer.addAll(evidenceVariable.reviewer);
+            endorser.addAll(evidenceVariable.endorser);
+            relatedArtifact.addAll(evidenceVariable.relatedArtifact);
+            type = evidenceVariable.type;
+            return this;
         }
     }
 
@@ -1604,7 +1575,11 @@ public class EvidenceVariable extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(definition).from(this);
+        }
+
+        public Builder toBuilder(Element definition) {
+            return new Builder(definition).from(this);
         }
 
         public static Builder builder(Element definition) {
@@ -1853,15 +1828,17 @@ public class EvidenceVariable extends DomainResource {
                 return new Characteristic(this);
             }
 
-            private static Builder from(Characteristic characteristic) {
-                Builder builder = new Builder(characteristic.definition);
-                builder.description = characteristic.description;
-                builder.usageContext.addAll(characteristic.usageContext);
-                builder.exclude = characteristic.exclude;
-                builder.participantEffective = characteristic.participantEffective;
-                builder.timeFromStart = characteristic.timeFromStart;
-                builder.groupMeasure = characteristic.groupMeasure;
-                return builder;
+            private Builder from(Characteristic characteristic) {
+                id = characteristic.id;
+                extension.addAll(characteristic.extension);
+                modifierExtension.addAll(characteristic.modifierExtension);
+                description = characteristic.description;
+                usageContext.addAll(characteristic.usageContext);
+                exclude = characteristic.exclude;
+                participantEffective = characteristic.participantEffective;
+                timeFromStart = characteristic.timeFromStart;
+                groupMeasure = characteristic.groupMeasure;
+                return this;
             }
         }
     }

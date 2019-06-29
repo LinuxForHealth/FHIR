@@ -164,23 +164,7 @@ public class EnrollmentRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.status = status;
-        builder.created = created;
-        builder.insurer = insurer;
-        builder.provider = provider;
-        builder.candidate = candidate;
-        builder.coverage = coverage;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -542,6 +526,25 @@ public class EnrollmentRequest extends DomainResource {
         @Override
         public EnrollmentRequest build() {
             return new EnrollmentRequest(this);
+        }
+
+        private Builder from(EnrollmentRequest enrollmentRequest) {
+            id = enrollmentRequest.id;
+            meta = enrollmentRequest.meta;
+            implicitRules = enrollmentRequest.implicitRules;
+            language = enrollmentRequest.language;
+            text = enrollmentRequest.text;
+            contained.addAll(enrollmentRequest.contained);
+            extension.addAll(enrollmentRequest.extension);
+            modifierExtension.addAll(enrollmentRequest.modifierExtension);
+            identifier.addAll(enrollmentRequest.identifier);
+            status = enrollmentRequest.status;
+            created = enrollmentRequest.created;
+            insurer = enrollmentRequest.insurer;
+            provider = enrollmentRequest.provider;
+            candidate = enrollmentRequest.candidate;
+            coverage = enrollmentRequest.coverage;
+            return this;
         }
     }
 }

@@ -38,11 +38,7 @@ public class Oid extends Uri {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -127,6 +123,13 @@ public class Oid extends Uri {
         @Override
         public Oid build() {
             return new Oid(this);
+        }
+
+        private Builder from(Oid oid) {
+            id = oid.id;
+            extension.addAll(oid.extension);
+            value = oid.value;
+            return this;
         }
     }
 }

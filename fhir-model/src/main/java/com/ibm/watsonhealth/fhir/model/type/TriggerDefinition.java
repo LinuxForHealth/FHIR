@@ -146,14 +146,11 @@ public class TriggerDefinition extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.name = name;
-        builder.timing = timing;
-        builder.data.addAll(data);
-        builder.condition = condition;
-        return builder;
+        return new Builder(type).from(this);
+    }
+
+    public Builder toBuilder(TriggerType type) {
+        return new Builder(type).from(this);
     }
 
     public static Builder builder(TriggerType type) {
@@ -319,6 +316,16 @@ public class TriggerDefinition extends Element {
         @Override
         public TriggerDefinition build() {
             return new TriggerDefinition(this);
+        }
+
+        private Builder from(TriggerDefinition triggerDefinition) {
+            id = triggerDefinition.id;
+            extension.addAll(triggerDefinition.extension);
+            name = triggerDefinition.name;
+            timing = triggerDefinition.timing;
+            data.addAll(triggerDefinition.data);
+            condition = triggerDefinition.condition;
+            return this;
         }
     }
 }

@@ -229,24 +229,11 @@ public class Group extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type, actual);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.code = code;
-        builder.name = name;
-        builder.quantity = quantity;
-        builder.managingEntity = managingEntity;
-        builder.characteristic.addAll(characteristic);
-        builder.member.addAll(member);
-        return builder;
+        return new Builder(type, actual).from(this);
+    }
+
+    public Builder toBuilder(GroupType type, Boolean actual) {
+        return new Builder(type, actual).from(this);
     }
 
     public static Builder builder(GroupType type, Boolean actual) {
@@ -668,6 +655,26 @@ public class Group extends DomainResource {
         public Group build() {
             return new Group(this);
         }
+
+        private Builder from(Group group) {
+            id = group.id;
+            meta = group.meta;
+            implicitRules = group.implicitRules;
+            language = group.language;
+            text = group.text;
+            contained.addAll(group.contained);
+            extension.addAll(group.extension);
+            modifierExtension.addAll(group.modifierExtension);
+            identifier.addAll(group.identifier);
+            active = group.active;
+            code = group.code;
+            name = group.name;
+            quantity = group.quantity;
+            managingEntity = group.managingEntity;
+            characteristic.addAll(group.characteristic);
+            member.addAll(group.member);
+            return this;
+        }
     }
 
     /**
@@ -758,7 +765,11 @@ public class Group extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code, value, exclude).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code, Element value, Boolean exclude) {
+            return new Builder(code, value, exclude).from(this);
         }
 
         public static Builder builder(CodeableConcept code, Element value, Boolean exclude) {
@@ -907,10 +918,12 @@ public class Group extends DomainResource {
                 return new Characteristic(this);
             }
 
-            private static Builder from(Characteristic characteristic) {
-                Builder builder = new Builder(characteristic.code, characteristic.value, characteristic.exclude);
-                builder.period = characteristic.period;
-                return builder;
+            private Builder from(Characteristic characteristic) {
+                id = characteristic.id;
+                extension.addAll(characteristic.extension);
+                modifierExtension.addAll(characteristic.modifierExtension);
+                period = characteristic.period;
+                return this;
             }
         }
     }
@@ -989,7 +1002,11 @@ public class Group extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(entity).from(this);
+        }
+
+        public Builder toBuilder(Reference entity) {
+            return new Builder(entity).from(this);
         }
 
         public static Builder builder(Reference entity) {
@@ -1151,11 +1168,13 @@ public class Group extends DomainResource {
                 return new Member(this);
             }
 
-            private static Builder from(Member member) {
-                Builder builder = new Builder(member.entity);
-                builder.period = member.period;
-                builder.inactive = member.inactive;
-                return builder;
+            private Builder from(Member member) {
+                id = member.id;
+                extension.addAll(member.extension);
+                modifierExtension.addAll(member.modifierExtension);
+                period = member.period;
+                inactive = member.inactive;
+                return this;
             }
         }
     }

@@ -118,15 +118,7 @@ public class Coding extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.system = system;
-        builder.version = version;
-        builder.code = code;
-        builder.display = display;
-        builder.userSelected = userSelected;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -286,6 +278,17 @@ public class Coding extends Element {
         @Override
         public Coding build() {
             return new Coding(this);
+        }
+
+        private Builder from(Coding coding) {
+            id = coding.id;
+            extension.addAll(coding.extension);
+            system = coding.system;
+            version = coding.version;
+            code = coding.code;
+            display = coding.display;
+            userSelected = coding.userSelected;
+            return this;
         }
     }
 }

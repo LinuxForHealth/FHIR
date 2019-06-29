@@ -274,29 +274,7 @@ public class SubstanceSourceMaterial extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.sourceMaterialClass = sourceMaterialClass;
-        builder.sourceMaterialType = sourceMaterialType;
-        builder.sourceMaterialState = sourceMaterialState;
-        builder.organismId = organismId;
-        builder.organismName = organismName;
-        builder.parentSubstanceId.addAll(parentSubstanceId);
-        builder.parentSubstanceName.addAll(parentSubstanceName);
-        builder.countryOfOrigin.addAll(countryOfOrigin);
-        builder.geographicalLocation.addAll(geographicalLocation);
-        builder.developmentStage = developmentStage;
-        builder.fractionDescription.addAll(fractionDescription);
-        builder.organism = organism;
-        builder.partDescription.addAll(partDescription);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -891,6 +869,31 @@ public class SubstanceSourceMaterial extends DomainResource {
         public SubstanceSourceMaterial build() {
             return new SubstanceSourceMaterial(this);
         }
+
+        private Builder from(SubstanceSourceMaterial substanceSourceMaterial) {
+            id = substanceSourceMaterial.id;
+            meta = substanceSourceMaterial.meta;
+            implicitRules = substanceSourceMaterial.implicitRules;
+            language = substanceSourceMaterial.language;
+            text = substanceSourceMaterial.text;
+            contained.addAll(substanceSourceMaterial.contained);
+            extension.addAll(substanceSourceMaterial.extension);
+            modifierExtension.addAll(substanceSourceMaterial.modifierExtension);
+            sourceMaterialClass = substanceSourceMaterial.sourceMaterialClass;
+            sourceMaterialType = substanceSourceMaterial.sourceMaterialType;
+            sourceMaterialState = substanceSourceMaterial.sourceMaterialState;
+            organismId = substanceSourceMaterial.organismId;
+            organismName = substanceSourceMaterial.organismName;
+            parentSubstanceId.addAll(substanceSourceMaterial.parentSubstanceId);
+            parentSubstanceName.addAll(substanceSourceMaterial.parentSubstanceName);
+            countryOfOrigin.addAll(substanceSourceMaterial.countryOfOrigin);
+            geographicalLocation.addAll(substanceSourceMaterial.geographicalLocation);
+            developmentStage = substanceSourceMaterial.developmentStage;
+            fractionDescription.addAll(substanceSourceMaterial.fractionDescription);
+            organism = substanceSourceMaterial.organism;
+            partDescription.addAll(substanceSourceMaterial.partDescription);
+            return this;
+        }
     }
 
     /**
@@ -957,7 +960,7 @@ public class SubstanceSourceMaterial extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1117,11 +1120,13 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return new FractionDescription(this);
             }
 
-            private static Builder from(FractionDescription fractionDescription) {
-                Builder builder = new Builder();
-                builder.fraction = fractionDescription.fraction;
-                builder.materialType = fractionDescription.materialType;
-                return builder;
+            private Builder from(FractionDescription fractionDescription) {
+                id = fractionDescription.id;
+                extension.addAll(fractionDescription.extension);
+                modifierExtension.addAll(fractionDescription.modifierExtension);
+                fraction = fractionDescription.fraction;
+                materialType = fractionDescription.materialType;
+                return this;
             }
         }
     }
@@ -1279,7 +1284,7 @@ public class SubstanceSourceMaterial extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1563,17 +1568,19 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return new Organism(this);
             }
 
-            private static Builder from(Organism organism) {
-                Builder builder = new Builder();
-                builder.family = organism.family;
-                builder.genus = organism.genus;
-                builder.species = organism.species;
-                builder.intraspecificType = organism.intraspecificType;
-                builder.intraspecificDescription = organism.intraspecificDescription;
-                builder.author.addAll(organism.author);
-                builder.hybrid = organism.hybrid;
-                builder.organismGeneral = organism.organismGeneral;
-                return builder;
+            private Builder from(Organism organism) {
+                id = organism.id;
+                extension.addAll(organism.extension);
+                modifierExtension.addAll(organism.modifierExtension);
+                family = organism.family;
+                genus = organism.genus;
+                species = organism.species;
+                intraspecificType = organism.intraspecificType;
+                intraspecificDescription = organism.intraspecificDescription;
+                author.addAll(organism.author);
+                hybrid = organism.hybrid;
+                organismGeneral = organism.organismGeneral;
+                return this;
             }
         }
 
@@ -1639,7 +1646,7 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1804,11 +1811,13 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return new Author(this);
                 }
 
-                private static Builder from(Author author) {
-                    Builder builder = new Builder();
-                    builder.authorType = author.authorType;
-                    builder.authorDescription = author.authorDescription;
-                    return builder;
+                private Builder from(Author author) {
+                    id = author.id;
+                    extension.addAll(author.extension);
+                    modifierExtension.addAll(author.modifierExtension);
+                    authorType = author.authorType;
+                    authorDescription = author.authorDescription;
+                    return this;
                 }
             }
         }
@@ -1920,7 +1929,7 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2137,14 +2146,16 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return new Hybrid(this);
                 }
 
-                private static Builder from(Hybrid hybrid) {
-                    Builder builder = new Builder();
-                    builder.maternalOrganismId = hybrid.maternalOrganismId;
-                    builder.maternalOrganismName = hybrid.maternalOrganismName;
-                    builder.paternalOrganismId = hybrid.paternalOrganismId;
-                    builder.paternalOrganismName = hybrid.paternalOrganismName;
-                    builder.hybridType = hybrid.hybridType;
-                    return builder;
+                private Builder from(Hybrid hybrid) {
+                    id = hybrid.id;
+                    extension.addAll(hybrid.extension);
+                    modifierExtension.addAll(hybrid.modifierExtension);
+                    maternalOrganismId = hybrid.maternalOrganismId;
+                    maternalOrganismName = hybrid.maternalOrganismName;
+                    paternalOrganismId = hybrid.paternalOrganismId;
+                    paternalOrganismName = hybrid.paternalOrganismName;
+                    hybridType = hybrid.hybridType;
+                    return this;
                 }
             }
         }
@@ -2237,7 +2248,7 @@ public class SubstanceSourceMaterial extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2429,13 +2440,15 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return new OrganismGeneral(this);
                 }
 
-                private static Builder from(OrganismGeneral organismGeneral) {
-                    Builder builder = new Builder();
-                    builder.kingdom = organismGeneral.kingdom;
-                    builder.phylum = organismGeneral.phylum;
-                    builder.clazz = organismGeneral.clazz;
-                    builder.order = organismGeneral.order;
-                    return builder;
+                private Builder from(OrganismGeneral organismGeneral) {
+                    id = organismGeneral.id;
+                    extension.addAll(organismGeneral.extension);
+                    modifierExtension.addAll(organismGeneral.modifierExtension);
+                    kingdom = organismGeneral.kingdom;
+                    phylum = organismGeneral.phylum;
+                    clazz = organismGeneral.clazz;
+                    order = organismGeneral.order;
+                    return this;
                 }
             }
         }
@@ -2500,7 +2513,7 @@ public class SubstanceSourceMaterial extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2660,11 +2673,13 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return new PartDescription(this);
             }
 
-            private static Builder from(PartDescription partDescription) {
-                Builder builder = new Builder();
-                builder.part = partDescription.part;
-                builder.partLocation = partDescription.partLocation;
-                return builder;
+            private Builder from(PartDescription partDescription) {
+                id = partDescription.id;
+                extension.addAll(partDescription.extension);
+                modifierExtension.addAll(partDescription.modifierExtension);
+                part = partDescription.part;
+                partLocation = partDescription.partLocation;
+                return this;
             }
         }
     }

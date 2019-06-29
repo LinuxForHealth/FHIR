@@ -261,24 +261,11 @@ public class ImmunizationEvaluation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, patient, targetDisease, immunizationEvent, doseStatus);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.date = date;
-        builder.authority = authority;
-        builder.doseStatusReason.addAll(doseStatusReason);
-        builder.description = description;
-        builder.series = series;
-        builder.doseNumber = doseNumber;
-        builder.seriesDoses = seriesDoses;
-        return builder;
+        return new Builder(status, patient, targetDisease, immunizationEvent, doseStatus).from(this);
+    }
+
+    public Builder toBuilder(ImmunizationEvaluationStatus status, Reference patient, CodeableConcept targetDisease, Reference immunizationEvent, CodeableConcept doseStatus) {
+        return new Builder(status, patient, targetDisease, immunizationEvent, doseStatus).from(this);
     }
 
     public static Builder builder(ImmunizationEvaluationStatus status, Reference patient, CodeableConcept targetDisease, Reference immunizationEvent, CodeableConcept doseStatus) {
@@ -689,6 +676,26 @@ public class ImmunizationEvaluation extends DomainResource {
         @Override
         public ImmunizationEvaluation build() {
             return new ImmunizationEvaluation(this);
+        }
+
+        private Builder from(ImmunizationEvaluation immunizationEvaluation) {
+            id = immunizationEvaluation.id;
+            meta = immunizationEvaluation.meta;
+            implicitRules = immunizationEvaluation.implicitRules;
+            language = immunizationEvaluation.language;
+            text = immunizationEvaluation.text;
+            contained.addAll(immunizationEvaluation.contained);
+            extension.addAll(immunizationEvaluation.extension);
+            modifierExtension.addAll(immunizationEvaluation.modifierExtension);
+            identifier.addAll(immunizationEvaluation.identifier);
+            date = immunizationEvaluation.date;
+            authority = immunizationEvaluation.authority;
+            doseStatusReason.addAll(immunizationEvaluation.doseStatusReason);
+            description = immunizationEvaluation.description;
+            series = immunizationEvaluation.series;
+            doseNumber = immunizationEvaluation.doseNumber;
+            seriesDoses = immunizationEvaluation.seriesDoses;
+            return this;
         }
     }
 }

@@ -37,11 +37,7 @@ public class Markdown extends String {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -126,6 +122,13 @@ public class Markdown extends String {
         @Override
         public Markdown build() {
             return new Markdown(this);
+        }
+
+        private Builder from(Markdown markdown) {
+            id = markdown.id;
+            extension.addAll(markdown.extension);
+            value = markdown.value;
+            return this;
         }
     }
 }

@@ -439,39 +439,11 @@ public class ResearchStudy extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.title = title;
-        builder.protocol.addAll(protocol);
-        builder.partOf.addAll(partOf);
-        builder.primaryPurposeType = primaryPurposeType;
-        builder.phase = phase;
-        builder.category.addAll(category);
-        builder.focus.addAll(focus);
-        builder.condition.addAll(condition);
-        builder.contact.addAll(contact);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.keyword.addAll(keyword);
-        builder.location.addAll(location);
-        builder.description = description;
-        builder.enrollment.addAll(enrollment);
-        builder.period = period;
-        builder.sponsor = sponsor;
-        builder.principalInvestigator = principalInvestigator;
-        builder.site.addAll(site);
-        builder.reasonStopped = reasonStopped;
-        builder.note.addAll(note);
-        builder.arm.addAll(arm);
-        builder.objective.addAll(objective);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(ResearchStudyStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(ResearchStudyStatus status) {
@@ -1378,6 +1350,41 @@ public class ResearchStudy extends DomainResource {
         public ResearchStudy build() {
             return new ResearchStudy(this);
         }
+
+        private Builder from(ResearchStudy researchStudy) {
+            id = researchStudy.id;
+            meta = researchStudy.meta;
+            implicitRules = researchStudy.implicitRules;
+            language = researchStudy.language;
+            text = researchStudy.text;
+            contained.addAll(researchStudy.contained);
+            extension.addAll(researchStudy.extension);
+            modifierExtension.addAll(researchStudy.modifierExtension);
+            identifier.addAll(researchStudy.identifier);
+            title = researchStudy.title;
+            protocol.addAll(researchStudy.protocol);
+            partOf.addAll(researchStudy.partOf);
+            primaryPurposeType = researchStudy.primaryPurposeType;
+            phase = researchStudy.phase;
+            category.addAll(researchStudy.category);
+            focus.addAll(researchStudy.focus);
+            condition.addAll(researchStudy.condition);
+            contact.addAll(researchStudy.contact);
+            relatedArtifact.addAll(researchStudy.relatedArtifact);
+            keyword.addAll(researchStudy.keyword);
+            location.addAll(researchStudy.location);
+            description = researchStudy.description;
+            enrollment.addAll(researchStudy.enrollment);
+            period = researchStudy.period;
+            sponsor = researchStudy.sponsor;
+            principalInvestigator = researchStudy.principalInvestigator;
+            site.addAll(researchStudy.site);
+            reasonStopped = researchStudy.reasonStopped;
+            note.addAll(researchStudy.note);
+            arm.addAll(researchStudy.arm);
+            objective.addAll(researchStudy.objective);
+            return this;
+        }
     }
 
     /**
@@ -1454,7 +1461,11 @@ public class ResearchStudy extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name).from(this);
+        }
+
+        public Builder toBuilder(String name) {
+            return new Builder(name).from(this);
         }
 
         public static Builder builder(String name) {
@@ -1616,11 +1627,13 @@ public class ResearchStudy extends DomainResource {
                 return new Arm(this);
             }
 
-            private static Builder from(Arm arm) {
-                Builder builder = new Builder(arm.name);
-                builder.type = arm.type;
-                builder.description = arm.description;
-                return builder;
+            private Builder from(Arm arm) {
+                id = arm.id;
+                extension.addAll(arm.extension);
+                modifierExtension.addAll(arm.modifierExtension);
+                type = arm.type;
+                description = arm.description;
+                return this;
             }
         }
     }
@@ -1684,7 +1697,7 @@ public class ResearchStudy extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1842,11 +1855,13 @@ public class ResearchStudy extends DomainResource {
                 return new Objective(this);
             }
 
-            private static Builder from(Objective objective) {
-                Builder builder = new Builder();
-                builder.name = objective.name;
-                builder.type = objective.type;
-                return builder;
+            private Builder from(Objective objective) {
+                id = objective.id;
+                extension.addAll(objective.extension);
+                modifierExtension.addAll(objective.modifierExtension);
+                name = objective.name;
+                type = objective.type;
+                return this;
             }
         }
     }

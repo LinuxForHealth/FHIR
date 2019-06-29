@@ -379,34 +379,11 @@ public class ClinicalImpression extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.statusReason = statusReason;
-        builder.code = code;
-        builder.description = description;
-        builder.encounter = encounter;
-        builder.effective = effective;
-        builder.date = date;
-        builder.assessor = assessor;
-        builder.previous = previous;
-        builder.problem.addAll(problem);
-        builder.investigation.addAll(investigation);
-        builder.protocol.addAll(protocol);
-        builder.summary = summary;
-        builder.finding.addAll(finding);
-        builder.prognosisCodeableConcept.addAll(prognosisCodeableConcept);
-        builder.prognosisReference.addAll(prognosisReference);
-        builder.supportingInfo.addAll(supportingInfo);
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status, subject).from(this);
+    }
+
+    public Builder toBuilder(ClinicalImpressionStatus status, Reference subject) {
+        return new Builder(status, subject).from(this);
     }
 
     public static Builder builder(ClinicalImpressionStatus status, Reference subject) {
@@ -1120,6 +1097,36 @@ public class ClinicalImpression extends DomainResource {
         public ClinicalImpression build() {
             return new ClinicalImpression(this);
         }
+
+        private Builder from(ClinicalImpression clinicalImpression) {
+            id = clinicalImpression.id;
+            meta = clinicalImpression.meta;
+            implicitRules = clinicalImpression.implicitRules;
+            language = clinicalImpression.language;
+            text = clinicalImpression.text;
+            contained.addAll(clinicalImpression.contained);
+            extension.addAll(clinicalImpression.extension);
+            modifierExtension.addAll(clinicalImpression.modifierExtension);
+            identifier.addAll(clinicalImpression.identifier);
+            statusReason = clinicalImpression.statusReason;
+            code = clinicalImpression.code;
+            description = clinicalImpression.description;
+            encounter = clinicalImpression.encounter;
+            effective = clinicalImpression.effective;
+            date = clinicalImpression.date;
+            assessor = clinicalImpression.assessor;
+            previous = clinicalImpression.previous;
+            problem.addAll(clinicalImpression.problem);
+            investigation.addAll(clinicalImpression.investigation);
+            protocol.addAll(clinicalImpression.protocol);
+            summary = clinicalImpression.summary;
+            finding.addAll(clinicalImpression.finding);
+            prognosisCodeableConcept.addAll(clinicalImpression.prognosisCodeableConcept);
+            prognosisReference.addAll(clinicalImpression.prognosisReference);
+            supportingInfo.addAll(clinicalImpression.supportingInfo);
+            note.addAll(clinicalImpression.note);
+            return this;
+        }
     }
 
     /**
@@ -1184,7 +1191,11 @@ public class ClinicalImpression extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -1347,10 +1358,12 @@ public class ClinicalImpression extends DomainResource {
                 return new Investigation(this);
             }
 
-            private static Builder from(Investigation investigation) {
-                Builder builder = new Builder(investigation.code);
-                builder.item.addAll(investigation.item);
-                return builder;
+            private Builder from(Investigation investigation) {
+                id = investigation.id;
+                extension.addAll(investigation.extension);
+                modifierExtension.addAll(investigation.modifierExtension);
+                item.addAll(investigation.item);
+                return this;
             }
         }
     }
@@ -1428,7 +1441,7 @@ public class ClinicalImpression extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1603,12 +1616,14 @@ public class ClinicalImpression extends DomainResource {
                 return new Finding(this);
             }
 
-            private static Builder from(Finding finding) {
-                Builder builder = new Builder();
-                builder.itemCodeableConcept = finding.itemCodeableConcept;
-                builder.itemReference = finding.itemReference;
-                builder.basis = finding.basis;
-                return builder;
+            private Builder from(Finding finding) {
+                id = finding.id;
+                extension.addAll(finding.extension);
+                modifierExtension.addAll(finding.modifierExtension);
+                itemCodeableConcept = finding.itemCodeableConcept;
+                itemReference = finding.itemReference;
+                basis = finding.basis;
+                return this;
             }
         }
     }

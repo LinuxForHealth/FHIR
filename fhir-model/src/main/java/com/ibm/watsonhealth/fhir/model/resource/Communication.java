@@ -423,38 +423,11 @@ public class Communication extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.basedOn.addAll(basedOn);
-        builder.partOf.addAll(partOf);
-        builder.inResponseTo.addAll(inResponseTo);
-        builder.statusReason = statusReason;
-        builder.category.addAll(category);
-        builder.priority = priority;
-        builder.medium.addAll(medium);
-        builder.subject = subject;
-        builder.topic = topic;
-        builder.about.addAll(about);
-        builder.encounter = encounter;
-        builder.sent = sent;
-        builder.received = received;
-        builder.recipient.addAll(recipient);
-        builder.sender = sender;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.payload.addAll(payload);
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(CommunicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(CommunicationStatus status) {
@@ -1325,6 +1298,40 @@ public class Communication extends DomainResource {
         public Communication build() {
             return new Communication(this);
         }
+
+        private Builder from(Communication communication) {
+            id = communication.id;
+            meta = communication.meta;
+            implicitRules = communication.implicitRules;
+            language = communication.language;
+            text = communication.text;
+            contained.addAll(communication.contained);
+            extension.addAll(communication.extension);
+            modifierExtension.addAll(communication.modifierExtension);
+            identifier.addAll(communication.identifier);
+            instantiatesCanonical.addAll(communication.instantiatesCanonical);
+            instantiatesUri.addAll(communication.instantiatesUri);
+            basedOn.addAll(communication.basedOn);
+            partOf.addAll(communication.partOf);
+            inResponseTo.addAll(communication.inResponseTo);
+            statusReason = communication.statusReason;
+            category.addAll(communication.category);
+            priority = communication.priority;
+            medium.addAll(communication.medium);
+            subject = communication.subject;
+            topic = communication.topic;
+            about.addAll(communication.about);
+            encounter = communication.encounter;
+            sent = communication.sent;
+            received = communication.received;
+            recipient.addAll(communication.recipient);
+            sender = communication.sender;
+            reasonCode.addAll(communication.reasonCode);
+            reasonReference.addAll(communication.reasonReference);
+            payload.addAll(communication.payload);
+            note.addAll(communication.note);
+            return this;
+        }
     }
 
     /**
@@ -1370,7 +1377,11 @@ public class Communication extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(content).from(this);
+        }
+
+        public Builder toBuilder(Element content) {
+            return new Builder(content).from(this);
         }
 
         public static Builder builder(Element content) {
@@ -1496,9 +1507,11 @@ public class Communication extends DomainResource {
                 return new Payload(this);
             }
 
-            private static Builder from(Payload payload) {
-                Builder builder = new Builder(payload.content);
-                return builder;
+            private Builder from(Payload payload) {
+                id = payload.id;
+                extension.addAll(payload.extension);
+                modifierExtension.addAll(payload.modifierExtension);
+                return this;
             }
         }
     }

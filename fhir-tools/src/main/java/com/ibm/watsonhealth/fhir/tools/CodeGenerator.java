@@ -10,13 +10,12 @@ import static com.ibm.watsonhealth.fhir.tools.CodeBuilder._new;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder._this;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.args;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.implementsInterfaces;
+import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.javadocLink;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.mods;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.param;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.params;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.quote;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.throwsExceptions;
-import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.javadocLink;
-
 
 import java.io.File;
 import java.io.FileReader;
@@ -31,7 +30,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -457,12 +455,8 @@ public class CodeGenerator {
         }
         cb.end().newLine();
         
-//      optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o)).collect(Collectors.toList());
-//      for (JsonObject elementDefinition : optionalElementDefinitions) {
-        for (JsonObject elementDefinition : elementDefinitions) {
-            if (isRequired(elementDefinition) && !isRepeating(elementDefinition)) {
-                continue;
-            }
+        optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o)).collect(Collectors.toList());
+        for (JsonObject elementDefinition : optionalElementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
             boolean declaredBy = elementDefinition.getString("path").equals(basePath);
             
@@ -604,26 +598,22 @@ public class CodeGenerator {
             paramName = "_" + paramName;
         }
         
-        ListIterator<String> listIterator = args.listIterator();
-        while (listIterator.hasNext()) {
-            String arg = listIterator.next();
-            listIterator.set(paramName + "." + arg);
-        }
-        
-        if (nested) {
+        if (!isAbstract(structureDefinition)) {
             cb.newLine();
-            cb.method(mods("private", "static"), "Builder", "from", params(param(className, paramName)));
-            cb.assign("Builder builder", _new("Builder", args));
-            
+            cb.method(mods("private"), "Builder", "from", params(param(className, paramName)));
             for (JsonObject elementDefinition : optionalElementDefinitions) {                
                 String fieldName = getFieldName(elementDefinition, path);
+                String prefix = "";
+                if (fieldName.equals(paramName)) {
+                    prefix = "this.";
+                }
                 if (isRepeating(elementDefinition)) {
-                    cb.invoke("builder." + fieldName, "addAll", args(paramName + "." + fieldName));
+                    cb.invoke(prefix + fieldName, "addAll", args(paramName + "." + fieldName));
                 } else {
-                    cb.assign("builder." + fieldName, paramName + "." + fieldName);
+                    cb.assign(prefix + fieldName, paramName + "." + fieldName);
                 }
             }
-            cb._return("builder");
+            cb._return("this");
             cb.end();
         }
         
@@ -870,23 +860,15 @@ public class CodeGenerator {
                 cb.abstractMethod(mods("public", "abstract"), "Builder", "toBuilder").newLine();
             } else {
                 cb.override();
-                cb.method(mods("public"), "Builder", "toBuilder");
-                if (nested) {
-                    cb._return("Builder.from(this)");
-                } else {
-                    cb.assign("Builder builder", _new("Builder", args));
-                    List<JsonObject> optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o)).collect(Collectors.toList());
-                    for (JsonObject elementDefinition : optionalElementDefinitions) {                
-                        String fieldName = getFieldName(elementDefinition, path);
-                        if (isRepeating(elementDefinition)) {
-                            cb.invoke("builder." + fieldName, "addAll", args(fieldName));
-                        } else {
-                            cb.assign("builder." + fieldName, fieldName);
-                        }
-                    }
-                    cb._return("builder");
+                cb.method(mods("public"), "Builder", "toBuilder")
+                    ._return(_new("Builder", args) + ".from(this)")
+                .end().newLine();
+                
+                if (!params.isEmpty()) {
+                    cb.method(mods("public"), "Builder", "toBuilder", params)
+                        ._return(_new("Builder", args) + ".from(this)")
+                    .end().newLine();
                 }
-                cb.end().newLine();
                 
                 cb.method(mods("public", "static"), "Builder", "builder", params)
                     ._return(_new("Builder", args))

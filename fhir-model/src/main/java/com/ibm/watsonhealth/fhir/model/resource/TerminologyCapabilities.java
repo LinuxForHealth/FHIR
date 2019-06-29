@@ -493,37 +493,11 @@ public class TerminologyCapabilities extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, date, kind);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.software = software;
-        builder.implementation = implementation;
-        builder.lockedDate = lockedDate;
-        builder.codeSystem.addAll(codeSystem);
-        builder.expansion = expansion;
-        builder.codeSearch = codeSearch;
-        builder.validateCode = validateCode;
-        builder.translation = translation;
-        builder.closure = closure;
-        return builder;
+        return new Builder(status, date, kind).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, DateTime date, CapabilityStatementKind kind) {
+        return new Builder(status, date, kind).from(this);
     }
 
     public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind) {
@@ -1206,6 +1180,39 @@ public class TerminologyCapabilities extends DomainResource {
         public TerminologyCapabilities build() {
             return new TerminologyCapabilities(this);
         }
+
+        private Builder from(TerminologyCapabilities terminologyCapabilities) {
+            id = terminologyCapabilities.id;
+            meta = terminologyCapabilities.meta;
+            implicitRules = terminologyCapabilities.implicitRules;
+            language = terminologyCapabilities.language;
+            text = terminologyCapabilities.text;
+            contained.addAll(terminologyCapabilities.contained);
+            extension.addAll(terminologyCapabilities.extension);
+            modifierExtension.addAll(terminologyCapabilities.modifierExtension);
+            url = terminologyCapabilities.url;
+            version = terminologyCapabilities.version;
+            name = terminologyCapabilities.name;
+            title = terminologyCapabilities.title;
+            experimental = terminologyCapabilities.experimental;
+            publisher = terminologyCapabilities.publisher;
+            contact.addAll(terminologyCapabilities.contact);
+            description = terminologyCapabilities.description;
+            useContext.addAll(terminologyCapabilities.useContext);
+            jurisdiction.addAll(terminologyCapabilities.jurisdiction);
+            purpose = terminologyCapabilities.purpose;
+            copyright = terminologyCapabilities.copyright;
+            software = terminologyCapabilities.software;
+            implementation = terminologyCapabilities.implementation;
+            lockedDate = terminologyCapabilities.lockedDate;
+            codeSystem.addAll(terminologyCapabilities.codeSystem);
+            expansion = terminologyCapabilities.expansion;
+            codeSearch = terminologyCapabilities.codeSearch;
+            validateCode = terminologyCapabilities.validateCode;
+            translation = terminologyCapabilities.translation;
+            closure = terminologyCapabilities.closure;
+            return this;
+        }
     }
 
     /**
@@ -1267,7 +1274,11 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name).from(this);
+        }
+
+        public Builder toBuilder(String name) {
+            return new Builder(name).from(this);
         }
 
         public static Builder builder(String name) {
@@ -1412,10 +1423,12 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Software(this);
             }
 
-            private static Builder from(Software software) {
-                Builder builder = new Builder(software.name);
-                builder.version = software.version;
-                return builder;
+            private Builder from(Software software) {
+                id = software.id;
+                extension.addAll(software.extension);
+                modifierExtension.addAll(software.modifierExtension);
+                version = software.version;
+                return this;
             }
         }
     }
@@ -1479,7 +1492,11 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(description).from(this);
+        }
+
+        public Builder toBuilder(String description) {
+            return new Builder(description).from(this);
         }
 
         public static Builder builder(String description) {
@@ -1624,10 +1641,12 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Implementation(this);
             }
 
-            private static Builder from(Implementation implementation) {
-                Builder builder = new Builder(implementation.description);
-                builder.url = implementation.url;
-                return builder;
+            private Builder from(Implementation implementation) {
+                id = implementation.id;
+                extension.addAll(implementation.extension);
+                modifierExtension.addAll(implementation.modifierExtension);
+                url = implementation.url;
+                return this;
             }
         }
     }
@@ -1706,7 +1725,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1899,12 +1918,14 @@ public class TerminologyCapabilities extends DomainResource {
                 return new CodeSystem(this);
             }
 
-            private static Builder from(CodeSystem codeSystem) {
-                Builder builder = new Builder();
-                builder.uri = codeSystem.uri;
-                builder.version.addAll(codeSystem.version);
-                builder.subsumption = codeSystem.subsumption;
-                return builder;
+            private Builder from(CodeSystem codeSystem) {
+                id = codeSystem.id;
+                extension.addAll(codeSystem.extension);
+                modifierExtension.addAll(codeSystem.modifierExtension);
+                uri = codeSystem.uri;
+                version.addAll(codeSystem.version);
+                subsumption = codeSystem.subsumption;
+                return this;
             }
         }
 
@@ -2026,7 +2047,7 @@ public class TerminologyCapabilities extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2306,15 +2327,17 @@ public class TerminologyCapabilities extends DomainResource {
                     return new Version(this);
                 }
 
-                private static Builder from(Version version) {
-                    Builder builder = new Builder();
-                    builder.code = version.code;
-                    builder.isDefault = version.isDefault;
-                    builder.compositional = version.compositional;
-                    builder.language.addAll(version.language);
-                    builder.filter.addAll(version.filter);
-                    builder.property.addAll(version.property);
-                    return builder;
+                private Builder from(Version version) {
+                    id = version.id;
+                    extension.addAll(version.extension);
+                    modifierExtension.addAll(version.modifierExtension);
+                    code = version.code;
+                    isDefault = version.isDefault;
+                    compositional = version.compositional;
+                    language.addAll(version.language);
+                    filter.addAll(version.filter);
+                    property.addAll(version.property);
+                    return this;
                 }
             }
 
@@ -2376,7 +2399,11 @@ public class TerminologyCapabilities extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(code, op).from(this);
+                }
+
+                public Builder toBuilder(Code code, List<Code> op) {
+                    return new Builder(code, op).from(this);
                 }
 
                 public static Builder builder(Code code, List<Code> op) {
@@ -2499,48 +2526,16 @@ public class TerminologyCapabilities extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
-                    /**
-                     * <p>
-                     * Operations supported for the property.
-                     * </p>
-                     * 
-                     * @param op
-                     *     Operations supported for the property
-                     * 
-                     * @return
-                     *     A reference to this Builder instance.
-                     */
-                    public Builder op(Code... op) {
-                        for (Code value : op) {
-                            this.op.add(value);
-                        }
-                        return this;
-                    }
-
-                    /**
-                     * <p>
-                     * Operations supported for the property.
-                     * </p>
-                     * 
-                     * @param op
-                     *     Operations supported for the property
-                     * 
-                     * @return
-                     *     A reference to this Builder instance.
-                     */
-                    public Builder op(Collection<Code> op) {
-                        this.op.addAll(op);
-                        return this;
-                    }
-
                     @Override
                     public Filter build() {
                         return new Filter(this);
                     }
 
-                    private static Builder from(Filter filter) {
-                        Builder builder = new Builder(filter.code, filter.op);
-                        return builder;
+                    private Builder from(Filter filter) {
+                        id = filter.id;
+                        extension.addAll(filter.extension);
+                        modifierExtension.addAll(filter.modifierExtension);
+                        return this;
                     }
                 }
             }
@@ -2650,7 +2645,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2877,14 +2872,16 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Expansion(this);
             }
 
-            private static Builder from(Expansion expansion) {
-                Builder builder = new Builder();
-                builder.hierarchical = expansion.hierarchical;
-                builder.paging = expansion.paging;
-                builder.incomplete = expansion.incomplete;
-                builder.parameter.addAll(expansion.parameter);
-                builder.textFilter = expansion.textFilter;
-                return builder;
+            private Builder from(Expansion expansion) {
+                id = expansion.id;
+                extension.addAll(expansion.extension);
+                modifierExtension.addAll(expansion.modifierExtension);
+                hierarchical = expansion.hierarchical;
+                paging = expansion.paging;
+                incomplete = expansion.incomplete;
+                parameter.addAll(expansion.parameter);
+                textFilter = expansion.textFilter;
+                return this;
             }
         }
 
@@ -2946,7 +2943,11 @@ public class TerminologyCapabilities extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(name).from(this);
+            }
+
+            public Builder toBuilder(Code name) {
+                return new Builder(name).from(this);
             }
 
             public static Builder builder(Code name) {
@@ -3091,10 +3092,12 @@ public class TerminologyCapabilities extends DomainResource {
                     return new Parameter(this);
                 }
 
-                private static Builder from(Parameter parameter) {
-                    Builder builder = new Builder(parameter.name);
-                    builder.documentation = parameter.documentation;
-                    return builder;
+                private Builder from(Parameter parameter) {
+                    id = parameter.id;
+                    extension.addAll(parameter.extension);
+                    modifierExtension.addAll(parameter.modifierExtension);
+                    documentation = parameter.documentation;
+                    return this;
                 }
             }
         }
@@ -3143,7 +3146,11 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(translations).from(this);
+        }
+
+        public Builder toBuilder(Boolean translations) {
+            return new Builder(translations).from(this);
         }
 
         public static Builder builder(Boolean translations) {
@@ -3269,9 +3276,11 @@ public class TerminologyCapabilities extends DomainResource {
                 return new ValidateCode(this);
             }
 
-            private static Builder from(ValidateCode validateCode) {
-                Builder builder = new Builder(validateCode.translations);
-                return builder;
+            private Builder from(ValidateCode validateCode) {
+                id = validateCode.id;
+                extension.addAll(validateCode.extension);
+                modifierExtension.addAll(validateCode.modifierExtension);
+                return this;
             }
         }
     }
@@ -3319,7 +3328,11 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(needsMap).from(this);
+        }
+
+        public Builder toBuilder(Boolean needsMap) {
+            return new Builder(needsMap).from(this);
         }
 
         public static Builder builder(Boolean needsMap) {
@@ -3445,9 +3458,11 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Translation(this);
             }
 
-            private static Builder from(Translation translation) {
-                Builder builder = new Builder(translation.needsMap);
-                return builder;
+            private Builder from(Translation translation) {
+                id = translation.id;
+                extension.addAll(translation.extension);
+                modifierExtension.addAll(translation.modifierExtension);
+                return this;
             }
         }
     }
@@ -3495,7 +3510,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -3636,10 +3651,12 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Closure(this);
             }
 
-            private static Builder from(Closure closure) {
-                Builder builder = new Builder();
-                builder.translation = closure.translation;
-                return builder;
+            private Builder from(Closure closure) {
+                id = closure.id;
+                extension.addAll(closure.extension);
+                modifierExtension.addAll(closure.modifierExtension);
+                translation = closure.translation;
+                return this;
             }
         }
     }

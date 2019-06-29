@@ -172,19 +172,11 @@ public class Subscription extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, reason, criteria, channel);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.contact.addAll(contact);
-        builder.end = end;
-        builder.error = error;
-        return builder;
+        return new Builder(status, reason, criteria, channel).from(this);
+    }
+
+    public Builder toBuilder(SubscriptionStatus status, String reason, String criteria, Channel channel) {
+        return new Builder(status, reason, criteria, channel).from(this);
     }
 
     public static Builder builder(SubscriptionStatus status, String reason, String criteria, Channel channel) {
@@ -491,6 +483,21 @@ public class Subscription extends DomainResource {
         public Subscription build() {
             return new Subscription(this);
         }
+
+        private Builder from(Subscription subscription) {
+            id = subscription.id;
+            meta = subscription.meta;
+            implicitRules = subscription.implicitRules;
+            language = subscription.language;
+            text = subscription.text;
+            contained.addAll(subscription.contained);
+            extension.addAll(subscription.extension);
+            modifierExtension.addAll(subscription.modifierExtension);
+            contact.addAll(subscription.contact);
+            end = subscription.end;
+            error = subscription.error;
+            return this;
+        }
     }
 
     /**
@@ -583,7 +590,11 @@ public class Subscription extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(SubscriptionChannelType type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(SubscriptionChannelType type) {
@@ -782,12 +793,14 @@ public class Subscription extends DomainResource {
                 return new Channel(this);
             }
 
-            private static Builder from(Channel channel) {
-                Builder builder = new Builder(channel.type);
-                builder.endpoint = channel.endpoint;
-                builder.payload = channel.payload;
-                builder.header.addAll(channel.header);
-                return builder;
+            private Builder from(Channel channel) {
+                id = channel.id;
+                extension.addAll(channel.extension);
+                modifierExtension.addAll(channel.modifierExtension);
+                endpoint = channel.endpoint;
+                payload = channel.payload;
+                header.addAll(channel.header);
+                return this;
             }
         }
     }

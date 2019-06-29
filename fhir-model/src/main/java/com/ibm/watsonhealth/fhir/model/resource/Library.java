@@ -571,45 +571,11 @@ public class Library extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, type);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.subtitle = subtitle;
-        builder.experimental = experimental;
-        builder.subject = subject;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.usage = usage;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.parameter.addAll(parameter);
-        builder.dataRequirement.addAll(dataRequirement);
-        builder.content.addAll(content);
-        return builder;
+        return new Builder(status, type).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, CodeableConcept type) {
+        return new Builder(status, type).from(this);
     }
 
     public static Builder builder(PublicationStatus status, CodeableConcept type) {
@@ -1597,6 +1563,47 @@ public class Library extends DomainResource {
         @Override
         public Library build() {
             return new Library(this);
+        }
+
+        private Builder from(Library library) {
+            id = library.id;
+            meta = library.meta;
+            implicitRules = library.implicitRules;
+            language = library.language;
+            text = library.text;
+            contained.addAll(library.contained);
+            extension.addAll(library.extension);
+            modifierExtension.addAll(library.modifierExtension);
+            url = library.url;
+            identifier.addAll(library.identifier);
+            version = library.version;
+            name = library.name;
+            title = library.title;
+            subtitle = library.subtitle;
+            experimental = library.experimental;
+            subject = library.subject;
+            date = library.date;
+            publisher = library.publisher;
+            contact.addAll(library.contact);
+            description = library.description;
+            useContext.addAll(library.useContext);
+            jurisdiction.addAll(library.jurisdiction);
+            purpose = library.purpose;
+            usage = library.usage;
+            copyright = library.copyright;
+            approvalDate = library.approvalDate;
+            lastReviewDate = library.lastReviewDate;
+            effectivePeriod = library.effectivePeriod;
+            topic.addAll(library.topic);
+            author.addAll(library.author);
+            editor.addAll(library.editor);
+            reviewer.addAll(library.reviewer);
+            endorser.addAll(library.endorser);
+            relatedArtifact.addAll(library.relatedArtifact);
+            parameter.addAll(library.parameter);
+            dataRequirement.addAll(library.dataRequirement);
+            content.addAll(library.content);
+            return this;
         }
     }
 }

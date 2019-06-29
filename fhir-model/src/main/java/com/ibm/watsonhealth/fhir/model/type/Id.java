@@ -38,11 +38,7 @@ public class Id extends String {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -127,6 +123,13 @@ public class Id extends String {
         @Override
         public Id build() {
             return new Id(this);
+        }
+
+        private Builder from(Id id) {
+            this.id = id.id;
+            extension.addAll(id.extension);
+            value = id.value;
+            return this;
         }
     }
 }

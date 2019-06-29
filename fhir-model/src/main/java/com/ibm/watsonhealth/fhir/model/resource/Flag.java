@@ -184,21 +184,11 @@ public class Flag extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, code, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.category.addAll(category);
-        builder.period = period;
-        builder.encounter = encounter;
-        builder.author = author;
-        return builder;
+        return new Builder(status, code, subject).from(this);
+    }
+
+    public Builder toBuilder(FlagStatus status, CodeableConcept code, Reference subject) {
+        return new Builder(status, code, subject).from(this);
     }
 
     public static Builder builder(FlagStatus status, CodeableConcept code, Reference subject) {
@@ -557,6 +547,23 @@ public class Flag extends DomainResource {
         @Override
         public Flag build() {
             return new Flag(this);
+        }
+
+        private Builder from(Flag flag) {
+            id = flag.id;
+            meta = flag.meta;
+            implicitRules = flag.implicitRules;
+            language = flag.language;
+            text = flag.text;
+            contained.addAll(flag.contained);
+            extension.addAll(flag.extension);
+            modifierExtension.addAll(flag.modifierExtension);
+            identifier.addAll(flag.identifier);
+            category.addAll(flag.category);
+            period = flag.period;
+            encounter = flag.encounter;
+            author = flag.author;
+            return this;
         }
     }
 }

@@ -80,12 +80,7 @@ public class Period extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.start = start;
-        builder.end = end;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -193,6 +188,14 @@ public class Period extends Element {
         @Override
         public Period build() {
             return new Period(this);
+        }
+
+        private Builder from(Period period) {
+            id = period.id;
+            extension.addAll(period.extension);
+            start = period.start;
+            end = period.end;
+            return this;
         }
     }
 }

@@ -223,26 +223,7 @@ Work addresses are not typically
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.name.addAll(name);
-        builder.telecom.addAll(telecom);
-        builder.address.addAll(address);
-        builder.gender = gender;
-        builder.birthDate = birthDate;
-        builder.photo.addAll(photo);
-        builder.qualification.addAll(qualification);
-        builder.communication.addAll(communication);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -773,6 +754,28 @@ Work addresses are not typically
         public Practitioner build() {
             return new Practitioner(this);
         }
+
+        private Builder from(Practitioner practitioner) {
+            id = practitioner.id;
+            meta = practitioner.meta;
+            implicitRules = practitioner.implicitRules;
+            language = practitioner.language;
+            text = practitioner.text;
+            contained.addAll(practitioner.contained);
+            extension.addAll(practitioner.extension);
+            modifierExtension.addAll(practitioner.modifierExtension);
+            identifier.addAll(practitioner.identifier);
+            active = practitioner.active;
+            name.addAll(practitioner.name);
+            telecom.addAll(practitioner.telecom);
+            address.addAll(practitioner.address);
+            gender = practitioner.gender;
+            birthDate = practitioner.birthDate;
+            photo.addAll(practitioner.photo);
+            qualification.addAll(practitioner.qualification);
+            communication.addAll(practitioner.communication);
+            return this;
+        }
     }
 
     /**
@@ -865,7 +868,11 @@ Work addresses are not typically
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -1062,12 +1069,14 @@ Work addresses are not typically
                 return new Qualification(this);
             }
 
-            private static Builder from(Qualification qualification) {
-                Builder builder = new Builder(qualification.code);
-                builder.identifier.addAll(qualification.identifier);
-                builder.period = qualification.period;
-                builder.issuer = qualification.issuer;
-                return builder;
+            private Builder from(Qualification qualification) {
+                id = qualification.id;
+                extension.addAll(qualification.extension);
+                modifierExtension.addAll(qualification.modifierExtension);
+                identifier.addAll(qualification.identifier);
+                period = qualification.period;
+                issuer = qualification.issuer;
+                return this;
             }
         }
     }

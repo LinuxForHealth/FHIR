@@ -294,24 +294,11 @@ public class NamingSystem extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(name, status, kind, date, uniqueId);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.responsible = responsible;
-        builder.type = type;
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.usage = usage;
-        return builder;
+        return new Builder(name, status, kind, date, uniqueId).from(this);
+    }
+
+    public Builder toBuilder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, List<UniqueId> uniqueId) {
+        return new Builder(name, status, kind, date, uniqueId).from(this);
     }
 
     public static Builder builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, List<UniqueId> uniqueId) {
@@ -742,43 +729,29 @@ public class NamingSystem extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * Indicates how the system may be identified when referenced in electronic exchange.
-         * </p>
-         * 
-         * @param uniqueId
-         *     Unique identifiers used for system
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder uniqueId(UniqueId... uniqueId) {
-            for (UniqueId value : uniqueId) {
-                this.uniqueId.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Indicates how the system may be identified when referenced in electronic exchange.
-         * </p>
-         * 
-         * @param uniqueId
-         *     Unique identifiers used for system
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder uniqueId(Collection<UniqueId> uniqueId) {
-            this.uniqueId.addAll(uniqueId);
-            return this;
-        }
-
         @Override
         public NamingSystem build() {
             return new NamingSystem(this);
+        }
+
+        private Builder from(NamingSystem namingSystem) {
+            id = namingSystem.id;
+            meta = namingSystem.meta;
+            implicitRules = namingSystem.implicitRules;
+            language = namingSystem.language;
+            text = namingSystem.text;
+            contained.addAll(namingSystem.contained);
+            extension.addAll(namingSystem.extension);
+            modifierExtension.addAll(namingSystem.modifierExtension);
+            publisher = namingSystem.publisher;
+            contact.addAll(namingSystem.contact);
+            responsible = namingSystem.responsible;
+            type = namingSystem.type;
+            description = namingSystem.description;
+            useContext.addAll(namingSystem.useContext);
+            jurisdiction.addAll(namingSystem.jurisdiction);
+            usage = namingSystem.usage;
+            return this;
         }
     }
 
@@ -886,7 +859,11 @@ public class NamingSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, value).from(this);
+        }
+
+        public Builder toBuilder(NamingSystemIdentifierType type, String value) {
+            return new Builder(type, value).from(this);
         }
 
         public static Builder builder(NamingSystemIdentifierType type, String value) {
@@ -1068,12 +1045,14 @@ public class NamingSystem extends DomainResource {
                 return new UniqueId(this);
             }
 
-            private static Builder from(UniqueId uniqueId) {
-                Builder builder = new Builder(uniqueId.type, uniqueId.value);
-                builder.preferred = uniqueId.preferred;
-                builder.comment = uniqueId.comment;
-                builder.period = uniqueId.period;
-                return builder;
+            private Builder from(UniqueId uniqueId) {
+                id = uniqueId.id;
+                extension.addAll(uniqueId.extension);
+                modifierExtension.addAll(uniqueId.modifierExtension);
+                preferred = uniqueId.preferred;
+                comment = uniqueId.comment;
+                period = uniqueId.period;
+                return this;
             }
         }
     }

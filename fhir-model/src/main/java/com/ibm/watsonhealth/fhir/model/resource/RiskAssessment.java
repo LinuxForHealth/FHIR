@@ -339,31 +339,11 @@ public class RiskAssessment extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn = basedOn;
-        builder.parent = parent;
-        builder.method = method;
-        builder.code = code;
-        builder.encounter = encounter;
-        builder.occurrence = occurrence;
-        builder.condition = condition;
-        builder.performer = performer;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.basis.addAll(basis);
-        builder.prediction.addAll(prediction);
-        builder.mitigation = mitigation;
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status, subject).from(this);
+    }
+
+    public Builder toBuilder(RiskAssessmentStatus status, Reference subject) {
+        return new Builder(status, subject).from(this);
     }
 
     public static Builder builder(RiskAssessmentStatus status, Reference subject) {
@@ -960,6 +940,33 @@ public class RiskAssessment extends DomainResource {
         public RiskAssessment build() {
             return new RiskAssessment(this);
         }
+
+        private Builder from(RiskAssessment riskAssessment) {
+            id = riskAssessment.id;
+            meta = riskAssessment.meta;
+            implicitRules = riskAssessment.implicitRules;
+            language = riskAssessment.language;
+            text = riskAssessment.text;
+            contained.addAll(riskAssessment.contained);
+            extension.addAll(riskAssessment.extension);
+            modifierExtension.addAll(riskAssessment.modifierExtension);
+            identifier.addAll(riskAssessment.identifier);
+            basedOn = riskAssessment.basedOn;
+            parent = riskAssessment.parent;
+            method = riskAssessment.method;
+            code = riskAssessment.code;
+            encounter = riskAssessment.encounter;
+            occurrence = riskAssessment.occurrence;
+            condition = riskAssessment.condition;
+            performer = riskAssessment.performer;
+            reasonCode.addAll(riskAssessment.reasonCode);
+            reasonReference.addAll(riskAssessment.reasonReference);
+            basis.addAll(riskAssessment.basis);
+            prediction.addAll(riskAssessment.prediction);
+            mitigation = riskAssessment.mitigation;
+            note.addAll(riskAssessment.note);
+            return this;
+        }
     }
 
     /**
@@ -1082,7 +1089,7 @@ public class RiskAssessment extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1310,15 +1317,17 @@ public class RiskAssessment extends DomainResource {
                 return new Prediction(this);
             }
 
-            private static Builder from(Prediction prediction) {
-                Builder builder = new Builder();
-                builder.outcome = prediction.outcome;
-                builder.probability = prediction.probability;
-                builder.qualitativeRisk = prediction.qualitativeRisk;
-                builder.relativeRisk = prediction.relativeRisk;
-                builder.when = prediction.when;
-                builder.rationale = prediction.rationale;
-                return builder;
+            private Builder from(Prediction prediction) {
+                id = prediction.id;
+                extension.addAll(prediction.extension);
+                modifierExtension.addAll(prediction.modifierExtension);
+                outcome = prediction.outcome;
+                probability = prediction.probability;
+                qualitativeRisk = prediction.qualitativeRisk;
+                relativeRisk = prediction.relativeRisk;
+                when = prediction.when;
+                rationale = prediction.rationale;
+                return this;
             }
         }
     }

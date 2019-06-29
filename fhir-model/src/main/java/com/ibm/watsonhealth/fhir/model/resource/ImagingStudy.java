@@ -379,34 +379,11 @@ public class ImagingStudy extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.modality.addAll(modality);
-        builder.encounter = encounter;
-        builder.started = started;
-        builder.basedOn.addAll(basedOn);
-        builder.referrer = referrer;
-        builder.interpreter.addAll(interpreter);
-        builder.endpoint.addAll(endpoint);
-        builder.numberOfSeries = numberOfSeries;
-        builder.numberOfInstances = numberOfInstances;
-        builder.procedureReference = procedureReference;
-        builder.procedureCode.addAll(procedureCode);
-        builder.location = location;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.note.addAll(note);
-        builder.description = description;
-        builder.series.addAll(series);
-        return builder;
+        return new Builder(status, subject).from(this);
+    }
+
+    public Builder toBuilder(ImagingStudyStatus status, Reference subject) {
+        return new Builder(status, subject).from(this);
     }
 
     public static Builder builder(ImagingStudyStatus status, Reference subject) {
@@ -1139,6 +1116,36 @@ public class ImagingStudy extends DomainResource {
         public ImagingStudy build() {
             return new ImagingStudy(this);
         }
+
+        private Builder from(ImagingStudy imagingStudy) {
+            id = imagingStudy.id;
+            meta = imagingStudy.meta;
+            implicitRules = imagingStudy.implicitRules;
+            language = imagingStudy.language;
+            text = imagingStudy.text;
+            contained.addAll(imagingStudy.contained);
+            extension.addAll(imagingStudy.extension);
+            modifierExtension.addAll(imagingStudy.modifierExtension);
+            identifier.addAll(imagingStudy.identifier);
+            modality.addAll(imagingStudy.modality);
+            encounter = imagingStudy.encounter;
+            started = imagingStudy.started;
+            basedOn.addAll(imagingStudy.basedOn);
+            referrer = imagingStudy.referrer;
+            interpreter.addAll(imagingStudy.interpreter);
+            endpoint.addAll(imagingStudy.endpoint);
+            numberOfSeries = imagingStudy.numberOfSeries;
+            numberOfInstances = imagingStudy.numberOfInstances;
+            procedureReference = imagingStudy.procedureReference;
+            procedureCode.addAll(imagingStudy.procedureCode);
+            location = imagingStudy.location;
+            reasonCode.addAll(imagingStudy.reasonCode);
+            reasonReference.addAll(imagingStudy.reasonReference);
+            note.addAll(imagingStudy.note);
+            description = imagingStudy.description;
+            series.addAll(imagingStudy.series);
+            return this;
+        }
     }
 
     /**
@@ -1357,7 +1364,11 @@ public class ImagingStudy extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(uid, modality).from(this);
+        }
+
+        public Builder toBuilder(Id uid, Coding modality) {
+            return new Builder(uid, modality).from(this);
         }
 
         public static Builder builder(Id uid, Coding modality) {
@@ -1739,19 +1750,21 @@ public class ImagingStudy extends DomainResource {
                 return new Series(this);
             }
 
-            private static Builder from(Series series) {
-                Builder builder = new Builder(series.uid, series.modality);
-                builder.number = series.number;
-                builder.description = series.description;
-                builder.numberOfInstances = series.numberOfInstances;
-                builder.endpoint.addAll(series.endpoint);
-                builder.bodySite = series.bodySite;
-                builder.laterality = series.laterality;
-                builder.specimen.addAll(series.specimen);
-                builder.started = series.started;
-                builder.performer.addAll(series.performer);
-                builder.instance.addAll(series.instance);
-                return builder;
+            private Builder from(Series series) {
+                id = series.id;
+                extension.addAll(series.extension);
+                modifierExtension.addAll(series.modifierExtension);
+                number = series.number;
+                description = series.description;
+                numberOfInstances = series.numberOfInstances;
+                endpoint.addAll(series.endpoint);
+                bodySite = series.bodySite;
+                laterality = series.laterality;
+                specimen.addAll(series.specimen);
+                started = series.started;
+                performer.addAll(series.performer);
+                instance.addAll(series.instance);
+                return this;
             }
         }
 
@@ -1813,7 +1826,11 @@ public class ImagingStudy extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(actor).from(this);
+            }
+
+            public Builder toBuilder(Reference actor) {
+                return new Builder(actor).from(this);
             }
 
             public static Builder builder(Reference actor) {
@@ -1958,10 +1975,12 @@ public class ImagingStudy extends DomainResource {
                     return new Performer(this);
                 }
 
-                private static Builder from(Performer performer) {
-                    Builder builder = new Builder(performer.actor);
-                    builder.function = performer.function;
-                    return builder;
+                private Builder from(Performer performer) {
+                    id = performer.id;
+                    extension.addAll(performer.extension);
+                    modifierExtension.addAll(performer.modifierExtension);
+                    function = performer.function;
+                    return this;
                 }
             }
         }
@@ -2054,7 +2073,11 @@ public class ImagingStudy extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(uid, sopClass).from(this);
+            }
+
+            public Builder toBuilder(Id uid, Coding sopClass) {
+                return new Builder(uid, sopClass).from(this);
             }
 
             public static Builder builder(Id uid, Coding sopClass) {
@@ -2218,11 +2241,13 @@ public class ImagingStudy extends DomainResource {
                     return new Instance(this);
                 }
 
-                private static Builder from(Instance instance) {
-                    Builder builder = new Builder(instance.uid, instance.sopClass);
-                    builder.number = instance.number;
-                    builder.title = instance.title;
-                    return builder;
+                private Builder from(Instance instance) {
+                    id = instance.id;
+                    extension.addAll(instance.extension);
+                    modifierExtension.addAll(instance.modifierExtension);
+                    number = instance.number;
+                    title = instance.title;
+                    return this;
                 }
             }
         }

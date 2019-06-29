@@ -148,18 +148,11 @@ public class ImmunizationRecommendation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(patient, date, recommendation);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.authority = authority;
-        return builder;
+        return new Builder(patient, date, recommendation).from(this);
+    }
+
+    public Builder toBuilder(Reference patient, DateTime date, List<Recommendation> recommendation) {
+        return new Builder(patient, date, recommendation).from(this);
     }
 
     public static Builder builder(Reference patient, DateTime date, List<Recommendation> recommendation) {
@@ -441,43 +434,23 @@ public class ImmunizationRecommendation extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * Vaccine administration recommendations.
-         * </p>
-         * 
-         * @param recommendation
-         *     Vaccine administration recommendations
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder recommendation(Recommendation... recommendation) {
-            for (Recommendation value : recommendation) {
-                this.recommendation.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Vaccine administration recommendations.
-         * </p>
-         * 
-         * @param recommendation
-         *     Vaccine administration recommendations
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder recommendation(Collection<Recommendation> recommendation) {
-            this.recommendation.addAll(recommendation);
-            return this;
-        }
-
         @Override
         public ImmunizationRecommendation build() {
             return new ImmunizationRecommendation(this);
+        }
+
+        private Builder from(ImmunizationRecommendation immunizationRecommendation) {
+            id = immunizationRecommendation.id;
+            meta = immunizationRecommendation.meta;
+            implicitRules = immunizationRecommendation.implicitRules;
+            language = immunizationRecommendation.language;
+            text = immunizationRecommendation.text;
+            contained.addAll(immunizationRecommendation.contained);
+            extension.addAll(immunizationRecommendation.extension);
+            modifierExtension.addAll(immunizationRecommendation.modifierExtension);
+            identifier.addAll(immunizationRecommendation.identifier);
+            authority = immunizationRecommendation.authority;
+            return this;
         }
     }
 
@@ -690,7 +663,11 @@ public class ImmunizationRecommendation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(forecastStatus).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept forecastStatus) {
+            return new Builder(forecastStatus).from(this);
         }
 
         public static Builder builder(CodeableConcept forecastStatus) {
@@ -1115,20 +1092,22 @@ public class ImmunizationRecommendation extends DomainResource {
                 return new Recommendation(this);
             }
 
-            private static Builder from(Recommendation recommendation) {
-                Builder builder = new Builder(recommendation.forecastStatus);
-                builder.vaccineCode.addAll(recommendation.vaccineCode);
-                builder.targetDisease = recommendation.targetDisease;
-                builder.contraindicatedVaccineCode.addAll(recommendation.contraindicatedVaccineCode);
-                builder.forecastReason.addAll(recommendation.forecastReason);
-                builder.dateCriterion.addAll(recommendation.dateCriterion);
-                builder.description = recommendation.description;
-                builder.series = recommendation.series;
-                builder.doseNumber = recommendation.doseNumber;
-                builder.seriesDoses = recommendation.seriesDoses;
-                builder.supportingImmunization.addAll(recommendation.supportingImmunization);
-                builder.supportingPatientInformation.addAll(recommendation.supportingPatientInformation);
-                return builder;
+            private Builder from(Recommendation recommendation) {
+                id = recommendation.id;
+                extension.addAll(recommendation.extension);
+                modifierExtension.addAll(recommendation.modifierExtension);
+                vaccineCode.addAll(recommendation.vaccineCode);
+                targetDisease = recommendation.targetDisease;
+                contraindicatedVaccineCode.addAll(recommendation.contraindicatedVaccineCode);
+                forecastReason.addAll(recommendation.forecastReason);
+                dateCriterion.addAll(recommendation.dateCriterion);
+                description = recommendation.description;
+                series = recommendation.series;
+                doseNumber = recommendation.doseNumber;
+                seriesDoses = recommendation.seriesDoses;
+                supportingImmunization.addAll(recommendation.supportingImmunization);
+                supportingPatientInformation.addAll(recommendation.supportingPatientInformation);
+                return this;
             }
         }
 
@@ -1190,7 +1169,11 @@ public class ImmunizationRecommendation extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(code, value).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept code, DateTime value) {
+                return new Builder(code, value).from(this);
             }
 
             public static Builder builder(CodeableConcept code, DateTime value) {
@@ -1318,9 +1301,11 @@ public class ImmunizationRecommendation extends DomainResource {
                     return new DateCriterion(this);
                 }
 
-                private static Builder from(DateCriterion dateCriterion) {
-                    Builder builder = new Builder(dateCriterion.code, dateCriterion.value);
-                    return builder;
+                private Builder from(DateCriterion dateCriterion) {
+                    id = dateCriterion.id;
+                    extension.addAll(dateCriterion.extension);
+                    modifierExtension.addAll(dateCriterion.modifierExtension);
+                    return this;
                 }
             }
         }

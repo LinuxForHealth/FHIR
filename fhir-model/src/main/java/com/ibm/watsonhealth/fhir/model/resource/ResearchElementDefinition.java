@@ -607,46 +607,11 @@ public class ResearchElementDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, type, characteristic);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.shortTitle = shortTitle;
-        builder.subtitle = subtitle;
-        builder.experimental = experimental;
-        builder.subject = subject;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.comment.addAll(comment);
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.usage = usage;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.library.addAll(library);
-        builder.variableType = variableType;
-        return builder;
+        return new Builder(status, type, characteristic).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, ResearchElementType type, List<Characteristic> characteristic) {
+        return new Builder(status, type, characteristic).from(this);
     }
 
     public static Builder builder(PublicationStatus status, ResearchElementType type, List<Characteristic> characteristic) {
@@ -1629,45 +1594,51 @@ public class ResearchElementDefinition extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * A characteristic that defines the members of the research element. Multiple characteristics are applied with "and" 
-         * semantics.
-         * </p>
-         * 
-         * @param characteristic
-         *     What defines the members of the research element
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder characteristic(Characteristic... characteristic) {
-            for (Characteristic value : characteristic) {
-                this.characteristic.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * A characteristic that defines the members of the research element. Multiple characteristics are applied with "and" 
-         * semantics.
-         * </p>
-         * 
-         * @param characteristic
-         *     What defines the members of the research element
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder characteristic(Collection<Characteristic> characteristic) {
-            this.characteristic.addAll(characteristic);
-            return this;
-        }
-
         @Override
         public ResearchElementDefinition build() {
             return new ResearchElementDefinition(this);
+        }
+
+        private Builder from(ResearchElementDefinition researchElementDefinition) {
+            id = researchElementDefinition.id;
+            meta = researchElementDefinition.meta;
+            implicitRules = researchElementDefinition.implicitRules;
+            language = researchElementDefinition.language;
+            text = researchElementDefinition.text;
+            contained.addAll(researchElementDefinition.contained);
+            extension.addAll(researchElementDefinition.extension);
+            modifierExtension.addAll(researchElementDefinition.modifierExtension);
+            url = researchElementDefinition.url;
+            identifier.addAll(researchElementDefinition.identifier);
+            version = researchElementDefinition.version;
+            name = researchElementDefinition.name;
+            title = researchElementDefinition.title;
+            shortTitle = researchElementDefinition.shortTitle;
+            subtitle = researchElementDefinition.subtitle;
+            experimental = researchElementDefinition.experimental;
+            subject = researchElementDefinition.subject;
+            date = researchElementDefinition.date;
+            publisher = researchElementDefinition.publisher;
+            contact.addAll(researchElementDefinition.contact);
+            description = researchElementDefinition.description;
+            comment.addAll(researchElementDefinition.comment);
+            useContext.addAll(researchElementDefinition.useContext);
+            jurisdiction.addAll(researchElementDefinition.jurisdiction);
+            purpose = researchElementDefinition.purpose;
+            usage = researchElementDefinition.usage;
+            copyright = researchElementDefinition.copyright;
+            approvalDate = researchElementDefinition.approvalDate;
+            lastReviewDate = researchElementDefinition.lastReviewDate;
+            effectivePeriod = researchElementDefinition.effectivePeriod;
+            topic.addAll(researchElementDefinition.topic);
+            author.addAll(researchElementDefinition.author);
+            editor.addAll(researchElementDefinition.editor);
+            reviewer.addAll(researchElementDefinition.reviewer);
+            endorser.addAll(researchElementDefinition.endorser);
+            relatedArtifact.addAll(researchElementDefinition.relatedArtifact);
+            library.addAll(researchElementDefinition.library);
+            variableType = researchElementDefinition.variableType;
+            return this;
         }
     }
 
@@ -1882,7 +1853,11 @@ public class ResearchElementDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(definition).from(this);
+        }
+
+        public Builder toBuilder(Element definition) {
+            return new Builder(definition).from(this);
         }
 
         public static Builder builder(Element definition) {
@@ -2215,20 +2190,22 @@ public class ResearchElementDefinition extends DomainResource {
                 return new Characteristic(this);
             }
 
-            private static Builder from(Characteristic characteristic) {
-                Builder builder = new Builder(characteristic.definition);
-                builder.usageContext.addAll(characteristic.usageContext);
-                builder.exclude = characteristic.exclude;
-                builder.unitOfMeasure = characteristic.unitOfMeasure;
-                builder.studyEffectiveDescription = characteristic.studyEffectiveDescription;
-                builder.studyEffective = characteristic.studyEffective;
-                builder.studyEffectiveTimeFromStart = characteristic.studyEffectiveTimeFromStart;
-                builder.studyEffectiveGroupMeasure = characteristic.studyEffectiveGroupMeasure;
-                builder.participantEffectiveDescription = characteristic.participantEffectiveDescription;
-                builder.participantEffective = characteristic.participantEffective;
-                builder.participantEffectiveTimeFromStart = characteristic.participantEffectiveTimeFromStart;
-                builder.participantEffectiveGroupMeasure = characteristic.participantEffectiveGroupMeasure;
-                return builder;
+            private Builder from(Characteristic characteristic) {
+                id = characteristic.id;
+                extension.addAll(characteristic.extension);
+                modifierExtension.addAll(characteristic.modifierExtension);
+                usageContext.addAll(characteristic.usageContext);
+                exclude = characteristic.exclude;
+                unitOfMeasure = characteristic.unitOfMeasure;
+                studyEffectiveDescription = characteristic.studyEffectiveDescription;
+                studyEffective = characteristic.studyEffective;
+                studyEffectiveTimeFromStart = characteristic.studyEffectiveTimeFromStart;
+                studyEffectiveGroupMeasure = characteristic.studyEffectiveGroupMeasure;
+                participantEffectiveDescription = characteristic.participantEffectiveDescription;
+                participantEffective = characteristic.participantEffective;
+                participantEffectiveTimeFromStart = characteristic.participantEffectiveTimeFromStart;
+                participantEffectiveGroupMeasure = characteristic.participantEffectiveGroupMeasure;
+                return this;
             }
         }
     }

@@ -244,23 +244,11 @@ public class PaymentNotice extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, created, payment, recipient, amount);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.request = request;
-        builder.response = response;
-        builder.provider = provider;
-        builder.paymentDate = paymentDate;
-        builder.payee = payee;
-        builder.paymentStatus = paymentStatus;
-        return builder;
+        return new Builder(status, created, payment, recipient, amount).from(this);
+    }
+
+    public Builder toBuilder(PaymentNoticeStatus status, DateTime created, Reference payment, Reference recipient, Money amount) {
+        return new Builder(status, created, payment, recipient, amount).from(this);
     }
 
     public static Builder builder(PaymentNoticeStatus status, DateTime created, Reference payment, Reference recipient, Money amount) {
@@ -634,6 +622,25 @@ public class PaymentNotice extends DomainResource {
         @Override
         public PaymentNotice build() {
             return new PaymentNotice(this);
+        }
+
+        private Builder from(PaymentNotice paymentNotice) {
+            id = paymentNotice.id;
+            meta = paymentNotice.meta;
+            implicitRules = paymentNotice.implicitRules;
+            language = paymentNotice.language;
+            text = paymentNotice.text;
+            contained.addAll(paymentNotice.contained);
+            extension.addAll(paymentNotice.extension);
+            modifierExtension.addAll(paymentNotice.modifierExtension);
+            identifier.addAll(paymentNotice.identifier);
+            request = paymentNotice.request;
+            response = paymentNotice.response;
+            provider = paymentNotice.provider;
+            paymentDate = paymentNotice.paymentDate;
+            payee = paymentNotice.payee;
+            paymentStatus = paymentNotice.paymentStatus;
+            return this;
         }
     }
 }

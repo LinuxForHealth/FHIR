@@ -185,23 +185,11 @@ public class BodyStructure extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(patient);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.morphology = morphology;
-        builder.location = location;
-        builder.locationQualifier.addAll(locationQualifier);
-        builder.description = description;
-        builder.image.addAll(image);
-        return builder;
+        return new Builder(patient).from(this);
+    }
+
+    public Builder toBuilder(Reference patient) {
+        return new Builder(patient).from(this);
     }
 
     public static Builder builder(Reference patient) {
@@ -606,6 +594,25 @@ public class BodyStructure extends DomainResource {
         @Override
         public BodyStructure build() {
             return new BodyStructure(this);
+        }
+
+        private Builder from(BodyStructure bodyStructure) {
+            id = bodyStructure.id;
+            meta = bodyStructure.meta;
+            implicitRules = bodyStructure.implicitRules;
+            language = bodyStructure.language;
+            text = bodyStructure.text;
+            contained.addAll(bodyStructure.contained);
+            extension.addAll(bodyStructure.extension);
+            modifierExtension.addAll(bodyStructure.modifierExtension);
+            identifier.addAll(bodyStructure.identifier);
+            active = bodyStructure.active;
+            morphology = bodyStructure.morphology;
+            location = bodyStructure.location;
+            locationQualifier.addAll(bodyStructure.locationQualifier);
+            description = bodyStructure.description;
+            image.addAll(bodyStructure.image);
+            return this;
         }
     }
 }

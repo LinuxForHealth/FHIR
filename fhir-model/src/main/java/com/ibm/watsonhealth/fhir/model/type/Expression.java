@@ -126,14 +126,11 @@ public class Expression extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(language);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.description = description;
-        builder.name = name;
-        builder.expression = expression;
-        builder.reference = reference;
-        return builder;
+        return new Builder(language).from(this);
+    }
+
+    public Builder toBuilder(Code language) {
+        return new Builder(language).from(this);
     }
 
     public static Builder builder(Code language) {
@@ -278,6 +275,16 @@ public class Expression extends Element {
         @Override
         public Expression build() {
             return new Expression(this);
+        }
+
+        private Builder from(Expression expression) {
+            id = expression.id;
+            extension.addAll(expression.extension);
+            description = expression.description;
+            name = expression.name;
+            this.expression = expression.expression;
+            reference = expression.reference;
+            return this;
         }
     }
 }

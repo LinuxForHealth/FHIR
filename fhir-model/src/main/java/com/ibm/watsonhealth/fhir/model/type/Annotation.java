@@ -86,12 +86,11 @@ public class Annotation extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(text);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.author = author;
-        builder.time = time;
-        return builder;
+        return new Builder(text).from(this);
+    }
+
+    public Builder toBuilder(Markdown text) {
+        return new Builder(text).from(this);
     }
 
     public static Builder builder(Markdown text) {
@@ -201,6 +200,14 @@ public class Annotation extends Element {
         @Override
         public Annotation build() {
             return new Annotation(this);
+        }
+
+        private Builder from(Annotation annotation) {
+            id = annotation.id;
+            extension.addAll(annotation.extension);
+            author = annotation.author;
+            time = annotation.time;
+            return this;
         }
     }
 }

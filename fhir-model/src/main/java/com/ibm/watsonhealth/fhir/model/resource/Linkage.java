@@ -114,18 +114,11 @@ public class Linkage extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(item);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.active = active;
-        builder.author = author;
-        return builder;
+        return new Builder(item).from(this);
+    }
+
+    public Builder toBuilder(List<Item> item) {
+        return new Builder(item).from(this);
     }
 
     public static Builder builder(List<Item> item) {
@@ -386,45 +379,23 @@ public class Linkage extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * Identifies which record considered as the reference to the same real-world occurrence as well as how the items should 
-         * be evaluated within the collection of linked items.
-         * </p>
-         * 
-         * @param item
-         *     Item to be linked
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder item(Item... item) {
-            for (Item value : item) {
-                this.item.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Identifies which record considered as the reference to the same real-world occurrence as well as how the items should 
-         * be evaluated within the collection of linked items.
-         * </p>
-         * 
-         * @param item
-         *     Item to be linked
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder item(Collection<Item> item) {
-            this.item.addAll(item);
-            return this;
-        }
-
         @Override
         public Linkage build() {
             return new Linkage(this);
+        }
+
+        private Builder from(Linkage linkage) {
+            id = linkage.id;
+            meta = linkage.meta;
+            implicitRules = linkage.implicitRules;
+            language = linkage.language;
+            text = linkage.text;
+            contained.addAll(linkage.contained);
+            extension.addAll(linkage.extension);
+            modifierExtension.addAll(linkage.modifierExtension);
+            active = linkage.active;
+            author = linkage.author;
+            return this;
         }
     }
 
@@ -488,7 +459,11 @@ public class Linkage extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, resource).from(this);
+        }
+
+        public Builder toBuilder(LinkageType type, Reference resource) {
+            return new Builder(type, resource).from(this);
         }
 
         public static Builder builder(LinkageType type, Reference resource) {
@@ -616,9 +591,11 @@ public class Linkage extends DomainResource {
                 return new Item(this);
             }
 
-            private static Builder from(Item item) {
-                Builder builder = new Builder(item.type, item.resource);
-                return builder;
+            private Builder from(Item item) {
+                id = item.id;
+                extension.addAll(item.extension);
+                modifierExtension.addAll(item.modifierExtension);
+                return this;
             }
         }
     }

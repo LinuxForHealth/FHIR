@@ -297,29 +297,11 @@ public class SupplyRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(item, quantity);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.status = status;
-        builder.category = category;
-        builder.priority = priority;
-        builder.parameter.addAll(parameter);
-        builder.occurrence = occurrence;
-        builder.authoredOn = authoredOn;
-        builder.requester = requester;
-        builder.supplier.addAll(supplier);
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.deliverFrom = deliverFrom;
-        builder.deliverTo = deliverTo;
-        return builder;
+        return new Builder(item, quantity).from(this);
+    }
+
+    public Builder toBuilder(Element item, Quantity quantity) {
+        return new Builder(item, quantity).from(this);
     }
 
     public static Builder builder(Element item, Quantity quantity) {
@@ -865,6 +847,31 @@ public class SupplyRequest extends DomainResource {
         public SupplyRequest build() {
             return new SupplyRequest(this);
         }
+
+        private Builder from(SupplyRequest supplyRequest) {
+            id = supplyRequest.id;
+            meta = supplyRequest.meta;
+            implicitRules = supplyRequest.implicitRules;
+            language = supplyRequest.language;
+            text = supplyRequest.text;
+            contained.addAll(supplyRequest.contained);
+            extension.addAll(supplyRequest.extension);
+            modifierExtension.addAll(supplyRequest.modifierExtension);
+            identifier.addAll(supplyRequest.identifier);
+            status = supplyRequest.status;
+            category = supplyRequest.category;
+            priority = supplyRequest.priority;
+            parameter.addAll(supplyRequest.parameter);
+            occurrence = supplyRequest.occurrence;
+            authoredOn = supplyRequest.authoredOn;
+            requester = supplyRequest.requester;
+            supplier.addAll(supplyRequest.supplier);
+            reasonCode.addAll(supplyRequest.reasonCode);
+            reasonReference.addAll(supplyRequest.reasonReference);
+            deliverFrom = supplyRequest.deliverFrom;
+            deliverTo = supplyRequest.deliverTo;
+            return this;
+        }
     }
 
     /**
@@ -925,7 +932,7 @@ public class SupplyRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1083,11 +1090,13 @@ public class SupplyRequest extends DomainResource {
                 return new Parameter(this);
             }
 
-            private static Builder from(Parameter parameter) {
-                Builder builder = new Builder();
-                builder.code = parameter.code;
-                builder.value = parameter.value;
-                return builder;
+            private Builder from(Parameter parameter) {
+                id = parameter.id;
+                extension.addAll(parameter.extension);
+                modifierExtension.addAll(parameter.modifierExtension);
+                code = parameter.code;
+                value = parameter.value;
+                return this;
             }
         }
     }

@@ -64,11 +64,7 @@ public class Time extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -161,6 +157,13 @@ public class Time extends Element {
         @Override
         public Time build() {
             return new Time(this);
+        }
+
+        private Builder from(Time time) {
+            id = time.id;
+            extension.addAll(time.extension);
+            value = time.value;
+            return this;
         }
     }
 }

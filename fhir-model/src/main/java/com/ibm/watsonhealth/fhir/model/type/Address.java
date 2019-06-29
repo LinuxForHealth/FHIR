@@ -201,20 +201,7 @@ public class Address extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.use = use;
-        builder.type = type;
-        builder.text = text;
-        builder.line.addAll(line);
-        builder.city = city;
-        builder.district = district;
-        builder.state = state;
-        builder.postalCode = postalCode;
-        builder.country = country;
-        builder.period = period;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -479,6 +466,22 @@ public class Address extends Element {
         @Override
         public Address build() {
             return new Address(this);
+        }
+
+        private Builder from(Address address) {
+            id = address.id;
+            extension.addAll(address.extension);
+            use = address.use;
+            type = address.type;
+            text = address.text;
+            line.addAll(address.line);
+            city = address.city;
+            district = address.district;
+            state = address.state;
+            postalCode = address.postalCode;
+            country = address.country;
+            period = address.period;
+            return this;
         }
     }
 }

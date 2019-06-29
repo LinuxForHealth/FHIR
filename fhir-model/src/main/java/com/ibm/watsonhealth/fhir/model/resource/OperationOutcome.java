@@ -76,16 +76,11 @@ public class OperationOutcome extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(issue);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        return builder;
+        return new Builder(issue).from(this);
+    }
+
+    public Builder toBuilder(List<Issue> issue) {
+        return new Builder(issue).from(this);
     }
 
     public static Builder builder(List<Issue> issue) {
@@ -309,43 +304,21 @@ public class OperationOutcome extends DomainResource {
             return (Builder) super.modifierExtension(modifierExtension);
         }
 
-        /**
-         * <p>
-         * An error, warning, or information message that results from a system action.
-         * </p>
-         * 
-         * @param issue
-         *     A single issue associated with the action
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder issue(Issue... issue) {
-            for (Issue value : issue) {
-                this.issue.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * An error, warning, or information message that results from a system action.
-         * </p>
-         * 
-         * @param issue
-         *     A single issue associated with the action
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder issue(Collection<Issue> issue) {
-            this.issue.addAll(issue);
-            return this;
-        }
-
         @Override
         public OperationOutcome build() {
             return new OperationOutcome(this);
+        }
+
+        private Builder from(OperationOutcome operationOutcome) {
+            id = operationOutcome.id;
+            meta = operationOutcome.meta;
+            implicitRules = operationOutcome.implicitRules;
+            language = operationOutcome.language;
+            text = operationOutcome.text;
+            contained.addAll(operationOutcome.contained);
+            extension.addAll(operationOutcome.extension);
+            modifierExtension.addAll(operationOutcome.modifierExtension);
+            return this;
         }
     }
 
@@ -476,7 +449,11 @@ public class OperationOutcome extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(severity, code).from(this);
+        }
+
+        public Builder toBuilder(IssueSeverity severity, IssueType code) {
+            return new Builder(severity, code).from(this);
         }
 
         public static Builder builder(IssueSeverity severity, IssueType code) {
@@ -725,13 +702,15 @@ public class OperationOutcome extends DomainResource {
                 return new Issue(this);
             }
 
-            private static Builder from(Issue issue) {
-                Builder builder = new Builder(issue.severity, issue.code);
-                builder.details = issue.details;
-                builder.diagnostics = issue.diagnostics;
-                builder.location.addAll(issue.location);
-                builder.expression.addAll(issue.expression);
-                return builder;
+            private Builder from(Issue issue) {
+                id = issue.id;
+                extension.addAll(issue.extension);
+                modifierExtension.addAll(issue.modifierExtension);
+                details = issue.details;
+                diagnostics = issue.diagnostics;
+                location.addAll(issue.location);
+                expression.addAll(issue.expression);
+                return this;
             }
         }
     }

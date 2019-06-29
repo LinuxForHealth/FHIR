@@ -192,24 +192,7 @@ public class Medication extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.code = code;
-        builder.status = status;
-        builder.manufacturer = manufacturer;
-        builder.form = form;
-        builder.amount = amount;
-        builder.ingredient.addAll(ingredient);
-        builder.batch = batch;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -612,6 +595,26 @@ public class Medication extends DomainResource {
         public Medication build() {
             return new Medication(this);
         }
+
+        private Builder from(Medication medication) {
+            id = medication.id;
+            meta = medication.meta;
+            implicitRules = medication.implicitRules;
+            language = medication.language;
+            text = medication.text;
+            contained.addAll(medication.contained);
+            extension.addAll(medication.extension);
+            modifierExtension.addAll(medication.modifierExtension);
+            identifier.addAll(medication.identifier);
+            code = medication.code;
+            status = medication.status;
+            manufacturer = medication.manufacturer;
+            form = medication.form;
+            amount = medication.amount;
+            ingredient.addAll(medication.ingredient);
+            batch = medication.batch;
+            return this;
+        }
     }
 
     /**
@@ -688,7 +691,11 @@ public class Medication extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(item).from(this);
+        }
+
+        public Builder toBuilder(Element item) {
+            return new Builder(item).from(this);
         }
 
         public static Builder builder(Element item) {
@@ -851,11 +858,13 @@ public class Medication extends DomainResource {
                 return new Ingredient(this);
             }
 
-            private static Builder from(Ingredient ingredient) {
-                Builder builder = new Builder(ingredient.item);
-                builder.isActive = ingredient.isActive;
-                builder.strength = ingredient.strength;
-                return builder;
+            private Builder from(Ingredient ingredient) {
+                id = ingredient.id;
+                extension.addAll(ingredient.extension);
+                modifierExtension.addAll(ingredient.modifierExtension);
+                isActive = ingredient.isActive;
+                strength = ingredient.strength;
+                return this;
             }
         }
     }
@@ -918,7 +927,7 @@ public class Medication extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1076,11 +1085,13 @@ public class Medication extends DomainResource {
                 return new Batch(this);
             }
 
-            private static Builder from(Batch batch) {
-                Builder builder = new Builder();
-                builder.lotNumber = batch.lotNumber;
-                builder.expirationDate = batch.expirationDate;
-                return builder;
+            private Builder from(Batch batch) {
+                id = batch.id;
+                extension.addAll(batch.extension);
+                modifierExtension.addAll(batch.modifierExtension);
+                lotNumber = batch.lotNumber;
+                expirationDate = batch.expirationDate;
+                return this;
             }
         }
     }

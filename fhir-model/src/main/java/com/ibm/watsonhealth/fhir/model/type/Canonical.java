@@ -38,11 +38,7 @@ public class Canonical extends Uri {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -127,6 +123,13 @@ public class Canonical extends Uri {
         @Override
         public Canonical build() {
             return new Canonical(this);
+        }
+
+        private Builder from(Canonical canonical) {
+            id = canonical.id;
+            extension.addAll(canonical.extension);
+            value = canonical.value;
+            return this;
         }
     }
 }

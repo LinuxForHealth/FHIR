@@ -40,11 +40,7 @@ public class PositiveInt extends Integer {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -133,6 +129,13 @@ public class PositiveInt extends Integer {
         @Override
         public PositiveInt build() {
             return new PositiveInt(this);
+        }
+
+        private Builder from(PositiveInt positiveInt) {
+            id = positiveInt.id;
+            extension.addAll(positiveInt.extension);
+            value = positiveInt.value;
+            return this;
         }
     }
 }

@@ -126,15 +126,7 @@ public class Quantity extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.comparator = comparator;
-        builder.unit = unit;
-        builder.system = system;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -292,6 +284,17 @@ public class Quantity extends Element {
         @Override
         public Quantity build() {
             return new Quantity(this);
+        }
+
+        private Builder from(Quantity quantity) {
+            id = quantity.id;
+            extension.addAll(quantity.extension);
+            value = quantity.value;
+            comparator = quantity.comparator;
+            unit = quantity.unit;
+            system = quantity.system;
+            code = quantity.code;
+            return this;
         }
     }
 }

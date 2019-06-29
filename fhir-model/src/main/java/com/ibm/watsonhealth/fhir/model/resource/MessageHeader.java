@@ -239,25 +239,11 @@ public class MessageHeader extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(event, source);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.destination.addAll(destination);
-        builder.sender = sender;
-        builder.enterer = enterer;
-        builder.author = author;
-        builder.responsible = responsible;
-        builder.reason = reason;
-        builder.response = response;
-        builder.focus.addAll(focus);
-        builder.definition = definition;
-        return builder;
+        return new Builder(event, source).from(this);
+    }
+
+    public Builder toBuilder(Element event, Source source) {
+        return new Builder(event, source).from(this);
     }
 
     public static Builder builder(Element event, Source source) {
@@ -682,6 +668,27 @@ public class MessageHeader extends DomainResource {
         public MessageHeader build() {
             return new MessageHeader(this);
         }
+
+        private Builder from(MessageHeader messageHeader) {
+            id = messageHeader.id;
+            meta = messageHeader.meta;
+            implicitRules = messageHeader.implicitRules;
+            language = messageHeader.language;
+            text = messageHeader.text;
+            contained.addAll(messageHeader.contained);
+            extension.addAll(messageHeader.extension);
+            modifierExtension.addAll(messageHeader.modifierExtension);
+            destination.addAll(messageHeader.destination);
+            sender = messageHeader.sender;
+            enterer = messageHeader.enterer;
+            author = messageHeader.author;
+            responsible = messageHeader.responsible;
+            reason = messageHeader.reason;
+            response = messageHeader.response;
+            focus.addAll(messageHeader.focus);
+            definition = messageHeader.definition;
+            return this;
+        }
     }
 
     /**
@@ -773,7 +780,11 @@ public class MessageHeader extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(endpoint).from(this);
+        }
+
+        public Builder toBuilder(Url endpoint) {
+            return new Builder(endpoint).from(this);
         }
 
         public static Builder builder(Url endpoint) {
@@ -953,12 +964,14 @@ public class MessageHeader extends DomainResource {
                 return new Destination(this);
             }
 
-            private static Builder from(Destination destination) {
-                Builder builder = new Builder(destination.endpoint);
-                builder.name = destination.name;
-                builder.target = destination.target;
-                builder.receiver = destination.receiver;
-                return builder;
+            private Builder from(Destination destination) {
+                id = destination.id;
+                extension.addAll(destination.extension);
+                modifierExtension.addAll(destination.modifierExtension);
+                name = destination.name;
+                target = destination.target;
+                receiver = destination.receiver;
+                return this;
             }
         }
     }
@@ -1066,7 +1079,11 @@ public class MessageHeader extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(endpoint).from(this);
+        }
+
+        public Builder toBuilder(Url endpoint) {
+            return new Builder(endpoint).from(this);
         }
 
         public static Builder builder(Url endpoint) {
@@ -1262,13 +1279,15 @@ public class MessageHeader extends DomainResource {
                 return new Source(this);
             }
 
-            private static Builder from(Source source) {
-                Builder builder = new Builder(source.endpoint);
-                builder.name = source.name;
-                builder.software = source.software;
-                builder.version = source.version;
-                builder.contact = source.contact;
-                return builder;
+            private Builder from(Source source) {
+                id = source.id;
+                extension.addAll(source.extension);
+                modifierExtension.addAll(source.modifierExtension);
+                name = source.name;
+                software = source.software;
+                version = source.version;
+                contact = source.contact;
+                return this;
             }
         }
     }
@@ -1347,7 +1366,11 @@ public class MessageHeader extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(identifier, code).from(this);
+        }
+
+        public Builder toBuilder(Id identifier, ResponseType code) {
+            return new Builder(identifier, code).from(this);
         }
 
         public static Builder builder(Id identifier, ResponseType code) {
@@ -1494,10 +1517,12 @@ public class MessageHeader extends DomainResource {
                 return new Response(this);
             }
 
-            private static Builder from(Response response) {
-                Builder builder = new Builder(response.identifier, response.code);
-                builder.details = response.details;
-                return builder;
+            private Builder from(Response response) {
+                id = response.id;
+                extension.addAll(response.extension);
+                modifierExtension.addAll(response.modifierExtension);
+                details = response.details;
+                return this;
             }
         }
     }

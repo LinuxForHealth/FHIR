@@ -53,15 +53,7 @@ public class Age extends Quantity {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.comparator = comparator;
-        builder.unit = unit;
-        builder.system = system;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -212,6 +204,17 @@ public class Age extends Quantity {
         @Override
         public Age build() {
             return new Age(this);
+        }
+
+        private Builder from(Age age) {
+            id = age.id;
+            extension.addAll(age.extension);
+            value = age.value;
+            comparator = age.comparator;
+            unit = age.unit;
+            system = age.system;
+            code = age.code;
+            return this;
         }
     }
 }

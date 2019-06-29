@@ -343,30 +343,11 @@ public class MedicationStatement extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, medication, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn.addAll(basedOn);
-        builder.partOf.addAll(partOf);
-        builder.statusReason.addAll(statusReason);
-        builder.category = category;
-        builder.context = context;
-        builder.effective = effective;
-        builder.dateAsserted = dateAsserted;
-        builder.informationSource = informationSource;
-        builder.derivedFrom.addAll(derivedFrom);
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.note.addAll(note);
-        builder.dosage.addAll(dosage);
-        return builder;
+        return new Builder(status, medication, subject).from(this);
+    }
+
+    public Builder toBuilder(MedicationStatementStatus status, Element medication, Reference subject) {
+        return new Builder(status, medication, subject).from(this);
     }
 
     public static Builder builder(MedicationStatementStatus status, Element medication, Reference subject) {
@@ -1009,6 +990,32 @@ public class MedicationStatement extends DomainResource {
         @Override
         public MedicationStatement build() {
             return new MedicationStatement(this);
+        }
+
+        private Builder from(MedicationStatement medicationStatement) {
+            id = medicationStatement.id;
+            meta = medicationStatement.meta;
+            implicitRules = medicationStatement.implicitRules;
+            language = medicationStatement.language;
+            text = medicationStatement.text;
+            contained.addAll(medicationStatement.contained);
+            extension.addAll(medicationStatement.extension);
+            modifierExtension.addAll(medicationStatement.modifierExtension);
+            identifier.addAll(medicationStatement.identifier);
+            basedOn.addAll(medicationStatement.basedOn);
+            partOf.addAll(medicationStatement.partOf);
+            statusReason.addAll(medicationStatement.statusReason);
+            category = medicationStatement.category;
+            context = medicationStatement.context;
+            effective = medicationStatement.effective;
+            dateAsserted = medicationStatement.dateAsserted;
+            informationSource = medicationStatement.informationSource;
+            derivedFrom.addAll(medicationStatement.derivedFrom);
+            reasonCode.addAll(medicationStatement.reasonCode);
+            reasonReference.addAll(medicationStatement.reasonReference);
+            note.addAll(medicationStatement.note);
+            dosage.addAll(medicationStatement.dosage);
+            return this;
         }
     }
 }

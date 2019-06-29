@@ -181,24 +181,7 @@ public class EnrollmentResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.status = status;
-        builder.request = request;
-        builder.outcome = outcome;
-        builder.disposition = disposition;
-        builder.created = created;
-        builder.organization = organization;
-        builder.requestProvider = requestProvider;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -577,6 +560,26 @@ public class EnrollmentResponse extends DomainResource {
         @Override
         public EnrollmentResponse build() {
             return new EnrollmentResponse(this);
+        }
+
+        private Builder from(EnrollmentResponse enrollmentResponse) {
+            id = enrollmentResponse.id;
+            meta = enrollmentResponse.meta;
+            implicitRules = enrollmentResponse.implicitRules;
+            language = enrollmentResponse.language;
+            text = enrollmentResponse.text;
+            contained.addAll(enrollmentResponse.contained);
+            extension.addAll(enrollmentResponse.extension);
+            modifierExtension.addAll(enrollmentResponse.modifierExtension);
+            identifier.addAll(enrollmentResponse.identifier);
+            status = enrollmentResponse.status;
+            request = enrollmentResponse.request;
+            outcome = enrollmentResponse.outcome;
+            disposition = enrollmentResponse.disposition;
+            created = enrollmentResponse.created;
+            organization = enrollmentResponse.organization;
+            requestProvider = enrollmentResponse.requestProvider;
+            return this;
         }
     }
 }

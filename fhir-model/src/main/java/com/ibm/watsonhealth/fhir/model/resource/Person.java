@@ -217,26 +217,7 @@ public class Person extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.name.addAll(name);
-        builder.telecom.addAll(telecom);
-        builder.gender = gender;
-        builder.birthDate = birthDate;
-        builder.address.addAll(address);
-        builder.photo = photo;
-        builder.managingOrganization = managingOrganization;
-        builder.active = active;
-        builder.link.addAll(link);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -722,6 +703,28 @@ public class Person extends DomainResource {
         public Person build() {
             return new Person(this);
         }
+
+        private Builder from(Person person) {
+            id = person.id;
+            meta = person.meta;
+            implicitRules = person.implicitRules;
+            language = person.language;
+            text = person.text;
+            contained.addAll(person.contained);
+            extension.addAll(person.extension);
+            modifierExtension.addAll(person.modifierExtension);
+            identifier.addAll(person.identifier);
+            name.addAll(person.name);
+            telecom.addAll(person.telecom);
+            gender = person.gender;
+            birthDate = person.birthDate;
+            address.addAll(person.address);
+            photo = person.photo;
+            managingOrganization = person.managingOrganization;
+            active = person.active;
+            link.addAll(person.link);
+            return this;
+        }
     }
 
     /**
@@ -782,7 +785,11 @@ public class Person extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(target).from(this);
+        }
+
+        public Builder toBuilder(Reference target) {
+            return new Builder(target).from(this);
         }
 
         public static Builder builder(Reference target) {
@@ -927,10 +934,12 @@ public class Person extends DomainResource {
                 return new Link(this);
             }
 
-            private static Builder from(Link link) {
-                Builder builder = new Builder(link.target);
-                builder.assurance = link.assurance;
-                return builder;
+            private Builder from(Link link) {
+                id = link.id;
+                extension.addAll(link.extension);
+                modifierExtension.addAll(link.modifierExtension);
+                assurance = link.assurance;
+                return this;
             }
         }
     }

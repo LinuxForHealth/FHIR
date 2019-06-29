@@ -244,24 +244,7 @@ public class Dosage extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.sequence = sequence;
-        builder.text = text;
-        builder.additionalInstruction.addAll(additionalInstruction);
-        builder.patientInstruction = patientInstruction;
-        builder.timing = timing;
-        builder.asNeeded = asNeeded;
-        builder.site = site;
-        builder.route = route;
-        builder.method = method;
-        builder.doseAndRate.addAll(doseAndRate);
-        builder.maxDosePerPeriod = maxDosePerPeriod;
-        builder.maxDosePerAdministration = maxDosePerAdministration;
-        builder.maxDosePerLifetime = maxDosePerLifetime;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -646,6 +629,26 @@ public class Dosage extends BackboneElement {
         public Dosage build() {
             return new Dosage(this);
         }
+
+        private Builder from(Dosage dosage) {
+            id = dosage.id;
+            extension.addAll(dosage.extension);
+            modifierExtension.addAll(dosage.modifierExtension);
+            sequence = dosage.sequence;
+            text = dosage.text;
+            additionalInstruction.addAll(dosage.additionalInstruction);
+            patientInstruction = dosage.patientInstruction;
+            timing = dosage.timing;
+            asNeeded = dosage.asNeeded;
+            site = dosage.site;
+            route = dosage.route;
+            method = dosage.method;
+            doseAndRate.addAll(dosage.doseAndRate);
+            maxDosePerPeriod = dosage.maxDosePerPeriod;
+            maxDosePerAdministration = dosage.maxDosePerAdministration;
+            maxDosePerLifetime = dosage.maxDosePerLifetime;
+            return this;
+        }
     }
 
     /**
@@ -721,7 +724,7 @@ public class Dosage extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -892,12 +895,14 @@ public class Dosage extends BackboneElement {
                 return new DoseAndRate(this);
             }
 
-            private static Builder from(DoseAndRate doseAndRate) {
-                Builder builder = new Builder();
-                builder.type = doseAndRate.type;
-                builder.dose = doseAndRate.dose;
-                builder.rate = doseAndRate.rate;
-                return builder;
+            private Builder from(DoseAndRate doseAndRate) {
+                id = doseAndRate.id;
+                extension.addAll(doseAndRate.extension);
+                modifierExtension.addAll(doseAndRate.modifierExtension);
+                type = doseAndRate.type;
+                dose = doseAndRate.dose;
+                rate = doseAndRate.rate;
+                return this;
             }
         }
     }

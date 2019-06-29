@@ -134,20 +134,7 @@ public class SubstanceProtein extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.sequenceType = sequenceType;
-        builder.numberOfSubunits = numberOfSubunits;
-        builder.disulfideLinkage.addAll(disulfideLinkage);
-        builder.subunit.addAll(subunit);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -509,6 +496,22 @@ public class SubstanceProtein extends DomainResource {
         public SubstanceProtein build() {
             return new SubstanceProtein(this);
         }
+
+        private Builder from(SubstanceProtein substanceProtein) {
+            id = substanceProtein.id;
+            meta = substanceProtein.meta;
+            implicitRules = substanceProtein.implicitRules;
+            language = substanceProtein.language;
+            text = substanceProtein.text;
+            contained.addAll(substanceProtein.contained);
+            extension.addAll(substanceProtein.extension);
+            modifierExtension.addAll(substanceProtein.modifierExtension);
+            sequenceType = substanceProtein.sequenceType;
+            numberOfSubunits = substanceProtein.numberOfSubunits;
+            disulfideLinkage.addAll(substanceProtein.disulfideLinkage);
+            subunit.addAll(substanceProtein.subunit);
+            return this;
+        }
     }
 
     /**
@@ -673,7 +676,7 @@ public class SubstanceProtein extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -953,17 +956,19 @@ public class SubstanceProtein extends DomainResource {
                 return new Subunit(this);
             }
 
-            private static Builder from(Subunit subunit) {
-                Builder builder = new Builder();
-                builder.subunit = subunit.subunit;
-                builder.sequence = subunit.sequence;
-                builder.length = subunit.length;
-                builder.sequenceAttachment = subunit.sequenceAttachment;
-                builder.nTerminalModificationId = subunit.nTerminalModificationId;
-                builder.nTerminalModification = subunit.nTerminalModification;
-                builder.cTerminalModificationId = subunit.cTerminalModificationId;
-                builder.cTerminalModification = subunit.cTerminalModification;
-                return builder;
+            private Builder from(Subunit subunit) {
+                id = subunit.id;
+                extension.addAll(subunit.extension);
+                modifierExtension.addAll(subunit.modifierExtension);
+                this.subunit = subunit.subunit;
+                sequence = subunit.sequence;
+                length = subunit.length;
+                sequenceAttachment = subunit.sequenceAttachment;
+                nTerminalModificationId = subunit.nTerminalModificationId;
+                nTerminalModification = subunit.nTerminalModification;
+                cTerminalModificationId = subunit.cTerminalModificationId;
+                cTerminalModification = subunit.cTerminalModification;
+                return this;
             }
         }
     }

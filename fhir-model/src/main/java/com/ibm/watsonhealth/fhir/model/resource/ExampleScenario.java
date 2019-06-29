@@ -347,32 +347,11 @@ public class ExampleScenario extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.copyright = copyright;
-        builder.purpose = purpose;
-        builder.actor.addAll(actor);
-        builder.instance.addAll(instance);
-        builder.process.addAll(process);
-        builder.workflow.addAll(workflow);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -1036,6 +1015,34 @@ public class ExampleScenario extends DomainResource {
         public ExampleScenario build() {
             return new ExampleScenario(this);
         }
+
+        private Builder from(ExampleScenario exampleScenario) {
+            id = exampleScenario.id;
+            meta = exampleScenario.meta;
+            implicitRules = exampleScenario.implicitRules;
+            language = exampleScenario.language;
+            text = exampleScenario.text;
+            contained.addAll(exampleScenario.contained);
+            extension.addAll(exampleScenario.extension);
+            modifierExtension.addAll(exampleScenario.modifierExtension);
+            url = exampleScenario.url;
+            identifier.addAll(exampleScenario.identifier);
+            version = exampleScenario.version;
+            name = exampleScenario.name;
+            experimental = exampleScenario.experimental;
+            date = exampleScenario.date;
+            publisher = exampleScenario.publisher;
+            contact.addAll(exampleScenario.contact);
+            useContext.addAll(exampleScenario.useContext);
+            jurisdiction.addAll(exampleScenario.jurisdiction);
+            copyright = exampleScenario.copyright;
+            purpose = exampleScenario.purpose;
+            actor.addAll(exampleScenario.actor);
+            instance.addAll(exampleScenario.instance);
+            process.addAll(exampleScenario.process);
+            workflow.addAll(exampleScenario.workflow);
+            return this;
+        }
     }
 
     /**
@@ -1126,7 +1133,11 @@ public class ExampleScenario extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(actorId, type).from(this);
+        }
+
+        public Builder toBuilder(String actorId, ExampleScenarioActorType type) {
+            return new Builder(actorId, type).from(this);
         }
 
         public static Builder builder(String actorId, ExampleScenarioActorType type) {
@@ -1290,11 +1301,13 @@ public class ExampleScenario extends DomainResource {
                 return new Actor(this);
             }
 
-            private static Builder from(Actor actor) {
-                Builder builder = new Builder(actor.actorId, actor.type);
-                builder.name = actor.name;
-                builder.description = actor.description;
-                return builder;
+            private Builder from(Actor actor) {
+                id = actor.id;
+                extension.addAll(actor.extension);
+                modifierExtension.addAll(actor.modifierExtension);
+                name = actor.name;
+                description = actor.description;
+                return this;
             }
         }
     }
@@ -1417,7 +1430,11 @@ public class ExampleScenario extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(resourceId, resourceType).from(this);
+        }
+
+        public Builder toBuilder(String resourceId, FHIRResourceType resourceType) {
+            return new Builder(resourceId, resourceType).from(this);
         }
 
         public static Builder builder(String resourceId, FHIRResourceType resourceType) {
@@ -1651,13 +1668,15 @@ public class ExampleScenario extends DomainResource {
                 return new Instance(this);
             }
 
-            private static Builder from(Instance instance) {
-                Builder builder = new Builder(instance.resourceId, instance.resourceType);
-                builder.name = instance.name;
-                builder.description = instance.description;
-                builder.version.addAll(instance.version);
-                builder.containedInstance.addAll(instance.containedInstance);
-                return builder;
+            private Builder from(Instance instance) {
+                id = instance.id;
+                extension.addAll(instance.extension);
+                modifierExtension.addAll(instance.modifierExtension);
+                name = instance.name;
+                description = instance.description;
+                version.addAll(instance.version);
+                containedInstance.addAll(instance.containedInstance);
+                return this;
             }
         }
 
@@ -1719,7 +1738,11 @@ public class ExampleScenario extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(versionId, description).from(this);
+            }
+
+            public Builder toBuilder(String versionId, Markdown description) {
+                return new Builder(versionId, description).from(this);
             }
 
             public static Builder builder(String versionId, Markdown description) {
@@ -1847,9 +1870,11 @@ public class ExampleScenario extends DomainResource {
                     return new Version(this);
                 }
 
-                private static Builder from(Version version) {
-                    Builder builder = new Builder(version.versionId, version.description);
-                    return builder;
+                private Builder from(Version version) {
+                    id = version.id;
+                    extension.addAll(version.extension);
+                    modifierExtension.addAll(version.modifierExtension);
+                    return this;
                 }
             }
         }
@@ -1912,7 +1937,11 @@ public class ExampleScenario extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(resourceId).from(this);
+            }
+
+            public Builder toBuilder(String resourceId) {
+                return new Builder(resourceId).from(this);
             }
 
             public static Builder builder(String resourceId) {
@@ -2057,10 +2086,12 @@ public class ExampleScenario extends DomainResource {
                     return new ContainedInstance(this);
                 }
 
-                private static Builder from(ContainedInstance containedInstance) {
-                    Builder builder = new Builder(containedInstance.resourceId);
-                    builder.versionId = containedInstance.versionId;
-                    return builder;
+                private Builder from(ContainedInstance containedInstance) {
+                    id = containedInstance.id;
+                    extension.addAll(containedInstance.extension);
+                    modifierExtension.addAll(containedInstance.modifierExtension);
+                    versionId = containedInstance.versionId;
+                    return this;
                 }
             }
         }
@@ -2169,7 +2200,11 @@ public class ExampleScenario extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(title).from(this);
+        }
+
+        public Builder toBuilder(String title) {
+            return new Builder(title).from(this);
         }
 
         public static Builder builder(String title) {
@@ -2383,13 +2418,15 @@ public class ExampleScenario extends DomainResource {
                 return new Process(this);
             }
 
-            private static Builder from(Process process) {
-                Builder builder = new Builder(process.title);
-                builder.description = process.description;
-                builder.preConditions = process.preConditions;
-                builder.postConditions = process.postConditions;
-                builder.step.addAll(process.step);
-                return builder;
+            private Builder from(Process process) {
+                id = process.id;
+                extension.addAll(process.extension);
+                modifierExtension.addAll(process.modifierExtension);
+                description = process.description;
+                preConditions = process.preConditions;
+                postConditions = process.postConditions;
+                step.addAll(process.step);
+                return this;
             }
         }
 
@@ -2482,7 +2519,7 @@ public class ExampleScenario extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2712,13 +2749,15 @@ public class ExampleScenario extends DomainResource {
                     return new Step(this);
                 }
 
-                private static Builder from(Step step) {
-                    Builder builder = new Builder();
-                    builder.process.addAll(step.process);
-                    builder.pause = step.pause;
-                    builder.operation = step.operation;
-                    builder.alternative.addAll(step.alternative);
-                    return builder;
+                private Builder from(Step step) {
+                    id = step.id;
+                    extension.addAll(step.extension);
+                    modifierExtension.addAll(step.modifierExtension);
+                    process.addAll(step.process);
+                    pause = step.pause;
+                    operation = step.operation;
+                    alternative.addAll(step.alternative);
+                    return this;
                 }
             }
 
@@ -2900,7 +2939,11 @@ public class ExampleScenario extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(number).from(this);
+                }
+
+                public Builder toBuilder(String number) {
+                    return new Builder(number).from(this);
                 }
 
                 public static Builder builder(String number) {
@@ -3181,18 +3224,20 @@ public class ExampleScenario extends DomainResource {
                         return new Operation(this);
                     }
 
-                    private static Builder from(Operation operation) {
-                        Builder builder = new Builder(operation.number);
-                        builder.type = operation.type;
-                        builder.name = operation.name;
-                        builder.initiator = operation.initiator;
-                        builder.receiver = operation.receiver;
-                        builder.description = operation.description;
-                        builder.initiatorActive = operation.initiatorActive;
-                        builder.receiverActive = operation.receiverActive;
-                        builder.request = operation.request;
-                        builder.response = operation.response;
-                        return builder;
+                    private Builder from(Operation operation) {
+                        id = operation.id;
+                        extension.addAll(operation.extension);
+                        modifierExtension.addAll(operation.modifierExtension);
+                        type = operation.type;
+                        name = operation.name;
+                        initiator = operation.initiator;
+                        receiver = operation.receiver;
+                        description = operation.description;
+                        initiatorActive = operation.initiatorActive;
+                        receiverActive = operation.receiverActive;
+                        request = operation.request;
+                        response = operation.response;
+                        return this;
                     }
                 }
             }
@@ -3272,7 +3317,11 @@ public class ExampleScenario extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(title).from(this);
+                }
+
+                public Builder toBuilder(String title) {
+                    return new Builder(title).from(this);
                 }
 
                 public static Builder builder(String title) {
@@ -3452,11 +3501,13 @@ public class ExampleScenario extends DomainResource {
                         return new Alternative(this);
                     }
 
-                    private static Builder from(Alternative alternative) {
-                        Builder builder = new Builder(alternative.title);
-                        builder.description = alternative.description;
-                        builder.step.addAll(alternative.step);
-                        return builder;
+                    private Builder from(Alternative alternative) {
+                        id = alternative.id;
+                        extension.addAll(alternative.extension);
+                        modifierExtension.addAll(alternative.modifierExtension);
+                        description = alternative.description;
+                        step.addAll(alternative.step);
+                        return this;
                     }
                 }
             }

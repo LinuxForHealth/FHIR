@@ -74,10 +74,11 @@ public class UsageContext extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(code, value);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        return builder;
+        return new Builder(code, value).from(this);
+    }
+
+    public Builder toBuilder(Coding code, Element value) {
+        return new Builder(code, value).from(this);
     }
 
     public static Builder builder(Coding code, Element value) {
@@ -153,6 +154,12 @@ public class UsageContext extends Element {
         @Override
         public UsageContext build() {
             return new UsageContext(this);
+        }
+
+        private Builder from(UsageContext usageContext) {
+            id = usageContext.id;
+            extension.addAll(usageContext.extension);
+            return this;
         }
     }
 }

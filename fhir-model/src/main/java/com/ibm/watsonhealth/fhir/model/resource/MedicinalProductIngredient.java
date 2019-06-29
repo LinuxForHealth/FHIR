@@ -154,21 +154,11 @@ public class MedicinalProductIngredient extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(role);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.allergenicIndicator = allergenicIndicator;
-        builder.manufacturer.addAll(manufacturer);
-        builder.specifiedSubstance.addAll(specifiedSubstance);
-        builder.substance = substance;
-        return builder;
+        return new Builder(role).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept role) {
+        return new Builder(role).from(this);
     }
 
     public static Builder builder(CodeableConcept role) {
@@ -520,6 +510,23 @@ public class MedicinalProductIngredient extends DomainResource {
         public MedicinalProductIngredient build() {
             return new MedicinalProductIngredient(this);
         }
+
+        private Builder from(MedicinalProductIngredient medicinalProductIngredient) {
+            id = medicinalProductIngredient.id;
+            meta = medicinalProductIngredient.meta;
+            implicitRules = medicinalProductIngredient.implicitRules;
+            language = medicinalProductIngredient.language;
+            text = medicinalProductIngredient.text;
+            contained.addAll(medicinalProductIngredient.contained);
+            extension.addAll(medicinalProductIngredient.extension);
+            modifierExtension.addAll(medicinalProductIngredient.modifierExtension);
+            identifier = medicinalProductIngredient.identifier;
+            allergenicIndicator = medicinalProductIngredient.allergenicIndicator;
+            manufacturer.addAll(medicinalProductIngredient.manufacturer);
+            specifiedSubstance.addAll(medicinalProductIngredient.specifiedSubstance);
+            substance = medicinalProductIngredient.substance;
+            return this;
+        }
     }
 
     /**
@@ -610,7 +617,11 @@ public class MedicinalProductIngredient extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code, group).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code, CodeableConcept group) {
+            return new Builder(code, group).from(this);
         }
 
         public static Builder builder(CodeableConcept code, CodeableConcept group) {
@@ -792,11 +803,13 @@ public class MedicinalProductIngredient extends DomainResource {
                 return new SpecifiedSubstance(this);
             }
 
-            private static Builder from(SpecifiedSubstance specifiedSubstance) {
-                Builder builder = new Builder(specifiedSubstance.code, specifiedSubstance.group);
-                builder.confidentiality = specifiedSubstance.confidentiality;
-                builder.strength.addAll(specifiedSubstance.strength);
-                return builder;
+            private Builder from(SpecifiedSubstance specifiedSubstance) {
+                id = specifiedSubstance.id;
+                extension.addAll(specifiedSubstance.extension);
+                modifierExtension.addAll(specifiedSubstance.modifierExtension);
+                confidentiality = specifiedSubstance.confidentiality;
+                strength.addAll(specifiedSubstance.strength);
+                return this;
             }
         }
 
@@ -936,7 +949,11 @@ public class MedicinalProductIngredient extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(presentation).from(this);
+            }
+
+            public Builder toBuilder(Ratio presentation) {
+                return new Builder(presentation).from(this);
             }
 
             public static Builder builder(Ratio presentation) {
@@ -1206,15 +1223,17 @@ public class MedicinalProductIngredient extends DomainResource {
                     return new Strength(this);
                 }
 
-                private static Builder from(Strength strength) {
-                    Builder builder = new Builder(strength.presentation);
-                    builder.presentationLowLimit = strength.presentationLowLimit;
-                    builder.concentration = strength.concentration;
-                    builder.concentrationLowLimit = strength.concentrationLowLimit;
-                    builder.measurementPoint = strength.measurementPoint;
-                    builder.country.addAll(strength.country);
-                    builder.referenceStrength.addAll(strength.referenceStrength);
-                    return builder;
+                private Builder from(Strength strength) {
+                    id = strength.id;
+                    extension.addAll(strength.extension);
+                    modifierExtension.addAll(strength.modifierExtension);
+                    presentationLowLimit = strength.presentationLowLimit;
+                    concentration = strength.concentration;
+                    concentrationLowLimit = strength.concentrationLowLimit;
+                    measurementPoint = strength.measurementPoint;
+                    country.addAll(strength.country);
+                    referenceStrength.addAll(strength.referenceStrength);
+                    return this;
                 }
             }
 
@@ -1321,7 +1340,11 @@ public class MedicinalProductIngredient extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(strength).from(this);
+                }
+
+                public Builder toBuilder(Ratio strength) {
+                    return new Builder(strength).from(this);
                 }
 
                 public static Builder builder(Ratio strength) {
@@ -1535,13 +1558,15 @@ public class MedicinalProductIngredient extends DomainResource {
                         return new ReferenceStrength(this);
                     }
 
-                    private static Builder from(ReferenceStrength referenceStrength) {
-                        Builder builder = new Builder(referenceStrength.strength);
-                        builder.substance = referenceStrength.substance;
-                        builder.strengthLowLimit = referenceStrength.strengthLowLimit;
-                        builder.measurementPoint = referenceStrength.measurementPoint;
-                        builder.country.addAll(referenceStrength.country);
-                        return builder;
+                    private Builder from(ReferenceStrength referenceStrength) {
+                        id = referenceStrength.id;
+                        extension.addAll(referenceStrength.extension);
+                        modifierExtension.addAll(referenceStrength.modifierExtension);
+                        substance = referenceStrength.substance;
+                        strengthLowLimit = referenceStrength.strengthLowLimit;
+                        measurementPoint = referenceStrength.measurementPoint;
+                        country.addAll(referenceStrength.country);
+                        return this;
                     }
                 }
             }
@@ -1606,7 +1631,11 @@ public class MedicinalProductIngredient extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -1769,10 +1798,12 @@ public class MedicinalProductIngredient extends DomainResource {
                 return new Substance(this);
             }
 
-            private static Builder from(Substance substance) {
-                Builder builder = new Builder(substance.code);
-                builder.strength.addAll(substance.strength);
-                return builder;
+            private Builder from(Substance substance) {
+                id = substance.id;
+                extension.addAll(substance.extension);
+                modifierExtension.addAll(substance.modifierExtension);
+                strength.addAll(substance.strength);
+                return this;
             }
         }
     }

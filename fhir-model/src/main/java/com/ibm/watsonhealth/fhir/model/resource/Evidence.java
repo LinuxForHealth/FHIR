@@ -518,42 +518,11 @@ public class Evidence extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, exposureBackground);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.shortTitle = shortTitle;
-        builder.subtitle = subtitle;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.note.addAll(note);
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.exposureVariant.addAll(exposureVariant);
-        builder.outcome.addAll(outcome);
-        return builder;
+        return new Builder(status, exposureBackground).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, Reference exposureBackground) {
+        return new Builder(status, exposureBackground).from(this);
     }
 
     public static Builder builder(PublicationStatus status, Reference exposureBackground) {
@@ -1484,6 +1453,44 @@ public class Evidence extends DomainResource {
         @Override
         public Evidence build() {
             return new Evidence(this);
+        }
+
+        private Builder from(Evidence evidence) {
+            id = evidence.id;
+            meta = evidence.meta;
+            implicitRules = evidence.implicitRules;
+            language = evidence.language;
+            text = evidence.text;
+            contained.addAll(evidence.contained);
+            extension.addAll(evidence.extension);
+            modifierExtension.addAll(evidence.modifierExtension);
+            url = evidence.url;
+            identifier.addAll(evidence.identifier);
+            version = evidence.version;
+            name = evidence.name;
+            title = evidence.title;
+            shortTitle = evidence.shortTitle;
+            subtitle = evidence.subtitle;
+            date = evidence.date;
+            publisher = evidence.publisher;
+            contact.addAll(evidence.contact);
+            description = evidence.description;
+            note.addAll(evidence.note);
+            useContext.addAll(evidence.useContext);
+            jurisdiction.addAll(evidence.jurisdiction);
+            copyright = evidence.copyright;
+            approvalDate = evidence.approvalDate;
+            lastReviewDate = evidence.lastReviewDate;
+            effectivePeriod = evidence.effectivePeriod;
+            topic.addAll(evidence.topic);
+            author.addAll(evidence.author);
+            editor.addAll(evidence.editor);
+            reviewer.addAll(evidence.reviewer);
+            endorser.addAll(evidence.endorser);
+            relatedArtifact.addAll(evidence.relatedArtifact);
+            exposureVariant.addAll(evidence.exposureVariant);
+            outcome.addAll(evidence.outcome);
+            return this;
         }
     }
 }

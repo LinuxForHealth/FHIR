@@ -613,48 +613,11 @@ public class ResearchDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, population);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.shortTitle = shortTitle;
-        builder.subtitle = subtitle;
-        builder.experimental = experimental;
-        builder.subject = subject;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.comment.addAll(comment);
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.usage = usage;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.library.addAll(library);
-        builder.exposure = exposure;
-        builder.exposureAlternative = exposureAlternative;
-        builder.outcome = outcome;
-        return builder;
+        return new Builder(status, population).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, Reference population) {
+        return new Builder(status, population).from(this);
     }
 
     public static Builder builder(PublicationStatus status, Reference population) {
@@ -1672,6 +1635,50 @@ public class ResearchDefinition extends DomainResource {
         @Override
         public ResearchDefinition build() {
             return new ResearchDefinition(this);
+        }
+
+        private Builder from(ResearchDefinition researchDefinition) {
+            id = researchDefinition.id;
+            meta = researchDefinition.meta;
+            implicitRules = researchDefinition.implicitRules;
+            language = researchDefinition.language;
+            text = researchDefinition.text;
+            contained.addAll(researchDefinition.contained);
+            extension.addAll(researchDefinition.extension);
+            modifierExtension.addAll(researchDefinition.modifierExtension);
+            url = researchDefinition.url;
+            identifier.addAll(researchDefinition.identifier);
+            version = researchDefinition.version;
+            name = researchDefinition.name;
+            title = researchDefinition.title;
+            shortTitle = researchDefinition.shortTitle;
+            subtitle = researchDefinition.subtitle;
+            experimental = researchDefinition.experimental;
+            subject = researchDefinition.subject;
+            date = researchDefinition.date;
+            publisher = researchDefinition.publisher;
+            contact.addAll(researchDefinition.contact);
+            description = researchDefinition.description;
+            comment.addAll(researchDefinition.comment);
+            useContext.addAll(researchDefinition.useContext);
+            jurisdiction.addAll(researchDefinition.jurisdiction);
+            purpose = researchDefinition.purpose;
+            usage = researchDefinition.usage;
+            copyright = researchDefinition.copyright;
+            approvalDate = researchDefinition.approvalDate;
+            lastReviewDate = researchDefinition.lastReviewDate;
+            effectivePeriod = researchDefinition.effectivePeriod;
+            topic.addAll(researchDefinition.topic);
+            author.addAll(researchDefinition.author);
+            editor.addAll(researchDefinition.editor);
+            reviewer.addAll(researchDefinition.reviewer);
+            endorser.addAll(researchDefinition.endorser);
+            relatedArtifact.addAll(researchDefinition.relatedArtifact);
+            library.addAll(researchDefinition.library);
+            exposure = researchDefinition.exposure;
+            exposureAlternative = researchDefinition.exposureAlternative;
+            outcome = researchDefinition.outcome;
+            return this;
         }
     }
 }

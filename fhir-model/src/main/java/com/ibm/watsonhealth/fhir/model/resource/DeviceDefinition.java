@@ -404,38 +404,7 @@ public class DeviceDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.udiDeviceIdentifier.addAll(udiDeviceIdentifier);
-        builder.manufacturer = manufacturer;
-        builder.deviceName.addAll(deviceName);
-        builder.modelNumber = modelNumber;
-        builder.type = type;
-        builder.specialization.addAll(specialization);
-        builder.version.addAll(version);
-        builder.safety.addAll(safety);
-        builder.shelfLifeStorage.addAll(shelfLifeStorage);
-        builder.physicalCharacteristics = physicalCharacteristics;
-        builder.languageCode.addAll(languageCode);
-        builder.capability.addAll(capability);
-        builder.property.addAll(property);
-        builder.owner = owner;
-        builder.contact.addAll(contact);
-        builder.url = url;
-        builder.onlineInformation = onlineInformation;
-        builder.note.addAll(note);
-        builder.quantity = quantity;
-        builder.parentDevice = parentDevice;
-        builder.material.addAll(material);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -1281,6 +1250,40 @@ public class DeviceDefinition extends DomainResource {
         public DeviceDefinition build() {
             return new DeviceDefinition(this);
         }
+
+        private Builder from(DeviceDefinition deviceDefinition) {
+            id = deviceDefinition.id;
+            meta = deviceDefinition.meta;
+            implicitRules = deviceDefinition.implicitRules;
+            language = deviceDefinition.language;
+            text = deviceDefinition.text;
+            contained.addAll(deviceDefinition.contained);
+            extension.addAll(deviceDefinition.extension);
+            modifierExtension.addAll(deviceDefinition.modifierExtension);
+            identifier.addAll(deviceDefinition.identifier);
+            udiDeviceIdentifier.addAll(deviceDefinition.udiDeviceIdentifier);
+            manufacturer = deviceDefinition.manufacturer;
+            deviceName.addAll(deviceDefinition.deviceName);
+            modelNumber = deviceDefinition.modelNumber;
+            type = deviceDefinition.type;
+            specialization.addAll(deviceDefinition.specialization);
+            version.addAll(deviceDefinition.version);
+            safety.addAll(deviceDefinition.safety);
+            shelfLifeStorage.addAll(deviceDefinition.shelfLifeStorage);
+            physicalCharacteristics = deviceDefinition.physicalCharacteristics;
+            languageCode.addAll(deviceDefinition.languageCode);
+            capability.addAll(deviceDefinition.capability);
+            property.addAll(deviceDefinition.property);
+            owner = deviceDefinition.owner;
+            contact.addAll(deviceDefinition.contact);
+            url = deviceDefinition.url;
+            onlineInformation = deviceDefinition.onlineInformation;
+            note.addAll(deviceDefinition.note);
+            quantity = deviceDefinition.quantity;
+            parentDevice = deviceDefinition.parentDevice;
+            material.addAll(deviceDefinition.material);
+            return this;
+        }
     }
 
     /**
@@ -1359,7 +1362,11 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(deviceIdentifier, issuer, jurisdiction).from(this);
+        }
+
+        public Builder toBuilder(String deviceIdentifier, Uri issuer, Uri jurisdiction) {
+            return new Builder(deviceIdentifier, issuer, jurisdiction).from(this);
         }
 
         public static Builder builder(String deviceIdentifier, Uri issuer, Uri jurisdiction) {
@@ -1489,9 +1496,11 @@ public class DeviceDefinition extends DomainResource {
                 return new UdiDeviceIdentifier(this);
             }
 
-            private static Builder from(UdiDeviceIdentifier udiDeviceIdentifier) {
-                Builder builder = new Builder(udiDeviceIdentifier.deviceIdentifier, udiDeviceIdentifier.issuer, udiDeviceIdentifier.jurisdiction);
-                return builder;
+            private Builder from(UdiDeviceIdentifier udiDeviceIdentifier) {
+                id = udiDeviceIdentifier.id;
+                extension.addAll(udiDeviceIdentifier.extension);
+                modifierExtension.addAll(udiDeviceIdentifier.modifierExtension);
+                return this;
             }
         }
     }
@@ -1555,7 +1564,11 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name, type).from(this);
+        }
+
+        public Builder toBuilder(String name, DeviceNameType type) {
+            return new Builder(name, type).from(this);
         }
 
         public static Builder builder(String name, DeviceNameType type) {
@@ -1683,9 +1696,11 @@ public class DeviceDefinition extends DomainResource {
                 return new DeviceName(this);
             }
 
-            private static Builder from(DeviceName deviceName) {
-                Builder builder = new Builder(deviceName.name, deviceName.type);
-                return builder;
+            private Builder from(DeviceName deviceName) {
+                id = deviceName.id;
+                extension.addAll(deviceName.extension);
+                modifierExtension.addAll(deviceName.modifierExtension);
+                return this;
             }
         }
     }
@@ -1749,7 +1764,11 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(systemType).from(this);
+        }
+
+        public Builder toBuilder(String systemType) {
+            return new Builder(systemType).from(this);
         }
 
         public static Builder builder(String systemType) {
@@ -1894,10 +1913,12 @@ public class DeviceDefinition extends DomainResource {
                 return new Specialization(this);
             }
 
-            private static Builder from(Specialization specialization) {
-                Builder builder = new Builder(specialization.systemType);
-                builder.version = specialization.version;
-                return builder;
+            private Builder from(Specialization specialization) {
+                id = specialization.id;
+                extension.addAll(specialization.extension);
+                modifierExtension.addAll(specialization.modifierExtension);
+                version = specialization.version;
+                return this;
             }
         }
     }
@@ -1960,7 +1981,11 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
@@ -2123,10 +2148,12 @@ public class DeviceDefinition extends DomainResource {
                 return new Capability(this);
             }
 
-            private static Builder from(Capability capability) {
-                Builder builder = new Builder(capability.type);
-                builder.description.addAll(capability.description);
-                return builder;
+            private Builder from(Capability capability) {
+                id = capability.id;
+                extension.addAll(capability.extension);
+                modifierExtension.addAll(capability.modifierExtension);
+                description.addAll(capability.description);
+                return this;
             }
         }
     }
@@ -2204,7 +2231,11 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
@@ -2402,11 +2433,13 @@ public class DeviceDefinition extends DomainResource {
                 return new Property(this);
             }
 
-            private static Builder from(Property property) {
-                Builder builder = new Builder(property.type);
-                builder.valueQuantity.addAll(property.valueQuantity);
-                builder.valueCode.addAll(property.valueCode);
-                return builder;
+            private Builder from(Property property) {
+                id = property.id;
+                extension.addAll(property.extension);
+                modifierExtension.addAll(property.modifierExtension);
+                valueQuantity.addAll(property.valueQuantity);
+                valueCode.addAll(property.valueCode);
+                return this;
             }
         }
     }
@@ -2484,7 +2517,11 @@ public class DeviceDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(substance).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept substance) {
+            return new Builder(substance).from(this);
         }
 
         public static Builder builder(CodeableConcept substance) {
@@ -2646,11 +2683,13 @@ public class DeviceDefinition extends DomainResource {
                 return new Material(this);
             }
 
-            private static Builder from(Material material) {
-                Builder builder = new Builder(material.substance);
-                builder.alternate = material.alternate;
-                builder.allergenicIndicator = material.allergenicIndicator;
-                return builder;
+            private Builder from(Material material) {
+                id = material.id;
+                extension.addAll(material.extension);
+                modifierExtension.addAll(material.modifierExtension);
+                alternate = material.alternate;
+                allergenicIndicator = material.allergenicIndicator;
+                return this;
             }
         }
     }

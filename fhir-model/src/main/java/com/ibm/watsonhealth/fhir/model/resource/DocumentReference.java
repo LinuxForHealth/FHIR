@@ -317,30 +317,11 @@ public class DocumentReference extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, content);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.masterIdentifier = masterIdentifier;
-        builder.identifier.addAll(identifier);
-        builder.docStatus = docStatus;
-        builder.type = type;
-        builder.category.addAll(category);
-        builder.subject = subject;
-        builder.date = date;
-        builder.author.addAll(author);
-        builder.authenticator = authenticator;
-        builder.custodian = custodian;
-        builder.relatesTo.addAll(relatesTo);
-        builder.description = description;
-        builder.securityLabel.addAll(securityLabel);
-        builder.context = context;
-        return builder;
+        return new Builder(status, content).from(this);
+    }
+
+    public Builder toBuilder(DocumentReferenceStatus status, List<Content> content) {
+        return new Builder(status, content).from(this);
     }
 
     public static Builder builder(DocumentReferenceStatus status, List<Content> content) {
@@ -892,40 +873,6 @@ public class DocumentReference extends DomainResource {
 
         /**
          * <p>
-         * The document and format referenced. There may be multiple content element repetitions, each with a different format.
-         * </p>
-         * 
-         * @param content
-         *     Document referenced
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder content(Content... content) {
-            for (Content value : content) {
-                this.content.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * The document and format referenced. There may be multiple content element repetitions, each with a different format.
-         * </p>
-         * 
-         * @param content
-         *     Document referenced
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder content(Collection<Content> content) {
-            this.content.addAll(content);
-            return this;
-        }
-
-        /**
-         * <p>
          * The clinical context in which the document was prepared.
          * </p>
          * 
@@ -943,6 +890,32 @@ public class DocumentReference extends DomainResource {
         @Override
         public DocumentReference build() {
             return new DocumentReference(this);
+        }
+
+        private Builder from(DocumentReference documentReference) {
+            id = documentReference.id;
+            meta = documentReference.meta;
+            implicitRules = documentReference.implicitRules;
+            language = documentReference.language;
+            text = documentReference.text;
+            contained.addAll(documentReference.contained);
+            extension.addAll(documentReference.extension);
+            modifierExtension.addAll(documentReference.modifierExtension);
+            masterIdentifier = documentReference.masterIdentifier;
+            identifier.addAll(documentReference.identifier);
+            docStatus = documentReference.docStatus;
+            type = documentReference.type;
+            category.addAll(documentReference.category);
+            subject = documentReference.subject;
+            date = documentReference.date;
+            author.addAll(documentReference.author);
+            authenticator = documentReference.authenticator;
+            custodian = documentReference.custodian;
+            relatesTo.addAll(documentReference.relatesTo);
+            description = documentReference.description;
+            securityLabel.addAll(documentReference.securityLabel);
+            context = documentReference.context;
+            return this;
         }
     }
 
@@ -1004,7 +977,11 @@ public class DocumentReference extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code, target).from(this);
+        }
+
+        public Builder toBuilder(DocumentRelationshipType code, Reference target) {
+            return new Builder(code, target).from(this);
         }
 
         public static Builder builder(DocumentRelationshipType code, Reference target) {
@@ -1132,9 +1109,11 @@ public class DocumentReference extends DomainResource {
                 return new RelatesTo(this);
             }
 
-            private static Builder from(RelatesTo relatesTo) {
-                Builder builder = new Builder(relatesTo.code, relatesTo.target);
-                return builder;
+            private Builder from(RelatesTo relatesTo) {
+                id = relatesTo.id;
+                extension.addAll(relatesTo.extension);
+                modifierExtension.addAll(relatesTo.modifierExtension);
+                return this;
             }
         }
     }
@@ -1198,7 +1177,11 @@ public class DocumentReference extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(attachment).from(this);
+        }
+
+        public Builder toBuilder(Attachment attachment) {
+            return new Builder(attachment).from(this);
         }
 
         public static Builder builder(Attachment attachment) {
@@ -1344,10 +1327,12 @@ public class DocumentReference extends DomainResource {
                 return new Content(this);
             }
 
-            private static Builder from(Content content) {
-                Builder builder = new Builder(content.attachment);
-                builder.format = content.format;
-                return builder;
+            private Builder from(Content content) {
+                id = content.id;
+                extension.addAll(content.extension);
+                modifierExtension.addAll(content.modifierExtension);
+                format = content.format;
+                return this;
             }
         }
     }
@@ -1489,7 +1474,7 @@ public class DocumentReference extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1792,16 +1777,18 @@ public class DocumentReference extends DomainResource {
                 return new Context(this);
             }
 
-            private static Builder from(Context context) {
-                Builder builder = new Builder();
-                builder.encounter.addAll(context.encounter);
-                builder.event.addAll(context.event);
-                builder.period = context.period;
-                builder.facilityType = context.facilityType;
-                builder.practiceSetting = context.practiceSetting;
-                builder.sourcePatientInfo = context.sourcePatientInfo;
-                builder.related.addAll(context.related);
-                return builder;
+            private Builder from(Context context) {
+                id = context.id;
+                extension.addAll(context.extension);
+                modifierExtension.addAll(context.modifierExtension);
+                encounter.addAll(context.encounter);
+                event.addAll(context.event);
+                period = context.period;
+                facilityType = context.facilityType;
+                practiceSetting = context.practiceSetting;
+                sourcePatientInfo = context.sourcePatientInfo;
+                related.addAll(context.related);
+                return this;
             }
         }
     }

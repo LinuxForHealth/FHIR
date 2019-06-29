@@ -74,12 +74,7 @@ public class CodeableConcept extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.coding.addAll(coding);
-        builder.text = text;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -204,6 +199,14 @@ public class CodeableConcept extends Element {
         @Override
         public CodeableConcept build() {
             return new CodeableConcept(this);
+        }
+
+        private Builder from(CodeableConcept codeableConcept) {
+            id = codeableConcept.id;
+            extension.addAll(codeableConcept.extension);
+            coding.addAll(codeableConcept.coding);
+            text = codeableConcept.text;
+            return this;
         }
     }
 }

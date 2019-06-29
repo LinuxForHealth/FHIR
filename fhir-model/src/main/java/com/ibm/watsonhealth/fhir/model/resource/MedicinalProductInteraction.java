@@ -166,23 +166,7 @@ public class MedicinalProductInteraction extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.subject.addAll(subject);
-        builder.description = description;
-        builder.interactant.addAll(interactant);
-        builder.type = type;
-        builder.effect = effect;
-        builder.incidence = incidence;
-        builder.management = management;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -563,6 +547,25 @@ public class MedicinalProductInteraction extends DomainResource {
         public MedicinalProductInteraction build() {
             return new MedicinalProductInteraction(this);
         }
+
+        private Builder from(MedicinalProductInteraction medicinalProductInteraction) {
+            id = medicinalProductInteraction.id;
+            meta = medicinalProductInteraction.meta;
+            implicitRules = medicinalProductInteraction.implicitRules;
+            language = medicinalProductInteraction.language;
+            text = medicinalProductInteraction.text;
+            contained.addAll(medicinalProductInteraction.contained);
+            extension.addAll(medicinalProductInteraction.extension);
+            modifierExtension.addAll(medicinalProductInteraction.modifierExtension);
+            subject.addAll(medicinalProductInteraction.subject);
+            description = medicinalProductInteraction.description;
+            interactant.addAll(medicinalProductInteraction.interactant);
+            type = medicinalProductInteraction.type;
+            effect = medicinalProductInteraction.effect;
+            incidence = medicinalProductInteraction.incidence;
+            management = medicinalProductInteraction.management;
+            return this;
+        }
     }
 
     /**
@@ -608,7 +611,11 @@ public class MedicinalProductInteraction extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(item).from(this);
+        }
+
+        public Builder toBuilder(Element item) {
+            return new Builder(item).from(this);
         }
 
         public static Builder builder(Element item) {
@@ -734,9 +741,11 @@ public class MedicinalProductInteraction extends DomainResource {
                 return new Interactant(this);
             }
 
-            private static Builder from(Interactant interactant) {
-                Builder builder = new Builder(interactant.item);
-                return builder;
+            private Builder from(Interactant interactant) {
+                id = interactant.id;
+                extension.addAll(interactant.extension);
+                modifierExtension.addAll(interactant.modifierExtension);
+                return this;
             }
         }
     }

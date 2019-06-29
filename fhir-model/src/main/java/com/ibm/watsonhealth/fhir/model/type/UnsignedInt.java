@@ -40,11 +40,7 @@ public class UnsignedInt extends Integer {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -133,6 +129,13 @@ public class UnsignedInt extends Integer {
         @Override
         public UnsignedInt build() {
             return new UnsignedInt(this);
+        }
+
+        private Builder from(UnsignedInt unsignedInt) {
+            id = unsignedInt.id;
+            extension.addAll(unsignedInt.extension);
+            value = unsignedInt.value;
+            return this;
         }
     }
 }

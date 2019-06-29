@@ -194,22 +194,11 @@ public class AppointmentResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(appointment, participantStatus);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.start = start;
-        builder.end = end;
-        builder.participantType.addAll(participantType);
-        builder.actor = actor;
-        builder.comment = comment;
-        return builder;
+        return new Builder(appointment, participantStatus).from(this);
+    }
+
+    public Builder toBuilder(Reference appointment, ParticipantStatus participantStatus) {
+        return new Builder(appointment, participantStatus).from(this);
     }
 
     public static Builder builder(Reference appointment, ParticipantStatus participantStatus) {
@@ -581,6 +570,24 @@ public class AppointmentResponse extends DomainResource {
         @Override
         public AppointmentResponse build() {
             return new AppointmentResponse(this);
+        }
+
+        private Builder from(AppointmentResponse appointmentResponse) {
+            id = appointmentResponse.id;
+            meta = appointmentResponse.meta;
+            implicitRules = appointmentResponse.implicitRules;
+            language = appointmentResponse.language;
+            text = appointmentResponse.text;
+            contained.addAll(appointmentResponse.contained);
+            extension.addAll(appointmentResponse.extension);
+            modifierExtension.addAll(appointmentResponse.modifierExtension);
+            identifier.addAll(appointmentResponse.identifier);
+            start = appointmentResponse.start;
+            end = appointmentResponse.end;
+            participantType.addAll(appointmentResponse.participantType);
+            actor = appointmentResponse.actor;
+            comment = appointmentResponse.comment;
+            return this;
         }
     }
 }

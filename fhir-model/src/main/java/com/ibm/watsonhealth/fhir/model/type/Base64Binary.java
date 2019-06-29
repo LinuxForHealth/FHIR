@@ -56,11 +56,7 @@ public class Base64Binary extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -153,6 +149,13 @@ public class Base64Binary extends Element {
         @Override
         public Base64Binary build() {
             return new Base64Binary(this);
+        }
+
+        private Builder from(Base64Binary base64Binary) {
+            id = base64Binary.id;
+            extension.addAll(base64Binary.extension);
+            value = base64Binary.value;
+            return this;
         }
     }
 }

@@ -123,14 +123,7 @@ public class Reference extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.reference = reference;
-        builder.type = type;
-        builder.identifier = identifier;
-        builder.display = display;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -285,6 +278,16 @@ public class Reference extends Element {
         @Override
         public Reference build() {
             return new Reference(this);
+        }
+
+        private Builder from(Reference reference) {
+            id = reference.id;
+            extension.addAll(reference.extension);
+            this.reference = reference.reference;
+            type = reference.type;
+            identifier = reference.identifier;
+            display = reference.display;
+            return this;
         }
     }
 }

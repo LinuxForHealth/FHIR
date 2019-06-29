@@ -149,16 +149,11 @@ public class RelatedArtifact extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.label = label;
-        builder.display = display;
-        builder.citation = citation;
-        builder.url = url;
-        builder.document = document;
-        builder.resource = resource;
-        return builder;
+        return new Builder(type).from(this);
+    }
+
+    public Builder toBuilder(RelatedArtifactType type) {
+        return new Builder(type).from(this);
     }
 
     public static Builder builder(RelatedArtifactType type) {
@@ -338,6 +333,18 @@ public class RelatedArtifact extends Element {
         @Override
         public RelatedArtifact build() {
             return new RelatedArtifact(this);
+        }
+
+        private Builder from(RelatedArtifact relatedArtifact) {
+            id = relatedArtifact.id;
+            extension.addAll(relatedArtifact.extension);
+            label = relatedArtifact.label;
+            display = relatedArtifact.display;
+            citation = relatedArtifact.citation;
+            url = relatedArtifact.url;
+            document = relatedArtifact.document;
+            resource = relatedArtifact.resource;
+            return this;
         }
     }
 }

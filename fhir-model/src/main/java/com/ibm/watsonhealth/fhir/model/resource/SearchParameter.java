@@ -502,35 +502,11 @@ public class SearchParameter extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(url, name, status, description, code, base, type);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.version = version;
-        builder.derivedFrom = derivedFrom;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.expression = expression;
-        builder.xpath = xpath;
-        builder.xpathUsage = xpathUsage;
-        builder.target.addAll(target);
-        builder.multipleOr = multipleOr;
-        builder.multipleAnd = multipleAnd;
-        builder.comparator.addAll(comparator);
-        builder.modifier.addAll(modifier);
-        builder.chain.addAll(chain);
-        builder.component.addAll(component);
-        return builder;
+        return new Builder(url, name, status, description, code, base, type).from(this);
+    }
+
+    public Builder toBuilder(Uri url, String name, PublicationStatus status, Markdown description, Code code, List<ResourceType> base, SearchParamType type) {
+        return new Builder(url, name, status, description, code, base, type).from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, Markdown description, Code code, List<ResourceType> base, SearchParamType type) {
@@ -999,40 +975,6 @@ public class SearchParameter extends DomainResource {
 
         /**
          * <p>
-         * The base resource type(s) that this search parameter can be used against.
-         * </p>
-         * 
-         * @param base
-         *     The resource type(s) this search parameter applies to
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder base(ResourceType... base) {
-            for (ResourceType value : base) {
-                this.base.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * The base resource type(s) that this search parameter can be used against.
-         * </p>
-         * 
-         * @param base
-         *     The resource type(s) this search parameter applies to
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder base(Collection<ResourceType> base) {
-            this.base.addAll(base);
-            return this;
-        }
-
-        /**
-         * <p>
          * A FHIRPath expression that returns a set of elements for the search parameter.
          * </p>
          * 
@@ -1293,6 +1235,37 @@ public class SearchParameter extends DomainResource {
         public SearchParameter build() {
             return new SearchParameter(this);
         }
+
+        private Builder from(SearchParameter searchParameter) {
+            id = searchParameter.id;
+            meta = searchParameter.meta;
+            implicitRules = searchParameter.implicitRules;
+            language = searchParameter.language;
+            text = searchParameter.text;
+            contained.addAll(searchParameter.contained);
+            extension.addAll(searchParameter.extension);
+            modifierExtension.addAll(searchParameter.modifierExtension);
+            version = searchParameter.version;
+            derivedFrom = searchParameter.derivedFrom;
+            experimental = searchParameter.experimental;
+            date = searchParameter.date;
+            publisher = searchParameter.publisher;
+            contact.addAll(searchParameter.contact);
+            useContext.addAll(searchParameter.useContext);
+            jurisdiction.addAll(searchParameter.jurisdiction);
+            purpose = searchParameter.purpose;
+            expression = searchParameter.expression;
+            xpath = searchParameter.xpath;
+            xpathUsage = searchParameter.xpathUsage;
+            target.addAll(searchParameter.target);
+            multipleOr = searchParameter.multipleOr;
+            multipleAnd = searchParameter.multipleAnd;
+            comparator.addAll(searchParameter.comparator);
+            modifier.addAll(searchParameter.modifier);
+            chain.addAll(searchParameter.chain);
+            component.addAll(searchParameter.component);
+            return this;
+        }
     }
 
     /**
@@ -1354,7 +1327,11 @@ public class SearchParameter extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(definition, expression).from(this);
+        }
+
+        public Builder toBuilder(Canonical definition, String expression) {
+            return new Builder(definition, expression).from(this);
         }
 
         public static Builder builder(Canonical definition, String expression) {
@@ -1482,9 +1459,11 @@ public class SearchParameter extends DomainResource {
                 return new Component(this);
             }
 
-            private static Builder from(Component component) {
-                Builder builder = new Builder(component.definition, component.expression);
-                return builder;
+            private Builder from(Component component) {
+                id = component.id;
+                extension.addAll(component.extension);
+                modifierExtension.addAll(component.modifierExtension);
+                return this;
             }
         }
     }

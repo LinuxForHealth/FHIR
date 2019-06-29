@@ -314,31 +314,11 @@ public class Invoice extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.cancelledReason = cancelledReason;
-        builder.type = type;
-        builder.subject = subject;
-        builder.recipient = recipient;
-        builder.date = date;
-        builder.participant.addAll(participant);
-        builder.issuer = issuer;
-        builder.account = account;
-        builder.lineItem.addAll(lineItem);
-        builder.totalPriceComponent.addAll(totalPriceComponent);
-        builder.totalNet = totalNet;
-        builder.totalGross = totalGross;
-        builder.paymentTerms = paymentTerms;
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(InvoiceStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(InvoiceStatus status) {
@@ -919,6 +899,33 @@ public class Invoice extends DomainResource {
         public Invoice build() {
             return new Invoice(this);
         }
+
+        private Builder from(Invoice invoice) {
+            id = invoice.id;
+            meta = invoice.meta;
+            implicitRules = invoice.implicitRules;
+            language = invoice.language;
+            text = invoice.text;
+            contained.addAll(invoice.contained);
+            extension.addAll(invoice.extension);
+            modifierExtension.addAll(invoice.modifierExtension);
+            identifier.addAll(invoice.identifier);
+            cancelledReason = invoice.cancelledReason;
+            type = invoice.type;
+            subject = invoice.subject;
+            recipient = invoice.recipient;
+            date = invoice.date;
+            participant.addAll(invoice.participant);
+            issuer = invoice.issuer;
+            account = invoice.account;
+            lineItem.addAll(invoice.lineItem);
+            totalPriceComponent.addAll(invoice.totalPriceComponent);
+            totalNet = invoice.totalNet;
+            totalGross = invoice.totalGross;
+            paymentTerms = invoice.paymentTerms;
+            note.addAll(invoice.note);
+            return this;
+        }
     }
 
     /**
@@ -980,7 +987,11 @@ public class Invoice extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(actor).from(this);
+        }
+
+        public Builder toBuilder(Reference actor) {
+            return new Builder(actor).from(this);
         }
 
         public static Builder builder(Reference actor) {
@@ -1126,10 +1137,12 @@ public class Invoice extends DomainResource {
                 return new Participant(this);
             }
 
-            private static Builder from(Participant participant) {
-                Builder builder = new Builder(participant.actor);
-                builder.role = participant.role;
-                return builder;
+            private Builder from(Participant participant) {
+                id = participant.id;
+                extension.addAll(participant.extension);
+                modifierExtension.addAll(participant.modifierExtension);
+                role = participant.role;
+                return this;
             }
         }
     }
@@ -1212,7 +1225,11 @@ public class Invoice extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(chargeItem).from(this);
+        }
+
+        public Builder toBuilder(Element chargeItem) {
+            return new Builder(chargeItem).from(this);
         }
 
         public static Builder builder(Element chargeItem) {
@@ -1398,11 +1415,13 @@ public class Invoice extends DomainResource {
                 return new LineItem(this);
             }
 
-            private static Builder from(LineItem lineItem) {
-                Builder builder = new Builder(lineItem.chargeItem);
-                builder.sequence = lineItem.sequence;
-                builder.priceComponent.addAll(lineItem.priceComponent);
-                return builder;
+            private Builder from(LineItem lineItem) {
+                id = lineItem.id;
+                extension.addAll(lineItem.extension);
+                modifierExtension.addAll(lineItem.modifierExtension);
+                sequence = lineItem.sequence;
+                priceComponent.addAll(lineItem.priceComponent);
+                return this;
             }
         }
 
@@ -1498,7 +1517,11 @@ public class Invoice extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(InvoicePriceComponentType type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(InvoicePriceComponentType type) {
@@ -1678,12 +1701,14 @@ public class Invoice extends DomainResource {
                     return new PriceComponent(this);
                 }
 
-                private static Builder from(PriceComponent priceComponent) {
-                    Builder builder = new Builder(priceComponent.type);
-                    builder.code = priceComponent.code;
-                    builder.factor = priceComponent.factor;
-                    builder.amount = priceComponent.amount;
-                    return builder;
+                private Builder from(PriceComponent priceComponent) {
+                    id = priceComponent.id;
+                    extension.addAll(priceComponent.extension);
+                    modifierExtension.addAll(priceComponent.modifierExtension);
+                    code = priceComponent.code;
+                    factor = priceComponent.factor;
+                    amount = priceComponent.amount;
+                    return this;
                 }
             }
         }

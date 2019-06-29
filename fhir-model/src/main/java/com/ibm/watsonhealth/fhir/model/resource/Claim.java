@@ -488,35 +488,11 @@ public class Claim extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, type, use, patient, created, provider, priority, insurance);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.subType = subType;
-        builder.billablePeriod = billablePeriod;
-        builder.enterer = enterer;
-        builder.insurer = insurer;
-        builder.fundsReserve = fundsReserve;
-        builder.related.addAll(related);
-        builder.prescription = prescription;
-        builder.originalPrescription = originalPrescription;
-        builder.payee = payee;
-        builder.referral = referral;
-        builder.facility = facility;
-        builder.careTeam.addAll(careTeam);
-        builder.supportingInfo.addAll(supportingInfo);
-        builder.diagnosis.addAll(diagnosis);
-        builder.procedure.addAll(procedure);
-        builder.accident = accident;
-        builder.item.addAll(item);
-        builder.total = total;
-        return builder;
+        return new Builder(status, type, use, patient, created, provider, priority, insurance).from(this);
+    }
+
+    public Builder toBuilder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, List<Insurance> insurance) {
+        return new Builder(status, type, use, patient, created, provider, priority, insurance).from(this);
     }
 
     public static Builder builder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, List<Insurance> insurance) {
@@ -1147,40 +1123,6 @@ public class Claim extends DomainResource {
 
         /**
          * <p>
-         * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * 
-         * @param insurance
-         *     Patient insurance information
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder insurance(Insurance... insurance) {
-            for (Insurance value : insurance) {
-                this.insurance.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * 
-         * @param insurance
-         *     Patient insurance information
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder insurance(Collection<Insurance> insurance) {
-            this.insurance.addAll(insurance);
-            return this;
-        }
-
-        /**
-         * <p>
          * Details of an accident which resulted in injuries which required the products and services listed in the claim.
          * </p>
          * 
@@ -1250,6 +1192,37 @@ public class Claim extends DomainResource {
         @Override
         public Claim build() {
             return new Claim(this);
+        }
+
+        private Builder from(Claim claim) {
+            id = claim.id;
+            meta = claim.meta;
+            implicitRules = claim.implicitRules;
+            language = claim.language;
+            text = claim.text;
+            contained.addAll(claim.contained);
+            extension.addAll(claim.extension);
+            modifierExtension.addAll(claim.modifierExtension);
+            identifier.addAll(claim.identifier);
+            subType = claim.subType;
+            billablePeriod = claim.billablePeriod;
+            enterer = claim.enterer;
+            insurer = claim.insurer;
+            fundsReserve = claim.fundsReserve;
+            related.addAll(claim.related);
+            prescription = claim.prescription;
+            originalPrescription = claim.originalPrescription;
+            payee = claim.payee;
+            referral = claim.referral;
+            facility = claim.facility;
+            careTeam.addAll(claim.careTeam);
+            supportingInfo.addAll(claim.supportingInfo);
+            diagnosis.addAll(claim.diagnosis);
+            procedure.addAll(claim.procedure);
+            accident = claim.accident;
+            item.addAll(claim.item);
+            total = claim.total;
+            return this;
         }
     }
 
@@ -1327,7 +1300,7 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1502,12 +1475,14 @@ public class Claim extends DomainResource {
                 return new Related(this);
             }
 
-            private static Builder from(Related related) {
-                Builder builder = new Builder();
-                builder.claim = related.claim;
-                builder.relationship = related.relationship;
-                builder.reference = related.reference;
-                return builder;
+            private Builder from(Related related) {
+                id = related.id;
+                extension.addAll(related.extension);
+                modifierExtension.addAll(related.modifierExtension);
+                claim = related.claim;
+                relationship = related.relationship;
+                reference = related.reference;
+                return this;
             }
         }
     }
@@ -1570,7 +1545,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
@@ -1715,10 +1694,12 @@ public class Claim extends DomainResource {
                 return new Payee(this);
             }
 
-            private static Builder from(Payee payee) {
-                Builder builder = new Builder(payee.type);
-                builder.party = payee.party;
-                return builder;
+            private Builder from(Payee payee) {
+                id = payee.id;
+                extension.addAll(payee.extension);
+                modifierExtension.addAll(payee.modifierExtension);
+                party = payee.party;
+                return this;
             }
         }
     }
@@ -1826,7 +1807,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, provider).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Reference provider) {
+            return new Builder(sequence, provider).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Reference provider) {
@@ -2007,12 +1992,14 @@ public class Claim extends DomainResource {
                 return new CareTeam(this);
             }
 
-            private static Builder from(CareTeam careTeam) {
-                Builder builder = new Builder(careTeam.sequence, careTeam.provider);
-                builder.responsible = careTeam.responsible;
-                builder.role = careTeam.role;
-                builder.qualification = careTeam.qualification;
-                return builder;
+            private Builder from(CareTeam careTeam) {
+                id = careTeam.id;
+                extension.addAll(careTeam.extension);
+                modifierExtension.addAll(careTeam.modifierExtension);
+                responsible = careTeam.responsible;
+                role = careTeam.role;
+                qualification = careTeam.qualification;
+                return this;
             }
         }
     }
@@ -2138,7 +2125,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, category).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, CodeableConcept category) {
+            return new Builder(sequence, category).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, CodeableConcept category) {
@@ -2338,13 +2329,15 @@ public class Claim extends DomainResource {
                 return new SupportingInfo(this);
             }
 
-            private static Builder from(SupportingInfo supportingInfo) {
-                Builder builder = new Builder(supportingInfo.sequence, supportingInfo.category);
-                builder.code = supportingInfo.code;
-                builder.timing = supportingInfo.timing;
-                builder.value = supportingInfo.value;
-                builder.reason = supportingInfo.reason;
-                return builder;
+            private Builder from(SupportingInfo supportingInfo) {
+                id = supportingInfo.id;
+                extension.addAll(supportingInfo.extension);
+                modifierExtension.addAll(supportingInfo.modifierExtension);
+                code = supportingInfo.code;
+                timing = supportingInfo.timing;
+                value = supportingInfo.value;
+                reason = supportingInfo.reason;
+                return this;
             }
         }
     }
@@ -2453,7 +2446,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, diagnosis).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Element diagnosis) {
+            return new Builder(sequence, diagnosis).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Element diagnosis) {
@@ -2653,12 +2650,14 @@ public class Claim extends DomainResource {
                 return new Diagnosis(this);
             }
 
-            private static Builder from(Diagnosis diagnosis) {
-                Builder builder = new Builder(diagnosis.sequence, diagnosis.diagnosis);
-                builder.type.addAll(diagnosis.type);
-                builder.onAdmission = diagnosis.onAdmission;
-                builder.packageCode = diagnosis.packageCode;
-                return builder;
+            private Builder from(Diagnosis diagnosis) {
+                id = diagnosis.id;
+                extension.addAll(diagnosis.extension);
+                modifierExtension.addAll(diagnosis.modifierExtension);
+                type.addAll(diagnosis.type);
+                onAdmission = diagnosis.onAdmission;
+                packageCode = diagnosis.packageCode;
+                return this;
             }
         }
     }
@@ -2766,7 +2765,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, procedure).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Element procedure) {
+            return new Builder(sequence, procedure).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Element procedure) {
@@ -2983,12 +2986,14 @@ public class Claim extends DomainResource {
                 return new Procedure(this);
             }
 
-            private static Builder from(Procedure procedure) {
-                Builder builder = new Builder(procedure.sequence, procedure.procedure);
-                builder.type.addAll(procedure.type);
-                builder.date = procedure.date;
-                builder.udi.addAll(procedure.udi);
-                return builder;
+            private Builder from(Procedure procedure) {
+                id = procedure.id;
+                extension.addAll(procedure.extension);
+                modifierExtension.addAll(procedure.modifierExtension);
+                type.addAll(procedure.type);
+                date = procedure.date;
+                udi.addAll(procedure.udi);
+                return this;
             }
         }
     }
@@ -3129,7 +3134,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, focal, coverage).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, Boolean focal, Reference coverage) {
+            return new Builder(sequence, focal, coverage).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, Boolean focal, Reference coverage) {
@@ -3349,13 +3358,15 @@ public class Claim extends DomainResource {
                 return new Insurance(this);
             }
 
-            private static Builder from(Insurance insurance) {
-                Builder builder = new Builder(insurance.sequence, insurance.focal, insurance.coverage);
-                builder.identifier = insurance.identifier;
-                builder.businessArrangement = insurance.businessArrangement;
-                builder.preAuthRef.addAll(insurance.preAuthRef);
-                builder.claimResponse = insurance.claimResponse;
-                return builder;
+            private Builder from(Insurance insurance) {
+                id = insurance.id;
+                extension.addAll(insurance.extension);
+                modifierExtension.addAll(insurance.modifierExtension);
+                identifier = insurance.identifier;
+                businessArrangement = insurance.businessArrangement;
+                preAuthRef.addAll(insurance.preAuthRef);
+                claimResponse = insurance.claimResponse;
+                return this;
             }
         }
     }
@@ -3434,7 +3445,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(date).from(this);
+        }
+
+        public Builder toBuilder(Date date) {
+            return new Builder(date).from(this);
         }
 
         public static Builder builder(Date date) {
@@ -3597,11 +3612,13 @@ public class Claim extends DomainResource {
                 return new Accident(this);
             }
 
-            private static Builder from(Accident accident) {
-                Builder builder = new Builder(accident.date);
-                builder.type = accident.type;
-                builder.location = accident.location;
-                return builder;
+            private Builder from(Accident accident) {
+                id = accident.id;
+                extension.addAll(accident.extension);
+                modifierExtension.addAll(accident.modifierExtension);
+                type = accident.type;
+                location = accident.location;
+                return this;
             }
         }
     }
@@ -3953,7 +3970,11 @@ public class Claim extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(sequence, productOrService).from(this);
+        }
+
+        public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
+            return new Builder(sequence, productOrService).from(this);
         }
 
         public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
@@ -4588,28 +4609,30 @@ public class Claim extends DomainResource {
                 return new Item(this);
             }
 
-            private static Builder from(Item item) {
-                Builder builder = new Builder(item.sequence, item.productOrService);
-                builder.careTeamSequence.addAll(item.careTeamSequence);
-                builder.diagnosisSequence.addAll(item.diagnosisSequence);
-                builder.procedureSequence.addAll(item.procedureSequence);
-                builder.informationSequence.addAll(item.informationSequence);
-                builder.revenue = item.revenue;
-                builder.category = item.category;
-                builder.modifier.addAll(item.modifier);
-                builder.programCode.addAll(item.programCode);
-                builder.serviced = item.serviced;
-                builder.location = item.location;
-                builder.quantity = item.quantity;
-                builder.unitPrice = item.unitPrice;
-                builder.factor = item.factor;
-                builder.net = item.net;
-                builder.udi.addAll(item.udi);
-                builder.bodySite = item.bodySite;
-                builder.subSite.addAll(item.subSite);
-                builder.encounter.addAll(item.encounter);
-                builder.detail.addAll(item.detail);
-                return builder;
+            private Builder from(Item item) {
+                id = item.id;
+                extension.addAll(item.extension);
+                modifierExtension.addAll(item.modifierExtension);
+                careTeamSequence.addAll(item.careTeamSequence);
+                diagnosisSequence.addAll(item.diagnosisSequence);
+                procedureSequence.addAll(item.procedureSequence);
+                informationSequence.addAll(item.informationSequence);
+                revenue = item.revenue;
+                category = item.category;
+                modifier.addAll(item.modifier);
+                programCode.addAll(item.programCode);
+                serviced = item.serviced;
+                location = item.location;
+                quantity = item.quantity;
+                unitPrice = item.unitPrice;
+                factor = item.factor;
+                net = item.net;
+                udi.addAll(item.udi);
+                bodySite = item.bodySite;
+                subSite.addAll(item.subSite);
+                encounter.addAll(item.encounter);
+                detail.addAll(item.detail);
+                return this;
             }
         }
 
@@ -4824,7 +4847,11 @@ public class Claim extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(sequence, productOrService).from(this);
+            }
+
+            public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
+                return new Builder(sequence, productOrService).from(this);
             }
 
             public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
@@ -5198,19 +5225,21 @@ public class Claim extends DomainResource {
                     return new Detail(this);
                 }
 
-                private static Builder from(Detail detail) {
-                    Builder builder = new Builder(detail.sequence, detail.productOrService);
-                    builder.revenue = detail.revenue;
-                    builder.category = detail.category;
-                    builder.modifier.addAll(detail.modifier);
-                    builder.programCode.addAll(detail.programCode);
-                    builder.quantity = detail.quantity;
-                    builder.unitPrice = detail.unitPrice;
-                    builder.factor = detail.factor;
-                    builder.net = detail.net;
-                    builder.udi.addAll(detail.udi);
-                    builder.subDetail.addAll(detail.subDetail);
-                    return builder;
+                private Builder from(Detail detail) {
+                    id = detail.id;
+                    extension.addAll(detail.extension);
+                    modifierExtension.addAll(detail.modifierExtension);
+                    revenue = detail.revenue;
+                    category = detail.category;
+                    modifier.addAll(detail.modifier);
+                    programCode.addAll(detail.programCode);
+                    quantity = detail.quantity;
+                    unitPrice = detail.unitPrice;
+                    factor = detail.factor;
+                    net = detail.net;
+                    udi.addAll(detail.udi);
+                    subDetail.addAll(detail.subDetail);
+                    return this;
                 }
             }
 
@@ -5410,7 +5439,11 @@ public class Claim extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(sequence, productOrService).from(this);
+                }
+
+                public Builder toBuilder(PositiveInt sequence, CodeableConcept productOrService) {
+                    return new Builder(sequence, productOrService).from(this);
                 }
 
                 public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
@@ -5749,18 +5782,20 @@ public class Claim extends DomainResource {
                         return new SubDetail(this);
                     }
 
-                    private static Builder from(SubDetail subDetail) {
-                        Builder builder = new Builder(subDetail.sequence, subDetail.productOrService);
-                        builder.revenue = subDetail.revenue;
-                        builder.category = subDetail.category;
-                        builder.modifier.addAll(subDetail.modifier);
-                        builder.programCode.addAll(subDetail.programCode);
-                        builder.quantity = subDetail.quantity;
-                        builder.unitPrice = subDetail.unitPrice;
-                        builder.factor = subDetail.factor;
-                        builder.net = subDetail.net;
-                        builder.udi.addAll(subDetail.udi);
-                        return builder;
+                    private Builder from(SubDetail subDetail) {
+                        id = subDetail.id;
+                        extension.addAll(subDetail.extension);
+                        modifierExtension.addAll(subDetail.modifierExtension);
+                        revenue = subDetail.revenue;
+                        category = subDetail.category;
+                        modifier.addAll(subDetail.modifier);
+                        programCode.addAll(subDetail.programCode);
+                        quantity = subDetail.quantity;
+                        unitPrice = subDetail.unitPrice;
+                        factor = subDetail.factor;
+                        net = subDetail.net;
+                        udi.addAll(subDetail.udi);
+                        return this;
                     }
                 }
             }

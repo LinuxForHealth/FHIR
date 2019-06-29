@@ -333,30 +333,11 @@ public class Coverage extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, beneficiary, payor);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.type = type;
-        builder.policyHolder = policyHolder;
-        builder.subscriber = subscriber;
-        builder.subscriberId = subscriberId;
-        builder.dependent = dependent;
-        builder.relationship = relationship;
-        builder.period = period;
-        builder.clazz.addAll(clazz);
-        builder.order = order;
-        builder.network = network;
-        builder.costToBeneficiary.addAll(costToBeneficiary);
-        builder.subrogation = subrogation;
-        builder.contract.addAll(contract);
-        return builder;
+        return new Builder(status, beneficiary, payor).from(this);
+    }
+
+    public Builder toBuilder(CoverageStatus status, Reference beneficiary, List<Reference> payor) {
+        return new Builder(status, beneficiary, payor).from(this);
     }
 
     public static Builder builder(CoverageStatus status, Reference beneficiary, List<Reference> payor) {
@@ -751,42 +732,6 @@ public class Coverage extends DomainResource {
 
         /**
          * <p>
-         * The program or plan underwriter or payor including both insurance and non-insurance agreements, such as patient-pay 
-         * agreements.
-         * </p>
-         * 
-         * @param payor
-         *     Issuer of the policy
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder payor(Reference... payor) {
-            for (Reference value : payor) {
-                this.payor.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * The program or plan underwriter or payor including both insurance and non-insurance agreements, such as patient-pay 
-         * agreements.
-         * </p>
-         * 
-         * @param payor
-         *     Issuer of the policy
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder payor(Collection<Reference> payor) {
-            this.payor.addAll(payor);
-            return this;
-        }
-
-        /**
-         * <p>
          * A suite of underwriter specific classifiers.
          * </p>
          * 
@@ -945,6 +890,32 @@ public class Coverage extends DomainResource {
         public Coverage build() {
             return new Coverage(this);
         }
+
+        private Builder from(Coverage coverage) {
+            id = coverage.id;
+            meta = coverage.meta;
+            implicitRules = coverage.implicitRules;
+            language = coverage.language;
+            text = coverage.text;
+            contained.addAll(coverage.contained);
+            extension.addAll(coverage.extension);
+            modifierExtension.addAll(coverage.modifierExtension);
+            identifier.addAll(coverage.identifier);
+            type = coverage.type;
+            policyHolder = coverage.policyHolder;
+            subscriber = coverage.subscriber;
+            subscriberId = coverage.subscriberId;
+            dependent = coverage.dependent;
+            relationship = coverage.relationship;
+            period = coverage.period;
+            clazz.addAll(coverage.clazz);
+            order = coverage.order;
+            network = coverage.network;
+            costToBeneficiary.addAll(coverage.costToBeneficiary);
+            subrogation = coverage.subrogation;
+            contract.addAll(coverage.contract);
+            return this;
+        }
     }
 
     /**
@@ -1021,7 +992,11 @@ public class Coverage extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, value).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type, String value) {
+            return new Builder(type, value).from(this);
         }
 
         public static Builder builder(CodeableConcept type, String value) {
@@ -1168,10 +1143,12 @@ public class Coverage extends DomainResource {
                 return new Class(this);
             }
 
-            private static Builder from(Class _class) {
-                Builder builder = new Builder(_class.type, _class.value);
-                builder.name = _class.name;
-                return builder;
+            private Builder from(Class _class) {
+                id = _class.id;
+                extension.addAll(_class.extension);
+                modifierExtension.addAll(_class.modifierExtension);
+                name = _class.name;
+                return this;
             }
         }
     }
@@ -1250,7 +1227,11 @@ public class Coverage extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(value).from(this);
+        }
+
+        public Builder toBuilder(Element value) {
+            return new Builder(value).from(this);
         }
 
         public static Builder builder(Element value) {
@@ -1430,11 +1411,13 @@ public class Coverage extends DomainResource {
                 return new CostToBeneficiary(this);
             }
 
-            private static Builder from(CostToBeneficiary costToBeneficiary) {
-                Builder builder = new Builder(costToBeneficiary.value);
-                builder.type = costToBeneficiary.type;
-                builder.exception.addAll(costToBeneficiary.exception);
-                return builder;
+            private Builder from(CostToBeneficiary costToBeneficiary) {
+                id = costToBeneficiary.id;
+                extension.addAll(costToBeneficiary.extension);
+                modifierExtension.addAll(costToBeneficiary.modifierExtension);
+                type = costToBeneficiary.type;
+                exception.addAll(costToBeneficiary.exception);
+                return this;
             }
         }
 
@@ -1496,7 +1479,11 @@ public class Coverage extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(CodeableConcept type) {
@@ -1641,10 +1628,12 @@ public class Coverage extends DomainResource {
                     return new Exception(this);
                 }
 
-                private static Builder from(Exception exception) {
-                    Builder builder = new Builder(exception.type);
-                    builder.period = exception.period;
-                    return builder;
+                private Builder from(Exception exception) {
+                    id = exception.id;
+                    extension.addAll(exception.extension);
+                    modifierExtension.addAll(exception.modifierExtension);
+                    period = exception.period;
+                    return this;
                 }
             }
         }

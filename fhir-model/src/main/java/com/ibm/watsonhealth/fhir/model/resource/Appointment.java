@@ -448,36 +448,11 @@ public class Appointment extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, participant);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.cancelationReason = cancelationReason;
-        builder.serviceCategory.addAll(serviceCategory);
-        builder.serviceType.addAll(serviceType);
-        builder.specialty.addAll(specialty);
-        builder.appointmentType = appointmentType;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.priority = priority;
-        builder.description = description;
-        builder.supportingInformation.addAll(supportingInformation);
-        builder.start = start;
-        builder.end = end;
-        builder.minutesDuration = minutesDuration;
-        builder.slot.addAll(slot);
-        builder.created = created;
-        builder.comment = comment;
-        builder.patientInstruction = patientInstruction;
-        builder.basedOn.addAll(basedOn);
-        builder.requestedPeriod.addAll(requestedPeriod);
-        return builder;
+        return new Builder(status, participant).from(this);
+    }
+
+    public Builder toBuilder(AppointmentStatus status, List<Participant> participant) {
+        return new Builder(status, participant).from(this);
     }
 
     public static Builder builder(AppointmentStatus status, List<Participant> participant) {
@@ -1210,40 +1185,6 @@ public class Appointment extends DomainResource {
 
         /**
          * <p>
-         * List of participants involved in the appointment.
-         * </p>
-         * 
-         * @param participant
-         *     Participants involved in appointment
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder participant(Participant... participant) {
-            for (Participant value : participant) {
-                this.participant.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * List of participants involved in the appointment.
-         * </p>
-         * 
-         * @param participant
-         *     Participants involved in appointment
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder participant(Collection<Participant> participant) {
-            this.participant.addAll(participant);
-            return this;
-        }
-
-        /**
-         * <p>
          * A set of date ranges (potentially including times) that the appointment is preferred to be scheduled within.
          * </p>
          * <p>
@@ -1289,6 +1230,38 @@ public class Appointment extends DomainResource {
         @Override
         public Appointment build() {
             return new Appointment(this);
+        }
+
+        private Builder from(Appointment appointment) {
+            id = appointment.id;
+            meta = appointment.meta;
+            implicitRules = appointment.implicitRules;
+            language = appointment.language;
+            text = appointment.text;
+            contained.addAll(appointment.contained);
+            extension.addAll(appointment.extension);
+            modifierExtension.addAll(appointment.modifierExtension);
+            identifier.addAll(appointment.identifier);
+            cancelationReason = appointment.cancelationReason;
+            serviceCategory.addAll(appointment.serviceCategory);
+            serviceType.addAll(appointment.serviceType);
+            specialty.addAll(appointment.specialty);
+            appointmentType = appointment.appointmentType;
+            reasonCode.addAll(appointment.reasonCode);
+            reasonReference.addAll(appointment.reasonReference);
+            priority = appointment.priority;
+            description = appointment.description;
+            supportingInformation.addAll(appointment.supportingInformation);
+            start = appointment.start;
+            end = appointment.end;
+            minutesDuration = appointment.minutesDuration;
+            slot.addAll(appointment.slot);
+            created = appointment.created;
+            comment = appointment.comment;
+            patientInstruction = appointment.patientInstruction;
+            basedOn.addAll(appointment.basedOn);
+            requestedPeriod.addAll(appointment.requestedPeriod);
+            return this;
         }
     }
 
@@ -1396,7 +1369,11 @@ public class Appointment extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(status).from(this);
+        }
+
+        public Builder toBuilder(ParticipationStatus status) {
+            return new Builder(status).from(this);
         }
 
         public static Builder builder(ParticipationStatus status) {
@@ -1611,13 +1588,15 @@ public class Appointment extends DomainResource {
                 return new Participant(this);
             }
 
-            private static Builder from(Participant participant) {
-                Builder builder = new Builder(participant.status);
-                builder.type.addAll(participant.type);
-                builder.actor = participant.actor;
-                builder.required = participant.required;
-                builder.period = participant.period;
-                return builder;
+            private Builder from(Participant participant) {
+                id = participant.id;
+                extension.addAll(participant.extension);
+                modifierExtension.addAll(participant.modifierExtension);
+                type.addAll(participant.type);
+                actor = participant.actor;
+                required = participant.required;
+                period = participant.period;
+                return this;
             }
         }
     }

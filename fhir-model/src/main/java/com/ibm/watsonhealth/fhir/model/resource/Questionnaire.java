@@ -527,37 +527,11 @@ public class Questionnaire extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.derivedFrom.addAll(derivedFrom);
-        builder.experimental = experimental;
-        builder.subjectType.addAll(subjectType);
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.code.addAll(code);
-        builder.item.addAll(item);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -1307,6 +1281,39 @@ public class Questionnaire extends DomainResource {
         public Questionnaire build() {
             return new Questionnaire(this);
         }
+
+        private Builder from(Questionnaire questionnaire) {
+            id = questionnaire.id;
+            meta = questionnaire.meta;
+            implicitRules = questionnaire.implicitRules;
+            language = questionnaire.language;
+            text = questionnaire.text;
+            contained.addAll(questionnaire.contained);
+            extension.addAll(questionnaire.extension);
+            modifierExtension.addAll(questionnaire.modifierExtension);
+            url = questionnaire.url;
+            identifier.addAll(questionnaire.identifier);
+            version = questionnaire.version;
+            name = questionnaire.name;
+            title = questionnaire.title;
+            derivedFrom.addAll(questionnaire.derivedFrom);
+            experimental = questionnaire.experimental;
+            subjectType.addAll(questionnaire.subjectType);
+            date = questionnaire.date;
+            publisher = questionnaire.publisher;
+            contact.addAll(questionnaire.contact);
+            description = questionnaire.description;
+            useContext.addAll(questionnaire.useContext);
+            jurisdiction.addAll(questionnaire.jurisdiction);
+            purpose = questionnaire.purpose;
+            copyright = questionnaire.copyright;
+            approvalDate = questionnaire.approvalDate;
+            lastReviewDate = questionnaire.lastReviewDate;
+            effectivePeriod = questionnaire.effectivePeriod;
+            code.addAll(questionnaire.code);
+            item.addAll(questionnaire.item);
+            return this;
+        }
     }
 
     /**
@@ -1599,7 +1606,11 @@ public class Questionnaire extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(linkId, type).from(this);
+        }
+
+        public Builder toBuilder(String linkId, QuestionnaireItemType type) {
+            return new Builder(linkId, type).from(this);
         }
 
         public static Builder builder(String linkId, QuestionnaireItemType type) {
@@ -2080,23 +2091,25 @@ public class Questionnaire extends DomainResource {
                 return new Item(this);
             }
 
-            private static Builder from(Item item) {
-                Builder builder = new Builder(item.linkId, item.type);
-                builder.definition = item.definition;
-                builder.code.addAll(item.code);
-                builder.prefix = item.prefix;
-                builder.text = item.text;
-                builder.enableWhen.addAll(item.enableWhen);
-                builder.enableBehavior = item.enableBehavior;
-                builder.required = item.required;
-                builder.repeats = item.repeats;
-                builder.readOnly = item.readOnly;
-                builder.maxLength = item.maxLength;
-                builder.answerValueSet = item.answerValueSet;
-                builder.answerOption.addAll(item.answerOption);
-                builder.initial.addAll(item.initial);
-                builder.item.addAll(item.item);
-                return builder;
+            private Builder from(Item item) {
+                id = item.id;
+                extension.addAll(item.extension);
+                modifierExtension.addAll(item.modifierExtension);
+                definition = item.definition;
+                code.addAll(item.code);
+                prefix = item.prefix;
+                text = item.text;
+                enableWhen.addAll(item.enableWhen);
+                enableBehavior = item.enableBehavior;
+                required = item.required;
+                repeats = item.repeats;
+                readOnly = item.readOnly;
+                maxLength = item.maxLength;
+                answerValueSet = item.answerValueSet;
+                answerOption.addAll(item.answerOption);
+                initial.addAll(item.initial);
+                this.item.addAll(item.item);
+                return this;
             }
         }
 
@@ -2174,7 +2187,11 @@ public class Questionnaire extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(question, operator, answer).from(this);
+            }
+
+            public Builder toBuilder(String question, QuestionnaireItemOperator operator, Element answer) {
+                return new Builder(question, operator, answer).from(this);
             }
 
             public static Builder builder(String question, QuestionnaireItemOperator operator, Element answer) {
@@ -2304,9 +2321,11 @@ public class Questionnaire extends DomainResource {
                     return new EnableWhen(this);
                 }
 
-                private static Builder from(EnableWhen enableWhen) {
-                    Builder builder = new Builder(enableWhen.question, enableWhen.operator, enableWhen.answer);
-                    return builder;
+                private Builder from(EnableWhen enableWhen) {
+                    id = enableWhen.id;
+                    extension.addAll(enableWhen.extension);
+                    modifierExtension.addAll(enableWhen.modifierExtension);
+                    return this;
                 }
             }
         }
@@ -2369,7 +2388,11 @@ public class Questionnaire extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(value).from(this);
+            }
+
+            public Builder toBuilder(Element value) {
+                return new Builder(value).from(this);
             }
 
             public static Builder builder(Element value) {
@@ -2514,10 +2537,12 @@ public class Questionnaire extends DomainResource {
                     return new AnswerOption(this);
                 }
 
-                private static Builder from(AnswerOption answerOption) {
-                    Builder builder = new Builder(answerOption.value);
-                    builder.initialSelected = answerOption.initialSelected;
-                    return builder;
+                private Builder from(AnswerOption answerOption) {
+                    id = answerOption.id;
+                    extension.addAll(answerOption.extension);
+                    modifierExtension.addAll(answerOption.modifierExtension);
+                    initialSelected = answerOption.initialSelected;
+                    return this;
                 }
             }
         }
@@ -2566,7 +2591,11 @@ public class Questionnaire extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(value).from(this);
+            }
+
+            public Builder toBuilder(Element value) {
+                return new Builder(value).from(this);
             }
 
             public static Builder builder(Element value) {
@@ -2692,9 +2721,11 @@ public class Questionnaire extends DomainResource {
                     return new Initial(this);
                 }
 
-                private static Builder from(Initial initial) {
-                    Builder builder = new Builder(initial.value);
-                    return builder;
+                private Builder from(Initial initial) {
+                    id = initial.id;
+                    extension.addAll(initial.extension);
+                    modifierExtension.addAll(initial.modifierExtension);
+                    return this;
                 }
             }
         }

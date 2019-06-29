@@ -154,14 +154,11 @@ public class Signature extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type, when, who);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.onBehalfOf = onBehalfOf;
-        builder.targetFormat = targetFormat;
-        builder.sigFormat = sigFormat;
-        builder.data = data;
-        return builder;
+        return new Builder(type, when, who).from(this);
+    }
+
+    public Builder toBuilder(List<Coding> type, Instant when, Reference who) {
+        return new Builder(type, when, who).from(this);
     }
 
     public static Builder builder(List<Coding> type, Instant when, Reference who) {
@@ -244,42 +241,6 @@ public class Signature extends Element {
 
         /**
          * <p>
-         * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
-         * signature information and can be used when determining accountability for various actions concerning the document.
-         * </p>
-         * 
-         * @param type
-         *     Indication of the reason the entity signed the object(s)
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder type(Coding... type) {
-            for (Coding value : type) {
-                this.type.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
-         * signature information and can be used when determining accountability for various actions concerning the document.
-         * </p>
-         * 
-         * @param type
-         *     Indication of the reason the entity signed the object(s)
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder type(Collection<Coding> type) {
-            this.type.addAll(type);
-            return this;
-        }
-
-        /**
-         * <p>
          * A reference to an application-usable description of the identity that is represented by the signature.
          * </p>
          * 
@@ -347,6 +308,16 @@ public class Signature extends Element {
         @Override
         public Signature build() {
             return new Signature(this);
+        }
+
+        private Builder from(Signature signature) {
+            id = signature.id;
+            extension.addAll(signature.extension);
+            onBehalfOf = signature.onBehalfOf;
+            targetFormat = signature.targetFormat;
+            sigFormat = signature.sigFormat;
+            data = signature.data;
+            return this;
         }
     }
 }

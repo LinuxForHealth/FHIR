@@ -447,38 +447,11 @@ public class MedicationDispense extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, medication);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.partOf.addAll(partOf);
-        builder.statusReason = statusReason;
-        builder.category = category;
-        builder.subject = subject;
-        builder.context = context;
-        builder.supportingInformation.addAll(supportingInformation);
-        builder.performer.addAll(performer);
-        builder.location = location;
-        builder.authorizingPrescription.addAll(authorizingPrescription);
-        builder.type = type;
-        builder.quantity = quantity;
-        builder.daysSupply = daysSupply;
-        builder.whenPrepared = whenPrepared;
-        builder.whenHandedOver = whenHandedOver;
-        builder.destination = destination;
-        builder.receiver.addAll(receiver);
-        builder.note.addAll(note);
-        builder.dosageInstruction.addAll(dosageInstruction);
-        builder.substitution = substitution;
-        builder.detectedIssue.addAll(detectedIssue);
-        builder.eventHistory.addAll(eventHistory);
-        return builder;
+        return new Builder(status, medication).from(this);
+    }
+
+    public Builder toBuilder(MedicationDispenseStatus status, Element medication) {
+        return new Builder(status, medication).from(this);
     }
 
     public static Builder builder(MedicationDispenseStatus status, Element medication) {
@@ -1278,6 +1251,40 @@ public class MedicationDispense extends DomainResource {
         public MedicationDispense build() {
             return new MedicationDispense(this);
         }
+
+        private Builder from(MedicationDispense medicationDispense) {
+            id = medicationDispense.id;
+            meta = medicationDispense.meta;
+            implicitRules = medicationDispense.implicitRules;
+            language = medicationDispense.language;
+            text = medicationDispense.text;
+            contained.addAll(medicationDispense.contained);
+            extension.addAll(medicationDispense.extension);
+            modifierExtension.addAll(medicationDispense.modifierExtension);
+            identifier.addAll(medicationDispense.identifier);
+            partOf.addAll(medicationDispense.partOf);
+            statusReason = medicationDispense.statusReason;
+            category = medicationDispense.category;
+            subject = medicationDispense.subject;
+            context = medicationDispense.context;
+            supportingInformation.addAll(medicationDispense.supportingInformation);
+            performer.addAll(medicationDispense.performer);
+            location = medicationDispense.location;
+            authorizingPrescription.addAll(medicationDispense.authorizingPrescription);
+            type = medicationDispense.type;
+            quantity = medicationDispense.quantity;
+            daysSupply = medicationDispense.daysSupply;
+            whenPrepared = medicationDispense.whenPrepared;
+            whenHandedOver = medicationDispense.whenHandedOver;
+            destination = medicationDispense.destination;
+            receiver.addAll(medicationDispense.receiver);
+            note.addAll(medicationDispense.note);
+            dosageInstruction.addAll(medicationDispense.dosageInstruction);
+            substitution = medicationDispense.substitution;
+            detectedIssue.addAll(medicationDispense.detectedIssue);
+            eventHistory.addAll(medicationDispense.eventHistory);
+            return this;
+        }
     }
 
     /**
@@ -1339,7 +1346,11 @@ public class MedicationDispense extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(actor).from(this);
+        }
+
+        public Builder toBuilder(Reference actor) {
+            return new Builder(actor).from(this);
         }
 
         public static Builder builder(Reference actor) {
@@ -1484,10 +1495,12 @@ public class MedicationDispense extends DomainResource {
                 return new Performer(this);
             }
 
-            private static Builder from(Performer performer) {
-                Builder builder = new Builder(performer.actor);
-                builder.function = performer.function;
-                return builder;
+            private Builder from(Performer performer) {
+                id = performer.id;
+                extension.addAll(performer.extension);
+                modifierExtension.addAll(performer.modifierExtension);
+                function = performer.function;
+                return this;
             }
         }
     }
@@ -1582,7 +1595,11 @@ public class MedicationDispense extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(wasSubstituted).from(this);
+        }
+
+        public Builder toBuilder(Boolean wasSubstituted) {
+            return new Builder(wasSubstituted).from(this);
         }
 
         public static Builder builder(Boolean wasSubstituted) {
@@ -1797,12 +1814,14 @@ public class MedicationDispense extends DomainResource {
                 return new Substitution(this);
             }
 
-            private static Builder from(Substitution substitution) {
-                Builder builder = new Builder(substitution.wasSubstituted);
-                builder.type = substitution.type;
-                builder.reason.addAll(substitution.reason);
-                builder.responsibleParty.addAll(substitution.responsibleParty);
-                return builder;
+            private Builder from(Substitution substitution) {
+                id = substitution.id;
+                extension.addAll(substitution.extension);
+                modifierExtension.addAll(substitution.modifierExtension);
+                type = substitution.type;
+                reason.addAll(substitution.reason);
+                responsibleParty.addAll(substitution.responsibleParty);
+                return this;
             }
         }
     }

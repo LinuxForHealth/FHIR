@@ -68,11 +68,7 @@ public class Decimal extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -165,6 +161,13 @@ public class Decimal extends Element {
         @Override
         public Decimal build() {
             return new Decimal(this);
+        }
+
+        private Builder from(Decimal decimal) {
+            id = decimal.id;
+            extension.addAll(decimal.extension);
+            value = decimal.value;
+            return this;
         }
     }
 }

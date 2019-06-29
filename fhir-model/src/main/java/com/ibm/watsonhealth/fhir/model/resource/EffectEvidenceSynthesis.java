@@ -594,44 +594,11 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, population, exposure, exposureAlternative, outcome);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.note.addAll(note);
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        builder.synthesisType = synthesisType;
-        builder.studyType = studyType;
-        builder.sampleSize = sampleSize;
-        builder.resultsByExposure.addAll(resultsByExposure);
-        builder.effectEstimate.addAll(effectEstimate);
-        builder.certainty.addAll(certainty);
-        return builder;
+        return new Builder(status, population, exposure, exposureAlternative, outcome).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, Reference population, Reference exposure, Reference exposureAlternative, Reference outcome) {
+        return new Builder(status, population, exposure, exposureAlternative, outcome).from(this);
     }
 
     public static Builder builder(PublicationStatus status, Reference population, Reference exposure, Reference exposureAlternative, Reference outcome) {
@@ -1618,6 +1585,46 @@ public class EffectEvidenceSynthesis extends DomainResource {
         public EffectEvidenceSynthesis build() {
             return new EffectEvidenceSynthesis(this);
         }
+
+        private Builder from(EffectEvidenceSynthesis effectEvidenceSynthesis) {
+            id = effectEvidenceSynthesis.id;
+            meta = effectEvidenceSynthesis.meta;
+            implicitRules = effectEvidenceSynthesis.implicitRules;
+            language = effectEvidenceSynthesis.language;
+            text = effectEvidenceSynthesis.text;
+            contained.addAll(effectEvidenceSynthesis.contained);
+            extension.addAll(effectEvidenceSynthesis.extension);
+            modifierExtension.addAll(effectEvidenceSynthesis.modifierExtension);
+            url = effectEvidenceSynthesis.url;
+            identifier.addAll(effectEvidenceSynthesis.identifier);
+            version = effectEvidenceSynthesis.version;
+            name = effectEvidenceSynthesis.name;
+            title = effectEvidenceSynthesis.title;
+            date = effectEvidenceSynthesis.date;
+            publisher = effectEvidenceSynthesis.publisher;
+            contact.addAll(effectEvidenceSynthesis.contact);
+            description = effectEvidenceSynthesis.description;
+            note.addAll(effectEvidenceSynthesis.note);
+            useContext.addAll(effectEvidenceSynthesis.useContext);
+            jurisdiction.addAll(effectEvidenceSynthesis.jurisdiction);
+            copyright = effectEvidenceSynthesis.copyright;
+            approvalDate = effectEvidenceSynthesis.approvalDate;
+            lastReviewDate = effectEvidenceSynthesis.lastReviewDate;
+            effectivePeriod = effectEvidenceSynthesis.effectivePeriod;
+            topic.addAll(effectEvidenceSynthesis.topic);
+            author.addAll(effectEvidenceSynthesis.author);
+            editor.addAll(effectEvidenceSynthesis.editor);
+            reviewer.addAll(effectEvidenceSynthesis.reviewer);
+            endorser.addAll(effectEvidenceSynthesis.endorser);
+            relatedArtifact.addAll(effectEvidenceSynthesis.relatedArtifact);
+            synthesisType = effectEvidenceSynthesis.synthesisType;
+            studyType = effectEvidenceSynthesis.studyType;
+            sampleSize = effectEvidenceSynthesis.sampleSize;
+            resultsByExposure.addAll(effectEvidenceSynthesis.resultsByExposure);
+            effectEstimate.addAll(effectEvidenceSynthesis.effectEstimate);
+            certainty.addAll(effectEvidenceSynthesis.certainty);
+            return this;
+        }
     }
 
     /**
@@ -1693,7 +1700,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1868,12 +1875,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return new SampleSize(this);
             }
 
-            private static Builder from(SampleSize sampleSize) {
-                Builder builder = new Builder();
-                builder.description = sampleSize.description;
-                builder.numberOfStudies = sampleSize.numberOfStudies;
-                builder.numberOfParticipants = sampleSize.numberOfParticipants;
-                return builder;
+            private Builder from(SampleSize sampleSize) {
+                id = sampleSize.id;
+                extension.addAll(sampleSize.extension);
+                modifierExtension.addAll(sampleSize.modifierExtension);
+                description = sampleSize.description;
+                numberOfStudies = sampleSize.numberOfStudies;
+                numberOfParticipants = sampleSize.numberOfParticipants;
+                return this;
             }
         }
     }
@@ -1966,7 +1975,11 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(riskEvidenceSynthesis).from(this);
+        }
+
+        public Builder toBuilder(Reference riskEvidenceSynthesis) {
+            return new Builder(riskEvidenceSynthesis).from(this);
         }
 
         public static Builder builder(Reference riskEvidenceSynthesis) {
@@ -2145,12 +2158,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return new ResultsByExposure(this);
             }
 
-            private static Builder from(ResultsByExposure resultsByExposure) {
-                Builder builder = new Builder(resultsByExposure.riskEvidenceSynthesis);
-                builder.description = resultsByExposure.description;
-                builder.exposureState = resultsByExposure.exposureState;
-                builder.variantState = resultsByExposure.variantState;
-                return builder;
+            private Builder from(ResultsByExposure resultsByExposure) {
+                id = resultsByExposure.id;
+                extension.addAll(resultsByExposure.extension);
+                modifierExtension.addAll(resultsByExposure.modifierExtension);
+                description = resultsByExposure.description;
+                exposureState = resultsByExposure.exposureState;
+                variantState = resultsByExposure.variantState;
+                return this;
             }
         }
     }
@@ -2273,7 +2288,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2517,15 +2532,17 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return new EffectEstimate(this);
             }
 
-            private static Builder from(EffectEstimate effectEstimate) {
-                Builder builder = new Builder();
-                builder.description = effectEstimate.description;
-                builder.type = effectEstimate.type;
-                builder.variantState = effectEstimate.variantState;
-                builder.value = effectEstimate.value;
-                builder.unitOfMeasure = effectEstimate.unitOfMeasure;
-                builder.precisionEstimate.addAll(effectEstimate.precisionEstimate);
-                return builder;
+            private Builder from(EffectEstimate effectEstimate) {
+                id = effectEstimate.id;
+                extension.addAll(effectEstimate.extension);
+                modifierExtension.addAll(effectEstimate.modifierExtension);
+                description = effectEstimate.description;
+                type = effectEstimate.type;
+                variantState = effectEstimate.variantState;
+                value = effectEstimate.value;
+                unitOfMeasure = effectEstimate.unitOfMeasure;
+                precisionEstimate.addAll(effectEstimate.precisionEstimate);
+                return this;
             }
         }
 
@@ -2617,7 +2634,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2809,13 +2826,15 @@ public class EffectEvidenceSynthesis extends DomainResource {
                     return new PrecisionEstimate(this);
                 }
 
-                private static Builder from(PrecisionEstimate precisionEstimate) {
-                    Builder builder = new Builder();
-                    builder.type = precisionEstimate.type;
-                    builder.level = precisionEstimate.level;
-                    builder.from = precisionEstimate.from;
-                    builder.to = precisionEstimate.to;
-                    return builder;
+                private Builder from(PrecisionEstimate precisionEstimate) {
+                    id = precisionEstimate.id;
+                    extension.addAll(precisionEstimate.extension);
+                    modifierExtension.addAll(precisionEstimate.modifierExtension);
+                    type = precisionEstimate.type;
+                    level = precisionEstimate.level;
+                    from = precisionEstimate.from;
+                    to = precisionEstimate.to;
+                    return this;
                 }
             }
         }
@@ -2894,7 +2913,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -3123,12 +3142,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 return new Certainty(this);
             }
 
-            private static Builder from(Certainty certainty) {
-                Builder builder = new Builder();
-                builder.rating.addAll(certainty.rating);
-                builder.note.addAll(certainty.note);
-                builder.certaintySubcomponent.addAll(certainty.certaintySubcomponent);
-                return builder;
+            private Builder from(Certainty certainty) {
+                id = certainty.id;
+                extension.addAll(certainty.extension);
+                modifierExtension.addAll(certainty.modifierExtension);
+                rating.addAll(certainty.rating);
+                note.addAll(certainty.note);
+                certaintySubcomponent.addAll(certainty.certaintySubcomponent);
+                return this;
             }
         }
 
@@ -3205,7 +3226,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -3416,12 +3437,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
                     return new CertaintySubcomponent(this);
                 }
 
-                private static Builder from(CertaintySubcomponent certaintySubcomponent) {
-                    Builder builder = new Builder();
-                    builder.type = certaintySubcomponent.type;
-                    builder.rating.addAll(certaintySubcomponent.rating);
-                    builder.note.addAll(certaintySubcomponent.note);
-                    return builder;
+                private Builder from(CertaintySubcomponent certaintySubcomponent) {
+                    id = certaintySubcomponent.id;
+                    extension.addAll(certaintySubcomponent.extension);
+                    modifierExtension.addAll(certaintySubcomponent.modifierExtension);
+                    type = certaintySubcomponent.type;
+                    rating.addAll(certaintySubcomponent.rating);
+                    note.addAll(certaintySubcomponent.note);
+                    return this;
                 }
             }
         }

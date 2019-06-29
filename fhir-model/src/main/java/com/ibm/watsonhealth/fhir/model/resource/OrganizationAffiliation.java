@@ -244,28 +244,7 @@ public class OrganizationAffiliation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.period = period;
-        builder.organization = organization;
-        builder.participatingOrganization = participatingOrganization;
-        builder.network.addAll(network);
-        builder.code.addAll(code);
-        builder.specialty.addAll(specialty);
-        builder.location.addAll(location);
-        builder.healthcareService.addAll(healthcareService);
-        builder.telecom.addAll(telecom);
-        builder.endpoint.addAll(endpoint);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -843,6 +822,30 @@ public class OrganizationAffiliation extends DomainResource {
         @Override
         public OrganizationAffiliation build() {
             return new OrganizationAffiliation(this);
+        }
+
+        private Builder from(OrganizationAffiliation organizationAffiliation) {
+            id = organizationAffiliation.id;
+            meta = organizationAffiliation.meta;
+            implicitRules = organizationAffiliation.implicitRules;
+            language = organizationAffiliation.language;
+            text = organizationAffiliation.text;
+            contained.addAll(organizationAffiliation.contained);
+            extension.addAll(organizationAffiliation.extension);
+            modifierExtension.addAll(organizationAffiliation.modifierExtension);
+            identifier.addAll(organizationAffiliation.identifier);
+            active = organizationAffiliation.active;
+            period = organizationAffiliation.period;
+            organization = organizationAffiliation.organization;
+            participatingOrganization = organizationAffiliation.participatingOrganization;
+            network.addAll(organizationAffiliation.network);
+            code.addAll(organizationAffiliation.code);
+            specialty.addAll(organizationAffiliation.specialty);
+            location.addAll(organizationAffiliation.location);
+            healthcareService.addAll(organizationAffiliation.healthcareService);
+            telecom.addAll(organizationAffiliation.telecom);
+            endpoint.addAll(organizationAffiliation.endpoint);
+            return this;
         }
     }
 }

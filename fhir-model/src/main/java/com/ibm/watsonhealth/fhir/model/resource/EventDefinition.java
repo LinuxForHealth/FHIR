@@ -517,42 +517,11 @@ public class EventDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, trigger);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.subtitle = subtitle;
-        builder.experimental = experimental;
-        builder.subject = subject;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.usage = usage;
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.topic.addAll(topic);
-        builder.author.addAll(author);
-        builder.editor.addAll(editor);
-        builder.reviewer.addAll(reviewer);
-        builder.endorser.addAll(endorser);
-        builder.relatedArtifact.addAll(relatedArtifact);
-        return builder;
+        return new Builder(status, trigger).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, List<TriggerDefinition> trigger) {
+        return new Builder(status, trigger).from(this);
     }
 
     public static Builder builder(PublicationStatus status, List<TriggerDefinition> trigger) {
@@ -1423,45 +1392,47 @@ public class EventDefinition extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * The trigger element defines when the event occurs. If more than one trigger condition is specified, the event fires 
-         * whenever any one of the trigger conditions is met.
-         * </p>
-         * 
-         * @param trigger
-         *     "when" the event occurs (multiple = 'or')
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder trigger(TriggerDefinition... trigger) {
-            for (TriggerDefinition value : trigger) {
-                this.trigger.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * The trigger element defines when the event occurs. If more than one trigger condition is specified, the event fires 
-         * whenever any one of the trigger conditions is met.
-         * </p>
-         * 
-         * @param trigger
-         *     "when" the event occurs (multiple = 'or')
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder trigger(Collection<TriggerDefinition> trigger) {
-            this.trigger.addAll(trigger);
-            return this;
-        }
-
         @Override
         public EventDefinition build() {
             return new EventDefinition(this);
+        }
+
+        private Builder from(EventDefinition eventDefinition) {
+            id = eventDefinition.id;
+            meta = eventDefinition.meta;
+            implicitRules = eventDefinition.implicitRules;
+            language = eventDefinition.language;
+            text = eventDefinition.text;
+            contained.addAll(eventDefinition.contained);
+            extension.addAll(eventDefinition.extension);
+            modifierExtension.addAll(eventDefinition.modifierExtension);
+            url = eventDefinition.url;
+            identifier.addAll(eventDefinition.identifier);
+            version = eventDefinition.version;
+            name = eventDefinition.name;
+            title = eventDefinition.title;
+            subtitle = eventDefinition.subtitle;
+            experimental = eventDefinition.experimental;
+            subject = eventDefinition.subject;
+            date = eventDefinition.date;
+            publisher = eventDefinition.publisher;
+            contact.addAll(eventDefinition.contact);
+            description = eventDefinition.description;
+            useContext.addAll(eventDefinition.useContext);
+            jurisdiction.addAll(eventDefinition.jurisdiction);
+            purpose = eventDefinition.purpose;
+            usage = eventDefinition.usage;
+            copyright = eventDefinition.copyright;
+            approvalDate = eventDefinition.approvalDate;
+            lastReviewDate = eventDefinition.lastReviewDate;
+            effectivePeriod = eventDefinition.effectivePeriod;
+            topic.addAll(eventDefinition.topic);
+            author.addAll(eventDefinition.author);
+            editor.addAll(eventDefinition.editor);
+            reviewer.addAll(eventDefinition.reviewer);
+            endorser.addAll(eventDefinition.endorser);
+            relatedArtifact.addAll(eventDefinition.relatedArtifact);
+            return this;
         }
     }
 }

@@ -152,22 +152,7 @@ public class SubstancePolymer extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.clazz = clazz;
-        builder.geometry = geometry;
-        builder.copolymerConnectivity.addAll(copolymerConnectivity);
-        builder.modification.addAll(modification);
-        builder.monomerSet.addAll(monomerSet);
-        builder.repeat.addAll(repeat);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -567,6 +552,24 @@ public class SubstancePolymer extends DomainResource {
         public SubstancePolymer build() {
             return new SubstancePolymer(this);
         }
+
+        private Builder from(SubstancePolymer substancePolymer) {
+            id = substancePolymer.id;
+            meta = substancePolymer.meta;
+            implicitRules = substancePolymer.implicitRules;
+            language = substancePolymer.language;
+            text = substancePolymer.text;
+            contained.addAll(substancePolymer.contained);
+            extension.addAll(substancePolymer.extension);
+            modifierExtension.addAll(substancePolymer.modifierExtension);
+            clazz = substancePolymer.clazz;
+            geometry = substancePolymer.geometry;
+            copolymerConnectivity.addAll(substancePolymer.copolymerConnectivity);
+            modification.addAll(substancePolymer.modification);
+            monomerSet.addAll(substancePolymer.monomerSet);
+            repeat.addAll(substancePolymer.repeat);
+            return this;
+        }
     }
 
     /**
@@ -627,7 +630,7 @@ public class SubstancePolymer extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -803,11 +806,13 @@ public class SubstancePolymer extends DomainResource {
                 return new MonomerSet(this);
             }
 
-            private static Builder from(MonomerSet monomerSet) {
-                Builder builder = new Builder();
-                builder.ratioType = monomerSet.ratioType;
-                builder.startingMaterial.addAll(monomerSet.startingMaterial);
-                return builder;
+            private Builder from(MonomerSet monomerSet) {
+                id = monomerSet.id;
+                extension.addAll(monomerSet.extension);
+                modifierExtension.addAll(monomerSet.modifierExtension);
+                ratioType = monomerSet.ratioType;
+                startingMaterial.addAll(monomerSet.startingMaterial);
+                return this;
             }
         }
 
@@ -899,7 +904,7 @@ public class SubstancePolymer extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1091,13 +1096,15 @@ public class SubstancePolymer extends DomainResource {
                     return new StartingMaterial(this);
                 }
 
-                private static Builder from(StartingMaterial startingMaterial) {
-                    Builder builder = new Builder();
-                    builder.material = startingMaterial.material;
-                    builder.type = startingMaterial.type;
-                    builder.isDefining = startingMaterial.isDefining;
-                    builder.amount = startingMaterial.amount;
-                    return builder;
+                private Builder from(StartingMaterial startingMaterial) {
+                    id = startingMaterial.id;
+                    extension.addAll(startingMaterial.extension);
+                    modifierExtension.addAll(startingMaterial.modifierExtension);
+                    material = startingMaterial.material;
+                    type = startingMaterial.type;
+                    isDefining = startingMaterial.isDefining;
+                    amount = startingMaterial.amount;
+                    return this;
                 }
             }
         }
@@ -1191,7 +1198,7 @@ public class SubstancePolymer extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1401,13 +1408,15 @@ public class SubstancePolymer extends DomainResource {
                 return new Repeat(this);
             }
 
-            private static Builder from(Repeat repeat) {
-                Builder builder = new Builder();
-                builder.numberOfUnits = repeat.numberOfUnits;
-                builder.averageMolecularFormula = repeat.averageMolecularFormula;
-                builder.repeatUnitAmountType = repeat.repeatUnitAmountType;
-                builder.repeatUnit.addAll(repeat.repeatUnit);
-                return builder;
+            private Builder from(Repeat repeat) {
+                id = repeat.id;
+                extension.addAll(repeat.extension);
+                modifierExtension.addAll(repeat.modifierExtension);
+                numberOfUnits = repeat.numberOfUnits;
+                averageMolecularFormula = repeat.averageMolecularFormula;
+                repeatUnitAmountType = repeat.repeatUnitAmountType;
+                repeatUnit.addAll(repeat.repeatUnit);
+                return this;
             }
         }
 
@@ -1514,7 +1523,7 @@ public class SubstancePolymer extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1759,14 +1768,16 @@ public class SubstancePolymer extends DomainResource {
                     return new RepeatUnit(this);
                 }
 
-                private static Builder from(RepeatUnit repeatUnit) {
-                    Builder builder = new Builder();
-                    builder.orientationOfPolymerisation = repeatUnit.orientationOfPolymerisation;
-                    builder.repeatUnit = repeatUnit.repeatUnit;
-                    builder.amount = repeatUnit.amount;
-                    builder.degreeOfPolymerisation.addAll(repeatUnit.degreeOfPolymerisation);
-                    builder.structuralRepresentation.addAll(repeatUnit.structuralRepresentation);
-                    return builder;
+                private Builder from(RepeatUnit repeatUnit) {
+                    id = repeatUnit.id;
+                    extension.addAll(repeatUnit.extension);
+                    modifierExtension.addAll(repeatUnit.modifierExtension);
+                    orientationOfPolymerisation = repeatUnit.orientationOfPolymerisation;
+                    this.repeatUnit = repeatUnit.repeatUnit;
+                    amount = repeatUnit.amount;
+                    degreeOfPolymerisation.addAll(repeatUnit.degreeOfPolymerisation);
+                    structuralRepresentation.addAll(repeatUnit.structuralRepresentation);
+                    return this;
                 }
             }
 
@@ -1828,7 +1839,7 @@ public class SubstancePolymer extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder() {
@@ -1986,11 +1997,13 @@ public class SubstancePolymer extends DomainResource {
                         return new DegreeOfPolymerisation(this);
                     }
 
-                    private static Builder from(DegreeOfPolymerisation degreeOfPolymerisation) {
-                        Builder builder = new Builder();
-                        builder.degree = degreeOfPolymerisation.degree;
-                        builder.amount = degreeOfPolymerisation.amount;
-                        return builder;
+                    private Builder from(DegreeOfPolymerisation degreeOfPolymerisation) {
+                        id = degreeOfPolymerisation.id;
+                        extension.addAll(degreeOfPolymerisation.extension);
+                        modifierExtension.addAll(degreeOfPolymerisation.modifierExtension);
+                        degree = degreeOfPolymerisation.degree;
+                        amount = degreeOfPolymerisation.amount;
+                        return this;
                     }
                 }
             }
@@ -2068,7 +2081,7 @@ public class SubstancePolymer extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder() {
@@ -2243,12 +2256,14 @@ public class SubstancePolymer extends DomainResource {
                         return new StructuralRepresentation(this);
                     }
 
-                    private static Builder from(StructuralRepresentation structuralRepresentation) {
-                        Builder builder = new Builder();
-                        builder.type = structuralRepresentation.type;
-                        builder.representation = structuralRepresentation.representation;
-                        builder.attachment = structuralRepresentation.attachment;
-                        return builder;
+                    private Builder from(StructuralRepresentation structuralRepresentation) {
+                        id = structuralRepresentation.id;
+                        extension.addAll(structuralRepresentation.extension);
+                        modifierExtension.addAll(structuralRepresentation.modifierExtension);
+                        type = structuralRepresentation.type;
+                        representation = structuralRepresentation.representation;
+                        attachment = structuralRepresentation.attachment;
+                        return this;
                     }
                 }
             }

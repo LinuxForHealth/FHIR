@@ -285,27 +285,11 @@ public class List extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, mode);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.title = title;
-        builder.code = code;
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.date = date;
-        builder.source = source;
-        builder.orderedBy = orderedBy;
-        builder.note.addAll(note);
-        builder.entry.addAll(entry);
-        builder.emptyReason = emptyReason;
-        return builder;
+        return new Builder(status, mode).from(this);
+    }
+
+    public Builder toBuilder(ListStatus status, ListMode mode) {
+        return new Builder(status, mode).from(this);
     }
 
     public static Builder builder(ListStatus status, ListMode mode) {
@@ -779,6 +763,29 @@ public class List extends DomainResource {
         public List build() {
             return new List(this);
         }
+
+        private Builder from(List list) {
+            id = list.id;
+            meta = list.meta;
+            implicitRules = list.implicitRules;
+            language = list.language;
+            text = list.text;
+            contained.addAll(list.contained);
+            extension.addAll(list.extension);
+            modifierExtension.addAll(list.modifierExtension);
+            identifier.addAll(list.identifier);
+            title = list.title;
+            code = list.code;
+            subject = list.subject;
+            encounter = list.encounter;
+            date = list.date;
+            source = list.source;
+            orderedBy = list.orderedBy;
+            note.addAll(list.note);
+            entry.addAll(list.entry);
+            emptyReason = list.emptyReason;
+            return this;
+        }
     }
 
     /**
@@ -869,7 +876,11 @@ public class List extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(item).from(this);
+        }
+
+        public Builder toBuilder(Reference item) {
+            return new Builder(item).from(this);
         }
 
         public static Builder builder(Reference item) {
@@ -1048,12 +1059,14 @@ public class List extends DomainResource {
                 return new Entry(this);
             }
 
-            private static Builder from(Entry entry) {
-                Builder builder = new Builder(entry.item);
-                builder.flag = entry.flag;
-                builder.deleted = entry.deleted;
-                builder.date = entry.date;
-                return builder;
+            private Builder from(Entry entry) {
+                id = entry.id;
+                extension.addAll(entry.extension);
+                modifierExtension.addAll(entry.modifierExtension);
+                flag = entry.flag;
+                deleted = entry.deleted;
+                date = entry.date;
+                return this;
             }
         }
     }

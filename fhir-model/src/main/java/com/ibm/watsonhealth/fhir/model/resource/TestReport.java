@@ -264,25 +264,11 @@ public class TestReport extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, testScript, result);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.name = name;
-        builder.score = score;
-        builder.tester = tester;
-        builder.issued = issued;
-        builder.participant.addAll(participant);
-        builder.setup = setup;
-        builder.test.addAll(test);
-        builder.teardown = teardown;
-        return builder;
+        return new Builder(status, testScript, result).from(this);
+    }
+
+    public Builder toBuilder(TestReportStatus status, Reference testScript, TestReportResult result) {
+        return new Builder(status, testScript, result).from(this);
     }
 
     public static Builder builder(TestReportStatus status, Reference testScript, TestReportResult result) {
@@ -706,6 +692,27 @@ public class TestReport extends DomainResource {
         public TestReport build() {
             return new TestReport(this);
         }
+
+        private Builder from(TestReport testReport) {
+            id = testReport.id;
+            meta = testReport.meta;
+            implicitRules = testReport.implicitRules;
+            language = testReport.language;
+            text = testReport.text;
+            contained.addAll(testReport.contained);
+            extension.addAll(testReport.extension);
+            modifierExtension.addAll(testReport.modifierExtension);
+            identifier = testReport.identifier;
+            name = testReport.name;
+            score = testReport.score;
+            tester = testReport.tester;
+            issued = testReport.issued;
+            participant.addAll(testReport.participant);
+            setup = testReport.setup;
+            test.addAll(testReport.test);
+            teardown = testReport.teardown;
+            return this;
+        }
     }
 
     /**
@@ -781,7 +788,11 @@ public class TestReport extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, uri).from(this);
+        }
+
+        public Builder toBuilder(TestReportParticipantType type, Uri uri) {
+            return new Builder(type, uri).from(this);
         }
 
         public static Builder builder(TestReportParticipantType type, Uri uri) {
@@ -928,10 +939,12 @@ public class TestReport extends DomainResource {
                 return new Participant(this);
             }
 
-            private static Builder from(Participant participant) {
-                Builder builder = new Builder(participant.type, participant.uri);
-                builder.display = participant.display;
-                return builder;
+            private Builder from(Participant participant) {
+                id = participant.id;
+                extension.addAll(participant.extension);
+                modifierExtension.addAll(participant.modifierExtension);
+                display = participant.display;
+                return this;
             }
         }
     }
@@ -979,7 +992,11 @@ public class TestReport extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(action).from(this);
+        }
+
+        public Builder toBuilder(List<Action> action) {
+            return new Builder(action).from(this);
         }
 
         public static Builder builder(List<Action> action) {
@@ -1100,48 +1117,16 @@ public class TestReport extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A setup operation or assert that was executed
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Action... action) {
-                for (Action value : action) {
-                    this.action.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A setup operation or assert that was executed
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Collection<Action> action) {
-                this.action.addAll(action);
-                return this;
-            }
-
             @Override
             public Setup build() {
                 return new Setup(this);
             }
 
-            private static Builder from(Setup setup) {
-                Builder builder = new Builder(setup.action);
-                return builder;
+            private Builder from(Setup setup) {
+                id = setup.id;
+                extension.addAll(setup.extension);
+                modifierExtension.addAll(setup.modifierExtension);
+                return this;
             }
         }
 
@@ -1203,7 +1188,7 @@ public class TestReport extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1361,11 +1346,13 @@ public class TestReport extends DomainResource {
                     return new Action(this);
                 }
 
-                private static Builder from(Action action) {
-                    Builder builder = new Builder();
-                    builder.operation = action.operation;
-                    builder._assert = action._assert;
-                    return builder;
+                private Builder from(Action action) {
+                    id = action.id;
+                    extension.addAll(action.extension);
+                    modifierExtension.addAll(action.modifierExtension);
+                    operation = action.operation;
+                    _assert = action._assert;
+                    return this;
                 }
             }
 
@@ -1442,7 +1429,11 @@ public class TestReport extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(result).from(this);
+                }
+
+                public Builder toBuilder(TestReportActionResult result) {
+                    return new Builder(result).from(this);
                 }
 
                 public static Builder builder(TestReportActionResult result) {
@@ -1604,11 +1595,13 @@ public class TestReport extends DomainResource {
                         return new Operation(this);
                     }
 
-                    private static Builder from(Operation operation) {
-                        Builder builder = new Builder(operation.result);
-                        builder.message = operation.message;
-                        builder.detail = operation.detail;
-                        return builder;
+                    private Builder from(Operation operation) {
+                        id = operation.id;
+                        extension.addAll(operation.extension);
+                        modifierExtension.addAll(operation.modifierExtension);
+                        message = operation.message;
+                        detail = operation.detail;
+                        return this;
                     }
                 }
             }
@@ -1686,7 +1679,11 @@ public class TestReport extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(result).from(this);
+                }
+
+                public Builder toBuilder(TestReportActionResult result) {
+                    return new Builder(result).from(this);
                 }
 
                 public static Builder builder(TestReportActionResult result) {
@@ -1848,11 +1845,13 @@ public class TestReport extends DomainResource {
                         return new Assert(this);
                     }
 
-                    private static Builder from(Assert _assert) {
-                        Builder builder = new Builder(_assert.result);
-                        builder.message = _assert.message;
-                        builder.detail = _assert.detail;
-                        return builder;
+                    private Builder from(Assert _assert) {
+                        id = _assert.id;
+                        extension.addAll(_assert.extension);
+                        modifierExtension.addAll(_assert.modifierExtension);
+                        message = _assert.message;
+                        detail = _assert.detail;
+                        return this;
                     }
                 }
             }
@@ -1932,7 +1931,11 @@ public class TestReport extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(action).from(this);
+        }
+
+        public Builder toBuilder(List<Action> action) {
+            return new Builder(action).from(this);
         }
 
         public static Builder builder(List<Action> action) {
@@ -2089,50 +2092,18 @@ public class TestReport extends DomainResource {
                 return this;
             }
 
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A test operation or assert that was performed
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Action... action) {
-                for (Action value : action) {
-                    this.action.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A test operation or assert that was performed
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Collection<Action> action) {
-                this.action.addAll(action);
-                return this;
-            }
-
             @Override
             public Test build() {
                 return new Test(this);
             }
 
-            private static Builder from(Test test) {
-                Builder builder = new Builder(test.action);
-                builder.name = test.name;
-                builder.description = test.description;
-                return builder;
+            private Builder from(Test test) {
+                id = test.id;
+                extension.addAll(test.extension);
+                modifierExtension.addAll(test.modifierExtension);
+                name = test.name;
+                description = test.description;
+                return this;
             }
         }
 
@@ -2194,7 +2165,7 @@ public class TestReport extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2352,11 +2323,13 @@ public class TestReport extends DomainResource {
                     return new Action(this);
                 }
 
-                private static Builder from(Action action) {
-                    Builder builder = new Builder();
-                    builder.operation = action.operation;
-                    builder._assert = action._assert;
-                    return builder;
+                private Builder from(Action action) {
+                    id = action.id;
+                    extension.addAll(action.extension);
+                    modifierExtension.addAll(action.modifierExtension);
+                    operation = action.operation;
+                    _assert = action._assert;
+                    return this;
                 }
             }
         }
@@ -2406,7 +2379,11 @@ public class TestReport extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(action).from(this);
+        }
+
+        public Builder toBuilder(List<Action> action) {
+            return new Builder(action).from(this);
         }
 
         public static Builder builder(List<Action> action) {
@@ -2527,48 +2504,16 @@ public class TestReport extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
-            /**
-             * <p>
-             * The teardown action will only contain an operation.
-             * </p>
-             * 
-             * @param action
-             *     One or more teardown operations performed
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Action... action) {
-                for (Action value : action) {
-                    this.action.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * The teardown action will only contain an operation.
-             * </p>
-             * 
-             * @param action
-             *     One or more teardown operations performed
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Collection<Action> action) {
-                this.action.addAll(action);
-                return this;
-            }
-
             @Override
             public Teardown build() {
                 return new Teardown(this);
             }
 
-            private static Builder from(Teardown teardown) {
-                Builder builder = new Builder(teardown.action);
-                return builder;
+            private Builder from(Teardown teardown) {
+                id = teardown.id;
+                extension.addAll(teardown.extension);
+                modifierExtension.addAll(teardown.modifierExtension);
+                return this;
             }
         }
 
@@ -2615,7 +2560,11 @@ public class TestReport extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(operation).from(this);
+            }
+
+            public Builder toBuilder(TestReport.Setup.Action.Operation operation) {
+                return new Builder(operation).from(this);
             }
 
             public static Builder builder(TestReport.Setup.Action.Operation operation) {
@@ -2741,9 +2690,11 @@ public class TestReport extends DomainResource {
                     return new Action(this);
                 }
 
-                private static Builder from(Action action) {
-                    Builder builder = new Builder(action.operation);
-                    return builder;
+                private Builder from(Action action) {
+                    id = action.id;
+                    extension.addAll(action.extension);
+                    modifierExtension.addAll(action.modifierExtension);
+                    return this;
                 }
             }
         }

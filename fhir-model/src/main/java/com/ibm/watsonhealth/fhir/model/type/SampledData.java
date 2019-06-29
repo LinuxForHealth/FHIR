@@ -152,14 +152,11 @@ public class SampledData extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(origin, period, dimensions);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.factor = factor;
-        builder.lowerLimit = lowerLimit;
-        builder.upperLimit = upperLimit;
-        builder.data = data;
-        return builder;
+        return new Builder(origin, period, dimensions).from(this);
+    }
+
+    public Builder toBuilder(Quantity origin, Decimal period, PositiveInt dimensions) {
+        return new Builder(origin, period, dimensions).from(this);
     }
 
     public static Builder builder(Quantity origin, Decimal period, PositiveInt dimensions) {
@@ -310,6 +307,16 @@ public class SampledData extends Element {
         @Override
         public SampledData build() {
             return new SampledData(this);
+        }
+
+        private Builder from(SampledData sampledData) {
+            id = sampledData.id;
+            extension.addAll(sampledData.extension);
+            factor = sampledData.factor;
+            lowerLimit = sampledData.lowerLimit;
+            upperLimit = sampledData.upperLimit;
+            data = sampledData.data;
+            return this;
         }
     }
 }

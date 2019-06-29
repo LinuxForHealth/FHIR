@@ -185,23 +185,11 @@ public class Schedule extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(actor);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.serviceCategory.addAll(serviceCategory);
-        builder.serviceType.addAll(serviceType);
-        builder.specialty.addAll(specialty);
-        builder.planningHorizon = planningHorizon;
-        builder.comment = comment;
-        return builder;
+        return new Builder(actor).from(this);
+    }
+
+    public Builder toBuilder(List<Reference> actor) {
+        return new Builder(actor).from(this);
     }
 
     public static Builder builder(List<Reference> actor) {
@@ -588,40 +576,6 @@ public class Schedule extends DomainResource {
 
         /**
          * <p>
-         * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
-         * </p>
-         * 
-         * @param actor
-         *     Resource(s) that availability information is being provided for
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder actor(Reference... actor) {
-            for (Reference value : actor) {
-                this.actor.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
-         * </p>
-         * 
-         * @param actor
-         *     Resource(s) that availability information is being provided for
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder actor(Collection<Reference> actor) {
-            this.actor.addAll(actor);
-            return this;
-        }
-
-        /**
-         * <p>
          * The period of time that the slots that reference this Schedule resource cover (even if none exist). These cover the 
          * amount of time that an organization's planning horizon; the interval for which they are currently accepting 
          * appointments. This does not define a "template" for planning outside these dates.
@@ -658,6 +612,25 @@ public class Schedule extends DomainResource {
         @Override
         public Schedule build() {
             return new Schedule(this);
+        }
+
+        private Builder from(Schedule schedule) {
+            id = schedule.id;
+            meta = schedule.meta;
+            implicitRules = schedule.implicitRules;
+            language = schedule.language;
+            text = schedule.text;
+            contained.addAll(schedule.contained);
+            extension.addAll(schedule.extension);
+            modifierExtension.addAll(schedule.modifierExtension);
+            identifier.addAll(schedule.identifier);
+            active = schedule.active;
+            serviceCategory.addAll(schedule.serviceCategory);
+            serviceType.addAll(schedule.serviceType);
+            specialty.addAll(schedule.specialty);
+            planningHorizon = schedule.planningHorizon;
+            comment = schedule.comment;
+            return this;
         }
     }
 }

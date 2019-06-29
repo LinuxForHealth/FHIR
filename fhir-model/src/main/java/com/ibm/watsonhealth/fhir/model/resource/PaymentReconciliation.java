@@ -293,27 +293,11 @@ public class PaymentReconciliation extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, created, paymentDate, paymentAmount);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.period = period;
-        builder.paymentIssuer = paymentIssuer;
-        builder.request = request;
-        builder.requestor = requestor;
-        builder.outcome = outcome;
-        builder.disposition = disposition;
-        builder.paymentIdentifier = paymentIdentifier;
-        builder.detail.addAll(detail);
-        builder.formCode = formCode;
-        builder.processNote.addAll(processNote);
-        return builder;
+        return new Builder(status, created, paymentDate, paymentAmount).from(this);
+    }
+
+    public Builder toBuilder(PaymentReconciliationStatus status, DateTime created, Date paymentDate, Money paymentAmount) {
+        return new Builder(status, created, paymentDate, paymentAmount).from(this);
     }
 
     public static Builder builder(PaymentReconciliationStatus status, DateTime created, Date paymentDate, Money paymentAmount) {
@@ -790,6 +774,29 @@ public class PaymentReconciliation extends DomainResource {
         public PaymentReconciliation build() {
             return new PaymentReconciliation(this);
         }
+
+        private Builder from(PaymentReconciliation paymentReconciliation) {
+            id = paymentReconciliation.id;
+            meta = paymentReconciliation.meta;
+            implicitRules = paymentReconciliation.implicitRules;
+            language = paymentReconciliation.language;
+            text = paymentReconciliation.text;
+            contained.addAll(paymentReconciliation.contained);
+            extension.addAll(paymentReconciliation.extension);
+            modifierExtension.addAll(paymentReconciliation.modifierExtension);
+            identifier.addAll(paymentReconciliation.identifier);
+            period = paymentReconciliation.period;
+            paymentIssuer = paymentReconciliation.paymentIssuer;
+            request = paymentReconciliation.request;
+            requestor = paymentReconciliation.requestor;
+            outcome = paymentReconciliation.outcome;
+            disposition = paymentReconciliation.disposition;
+            paymentIdentifier = paymentReconciliation.paymentIdentifier;
+            detail.addAll(paymentReconciliation.detail);
+            formCode = paymentReconciliation.formCode;
+            processNote.addAll(paymentReconciliation.processNote);
+            return this;
+        }
     }
 
     /**
@@ -970,7 +977,11 @@ public class PaymentReconciliation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(CodeableConcept type) {
@@ -1251,18 +1262,20 @@ public class PaymentReconciliation extends DomainResource {
                 return new Detail(this);
             }
 
-            private static Builder from(Detail detail) {
-                Builder builder = new Builder(detail.type);
-                builder.identifier = detail.identifier;
-                builder.predecessor = detail.predecessor;
-                builder.request = detail.request;
-                builder.submitter = detail.submitter;
-                builder.response = detail.response;
-                builder.date = detail.date;
-                builder.responsible = detail.responsible;
-                builder.payee = detail.payee;
-                builder.amount = detail.amount;
-                return builder;
+            private Builder from(Detail detail) {
+                id = detail.id;
+                extension.addAll(detail.extension);
+                modifierExtension.addAll(detail.modifierExtension);
+                identifier = detail.identifier;
+                predecessor = detail.predecessor;
+                request = detail.request;
+                submitter = detail.submitter;
+                response = detail.response;
+                date = detail.date;
+                responsible = detail.responsible;
+                payee = detail.payee;
+                amount = detail.amount;
+                return this;
             }
         }
     }
@@ -1325,7 +1338,7 @@ public class PaymentReconciliation extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1483,11 +1496,13 @@ public class PaymentReconciliation extends DomainResource {
                 return new ProcessNote(this);
             }
 
-            private static Builder from(ProcessNote processNote) {
-                Builder builder = new Builder();
-                builder.type = processNote.type;
-                builder.text = processNote.text;
-                return builder;
+            private Builder from(ProcessNote processNote) {
+                id = processNote.id;
+                extension.addAll(processNote.extension);
+                modifierExtension.addAll(processNote.modifierExtension);
+                type = processNote.type;
+                text = processNote.text;
+                return this;
             }
         }
     }

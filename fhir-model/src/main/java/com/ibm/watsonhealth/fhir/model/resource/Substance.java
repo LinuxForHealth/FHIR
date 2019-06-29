@@ -171,22 +171,11 @@ public class Substance extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(code);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.status = status;
-        builder.category.addAll(category);
-        builder.description = description;
-        builder.instance.addAll(instance);
-        builder.ingredient.addAll(ingredient);
-        return builder;
+        return new Builder(code).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept code) {
+        return new Builder(code).from(this);
     }
 
     public static Builder builder(CodeableConcept code) {
@@ -590,6 +579,24 @@ public class Substance extends DomainResource {
         public Substance build() {
             return new Substance(this);
         }
+
+        private Builder from(Substance substance) {
+            id = substance.id;
+            meta = substance.meta;
+            implicitRules = substance.implicitRules;
+            language = substance.language;
+            text = substance.text;
+            contained.addAll(substance.contained);
+            extension.addAll(substance.extension);
+            modifierExtension.addAll(substance.modifierExtension);
+            identifier.addAll(substance.identifier);
+            status = substance.status;
+            category.addAll(substance.category);
+            description = substance.description;
+            instance.addAll(substance.instance);
+            ingredient.addAll(substance.ingredient);
+            return this;
+        }
     }
 
     /**
@@ -665,7 +672,7 @@ public class Substance extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -840,12 +847,14 @@ public class Substance extends DomainResource {
                 return new Instance(this);
             }
 
-            private static Builder from(Instance instance) {
-                Builder builder = new Builder();
-                builder.identifier = instance.identifier;
-                builder.expiry = instance.expiry;
-                builder.quantity = instance.quantity;
-                return builder;
+            private Builder from(Instance instance) {
+                id = instance.id;
+                extension.addAll(instance.extension);
+                modifierExtension.addAll(instance.modifierExtension);
+                identifier = instance.identifier;
+                expiry = instance.expiry;
+                quantity = instance.quantity;
+                return this;
             }
         }
     }
@@ -908,7 +917,11 @@ public class Substance extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(substance).from(this);
+        }
+
+        public Builder toBuilder(Element substance) {
+            return new Builder(substance).from(this);
         }
 
         public static Builder builder(Element substance) {
@@ -1053,10 +1066,12 @@ public class Substance extends DomainResource {
                 return new Ingredient(this);
             }
 
-            private static Builder from(Ingredient ingredient) {
-                Builder builder = new Builder(ingredient.substance);
-                builder.quantity = ingredient.quantity;
-                return builder;
+            private Builder from(Ingredient ingredient) {
+                id = ingredient.id;
+                extension.addAll(ingredient.extension);
+                modifierExtension.addAll(ingredient.modifierExtension);
+                quantity = ingredient.quantity;
+                return this;
             }
         }
     }

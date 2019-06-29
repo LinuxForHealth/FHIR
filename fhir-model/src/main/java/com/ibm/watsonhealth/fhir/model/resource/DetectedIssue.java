@@ -251,27 +251,11 @@ public class DetectedIssue extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.code = code;
-        builder.severity = severity;
-        builder.patient = patient;
-        builder.identified = identified;
-        builder.author = author;
-        builder.implicated.addAll(implicated);
-        builder.evidence.addAll(evidence);
-        builder.detail = detail;
-        builder.reference = reference;
-        builder.mitigation.addAll(mitigation);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(DetectedIssueStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(DetectedIssueStatus status) {
@@ -767,6 +751,29 @@ public class DetectedIssue extends DomainResource {
         public DetectedIssue build() {
             return new DetectedIssue(this);
         }
+
+        private Builder from(DetectedIssue detectedIssue) {
+            id = detectedIssue.id;
+            meta = detectedIssue.meta;
+            implicitRules = detectedIssue.implicitRules;
+            language = detectedIssue.language;
+            text = detectedIssue.text;
+            contained.addAll(detectedIssue.contained);
+            extension.addAll(detectedIssue.extension);
+            modifierExtension.addAll(detectedIssue.modifierExtension);
+            identifier.addAll(detectedIssue.identifier);
+            code = detectedIssue.code;
+            severity = detectedIssue.severity;
+            patient = detectedIssue.patient;
+            identified = detectedIssue.identified;
+            author = detectedIssue.author;
+            implicated.addAll(detectedIssue.implicated);
+            evidence.addAll(detectedIssue.evidence);
+            detail = detectedIssue.detail;
+            reference = detectedIssue.reference;
+            mitigation.addAll(detectedIssue.mitigation);
+            return this;
+        }
     }
 
     /**
@@ -828,7 +835,7 @@ public class DetectedIssue extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1022,11 +1029,13 @@ public class DetectedIssue extends DomainResource {
                 return new Evidence(this);
             }
 
-            private static Builder from(Evidence evidence) {
-                Builder builder = new Builder();
-                builder.code.addAll(evidence.code);
-                builder.detail.addAll(evidence.detail);
-                return builder;
+            private Builder from(Evidence evidence) {
+                id = evidence.id;
+                extension.addAll(evidence.extension);
+                modifierExtension.addAll(evidence.modifierExtension);
+                code.addAll(evidence.code);
+                detail.addAll(evidence.detail);
+                return this;
             }
         }
     }
@@ -1107,7 +1116,11 @@ public class DetectedIssue extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(action).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept action) {
+            return new Builder(action).from(this);
         }
 
         public static Builder builder(CodeableConcept action) {
@@ -1269,11 +1282,13 @@ public class DetectedIssue extends DomainResource {
                 return new Mitigation(this);
             }
 
-            private static Builder from(Mitigation mitigation) {
-                Builder builder = new Builder(mitigation.action);
-                builder.date = mitigation.date;
-                builder.author = mitigation.author;
-                return builder;
+            private Builder from(Mitigation mitigation) {
+                id = mitigation.id;
+                extension.addAll(mitigation.extension);
+                modifierExtension.addAll(mitigation.modifierExtension);
+                date = mitigation.date;
+                author = mitigation.author;
+                return this;
             }
         }
     }

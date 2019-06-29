@@ -128,15 +128,7 @@ public class ContactPoint extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.system = system;
-        builder.value = value;
-        builder.use = use;
-        builder.rank = rank;
-        builder.period = period;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -295,6 +287,17 @@ public class ContactPoint extends Element {
         @Override
         public ContactPoint build() {
             return new ContactPoint(this);
+        }
+
+        private Builder from(ContactPoint contactPoint) {
+            id = contactPoint.id;
+            extension.addAll(contactPoint.extension);
+            system = contactPoint.system;
+            value = contactPoint.value;
+            use = contactPoint.use;
+            rank = contactPoint.rank;
+            period = contactPoint.period;
+            return this;
         }
     }
 }

@@ -290,30 +290,7 @@ public class InsurancePlan extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.status = status;
-        builder.type.addAll(type);
-        builder.name = name;
-        builder.alias.addAll(alias);
-        builder.period = period;
-        builder.ownedBy = ownedBy;
-        builder.administeredBy = administeredBy;
-        builder.coverageArea.addAll(coverageArea);
-        builder.contact.addAll(contact);
-        builder.endpoint.addAll(endpoint);
-        builder.network.addAll(network);
-        builder.coverage.addAll(coverage);
-        builder.plan.addAll(plan);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -943,6 +920,32 @@ public class InsurancePlan extends DomainResource {
         public InsurancePlan build() {
             return new InsurancePlan(this);
         }
+
+        private Builder from(InsurancePlan insurancePlan) {
+            id = insurancePlan.id;
+            meta = insurancePlan.meta;
+            implicitRules = insurancePlan.implicitRules;
+            language = insurancePlan.language;
+            text = insurancePlan.text;
+            contained.addAll(insurancePlan.contained);
+            extension.addAll(insurancePlan.extension);
+            modifierExtension.addAll(insurancePlan.modifierExtension);
+            identifier.addAll(insurancePlan.identifier);
+            status = insurancePlan.status;
+            type.addAll(insurancePlan.type);
+            name = insurancePlan.name;
+            alias.addAll(insurancePlan.alias);
+            period = insurancePlan.period;
+            ownedBy = insurancePlan.ownedBy;
+            administeredBy = insurancePlan.administeredBy;
+            coverageArea.addAll(insurancePlan.coverageArea);
+            contact.addAll(insurancePlan.contact);
+            endpoint.addAll(insurancePlan.endpoint);
+            network.addAll(insurancePlan.network);
+            coverage.addAll(insurancePlan.coverage);
+            plan.addAll(insurancePlan.plan);
+            return this;
+        }
     }
 
     /**
@@ -1033,7 +1036,7 @@ public class InsurancePlan extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1243,13 +1246,15 @@ public class InsurancePlan extends DomainResource {
                 return new Contact(this);
             }
 
-            private static Builder from(Contact contact) {
-                Builder builder = new Builder();
-                builder.purpose = contact.purpose;
-                builder.name = contact.name;
-                builder.telecom.addAll(contact.telecom);
-                builder.address = contact.address;
-                return builder;
+            private Builder from(Contact contact) {
+                id = contact.id;
+                extension.addAll(contact.extension);
+                modifierExtension.addAll(contact.modifierExtension);
+                purpose = contact.purpose;
+                name = contact.name;
+                telecom.addAll(contact.telecom);
+                address = contact.address;
+                return this;
             }
         }
     }
@@ -1328,7 +1333,11 @@ public class InsurancePlan extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, benefit).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type, List<Benefit> benefit) {
+            return new Builder(type, benefit).from(this);
         }
 
         public static Builder builder(CodeableConcept type, List<Benefit> benefit) {
@@ -1488,49 +1497,17 @@ public class InsurancePlan extends DomainResource {
                 return this;
             }
 
-            /**
-             * <p>
-             * Specific benefits under this type of coverage.
-             * </p>
-             * 
-             * @param benefit
-             *     List of benefits
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder benefit(Benefit... benefit) {
-                for (Benefit value : benefit) {
-                    this.benefit.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Specific benefits under this type of coverage.
-             * </p>
-             * 
-             * @param benefit
-             *     List of benefits
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder benefit(Collection<Benefit> benefit) {
-                this.benefit.addAll(benefit);
-                return this;
-            }
-
             @Override
             public Coverage build() {
                 return new Coverage(this);
             }
 
-            private static Builder from(Coverage coverage) {
-                Builder builder = new Builder(coverage.type, coverage.benefit);
-                builder.network.addAll(coverage.network);
-                return builder;
+            private Builder from(Coverage coverage) {
+                id = coverage.id;
+                extension.addAll(coverage.extension);
+                modifierExtension.addAll(coverage.modifierExtension);
+                network.addAll(coverage.network);
+                return this;
             }
         }
 
@@ -1607,7 +1584,11 @@ public class InsurancePlan extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(CodeableConcept type) {
@@ -1787,11 +1768,13 @@ public class InsurancePlan extends DomainResource {
                     return new Benefit(this);
                 }
 
-                private static Builder from(Benefit benefit) {
-                    Builder builder = new Builder(benefit.type);
-                    builder.requirement = benefit.requirement;
-                    builder.limit.addAll(benefit.limit);
-                    return builder;
+                private Builder from(Benefit benefit) {
+                    id = benefit.id;
+                    extension.addAll(benefit.extension);
+                    modifierExtension.addAll(benefit.modifierExtension);
+                    requirement = benefit.requirement;
+                    limit.addAll(benefit.limit);
+                    return this;
                 }
             }
 
@@ -1854,7 +1837,7 @@ public class InsurancePlan extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder() {
@@ -2013,11 +1996,13 @@ public class InsurancePlan extends DomainResource {
                         return new Limit(this);
                     }
 
-                    private static Builder from(Limit limit) {
-                        Builder builder = new Builder();
-                        builder.value = limit.value;
-                        builder.code = limit.code;
-                        return builder;
+                    private Builder from(Limit limit) {
+                        id = limit.id;
+                        extension.addAll(limit.extension);
+                        modifierExtension.addAll(limit.modifierExtension);
+                        value = limit.value;
+                        code = limit.code;
+                        return this;
                     }
                 }
             }
@@ -2143,7 +2128,7 @@ public class InsurancePlan extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2461,15 +2446,17 @@ public class InsurancePlan extends DomainResource {
                 return new Plan(this);
             }
 
-            private static Builder from(Plan plan) {
-                Builder builder = new Builder();
-                builder.identifier.addAll(plan.identifier);
-                builder.type = plan.type;
-                builder.coverageArea.addAll(plan.coverageArea);
-                builder.network.addAll(plan.network);
-                builder.generalCost.addAll(plan.generalCost);
-                builder.specificCost.addAll(plan.specificCost);
-                return builder;
+            private Builder from(Plan plan) {
+                id = plan.id;
+                extension.addAll(plan.extension);
+                modifierExtension.addAll(plan.modifierExtension);
+                identifier.addAll(plan.identifier);
+                type = plan.type;
+                coverageArea.addAll(plan.coverageArea);
+                network.addAll(plan.network);
+                generalCost.addAll(plan.generalCost);
+                specificCost.addAll(plan.specificCost);
+                return this;
             }
         }
 
@@ -2561,7 +2548,7 @@ public class InsurancePlan extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2753,13 +2740,15 @@ public class InsurancePlan extends DomainResource {
                     return new GeneralCost(this);
                 }
 
-                private static Builder from(GeneralCost generalCost) {
-                    Builder builder = new Builder();
-                    builder.type = generalCost.type;
-                    builder.groupSize = generalCost.groupSize;
-                    builder.cost = generalCost.cost;
-                    builder.comment = generalCost.comment;
-                    return builder;
+                private Builder from(GeneralCost generalCost) {
+                    id = generalCost.id;
+                    extension.addAll(generalCost.extension);
+                    modifierExtension.addAll(generalCost.modifierExtension);
+                    type = generalCost.type;
+                    groupSize = generalCost.groupSize;
+                    cost = generalCost.cost;
+                    comment = generalCost.comment;
+                    return this;
                 }
             }
         }
@@ -2822,7 +2811,11 @@ public class InsurancePlan extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(category).from(this);
+            }
+
+            public Builder toBuilder(CodeableConcept category) {
+                return new Builder(category).from(this);
             }
 
             public static Builder builder(CodeableConcept category) {
@@ -2985,10 +2978,12 @@ public class InsurancePlan extends DomainResource {
                     return new SpecificCost(this);
                 }
 
-                private static Builder from(SpecificCost specificCost) {
-                    Builder builder = new Builder(specificCost.category);
-                    builder.benefit.addAll(specificCost.benefit);
-                    return builder;
+                private Builder from(SpecificCost specificCost) {
+                    id = specificCost.id;
+                    extension.addAll(specificCost.extension);
+                    modifierExtension.addAll(specificCost.modifierExtension);
+                    benefit.addAll(specificCost.benefit);
+                    return this;
                 }
             }
 
@@ -3051,7 +3046,11 @@ public class InsurancePlan extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(type).from(this);
+                }
+
+                public Builder toBuilder(CodeableConcept type) {
+                    return new Builder(type).from(this);
                 }
 
                 public static Builder builder(CodeableConcept type) {
@@ -3214,10 +3213,12 @@ public class InsurancePlan extends DomainResource {
                         return new Benefit(this);
                     }
 
-                    private static Builder from(Benefit benefit) {
-                        Builder builder = new Builder(benefit.type);
-                        builder.cost.addAll(benefit.cost);
-                        return builder;
+                    private Builder from(Benefit benefit) {
+                        id = benefit.id;
+                        extension.addAll(benefit.extension);
+                        modifierExtension.addAll(benefit.modifierExtension);
+                        cost.addAll(benefit.cost);
+                        return this;
                     }
                 }
 
@@ -3310,7 +3311,11 @@ public class InsurancePlan extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return Builder.from(this);
+                        return new Builder(type).from(this);
+                    }
+
+                    public Builder toBuilder(CodeableConcept type) {
+                        return new Builder(type).from(this);
                     }
 
                     public static Builder builder(CodeableConcept type) {
@@ -3508,12 +3513,14 @@ public class InsurancePlan extends DomainResource {
                             return new Cost(this);
                         }
 
-                        private static Builder from(Cost cost) {
-                            Builder builder = new Builder(cost.type);
-                            builder.applicability = cost.applicability;
-                            builder.qualifiers.addAll(cost.qualifiers);
-                            builder.value = cost.value;
-                            return builder;
+                        private Builder from(Cost cost) {
+                            id = cost.id;
+                            extension.addAll(cost.extension);
+                            modifierExtension.addAll(cost.modifierExtension);
+                            applicability = cost.applicability;
+                            qualifiers.addAll(cost.qualifiers);
+                            value = cost.value;
+                            return this;
                         }
                     }
                 }

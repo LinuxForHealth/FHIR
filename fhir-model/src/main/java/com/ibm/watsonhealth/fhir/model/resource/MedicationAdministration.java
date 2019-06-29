@@ -372,31 +372,11 @@ public class MedicationAdministration extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, medication, subject, effective);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiates.addAll(instantiates);
-        builder.partOf.addAll(partOf);
-        builder.statusReason.addAll(statusReason);
-        builder.category = category;
-        builder.context = context;
-        builder.supportingInformation.addAll(supportingInformation);
-        builder.performer.addAll(performer);
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.request = request;
-        builder.device.addAll(device);
-        builder.note.addAll(note);
-        builder.dosage = dosage;
-        builder.eventHistory.addAll(eventHistory);
-        return builder;
+        return new Builder(status, medication, subject, effective).from(this);
+    }
+
+    public Builder toBuilder(MedicationAdministrationStatus status, Element medication, Reference subject, Element effective) {
+        return new Builder(status, medication, subject, effective).from(this);
     }
 
     public static Builder builder(MedicationAdministrationStatus status, Element medication, Reference subject, Element effective) {
@@ -1092,6 +1072,33 @@ public class MedicationAdministration extends DomainResource {
         public MedicationAdministration build() {
             return new MedicationAdministration(this);
         }
+
+        private Builder from(MedicationAdministration medicationAdministration) {
+            id = medicationAdministration.id;
+            meta = medicationAdministration.meta;
+            implicitRules = medicationAdministration.implicitRules;
+            language = medicationAdministration.language;
+            text = medicationAdministration.text;
+            contained.addAll(medicationAdministration.contained);
+            extension.addAll(medicationAdministration.extension);
+            modifierExtension.addAll(medicationAdministration.modifierExtension);
+            identifier.addAll(medicationAdministration.identifier);
+            instantiates.addAll(medicationAdministration.instantiates);
+            partOf.addAll(medicationAdministration.partOf);
+            statusReason.addAll(medicationAdministration.statusReason);
+            category = medicationAdministration.category;
+            context = medicationAdministration.context;
+            supportingInformation.addAll(medicationAdministration.supportingInformation);
+            performer.addAll(medicationAdministration.performer);
+            reasonCode.addAll(medicationAdministration.reasonCode);
+            reasonReference.addAll(medicationAdministration.reasonReference);
+            request = medicationAdministration.request;
+            device.addAll(medicationAdministration.device);
+            note.addAll(medicationAdministration.note);
+            dosage = medicationAdministration.dosage;
+            eventHistory.addAll(medicationAdministration.eventHistory);
+            return this;
+        }
     }
 
     /**
@@ -1152,7 +1159,11 @@ public class MedicationAdministration extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(actor).from(this);
+        }
+
+        public Builder toBuilder(Reference actor) {
+            return new Builder(actor).from(this);
         }
 
         public static Builder builder(Reference actor) {
@@ -1297,10 +1308,12 @@ public class MedicationAdministration extends DomainResource {
                 return new Performer(this);
             }
 
-            private static Builder from(Performer performer) {
-                Builder builder = new Builder(performer.actor);
-                builder.function = performer.function;
-                return builder;
+            private Builder from(Performer performer) {
+                id = performer.id;
+                extension.addAll(performer.extension);
+                modifierExtension.addAll(performer.modifierExtension);
+                function = performer.function;
+                return this;
             }
         }
     }
@@ -1433,7 +1446,7 @@ The dosage instructions should reflect the
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1669,15 +1682,17 @@ The dosage instructions should reflect the
                 return new Dosage(this);
             }
 
-            private static Builder from(Dosage dosage) {
-                Builder builder = new Builder();
-                builder.text = dosage.text;
-                builder.site = dosage.site;
-                builder.route = dosage.route;
-                builder.method = dosage.method;
-                builder.dose = dosage.dose;
-                builder.rate = dosage.rate;
-                return builder;
+            private Builder from(Dosage dosage) {
+                id = dosage.id;
+                extension.addAll(dosage.extension);
+                modifierExtension.addAll(dosage.modifierExtension);
+                text = dosage.text;
+                site = dosage.site;
+                route = dosage.route;
+                method = dosage.method;
+                dose = dosage.dose;
+                rate = dosage.rate;
+                return this;
             }
         }
     }

@@ -450,37 +450,11 @@ public class ChargeItemDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(url, status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.title = title;
-        builder.derivedFromUri.addAll(derivedFromUri);
-        builder.partOf.addAll(partOf);
-        builder.replaces.addAll(replaces);
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.copyright = copyright;
-        builder.approvalDate = approvalDate;
-        builder.lastReviewDate = lastReviewDate;
-        builder.effectivePeriod = effectivePeriod;
-        builder.code = code;
-        builder.instance.addAll(instance);
-        builder.applicability.addAll(applicability);
-        builder.propertyGroup.addAll(propertyGroup);
-        return builder;
+        return new Builder(url, status).from(this);
+    }
+
+    public Builder toBuilder(Uri url, PublicationStatus status) {
+        return new Builder(url, status).from(this);
     }
 
     public static Builder builder(Uri url, PublicationStatus status) {
@@ -1273,6 +1247,39 @@ public class ChargeItemDefinition extends DomainResource {
         public ChargeItemDefinition build() {
             return new ChargeItemDefinition(this);
         }
+
+        private Builder from(ChargeItemDefinition chargeItemDefinition) {
+            id = chargeItemDefinition.id;
+            meta = chargeItemDefinition.meta;
+            implicitRules = chargeItemDefinition.implicitRules;
+            language = chargeItemDefinition.language;
+            text = chargeItemDefinition.text;
+            contained.addAll(chargeItemDefinition.contained);
+            extension.addAll(chargeItemDefinition.extension);
+            modifierExtension.addAll(chargeItemDefinition.modifierExtension);
+            identifier.addAll(chargeItemDefinition.identifier);
+            version = chargeItemDefinition.version;
+            title = chargeItemDefinition.title;
+            derivedFromUri.addAll(chargeItemDefinition.derivedFromUri);
+            partOf.addAll(chargeItemDefinition.partOf);
+            replaces.addAll(chargeItemDefinition.replaces);
+            experimental = chargeItemDefinition.experimental;
+            date = chargeItemDefinition.date;
+            publisher = chargeItemDefinition.publisher;
+            contact.addAll(chargeItemDefinition.contact);
+            description = chargeItemDefinition.description;
+            useContext.addAll(chargeItemDefinition.useContext);
+            jurisdiction.addAll(chargeItemDefinition.jurisdiction);
+            copyright = chargeItemDefinition.copyright;
+            approvalDate = chargeItemDefinition.approvalDate;
+            lastReviewDate = chargeItemDefinition.lastReviewDate;
+            effectivePeriod = chargeItemDefinition.effectivePeriod;
+            code = chargeItemDefinition.code;
+            instance.addAll(chargeItemDefinition.instance);
+            applicability.addAll(chargeItemDefinition.applicability);
+            propertyGroup.addAll(chargeItemDefinition.propertyGroup);
+            return this;
+        }
     }
 
     /**
@@ -1351,7 +1358,7 @@ public class ChargeItemDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1529,12 +1536,14 @@ public class ChargeItemDefinition extends DomainResource {
                 return new Applicability(this);
             }
 
-            private static Builder from(Applicability applicability) {
-                Builder builder = new Builder();
-                builder.description = applicability.description;
-                builder.language = applicability.language;
-                builder.expression = applicability.expression;
-                return builder;
+            private Builder from(Applicability applicability) {
+                id = applicability.id;
+                extension.addAll(applicability.extension);
+                modifierExtension.addAll(applicability.modifierExtension);
+                description = applicability.description;
+                language = applicability.language;
+                expression = applicability.expression;
+                return this;
             }
         }
     }
@@ -1601,7 +1610,7 @@ public class ChargeItemDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1801,11 +1810,13 @@ public class ChargeItemDefinition extends DomainResource {
                 return new PropertyGroup(this);
             }
 
-            private static Builder from(PropertyGroup propertyGroup) {
-                Builder builder = new Builder();
-                builder.applicability.addAll(propertyGroup.applicability);
-                builder.priceComponent.addAll(propertyGroup.priceComponent);
-                return builder;
+            private Builder from(PropertyGroup propertyGroup) {
+                id = propertyGroup.id;
+                extension.addAll(propertyGroup.extension);
+                modifierExtension.addAll(propertyGroup.modifierExtension);
+                applicability.addAll(propertyGroup.applicability);
+                priceComponent.addAll(propertyGroup.priceComponent);
+                return this;
             }
         }
 
@@ -1901,7 +1912,11 @@ public class ChargeItemDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(ChargeItemDefinitionPriceComponentType type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(ChargeItemDefinitionPriceComponentType type) {
@@ -2081,12 +2096,14 @@ public class ChargeItemDefinition extends DomainResource {
                     return new PriceComponent(this);
                 }
 
-                private static Builder from(PriceComponent priceComponent) {
-                    Builder builder = new Builder(priceComponent.type);
-                    builder.code = priceComponent.code;
-                    builder.factor = priceComponent.factor;
-                    builder.amount = priceComponent.amount;
-                    return builder;
+                private Builder from(PriceComponent priceComponent) {
+                    id = priceComponent.id;
+                    extension.addAll(priceComponent.extension);
+                    modifierExtension.addAll(priceComponent.modifierExtension);
+                    code = priceComponent.code;
+                    factor = priceComponent.factor;
+                    amount = priceComponent.amount;
+                    return this;
                 }
             }
         }

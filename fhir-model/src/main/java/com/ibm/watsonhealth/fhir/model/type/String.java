@@ -70,11 +70,7 @@ public class String extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -162,6 +158,13 @@ public class String extends Element {
         @Override
         public String build() {
             return new String(this);
+        }
+
+        private Builder from(String string) {
+            id = string.id;
+            extension.addAll(string.extension);
+            value = string.value;
+            return this;
         }
     }
 }

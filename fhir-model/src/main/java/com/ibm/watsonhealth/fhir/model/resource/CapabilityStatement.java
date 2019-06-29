@@ -570,37 +570,11 @@ public class CapabilityStatement extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, date, kind, fhirVersion, format);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.instantiates.addAll(instantiates);
-        builder.imports.addAll(imports);
-        builder.software = software;
-        builder.implementation = implementation;
-        builder.patchFormat.addAll(patchFormat);
-        builder.implementationGuide.addAll(implementationGuide);
-        builder.rest.addAll(rest);
-        builder.messaging.addAll(messaging);
-        builder.document.addAll(document);
-        return builder;
+        return new Builder(status, date, kind, fhirVersion, format).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, List<Code> format) {
+        return new Builder(status, date, kind, fhirVersion, format).from(this);
     }
 
     public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, List<Code> format) {
@@ -1229,40 +1203,6 @@ public class CapabilityStatement extends DomainResource {
 
         /**
          * <p>
-         * A list of the formats supported by this implementation using their content types.
-         * </p>
-         * 
-         * @param format
-         *     formats supported (xml | json | ttl | mime type)
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder format(Code... format) {
-            for (Code value : format) {
-                this.format.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * A list of the formats supported by this implementation using their content types.
-         * </p>
-         * 
-         * @param format
-         *     formats supported (xml | json | ttl | mime type)
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder format(Collection<Code> format) {
-            this.format.addAll(format);
-            return this;
-        }
-
-        /**
-         * <p>
          * A list of the patch formats supported by this implementation using their content types.
          * </p>
          * 
@@ -1435,6 +1375,39 @@ public class CapabilityStatement extends DomainResource {
         public CapabilityStatement build() {
             return new CapabilityStatement(this);
         }
+
+        private Builder from(CapabilityStatement capabilityStatement) {
+            id = capabilityStatement.id;
+            meta = capabilityStatement.meta;
+            implicitRules = capabilityStatement.implicitRules;
+            language = capabilityStatement.language;
+            text = capabilityStatement.text;
+            contained.addAll(capabilityStatement.contained);
+            extension.addAll(capabilityStatement.extension);
+            modifierExtension.addAll(capabilityStatement.modifierExtension);
+            url = capabilityStatement.url;
+            version = capabilityStatement.version;
+            name = capabilityStatement.name;
+            title = capabilityStatement.title;
+            experimental = capabilityStatement.experimental;
+            publisher = capabilityStatement.publisher;
+            contact.addAll(capabilityStatement.contact);
+            description = capabilityStatement.description;
+            useContext.addAll(capabilityStatement.useContext);
+            jurisdiction.addAll(capabilityStatement.jurisdiction);
+            purpose = capabilityStatement.purpose;
+            copyright = capabilityStatement.copyright;
+            instantiates.addAll(capabilityStatement.instantiates);
+            imports.addAll(capabilityStatement.imports);
+            software = capabilityStatement.software;
+            implementation = capabilityStatement.implementation;
+            patchFormat.addAll(capabilityStatement.patchFormat);
+            implementationGuide.addAll(capabilityStatement.implementationGuide);
+            rest.addAll(capabilityStatement.rest);
+            messaging.addAll(capabilityStatement.messaging);
+            document.addAll(capabilityStatement.document);
+            return this;
+        }
     }
 
     /**
@@ -1511,7 +1484,11 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name).from(this);
+        }
+
+        public Builder toBuilder(String name) {
+            return new Builder(name).from(this);
         }
 
         public static Builder builder(String name) {
@@ -1673,11 +1650,13 @@ public class CapabilityStatement extends DomainResource {
                 return new Software(this);
             }
 
-            private static Builder from(Software software) {
-                Builder builder = new Builder(software.name);
-                builder.version = software.version;
-                builder.releaseDate = software.releaseDate;
-                return builder;
+            private Builder from(Software software) {
+                id = software.id;
+                extension.addAll(software.extension);
+                modifierExtension.addAll(software.modifierExtension);
+                version = software.version;
+                releaseDate = software.releaseDate;
+                return this;
             }
         }
     }
@@ -1758,7 +1737,11 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(description).from(this);
+        }
+
+        public Builder toBuilder(String description) {
+            return new Builder(description).from(this);
         }
 
         public static Builder builder(String description) {
@@ -1922,11 +1905,13 @@ public class CapabilityStatement extends DomainResource {
                 return new Implementation(this);
             }
 
-            private static Builder from(Implementation implementation) {
-                Builder builder = new Builder(implementation.description);
-                builder.url = implementation.url;
-                builder.custodian = implementation.custodian;
-                return builder;
+            private Builder from(Implementation implementation) {
+                id = implementation.id;
+                extension.addAll(implementation.extension);
+                modifierExtension.addAll(implementation.modifierExtension);
+                url = implementation.url;
+                custodian = implementation.custodian;
+                return this;
             }
         }
     }
@@ -2081,7 +2066,11 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(mode).from(this);
+        }
+
+        public Builder toBuilder(RestfulCapabilityMode mode) {
+            return new Builder(mode).from(this);
         }
 
         public static Builder builder(RestfulCapabilityMode mode) {
@@ -2422,16 +2411,18 @@ public class CapabilityStatement extends DomainResource {
                 return new Rest(this);
             }
 
-            private static Builder from(Rest rest) {
-                Builder builder = new Builder(rest.mode);
-                builder.documentation = rest.documentation;
-                builder.security = rest.security;
-                builder.resource.addAll(rest.resource);
-                builder.interaction.addAll(rest.interaction);
-                builder.searchParam.addAll(rest.searchParam);
-                builder.operation.addAll(rest.operation);
-                builder.compartment.addAll(rest.compartment);
-                return builder;
+            private Builder from(Rest rest) {
+                id = rest.id;
+                extension.addAll(rest.extension);
+                modifierExtension.addAll(rest.modifierExtension);
+                documentation = rest.documentation;
+                security = rest.security;
+                resource.addAll(rest.resource);
+                interaction.addAll(rest.interaction);
+                searchParam.addAll(rest.searchParam);
+                operation.addAll(rest.operation);
+                compartment.addAll(rest.compartment);
+                return this;
             }
         }
 
@@ -2508,7 +2499,7 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2701,12 +2692,14 @@ public class CapabilityStatement extends DomainResource {
                     return new Security(this);
                 }
 
-                private static Builder from(Security security) {
-                    Builder builder = new Builder();
-                    builder.cors = security.cors;
-                    builder.service.addAll(security.service);
-                    builder.description = security.description;
-                    return builder;
+                private Builder from(Security security) {
+                    id = security.id;
+                    extension.addAll(security.extension);
+                    modifierExtension.addAll(security.modifierExtension);
+                    cors = security.cors;
+                    service.addAll(security.service);
+                    description = security.description;
+                    return this;
                 }
             }
         }
@@ -3007,7 +3000,11 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(ResourceType type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(ResourceType type) {
@@ -3552,25 +3549,27 @@ public class CapabilityStatement extends DomainResource {
                     return new Resource(this);
                 }
 
-                private static Builder from(Resource resource) {
-                    Builder builder = new Builder(resource.type);
-                    builder.profile = resource.profile;
-                    builder.supportedProfile.addAll(resource.supportedProfile);
-                    builder.documentation = resource.documentation;
-                    builder.interaction.addAll(resource.interaction);
-                    builder.versioning = resource.versioning;
-                    builder.readHistory = resource.readHistory;
-                    builder.updateCreate = resource.updateCreate;
-                    builder.conditionalCreate = resource.conditionalCreate;
-                    builder.conditionalRead = resource.conditionalRead;
-                    builder.conditionalUpdate = resource.conditionalUpdate;
-                    builder.conditionalDelete = resource.conditionalDelete;
-                    builder.referencePolicy.addAll(resource.referencePolicy);
-                    builder.searchInclude.addAll(resource.searchInclude);
-                    builder.searchRevInclude.addAll(resource.searchRevInclude);
-                    builder.searchParam.addAll(resource.searchParam);
-                    builder.operation.addAll(resource.operation);
-                    return builder;
+                private Builder from(Resource resource) {
+                    id = resource.id;
+                    extension.addAll(resource.extension);
+                    modifierExtension.addAll(resource.modifierExtension);
+                    profile = resource.profile;
+                    supportedProfile.addAll(resource.supportedProfile);
+                    documentation = resource.documentation;
+                    interaction.addAll(resource.interaction);
+                    versioning = resource.versioning;
+                    readHistory = resource.readHistory;
+                    updateCreate = resource.updateCreate;
+                    conditionalCreate = resource.conditionalCreate;
+                    conditionalRead = resource.conditionalRead;
+                    conditionalUpdate = resource.conditionalUpdate;
+                    conditionalDelete = resource.conditionalDelete;
+                    referencePolicy.addAll(resource.referencePolicy);
+                    searchInclude.addAll(resource.searchInclude);
+                    searchRevInclude.addAll(resource.searchRevInclude);
+                    searchParam.addAll(resource.searchParam);
+                    operation.addAll(resource.operation);
+                    return this;
                 }
             }
 
@@ -3633,7 +3632,11 @@ public class CapabilityStatement extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(code).from(this);
+                }
+
+                public Builder toBuilder(TypeRestfulInteraction code) {
+                    return new Builder(code).from(this);
                 }
 
                 public static Builder builder(TypeRestfulInteraction code) {
@@ -3779,10 +3782,12 @@ public class CapabilityStatement extends DomainResource {
                         return new Interaction(this);
                     }
 
-                    private static Builder from(Interaction interaction) {
-                        Builder builder = new Builder(interaction.code);
-                        builder.documentation = interaction.documentation;
-                        return builder;
+                    private Builder from(Interaction interaction) {
+                        id = interaction.id;
+                        extension.addAll(interaction.extension);
+                        modifierExtension.addAll(interaction.modifierExtension);
+                        documentation = interaction.documentation;
+                        return this;
                     }
                 }
             }
@@ -3880,7 +3885,11 @@ public class CapabilityStatement extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(name, type).from(this);
+                }
+
+                public Builder toBuilder(String name, SearchParamType type) {
+                    return new Builder(name, type).from(this);
                 }
 
                 public static Builder builder(String name, SearchParamType type) {
@@ -4048,11 +4057,13 @@ public class CapabilityStatement extends DomainResource {
                         return new SearchParam(this);
                     }
 
-                    private static Builder from(SearchParam searchParam) {
-                        Builder builder = new Builder(searchParam.name, searchParam.type);
-                        builder.definition = searchParam.definition;
-                        builder.documentation = searchParam.documentation;
-                        return builder;
+                    private Builder from(SearchParam searchParam) {
+                        id = searchParam.id;
+                        extension.addAll(searchParam.extension);
+                        modifierExtension.addAll(searchParam.modifierExtension);
+                        definition = searchParam.definition;
+                        documentation = searchParam.documentation;
+                        return this;
                     }
                 }
             }
@@ -4137,7 +4148,11 @@ public class CapabilityStatement extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(name, definition).from(this);
+                }
+
+                public Builder toBuilder(String name, Canonical definition) {
+                    return new Builder(name, definition).from(this);
                 }
 
                 public static Builder builder(String name, Canonical definition) {
@@ -4285,10 +4300,12 @@ public class CapabilityStatement extends DomainResource {
                         return new Operation(this);
                     }
 
-                    private static Builder from(Operation operation) {
-                        Builder builder = new Builder(operation.name, operation.definition);
-                        builder.documentation = operation.documentation;
-                        return builder;
+                    private Builder from(Operation operation) {
+                        id = operation.id;
+                        extension.addAll(operation.extension);
+                        modifierExtension.addAll(operation.modifierExtension);
+                        documentation = operation.documentation;
+                        return this;
                     }
                 }
             }
@@ -4353,7 +4370,11 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(code).from(this);
+            }
+
+            public Builder toBuilder(SystemRestfulInteraction code) {
+                return new Builder(code).from(this);
             }
 
             public static Builder builder(SystemRestfulInteraction code) {
@@ -4499,10 +4520,12 @@ public class CapabilityStatement extends DomainResource {
                     return new Interaction(this);
                 }
 
-                private static Builder from(Interaction interaction) {
-                    Builder builder = new Builder(interaction.code);
-                    builder.documentation = interaction.documentation;
-                    return builder;
+                private Builder from(Interaction interaction) {
+                    id = interaction.id;
+                    extension.addAll(interaction.extension);
+                    modifierExtension.addAll(interaction.modifierExtension);
+                    documentation = interaction.documentation;
+                    return this;
                 }
             }
         }
@@ -4598,7 +4621,7 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -4828,13 +4851,15 @@ public class CapabilityStatement extends DomainResource {
                 return new Messaging(this);
             }
 
-            private static Builder from(Messaging messaging) {
-                Builder builder = new Builder();
-                builder.endpoint.addAll(messaging.endpoint);
-                builder.reliableCache = messaging.reliableCache;
-                builder.documentation = messaging.documentation;
-                builder.supportedMessage.addAll(messaging.supportedMessage);
-                return builder;
+            private Builder from(Messaging messaging) {
+                id = messaging.id;
+                extension.addAll(messaging.extension);
+                modifierExtension.addAll(messaging.modifierExtension);
+                endpoint.addAll(messaging.endpoint);
+                reliableCache = messaging.reliableCache;
+                documentation = messaging.documentation;
+                supportedMessage.addAll(messaging.supportedMessage);
+                return this;
             }
         }
 
@@ -4897,7 +4922,11 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(protocol, address).from(this);
+            }
+
+            public Builder toBuilder(Coding protocol, Url address) {
+                return new Builder(protocol, address).from(this);
             }
 
             public static Builder builder(Coding protocol, Url address) {
@@ -5025,9 +5054,11 @@ public class CapabilityStatement extends DomainResource {
                     return new Endpoint(this);
                 }
 
-                private static Builder from(Endpoint endpoint) {
-                    Builder builder = new Builder(endpoint.protocol, endpoint.address);
-                    return builder;
+                private Builder from(Endpoint endpoint) {
+                    id = endpoint.id;
+                    extension.addAll(endpoint.extension);
+                    modifierExtension.addAll(endpoint.modifierExtension);
+                    return this;
                 }
             }
         }
@@ -5090,7 +5121,11 @@ public class CapabilityStatement extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(mode, definition).from(this);
+            }
+
+            public Builder toBuilder(EventCapabilityMode mode, Canonical definition) {
+                return new Builder(mode, definition).from(this);
             }
 
             public static Builder builder(EventCapabilityMode mode, Canonical definition) {
@@ -5218,9 +5253,11 @@ public class CapabilityStatement extends DomainResource {
                     return new SupportedMessage(this);
                 }
 
-                private static Builder from(SupportedMessage supportedMessage) {
-                    Builder builder = new Builder(supportedMessage.mode, supportedMessage.definition);
-                    return builder;
+                private Builder from(SupportedMessage supportedMessage) {
+                    id = supportedMessage.id;
+                    extension.addAll(supportedMessage.extension);
+                    modifierExtension.addAll(supportedMessage.modifierExtension);
+                    return this;
                 }
             }
         }
@@ -5300,7 +5337,11 @@ public class CapabilityStatement extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(mode, profile).from(this);
+        }
+
+        public Builder toBuilder(DocumentMode mode, Canonical profile) {
+            return new Builder(mode, profile).from(this);
         }
 
         public static Builder builder(DocumentMode mode, Canonical profile) {
@@ -5448,10 +5489,12 @@ public class CapabilityStatement extends DomainResource {
                 return new Document(this);
             }
 
-            private static Builder from(Document document) {
-                Builder builder = new Builder(document.mode, document.profile);
-                builder.documentation = document.documentation;
-                return builder;
+            private Builder from(Document document) {
+                id = document.id;
+                extension.addAll(document.extension);
+                modifierExtension.addAll(document.modifierExtension);
+                documentation = document.documentation;
+                return this;
             }
         }
     }

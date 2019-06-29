@@ -191,18 +191,11 @@ public class VisionPrescription extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, created, patient, dateWritten, prescriber, lensSpecification);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.encounter = encounter;
-        return builder;
+        return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification).from(this);
+    }
+
+    public Builder toBuilder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, List<LensSpecification> lensSpecification) {
+        return new Builder(status, created, patient, dateWritten, prescriber, lensSpecification).from(this);
     }
 
     public static Builder builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, List<LensSpecification> lensSpecification) {
@@ -491,45 +484,23 @@ public class VisionPrescription extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
-         * certified professionals.
-         * </p>
-         * 
-         * @param lensSpecification
-         *     Vision lens authorization
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder lensSpecification(LensSpecification... lensSpecification) {
-            for (LensSpecification value : lensSpecification) {
-                this.lensSpecification.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
-         * certified professionals.
-         * </p>
-         * 
-         * @param lensSpecification
-         *     Vision lens authorization
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder lensSpecification(Collection<LensSpecification> lensSpecification) {
-            this.lensSpecification.addAll(lensSpecification);
-            return this;
-        }
-
         @Override
         public VisionPrescription build() {
             return new VisionPrescription(this);
+        }
+
+        private Builder from(VisionPrescription visionPrescription) {
+            id = visionPrescription.id;
+            meta = visionPrescription.meta;
+            implicitRules = visionPrescription.implicitRules;
+            language = visionPrescription.language;
+            text = visionPrescription.text;
+            contained.addAll(visionPrescription.contained);
+            extension.addAll(visionPrescription.extension);
+            modifierExtension.addAll(visionPrescription.modifierExtension);
+            identifier.addAll(visionPrescription.identifier);
+            encounter = visionPrescription.encounter;
+            return this;
         }
     }
 
@@ -772,7 +743,11 @@ public class VisionPrescription extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(product, eye).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept product, VisionEyes eye) {
+            return new Builder(product, eye).from(this);
         }
 
         public static Builder builder(CodeableConcept product, VisionEyes eye) {
@@ -1142,21 +1117,23 @@ public class VisionPrescription extends DomainResource {
                 return new LensSpecification(this);
             }
 
-            private static Builder from(LensSpecification lensSpecification) {
-                Builder builder = new Builder(lensSpecification.product, lensSpecification.eye);
-                builder.sphere = lensSpecification.sphere;
-                builder.cylinder = lensSpecification.cylinder;
-                builder.axis = lensSpecification.axis;
-                builder.prism.addAll(lensSpecification.prism);
-                builder.add = lensSpecification.add;
-                builder.power = lensSpecification.power;
-                builder.backCurve = lensSpecification.backCurve;
-                builder.diameter = lensSpecification.diameter;
-                builder.duration = lensSpecification.duration;
-                builder.color = lensSpecification.color;
-                builder.brand = lensSpecification.brand;
-                builder.note.addAll(lensSpecification.note);
-                return builder;
+            private Builder from(LensSpecification lensSpecification) {
+                id = lensSpecification.id;
+                extension.addAll(lensSpecification.extension);
+                modifierExtension.addAll(lensSpecification.modifierExtension);
+                sphere = lensSpecification.sphere;
+                cylinder = lensSpecification.cylinder;
+                axis = lensSpecification.axis;
+                prism.addAll(lensSpecification.prism);
+                add = lensSpecification.add;
+                power = lensSpecification.power;
+                backCurve = lensSpecification.backCurve;
+                diameter = lensSpecification.diameter;
+                duration = lensSpecification.duration;
+                color = lensSpecification.color;
+                brand = lensSpecification.brand;
+                note.addAll(lensSpecification.note);
+                return this;
             }
         }
 
@@ -1218,7 +1195,11 @@ public class VisionPrescription extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(amount, base).from(this);
+            }
+
+            public Builder toBuilder(Decimal amount, VisionBase base) {
+                return new Builder(amount, base).from(this);
             }
 
             public static Builder builder(Decimal amount, VisionBase base) {
@@ -1346,9 +1327,11 @@ public class VisionPrescription extends DomainResource {
                     return new Prism(this);
                 }
 
-                private static Builder from(Prism prism) {
-                    Builder builder = new Builder(prism.amount, prism.base);
-                    return builder;
+                private Builder from(Prism prism) {
+                    id = prism.id;
+                    extension.addAll(prism.extension);
+                    modifierExtension.addAll(prism.modifierExtension);
+                    return this;
                 }
             }
         }

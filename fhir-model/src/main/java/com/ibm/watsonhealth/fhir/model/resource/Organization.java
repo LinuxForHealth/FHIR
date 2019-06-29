@@ -238,26 +238,7 @@ public class Organization extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.active = active;
-        builder.type.addAll(type);
-        builder.name = name;
-        builder.alias.addAll(alias);
-        builder.telecom.addAll(telecom);
-        builder.address.addAll(address);
-        builder.partOf = partOf;
-        builder.contact.addAll(contact);
-        builder.endpoint.addAll(endpoint);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -779,6 +760,28 @@ public class Organization extends DomainResource {
         public Organization build() {
             return new Organization(this);
         }
+
+        private Builder from(Organization organization) {
+            id = organization.id;
+            meta = organization.meta;
+            implicitRules = organization.implicitRules;
+            language = organization.language;
+            text = organization.text;
+            contained.addAll(organization.contained);
+            extension.addAll(organization.extension);
+            modifierExtension.addAll(organization.modifierExtension);
+            identifier.addAll(organization.identifier);
+            active = organization.active;
+            type.addAll(organization.type);
+            name = organization.name;
+            alias.addAll(organization.alias);
+            telecom.addAll(organization.telecom);
+            address.addAll(organization.address);
+            partOf = organization.partOf;
+            contact.addAll(organization.contact);
+            endpoint.addAll(organization.endpoint);
+            return this;
+        }
     }
 
     /**
@@ -869,7 +872,7 @@ public class Organization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1079,13 +1082,15 @@ public class Organization extends DomainResource {
                 return new Contact(this);
             }
 
-            private static Builder from(Contact contact) {
-                Builder builder = new Builder();
-                builder.purpose = contact.purpose;
-                builder.name = contact.name;
-                builder.telecom.addAll(contact.telecom);
-                builder.address = contact.address;
-                return builder;
+            private Builder from(Contact contact) {
+                id = contact.id;
+                extension.addAll(contact.extension);
+                modifierExtension.addAll(contact.modifierExtension);
+                purpose = contact.purpose;
+                name = contact.name;
+                telecom.addAll(contact.telecom);
+                address = contact.address;
+                return this;
             }
         }
     }

@@ -590,45 +590,11 @@ public class Task extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, intent);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical = instantiatesCanonical;
-        builder.instantiatesUri = instantiatesUri;
-        builder.basedOn.addAll(basedOn);
-        builder.groupIdentifier = groupIdentifier;
-        builder.partOf.addAll(partOf);
-        builder.statusReason = statusReason;
-        builder.businessStatus = businessStatus;
-        builder.priority = priority;
-        builder.code = code;
-        builder.description = description;
-        builder.focus = focus;
-        builder._for = _for;
-        builder.encounter = encounter;
-        builder.executionPeriod = executionPeriod;
-        builder.authoredOn = authoredOn;
-        builder.lastModified = lastModified;
-        builder.requester = requester;
-        builder.performerType.addAll(performerType);
-        builder.owner = owner;
-        builder.location = location;
-        builder.reasonCode = reasonCode;
-        builder.reasonReference = reasonReference;
-        builder.insurance.addAll(insurance);
-        builder.note.addAll(note);
-        builder.relevantHistory.addAll(relevantHistory);
-        builder.restriction = restriction;
-        builder.input.addAll(input);
-        builder.output.addAll(output);
-        return builder;
+        return new Builder(status, intent).from(this);
+    }
+
+    public Builder toBuilder(TaskStatus status, TaskIntent intent) {
+        return new Builder(status, intent).from(this);
     }
 
     public static Builder builder(TaskStatus status, TaskIntent intent) {
@@ -1529,6 +1495,47 @@ public class Task extends DomainResource {
         public Task build() {
             return new Task(this);
         }
+
+        private Builder from(Task task) {
+            id = task.id;
+            meta = task.meta;
+            implicitRules = task.implicitRules;
+            language = task.language;
+            text = task.text;
+            contained.addAll(task.contained);
+            extension.addAll(task.extension);
+            modifierExtension.addAll(task.modifierExtension);
+            identifier.addAll(task.identifier);
+            instantiatesCanonical = task.instantiatesCanonical;
+            instantiatesUri = task.instantiatesUri;
+            basedOn.addAll(task.basedOn);
+            groupIdentifier = task.groupIdentifier;
+            partOf.addAll(task.partOf);
+            statusReason = task.statusReason;
+            businessStatus = task.businessStatus;
+            priority = task.priority;
+            code = task.code;
+            description = task.description;
+            focus = task.focus;
+            _for = task._for;
+            encounter = task.encounter;
+            executionPeriod = task.executionPeriod;
+            authoredOn = task.authoredOn;
+            lastModified = task.lastModified;
+            requester = task.requester;
+            performerType.addAll(task.performerType);
+            owner = task.owner;
+            location = task.location;
+            reasonCode = task.reasonCode;
+            reasonReference = task.reasonReference;
+            insurance.addAll(task.insurance);
+            note.addAll(task.note);
+            relevantHistory.addAll(task.relevantHistory);
+            restriction = task.restriction;
+            input.addAll(task.input);
+            output.addAll(task.output);
+            return this;
+        }
     }
 
     /**
@@ -1605,7 +1612,7 @@ public class Task extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1798,12 +1805,14 @@ public class Task extends DomainResource {
                 return new Restriction(this);
             }
 
-            private static Builder from(Restriction restriction) {
-                Builder builder = new Builder();
-                builder.repetitions = restriction.repetitions;
-                builder.period = restriction.period;
-                builder.recipient.addAll(restriction.recipient);
-                return builder;
+            private Builder from(Restriction restriction) {
+                id = restriction.id;
+                extension.addAll(restriction.extension);
+                modifierExtension.addAll(restriction.modifierExtension);
+                repetitions = restriction.repetitions;
+                period = restriction.period;
+                recipient.addAll(restriction.recipient);
+                return this;
             }
         }
     }
@@ -1866,7 +1875,11 @@ public class Task extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, value).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type, Element value) {
+            return new Builder(type, value).from(this);
         }
 
         public static Builder builder(CodeableConcept type, Element value) {
@@ -1994,9 +2007,11 @@ public class Task extends DomainResource {
                 return new Input(this);
             }
 
-            private static Builder from(Input input) {
-                Builder builder = new Builder(input.type, input.value);
-                return builder;
+            private Builder from(Input input) {
+                id = input.id;
+                extension.addAll(input.extension);
+                modifierExtension.addAll(input.modifierExtension);
+                return this;
             }
         }
     }
@@ -2059,7 +2074,11 @@ public class Task extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, value).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type, Element value) {
+            return new Builder(type, value).from(this);
         }
 
         public static Builder builder(CodeableConcept type, Element value) {
@@ -2187,9 +2206,11 @@ public class Task extends DomainResource {
                 return new Output(this);
             }
 
-            private static Builder from(Output output) {
-                Builder builder = new Builder(output.type, output.value);
-                return builder;
+            private Builder from(Output output) {
+                id = output.id;
+                extension.addAll(output.extension);
+                modifierExtension.addAll(output.modifierExtension);
+                return this;
             }
         }
     }

@@ -504,40 +504,11 @@ public class Immunization extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, vaccineCode, patient, occurrence);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.statusReason = statusReason;
-        builder.encounter = encounter;
-        builder.recorded = recorded;
-        builder.primarySource = primarySource;
-        builder.reportOrigin = reportOrigin;
-        builder.location = location;
-        builder.manufacturer = manufacturer;
-        builder.lotNumber = lotNumber;
-        builder.expirationDate = expirationDate;
-        builder.site = site;
-        builder.route = route;
-        builder.doseQuantity = doseQuantity;
-        builder.performer.addAll(performer);
-        builder.note.addAll(note);
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.isSubpotent = isSubpotent;
-        builder.subpotentReason.addAll(subpotentReason);
-        builder.education.addAll(education);
-        builder.programEligibility.addAll(programEligibility);
-        builder.fundingSource = fundingSource;
-        builder.reaction.addAll(reaction);
-        builder.protocolApplied.addAll(protocolApplied);
-        return builder;
+        return new Builder(status, vaccineCode, patient, occurrence).from(this);
+    }
+
+    public Builder toBuilder(ImmunizationStatus status, CodeableConcept vaccineCode, Reference patient, Element occurrence) {
+        return new Builder(status, vaccineCode, patient, occurrence).from(this);
     }
 
     public static Builder builder(ImmunizationStatus status, CodeableConcept vaccineCode, Reference patient, Element occurrence) {
@@ -1367,6 +1338,42 @@ public class Immunization extends DomainResource {
         public Immunization build() {
             return new Immunization(this);
         }
+
+        private Builder from(Immunization immunization) {
+            id = immunization.id;
+            meta = immunization.meta;
+            implicitRules = immunization.implicitRules;
+            language = immunization.language;
+            text = immunization.text;
+            contained.addAll(immunization.contained);
+            extension.addAll(immunization.extension);
+            modifierExtension.addAll(immunization.modifierExtension);
+            identifier.addAll(immunization.identifier);
+            statusReason = immunization.statusReason;
+            encounter = immunization.encounter;
+            recorded = immunization.recorded;
+            primarySource = immunization.primarySource;
+            reportOrigin = immunization.reportOrigin;
+            location = immunization.location;
+            manufacturer = immunization.manufacturer;
+            lotNumber = immunization.lotNumber;
+            expirationDate = immunization.expirationDate;
+            site = immunization.site;
+            route = immunization.route;
+            doseQuantity = immunization.doseQuantity;
+            performer.addAll(immunization.performer);
+            note.addAll(immunization.note);
+            reasonCode.addAll(immunization.reasonCode);
+            reasonReference.addAll(immunization.reasonReference);
+            isSubpotent = immunization.isSubpotent;
+            subpotentReason.addAll(immunization.subpotentReason);
+            education.addAll(immunization.education);
+            programEligibility.addAll(immunization.programEligibility);
+            fundingSource = immunization.fundingSource;
+            reaction.addAll(immunization.reaction);
+            protocolApplied.addAll(immunization.protocolApplied);
+            return this;
+        }
     }
 
     /**
@@ -1427,7 +1434,11 @@ public class Immunization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(actor).from(this);
+        }
+
+        public Builder toBuilder(Reference actor) {
+            return new Builder(actor).from(this);
         }
 
         public static Builder builder(Reference actor) {
@@ -1572,10 +1583,12 @@ public class Immunization extends DomainResource {
                 return new Performer(this);
             }
 
-            private static Builder from(Performer performer) {
-                Builder builder = new Builder(performer.actor);
-                builder.function = performer.function;
-                return builder;
+            private Builder from(Performer performer) {
+                id = performer.id;
+                extension.addAll(performer.extension);
+                modifierExtension.addAll(performer.modifierExtension);
+                function = performer.function;
+                return this;
             }
         }
     }
@@ -1668,7 +1681,7 @@ public class Immunization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1860,13 +1873,15 @@ public class Immunization extends DomainResource {
                 return new Education(this);
             }
 
-            private static Builder from(Education education) {
-                Builder builder = new Builder();
-                builder.documentType = education.documentType;
-                builder.reference = education.reference;
-                builder.publicationDate = education.publicationDate;
-                builder.presentationDate = education.presentationDate;
-                return builder;
+            private Builder from(Education education) {
+                id = education.id;
+                extension.addAll(education.extension);
+                modifierExtension.addAll(education.modifierExtension);
+                documentType = education.documentType;
+                reference = education.reference;
+                publicationDate = education.publicationDate;
+                presentationDate = education.presentationDate;
+                return this;
             }
         }
     }
@@ -1944,7 +1959,7 @@ public class Immunization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2119,12 +2134,14 @@ public class Immunization extends DomainResource {
                 return new Reaction(this);
             }
 
-            private static Builder from(Reaction reaction) {
-                Builder builder = new Builder();
-                builder.date = reaction.date;
-                builder.detail = reaction.detail;
-                builder.reported = reaction.reported;
-                return builder;
+            private Builder from(Reaction reaction) {
+                id = reaction.id;
+                extension.addAll(reaction.extension);
+                modifierExtension.addAll(reaction.modifierExtension);
+                date = reaction.date;
+                detail = reaction.detail;
+                reported = reaction.reported;
+                return this;
             }
         }
     }
@@ -2232,7 +2249,11 @@ public class Immunization extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(doseNumber).from(this);
+        }
+
+        public Builder toBuilder(Element doseNumber) {
+            return new Builder(doseNumber).from(this);
         }
 
         public static Builder builder(Element doseNumber) {
@@ -2446,13 +2467,15 @@ public class Immunization extends DomainResource {
                 return new ProtocolApplied(this);
             }
 
-            private static Builder from(ProtocolApplied protocolApplied) {
-                Builder builder = new Builder(protocolApplied.doseNumber);
-                builder.series = protocolApplied.series;
-                builder.authority = protocolApplied.authority;
-                builder.targetDisease.addAll(protocolApplied.targetDisease);
-                builder.seriesDoses = protocolApplied.seriesDoses;
-                return builder;
+            private Builder from(ProtocolApplied protocolApplied) {
+                id = protocolApplied.id;
+                extension.addAll(protocolApplied.extension);
+                modifierExtension.addAll(protocolApplied.modifierExtension);
+                series = protocolApplied.series;
+                authority = protocolApplied.authority;
+                targetDisease.addAll(protocolApplied.targetDisease);
+                seriesDoses = protocolApplied.seriesDoses;
+                return this;
             }
         }
     }

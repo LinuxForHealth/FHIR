@@ -124,15 +124,7 @@ public class SimpleQuantity extends Quantity {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.comparator = comparator;
-        builder.unit = unit;
-        builder.system = system;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -289,6 +281,17 @@ public class SimpleQuantity extends Quantity {
         @Override
         public SimpleQuantity build() {
             return new SimpleQuantity(this);
+        }
+
+        private Builder from(SimpleQuantity simpleQuantity) {
+            id = simpleQuantity.id;
+            extension.addAll(simpleQuantity.extension);
+            value = simpleQuantity.value;
+            comparator = simpleQuantity.comparator;
+            unit = simpleQuantity.unit;
+            system = simpleQuantity.system;
+            code = simpleQuantity.code;
+            return this;
         }
     }
 }

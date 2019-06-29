@@ -78,12 +78,7 @@ public class Ratio extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.numerator = numerator;
-        builder.denominator = denominator;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -189,6 +184,14 @@ public class Ratio extends Element {
         @Override
         public Ratio build() {
             return new Ratio(this);
+        }
+
+        private Builder from(Ratio ratio) {
+            id = ratio.id;
+            extension.addAll(ratio.extension);
+            numerator = ratio.numerator;
+            denominator = ratio.denominator;
+            return this;
         }
     }
 }

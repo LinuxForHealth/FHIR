@@ -270,29 +270,7 @@ public class CareTeam extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.status = status;
-        builder.category.addAll(category);
-        builder.name = name;
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.period = period;
-        builder.participant.addAll(participant);
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.managingOrganization.addAll(managingOrganization);
-        builder.telecom.addAll(telecom);
-        builder.note.addAll(note);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -887,6 +865,31 @@ public class CareTeam extends DomainResource {
         public CareTeam build() {
             return new CareTeam(this);
         }
+
+        private Builder from(CareTeam careTeam) {
+            id = careTeam.id;
+            meta = careTeam.meta;
+            implicitRules = careTeam.implicitRules;
+            language = careTeam.language;
+            text = careTeam.text;
+            contained.addAll(careTeam.contained);
+            extension.addAll(careTeam.extension);
+            modifierExtension.addAll(careTeam.modifierExtension);
+            identifier.addAll(careTeam.identifier);
+            status = careTeam.status;
+            category.addAll(careTeam.category);
+            name = careTeam.name;
+            subject = careTeam.subject;
+            encounter = careTeam.encounter;
+            period = careTeam.period;
+            participant.addAll(careTeam.participant);
+            reasonCode.addAll(careTeam.reasonCode);
+            reasonReference.addAll(careTeam.reasonReference);
+            managingOrganization.addAll(careTeam.managingOrganization);
+            telecom.addAll(careTeam.telecom);
+            note.addAll(careTeam.note);
+            return this;
+        }
     }
 
     /**
@@ -978,7 +981,7 @@ public class CareTeam extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1190,13 +1193,15 @@ public class CareTeam extends DomainResource {
                 return new Participant(this);
             }
 
-            private static Builder from(Participant participant) {
-                Builder builder = new Builder();
-                builder.role.addAll(participant.role);
-                builder.member = participant.member;
-                builder.onBehalfOf = participant.onBehalfOf;
-                builder.period = participant.period;
-                return builder;
+            private Builder from(Participant participant) {
+                id = participant.id;
+                extension.addAll(participant.extension);
+                modifierExtension.addAll(participant.modifierExtension);
+                role.addAll(participant.role);
+                member = participant.member;
+                onBehalfOf = participant.onBehalfOf;
+                period = participant.period;
+                return this;
             }
         }
     }

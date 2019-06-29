@@ -307,24 +307,11 @@ public class CoverageEligibilityResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, purpose, patient, created, request, outcome, insurer);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.serviced = serviced;
-        builder.requestor = requestor;
-        builder.disposition = disposition;
-        builder.insurance.addAll(insurance);
-        builder.preAuthRef = preAuthRef;
-        builder.form = form;
-        builder.error.addAll(error);
-        return builder;
+        return new Builder(status, purpose, patient, created, request, outcome, insurer).from(this);
+    }
+
+    public Builder toBuilder(EligibilityResponseStatus status, List<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
+        return new Builder(status, purpose, patient, created, request, outcome, insurer).from(this);
     }
 
     public static Builder builder(EligibilityResponseStatus status, List<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
@@ -606,44 +593,6 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         /**
          * <p>
-         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
-         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
-         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-         * </p>
-         * 
-         * @param purpose
-         *     auth-requirements | benefits | discovery | validation
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder purpose(EligibilityResponsePurpose... purpose) {
-            for (EligibilityResponsePurpose value : purpose) {
-                this.purpose.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
-         * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
-         * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-         * </p>
-         * 
-         * @param purpose
-         *     auth-requirements | benefits | discovery | validation
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder purpose(Collection<EligibilityResponsePurpose> purpose) {
-            this.purpose.addAll(purpose);
-            return this;
-        }
-
-        /**
-         * <p>
          * The date or dates when the enclosed suite of services were performed or completed.
          * </p>
          * 
@@ -795,6 +744,26 @@ public class CoverageEligibilityResponse extends DomainResource {
         public CoverageEligibilityResponse build() {
             return new CoverageEligibilityResponse(this);
         }
+
+        private Builder from(CoverageEligibilityResponse coverageEligibilityResponse) {
+            id = coverageEligibilityResponse.id;
+            meta = coverageEligibilityResponse.meta;
+            implicitRules = coverageEligibilityResponse.implicitRules;
+            language = coverageEligibilityResponse.language;
+            text = coverageEligibilityResponse.text;
+            contained.addAll(coverageEligibilityResponse.contained);
+            extension.addAll(coverageEligibilityResponse.extension);
+            modifierExtension.addAll(coverageEligibilityResponse.modifierExtension);
+            identifier.addAll(coverageEligibilityResponse.identifier);
+            serviced = coverageEligibilityResponse.serviced;
+            requestor = coverageEligibilityResponse.requestor;
+            disposition = coverageEligibilityResponse.disposition;
+            insurance.addAll(coverageEligibilityResponse.insurance);
+            preAuthRef = coverageEligibilityResponse.preAuthRef;
+            form = coverageEligibilityResponse.form;
+            error.addAll(coverageEligibilityResponse.error);
+            return this;
+        }
     }
 
     /**
@@ -887,7 +856,11 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(coverage).from(this);
+        }
+
+        public Builder toBuilder(Reference coverage) {
+            return new Builder(coverage).from(this);
         }
 
         public static Builder builder(Reference coverage) {
@@ -1085,12 +1058,14 @@ public class CoverageEligibilityResponse extends DomainResource {
                 return new Insurance(this);
             }
 
-            private static Builder from(Insurance insurance) {
-                Builder builder = new Builder(insurance.coverage);
-                builder.inforce = insurance.inforce;
-                builder.benefitPeriod = insurance.benefitPeriod;
-                builder.item.addAll(insurance.item);
-                return builder;
+            private Builder from(Insurance insurance) {
+                id = insurance.id;
+                extension.addAll(insurance.extension);
+                modifierExtension.addAll(insurance.modifierExtension);
+                inforce = insurance.inforce;
+                benefitPeriod = insurance.benefitPeriod;
+                item.addAll(insurance.item);
+                return this;
             }
         }
 
@@ -1333,7 +1308,7 @@ public class CoverageEligibilityResponse extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1750,23 +1725,25 @@ public class CoverageEligibilityResponse extends DomainResource {
                     return new Item(this);
                 }
 
-                private static Builder from(Item item) {
-                    Builder builder = new Builder();
-                    builder.category = item.category;
-                    builder.productOrService = item.productOrService;
-                    builder.modifier.addAll(item.modifier);
-                    builder.provider = item.provider;
-                    builder.excluded = item.excluded;
-                    builder.name = item.name;
-                    builder.description = item.description;
-                    builder.network = item.network;
-                    builder.unit = item.unit;
-                    builder.term = item.term;
-                    builder.benefit.addAll(item.benefit);
-                    builder.authorizationRequired = item.authorizationRequired;
-                    builder.authorizationSupporting.addAll(item.authorizationSupporting);
-                    builder.authorizationUrl = item.authorizationUrl;
-                    return builder;
+                private Builder from(Item item) {
+                    id = item.id;
+                    extension.addAll(item.extension);
+                    modifierExtension.addAll(item.modifierExtension);
+                    category = item.category;
+                    productOrService = item.productOrService;
+                    modifier.addAll(item.modifier);
+                    provider = item.provider;
+                    excluded = item.excluded;
+                    name = item.name;
+                    description = item.description;
+                    network = item.network;
+                    unit = item.unit;
+                    term = item.term;
+                    benefit.addAll(item.benefit);
+                    authorizationRequired = item.authorizationRequired;
+                    authorizationSupporting.addAll(item.authorizationSupporting);
+                    authorizationUrl = item.authorizationUrl;
+                    return this;
                 }
             }
 
@@ -1843,7 +1820,11 @@ public class CoverageEligibilityResponse extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(type).from(this);
+                }
+
+                public Builder toBuilder(CodeableConcept type) {
+                    return new Builder(type).from(this);
                 }
 
                 public static Builder builder(CodeableConcept type) {
@@ -2005,11 +1986,13 @@ public class CoverageEligibilityResponse extends DomainResource {
                         return new Benefit(this);
                     }
 
-                    private static Builder from(Benefit benefit) {
-                        Builder builder = new Builder(benefit.type);
-                        builder.allowed = benefit.allowed;
-                        builder.used = benefit.used;
-                        return builder;
+                    private Builder from(Benefit benefit) {
+                        id = benefit.id;
+                        extension.addAll(benefit.extension);
+                        modifierExtension.addAll(benefit.modifierExtension);
+                        allowed = benefit.allowed;
+                        used = benefit.used;
+                        return this;
                     }
                 }
             }
@@ -2059,7 +2042,11 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(CodeableConcept code) {
@@ -2185,9 +2172,11 @@ public class CoverageEligibilityResponse extends DomainResource {
                 return new Error(this);
             }
 
-            private static Builder from(Error error) {
-                Builder builder = new Builder(error.code);
-                return builder;
+            private Builder from(Error error) {
+                id = error.id;
+                extension.addAll(error.extension);
+                modifierExtension.addAll(error.modifierExtension);
+                return this;
             }
         }
     }

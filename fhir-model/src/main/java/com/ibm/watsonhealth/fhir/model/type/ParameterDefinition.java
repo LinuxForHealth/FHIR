@@ -149,15 +149,11 @@ public class ParameterDefinition extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(use, type);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.name = name;
-        builder.min = min;
-        builder.max = max;
-        builder.documentation = documentation;
-        builder.profile = profile;
-        return builder;
+        return new Builder(use, type).from(this);
+    }
+
+    public Builder toBuilder(ParameterUse use, FHIRAllTypes type) {
+        return new Builder(use, type).from(this);
     }
 
     public static Builder builder(ParameterUse use, FHIRAllTypes type) {
@@ -320,6 +316,17 @@ public class ParameterDefinition extends Element {
         @Override
         public ParameterDefinition build() {
             return new ParameterDefinition(this);
+        }
+
+        private Builder from(ParameterDefinition parameterDefinition) {
+            id = parameterDefinition.id;
+            extension.addAll(parameterDefinition.extension);
+            name = parameterDefinition.name;
+            min = parameterDefinition.min;
+            max = parameterDefinition.max;
+            documentation = parameterDefinition.documentation;
+            profile = parameterDefinition.profile;
+            return this;
         }
     }
 }

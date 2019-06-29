@@ -404,36 +404,11 @@ public class Media extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, content);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn.addAll(basedOn);
-        builder.partOf.addAll(partOf);
-        builder.type = type;
-        builder.modality = modality;
-        builder.view = view;
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.created = created;
-        builder.issued = issued;
-        builder.operator = operator;
-        builder.reasonCode.addAll(reasonCode);
-        builder.bodySite = bodySite;
-        builder.deviceName = deviceName;
-        builder.device = device;
-        builder.height = height;
-        builder.width = width;
-        builder.frames = frames;
-        builder.duration = duration;
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status, content).from(this);
+    }
+
+    public Builder toBuilder(MediaStatus status, Attachment content) {
+        return new Builder(status, content).from(this);
     }
 
     public static Builder builder(MediaStatus status, Attachment content) {
@@ -1099,6 +1074,38 @@ public class Media extends DomainResource {
         @Override
         public Media build() {
             return new Media(this);
+        }
+
+        private Builder from(Media media) {
+            id = media.id;
+            meta = media.meta;
+            implicitRules = media.implicitRules;
+            language = media.language;
+            text = media.text;
+            contained.addAll(media.contained);
+            extension.addAll(media.extension);
+            modifierExtension.addAll(media.modifierExtension);
+            identifier.addAll(media.identifier);
+            basedOn.addAll(media.basedOn);
+            partOf.addAll(media.partOf);
+            type = media.type;
+            modality = media.modality;
+            view = media.view;
+            subject = media.subject;
+            encounter = media.encounter;
+            created = media.created;
+            issued = media.issued;
+            operator = media.operator;
+            reasonCode.addAll(media.reasonCode);
+            bodySite = media.bodySite;
+            deviceName = media.deviceName;
+            device = media.device;
+            height = media.height;
+            width = media.width;
+            frames = media.frames;
+            duration = media.duration;
+            note.addAll(media.note);
+            return this;
         }
     }
 }

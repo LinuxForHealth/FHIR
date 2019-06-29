@@ -672,37 +672,11 @@ public class StructureDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(url, name, status, kind, _abstract, type);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.keyword.addAll(keyword);
-        builder.fhirVersion = fhirVersion;
-        builder.mapping.addAll(mapping);
-        builder.context.addAll(context);
-        builder.contextInvariant.addAll(contextInvariant);
-        builder.baseDefinition = baseDefinition;
-        builder.derivation = derivation;
-        builder.snapshot = snapshot;
-        builder.differential = differential;
-        return builder;
+        return new Builder(url, name, status, kind, _abstract, type).from(this);
+    }
+
+    public Builder toBuilder(Uri url, String name, PublicationStatus status, StructureDefinitionKind kind, Boolean _abstract, Uri type) {
+        return new Builder(url, name, status, kind, _abstract, type).from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, StructureDefinitionKind kind, Boolean _abstract, Uri type) {
@@ -1462,6 +1436,39 @@ public class StructureDefinition extends DomainResource {
         public StructureDefinition build() {
             return new StructureDefinition(this);
         }
+
+        private Builder from(StructureDefinition structureDefinition) {
+            id = structureDefinition.id;
+            meta = structureDefinition.meta;
+            implicitRules = structureDefinition.implicitRules;
+            language = structureDefinition.language;
+            text = structureDefinition.text;
+            contained.addAll(structureDefinition.contained);
+            extension.addAll(structureDefinition.extension);
+            modifierExtension.addAll(structureDefinition.modifierExtension);
+            identifier.addAll(structureDefinition.identifier);
+            version = structureDefinition.version;
+            title = structureDefinition.title;
+            experimental = structureDefinition.experimental;
+            date = structureDefinition.date;
+            publisher = structureDefinition.publisher;
+            contact.addAll(structureDefinition.contact);
+            description = structureDefinition.description;
+            useContext.addAll(structureDefinition.useContext);
+            jurisdiction.addAll(structureDefinition.jurisdiction);
+            purpose = structureDefinition.purpose;
+            copyright = structureDefinition.copyright;
+            keyword.addAll(structureDefinition.keyword);
+            fhirVersion = structureDefinition.fhirVersion;
+            mapping.addAll(structureDefinition.mapping);
+            context.addAll(structureDefinition.context);
+            contextInvariant.addAll(structureDefinition.contextInvariant);
+            baseDefinition = structureDefinition.baseDefinition;
+            derivation = structureDefinition.derivation;
+            snapshot = structureDefinition.snapshot;
+            differential = structureDefinition.differential;
+            return this;
+        }
     }
 
     /**
@@ -1552,7 +1559,11 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(identity).from(this);
+        }
+
+        public Builder toBuilder(Id identity) {
+            return new Builder(identity).from(this);
         }
 
         public static Builder builder(Id identity) {
@@ -1731,12 +1742,14 @@ public class StructureDefinition extends DomainResource {
                 return new Mapping(this);
             }
 
-            private static Builder from(Mapping mapping) {
-                Builder builder = new Builder(mapping.identity);
-                builder.uri = mapping.uri;
-                builder.name = mapping.name;
-                builder.comment = mapping.comment;
-                return builder;
+            private Builder from(Mapping mapping) {
+                id = mapping.id;
+                extension.addAll(mapping.extension);
+                modifierExtension.addAll(mapping.modifierExtension);
+                uri = mapping.uri;
+                name = mapping.name;
+                comment = mapping.comment;
+                return this;
             }
         }
     }
@@ -1799,7 +1812,11 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, expression).from(this);
+        }
+
+        public Builder toBuilder(ExtensionContextType type, String expression) {
+            return new Builder(type, expression).from(this);
         }
 
         public static Builder builder(ExtensionContextType type, String expression) {
@@ -1927,9 +1944,11 @@ public class StructureDefinition extends DomainResource {
                 return new Context(this);
             }
 
-            private static Builder from(Context context) {
-                Builder builder = new Builder(context.type, context.expression);
-                return builder;
+            private Builder from(Context context) {
+                id = context.id;
+                extension.addAll(context.extension);
+                modifierExtension.addAll(context.modifierExtension);
+                return this;
             }
         }
     }
@@ -1978,7 +1997,11 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(element).from(this);
+        }
+
+        public Builder toBuilder(List<ElementDefinition> element) {
+            return new Builder(element).from(this);
         }
 
         public static Builder builder(List<ElementDefinition> element) {
@@ -2099,48 +2122,16 @@ public class StructureDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
-            /**
-             * <p>
-             * Captures constraints on each element within the resource.
-             * </p>
-             * 
-             * @param element
-             *     Definition of elements in the resource (if no StructureDefinition)
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder element(ElementDefinition... element) {
-                for (ElementDefinition value : element) {
-                    this.element.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Captures constraints on each element within the resource.
-             * </p>
-             * 
-             * @param element
-             *     Definition of elements in the resource (if no StructureDefinition)
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder element(Collection<ElementDefinition> element) {
-                this.element.addAll(element);
-                return this;
-            }
-
             @Override
             public Snapshot build() {
                 return new Snapshot(this);
             }
 
-            private static Builder from(Snapshot snapshot) {
-                Builder builder = new Builder(snapshot.element);
-                return builder;
+            private Builder from(Snapshot snapshot) {
+                id = snapshot.id;
+                extension.addAll(snapshot.extension);
+                modifierExtension.addAll(snapshot.modifierExtension);
+                return this;
             }
         }
     }
@@ -2188,7 +2179,11 @@ public class StructureDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(element).from(this);
+        }
+
+        public Builder toBuilder(List<ElementDefinition> element) {
+            return new Builder(element).from(this);
         }
 
         public static Builder builder(List<ElementDefinition> element) {
@@ -2309,48 +2304,16 @@ public class StructureDefinition extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
-            /**
-             * <p>
-             * Captures constraints on each element within the resource.
-             * </p>
-             * 
-             * @param element
-             *     Definition of elements in the resource (if no StructureDefinition)
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder element(ElementDefinition... element) {
-                for (ElementDefinition value : element) {
-                    this.element.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Captures constraints on each element within the resource.
-             * </p>
-             * 
-             * @param element
-             *     Definition of elements in the resource (if no StructureDefinition)
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder element(Collection<ElementDefinition> element) {
-                this.element.addAll(element);
-                return this;
-            }
-
             @Override
             public Differential build() {
                 return new Differential(this);
             }
 
-            private static Builder from(Differential differential) {
-                Builder builder = new Builder(differential.element);
-                return builder;
+            private Builder from(Differential differential) {
+                id = differential.id;
+                extension.addAll(differential.extension);
+                modifierExtension.addAll(differential.modifierExtension);
+                return this;
             }
         }
     }

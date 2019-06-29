@@ -413,33 +413,11 @@ public class ValueSet extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.immutable = immutable;
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.compose = compose;
-        builder.expansion = expansion;
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(PublicationStatus status) {
@@ -1050,6 +1028,35 @@ public class ValueSet extends DomainResource {
         public ValueSet build() {
             return new ValueSet(this);
         }
+
+        private Builder from(ValueSet valueSet) {
+            id = valueSet.id;
+            meta = valueSet.meta;
+            implicitRules = valueSet.implicitRules;
+            language = valueSet.language;
+            text = valueSet.text;
+            contained.addAll(valueSet.contained);
+            extension.addAll(valueSet.extension);
+            modifierExtension.addAll(valueSet.modifierExtension);
+            url = valueSet.url;
+            identifier.addAll(valueSet.identifier);
+            version = valueSet.version;
+            name = valueSet.name;
+            title = valueSet.title;
+            experimental = valueSet.experimental;
+            date = valueSet.date;
+            publisher = valueSet.publisher;
+            contact.addAll(valueSet.contact);
+            description = valueSet.description;
+            useContext.addAll(valueSet.useContext);
+            jurisdiction.addAll(valueSet.jurisdiction);
+            immutable = valueSet.immutable;
+            purpose = valueSet.purpose;
+            copyright = valueSet.copyright;
+            compose = valueSet.compose;
+            expansion = valueSet.expansion;
+            return this;
+        }
     }
 
     /**
@@ -1145,7 +1152,11 @@ public class ValueSet extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(include).from(this);
+        }
+
+        public Builder toBuilder(List<Include> include) {
+            return new Builder(include).from(this);
         }
 
         public static Builder builder(List<Include> include) {
@@ -1309,40 +1320,6 @@ public class ValueSet extends DomainResource {
 
             /**
              * <p>
-             * Include one or more codes from a code system or other value set(s).
-             * </p>
-             * 
-             * @param include
-             *     Include one or more codes from a code system or other value set(s)
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder include(Include... include) {
-                for (Include value : include) {
-                    this.include.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Include one or more codes from a code system or other value set(s).
-             * </p>
-             * 
-             * @param include
-             *     Include one or more codes from a code system or other value set(s)
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder include(Collection<Include> include) {
-                this.include.addAll(include);
-                return this;
-            }
-
-            /**
-             * <p>
              * Exclude one or more codes from the value set based on code system filters and/or other value sets.
              * </p>
              * 
@@ -1380,12 +1357,14 @@ public class ValueSet extends DomainResource {
                 return new Compose(this);
             }
 
-            private static Builder from(Compose compose) {
-                Builder builder = new Builder(compose.include);
-                builder.lockedDate = compose.lockedDate;
-                builder.inactive = compose.inactive;
-                builder.exclude.addAll(compose.exclude);
-                return builder;
+            private Builder from(Compose compose) {
+                id = compose.id;
+                extension.addAll(compose.extension);
+                modifierExtension.addAll(compose.modifierExtension);
+                lockedDate = compose.lockedDate;
+                inactive = compose.inactive;
+                exclude.addAll(compose.exclude);
+                return this;
             }
         }
 
@@ -1495,7 +1474,7 @@ public class ValueSet extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1764,14 +1743,16 @@ public class ValueSet extends DomainResource {
                     return new Include(this);
                 }
 
-                private static Builder from(Include include) {
-                    Builder builder = new Builder();
-                    builder.system = include.system;
-                    builder.version = include.version;
-                    builder.concept.addAll(include.concept);
-                    builder.filter.addAll(include.filter);
-                    builder.valueSet.addAll(include.valueSet);
-                    return builder;
+                private Builder from(Include include) {
+                    id = include.id;
+                    extension.addAll(include.extension);
+                    modifierExtension.addAll(include.modifierExtension);
+                    system = include.system;
+                    version = include.version;
+                    concept.addAll(include.concept);
+                    filter.addAll(include.filter);
+                    valueSet.addAll(include.valueSet);
+                    return this;
                 }
             }
 
@@ -1850,7 +1831,11 @@ public class ValueSet extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(code).from(this);
+                }
+
+                public Builder toBuilder(Code code) {
+                    return new Builder(code).from(this);
                 }
 
                 public static Builder builder(Code code) {
@@ -2033,11 +2018,13 @@ public class ValueSet extends DomainResource {
                         return new Concept(this);
                     }
 
-                    private static Builder from(Concept concept) {
-                        Builder builder = new Builder(concept.code);
-                        builder.display = concept.display;
-                        builder.designation.addAll(concept.designation);
-                        return builder;
+                    private Builder from(Concept concept) {
+                        id = concept.id;
+                        extension.addAll(concept.extension);
+                        modifierExtension.addAll(concept.modifierExtension);
+                        display = concept.display;
+                        designation.addAll(concept.designation);
+                        return this;
                     }
                 }
 
@@ -2115,7 +2102,11 @@ public class ValueSet extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return Builder.from(this);
+                        return new Builder(value).from(this);
+                    }
+
+                    public Builder toBuilder(String value) {
+                        return new Builder(value).from(this);
                     }
 
                     public static Builder builder(String value) {
@@ -2277,11 +2268,13 @@ public class ValueSet extends DomainResource {
                             return new Designation(this);
                         }
 
-                        private static Builder from(Designation designation) {
-                            Builder builder = new Builder(designation.value);
-                            builder.language = designation.language;
-                            builder.use = designation.use;
-                            return builder;
+                        private Builder from(Designation designation) {
+                            id = designation.id;
+                            extension.addAll(designation.extension);
+                            modifierExtension.addAll(designation.modifierExtension);
+                            language = designation.language;
+                            use = designation.use;
+                            return this;
                         }
                     }
                 }
@@ -2364,7 +2357,11 @@ public class ValueSet extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(property, op, value).from(this);
+                }
+
+                public Builder toBuilder(Code property, FilterOperator op, String value) {
+                    return new Builder(property, op, value).from(this);
                 }
 
                 public static Builder builder(Code property, FilterOperator op, String value) {
@@ -2494,9 +2491,11 @@ public class ValueSet extends DomainResource {
                         return new Filter(this);
                     }
 
-                    private static Builder from(Filter filter) {
-                        Builder builder = new Builder(filter.property, filter.op, filter.value);
-                        return builder;
+                    private Builder from(Filter filter) {
+                        id = filter.id;
+                        extension.addAll(filter.extension);
+                        modifierExtension.addAll(filter.modifierExtension);
+                        return this;
                     }
                 }
             }
@@ -2628,7 +2627,11 @@ public class ValueSet extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(timestamp).from(this);
+        }
+
+        public Builder toBuilder(DateTime timestamp) {
+            return new Builder(timestamp).from(this);
         }
 
         public static Builder builder(DateTime timestamp) {
@@ -2884,14 +2887,16 @@ public class ValueSet extends DomainResource {
                 return new Expansion(this);
             }
 
-            private static Builder from(Expansion expansion) {
-                Builder builder = new Builder(expansion.timestamp);
-                builder.identifier = expansion.identifier;
-                builder.total = expansion.total;
-                builder.offset = expansion.offset;
-                builder.parameter.addAll(expansion.parameter);
-                builder.contains.addAll(expansion.contains);
-                return builder;
+            private Builder from(Expansion expansion) {
+                id = expansion.id;
+                extension.addAll(expansion.extension);
+                modifierExtension.addAll(expansion.modifierExtension);
+                identifier = expansion.identifier;
+                total = expansion.total;
+                offset = expansion.offset;
+                parameter.addAll(expansion.parameter);
+                contains.addAll(expansion.contains);
+                return this;
             }
         }
 
@@ -2955,7 +2960,11 @@ public class ValueSet extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(name).from(this);
+            }
+
+            public Builder toBuilder(String name) {
+                return new Builder(name).from(this);
             }
 
             public static Builder builder(String name) {
@@ -3100,10 +3109,12 @@ public class ValueSet extends DomainResource {
                     return new Parameter(this);
                 }
 
-                private static Builder from(Parameter parameter) {
-                    Builder builder = new Builder(parameter.name);
-                    builder.value = parameter.value;
-                    return builder;
+                private Builder from(Parameter parameter) {
+                    id = parameter.id;
+                    extension.addAll(parameter.extension);
+                    modifierExtension.addAll(parameter.modifierExtension);
+                    value = parameter.value;
+                    return this;
                 }
             }
         }
@@ -3263,7 +3274,7 @@ public class ValueSet extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -3567,17 +3578,19 @@ public class ValueSet extends DomainResource {
                     return new Contains(this);
                 }
 
-                private static Builder from(Contains contains) {
-                    Builder builder = new Builder();
-                    builder.system = contains.system;
-                    builder._abstract = contains._abstract;
-                    builder.inactive = contains.inactive;
-                    builder.version = contains.version;
-                    builder.code = contains.code;
-                    builder.display = contains.display;
-                    builder.designation.addAll(contains.designation);
-                    builder.contains.addAll(contains.contains);
-                    return builder;
+                private Builder from(Contains contains) {
+                    id = contains.id;
+                    extension.addAll(contains.extension);
+                    modifierExtension.addAll(contains.modifierExtension);
+                    system = contains.system;
+                    _abstract = contains._abstract;
+                    inactive = contains.inactive;
+                    version = contains.version;
+                    code = contains.code;
+                    display = contains.display;
+                    designation.addAll(contains.designation);
+                    this.contains.addAll(contains.contains);
+                    return this;
                 }
             }
         }

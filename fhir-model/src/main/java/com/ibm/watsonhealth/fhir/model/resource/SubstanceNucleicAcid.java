@@ -142,21 +142,7 @@ public class SubstanceNucleicAcid extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.sequenceType = sequenceType;
-        builder.numberOfSubunits = numberOfSubunits;
-        builder.areaOfHybridisation = areaOfHybridisation;
-        builder.oligoNucleotideType = oligoNucleotideType;
-        builder.subunit.addAll(subunit);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -497,6 +483,23 @@ public class SubstanceNucleicAcid extends DomainResource {
         public SubstanceNucleicAcid build() {
             return new SubstanceNucleicAcid(this);
         }
+
+        private Builder from(SubstanceNucleicAcid substanceNucleicAcid) {
+            id = substanceNucleicAcid.id;
+            meta = substanceNucleicAcid.meta;
+            implicitRules = substanceNucleicAcid.implicitRules;
+            language = substanceNucleicAcid.language;
+            text = substanceNucleicAcid.text;
+            contained.addAll(substanceNucleicAcid.contained);
+            extension.addAll(substanceNucleicAcid.extension);
+            modifierExtension.addAll(substanceNucleicAcid.modifierExtension);
+            sequenceType = substanceNucleicAcid.sequenceType;
+            numberOfSubunits = substanceNucleicAcid.numberOfSubunits;
+            areaOfHybridisation = substanceNucleicAcid.areaOfHybridisation;
+            oligoNucleotideType = substanceNucleicAcid.oligoNucleotideType;
+            subunit.addAll(substanceNucleicAcid.subunit);
+            return this;
+        }
     }
 
     /**
@@ -654,7 +657,7 @@ public class SubstanceNucleicAcid extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -962,17 +965,19 @@ public class SubstanceNucleicAcid extends DomainResource {
                 return new Subunit(this);
             }
 
-            private static Builder from(Subunit subunit) {
-                Builder builder = new Builder();
-                builder.subunit = subunit.subunit;
-                builder.sequence = subunit.sequence;
-                builder.length = subunit.length;
-                builder.sequenceAttachment = subunit.sequenceAttachment;
-                builder.fivePrime = subunit.fivePrime;
-                builder.threePrime = subunit.threePrime;
-                builder.linkage.addAll(subunit.linkage);
-                builder.sugar.addAll(subunit.sugar);
-                return builder;
+            private Builder from(Subunit subunit) {
+                id = subunit.id;
+                extension.addAll(subunit.extension);
+                modifierExtension.addAll(subunit.modifierExtension);
+                this.subunit = subunit.subunit;
+                sequence = subunit.sequence;
+                length = subunit.length;
+                sequenceAttachment = subunit.sequenceAttachment;
+                fivePrime = subunit.fivePrime;
+                threePrime = subunit.threePrime;
+                linkage.addAll(subunit.linkage);
+                sugar.addAll(subunit.sugar);
+                return this;
             }
         }
 
@@ -1067,7 +1072,7 @@ public class SubstanceNucleicAcid extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1265,13 +1270,15 @@ public class SubstanceNucleicAcid extends DomainResource {
                     return new Linkage(this);
                 }
 
-                private static Builder from(Linkage linkage) {
-                    Builder builder = new Builder();
-                    builder.connectivity = linkage.connectivity;
-                    builder.identifier = linkage.identifier;
-                    builder.name = linkage.name;
-                    builder.residueSite = linkage.residueSite;
-                    return builder;
+                private Builder from(Linkage linkage) {
+                    id = linkage.id;
+                    extension.addAll(linkage.extension);
+                    modifierExtension.addAll(linkage.modifierExtension);
+                    connectivity = linkage.connectivity;
+                    identifier = linkage.identifier;
+                    name = linkage.name;
+                    residueSite = linkage.residueSite;
+                    return this;
                 }
             }
         }
@@ -1350,7 +1357,7 @@ public class SubstanceNucleicAcid extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1527,12 +1534,14 @@ public class SubstanceNucleicAcid extends DomainResource {
                     return new Sugar(this);
                 }
 
-                private static Builder from(Sugar sugar) {
-                    Builder builder = new Builder();
-                    builder.identifier = sugar.identifier;
-                    builder.name = sugar.name;
-                    builder.residueSite = sugar.residueSite;
-                    return builder;
+                private Builder from(Sugar sugar) {
+                    id = sugar.id;
+                    extension.addAll(sugar.extension);
+                    modifierExtension.addAll(sugar.modifierExtension);
+                    identifier = sugar.identifier;
+                    name = sugar.name;
+                    residueSite = sugar.residueSite;
+                    return this;
                 }
             }
         }

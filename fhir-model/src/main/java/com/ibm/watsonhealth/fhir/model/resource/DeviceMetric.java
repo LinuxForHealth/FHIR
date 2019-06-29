@@ -229,24 +229,11 @@ public class DeviceMetric extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type, category);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.unit = unit;
-        builder.source = source;
-        builder.parent = parent;
-        builder.operationalStatus = operationalStatus;
-        builder.color = color;
-        builder.measurementPeriod = measurementPeriod;
-        builder.calibration.addAll(calibration);
-        return builder;
+        return new Builder(type, category).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept type, DeviceMetricCategory category) {
+        return new Builder(type, category).from(this);
     }
 
     public static Builder builder(CodeableConcept type, DeviceMetricCategory category) {
@@ -662,6 +649,26 @@ public class DeviceMetric extends DomainResource {
         public DeviceMetric build() {
             return new DeviceMetric(this);
         }
+
+        private Builder from(DeviceMetric deviceMetric) {
+            id = deviceMetric.id;
+            meta = deviceMetric.meta;
+            implicitRules = deviceMetric.implicitRules;
+            language = deviceMetric.language;
+            text = deviceMetric.text;
+            contained.addAll(deviceMetric.contained);
+            extension.addAll(deviceMetric.extension);
+            modifierExtension.addAll(deviceMetric.modifierExtension);
+            identifier.addAll(deviceMetric.identifier);
+            unit = deviceMetric.unit;
+            source = deviceMetric.source;
+            parent = deviceMetric.parent;
+            operationalStatus = deviceMetric.operationalStatus;
+            color = deviceMetric.color;
+            measurementPeriod = deviceMetric.measurementPeriod;
+            calibration.addAll(deviceMetric.calibration);
+            return this;
+        }
     }
 
     /**
@@ -737,7 +744,7 @@ public class DeviceMetric extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -912,12 +919,14 @@ public class DeviceMetric extends DomainResource {
                 return new Calibration(this);
             }
 
-            private static Builder from(Calibration calibration) {
-                Builder builder = new Builder();
-                builder.type = calibration.type;
-                builder.state = calibration.state;
-                builder.time = calibration.time;
-                return builder;
+            private Builder from(Calibration calibration) {
+                id = calibration.id;
+                extension.addAll(calibration.extension);
+                modifierExtension.addAll(calibration.modifierExtension);
+                type = calibration.type;
+                state = calibration.state;
+                time = calibration.time;
+                return this;
             }
         }
     }

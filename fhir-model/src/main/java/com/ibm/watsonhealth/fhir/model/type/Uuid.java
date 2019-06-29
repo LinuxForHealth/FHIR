@@ -38,11 +38,7 @@ public class Uuid extends Uri {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -127,6 +123,13 @@ public class Uuid extends Uri {
         @Override
         public Uuid build() {
             return new Uuid(this);
+        }
+
+        private Builder from(Uuid uuid) {
+            id = uuid.id;
+            extension.addAll(uuid.extension);
+            value = uuid.value;
+            return this;
         }
     }
 }

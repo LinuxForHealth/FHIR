@@ -549,37 +549,11 @@ public class TestScript extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(url, name, status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.version = version;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.origin.addAll(origin);
-        builder.destination.addAll(destination);
-        builder.metadata = metadata;
-        builder.fixture.addAll(fixture);
-        builder.profile.addAll(profile);
-        builder.variable.addAll(variable);
-        builder.setup = setup;
-        builder.test.addAll(test);
-        builder.teardown = teardown;
-        return builder;
+        return new Builder(url, name, status).from(this);
+    }
+
+    public Builder toBuilder(Uri url, String name, PublicationStatus status) {
+        return new Builder(url, name, status).from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status) {
@@ -1344,6 +1318,39 @@ public class TestScript extends DomainResource {
         public TestScript build() {
             return new TestScript(this);
         }
+
+        private Builder from(TestScript testScript) {
+            id = testScript.id;
+            meta = testScript.meta;
+            implicitRules = testScript.implicitRules;
+            language = testScript.language;
+            text = testScript.text;
+            contained.addAll(testScript.contained);
+            extension.addAll(testScript.extension);
+            modifierExtension.addAll(testScript.modifierExtension);
+            identifier = testScript.identifier;
+            version = testScript.version;
+            title = testScript.title;
+            experimental = testScript.experimental;
+            date = testScript.date;
+            publisher = testScript.publisher;
+            contact.addAll(testScript.contact);
+            description = testScript.description;
+            useContext.addAll(testScript.useContext);
+            jurisdiction.addAll(testScript.jurisdiction);
+            purpose = testScript.purpose;
+            copyright = testScript.copyright;
+            origin.addAll(testScript.origin);
+            destination.addAll(testScript.destination);
+            metadata = testScript.metadata;
+            fixture.addAll(testScript.fixture);
+            profile.addAll(testScript.profile);
+            variable.addAll(testScript.variable);
+            setup = testScript.setup;
+            test.addAll(testScript.test);
+            teardown = testScript.teardown;
+            return this;
+        }
     }
 
     /**
@@ -1404,7 +1411,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(index, profile).from(this);
+        }
+
+        public Builder toBuilder(Integer index, Coding profile) {
+            return new Builder(index, profile).from(this);
         }
 
         public static Builder builder(Integer index, Coding profile) {
@@ -1532,9 +1543,11 @@ public class TestScript extends DomainResource {
                 return new Origin(this);
             }
 
-            private static Builder from(Origin origin) {
-                Builder builder = new Builder(origin.index, origin.profile);
-                return builder;
+            private Builder from(Origin origin) {
+                id = origin.id;
+                extension.addAll(origin.extension);
+                modifierExtension.addAll(origin.modifierExtension);
+                return this;
             }
         }
     }
@@ -1597,7 +1610,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(index, profile).from(this);
+        }
+
+        public Builder toBuilder(Integer index, Coding profile) {
+            return new Builder(index, profile).from(this);
         }
 
         public static Builder builder(Integer index, Coding profile) {
@@ -1725,9 +1742,11 @@ public class TestScript extends DomainResource {
                 return new Destination(this);
             }
 
-            private static Builder from(Destination destination) {
-                Builder builder = new Builder(destination.index, destination.profile);
-                return builder;
+            private Builder from(Destination destination) {
+                id = destination.id;
+                extension.addAll(destination.extension);
+                modifierExtension.addAll(destination.modifierExtension);
+                return this;
             }
         }
     }
@@ -1790,7 +1809,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(capability).from(this);
+        }
+
+        public Builder toBuilder(List<Capability> capability) {
+            return new Builder(capability).from(this);
         }
 
         public static Builder builder(List<Capability> capability) {
@@ -1948,49 +1971,17 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
-            /**
-             * <p>
-             * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
-             * </p>
-             * 
-             * @param capability
-             *     Capabilities that are assumed to function correctly on the FHIR server being tested
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder capability(Capability... capability) {
-                for (Capability value : capability) {
-                    this.capability.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
-             * </p>
-             * 
-             * @param capability
-             *     Capabilities that are assumed to function correctly on the FHIR server being tested
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder capability(Collection<Capability> capability) {
-                this.capability.addAll(capability);
-                return this;
-            }
-
             @Override
             public Metadata build() {
                 return new Metadata(this);
             }
 
-            private static Builder from(Metadata metadata) {
-                Builder builder = new Builder(metadata.capability);
-                builder.link.addAll(metadata.link);
-                return builder;
+            private Builder from(Metadata metadata) {
+                id = metadata.id;
+                extension.addAll(metadata.extension);
+                modifierExtension.addAll(metadata.modifierExtension);
+                link.addAll(metadata.link);
+                return this;
             }
         }
 
@@ -2052,7 +2043,11 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(url).from(this);
+            }
+
+            public Builder toBuilder(Uri url) {
+                return new Builder(url).from(this);
             }
 
             public static Builder builder(Uri url) {
@@ -2197,10 +2192,12 @@ public class TestScript extends DomainResource {
                     return new Link(this);
                 }
 
-                private static Builder from(Link link) {
-                    Builder builder = new Builder(link.url);
-                    builder.description = link.description;
-                    return builder;
+                private Builder from(Link link) {
+                    id = link.id;
+                    extension.addAll(link.extension);
+                    modifierExtension.addAll(link.modifierExtension);
+                    description = link.description;
+                    return this;
                 }
             }
         }
@@ -2341,7 +2338,11 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(required, validated, capabilities).from(this);
+            }
+
+            public Builder toBuilder(Boolean required, Boolean validated, Canonical capabilities) {
+                return new Builder(required, validated, capabilities).from(this);
             }
 
             public static Builder builder(Boolean required, Boolean validated, Canonical capabilities) {
@@ -2577,13 +2578,15 @@ public class TestScript extends DomainResource {
                     return new Capability(this);
                 }
 
-                private static Builder from(Capability capability) {
-                    Builder builder = new Builder(capability.required, capability.validated, capability.capabilities);
-                    builder.description = capability.description;
-                    builder.origin.addAll(capability.origin);
-                    builder.destination = capability.destination;
-                    builder.link.addAll(capability.link);
-                    return builder;
+                private Builder from(Capability capability) {
+                    id = capability.id;
+                    extension.addAll(capability.extension);
+                    modifierExtension.addAll(capability.modifierExtension);
+                    description = capability.description;
+                    origin.addAll(capability.origin);
+                    destination = capability.destination;
+                    link.addAll(capability.link);
+                    return this;
                 }
             }
         }
@@ -2666,7 +2669,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(autocreate, autodelete).from(this);
+        }
+
+        public Builder toBuilder(Boolean autocreate, Boolean autodelete) {
+            return new Builder(autocreate, autodelete).from(this);
         }
 
         public static Builder builder(Boolean autocreate, Boolean autodelete) {
@@ -2813,10 +2820,12 @@ public class TestScript extends DomainResource {
                 return new Fixture(this);
             }
 
-            private static Builder from(Fixture fixture) {
-                Builder builder = new Builder(fixture.autocreate, fixture.autodelete);
-                builder.resource = fixture.resource;
-                return builder;
+            private Builder from(Fixture fixture) {
+                id = fixture.id;
+                extension.addAll(fixture.extension);
+                modifierExtension.addAll(fixture.modifierExtension);
+                resource = fixture.resource;
+                return this;
             }
         }
     }
@@ -2971,7 +2980,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name).from(this);
+        }
+
+        public Builder toBuilder(String name) {
+            return new Builder(name).from(this);
         }
 
         public static Builder builder(String name) {
@@ -3220,16 +3233,18 @@ public class TestScript extends DomainResource {
                 return new Variable(this);
             }
 
-            private static Builder from(Variable variable) {
-                Builder builder = new Builder(variable.name);
-                builder.defaultValue = variable.defaultValue;
-                builder.description = variable.description;
-                builder.expression = variable.expression;
-                builder.headerField = variable.headerField;
-                builder.hint = variable.hint;
-                builder.path = variable.path;
-                builder.sourceId = variable.sourceId;
-                return builder;
+            private Builder from(Variable variable) {
+                id = variable.id;
+                extension.addAll(variable.extension);
+                modifierExtension.addAll(variable.modifierExtension);
+                defaultValue = variable.defaultValue;
+                description = variable.description;
+                expression = variable.expression;
+                headerField = variable.headerField;
+                hint = variable.hint;
+                path = variable.path;
+                sourceId = variable.sourceId;
+                return this;
             }
         }
     }
@@ -3277,7 +3292,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(action).from(this);
+        }
+
+        public Builder toBuilder(List<Action> action) {
+            return new Builder(action).from(this);
         }
 
         public static Builder builder(List<Action> action) {
@@ -3398,48 +3417,16 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A setup operation or assert to perform
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Action... action) {
-                for (Action value : action) {
-                    this.action.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A setup operation or assert to perform
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Collection<Action> action) {
-                this.action.addAll(action);
-                return this;
-            }
-
             @Override
             public Setup build() {
                 return new Setup(this);
             }
 
-            private static Builder from(Setup setup) {
-                Builder builder = new Builder(setup.action);
-                return builder;
+            private Builder from(Setup setup) {
+                id = setup.id;
+                extension.addAll(setup.extension);
+                modifierExtension.addAll(setup.modifierExtension);
+                return this;
             }
         }
 
@@ -3501,7 +3488,7 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -3659,11 +3646,13 @@ public class TestScript extends DomainResource {
                     return new Action(this);
                 }
 
-                private static Builder from(Action action) {
-                    Builder builder = new Builder();
-                    builder.operation = action.operation;
-                    builder._assert = action._assert;
-                    return builder;
+                private Builder from(Action action) {
+                    id = action.id;
+                    extension.addAll(action.extension);
+                    modifierExtension.addAll(action.modifierExtension);
+                    operation = action.operation;
+                    _assert = action._assert;
+                    return this;
                 }
             }
 
@@ -3953,7 +3942,11 @@ public class TestScript extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(encodeRequestUrl).from(this);
+                }
+
+                public Builder toBuilder(Boolean encodeRequestUrl) {
+                    return new Builder(encodeRequestUrl).from(this);
                 }
 
                 public static Builder builder(Boolean encodeRequestUrl) {
@@ -4373,25 +4366,27 @@ public class TestScript extends DomainResource {
                         return new Operation(this);
                     }
 
-                    private static Builder from(Operation operation) {
-                        Builder builder = new Builder(operation.encodeRequestUrl);
-                        builder.type = operation.type;
-                        builder.resource = operation.resource;
-                        builder.label = operation.label;
-                        builder.description = operation.description;
-                        builder.accept = operation.accept;
-                        builder.contentType = operation.contentType;
-                        builder.destination = operation.destination;
-                        builder.method = operation.method;
-                        builder.origin = operation.origin;
-                        builder.params = operation.params;
-                        builder.requestHeader.addAll(operation.requestHeader);
-                        builder.requestId = operation.requestId;
-                        builder.responseId = operation.responseId;
-                        builder.sourceId = operation.sourceId;
-                        builder.targetId = operation.targetId;
-                        builder.url = operation.url;
-                        return builder;
+                    private Builder from(Operation operation) {
+                        id = operation.id;
+                        extension.addAll(operation.extension);
+                        modifierExtension.addAll(operation.modifierExtension);
+                        type = operation.type;
+                        resource = operation.resource;
+                        label = operation.label;
+                        description = operation.description;
+                        accept = operation.accept;
+                        contentType = operation.contentType;
+                        destination = operation.destination;
+                        method = operation.method;
+                        origin = operation.origin;
+                        params = operation.params;
+                        requestHeader.addAll(operation.requestHeader);
+                        requestId = operation.requestId;
+                        responseId = operation.responseId;
+                        sourceId = operation.sourceId;
+                        targetId = operation.targetId;
+                        url = operation.url;
+                        return this;
                     }
                 }
 
@@ -4453,7 +4448,11 @@ public class TestScript extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return Builder.from(this);
+                        return new Builder(field, value).from(this);
+                    }
+
+                    public Builder toBuilder(String field, String value) {
+                        return new Builder(field, value).from(this);
                     }
 
                     public static Builder builder(String field, String value) {
@@ -4581,9 +4580,11 @@ public class TestScript extends DomainResource {
                             return new RequestHeader(this);
                         }
 
-                        private static Builder from(RequestHeader requestHeader) {
-                            Builder builder = new Builder(requestHeader.field, requestHeader.value);
-                            return builder;
+                        private Builder from(RequestHeader requestHeader) {
+                            id = requestHeader.id;
+                            extension.addAll(requestHeader.extension);
+                            modifierExtension.addAll(requestHeader.modifierExtension);
+                            return this;
                         }
                     }
                 }
@@ -4951,7 +4952,11 @@ public class TestScript extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(warningOnly).from(this);
+                }
+
+                public Builder toBuilder(Boolean warningOnly) {
+                    return new Builder(warningOnly).from(this);
                 }
 
                 public static Builder builder(Boolean warningOnly) {
@@ -5441,30 +5446,32 @@ public class TestScript extends DomainResource {
                         return new Assert(this);
                     }
 
-                    private static Builder from(Assert _assert) {
-                        Builder builder = new Builder(_assert.warningOnly);
-                        builder.label = _assert.label;
-                        builder.description = _assert.description;
-                        builder.direction = _assert.direction;
-                        builder.compareToSourceId = _assert.compareToSourceId;
-                        builder.compareToSourceExpression = _assert.compareToSourceExpression;
-                        builder.compareToSourcePath = _assert.compareToSourcePath;
-                        builder.contentType = _assert.contentType;
-                        builder.expression = _assert.expression;
-                        builder.headerField = _assert.headerField;
-                        builder.minimumId = _assert.minimumId;
-                        builder.navigationLinks = _assert.navigationLinks;
-                        builder.operator = _assert.operator;
-                        builder.path = _assert.path;
-                        builder.requestMethod = _assert.requestMethod;
-                        builder.requestURL = _assert.requestURL;
-                        builder.resource = _assert.resource;
-                        builder.response = _assert.response;
-                        builder.responseCode = _assert.responseCode;
-                        builder.sourceId = _assert.sourceId;
-                        builder.validateProfileId = _assert.validateProfileId;
-                        builder.value = _assert.value;
-                        return builder;
+                    private Builder from(Assert _assert) {
+                        id = _assert.id;
+                        extension.addAll(_assert.extension);
+                        modifierExtension.addAll(_assert.modifierExtension);
+                        label = _assert.label;
+                        description = _assert.description;
+                        direction = _assert.direction;
+                        compareToSourceId = _assert.compareToSourceId;
+                        compareToSourceExpression = _assert.compareToSourceExpression;
+                        compareToSourcePath = _assert.compareToSourcePath;
+                        contentType = _assert.contentType;
+                        expression = _assert.expression;
+                        headerField = _assert.headerField;
+                        minimumId = _assert.minimumId;
+                        navigationLinks = _assert.navigationLinks;
+                        operator = _assert.operator;
+                        path = _assert.path;
+                        requestMethod = _assert.requestMethod;
+                        requestURL = _assert.requestURL;
+                        resource = _assert.resource;
+                        response = _assert.response;
+                        responseCode = _assert.responseCode;
+                        sourceId = _assert.sourceId;
+                        validateProfileId = _assert.validateProfileId;
+                        value = _assert.value;
+                        return this;
                     }
                 }
             }
@@ -5544,7 +5551,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(action).from(this);
+        }
+
+        public Builder toBuilder(List<Action> action) {
+            return new Builder(action).from(this);
         }
 
         public static Builder builder(List<Action> action) {
@@ -5701,50 +5712,18 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A test operation or assert to perform
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Action... action) {
-                for (Action value : action) {
-                    this.action.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Action would contain either an operation or an assertion.
-             * </p>
-             * 
-             * @param action
-             *     A test operation or assert to perform
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Collection<Action> action) {
-                this.action.addAll(action);
-                return this;
-            }
-
             @Override
             public Test build() {
                 return new Test(this);
             }
 
-            private static Builder from(Test test) {
-                Builder builder = new Builder(test.action);
-                builder.name = test.name;
-                builder.description = test.description;
-                return builder;
+            private Builder from(Test test) {
+                id = test.id;
+                extension.addAll(test.extension);
+                modifierExtension.addAll(test.modifierExtension);
+                name = test.name;
+                description = test.description;
+                return this;
             }
         }
 
@@ -5806,7 +5785,7 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -5964,11 +5943,13 @@ public class TestScript extends DomainResource {
                     return new Action(this);
                 }
 
-                private static Builder from(Action action) {
-                    Builder builder = new Builder();
-                    builder.operation = action.operation;
-                    builder._assert = action._assert;
-                    return builder;
+                private Builder from(Action action) {
+                    id = action.id;
+                    extension.addAll(action.extension);
+                    modifierExtension.addAll(action.modifierExtension);
+                    operation = action.operation;
+                    _assert = action._assert;
+                    return this;
                 }
             }
         }
@@ -6017,7 +5998,11 @@ public class TestScript extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(action).from(this);
+        }
+
+        public Builder toBuilder(List<Action> action) {
+            return new Builder(action).from(this);
         }
 
         public static Builder builder(List<Action> action) {
@@ -6138,48 +6123,16 @@ public class TestScript extends DomainResource {
                 return (Builder) super.modifierExtension(modifierExtension);
             }
 
-            /**
-             * <p>
-             * The teardown action will only contain an operation.
-             * </p>
-             * 
-             * @param action
-             *     One or more teardown operations to perform
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Action... action) {
-                for (Action value : action) {
-                    this.action.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * The teardown action will only contain an operation.
-             * </p>
-             * 
-             * @param action
-             *     One or more teardown operations to perform
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder action(Collection<Action> action) {
-                this.action.addAll(action);
-                return this;
-            }
-
             @Override
             public Teardown build() {
                 return new Teardown(this);
             }
 
-            private static Builder from(Teardown teardown) {
-                Builder builder = new Builder(teardown.action);
-                return builder;
+            private Builder from(Teardown teardown) {
+                id = teardown.id;
+                extension.addAll(teardown.extension);
+                modifierExtension.addAll(teardown.modifierExtension);
+                return this;
             }
         }
 
@@ -6226,7 +6179,11 @@ public class TestScript extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(operation).from(this);
+            }
+
+            public Builder toBuilder(TestScript.Setup.Action.Operation operation) {
+                return new Builder(operation).from(this);
             }
 
             public static Builder builder(TestScript.Setup.Action.Operation operation) {
@@ -6352,9 +6309,11 @@ public class TestScript extends DomainResource {
                     return new Action(this);
                 }
 
-                private static Builder from(Action action) {
-                    Builder builder = new Builder(action.operation);
-                    return builder;
+                private Builder from(Action action) {
+                    id = action.id;
+                    extension.addAll(action.extension);
+                    modifierExtension.addAll(action.modifierExtension);
+                    return this;
                 }
             }
         }

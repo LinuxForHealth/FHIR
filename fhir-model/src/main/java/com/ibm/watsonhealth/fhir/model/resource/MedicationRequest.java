@@ -576,44 +576,11 @@ public class MedicationRequest extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, intent, medication, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.statusReason = statusReason;
-        builder.category.addAll(category);
-        builder.priority = priority;
-        builder.doNotPerform = doNotPerform;
-        builder.reported = reported;
-        builder.encounter = encounter;
-        builder.supportingInformation.addAll(supportingInformation);
-        builder.authoredOn = authoredOn;
-        builder.requester = requester;
-        builder.performer = performer;
-        builder.performerType = performerType;
-        builder.recorder = recorder;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.basedOn.addAll(basedOn);
-        builder.groupIdentifier = groupIdentifier;
-        builder.courseOfTherapyType = courseOfTherapyType;
-        builder.insurance.addAll(insurance);
-        builder.note.addAll(note);
-        builder.dosageInstruction.addAll(dosageInstruction);
-        builder.dispenseRequest = dispenseRequest;
-        builder.substitution = substitution;
-        builder.priorPrescription = priorPrescription;
-        builder.detectedIssue.addAll(detectedIssue);
-        builder.eventHistory.addAll(eventHistory);
-        return builder;
+        return new Builder(status, intent, medication, subject).from(this);
+    }
+
+    public Builder toBuilder(MedicationRequestStatus status, MedicationRequestIntent intent, Element medication, Reference subject) {
+        return new Builder(status, intent, medication, subject).from(this);
     }
 
     public static Builder builder(MedicationRequestStatus status, MedicationRequestIntent intent, Element medication, Reference subject) {
@@ -1587,6 +1554,46 @@ public class MedicationRequest extends DomainResource {
         public MedicationRequest build() {
             return new MedicationRequest(this);
         }
+
+        private Builder from(MedicationRequest medicationRequest) {
+            id = medicationRequest.id;
+            meta = medicationRequest.meta;
+            implicitRules = medicationRequest.implicitRules;
+            language = medicationRequest.language;
+            text = medicationRequest.text;
+            contained.addAll(medicationRequest.contained);
+            extension.addAll(medicationRequest.extension);
+            modifierExtension.addAll(medicationRequest.modifierExtension);
+            identifier.addAll(medicationRequest.identifier);
+            statusReason = medicationRequest.statusReason;
+            category.addAll(medicationRequest.category);
+            priority = medicationRequest.priority;
+            doNotPerform = medicationRequest.doNotPerform;
+            reported = medicationRequest.reported;
+            encounter = medicationRequest.encounter;
+            supportingInformation.addAll(medicationRequest.supportingInformation);
+            authoredOn = medicationRequest.authoredOn;
+            requester = medicationRequest.requester;
+            performer = medicationRequest.performer;
+            performerType = medicationRequest.performerType;
+            recorder = medicationRequest.recorder;
+            reasonCode.addAll(medicationRequest.reasonCode);
+            reasonReference.addAll(medicationRequest.reasonReference);
+            instantiatesCanonical.addAll(medicationRequest.instantiatesCanonical);
+            instantiatesUri.addAll(medicationRequest.instantiatesUri);
+            basedOn.addAll(medicationRequest.basedOn);
+            groupIdentifier = medicationRequest.groupIdentifier;
+            courseOfTherapyType = medicationRequest.courseOfTherapyType;
+            insurance.addAll(medicationRequest.insurance);
+            note.addAll(medicationRequest.note);
+            dosageInstruction.addAll(medicationRequest.dosageInstruction);
+            dispenseRequest = medicationRequest.dispenseRequest;
+            substitution = medicationRequest.substitution;
+            priorPrescription = medicationRequest.priorPrescription;
+            detectedIssue.addAll(medicationRequest.detectedIssue);
+            eventHistory.addAll(medicationRequest.eventHistory);
+            return this;
+        }
     }
 
     /**
@@ -1730,7 +1737,7 @@ public class MedicationRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1978,16 +1985,18 @@ public class MedicationRequest extends DomainResource {
                 return new DispenseRequest(this);
             }
 
-            private static Builder from(DispenseRequest dispenseRequest) {
-                Builder builder = new Builder();
-                builder.initialFill = dispenseRequest.initialFill;
-                builder.dispenseInterval = dispenseRequest.dispenseInterval;
-                builder.validityPeriod = dispenseRequest.validityPeriod;
-                builder.numberOfRepeatsAllowed = dispenseRequest.numberOfRepeatsAllowed;
-                builder.quantity = dispenseRequest.quantity;
-                builder.expectedSupplyDuration = dispenseRequest.expectedSupplyDuration;
-                builder.performer = dispenseRequest.performer;
-                return builder;
+            private Builder from(DispenseRequest dispenseRequest) {
+                id = dispenseRequest.id;
+                extension.addAll(dispenseRequest.extension);
+                modifierExtension.addAll(dispenseRequest.modifierExtension);
+                initialFill = dispenseRequest.initialFill;
+                dispenseInterval = dispenseRequest.dispenseInterval;
+                validityPeriod = dispenseRequest.validityPeriod;
+                numberOfRepeatsAllowed = dispenseRequest.numberOfRepeatsAllowed;
+                quantity = dispenseRequest.quantity;
+                expectedSupplyDuration = dispenseRequest.expectedSupplyDuration;
+                performer = dispenseRequest.performer;
+                return this;
             }
         }
 
@@ -2049,7 +2058,7 @@ public class MedicationRequest extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2207,11 +2216,13 @@ public class MedicationRequest extends DomainResource {
                     return new InitialFill(this);
                 }
 
-                private static Builder from(InitialFill initialFill) {
-                    Builder builder = new Builder();
-                    builder.quantity = initialFill.quantity;
-                    builder.duration = initialFill.duration;
-                    return builder;
+                private Builder from(InitialFill initialFill) {
+                    id = initialFill.id;
+                    extension.addAll(initialFill.extension);
+                    modifierExtension.addAll(initialFill.modifierExtension);
+                    quantity = initialFill.quantity;
+                    duration = initialFill.duration;
+                    return this;
                 }
             }
         }
@@ -2277,7 +2288,11 @@ public class MedicationRequest extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(allowed).from(this);
+        }
+
+        public Builder toBuilder(Element allowed) {
+            return new Builder(allowed).from(this);
         }
 
         public static Builder builder(Element allowed) {
@@ -2422,10 +2437,12 @@ public class MedicationRequest extends DomainResource {
                 return new Substitution(this);
             }
 
-            private static Builder from(Substitution substitution) {
-                Builder builder = new Builder(substitution.allowed);
-                builder.reason = substitution.reason;
-                return builder;
+            private Builder from(Substitution substitution) {
+                id = substitution.id;
+                extension.addAll(substitution.extension);
+                modifierExtension.addAll(substitution.modifierExtension);
+                reason = substitution.reason;
+                return this;
             }
         }
     }

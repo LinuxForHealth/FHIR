@@ -80,11 +80,11 @@ public class Extension extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(url);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder(url).from(this);
+    }
+
+    public Builder toBuilder(java.lang.String url) {
+        return new Builder(url).from(this);
     }
 
     public static Builder builder(java.lang.String url) {
@@ -178,6 +178,13 @@ public class Extension extends Element {
         @Override
         public Extension build() {
             return new Extension(this);
+        }
+
+        private Builder from(Extension extension) {
+            id = extension.id;
+            this.extension.addAll(extension.extension);
+            value = extension.value;
+            return this;
         }
     }
 }

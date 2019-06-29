@@ -317,28 +317,11 @@ public class GraphDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(name, status, start);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.version = version;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.profile = profile;
-        builder.link.addAll(link);
-        return builder;
+        return new Builder(name, status, start).from(this);
+    }
+
+    public Builder toBuilder(String name, PublicationStatus status, ResourceType start) {
+        return new Builder(name, status, start).from(this);
     }
 
     public static Builder builder(String name, PublicationStatus status, ResourceType start) {
@@ -861,6 +844,30 @@ public class GraphDefinition extends DomainResource {
         public GraphDefinition build() {
             return new GraphDefinition(this);
         }
+
+        private Builder from(GraphDefinition graphDefinition) {
+            id = graphDefinition.id;
+            meta = graphDefinition.meta;
+            implicitRules = graphDefinition.implicitRules;
+            language = graphDefinition.language;
+            text = graphDefinition.text;
+            contained.addAll(graphDefinition.contained);
+            extension.addAll(graphDefinition.extension);
+            modifierExtension.addAll(graphDefinition.modifierExtension);
+            url = graphDefinition.url;
+            version = graphDefinition.version;
+            experimental = graphDefinition.experimental;
+            date = graphDefinition.date;
+            publisher = graphDefinition.publisher;
+            contact.addAll(graphDefinition.contact);
+            description = graphDefinition.description;
+            useContext.addAll(graphDefinition.useContext);
+            jurisdiction.addAll(graphDefinition.jurisdiction);
+            purpose = graphDefinition.purpose;
+            profile = graphDefinition.profile;
+            link.addAll(graphDefinition.link);
+            return this;
+        }
     }
 
     /**
@@ -981,7 +988,7 @@ public class GraphDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1225,15 +1232,17 @@ public class GraphDefinition extends DomainResource {
                 return new Link(this);
             }
 
-            private static Builder from(Link link) {
-                Builder builder = new Builder();
-                builder.path = link.path;
-                builder.sliceName = link.sliceName;
-                builder.min = link.min;
-                builder.max = link.max;
-                builder.description = link.description;
-                builder.target.addAll(link.target);
-                return builder;
+            private Builder from(Link link) {
+                id = link.id;
+                extension.addAll(link.extension);
+                modifierExtension.addAll(link.modifierExtension);
+                path = link.path;
+                sliceName = link.sliceName;
+                min = link.min;
+                max = link.max;
+                description = link.description;
+                target.addAll(link.target);
+                return this;
             }
         }
 
@@ -1340,7 +1349,11 @@ public class GraphDefinition extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(type).from(this);
+            }
+
+            public Builder toBuilder(ResourceType type) {
+                return new Builder(type).from(this);
             }
 
             public static Builder builder(ResourceType type) {
@@ -1572,13 +1585,15 @@ public class GraphDefinition extends DomainResource {
                     return new Target(this);
                 }
 
-                private static Builder from(Target target) {
-                    Builder builder = new Builder(target.type);
-                    builder.params = target.params;
-                    builder.profile = target.profile;
-                    builder.compartment.addAll(target.compartment);
-                    builder.link.addAll(target.link);
-                    return builder;
+                private Builder from(Target target) {
+                    id = target.id;
+                    extension.addAll(target.extension);
+                    modifierExtension.addAll(target.modifierExtension);
+                    params = target.params;
+                    profile = target.profile;
+                    compartment.addAll(target.compartment);
+                    link.addAll(target.link);
+                    return this;
                 }
             }
 
@@ -1686,7 +1701,11 @@ public class GraphDefinition extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(use, code, rule).from(this);
+                }
+
+                public Builder toBuilder(GraphCompartmentUse use, CompartmentCode code, GraphCompartmentRule rule) {
+                    return new Builder(use, code, rule).from(this);
                 }
 
                 public static Builder builder(GraphCompartmentUse use, CompartmentCode code, GraphCompartmentRule rule) {
@@ -1852,11 +1871,13 @@ public class GraphDefinition extends DomainResource {
                         return new Compartment(this);
                     }
 
-                    private static Builder from(Compartment compartment) {
-                        Builder builder = new Builder(compartment.use, compartment.code, compartment.rule);
-                        builder.expression = compartment.expression;
-                        builder.description = compartment.description;
-                        return builder;
+                    private Builder from(Compartment compartment) {
+                        id = compartment.id;
+                        extension.addAll(compartment.extension);
+                        modifierExtension.addAll(compartment.modifierExtension);
+                        expression = compartment.expression;
+                        description = compartment.description;
+                        return this;
                     }
                 }
             }

@@ -250,26 +250,11 @@ public class QuestionnaireResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier = identifier;
-        builder.basedOn.addAll(basedOn);
-        builder.partOf.addAll(partOf);
-        builder.questionnaire = questionnaire;
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.authored = authored;
-        builder.author = author;
-        builder.source = source;
-        builder.item.addAll(item);
-        return builder;
+        return new Builder(status).from(this);
+    }
+
+    public Builder toBuilder(QuestionnaireResponseStatus status) {
+        return new Builder(status).from(this);
     }
 
     public static Builder builder(QuestionnaireResponseStatus status) {
@@ -729,6 +714,28 @@ public class QuestionnaireResponse extends DomainResource {
         public QuestionnaireResponse build() {
             return new QuestionnaireResponse(this);
         }
+
+        private Builder from(QuestionnaireResponse questionnaireResponse) {
+            id = questionnaireResponse.id;
+            meta = questionnaireResponse.meta;
+            implicitRules = questionnaireResponse.implicitRules;
+            language = questionnaireResponse.language;
+            text = questionnaireResponse.text;
+            contained.addAll(questionnaireResponse.contained);
+            extension.addAll(questionnaireResponse.extension);
+            modifierExtension.addAll(questionnaireResponse.modifierExtension);
+            identifier = questionnaireResponse.identifier;
+            basedOn.addAll(questionnaireResponse.basedOn);
+            partOf.addAll(questionnaireResponse.partOf);
+            questionnaire = questionnaireResponse.questionnaire;
+            subject = questionnaireResponse.subject;
+            encounter = questionnaireResponse.encounter;
+            authored = questionnaireResponse.authored;
+            author = questionnaireResponse.author;
+            source = questionnaireResponse.source;
+            item.addAll(questionnaireResponse.item);
+            return this;
+        }
     }
 
     /**
@@ -834,7 +841,11 @@ public class QuestionnaireResponse extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(linkId).from(this);
+        }
+
+        public Builder toBuilder(String linkId) {
+            return new Builder(linkId).from(this);
         }
 
         public static Builder builder(String linkId) {
@@ -1066,13 +1077,15 @@ public class QuestionnaireResponse extends DomainResource {
                 return new Item(this);
             }
 
-            private static Builder from(Item item) {
-                Builder builder = new Builder(item.linkId);
-                builder.definition = item.definition;
-                builder.text = item.text;
-                builder.answer.addAll(item.answer);
-                builder.item.addAll(item.item);
-                return builder;
+            private Builder from(Item item) {
+                id = item.id;
+                extension.addAll(item.extension);
+                modifierExtension.addAll(item.modifierExtension);
+                definition = item.definition;
+                text = item.text;
+                answer.addAll(item.answer);
+                this.item.addAll(item.item);
+                return this;
             }
         }
 
@@ -1134,7 +1147,7 @@ public class QuestionnaireResponse extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1310,11 +1323,13 @@ public class QuestionnaireResponse extends DomainResource {
                     return new Answer(this);
                 }
 
-                private static Builder from(Answer answer) {
-                    Builder builder = new Builder();
-                    builder.value = answer.value;
-                    builder.item.addAll(answer.item);
-                    return builder;
+                private Builder from(Answer answer) {
+                    id = answer.id;
+                    extension.addAll(answer.extension);
+                    modifierExtension.addAll(answer.modifierExtension);
+                    value = answer.value;
+                    item.addAll(answer.item);
+                    return this;
                 }
             }
         }

@@ -339,31 +339,11 @@ public class AllergyIntolerance extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(patient);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.clinicalStatus = clinicalStatus;
-        builder.verificationStatus = verificationStatus;
-        builder.type = type;
-        builder.category.addAll(category);
-        builder.criticality = criticality;
-        builder.code = code;
-        builder.encounter = encounter;
-        builder.onset = onset;
-        builder.recordedDate = recordedDate;
-        builder.recorder = recorder;
-        builder.asserter = asserter;
-        builder.lastOccurrence = lastOccurrence;
-        builder.note.addAll(note);
-        builder.reaction.addAll(reaction);
-        return builder;
+        return new Builder(patient).from(this);
+    }
+
+    public Builder toBuilder(Reference patient) {
+        return new Builder(patient).from(this);
     }
 
     public static Builder builder(Reference patient) {
@@ -933,6 +913,33 @@ public class AllergyIntolerance extends DomainResource {
         public AllergyIntolerance build() {
             return new AllergyIntolerance(this);
         }
+
+        private Builder from(AllergyIntolerance allergyIntolerance) {
+            id = allergyIntolerance.id;
+            meta = allergyIntolerance.meta;
+            implicitRules = allergyIntolerance.implicitRules;
+            language = allergyIntolerance.language;
+            text = allergyIntolerance.text;
+            contained.addAll(allergyIntolerance.contained);
+            extension.addAll(allergyIntolerance.extension);
+            modifierExtension.addAll(allergyIntolerance.modifierExtension);
+            identifier.addAll(allergyIntolerance.identifier);
+            clinicalStatus = allergyIntolerance.clinicalStatus;
+            verificationStatus = allergyIntolerance.verificationStatus;
+            type = allergyIntolerance.type;
+            category.addAll(allergyIntolerance.category);
+            criticality = allergyIntolerance.criticality;
+            code = allergyIntolerance.code;
+            encounter = allergyIntolerance.encounter;
+            onset = allergyIntolerance.onset;
+            recordedDate = allergyIntolerance.recordedDate;
+            recorder = allergyIntolerance.recorder;
+            asserter = allergyIntolerance.asserter;
+            lastOccurrence = allergyIntolerance.lastOccurrence;
+            note.addAll(allergyIntolerance.note);
+            reaction.addAll(allergyIntolerance.reaction);
+            return this;
+        }
     }
 
     /**
@@ -1075,7 +1082,11 @@ public class AllergyIntolerance extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(manifestation).from(this);
+        }
+
+        public Builder toBuilder(List<CodeableConcept> manifestation) {
+            return new Builder(manifestation).from(this);
         }
 
         public static Builder builder(List<CodeableConcept> manifestation) {
@@ -1228,40 +1239,6 @@ public class AllergyIntolerance extends DomainResource {
 
             /**
              * <p>
-             * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
-             * </p>
-             * 
-             * @param manifestation
-             *     Clinical symptoms/signs associated with the Event
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder manifestation(CodeableConcept... manifestation) {
-                for (CodeableConcept value : manifestation) {
-                    this.manifestation.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
-             * </p>
-             * 
-             * @param manifestation
-             *     Clinical symptoms/signs associated with the Event
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder manifestation(Collection<CodeableConcept> manifestation) {
-                this.manifestation.addAll(manifestation);
-                return this;
-            }
-
-            /**
-             * <p>
              * Text description about the reaction as a whole, including details of the manifestation if required.
              * </p>
              * 
@@ -1364,15 +1341,17 @@ public class AllergyIntolerance extends DomainResource {
                 return new Reaction(this);
             }
 
-            private static Builder from(Reaction reaction) {
-                Builder builder = new Builder(reaction.manifestation);
-                builder.substance = reaction.substance;
-                builder.description = reaction.description;
-                builder.onset = reaction.onset;
-                builder.severity = reaction.severity;
-                builder.exposureRoute = reaction.exposureRoute;
-                builder.note.addAll(reaction.note);
-                return builder;
+            private Builder from(Reaction reaction) {
+                id = reaction.id;
+                extension.addAll(reaction.extension);
+                modifierExtension.addAll(reaction.modifierExtension);
+                substance = reaction.substance;
+                description = reaction.description;
+                onset = reaction.onset;
+                severity = reaction.severity;
+                exposureRoute = reaction.exposureRoute;
+                note.addAll(reaction.note);
+                return this;
             }
         }
     }

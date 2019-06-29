@@ -181,21 +181,11 @@ public class ResearchSubject extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, study, individual);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.period = period;
-        builder.assignedArm = assignedArm;
-        builder.actualArm = actualArm;
-        builder.consent = consent;
-        return builder;
+        return new Builder(status, study, individual).from(this);
+    }
+
+    public Builder toBuilder(ResearchSubjectStatus status, Reference study, Reference individual) {
+        return new Builder(status, study, individual).from(this);
     }
 
     public static Builder builder(ResearchSubjectStatus status, Reference study, Reference individual) {
@@ -531,6 +521,23 @@ public class ResearchSubject extends DomainResource {
         @Override
         public ResearchSubject build() {
             return new ResearchSubject(this);
+        }
+
+        private Builder from(ResearchSubject researchSubject) {
+            id = researchSubject.id;
+            meta = researchSubject.meta;
+            implicitRules = researchSubject.implicitRules;
+            language = researchSubject.language;
+            text = researchSubject.text;
+            contained.addAll(researchSubject.contained);
+            extension.addAll(researchSubject.extension);
+            modifierExtension.addAll(researchSubject.modifierExtension);
+            identifier.addAll(researchSubject.identifier);
+            period = researchSubject.period;
+            assignedArm = researchSubject.assignedArm;
+            actualArm = researchSubject.actualArm;
+            consent = researchSubject.consent;
+            return this;
         }
     }
 }

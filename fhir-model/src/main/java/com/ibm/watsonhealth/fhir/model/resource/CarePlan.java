@@ -434,36 +434,11 @@ public class CarePlan extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, intent, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.basedOn.addAll(basedOn);
-        builder.replaces.addAll(replaces);
-        builder.partOf.addAll(partOf);
-        builder.category.addAll(category);
-        builder.title = title;
-        builder.description = description;
-        builder.encounter = encounter;
-        builder.period = period;
-        builder.created = created;
-        builder.author = author;
-        builder.contributor.addAll(contributor);
-        builder.careTeam.addAll(careTeam);
-        builder.addresses.addAll(addresses);
-        builder.supportingInfo.addAll(supportingInfo);
-        builder.goal.addAll(goal);
-        builder.activity.addAll(activity);
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status, intent, subject).from(this);
+    }
+
+    public Builder toBuilder(CarePlanStatus status, CarePlanIntent intent, Reference subject) {
+        return new Builder(status, intent, subject).from(this);
     }
 
     public static Builder builder(CarePlanStatus status, CarePlanIntent intent, Reference subject) {
@@ -1301,6 +1276,38 @@ public class CarePlan extends DomainResource {
         public CarePlan build() {
             return new CarePlan(this);
         }
+
+        private Builder from(CarePlan carePlan) {
+            id = carePlan.id;
+            meta = carePlan.meta;
+            implicitRules = carePlan.implicitRules;
+            language = carePlan.language;
+            text = carePlan.text;
+            contained.addAll(carePlan.contained);
+            extension.addAll(carePlan.extension);
+            modifierExtension.addAll(carePlan.modifierExtension);
+            identifier.addAll(carePlan.identifier);
+            instantiatesCanonical.addAll(carePlan.instantiatesCanonical);
+            instantiatesUri.addAll(carePlan.instantiatesUri);
+            basedOn.addAll(carePlan.basedOn);
+            replaces.addAll(carePlan.replaces);
+            partOf.addAll(carePlan.partOf);
+            category.addAll(carePlan.category);
+            title = carePlan.title;
+            description = carePlan.description;
+            encounter = carePlan.encounter;
+            period = carePlan.period;
+            created = carePlan.created;
+            author = carePlan.author;
+            contributor.addAll(carePlan.contributor);
+            careTeam.addAll(carePlan.careTeam);
+            addresses.addAll(carePlan.addresses);
+            supportingInfo.addAll(carePlan.supportingInfo);
+            goal.addAll(carePlan.goal);
+            activity.addAll(carePlan.activity);
+            note.addAll(carePlan.note);
+            return this;
+        }
     }
 
     /**
@@ -1411,7 +1418,7 @@ public class CarePlan extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1681,14 +1688,16 @@ public class CarePlan extends DomainResource {
                 return new Activity(this);
             }
 
-            private static Builder from(Activity activity) {
-                Builder builder = new Builder();
-                builder.outcomeCodeableConcept.addAll(activity.outcomeCodeableConcept);
-                builder.outcomeReference.addAll(activity.outcomeReference);
-                builder.progress.addAll(activity.progress);
-                builder.reference = activity.reference;
-                builder.detail = activity.detail;
-                return builder;
+            private Builder from(Activity activity) {
+                id = activity.id;
+                extension.addAll(activity.extension);
+                modifierExtension.addAll(activity.modifierExtension);
+                outcomeCodeableConcept.addAll(activity.outcomeCodeableConcept);
+                outcomeReference.addAll(activity.outcomeReference);
+                progress.addAll(activity.progress);
+                reference = activity.reference;
+                detail = activity.detail;
+                return this;
             }
         }
 
@@ -1985,7 +1994,11 @@ public class CarePlan extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(status).from(this);
+            }
+
+            public Builder toBuilder(CarePlanActivityStatus status) {
+                return new Builder(status).from(this);
             }
 
             public static Builder builder(CarePlanActivityStatus status) {
@@ -2506,25 +2519,27 @@ public class CarePlan extends DomainResource {
                     return new Detail(this);
                 }
 
-                private static Builder from(Detail detail) {
-                    Builder builder = new Builder(detail.status);
-                    builder.kind = detail.kind;
-                    builder.instantiatesCanonical.addAll(detail.instantiatesCanonical);
-                    builder.instantiatesUri.addAll(detail.instantiatesUri);
-                    builder.code = detail.code;
-                    builder.reasonCode.addAll(detail.reasonCode);
-                    builder.reasonReference.addAll(detail.reasonReference);
-                    builder.goal.addAll(detail.goal);
-                    builder.statusReason = detail.statusReason;
-                    builder.doNotPerform = detail.doNotPerform;
-                    builder.scheduled = detail.scheduled;
-                    builder.location = detail.location;
-                    builder.performer.addAll(detail.performer);
-                    builder.product = detail.product;
-                    builder.dailyAmount = detail.dailyAmount;
-                    builder.quantity = detail.quantity;
-                    builder.description = detail.description;
-                    return builder;
+                private Builder from(Detail detail) {
+                    id = detail.id;
+                    extension.addAll(detail.extension);
+                    modifierExtension.addAll(detail.modifierExtension);
+                    kind = detail.kind;
+                    instantiatesCanonical.addAll(detail.instantiatesCanonical);
+                    instantiatesUri.addAll(detail.instantiatesUri);
+                    code = detail.code;
+                    reasonCode.addAll(detail.reasonCode);
+                    reasonReference.addAll(detail.reasonReference);
+                    goal.addAll(detail.goal);
+                    statusReason = detail.statusReason;
+                    doNotPerform = detail.doNotPerform;
+                    scheduled = detail.scheduled;
+                    location = detail.location;
+                    performer.addAll(detail.performer);
+                    product = detail.product;
+                    dailyAmount = detail.dailyAmount;
+                    quantity = detail.quantity;
+                    description = detail.description;
+                    return this;
                 }
             }
         }

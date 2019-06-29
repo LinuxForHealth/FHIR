@@ -141,16 +141,7 @@ public class Meta extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.versionId = versionId;
-        builder.lastUpdated = lastUpdated;
-        builder.source = source;
-        builder.profile.addAll(profile);
-        builder.security.addAll(security);
-        builder.tag.addAll(tag);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -389,6 +380,18 @@ public class Meta extends Element {
         @Override
         public Meta build() {
             return new Meta(this);
+        }
+
+        private Builder from(Meta meta) {
+            id = meta.id;
+            extension.addAll(meta.extension);
+            versionId = meta.versionId;
+            lastUpdated = meta.lastUpdated;
+            source = meta.source;
+            profile.addAll(meta.profile);
+            security.addAll(meta.security);
+            tag.addAll(meta.tag);
+            return this;
         }
     }
 }

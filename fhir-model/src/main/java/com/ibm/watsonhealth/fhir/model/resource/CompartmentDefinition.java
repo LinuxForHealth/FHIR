@@ -297,25 +297,11 @@ public class CompartmentDefinition extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(url, name, status, code, search);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.version = version;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.purpose = purpose;
-        builder.resource.addAll(resource);
-        return builder;
+        return new Builder(url, name, status, code, search).from(this);
+    }
+
+    public Builder toBuilder(Uri url, String name, PublicationStatus status, CompartmentType code, Boolean search) {
+        return new Builder(url, name, status, code, search).from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, CompartmentType code, Boolean search) {
@@ -770,6 +756,27 @@ public class CompartmentDefinition extends DomainResource {
         public CompartmentDefinition build() {
             return new CompartmentDefinition(this);
         }
+
+        private Builder from(CompartmentDefinition compartmentDefinition) {
+            id = compartmentDefinition.id;
+            meta = compartmentDefinition.meta;
+            implicitRules = compartmentDefinition.implicitRules;
+            language = compartmentDefinition.language;
+            text = compartmentDefinition.text;
+            contained.addAll(compartmentDefinition.contained);
+            extension.addAll(compartmentDefinition.extension);
+            modifierExtension.addAll(compartmentDefinition.modifierExtension);
+            version = compartmentDefinition.version;
+            experimental = compartmentDefinition.experimental;
+            date = compartmentDefinition.date;
+            publisher = compartmentDefinition.publisher;
+            contact.addAll(compartmentDefinition.contact);
+            description = compartmentDefinition.description;
+            useContext.addAll(compartmentDefinition.useContext);
+            purpose = compartmentDefinition.purpose;
+            resource.addAll(compartmentDefinition.resource);
+            return this;
+        }
     }
 
     /**
@@ -846,7 +853,11 @@ public class CompartmentDefinition extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(ResourceType code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(ResourceType code) {
@@ -1028,11 +1039,13 @@ public class CompartmentDefinition extends DomainResource {
                 return new Resource(this);
             }
 
-            private static Builder from(Resource resource) {
-                Builder builder = new Builder(resource.code);
-                builder.param.addAll(resource.param);
-                builder.documentation = resource.documentation;
-                return builder;
+            private Builder from(Resource resource) {
+                id = resource.id;
+                extension.addAll(resource.extension);
+                modifierExtension.addAll(resource.modifierExtension);
+                param.addAll(resource.param);
+                documentation = resource.documentation;
+                return this;
             }
         }
     }

@@ -365,32 +365,11 @@ public class RequestGroup extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, intent);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.basedOn.addAll(basedOn);
-        builder.replaces.addAll(replaces);
-        builder.groupIdentifier = groupIdentifier;
-        builder.priority = priority;
-        builder.code = code;
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.authoredOn = authoredOn;
-        builder.author = author;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.note.addAll(note);
-        builder.action.addAll(action);
-        return builder;
+        return new Builder(status, intent).from(this);
+    }
+
+    public Builder toBuilder(RequestStatus status, RequestIntent intent) {
+        return new Builder(status, intent).from(this);
     }
 
     public static Builder builder(RequestStatus status, RequestIntent intent) {
@@ -1061,6 +1040,34 @@ public class RequestGroup extends DomainResource {
         public RequestGroup build() {
             return new RequestGroup(this);
         }
+
+        private Builder from(RequestGroup requestGroup) {
+            id = requestGroup.id;
+            meta = requestGroup.meta;
+            implicitRules = requestGroup.implicitRules;
+            language = requestGroup.language;
+            text = requestGroup.text;
+            contained.addAll(requestGroup.contained);
+            extension.addAll(requestGroup.extension);
+            modifierExtension.addAll(requestGroup.modifierExtension);
+            identifier.addAll(requestGroup.identifier);
+            instantiatesCanonical.addAll(requestGroup.instantiatesCanonical);
+            instantiatesUri.addAll(requestGroup.instantiatesUri);
+            basedOn.addAll(requestGroup.basedOn);
+            replaces.addAll(requestGroup.replaces);
+            groupIdentifier = requestGroup.groupIdentifier;
+            priority = requestGroup.priority;
+            code = requestGroup.code;
+            subject = requestGroup.subject;
+            encounter = requestGroup.encounter;
+            authoredOn = requestGroup.authoredOn;
+            author = requestGroup.author;
+            reasonCode.addAll(requestGroup.reasonCode);
+            reasonReference.addAll(requestGroup.reasonReference);
+            note.addAll(requestGroup.note);
+            action.addAll(requestGroup.action);
+            return this;
+        }
     }
 
     /**
@@ -1379,7 +1386,7 @@ public class RequestGroup extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1939,28 +1946,30 @@ public class RequestGroup extends DomainResource {
                 return new Action(this);
             }
 
-            private static Builder from(Action action) {
-                Builder builder = new Builder();
-                builder.prefix = action.prefix;
-                builder.title = action.title;
-                builder.description = action.description;
-                builder.textEquivalent = action.textEquivalent;
-                builder.priority = action.priority;
-                builder.code.addAll(action.code);
-                builder.documentation.addAll(action.documentation);
-                builder.condition.addAll(action.condition);
-                builder.relatedAction.addAll(action.relatedAction);
-                builder.timing = action.timing;
-                builder.participant.addAll(action.participant);
-                builder.type = action.type;
-                builder.groupingBehavior = action.groupingBehavior;
-                builder.selectionBehavior = action.selectionBehavior;
-                builder.requiredBehavior = action.requiredBehavior;
-                builder.precheckBehavior = action.precheckBehavior;
-                builder.cardinalityBehavior = action.cardinalityBehavior;
-                builder.resource = action.resource;
-                builder.action.addAll(action.action);
-                return builder;
+            private Builder from(Action action) {
+                id = action.id;
+                extension.addAll(action.extension);
+                modifierExtension.addAll(action.modifierExtension);
+                prefix = action.prefix;
+                title = action.title;
+                description = action.description;
+                textEquivalent = action.textEquivalent;
+                priority = action.priority;
+                code.addAll(action.code);
+                documentation.addAll(action.documentation);
+                condition.addAll(action.condition);
+                relatedAction.addAll(action.relatedAction);
+                timing = action.timing;
+                participant.addAll(action.participant);
+                type = action.type;
+                groupingBehavior = action.groupingBehavior;
+                selectionBehavior = action.selectionBehavior;
+                requiredBehavior = action.requiredBehavior;
+                precheckBehavior = action.precheckBehavior;
+                cardinalityBehavior = action.cardinalityBehavior;
+                resource = action.resource;
+                this.action.addAll(action.action);
+                return this;
             }
         }
 
@@ -2022,7 +2031,11 @@ public class RequestGroup extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(kind).from(this);
+            }
+
+            public Builder toBuilder(ActionConditionKind kind) {
+                return new Builder(kind).from(this);
             }
 
             public static Builder builder(ActionConditionKind kind) {
@@ -2167,10 +2180,12 @@ public class RequestGroup extends DomainResource {
                     return new Condition(this);
                 }
 
-                private static Builder from(Condition condition) {
-                    Builder builder = new Builder(condition.kind);
-                    builder.expression = condition.expression;
-                    return builder;
+                private Builder from(Condition condition) {
+                    id = condition.id;
+                    extension.addAll(condition.extension);
+                    modifierExtension.addAll(condition.modifierExtension);
+                    expression = condition.expression;
+                    return this;
                 }
             }
         }
@@ -2248,7 +2263,11 @@ public class RequestGroup extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(actionId, relationship).from(this);
+            }
+
+            public Builder toBuilder(Id actionId, ActionRelationshipType relationship) {
+                return new Builder(actionId, relationship).from(this);
             }
 
             public static Builder builder(Id actionId, ActionRelationshipType relationship) {
@@ -2395,10 +2414,12 @@ public class RequestGroup extends DomainResource {
                     return new RelatedAction(this);
                 }
 
-                private static Builder from(RelatedAction relatedAction) {
-                    Builder builder = new Builder(relatedAction.actionId, relatedAction.relationship);
-                    builder.offset = relatedAction.offset;
-                    return builder;
+                private Builder from(RelatedAction relatedAction) {
+                    id = relatedAction.id;
+                    extension.addAll(relatedAction.extension);
+                    modifierExtension.addAll(relatedAction.modifierExtension);
+                    offset = relatedAction.offset;
+                    return this;
                 }
             }
         }

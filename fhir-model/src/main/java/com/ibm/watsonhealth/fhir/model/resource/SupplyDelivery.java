@@ -232,27 +232,7 @@ public class SupplyDelivery extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.basedOn.addAll(basedOn);
-        builder.partOf.addAll(partOf);
-        builder.status = status;
-        builder.patient = patient;
-        builder.type = type;
-        builder.suppliedItem = suppliedItem;
-        builder.occurrence = occurrence;
-        builder.supplier = supplier;
-        builder.destination = destination;
-        builder.receiver.addAll(receiver);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -738,6 +718,29 @@ public class SupplyDelivery extends DomainResource {
         public SupplyDelivery build() {
             return new SupplyDelivery(this);
         }
+
+        private Builder from(SupplyDelivery supplyDelivery) {
+            id = supplyDelivery.id;
+            meta = supplyDelivery.meta;
+            implicitRules = supplyDelivery.implicitRules;
+            language = supplyDelivery.language;
+            text = supplyDelivery.text;
+            contained.addAll(supplyDelivery.contained);
+            extension.addAll(supplyDelivery.extension);
+            modifierExtension.addAll(supplyDelivery.modifierExtension);
+            identifier.addAll(supplyDelivery.identifier);
+            basedOn.addAll(supplyDelivery.basedOn);
+            partOf.addAll(supplyDelivery.partOf);
+            status = supplyDelivery.status;
+            patient = supplyDelivery.patient;
+            type = supplyDelivery.type;
+            suppliedItem = supplyDelivery.suppliedItem;
+            occurrence = supplyDelivery.occurrence;
+            supplier = supplyDelivery.supplier;
+            destination = supplyDelivery.destination;
+            receiver.addAll(supplyDelivery.receiver);
+            return this;
+        }
     }
 
     /**
@@ -799,7 +802,7 @@ public class SupplyDelivery extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -958,11 +961,13 @@ public class SupplyDelivery extends DomainResource {
                 return new SuppliedItem(this);
             }
 
-            private static Builder from(SuppliedItem suppliedItem) {
-                Builder builder = new Builder();
-                builder.quantity = suppliedItem.quantity;
-                builder.item = suppliedItem.item;
-                return builder;
+            private Builder from(SuppliedItem suppliedItem) {
+                id = suppliedItem.id;
+                extension.addAll(suppliedItem.extension);
+                modifierExtension.addAll(suppliedItem.modifierExtension);
+                quantity = suppliedItem.quantity;
+                item = suppliedItem.item;
+                return this;
             }
         }
     }

@@ -502,40 +502,11 @@ public class CodeSystem extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, content);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.url = url;
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.name = name;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.caseSensitive = caseSensitive;
-        builder.valueSet = valueSet;
-        builder.hierarchyMeaning = hierarchyMeaning;
-        builder.compositional = compositional;
-        builder.versionNeeded = versionNeeded;
-        builder.supplements = supplements;
-        builder.count = count;
-        builder.filter.addAll(filter);
-        builder.property.addAll(property);
-        builder.concept.addAll(concept);
-        return builder;
+        return new Builder(status, content).from(this);
+    }
+
+    public Builder toBuilder(PublicationStatus status, CodeSystemContentMode content) {
+        return new Builder(status, content).from(this);
     }
 
     public static Builder builder(PublicationStatus status, CodeSystemContentMode content) {
@@ -1324,6 +1295,42 @@ public class CodeSystem extends DomainResource {
         public CodeSystem build() {
             return new CodeSystem(this);
         }
+
+        private Builder from(CodeSystem codeSystem) {
+            id = codeSystem.id;
+            meta = codeSystem.meta;
+            implicitRules = codeSystem.implicitRules;
+            language = codeSystem.language;
+            text = codeSystem.text;
+            contained.addAll(codeSystem.contained);
+            extension.addAll(codeSystem.extension);
+            modifierExtension.addAll(codeSystem.modifierExtension);
+            url = codeSystem.url;
+            identifier.addAll(codeSystem.identifier);
+            version = codeSystem.version;
+            name = codeSystem.name;
+            title = codeSystem.title;
+            experimental = codeSystem.experimental;
+            date = codeSystem.date;
+            publisher = codeSystem.publisher;
+            contact.addAll(codeSystem.contact);
+            description = codeSystem.description;
+            useContext.addAll(codeSystem.useContext);
+            jurisdiction.addAll(codeSystem.jurisdiction);
+            purpose = codeSystem.purpose;
+            copyright = codeSystem.copyright;
+            caseSensitive = codeSystem.caseSensitive;
+            valueSet = codeSystem.valueSet;
+            hierarchyMeaning = codeSystem.hierarchyMeaning;
+            compositional = codeSystem.compositional;
+            versionNeeded = codeSystem.versionNeeded;
+            supplements = codeSystem.supplements;
+            count = codeSystem.count;
+            filter.addAll(codeSystem.filter);
+            property.addAll(codeSystem.property);
+            concept.addAll(codeSystem.concept);
+            return this;
+        }
     }
 
     /**
@@ -1414,7 +1421,11 @@ public class CodeSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code, operator, value).from(this);
+        }
+
+        public Builder toBuilder(Code code, List<FilterOperator> operator, String value) {
+            return new Builder(code, operator, value).from(this);
         }
 
         public static Builder builder(Code code, List<FilterOperator> operator, String value) {
@@ -1558,49 +1569,17 @@ public class CodeSystem extends DomainResource {
                 return this;
             }
 
-            /**
-             * <p>
-             * A list of operators that can be used with the filter.
-             * </p>
-             * 
-             * @param operator
-             *     Operators that can be used with filter
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder operator(FilterOperator... operator) {
-                for (FilterOperator value : operator) {
-                    this.operator.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * A list of operators that can be used with the filter.
-             * </p>
-             * 
-             * @param operator
-             *     Operators that can be used with filter
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder operator(Collection<FilterOperator> operator) {
-                this.operator.addAll(operator);
-                return this;
-            }
-
             @Override
             public Filter build() {
                 return new Filter(this);
             }
 
-            private static Builder from(Filter filter) {
-                Builder builder = new Builder(filter.code, filter.operator, filter.value);
-                builder.description = filter.description;
-                return builder;
+            private Builder from(Filter filter) {
+                id = filter.id;
+                extension.addAll(filter.extension);
+                modifierExtension.addAll(filter.modifierExtension);
+                description = filter.description;
+                return this;
             }
         }
     }
@@ -1696,7 +1675,11 @@ public class CodeSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code, type).from(this);
+        }
+
+        public Builder toBuilder(Code code, PropertyType type) {
+            return new Builder(code, type).from(this);
         }
 
         public static Builder builder(Code code, PropertyType type) {
@@ -1861,11 +1844,13 @@ public class CodeSystem extends DomainResource {
                 return new Property(this);
             }
 
-            private static Builder from(Property property) {
-                Builder builder = new Builder(property.code, property.type);
-                builder.uri = property.uri;
-                builder.description = property.description;
-                return builder;
+            private Builder from(Property property) {
+                id = property.id;
+                extension.addAll(property.extension);
+                modifierExtension.addAll(property.modifierExtension);
+                uri = property.uri;
+                description = property.description;
+                return this;
             }
         }
     }
@@ -1993,7 +1978,11 @@ public class CodeSystem extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(code).from(this);
+        }
+
+        public Builder toBuilder(Code code) {
+            return new Builder(code).from(this);
         }
 
         public static Builder builder(Code code) {
@@ -2266,14 +2255,16 @@ public class CodeSystem extends DomainResource {
                 return new Concept(this);
             }
 
-            private static Builder from(Concept concept) {
-                Builder builder = new Builder(concept.code);
-                builder.display = concept.display;
-                builder.definition = concept.definition;
-                builder.designation.addAll(concept.designation);
-                builder.property.addAll(concept.property);
-                builder.concept.addAll(concept.concept);
-                return builder;
+            private Builder from(Concept concept) {
+                id = concept.id;
+                extension.addAll(concept.extension);
+                modifierExtension.addAll(concept.modifierExtension);
+                display = concept.display;
+                definition = concept.definition;
+                designation.addAll(concept.designation);
+                property.addAll(concept.property);
+                this.concept.addAll(concept.concept);
+                return this;
             }
         }
 
@@ -2351,7 +2342,11 @@ public class CodeSystem extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(value).from(this);
+            }
+
+            public Builder toBuilder(String value) {
+                return new Builder(value).from(this);
             }
 
             public static Builder builder(String value) {
@@ -2513,11 +2508,13 @@ public class CodeSystem extends DomainResource {
                     return new Designation(this);
                 }
 
-                private static Builder from(Designation designation) {
-                    Builder builder = new Builder(designation.value);
-                    builder.language = designation.language;
-                    builder.use = designation.use;
-                    return builder;
+                private Builder from(Designation designation) {
+                    id = designation.id;
+                    extension.addAll(designation.extension);
+                    modifierExtension.addAll(designation.modifierExtension);
+                    language = designation.language;
+                    use = designation.use;
+                    return this;
                 }
             }
         }
@@ -2580,7 +2577,11 @@ public class CodeSystem extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(code, value).from(this);
+            }
+
+            public Builder toBuilder(Code code, Element value) {
+                return new Builder(code, value).from(this);
             }
 
             public static Builder builder(Code code, Element value) {
@@ -2708,9 +2709,11 @@ public class CodeSystem extends DomainResource {
                     return new Property(this);
                 }
 
-                private static Builder from(Property property) {
-                    Builder builder = new Builder(property.code, property.value);
-                    return builder;
+                private Builder from(Property property) {
+                    id = property.id;
+                    extension.addAll(property.extension);
+                    modifierExtension.addAll(property.modifierExtension);
+                    return this;
                 }
             }
         }

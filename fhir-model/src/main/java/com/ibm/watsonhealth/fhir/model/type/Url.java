@@ -38,11 +38,7 @@ public class Url extends Uri {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -127,6 +123,13 @@ public class Url extends Uri {
         @Override
         public Url build() {
             return new Url(this);
+        }
+
+        private Builder from(Url url) {
+            id = url.id;
+            extension.addAll(url.extension);
+            value = url.value;
+            return this;
         }
     }
 }

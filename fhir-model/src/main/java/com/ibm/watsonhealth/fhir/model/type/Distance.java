@@ -53,15 +53,7 @@ public class Distance extends Quantity {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.comparator = comparator;
-        builder.unit = unit;
-        builder.system = system;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -212,6 +204,17 @@ public class Distance extends Quantity {
         @Override
         public Distance build() {
             return new Distance(this);
+        }
+
+        private Builder from(Distance distance) {
+            id = distance.id;
+            extension.addAll(distance.extension);
+            value = distance.value;
+            comparator = distance.comparator;
+            unit = distance.unit;
+            system = distance.system;
+            code = distance.code;
+            return this;
         }
     }
 }

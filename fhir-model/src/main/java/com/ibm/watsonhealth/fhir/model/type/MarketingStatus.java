@@ -128,13 +128,11 @@ public class MarketingStatus extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(country, status, dateRange);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.jurisdiction = jurisdiction;
-        builder.restoreDate = restoreDate;
-        return builder;
+        return new Builder(country, status, dateRange).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept country, CodeableConcept status, Period dateRange) {
+        return new Builder(country, status, dateRange).from(this);
     }
 
     public static Builder builder(CodeableConcept country, CodeableConcept status, Period dateRange) {
@@ -308,6 +306,15 @@ public class MarketingStatus extends BackboneElement {
         @Override
         public MarketingStatus build() {
             return new MarketingStatus(this);
+        }
+
+        private Builder from(MarketingStatus marketingStatus) {
+            id = marketingStatus.id;
+            extension.addAll(marketingStatus.extension);
+            modifierExtension.addAll(marketingStatus.modifierExtension);
+            jurisdiction = marketingStatus.jurisdiction;
+            restoreDate = marketingStatus.restoreDate;
+            return this;
         }
     }
 }

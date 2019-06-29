@@ -322,29 +322,11 @@ public class Goal extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(lifecycleStatus, description, subject);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.achievementStatus = achievementStatus;
-        builder.category.addAll(category);
-        builder.priority = priority;
-        builder.start = start;
-        builder.target.addAll(target);
-        builder.statusDate = statusDate;
-        builder.statusReason = statusReason;
-        builder.expressedBy = expressedBy;
-        builder.addresses.addAll(addresses);
-        builder.note.addAll(note);
-        builder.outcomeCode.addAll(outcomeCode);
-        builder.outcomeReference.addAll(outcomeReference);
-        return builder;
+        return new Builder(lifecycleStatus, description, subject).from(this);
+    }
+
+    public Builder toBuilder(GoalLifecycleStatus lifecycleStatus, CodeableConcept description, Reference subject) {
+        return new Builder(lifecycleStatus, description, subject).from(this);
     }
 
     public static Builder builder(GoalLifecycleStatus lifecycleStatus, CodeableConcept description, Reference subject) {
@@ -927,6 +909,31 @@ public class Goal extends DomainResource {
         public Goal build() {
             return new Goal(this);
         }
+
+        private Builder from(Goal goal) {
+            id = goal.id;
+            meta = goal.meta;
+            implicitRules = goal.implicitRules;
+            language = goal.language;
+            text = goal.text;
+            contained.addAll(goal.contained);
+            extension.addAll(goal.extension);
+            modifierExtension.addAll(goal.modifierExtension);
+            identifier.addAll(goal.identifier);
+            achievementStatus = goal.achievementStatus;
+            category.addAll(goal.category);
+            priority = goal.priority;
+            start = goal.start;
+            target.addAll(goal.target);
+            statusDate = goal.statusDate;
+            statusReason = goal.statusReason;
+            expressedBy = goal.expressedBy;
+            addresses.addAll(goal.addresses);
+            note.addAll(goal.note);
+            outcomeCode.addAll(goal.outcomeCode);
+            outcomeReference.addAll(goal.outcomeReference);
+            return this;
+        }
     }
 
     /**
@@ -1005,7 +1012,7 @@ public class Goal extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1183,12 +1190,14 @@ public class Goal extends DomainResource {
                 return new Target(this);
             }
 
-            private static Builder from(Target target) {
-                Builder builder = new Builder();
-                builder.measure = target.measure;
-                builder.detail = target.detail;
-                builder.due = target.due;
-                return builder;
+            private Builder from(Target target) {
+                id = target.id;
+                extension.addAll(target.extension);
+                modifierExtension.addAll(target.modifierExtension);
+                measure = target.measure;
+                detail = target.detail;
+                due = target.due;
+                return this;
             }
         }
     }

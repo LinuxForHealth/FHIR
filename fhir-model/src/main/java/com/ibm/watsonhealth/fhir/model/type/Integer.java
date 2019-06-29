@@ -67,11 +67,7 @@ public class Integer extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -164,6 +160,13 @@ public class Integer extends Element {
         @Override
         public Integer build() {
             return new Integer(this);
+        }
+
+        private Builder from(Integer integer) {
+            id = integer.id;
+            extension.addAll(integer.extension);
+            value = integer.value;
+            return this;
         }
     }
 }

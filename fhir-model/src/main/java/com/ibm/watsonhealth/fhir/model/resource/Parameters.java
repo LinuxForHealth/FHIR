@@ -123,13 +123,7 @@ public class Parameters extends Resource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.parameter.addAll(parameter);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -249,6 +243,15 @@ public class Parameters extends Resource {
         public Parameters build() {
             return new Parameters(this);
         }
+
+        private Builder from(Parameters parameters) {
+            id = parameters.id;
+            meta = parameters.meta;
+            implicitRules = parameters.implicitRules;
+            language = parameters.language;
+            parameter.addAll(parameters.parameter);
+            return this;
+        }
     }
 
     /**
@@ -339,7 +342,11 @@ public class Parameters extends Resource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name).from(this);
+        }
+
+        public Builder toBuilder(String name) {
+            return new Builder(name).from(this);
         }
 
         public static Builder builder(String name) {
@@ -536,12 +543,14 @@ public class Parameters extends Resource {
                 return new Parameter(this);
             }
 
-            private static Builder from(Parameter parameter) {
-                Builder builder = new Builder(parameter.name);
-                builder.value = parameter.value;
-                builder.resource = parameter.resource;
-                builder.part.addAll(parameter.part);
-                return builder;
+            private Builder from(Parameter parameter) {
+                id = parameter.id;
+                extension.addAll(parameter.extension);
+                modifierExtension.addAll(parameter.modifierExtension);
+                value = parameter.value;
+                resource = parameter.resource;
+                part.addAll(parameter.part);
+                return this;
             }
         }
     }

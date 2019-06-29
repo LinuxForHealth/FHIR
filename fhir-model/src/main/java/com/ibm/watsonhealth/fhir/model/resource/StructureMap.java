@@ -419,30 +419,11 @@ public class StructureMap extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(url, name, status, group);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.version = version;
-        builder.title = title;
-        builder.experimental = experimental;
-        builder.date = date;
-        builder.publisher = publisher;
-        builder.contact.addAll(contact);
-        builder.description = description;
-        builder.useContext.addAll(useContext);
-        builder.jurisdiction.addAll(jurisdiction);
-        builder.purpose = purpose;
-        builder.copyright = copyright;
-        builder.structure.addAll(structure);
-        builder._import.addAll(_import);
-        return builder;
+        return new Builder(url, name, status, group).from(this);
+    }
+
+    public Builder toBuilder(Uri url, String name, PublicationStatus status, List<Group> group) {
+        return new Builder(url, name, status, group).from(this);
     }
 
     public static Builder builder(Uri url, String name, PublicationStatus status, List<Group> group) {
@@ -1035,43 +1016,35 @@ public class StructureMap extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * Organizes the mapping into manageable chunks for human review/ease of maintenance.
-         * </p>
-         * 
-         * @param group
-         *     Named sections for reader convenience
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder group(Group... group) {
-            for (Group value : group) {
-                this.group.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Organizes the mapping into manageable chunks for human review/ease of maintenance.
-         * </p>
-         * 
-         * @param group
-         *     Named sections for reader convenience
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder group(Collection<Group> group) {
-            this.group.addAll(group);
-            return this;
-        }
-
         @Override
         public StructureMap build() {
             return new StructureMap(this);
+        }
+
+        private Builder from(StructureMap structureMap) {
+            id = structureMap.id;
+            meta = structureMap.meta;
+            implicitRules = structureMap.implicitRules;
+            language = structureMap.language;
+            text = structureMap.text;
+            contained.addAll(structureMap.contained);
+            extension.addAll(structureMap.extension);
+            modifierExtension.addAll(structureMap.modifierExtension);
+            identifier.addAll(structureMap.identifier);
+            version = structureMap.version;
+            title = structureMap.title;
+            experimental = structureMap.experimental;
+            date = structureMap.date;
+            publisher = structureMap.publisher;
+            contact.addAll(structureMap.contact);
+            description = structureMap.description;
+            useContext.addAll(structureMap.useContext);
+            jurisdiction.addAll(structureMap.jurisdiction);
+            purpose = structureMap.purpose;
+            copyright = structureMap.copyright;
+            structure.addAll(structureMap.structure);
+            _import.addAll(structureMap._import);
+            return this;
         }
     }
 
@@ -1164,7 +1137,11 @@ public class StructureMap extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(url, mode).from(this);
+        }
+
+        public Builder toBuilder(Canonical url, StructureMapModelMode mode) {
+            return new Builder(url, mode).from(this);
         }
 
         public static Builder builder(Canonical url, StructureMapModelMode mode) {
@@ -1328,11 +1305,13 @@ public class StructureMap extends DomainResource {
                 return new Structure(this);
             }
 
-            private static Builder from(Structure structure) {
-                Builder builder = new Builder(structure.url, structure.mode);
-                builder.alias = structure.alias;
-                builder.documentation = structure.documentation;
-                return builder;
+            private Builder from(Structure structure) {
+                id = structure.id;
+                extension.addAll(structure.extension);
+                modifierExtension.addAll(structure.modifierExtension);
+                alias = structure.alias;
+                documentation = structure.documentation;
+                return this;
             }
         }
     }
@@ -1455,7 +1434,11 @@ public class StructureMap extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(name, typeMode, input, rule).from(this);
+        }
+
+        public Builder toBuilder(Id name, StructureMapGroupTypeMode typeMode, List<Input> input, List<Rule> rule) {
+            return new Builder(name, typeMode, input, rule).from(this);
         }
 
         public static Builder builder(Id name, StructureMapGroupTypeMode typeMode, List<Input> input, List<Rule> rule) {
@@ -1618,84 +1601,18 @@ public class StructureMap extends DomainResource {
                 return this;
             }
 
-            /**
-             * <p>
-             * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
-             * </p>
-             * 
-             * @param input
-             *     Named instance provided when invoking the map
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder input(Input... input) {
-                for (Input value : input) {
-                    this.input.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
-             * </p>
-             * 
-             * @param input
-             *     Named instance provided when invoking the map
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder input(Collection<Input> input) {
-                this.input.addAll(input);
-                return this;
-            }
-
-            /**
-             * <p>
-             * Transform Rule from source to target.
-             * </p>
-             * 
-             * @param rule
-             *     Transform Rule from source to target
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder rule(Rule... rule) {
-                for (Rule value : rule) {
-                    this.rule.add(value);
-                }
-                return this;
-            }
-
-            /**
-             * <p>
-             * Transform Rule from source to target.
-             * </p>
-             * 
-             * @param rule
-             *     Transform Rule from source to target
-             * 
-             * @return
-             *     A reference to this Builder instance.
-             */
-            public Builder rule(Collection<Rule> rule) {
-                this.rule.addAll(rule);
-                return this;
-            }
-
             @Override
             public Group build() {
                 return new Group(this);
             }
 
-            private static Builder from(Group group) {
-                Builder builder = new Builder(group.name, group.typeMode, group.input, group.rule);
-                builder._extends = group._extends;
-                builder.documentation = group.documentation;
-                return builder;
+            private Builder from(Group group) {
+                id = group.id;
+                extension.addAll(group.extension);
+                modifierExtension.addAll(group.modifierExtension);
+                _extends = group._extends;
+                documentation = group.documentation;
+                return this;
             }
         }
 
@@ -1787,7 +1704,11 @@ public class StructureMap extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(name, mode).from(this);
+            }
+
+            public Builder toBuilder(Id name, StructureMapInputMode mode) {
+                return new Builder(name, mode).from(this);
             }
 
             public static Builder builder(Id name, StructureMapInputMode mode) {
@@ -1951,11 +1872,13 @@ public class StructureMap extends DomainResource {
                     return new Input(this);
                 }
 
-                private static Builder from(Input input) {
-                    Builder builder = new Builder(input.name, input.mode);
-                    builder.type = input.type;
-                    builder.documentation = input.documentation;
-                    return builder;
+                private Builder from(Input input) {
+                    id = input.id;
+                    extension.addAll(input.extension);
+                    modifierExtension.addAll(input.modifierExtension);
+                    type = input.type;
+                    documentation = input.documentation;
+                    return this;
                 }
             }
         }
@@ -2078,7 +2001,11 @@ public class StructureMap extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder(name, source).from(this);
+            }
+
+            public Builder toBuilder(Id name, List<Source> source) {
+                return new Builder(name, source).from(this);
             }
 
             public static Builder builder(Id name, List<Source> source) {
@@ -2209,40 +2136,6 @@ public class StructureMap extends DomainResource {
 
                 /**
                  * <p>
-                 * Source inputs to the mapping.
-                 * </p>
-                 * 
-                 * @param source
-                 *     Source inputs to the mapping
-                 * 
-                 * @return
-                 *     A reference to this Builder instance.
-                 */
-                public Builder source(Source... source) {
-                    for (Source value : source) {
-                        this.source.add(value);
-                    }
-                    return this;
-                }
-
-                /**
-                 * <p>
-                 * Source inputs to the mapping.
-                 * </p>
-                 * 
-                 * @param source
-                 *     Source inputs to the mapping
-                 * 
-                 * @return
-                 *     A reference to this Builder instance.
-                 */
-                public Builder source(Collection<Source> source) {
-                    this.source.addAll(source);
-                    return this;
-                }
-
-                /**
-                 * <p>
                  * Content to create because of this mapping rule.
                  * </p>
                  * 
@@ -2364,13 +2257,15 @@ public class StructureMap extends DomainResource {
                     return new Rule(this);
                 }
 
-                private static Builder from(Rule rule) {
-                    Builder builder = new Builder(rule.name, rule.source);
-                    builder.target.addAll(rule.target);
-                    builder.rule.addAll(rule.rule);
-                    builder.dependent.addAll(rule.dependent);
-                    builder.documentation = rule.documentation;
-                    return builder;
+                private Builder from(Rule rule) {
+                    id = rule.id;
+                    extension.addAll(rule.extension);
+                    modifierExtension.addAll(rule.modifierExtension);
+                    target.addAll(rule.target);
+                    this.rule.addAll(rule.rule);
+                    dependent.addAll(rule.dependent);
+                    documentation = rule.documentation;
+                    return this;
                 }
             }
 
@@ -2570,7 +2465,11 @@ public class StructureMap extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(context).from(this);
+                }
+
+                public Builder toBuilder(Id context) {
+                    return new Builder(context).from(this);
                 }
 
                 public static Builder builder(Id context) {
@@ -2871,19 +2770,21 @@ public class StructureMap extends DomainResource {
                         return new Source(this);
                     }
 
-                    private static Builder from(Source source) {
-                        Builder builder = new Builder(source.context);
-                        builder.min = source.min;
-                        builder.max = source.max;
-                        builder.type = source.type;
-                        builder.defaultValue = source.defaultValue;
-                        builder.element = source.element;
-                        builder.listMode = source.listMode;
-                        builder.variable = source.variable;
-                        builder.condition = source.condition;
-                        builder.check = source.check;
-                        builder.logMessage = source.logMessage;
-                        return builder;
+                    private Builder from(Source source) {
+                        id = source.id;
+                        extension.addAll(source.extension);
+                        modifierExtension.addAll(source.modifierExtension);
+                        min = source.min;
+                        max = source.max;
+                        type = source.type;
+                        defaultValue = source.defaultValue;
+                        element = source.element;
+                        listMode = source.listMode;
+                        variable = source.variable;
+                        condition = source.condition;
+                        check = source.check;
+                        logMessage = source.logMessage;
+                        return this;
                     }
                 }
             }
@@ -3036,7 +2937,7 @@ public class StructureMap extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder().from(this);
                 }
 
                 public static Builder builder() {
@@ -3332,17 +3233,19 @@ public class StructureMap extends DomainResource {
                         return new Target(this);
                     }
 
-                    private static Builder from(Target target) {
-                        Builder builder = new Builder();
-                        builder.context = target.context;
-                        builder.contextType = target.contextType;
-                        builder.element = target.element;
-                        builder.variable = target.variable;
-                        builder.listMode.addAll(target.listMode);
-                        builder.listRuleId = target.listRuleId;
-                        builder.transform = target.transform;
-                        builder.parameter.addAll(target.parameter);
-                        return builder;
+                    private Builder from(Target target) {
+                        id = target.id;
+                        extension.addAll(target.extension);
+                        modifierExtension.addAll(target.modifierExtension);
+                        context = target.context;
+                        contextType = target.contextType;
+                        element = target.element;
+                        variable = target.variable;
+                        listMode.addAll(target.listMode);
+                        listRuleId = target.listRuleId;
+                        transform = target.transform;
+                        parameter.addAll(target.parameter);
+                        return this;
                     }
                 }
 
@@ -3389,7 +3292,11 @@ public class StructureMap extends DomainResource {
 
                     @Override
                     public Builder toBuilder() {
-                        return Builder.from(this);
+                        return new Builder(value).from(this);
+                    }
+
+                    public Builder toBuilder(Element value) {
+                        return new Builder(value).from(this);
                     }
 
                     public static Builder builder(Element value) {
@@ -3515,9 +3422,11 @@ public class StructureMap extends DomainResource {
                             return new Parameter(this);
                         }
 
-                        private static Builder from(Parameter parameter) {
-                            Builder builder = new Builder(parameter.value);
-                            return builder;
+                        private Builder from(Parameter parameter) {
+                            id = parameter.id;
+                            extension.addAll(parameter.extension);
+                            modifierExtension.addAll(parameter.modifierExtension);
+                            return this;
                         }
                     }
                 }
@@ -3581,7 +3490,11 @@ public class StructureMap extends DomainResource {
 
                 @Override
                 public Builder toBuilder() {
-                    return Builder.from(this);
+                    return new Builder(name, variable).from(this);
+                }
+
+                public Builder toBuilder(Id name, List<String> variable) {
+                    return new Builder(name, variable).from(this);
                 }
 
                 public static Builder builder(Id name, List<String> variable) {
@@ -3704,48 +3617,16 @@ public class StructureMap extends DomainResource {
                         return (Builder) super.modifierExtension(modifierExtension);
                     }
 
-                    /**
-                     * <p>
-                     * Variable to pass to the rule or group.
-                     * </p>
-                     * 
-                     * @param variable
-                     *     Variable to pass to the rule or group
-                     * 
-                     * @return
-                     *     A reference to this Builder instance.
-                     */
-                    public Builder variable(String... variable) {
-                        for (String value : variable) {
-                            this.variable.add(value);
-                        }
-                        return this;
-                    }
-
-                    /**
-                     * <p>
-                     * Variable to pass to the rule or group.
-                     * </p>
-                     * 
-                     * @param variable
-                     *     Variable to pass to the rule or group
-                     * 
-                     * @return
-                     *     A reference to this Builder instance.
-                     */
-                    public Builder variable(Collection<String> variable) {
-                        this.variable.addAll(variable);
-                        return this;
-                    }
-
                     @Override
                     public Dependent build() {
                         return new Dependent(this);
                     }
 
-                    private static Builder from(Dependent dependent) {
-                        Builder builder = new Builder(dependent.name, dependent.variable);
-                        return builder;
+                    private Builder from(Dependent dependent) {
+                        id = dependent.id;
+                        extension.addAll(dependent.extension);
+                        modifierExtension.addAll(dependent.modifierExtension);
+                        return this;
                     }
                 }
             }

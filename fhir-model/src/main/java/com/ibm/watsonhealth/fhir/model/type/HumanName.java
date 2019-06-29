@@ -153,17 +153,7 @@ public class HumanName extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.use = use;
-        builder.text = text;
-        builder.family = family;
-        builder.given.addAll(given);
-        builder.prefix.addAll(prefix);
-        builder.suffix.addAll(suffix);
-        builder.period = period;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -414,6 +404,19 @@ public class HumanName extends Element {
         @Override
         public HumanName build() {
             return new HumanName(this);
+        }
+
+        private Builder from(HumanName humanName) {
+            id = humanName.id;
+            extension.addAll(humanName.extension);
+            use = humanName.use;
+            text = humanName.text;
+            family = humanName.family;
+            given.addAll(humanName.given);
+            prefix.addAll(humanName.prefix);
+            suffix.addAll(humanName.suffix);
+            period = humanName.period;
+            return this;
         }
     }
 }

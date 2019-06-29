@@ -332,33 +332,7 @@ public class Location extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.status = status;
-        builder.operationalStatus = operationalStatus;
-        builder.name = name;
-        builder.alias.addAll(alias);
-        builder.description = description;
-        builder.mode = mode;
-        builder.type.addAll(type);
-        builder.telecom.addAll(telecom);
-        builder.address = address;
-        builder.physicalType = physicalType;
-        builder.position = position;
-        builder.managingOrganization = managingOrganization;
-        builder.partOf = partOf;
-        builder.hoursOfOperation.addAll(hoursOfOperation);
-        builder.availabilityExceptions = availabilityExceptions;
-        builder.endpoint.addAll(endpoint);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -989,6 +963,35 @@ public class Location extends DomainResource {
         public Location build() {
             return new Location(this);
         }
+
+        private Builder from(Location location) {
+            id = location.id;
+            meta = location.meta;
+            implicitRules = location.implicitRules;
+            language = location.language;
+            text = location.text;
+            contained.addAll(location.contained);
+            extension.addAll(location.extension);
+            modifierExtension.addAll(location.modifierExtension);
+            identifier.addAll(location.identifier);
+            status = location.status;
+            operationalStatus = location.operationalStatus;
+            name = location.name;
+            alias.addAll(location.alias);
+            description = location.description;
+            mode = location.mode;
+            type.addAll(location.type);
+            telecom.addAll(location.telecom);
+            address = location.address;
+            physicalType = location.physicalType;
+            position = location.position;
+            managingOrganization = location.managingOrganization;
+            partOf = location.partOf;
+            hoursOfOperation.addAll(location.hoursOfOperation);
+            availabilityExceptions = location.availabilityExceptions;
+            endpoint.addAll(location.endpoint);
+            return this;
+        }
     }
 
     /**
@@ -1068,7 +1071,11 @@ public class Location extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(longitude, latitude).from(this);
+        }
+
+        public Builder toBuilder(Decimal longitude, Decimal latitude) {
+            return new Builder(longitude, latitude).from(this);
         }
 
         public static Builder builder(Decimal longitude, Decimal latitude) {
@@ -1216,10 +1223,12 @@ public class Location extends DomainResource {
                 return new Position(this);
             }
 
-            private static Builder from(Position position) {
-                Builder builder = new Builder(position.longitude, position.latitude);
-                builder.altitude = position.altitude;
-                return builder;
+            private Builder from(Position position) {
+                id = position.id;
+                extension.addAll(position.extension);
+                modifierExtension.addAll(position.modifierExtension);
+                altitude = position.altitude;
+                return this;
             }
         }
     }
@@ -1312,7 +1321,7 @@ public class Location extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1522,13 +1531,15 @@ public class Location extends DomainResource {
                 return new HoursOfOperation(this);
             }
 
-            private static Builder from(HoursOfOperation hoursOfOperation) {
-                Builder builder = new Builder();
-                builder.daysOfWeek.addAll(hoursOfOperation.daysOfWeek);
-                builder.allDay = hoursOfOperation.allDay;
-                builder.openingTime = hoursOfOperation.openingTime;
-                builder.closingTime = hoursOfOperation.closingTime;
-                return builder;
+            private Builder from(HoursOfOperation hoursOfOperation) {
+                id = hoursOfOperation.id;
+                extension.addAll(hoursOfOperation.extension);
+                modifierExtension.addAll(hoursOfOperation.modifierExtension);
+                daysOfWeek.addAll(hoursOfOperation.daysOfWeek);
+                allDay = hoursOfOperation.allDay;
+                openingTime = hoursOfOperation.openingTime;
+                closingTime = hoursOfOperation.closingTime;
+                return this;
             }
         }
     }

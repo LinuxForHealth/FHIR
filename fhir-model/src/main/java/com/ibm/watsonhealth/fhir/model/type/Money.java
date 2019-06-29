@@ -70,12 +70,7 @@ public class Money extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.currency = currency;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -181,6 +176,14 @@ public class Money extends Element {
         @Override
         public Money build() {
             return new Money(this);
+        }
+
+        private Builder from(Money money) {
+            id = money.id;
+            extension.addAll(money.extension);
+            value = money.value;
+            currency = money.currency;
+            return this;
         }
     }
 }

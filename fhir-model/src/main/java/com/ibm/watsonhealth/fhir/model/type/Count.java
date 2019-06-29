@@ -54,15 +54,7 @@ public class Count extends Quantity {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.comparator = comparator;
-        builder.unit = unit;
-        builder.system = system;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -213,6 +205,17 @@ public class Count extends Quantity {
         @Override
         public Count build() {
             return new Count(this);
+        }
+
+        private Builder from(Count count) {
+            id = count.id;
+            extension.addAll(count.extension);
+            value = count.value;
+            comparator = count.comparator;
+            unit = count.unit;
+            system = count.system;
+            code = count.code;
+            return this;
         }
     }
 }

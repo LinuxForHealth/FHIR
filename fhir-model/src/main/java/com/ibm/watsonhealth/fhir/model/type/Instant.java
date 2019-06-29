@@ -79,11 +79,7 @@ public class Instant extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -176,6 +172,13 @@ public class Instant extends Element {
         @Override
         public Instant build() {
             return new Instant(this);
+        }
+
+        private Builder from(Instant instant) {
+            id = instant.id;
+            extension.addAll(instant.extension);
+            value = instant.value;
+            return this;
         }
     }
 }

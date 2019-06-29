@@ -304,29 +304,11 @@ public class GuidanceResponse extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(module, status);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.requestIdentifier = requestIdentifier;
-        builder.identifier.addAll(identifier);
-        builder.subject = subject;
-        builder.encounter = encounter;
-        builder.occurrenceDateTime = occurrenceDateTime;
-        builder.performer = performer;
-        builder.reasonCode.addAll(reasonCode);
-        builder.reasonReference.addAll(reasonReference);
-        builder.note.addAll(note);
-        builder.evaluationMessage.addAll(evaluationMessage);
-        builder.outputParameters = outputParameters;
-        builder.result = result;
-        builder.dataRequirement.addAll(dataRequirement);
-        return builder;
+        return new Builder(module, status).from(this);
+    }
+
+    public Builder toBuilder(Element module, GuidanceResponseStatus status) {
+        return new Builder(module, status).from(this);
     }
 
     public static Builder builder(Element module, GuidanceResponseStatus status) {
@@ -899,6 +881,31 @@ public class GuidanceResponse extends DomainResource {
         @Override
         public GuidanceResponse build() {
             return new GuidanceResponse(this);
+        }
+
+        private Builder from(GuidanceResponse guidanceResponse) {
+            id = guidanceResponse.id;
+            meta = guidanceResponse.meta;
+            implicitRules = guidanceResponse.implicitRules;
+            language = guidanceResponse.language;
+            text = guidanceResponse.text;
+            contained.addAll(guidanceResponse.contained);
+            extension.addAll(guidanceResponse.extension);
+            modifierExtension.addAll(guidanceResponse.modifierExtension);
+            requestIdentifier = guidanceResponse.requestIdentifier;
+            identifier.addAll(guidanceResponse.identifier);
+            subject = guidanceResponse.subject;
+            encounter = guidanceResponse.encounter;
+            occurrenceDateTime = guidanceResponse.occurrenceDateTime;
+            performer = guidanceResponse.performer;
+            reasonCode.addAll(guidanceResponse.reasonCode);
+            reasonReference.addAll(guidanceResponse.reasonReference);
+            note.addAll(guidanceResponse.note);
+            evaluationMessage.addAll(guidanceResponse.evaluationMessage);
+            outputParameters = guidanceResponse.outputParameters;
+            result = guidanceResponse.result;
+            dataRequirement.addAll(guidanceResponse.dataRequirement);
+            return this;
         }
     }
 }

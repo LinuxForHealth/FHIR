@@ -126,15 +126,7 @@ public class MoneyQuantity extends Quantity {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        builder.comparator = comparator;
-        builder.unit = unit;
-        builder.system = system;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -292,6 +284,17 @@ public class MoneyQuantity extends Quantity {
         @Override
         public MoneyQuantity build() {
             return new MoneyQuantity(this);
+        }
+
+        private Builder from(MoneyQuantity moneyQuantity) {
+            id = moneyQuantity.id;
+            extension.addAll(moneyQuantity.extension);
+            value = moneyQuantity.value;
+            comparator = moneyQuantity.comparator;
+            unit = moneyQuantity.unit;
+            system = moneyQuantity.system;
+            code = moneyQuantity.code;
+            return this;
         }
     }
 }

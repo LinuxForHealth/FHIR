@@ -346,29 +346,11 @@ public class NutritionOrder extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, intent, patient, dateTime);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.instantiatesCanonical.addAll(instantiatesCanonical);
-        builder.instantiatesUri.addAll(instantiatesUri);
-        builder.instantiates.addAll(instantiates);
-        builder.encounter = encounter;
-        builder.orderer = orderer;
-        builder.allergyIntolerance.addAll(allergyIntolerance);
-        builder.foodPreferenceModifier.addAll(foodPreferenceModifier);
-        builder.excludeFoodModifier.addAll(excludeFoodModifier);
-        builder.oralDiet = oralDiet;
-        builder.supplement.addAll(supplement);
-        builder.enteralFormula = enteralFormula;
-        builder.note.addAll(note);
-        return builder;
+        return new Builder(status, intent, patient, dateTime).from(this);
+    }
+
+    public Builder toBuilder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
+        return new Builder(status, intent, patient, dateTime).from(this);
     }
 
     public static Builder builder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
@@ -1008,6 +990,31 @@ public class NutritionOrder extends DomainResource {
         public NutritionOrder build() {
             return new NutritionOrder(this);
         }
+
+        private Builder from(NutritionOrder nutritionOrder) {
+            id = nutritionOrder.id;
+            meta = nutritionOrder.meta;
+            implicitRules = nutritionOrder.implicitRules;
+            language = nutritionOrder.language;
+            text = nutritionOrder.text;
+            contained.addAll(nutritionOrder.contained);
+            extension.addAll(nutritionOrder.extension);
+            modifierExtension.addAll(nutritionOrder.modifierExtension);
+            identifier.addAll(nutritionOrder.identifier);
+            instantiatesCanonical.addAll(nutritionOrder.instantiatesCanonical);
+            instantiatesUri.addAll(nutritionOrder.instantiatesUri);
+            instantiates.addAll(nutritionOrder.instantiates);
+            encounter = nutritionOrder.encounter;
+            orderer = nutritionOrder.orderer;
+            allergyIntolerance.addAll(nutritionOrder.allergyIntolerance);
+            foodPreferenceModifier.addAll(nutritionOrder.foodPreferenceModifier);
+            excludeFoodModifier.addAll(nutritionOrder.excludeFoodModifier);
+            oralDiet = nutritionOrder.oralDiet;
+            supplement.addAll(nutritionOrder.supplement);
+            enteralFormula = nutritionOrder.enteralFormula;
+            note.addAll(nutritionOrder.note);
+            return this;
+        }
     }
 
     /**
@@ -1130,7 +1137,7 @@ public class NutritionOrder extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1450,15 +1457,17 @@ public class NutritionOrder extends DomainResource {
                 return new OralDiet(this);
             }
 
-            private static Builder from(OralDiet oralDiet) {
-                Builder builder = new Builder();
-                builder.type.addAll(oralDiet.type);
-                builder.schedule.addAll(oralDiet.schedule);
-                builder.nutrient.addAll(oralDiet.nutrient);
-                builder.texture.addAll(oralDiet.texture);
-                builder.fluidConsistencyType.addAll(oralDiet.fluidConsistencyType);
-                builder.instruction = oralDiet.instruction;
-                return builder;
+            private Builder from(OralDiet oralDiet) {
+                id = oralDiet.id;
+                extension.addAll(oralDiet.extension);
+                modifierExtension.addAll(oralDiet.modifierExtension);
+                type.addAll(oralDiet.type);
+                schedule.addAll(oralDiet.schedule);
+                nutrient.addAll(oralDiet.nutrient);
+                texture.addAll(oralDiet.texture);
+                fluidConsistencyType.addAll(oralDiet.fluidConsistencyType);
+                instruction = oralDiet.instruction;
+                return this;
             }
         }
 
@@ -1521,7 +1530,7 @@ public class NutritionOrder extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1679,11 +1688,13 @@ public class NutritionOrder extends DomainResource {
                     return new Nutrient(this);
                 }
 
-                private static Builder from(Nutrient nutrient) {
-                    Builder builder = new Builder();
-                    builder.modifier = nutrient.modifier;
-                    builder.amount = nutrient.amount;
-                    return builder;
+                private Builder from(Nutrient nutrient) {
+                    id = nutrient.id;
+                    extension.addAll(nutrient.extension);
+                    modifierExtension.addAll(nutrient.modifierExtension);
+                    modifier = nutrient.modifier;
+                    amount = nutrient.amount;
+                    return this;
                 }
             }
         }
@@ -1746,7 +1757,7 @@ public class NutritionOrder extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -1904,11 +1915,13 @@ public class NutritionOrder extends DomainResource {
                     return new Texture(this);
                 }
 
-                private static Builder from(Texture texture) {
-                    Builder builder = new Builder();
-                    builder.modifier = texture.modifier;
-                    builder.foodType = texture.foodType;
-                    return builder;
+                private Builder from(Texture texture) {
+                    id = texture.id;
+                    extension.addAll(texture.extension);
+                    modifierExtension.addAll(texture.modifierExtension);
+                    modifier = texture.modifier;
+                    foodType = texture.foodType;
+                    return this;
                 }
             }
         }
@@ -2018,7 +2031,7 @@ public class NutritionOrder extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2247,14 +2260,16 @@ public class NutritionOrder extends DomainResource {
                 return new Supplement(this);
             }
 
-            private static Builder from(Supplement supplement) {
-                Builder builder = new Builder();
-                builder.type = supplement.type;
-                builder.productName = supplement.productName;
-                builder.schedule.addAll(supplement.schedule);
-                builder.quantity = supplement.quantity;
-                builder.instruction = supplement.instruction;
-                return builder;
+            private Builder from(Supplement supplement) {
+                id = supplement.id;
+                extension.addAll(supplement.extension);
+                modifierExtension.addAll(supplement.modifierExtension);
+                type = supplement.type;
+                productName = supplement.productName;
+                schedule.addAll(supplement.schedule);
+                quantity = supplement.quantity;
+                instruction = supplement.instruction;
+                return this;
             }
         }
     }
@@ -2430,7 +2445,7 @@ public class NutritionOrder extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -2734,18 +2749,20 @@ public class NutritionOrder extends DomainResource {
                 return new EnteralFormula(this);
             }
 
-            private static Builder from(EnteralFormula enteralFormula) {
-                Builder builder = new Builder();
-                builder.baseFormulaType = enteralFormula.baseFormulaType;
-                builder.baseFormulaProductName = enteralFormula.baseFormulaProductName;
-                builder.additiveType = enteralFormula.additiveType;
-                builder.additiveProductName = enteralFormula.additiveProductName;
-                builder.caloricDensity = enteralFormula.caloricDensity;
-                builder.routeofAdministration = enteralFormula.routeofAdministration;
-                builder.administration.addAll(enteralFormula.administration);
-                builder.maxVolumeToDeliver = enteralFormula.maxVolumeToDeliver;
-                builder.administrationInstruction = enteralFormula.administrationInstruction;
-                return builder;
+            private Builder from(EnteralFormula enteralFormula) {
+                id = enteralFormula.id;
+                extension.addAll(enteralFormula.extension);
+                modifierExtension.addAll(enteralFormula.modifierExtension);
+                baseFormulaType = enteralFormula.baseFormulaType;
+                baseFormulaProductName = enteralFormula.baseFormulaProductName;
+                additiveType = enteralFormula.additiveType;
+                additiveProductName = enteralFormula.additiveProductName;
+                caloricDensity = enteralFormula.caloricDensity;
+                routeofAdministration = enteralFormula.routeofAdministration;
+                administration.addAll(enteralFormula.administration);
+                maxVolumeToDeliver = enteralFormula.maxVolumeToDeliver;
+                administrationInstruction = enteralFormula.administrationInstruction;
+                return this;
             }
         }
 
@@ -2824,7 +2841,7 @@ public class NutritionOrder extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2999,12 +3016,14 @@ public class NutritionOrder extends DomainResource {
                     return new Administration(this);
                 }
 
-                private static Builder from(Administration administration) {
-                    Builder builder = new Builder();
-                    builder.schedule = administration.schedule;
-                    builder.quantity = administration.quantity;
-                    builder.rate = administration.rate;
-                    return builder;
+                private Builder from(Administration administration) {
+                    id = administration.id;
+                    extension.addAll(administration.extension);
+                    modifierExtension.addAll(administration.modifierExtension);
+                    schedule = administration.schedule;
+                    quantity = administration.quantity;
+                    rate = administration.rate;
+                    return this;
                 }
             }
         }

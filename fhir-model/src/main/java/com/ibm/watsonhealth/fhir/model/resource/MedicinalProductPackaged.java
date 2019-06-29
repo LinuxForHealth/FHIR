@@ -200,24 +200,11 @@ public class MedicinalProductPackaged extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(packageItem);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.subject.addAll(subject);
-        builder.description = description;
-        builder.legalStatusOfSupply = legalStatusOfSupply;
-        builder.marketingStatus.addAll(marketingStatus);
-        builder.marketingAuthorization = marketingAuthorization;
-        builder.manufacturer.addAll(manufacturer);
-        builder.batchIdentifier.addAll(batchIdentifier);
-        return builder;
+        return new Builder(packageItem).from(this);
+    }
+
+    public Builder toBuilder(List<PackageItem> packageItem) {
+        return new Builder(packageItem).from(this);
     }
 
     public static Builder builder(List<PackageItem> packageItem) {
@@ -669,43 +656,29 @@ public class MedicinalProductPackaged extends DomainResource {
             return this;
         }
 
-        /**
-         * <p>
-         * A packaging item, as a contained for medicine, possibly with other packaging items within.
-         * </p>
-         * 
-         * @param packageItem
-         *     A packaging item, as a contained for medicine, possibly with other packaging items within
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder packageItem(PackageItem... packageItem) {
-            for (PackageItem value : packageItem) {
-                this.packageItem.add(value);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * A packaging item, as a contained for medicine, possibly with other packaging items within.
-         * </p>
-         * 
-         * @param packageItem
-         *     A packaging item, as a contained for medicine, possibly with other packaging items within
-         * 
-         * @return
-         *     A reference to this Builder instance.
-         */
-        public Builder packageItem(Collection<PackageItem> packageItem) {
-            this.packageItem.addAll(packageItem);
-            return this;
-        }
-
         @Override
         public MedicinalProductPackaged build() {
             return new MedicinalProductPackaged(this);
+        }
+
+        private Builder from(MedicinalProductPackaged medicinalProductPackaged) {
+            id = medicinalProductPackaged.id;
+            meta = medicinalProductPackaged.meta;
+            implicitRules = medicinalProductPackaged.implicitRules;
+            language = medicinalProductPackaged.language;
+            text = medicinalProductPackaged.text;
+            contained.addAll(medicinalProductPackaged.contained);
+            extension.addAll(medicinalProductPackaged.extension);
+            modifierExtension.addAll(medicinalProductPackaged.modifierExtension);
+            identifier.addAll(medicinalProductPackaged.identifier);
+            subject.addAll(medicinalProductPackaged.subject);
+            description = medicinalProductPackaged.description;
+            legalStatusOfSupply = medicinalProductPackaged.legalStatusOfSupply;
+            marketingStatus.addAll(medicinalProductPackaged.marketingStatus);
+            marketingAuthorization = medicinalProductPackaged.marketingAuthorization;
+            manufacturer.addAll(medicinalProductPackaged.manufacturer);
+            batchIdentifier.addAll(medicinalProductPackaged.batchIdentifier);
+            return this;
         }
     }
 
@@ -767,7 +740,11 @@ public class MedicinalProductPackaged extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(outerPackaging).from(this);
+        }
+
+        public Builder toBuilder(Identifier outerPackaging) {
+            return new Builder(outerPackaging).from(this);
         }
 
         public static Builder builder(Identifier outerPackaging) {
@@ -912,10 +889,12 @@ public class MedicinalProductPackaged extends DomainResource {
                 return new BatchIdentifier(this);
             }
 
-            private static Builder from(BatchIdentifier batchIdentifier) {
-                Builder builder = new Builder(batchIdentifier.outerPackaging);
-                builder.immediatePackaging = batchIdentifier.immediatePackaging;
-                return builder;
+            private Builder from(BatchIdentifier batchIdentifier) {
+                id = batchIdentifier.id;
+                extension.addAll(batchIdentifier.extension);
+                modifierExtension.addAll(batchIdentifier.modifierExtension);
+                immediatePackaging = batchIdentifier.immediatePackaging;
+                return this;
             }
         }
     }
@@ -1128,7 +1107,11 @@ public class MedicinalProductPackaged extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type, quantity).from(this);
+        }
+
+        public Builder toBuilder(CodeableConcept type, Quantity quantity) {
+            return new Builder(type, quantity).from(this);
         }
 
         public static Builder builder(CodeableConcept type, Quantity quantity) {
@@ -1590,19 +1573,21 @@ public class MedicinalProductPackaged extends DomainResource {
                 return new PackageItem(this);
             }
 
-            private static Builder from(PackageItem packageItem) {
-                Builder builder = new Builder(packageItem.type, packageItem.quantity);
-                builder.identifier.addAll(packageItem.identifier);
-                builder.material.addAll(packageItem.material);
-                builder.alternateMaterial.addAll(packageItem.alternateMaterial);
-                builder.device.addAll(packageItem.device);
-                builder.manufacturedItem.addAll(packageItem.manufacturedItem);
-                builder.packageItem.addAll(packageItem.packageItem);
-                builder.physicalCharacteristics = packageItem.physicalCharacteristics;
-                builder.otherCharacteristics.addAll(packageItem.otherCharacteristics);
-                builder.shelfLifeStorage.addAll(packageItem.shelfLifeStorage);
-                builder.manufacturer.addAll(packageItem.manufacturer);
-                return builder;
+            private Builder from(PackageItem packageItem) {
+                id = packageItem.id;
+                extension.addAll(packageItem.extension);
+                modifierExtension.addAll(packageItem.modifierExtension);
+                identifier.addAll(packageItem.identifier);
+                material.addAll(packageItem.material);
+                alternateMaterial.addAll(packageItem.alternateMaterial);
+                device.addAll(packageItem.device);
+                manufacturedItem.addAll(packageItem.manufacturedItem);
+                this.packageItem.addAll(packageItem.packageItem);
+                physicalCharacteristics = packageItem.physicalCharacteristics;
+                otherCharacteristics.addAll(packageItem.otherCharacteristics);
+                shelfLifeStorage.addAll(packageItem.shelfLifeStorage);
+                manufacturer.addAll(packageItem.manufacturer);
+                return this;
             }
         }
     }

@@ -340,31 +340,11 @@ public class MolecularSequence extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(coordinateSystem);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.type = type;
-        builder.patient = patient;
-        builder.specimen = specimen;
-        builder.device = device;
-        builder.performer = performer;
-        builder.quantity = quantity;
-        builder.referenceSeq = referenceSeq;
-        builder.variant.addAll(variant);
-        builder.observedSeq = observedSeq;
-        builder.quality.addAll(quality);
-        builder.readCoverage = readCoverage;
-        builder.repository.addAll(repository);
-        builder.pointer.addAll(pointer);
-        builder.structureVariant.addAll(structureVariant);
-        return builder;
+        return new Builder(coordinateSystem).from(this);
+    }
+
+    public Builder toBuilder(Integer coordinateSystem) {
+        return new Builder(coordinateSystem).from(this);
     }
 
     public static Builder builder(Integer coordinateSystem) {
@@ -969,6 +949,33 @@ public class MolecularSequence extends DomainResource {
         public MolecularSequence build() {
             return new MolecularSequence(this);
         }
+
+        private Builder from(MolecularSequence molecularSequence) {
+            id = molecularSequence.id;
+            meta = molecularSequence.meta;
+            implicitRules = molecularSequence.implicitRules;
+            language = molecularSequence.language;
+            text = molecularSequence.text;
+            contained.addAll(molecularSequence.contained);
+            extension.addAll(molecularSequence.extension);
+            modifierExtension.addAll(molecularSequence.modifierExtension);
+            identifier.addAll(molecularSequence.identifier);
+            type = molecularSequence.type;
+            patient = molecularSequence.patient;
+            specimen = molecularSequence.specimen;
+            device = molecularSequence.device;
+            performer = molecularSequence.performer;
+            quantity = molecularSequence.quantity;
+            referenceSeq = molecularSequence.referenceSeq;
+            variant.addAll(molecularSequence.variant);
+            observedSeq = molecularSequence.observedSeq;
+            quality.addAll(molecularSequence.quality);
+            readCoverage = molecularSequence.readCoverage;
+            repository.addAll(molecularSequence.repository);
+            pointer.addAll(molecularSequence.pointer);
+            structureVariant.addAll(molecularSequence.structureVariant);
+            return this;
+        }
     }
 
     /**
@@ -1144,7 +1151,7 @@ public class MolecularSequence extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1431,18 +1438,20 @@ public class MolecularSequence extends DomainResource {
                 return new ReferenceSeq(this);
             }
 
-            private static Builder from(ReferenceSeq referenceSeq) {
-                Builder builder = new Builder();
-                builder.chromosome = referenceSeq.chromosome;
-                builder.genomeBuild = referenceSeq.genomeBuild;
-                builder.orientation = referenceSeq.orientation;
-                builder.referenceSeqId = referenceSeq.referenceSeqId;
-                builder.referenceSeqPointer = referenceSeq.referenceSeqPointer;
-                builder.referenceSeqString = referenceSeq.referenceSeqString;
-                builder.strand = referenceSeq.strand;
-                builder.windowStart = referenceSeq.windowStart;
-                builder.windowEnd = referenceSeq.windowEnd;
-                return builder;
+            private Builder from(ReferenceSeq referenceSeq) {
+                id = referenceSeq.id;
+                extension.addAll(referenceSeq.extension);
+                modifierExtension.addAll(referenceSeq.modifierExtension);
+                chromosome = referenceSeq.chromosome;
+                genomeBuild = referenceSeq.genomeBuild;
+                orientation = referenceSeq.orientation;
+                referenceSeqId = referenceSeq.referenceSeqId;
+                referenceSeqPointer = referenceSeq.referenceSeqPointer;
+                referenceSeqString = referenceSeq.referenceSeqString;
+                strand = referenceSeq.strand;
+                windowStart = referenceSeq.windowStart;
+                windowEnd = referenceSeq.windowEnd;
+                return this;
             }
         }
     }
@@ -1580,7 +1589,7 @@ public class MolecularSequence extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1818,15 +1827,17 @@ public class MolecularSequence extends DomainResource {
                 return new Variant(this);
             }
 
-            private static Builder from(Variant variant) {
-                Builder builder = new Builder();
-                builder.start = variant.start;
-                builder.end = variant.end;
-                builder.observedAllele = variant.observedAllele;
-                builder.referenceAllele = variant.referenceAllele;
-                builder.cigar = variant.cigar;
-                builder.variantPointer = variant.variantPointer;
-                return builder;
+            private Builder from(Variant variant) {
+                id = variant.id;
+                extension.addAll(variant.extension);
+                modifierExtension.addAll(variant.modifierExtension);
+                start = variant.start;
+                end = variant.end;
+                observedAllele = variant.observedAllele;
+                referenceAllele = variant.referenceAllele;
+                cigar = variant.cigar;
+                variantPointer = variant.variantPointer;
+                return this;
             }
         }
     }
@@ -2096,7 +2107,11 @@ public class MolecularSequence extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(QualityType type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(QualityType type) {
@@ -2473,23 +2488,25 @@ public class MolecularSequence extends DomainResource {
                 return new Quality(this);
             }
 
-            private static Builder from(Quality quality) {
-                Builder builder = new Builder(quality.type);
-                builder.standardSequence = quality.standardSequence;
-                builder.start = quality.start;
-                builder.end = quality.end;
-                builder.score = quality.score;
-                builder.method = quality.method;
-                builder.truthTP = quality.truthTP;
-                builder.queryTP = quality.queryTP;
-                builder.truthFN = quality.truthFN;
-                builder.queryFP = quality.queryFP;
-                builder.gtFP = quality.gtFP;
-                builder.precision = quality.precision;
-                builder.recall = quality.recall;
-                builder.fScore = quality.fScore;
-                builder.roc = quality.roc;
-                return builder;
+            private Builder from(Quality quality) {
+                id = quality.id;
+                extension.addAll(quality.extension);
+                modifierExtension.addAll(quality.modifierExtension);
+                standardSequence = quality.standardSequence;
+                start = quality.start;
+                end = quality.end;
+                score = quality.score;
+                method = quality.method;
+                truthTP = quality.truthTP;
+                queryTP = quality.queryTP;
+                truthFN = quality.truthFN;
+                queryFP = quality.queryFP;
+                gtFP = quality.gtFP;
+                precision = quality.precision;
+                recall = quality.recall;
+                fScore = quality.fScore;
+                roc = quality.roc;
+                return this;
             }
         }
 
@@ -2626,7 +2643,7 @@ public class MolecularSequence extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -2995,16 +3012,18 @@ public class MolecularSequence extends DomainResource {
                     return new Roc(this);
                 }
 
-                private static Builder from(Roc roc) {
-                    Builder builder = new Builder();
-                    builder.score.addAll(roc.score);
-                    builder.numTP.addAll(roc.numTP);
-                    builder.numFP.addAll(roc.numFP);
-                    builder.numFN.addAll(roc.numFN);
-                    builder.precision.addAll(roc.precision);
-                    builder.sensitivity.addAll(roc.sensitivity);
-                    builder.fMeasure.addAll(roc.fMeasure);
-                    return builder;
+                private Builder from(Roc roc) {
+                    id = roc.id;
+                    extension.addAll(roc.extension);
+                    modifierExtension.addAll(roc.modifierExtension);
+                    score.addAll(roc.score);
+                    numTP.addAll(roc.numTP);
+                    numFP.addAll(roc.numFP);
+                    numFN.addAll(roc.numFN);
+                    precision.addAll(roc.precision);
+                    sensitivity.addAll(roc.sensitivity);
+                    fMeasure.addAll(roc.fMeasure);
+                    return this;
                 }
             }
         }
@@ -3131,7 +3150,11 @@ public class MolecularSequence extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(type).from(this);
+        }
+
+        public Builder toBuilder(RepositoryType type) {
+            return new Builder(type).from(this);
         }
 
         public static Builder builder(RepositoryType type) {
@@ -3346,14 +3369,16 @@ public class MolecularSequence extends DomainResource {
                 return new Repository(this);
             }
 
-            private static Builder from(Repository repository) {
-                Builder builder = new Builder(repository.type);
-                builder.url = repository.url;
-                builder.name = repository.name;
-                builder.datasetId = repository.datasetId;
-                builder.variantsetId = repository.variantsetId;
-                builder.readsetId = repository.readsetId;
-                return builder;
+            private Builder from(Repository repository) {
+                id = repository.id;
+                extension.addAll(repository.extension);
+                modifierExtension.addAll(repository.modifierExtension);
+                url = repository.url;
+                name = repository.name;
+                datasetId = repository.datasetId;
+                variantsetId = repository.variantsetId;
+                readsetId = repository.readsetId;
+                return this;
             }
         }
     }
@@ -3461,7 +3486,7 @@ public class MolecularSequence extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -3670,14 +3695,16 @@ public class MolecularSequence extends DomainResource {
                 return new StructureVariant(this);
             }
 
-            private static Builder from(StructureVariant structureVariant) {
-                Builder builder = new Builder();
-                builder.variantType = structureVariant.variantType;
-                builder.exact = structureVariant.exact;
-                builder.length = structureVariant.length;
-                builder.outer = structureVariant.outer;
-                builder.inner = structureVariant.inner;
-                return builder;
+            private Builder from(StructureVariant structureVariant) {
+                id = structureVariant.id;
+                extension.addAll(structureVariant.extension);
+                modifierExtension.addAll(structureVariant.modifierExtension);
+                variantType = structureVariant.variantType;
+                exact = structureVariant.exact;
+                length = structureVariant.length;
+                outer = structureVariant.outer;
+                inner = structureVariant.inner;
+                return this;
             }
         }
 
@@ -3741,7 +3768,7 @@ public class MolecularSequence extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -3901,11 +3928,13 @@ public class MolecularSequence extends DomainResource {
                     return new Outer(this);
                 }
 
-                private static Builder from(Outer outer) {
-                    Builder builder = new Builder();
-                    builder.start = outer.start;
-                    builder.end = outer.end;
-                    return builder;
+                private Builder from(Outer outer) {
+                    id = outer.id;
+                    extension.addAll(outer.extension);
+                    modifierExtension.addAll(outer.modifierExtension);
+                    start = outer.start;
+                    end = outer.end;
+                    return this;
                 }
             }
         }
@@ -3970,7 +3999,7 @@ public class MolecularSequence extends DomainResource {
 
             @Override
             public Builder toBuilder() {
-                return Builder.from(this);
+                return new Builder().from(this);
             }
 
             public static Builder builder() {
@@ -4130,11 +4159,13 @@ public class MolecularSequence extends DomainResource {
                     return new Inner(this);
                 }
 
-                private static Builder from(Inner inner) {
-                    Builder builder = new Builder();
-                    builder.start = inner.start;
-                    builder.end = inner.end;
-                    return builder;
+                private Builder from(Inner inner) {
+                    id = inner.id;
+                    extension.addAll(inner.extension);
+                    modifierExtension.addAll(inner.modifierExtension);
+                    start = inner.start;
+                    end = inner.end;
+                    return this;
                 }
             }
         }

@@ -193,17 +193,11 @@ public class DataRequirement extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type);
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.profile.addAll(profile);
-        builder.subject = subject;
-        builder.mustSupport.addAll(mustSupport);
-        builder.codeFilter.addAll(codeFilter);
-        builder.dateFilter.addAll(dateFilter);
-        builder.limit = limit;
-        builder.sort.addAll(sort);
-        return builder;
+        return new Builder(type).from(this);
+    }
+
+    public Builder toBuilder(FHIRAllTypes type) {
+        return new Builder(type).from(this);
     }
 
     public static Builder builder(FHIRAllTypes type) {
@@ -507,6 +501,19 @@ public class DataRequirement extends Element {
         public DataRequirement build() {
             return new DataRequirement(this);
         }
+
+        private Builder from(DataRequirement dataRequirement) {
+            id = dataRequirement.id;
+            extension.addAll(dataRequirement.extension);
+            profile.addAll(dataRequirement.profile);
+            subject = dataRequirement.subject;
+            mustSupport.addAll(dataRequirement.mustSupport);
+            codeFilter.addAll(dataRequirement.codeFilter);
+            dateFilter.addAll(dataRequirement.dateFilter);
+            limit = dataRequirement.limit;
+            sort.addAll(dataRequirement.sort);
+            return this;
+        }
     }
 
     /**
@@ -607,7 +614,7 @@ public class DataRequirement extends Element {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -824,13 +831,15 @@ public class DataRequirement extends Element {
                 return new CodeFilter(this);
             }
 
-            private static Builder from(CodeFilter codeFilter) {
-                Builder builder = new Builder();
-                builder.path = codeFilter.path;
-                builder.searchParam = codeFilter.searchParam;
-                builder.valueSet = codeFilter.valueSet;
-                builder.code.addAll(codeFilter.code);
-                return builder;
+            private Builder from(CodeFilter codeFilter) {
+                id = codeFilter.id;
+                extension.addAll(codeFilter.extension);
+                modifierExtension.addAll(codeFilter.modifierExtension);
+                path = codeFilter.path;
+                searchParam = codeFilter.searchParam;
+                valueSet = codeFilter.valueSet;
+                code.addAll(codeFilter.code);
+                return this;
             }
         }
     }
@@ -917,7 +926,7 @@ public class DataRequirement extends Element {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1096,12 +1105,14 @@ public class DataRequirement extends Element {
                 return new DateFilter(this);
             }
 
-            private static Builder from(DateFilter dateFilter) {
-                Builder builder = new Builder();
-                builder.path = dateFilter.path;
-                builder.searchParam = dateFilter.searchParam;
-                builder.value = dateFilter.value;
-                return builder;
+            private Builder from(DateFilter dateFilter) {
+                id = dateFilter.id;
+                extension.addAll(dateFilter.extension);
+                modifierExtension.addAll(dateFilter.modifierExtension);
+                path = dateFilter.path;
+                searchParam = dateFilter.searchParam;
+                value = dateFilter.value;
+                return this;
             }
         }
     }
@@ -1166,7 +1177,11 @@ public class DataRequirement extends Element {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(path, direction).from(this);
+        }
+
+        public Builder toBuilder(String path, SortDirection direction) {
+            return new Builder(path, direction).from(this);
         }
 
         public static Builder builder(String path, SortDirection direction) {
@@ -1290,9 +1305,11 @@ public class DataRequirement extends Element {
                 return new Sort(this);
             }
 
-            private static Builder from(Sort sort) {
-                Builder builder = new Builder(sort.path, sort.direction);
-                return builder;
+            private Builder from(Sort sort) {
+                id = sort.id;
+                extension.addAll(sort.extension);
+                modifierExtension.addAll(sort.modifierExtension);
+                return this;
             }
         }
     }

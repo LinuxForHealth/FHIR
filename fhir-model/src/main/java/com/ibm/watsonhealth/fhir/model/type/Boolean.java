@@ -66,11 +66,7 @@ public class Boolean extends Element {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -163,6 +159,13 @@ public class Boolean extends Element {
         @Override
         public Boolean build() {
             return new Boolean(this);
+        }
+
+        private Builder from(Boolean _boolean) {
+            id = _boolean.id;
+            extension.addAll(_boolean.extension);
+            value = _boolean.value;
+            return this;
         }
     }
 }

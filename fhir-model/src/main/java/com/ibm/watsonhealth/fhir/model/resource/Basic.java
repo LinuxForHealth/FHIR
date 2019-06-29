@@ -136,20 +136,11 @@ public class Basic extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(code);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.subject = subject;
-        builder.created = created;
-        builder.author = author;
-        return builder;
+        return new Builder(code).from(this);
+    }
+
+    public Builder toBuilder(CodeableConcept code) {
+        return new Builder(code).from(this);
     }
 
     public static Builder builder(CodeableConcept code) {
@@ -464,6 +455,22 @@ public class Basic extends DomainResource {
         @Override
         public Basic build() {
             return new Basic(this);
+        }
+
+        private Builder from(Basic basic) {
+            id = basic.id;
+            meta = basic.meta;
+            implicitRules = basic.implicitRules;
+            language = basic.language;
+            text = basic.text;
+            contained.addAll(basic.contained);
+            extension.addAll(basic.extension);
+            modifierExtension.addAll(basic.modifierExtension);
+            identifier.addAll(basic.identifier);
+            subject = basic.subject;
+            created = basic.created;
+            author = basic.author;
+            return this;
         }
     }
 }

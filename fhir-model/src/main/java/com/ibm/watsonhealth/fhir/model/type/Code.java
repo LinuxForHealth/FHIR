@@ -42,11 +42,7 @@ public class Code extends String {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.value = value;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -131,6 +127,13 @@ public class Code extends String {
         @Override
         public Code build() {
             return new Code(this);
+        }
+
+        private Builder from(Code code) {
+            id = code.id;
+            extension.addAll(code.extension);
+            value = code.value;
+            return this;
         }
     }
 }

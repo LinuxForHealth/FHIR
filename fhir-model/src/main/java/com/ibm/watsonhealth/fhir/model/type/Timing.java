@@ -165,14 +165,7 @@ public class Timing extends BackboneElement {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id = id;
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.event.addAll(event);
-        builder.repeat = repeat;
-        builder.code = code;
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -367,6 +360,16 @@ public class Timing extends BackboneElement {
         @Override
         public Timing build() {
             return new Timing(this);
+        }
+
+        private Builder from(Timing timing) {
+            id = timing.id;
+            extension.addAll(timing.extension);
+            modifierExtension.addAll(timing.modifierExtension);
+            event.addAll(timing.event);
+            repeat = timing.repeat;
+            code = timing.code;
+            return this;
         }
     }
 
@@ -634,7 +637,7 @@ public class Timing extends BackboneElement {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder().from(this);
         }
 
         public static Builder builder() {
@@ -1075,24 +1078,26 @@ public class Timing extends BackboneElement {
                 return new Repeat(this);
             }
 
-            private static Builder from(Repeat repeat) {
-                Builder builder = new Builder();
-                builder.bounds = repeat.bounds;
-                builder.count = repeat.count;
-                builder.countMax = repeat.countMax;
-                builder.duration = repeat.duration;
-                builder.durationMax = repeat.durationMax;
-                builder.durationUnit = repeat.durationUnit;
-                builder.frequency = repeat.frequency;
-                builder.frequencyMax = repeat.frequencyMax;
-                builder.period = repeat.period;
-                builder.periodMax = repeat.periodMax;
-                builder.periodUnit = repeat.periodUnit;
-                builder.dayOfWeek.addAll(repeat.dayOfWeek);
-                builder.timeOfDay.addAll(repeat.timeOfDay);
-                builder.when.addAll(repeat.when);
-                builder.offset = repeat.offset;
-                return builder;
+            private Builder from(Repeat repeat) {
+                id = repeat.id;
+                extension.addAll(repeat.extension);
+                modifierExtension.addAll(repeat.modifierExtension);
+                bounds = repeat.bounds;
+                count = repeat.count;
+                countMax = repeat.countMax;
+                duration = repeat.duration;
+                durationMax = repeat.durationMax;
+                durationUnit = repeat.durationUnit;
+                frequency = repeat.frequency;
+                frequencyMax = repeat.frequencyMax;
+                period = repeat.period;
+                periodMax = repeat.periodMax;
+                periodUnit = repeat.periodUnit;
+                dayOfWeek.addAll(repeat.dayOfWeek);
+                timeOfDay.addAll(repeat.timeOfDay);
+                when.addAll(repeat.when);
+                offset = repeat.offset;
+                return this;
             }
         }
     }

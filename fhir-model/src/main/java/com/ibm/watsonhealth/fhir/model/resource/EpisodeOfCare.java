@@ -246,26 +246,11 @@ public class EpisodeOfCare extends DomainResource {
 
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(status, patient);
-        builder.id = id;
-        builder.meta = meta;
-        builder.implicitRules = implicitRules;
-        builder.language = language;
-        builder.text = text;
-        builder.contained.addAll(contained);
-        builder.extension.addAll(extension);
-        builder.modifierExtension.addAll(modifierExtension);
-        builder.identifier.addAll(identifier);
-        builder.statusHistory.addAll(statusHistory);
-        builder.type.addAll(type);
-        builder.diagnosis.addAll(diagnosis);
-        builder.managingOrganization = managingOrganization;
-        builder.period = period;
-        builder.referralRequest.addAll(referralRequest);
-        builder.careManager = careManager;
-        builder.team.addAll(team);
-        builder.account.addAll(account);
-        return builder;
+        return new Builder(status, patient).from(this);
+    }
+
+    public Builder toBuilder(EpisodeOfCareStatus status, Reference patient) {
+        return new Builder(status, patient).from(this);
     }
 
     public static Builder builder(EpisodeOfCareStatus status, Reference patient) {
@@ -797,6 +782,28 @@ public class EpisodeOfCare extends DomainResource {
         public EpisodeOfCare build() {
             return new EpisodeOfCare(this);
         }
+
+        private Builder from(EpisodeOfCare episodeOfCare) {
+            id = episodeOfCare.id;
+            meta = episodeOfCare.meta;
+            implicitRules = episodeOfCare.implicitRules;
+            language = episodeOfCare.language;
+            text = episodeOfCare.text;
+            contained.addAll(episodeOfCare.contained);
+            extension.addAll(episodeOfCare.extension);
+            modifierExtension.addAll(episodeOfCare.modifierExtension);
+            identifier.addAll(episodeOfCare.identifier);
+            statusHistory.addAll(episodeOfCare.statusHistory);
+            type.addAll(episodeOfCare.type);
+            diagnosis.addAll(episodeOfCare.diagnosis);
+            managingOrganization = episodeOfCare.managingOrganization;
+            period = episodeOfCare.period;
+            referralRequest.addAll(episodeOfCare.referralRequest);
+            careManager = episodeOfCare.careManager;
+            team.addAll(episodeOfCare.team);
+            account.addAll(episodeOfCare.account);
+            return this;
+        }
     }
 
     /**
@@ -858,7 +865,11 @@ public class EpisodeOfCare extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(status, period).from(this);
+        }
+
+        public Builder toBuilder(EpisodeOfCareStatus status, Period period) {
+            return new Builder(status, period).from(this);
         }
 
         public static Builder builder(EpisodeOfCareStatus status, Period period) {
@@ -986,9 +997,11 @@ public class EpisodeOfCare extends DomainResource {
                 return new StatusHistory(this);
             }
 
-            private static Builder from(StatusHistory statusHistory) {
-                Builder builder = new Builder(statusHistory.status, statusHistory.period);
-                return builder;
+            private Builder from(StatusHistory statusHistory) {
+                id = statusHistory.id;
+                extension.addAll(statusHistory.extension);
+                modifierExtension.addAll(statusHistory.modifierExtension);
+                return this;
             }
         }
     }
@@ -1066,7 +1079,11 @@ public class EpisodeOfCare extends DomainResource {
 
         @Override
         public Builder toBuilder() {
-            return Builder.from(this);
+            return new Builder(condition).from(this);
+        }
+
+        public Builder toBuilder(Reference condition) {
+            return new Builder(condition).from(this);
         }
 
         public static Builder builder(Reference condition) {
@@ -1228,11 +1245,13 @@ public class EpisodeOfCare extends DomainResource {
                 return new Diagnosis(this);
             }
 
-            private static Builder from(Diagnosis diagnosis) {
-                Builder builder = new Builder(diagnosis.condition);
-                builder.role = diagnosis.role;
-                builder.rank = diagnosis.rank;
-                return builder;
+            private Builder from(Diagnosis diagnosis) {
+                id = diagnosis.id;
+                extension.addAll(diagnosis.extension);
+                modifierExtension.addAll(diagnosis.modifierExtension);
+                role = diagnosis.role;
+                rank = diagnosis.rank;
+                return this;
             }
         }
     }
