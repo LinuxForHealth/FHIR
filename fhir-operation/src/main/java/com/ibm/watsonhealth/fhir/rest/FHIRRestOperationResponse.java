@@ -10,7 +10,7 @@ import java.net.URI;
 
 import javax.ws.rs.core.Response;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  * This class is used to represent a response returned by the FHIR resource helper methods.

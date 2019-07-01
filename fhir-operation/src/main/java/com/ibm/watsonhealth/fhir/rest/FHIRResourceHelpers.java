@@ -10,8 +10,8 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 

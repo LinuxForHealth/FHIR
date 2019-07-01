@@ -11,26 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.model.Code;
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.OperationDefinition;
-import com.ibm.watsonhealth.fhir.model.OperationDefinitionParameter;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
-import com.ibm.watsonhealth.fhir.model.OperationParameterUseList;
-import com.ibm.watsonhealth.fhir.model.Parameters;
-import com.ibm.watsonhealth.fhir.model.ParametersParameter;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Parameters;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.type.OperationParameterUse;
+import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 public abstract class AbstractOperation implements FHIROperation {
-    protected ObjectFactory factory = null;
+
     protected OperationDefinition definition = null;
     
     public AbstractOperation() {
-        factory = new ObjectFactory();
         definition = buildOperationDefinition();
     }
     
@@ -64,8 +60,8 @@ public abstract class AbstractOperation implements FHIROperation {
     protected abstract Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException;
 
-    protected ParametersParameter getParameter(Parameters parameters, String name) {
-        for (ParametersParameter parameter : parameters.getParameter()) {
+    protected Parameters.Parameter getParameter(Parameters parameters, String name) {
+        for (Parameters.Parameter parameter : parameters.getParameter()) {
             if (name.equals(parameter.getName().getValue())) {
                 return parameter;
             }
@@ -73,20 +69,20 @@ public abstract class AbstractOperation implements FHIROperation {
         return null;
     }
     
-    protected List<OperationDefinitionParameter> getParameterDefinitions(OperationParameterUseList use) {
-        List<OperationDefinitionParameter> parameterDefinitions = new ArrayList<OperationDefinitionParameter>();
+    protected List<OperationDefinition.Parameter> getParameterDefinitions(OperationParameterUse use) {
+        List<OperationDefinition.Parameter> parameterDefinitions = new ArrayList<OperationDefinition.Parameter>();
         OperationDefinition definition = getDefinition();
-        for (OperationDefinitionParameter parameter : definition.getParameter()) {
-            if (use.equals(parameter.getUse().getValue())) {
+        for (OperationDefinition.Parameter parameter : definition.getParameter()) {
+            if (use.getValue().equals(parameter.getUse().getValue())) {
                 parameterDefinitions.add(parameter);
             }
         }
         return parameterDefinitions;
     }
 
-    protected List<ParametersParameter> getParameters(Parameters parameters, String name) {
-        List<ParametersParameter> result = new ArrayList<ParametersParameter>();
-        for (ParametersParameter parameter : parameters.getParameter()) {
+    protected List<Parameters.Parameter> getParameters(Parameters parameters, String name) {
+        List<Parameters.Parameter> result = new ArrayList<Parameters.Parameter>();
+        for (Parameters.Parameter parameter : parameters.getParameter()) {
             if (parameter.getName() != null && name.equals(parameter.getName().getValue())) {
                 result.add(parameter);
             }
@@ -94,15 +90,18 @@ public abstract class AbstractOperation implements FHIROperation {
         return result;
     }
     
-    protected String getParameterValueTypeName(ParametersParameter parameter) throws FHIROperationException {
+    protected String getParameterValueTypeName(Parameters.Parameter parameter) throws FHIROperationException {
         if (parameter.getResource() != null) {
             try {
-                Resource resource = FHIRUtil.getResourceContainerResource(parameter.getResource());
-                return resource.getClass().getSimpleName();
+//                Resource resource = FHIRUtil.getResourceContainerResource(parameter.getResource());
+//                return resource.getClass().getSimpleName();
+                /* ToDo  because we don't want to support virtual resource which is the only one who uses ResourceContainer  */ 
+                /* So, assume all ResourceTainer to be null to allow compile */ 
+                return null;
             } catch (Exception e) {
             }
         }
-        for (Method method : ParametersParameter.class.getMethods()) {
+        for (Method method : Parameters.Parameter.class.getMethods()) {
             String methodName = method.getName();
             if (methodName.startsWith("getValue")) {
                 try {
@@ -115,48 +114,48 @@ public abstract class AbstractOperation implements FHIROperation {
             }
         }
         String msg = "No parameter value found for parameter: '" + parameter.getName().getValue() + "'";
-        throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+        throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
     }
     
     protected List<String> getResourceTypeNames() {
         List<String> resourceTypeNames = new ArrayList<String>();
         OperationDefinition definition = getDefinition();
-        for (Code type : definition.getType()) {
+        for (ResourceType type : definition.getResource()) {
             resourceTypeNames.add(type.getValue());
         }
         return resourceTypeNames;
     }
     
     protected void validateInputParameters(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters) throws FHIROperationException {
-        validateParameters(parameters, OperationParameterUseList.IN);
+        validateParameters(parameters, OperationParameterUse.IN);
     }
 
     protected void validateOperationContext(FHIROperationContext operationContext, Class<? extends Resource> resourceType) throws FHIROperationException {
         OperationDefinition definition = getDefinition();
         switch (operationContext.getType()) {
         case INSTANCE:
-            if (definition.getInstance().isValue() == false) {
+            if (definition.getInstance().getValue() == false) {
                 String msg = "Operation context INSTANCE is not allowed for operation: '" + getName() + "'";
-                throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+                throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
             }
             break;
         case RESOURCE_TYPE:
-            if (definition.getType().isEmpty()) {
+            if (definition.getType().getValue() == false) {
                 String msg = "Operation context RESOURCE_TYPE is not allowed for operation: '" + getName() + "'";
-                throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+                throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
             } else {
                 String resourceTypeName = resourceType.getSimpleName();
                 List<String> resourceTypeNames = getResourceTypeNames();
                 if (!resourceTypeNames.contains(resourceTypeName) && !resourceTypeNames.contains("Resource")) {
                     String msg = "Resource type: '" + resourceTypeName + "' is not allowed for operation: '" + getName() + "'";
-                    throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
                 }
             }
             break;
         case SYSTEM:
-            if (definition.getSystem().isValue() == false) {
+            if (definition.getSystem().getValue() == false) {
                 String msg = "Operation context SYSTEM is not allowed for operation: '" + getName() + "'";
-                throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+                throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
             }
             break;
         default:
@@ -165,35 +164,35 @@ public abstract class AbstractOperation implements FHIROperation {
     }
 
     protected void validateOutputParameters(Parameters result) throws FHIROperationException {
-        validateParameters(result, OperationParameterUseList.OUT);
+        validateParameters(result, OperationParameterUse.OUT);
     }
     
-    protected void validateParameters(Parameters parameters, OperationParameterUseList use) throws FHIROperationException {        
-        String direction = OperationParameterUseList.IN.equals(use) ? "input" : "output";
+    protected void validateParameters(Parameters parameters, OperationParameterUse use) throws FHIROperationException {        
+        String direction = OperationParameterUse.IN.equals(use) ? "input" : "output";
 
         // Retrieve the set of parameters from the OperationDefinition matching the specified use (in/out).
-        List<OperationDefinitionParameter> opDefParameters = getParameterDefinitions(use);
+        List<OperationDefinition.Parameter> opDefParameters = getParameterDefinitions(use);
 
         // Verify that each defined parameter is specified appropriately in the Parameters object.
-        for (OperationDefinitionParameter parameterDefinition : opDefParameters) {
+        for (OperationDefinition.Parameter parameterDefinition : opDefParameters) {
             String name = parameterDefinition.getName().getValue();
             int min = parameterDefinition.getMin().getValue();
             String max = parameterDefinition.getMax().getValue();
             int count = countParameters(parameters, name);
             if (count < min) {
                 String msg = "Missing required " + direction + " parameter: '" + name + "'";
-                throw buildExceptionWithIssue(msg, IssueTypeList.REQUIRED);
+                throw buildExceptionWithIssue(msg, IssueType.ValueSet.REQUIRED);
             }
             if (!"*".equals(max)) {
                 int maxValue = Integer.parseInt(max);                
                 if (count > maxValue) {
                     String msg = "Number of occurrences of " + direction + " parameter: '" + name + "' greater than allowed maximum: " + maxValue;
-                    throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
                 }
             }
             if (count > 0) {
-                List<ParametersParameter> inputParameters = getParameters(parameters, name);
-                for (ParametersParameter inputParameter : inputParameters) {
+                List<Parameters.Parameter> inputParameters = getParameters(parameters, name);
+                for (Parameters.Parameter inputParameter : inputParameters) {
                     String parameterValueTypeName = getParameterValueTypeName(inputParameter);
                     String parameterDefinitionTypeName = parameterDefinition.getType().getValue();
                     parameterDefinitionTypeName = parameterDefinitionTypeName.substring(0, 1).toUpperCase() + parameterDefinitionTypeName.substring(1);
@@ -202,7 +201,7 @@ public abstract class AbstractOperation implements FHIROperation {
                         Class<?> parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterDefinitionTypeName);
                         if (!parameterDefinitionType.isAssignableFrom(parameterValueType)) {
                             String msg = "Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'";
-                            throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+                            throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
                         }
                     } catch (FHIROperationException e) {
                         throw e;
@@ -221,15 +220,15 @@ public abstract class AbstractOperation implements FHIROperation {
         // Next, verify that each parameter contained in the Parameters object is defined
         // in the OperationDefinition.   This will root out any extaneous parameters included
         // in the Parameters object.
-        for (ParametersParameter p : parameters.getParameter()) {
+        for (Parameters.Parameter p : parameters.getParameter()) {
             String name = p.getName().getValue();
             
-            OperationDefinitionParameter opDefParameter = findOpDefParameter(opDefParameters, name);
+            OperationDefinition.Parameter opDefParameter = findOpDefParameter(opDefParameters, name);
             if (opDefParameter == null) {
                 // Avoid throwing the exception for an OUT parameter called "return".
-                if (!(OperationParameterUseList.OUT.equals(use) && "return".equals(name))) {
+                if (!(OperationParameterUse.OUT.equals(use) && "return".equals(name))) {
                     String msg = "Unexpected " + direction + " parameter found: " + name;
-                    throw buildExceptionWithIssue(msg, IssueTypeList.INVALID);
+                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
                 }
             }
         }
@@ -241,8 +240,8 @@ public abstract class AbstractOperation implements FHIROperation {
      * @param name the name of the parameter to find
      * @return
      */
-    protected OperationDefinitionParameter findOpDefParameter(List<OperationDefinitionParameter> parameters, String name) {
-        for (OperationDefinitionParameter p : parameters) {
+    protected OperationDefinition.Parameter findOpDefParameter(List<OperationDefinition.Parameter> parameters, String name) {
+        for (OperationDefinition.Parameter p : parameters) {
             if (p.getName().getValue().equals(name)) {
                 return p;
             }
@@ -250,12 +249,12 @@ public abstract class AbstractOperation implements FHIROperation {
         return null;
     }
     
-    protected FHIROperationException buildExceptionWithIssue(String msg, IssueTypeList issueType) throws FHIROperationException {
+    protected FHIROperationException buildExceptionWithIssue(String msg, IssueType.ValueSet issueType) throws FHIROperationException {
         return buildExceptionWithIssue(msg, issueType, null);
     }
     
-    protected FHIROperationException buildExceptionWithIssue(String msg, IssueTypeList issueType, Throwable cause) throws FHIROperationException {
-        OperationOutcomeIssue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+    protected FHIROperationException buildExceptionWithIssue(String msg, IssueType.ValueSet issueType, Throwable cause) throws FHIROperationException {
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIROperationException(msg, cause).withIssue(ooi);
     }
 }

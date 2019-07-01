@@ -123,7 +123,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         } catch (Exception e) {
             Response response = buildResponse(
             		FHIRUtil.buildOperationOutcome(Arrays.asList(
-                		FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.PROCESSING, "FHIRProvider: an error occurred during resource serialization",null)
+                		FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: an error occurred during resource serialization",null)
             )));
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             throw new WebApplicationException(response);

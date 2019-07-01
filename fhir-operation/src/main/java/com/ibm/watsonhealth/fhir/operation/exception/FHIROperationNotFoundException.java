@@ -9,7 +9,7 @@ package com.ibm.watsonhealth.fhir.operation.exception;
 import java.util.Collection;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 
 public class FHIROperationNotFoundException extends FHIROperationException {
     private static final long serialVersionUID = 1L;
@@ -23,13 +23,13 @@ public class FHIROperationNotFoundException extends FHIROperationException {
     }
     
     @Override
-    public FHIROperationNotFoundException withIssue(OperationOutcomeIssue... issues) {
+    public FHIROperationNotFoundException withIssue(Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIROperationNotFoundException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIROperationNotFoundException withIssue(Collection<Issue> issues) {
         super.withIssue(issues);
         return this;
     }

@@ -17,6 +17,7 @@ import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,14 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 
+import org.eclipse.persistence.jaxb.JAXBContextProperties;
+import org.eclipse.persistence.jaxb.MarshallerProperties;
+import org.eclipse.persistence.oxm.MediaType;
 import org.w3c.dom.Node;
 
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
@@ -40,10 +48,12 @@ import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorExceptio
 import com.ibm.watsonhealth.fhir.model.parser.FHIRJsonParser;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.watsonhealth.fhir.model.resource.Basic;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
@@ -512,5 +522,116 @@ public class FHIRUtil {
             }
         }
         return tagFound;
+    }
+    
+    // Added for FHIRUtil.write(resource, document) in FhirValidator.java
+    private static final String XML_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/xml-fhir-metadata.xml";
+    private static final String JSON_FHIR_METADATA_SOURCE = "com/ibm/watsonhealth/fhir/model/json-fhir-metadata.xml";
+    private static final String HL7_FHIR_NS_URI = "http://hl7.org/fhir";
+    private static final String DEFAULT_NS_PREFIX = "";
+    private static final String XHTML_NS_PREFIX = "xhtml";
+    private static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
+    private static final JAXBContext xmlContext = createContext(Format.XML);
+    private static final JAXBContext jsonContext = createContext(Format.JSON);
+    
+    private static JAXBContext createContext(Format format) {
+        try {
+            Map<String, Object> properties = new HashMap<String, Object>();
+            String metadataSource = null;
+            if (Format.XML.equals(format)) {
+                // XML-specific configuration
+                properties.put(JAXBContextProperties.MEDIA_TYPE, MediaType.APPLICATION_XML);
+                metadataSource = XML_FHIR_METADATA_SOURCE;
+            } else {
+                // JSON-specific configuration
+                properties.put(JAXBContextProperties.MEDIA_TYPE, MediaType.APPLICATION_JSON);
+                properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
+                metadataSource = JSON_FHIR_METADATA_SOURCE;
+            }
+            // common configuration
+            properties.put(JAXBContextProperties.OXM_METADATA_SOURCE, metadataSource);
+            // Because there is no objectFactory now, so use Resouce class instead.
+            return JAXBContext.newInstance("com.ibm.watsonhealth.fhir.model", Resource.class.getClassLoader(), properties);
+        } catch (JAXBException e) {
+            throw new Error(e);
+        }
+    }
+    
+    private static JAXBContext getContext(Format format) {
+        return Format.XML.equals(format) ? xmlContext : jsonContext;
+    }
+    
+    private static void configureMarshaller(Marshaller marshaller, Format format, boolean formatted) throws PropertyException   {
+        // common configuration
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatted);
+        if (formatted) {
+            marshaller.setProperty(MarshallerProperties.INDENT_STRING, "    ");
+        }
+        if (Format.XML.equals(format)) {
+            // XML-specific configuration
+            Map<String, String> namespacePrefixMap = new HashMap<String, String>();
+            namespacePrefixMap.put(HL7_FHIR_NS_URI, DEFAULT_NS_PREFIX);    // default namespace
+            namespacePrefixMap.put(XHTML_NS_URI, XHTML_NS_PREFIX);
+            marshaller.setProperty(MarshallerProperties.NAMESPACE_PREFIX_MAPPER, namespacePrefixMap);
+            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+        } else {
+            // JSON-specific configuration
+            marshaller.setProperty(MarshallerProperties.JSON_MARSHAL_EMPTY_COLLECTIONS, false);
+        }
+    }
+    
+    private static Marshaller createMarshaller(Format format, boolean formatted) throws JAXBException {
+        JAXBContext context = getContext(format);
+        Marshaller marshaller = context.createMarshaller();
+        configureMarshaller(marshaller, format, formatted);
+        marshaller.setEventHandler(new FHIRSerializationEventHandler());
+        return marshaller;
+    }
+    
+    /**
+     * Write a resource to a W3C DOM node, without pretty-printing.
+     */
+    public static <T extends Resource> void write(T resource, Node node) throws JAXBException {
+        write(resource, node, false);
+    }
+
+    /**
+     * Write a resource to a W3C DOM node, with an option to pretty-print the output.
+     */
+    public static <T extends Resource> void write(T resource, Node node, boolean formatted) throws JAXBException {
+        Marshaller marshaller = createMarshaller(Format.XML, formatted);
+        marshaller.marshal(resource, node);
+    }
+    
+    
+    // add for FHIRResource.java
+    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
+    
+    /**
+     * Returns the resource type (as a String) of the specified resource.   For a virtual resource,
+     * this will be the actual virtual resource type (not Basic).
+     * @param resource the resource
+     * @return the name of the resource type associated with the resource
+     */
+    public static String getResourceTypeName(Resource resource) {
+        if (resource instanceof Basic) {
+            Basic basic = (Basic) resource;
+            CodeableConcept cc = basic.getCode();
+            if (cc != null) {
+                List<Coding> codingList = cc.getCoding();
+                if (codingList != null) {
+                    for (Coding coding : codingList) {
+                        if (coding.getSystem() != null) {
+                            String system = coding.getSystem().getValue();
+                            if (BASIC_RESOURCE_TYPE_URL.equals(system)) {
+                                return coding.getCode().getValue();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return resource.getClass().getSimpleName();
     }
 }

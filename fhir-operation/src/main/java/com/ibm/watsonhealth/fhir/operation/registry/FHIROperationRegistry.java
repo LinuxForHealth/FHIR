@@ -20,8 +20,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationNotFoundException;
 import com.ibm.watsonhealth.fhir.validation.FHIRValidator;
@@ -61,10 +60,11 @@ public class FHIROperationRegistry {
     }
 
     private boolean isValid(FHIROperation operation) throws FHIRValidationException, JAXBException {
-        List<OperationOutcomeIssue> issues = FHIRValidator.getInstance().validate(operation.getDefinition());
+        List<Issue> issues = FHIRValidator.getInstance().validate(operation.getDefinition());
         if (!issues.isEmpty()) {
-            for (OperationOutcomeIssue issue : issues) {
-                log.info(FHIRUtil.toJsonObject(OperationOutcomeIssue.class, issue).toString());
+            for (Issue issue : issues) {
+                log.info("Issue: " + issue.getCode().getValue() + ":" 
+            + issue.getSeverity().getValue() + ":" + issue.getDiagnostics());
             }
             return false;
         }
