@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Encounter;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Encounter;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  *  This class contains a collection of tests that will be run against
@@ -33,13 +33,13 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
     public void testCreateEncounter() throws Exception {
             Encounter encounter = readResource(Encounter.class, "Encounter.json");
 
-        persistence.create(getDefaultPersistenceContext(), encounter);
-        assertNotNull(encounter);
-        assertNotNull(encounter.getId());
-        assertNotNull(encounter.getId().getValue());
-        assertNotNull(encounter.getMeta());
-        assertNotNull(encounter.getMeta().getVersionId().getValue());
-        assertEquals("1", encounter.getMeta().getVersionId().getValue());
+        Resource created = persistence.create(getDefaultPersistenceContext(), encounter);
+        assertNotNull(created);
+        assertNotNull(created.getId());
+        assertNotNull(created.getId().getValue());
+        assertNotNull(created.getMeta());
+        assertNotNull(created.getMeta().getVersionId().getValue());
+        assertEquals("1", created.getMeta().getVersionId().getValue());
     } 
     
     /**
@@ -51,13 +51,13 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
     public void testCreateEncounter_with_relatedPerson() throws Exception {
         Encounter encounter = readResource(Encounter.class, "Encounter-with-RelatedPerson.json");
 
-        persistence.create(getDefaultPersistenceContext(), encounter);
-        assertNotNull(encounter);
-        assertNotNull(encounter.getId());
-        assertNotNull(encounter.getId().getValue());
-        assertNotNull(encounter.getMeta());
-        assertNotNull(encounter.getMeta().getVersionId().getValue());
-        assertEquals("1", encounter.getMeta().getVersionId().getValue());
+        Resource created = persistence.create(getDefaultPersistenceContext(), encounter);
+        assertNotNull(created);
+        assertNotNull(created.getId());
+        assertNotNull(created.getId().getValue());
+        assertNotNull(created.getMeta());
+        assertNotNull(created.getMeta().getVersionId().getValue());
+        assertEquals("1", created.getMeta().getVersionId().getValue());
     } 
     
     /**
@@ -317,7 +317,9 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
         List<Resource> resources = runQueryTest("RelatedPerson", "Benedicte", Encounter.class, persistence, "patient", "Patient/11111");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
-        assertEquals(((Encounter)resources.get(0)).getPatient().getReference().getValue(), "Patient/11111");
+        
+        // TODO - check. R4: Encounter no longer references a patient. Changed to Subject        
+        assertEquals(((Encounter)resources.get(0)).getSubject().getReference().getValue(), "Patient/11111");
     }
     
     /**

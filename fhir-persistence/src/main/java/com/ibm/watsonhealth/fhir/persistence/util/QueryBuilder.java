@@ -24,5 +24,5 @@ public interface QueryBuilder<T> {
      * @throws FHIRPersistenceException - Thrown for any non-recoverable failure that occurs during query construction.
      * @throws Exception 
      */
-    T buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws FHIRPersistenceException, Exception;
+    T buildQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws FHIRPersistenceException, Exception;
 }

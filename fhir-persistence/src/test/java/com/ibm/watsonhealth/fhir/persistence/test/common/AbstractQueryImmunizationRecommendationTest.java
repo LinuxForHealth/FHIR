@@ -18,9 +18,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.ImmunizationRecommendation;
-import com.ibm.watsonhealth.fhir.model.ImmunizationRecommendationRecommendation;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.ImmunizationRecommendation;
+import com.ibm.watsonhealth.fhir.model.resource.ImmunizationRecommendation.Recommendation;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  *  This class contains a collection of tests that will be run against

@@ -10,6 +10,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +21,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Device;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Device;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
@@ -85,8 +87,9 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Device readDevice = (Device)persistence.read(context, Device.class, device.getId().getValue());
         assertNotNull(readDevice);
         assertEquals(versionId,readDevice.getMeta().getVersionId().getValue());
-        XMLGregorianCalendar tempLastUpdated =  readDevice.getMeta().getLastUpdated().getValue();
-        assertEquals(lastUpdated,FHIRUtilities.formatCalendarGMT(tempLastUpdated));
+        ZonedDateTime tempLastUpdated =  readDevice.getMeta().getLastUpdated().getValue();
+        
+        assertEquals(ZonedDateTime.from(DateTime.of(lastUpdated).getValue()), tempLastUpdated);
     }    
     
     /**
@@ -121,7 +124,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         List<Resource> resources = runQueryTest(Device.class, persistence, "udi", "(01)00000123000017(10)ABC123(17)120415");
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
-        assertEquals(((Device)resources.get(0)).getUdi().getValue(),"(01)00000123000017(10)ABC123(17)120415");
+        assertEquals(((Device)resources.get(0)).getUdiCarrier().get(0).getDeviceIdentifier().getValue(),"(01)00000123000017(10)ABC123(17)120415");
     }
     
     /*

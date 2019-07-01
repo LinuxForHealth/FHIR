@@ -88,7 +88,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object representing the selector query segment for the passed search parm.
      * @throws Exception 
      */
-    protected T1 buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm) 
+    protected T1 buildQueryParm(Class<?> resourceType, Parameter queryParm) 
             throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -174,7 +174,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws Exception 
      */
-    protected abstract T1 processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processReferenceParm(Class<?> resourceType, Parameter queryParm) throws Exception;
     
     /**
      * Contains special logic for handling chained reference search parameters.
@@ -200,7 +200,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws Exception 
      */
-    protected abstract T1 processDateParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processDateParm(Class<?> resourceType, Parameter queryParm) throws Exception;
     
     /**
      * Creates a query segment for a Token type parameter.
@@ -215,7 +215,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws FHIRPersistenceException 
      */
-    protected abstract T1 processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processNumberParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException;
     
     /**
      * Creates a query segment for a Quantity type parameter.
@@ -223,7 +223,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws Exception 
      */
-    protected abstract T1 processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processQuantityParm(Class<?> resourceType, Parameter queryParm) throws Exception;
     
     /**
      * Creates a query segment for a URI type parameter.

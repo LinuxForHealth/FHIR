@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.util;
 
+import com.ibm.watsonhealth.fhir.model.resource.Location;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
@@ -61,7 +62,6 @@ public interface Processor<T> {
     T process(SearchParameter parameter, Identifier value) throws FHIRPersistenceProcessorException;
     T process(SearchParameter parameter, Instant value) throws FHIRPersistenceProcessorException;
     T process(SearchParameter parameter, com.ibm.watsonhealth.fhir.model.type.Integer value) throws FHIRPersistenceProcessorException;
-    T process(SearchParameter parameter, BackboneElement value) throws FHIRPersistenceProcessorException;
     T process(SearchParameter parameter, Markdown value) throws FHIRPersistenceProcessorException;
     T process(SearchParameter parameter, Meta value) throws FHIRPersistenceProcessorException;
     T process(SearchParameter parameter, Oid value) throws FHIRPersistenceProcessorException;
@@ -79,4 +79,5 @@ public interface Processor<T> {
     T process(SearchParameter parameter, UnsignedInt value) throws FHIRPersistenceProcessorException;
     T process(SearchParameter parameter, Uri value) throws FHIRPersistenceProcessorException;
     T process(SearchParameter parameter, Uuid value) throws FHIRPersistenceProcessorException;
+    T process(SearchParameter parameter, Location.Position value) throws FHIRPersistenceProcessorException;
 }

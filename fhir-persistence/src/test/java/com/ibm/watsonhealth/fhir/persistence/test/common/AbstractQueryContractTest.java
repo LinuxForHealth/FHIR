@@ -17,11 +17,11 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Code;
-import com.ibm.watsonhealth.fhir.model.Contract;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Reference;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.resource.Contract;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -98,8 +98,9 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract" })
     public void testUpdateContract() throws Exception {
-        Contract contract = savedContract;
-        contract.setLanguage((new Code()).withValue("it"));
+    	
+    	// update the saved contract
+        Contract contract = savedContract.toBuilder().language(Code.of("it")).build();
         persistence.update(getDefaultPersistenceContext(), contract.getId().getValue(), contract);
         assertNotNull(contract);
         assertEquals("2", contract.getMeta().getVersionId().getValue());
@@ -117,8 +118,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract", "testUpdateContract" })
     public void testUpdateContractAgain() throws Exception {
-        Contract contract = savedContract;
-        contract.setLanguage((new Code()).withValue("pt-BR"));
+        Contract contract = savedContract.toBuilder().language(Code.of("pt-BR")).build();
         persistence.update(getDefaultPersistenceContext(), contract.getId().getValue(), contract);
         assertNotNull(contract);
         assertEquals("3", contract.getMeta().getVersionId().getValue());
