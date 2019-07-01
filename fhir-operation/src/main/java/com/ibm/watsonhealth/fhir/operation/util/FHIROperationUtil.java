@@ -67,7 +67,7 @@ public class FHIROperationUtil {
           //      ResourceContainer container = factory.createResourceContainer();
           //      FHIRUtil.setResourceContainerResource(container, resource);
           //      parameter.setResource(container);
-          /* ToDo  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
+          /* TODO  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
           /* So, assume we always want the resource itself instead the wrapping ResourceContainer */      
                 parametersBuilder.parameter(parameterBuilder.resource(resource).build());
             }
@@ -81,7 +81,7 @@ public class FHIROperationUtil {
 //        ResourceContainer container = factory.createResourceContainer();
 //        FHIRUtil.setResourceContainerResource(container, resource);
 //        parameter.setResource(container);
-        /* ToDo  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
+        /* TODO  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
         /* So, assume we always want the resource itself instead the wrapping ResourceContainer */    
         parametersBuilder.parameter(Parameter.builder(com.ibm.watsonhealth.fhir.model.type.String.of("return")).resource(resource).build());
 
@@ -96,7 +96,7 @@ public class FHIROperationUtil {
     
     public static Resource getSingleResourceOutputParameter(Parameters parameters) throws Exception {
     //    return FHIRUtil.getResourceContainerResource(parameters.getParameter().get(0).getResource());
-        /* ToDo  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
+        /* TODO  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
         /* So, assume we always want the resource itself instead the wrapping ResourceContainer */  
         return parameters.getParameter().get(0).getResource();
     }
