@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -65,6 +66,8 @@ public class Communication extends DomainResource {
     private final List<Reference> reasonReference;
     private final List<Payload> payload;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private Communication(Builder builder) {
         super(builder);
@@ -419,6 +422,91 @@ public class Communication extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Communication other = (Communication) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(inResponseTo, other.inResponseTo) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(medium, other.medium) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(topic, other.topic) && 
+            Objects.equals(about, other.about) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(sent, other.sent) && 
+            Objects.equals(received, other.received) && 
+            Objects.equals(recipient, other.recipient) && 
+            Objects.equals(sender, other.sender) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(payload, other.payload) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                basedOn, 
+                partOf, 
+                inResponseTo, 
+                status, 
+                statusReason, 
+                category, 
+                priority, 
+                medium, 
+                subject, 
+                topic, 
+                about, 
+                encounter, 
+                sent, 
+                received, 
+                recipient, 
+                sender, 
+                reasonCode, 
+                reasonReference, 
+                payload, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1342,6 +1430,8 @@ public class Communication extends DomainResource {
     public static class Payload extends BackboneElement {
         private final Element content;
 
+        private volatile int hashCode;
+
         private Payload(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", String.class, Attachment.class, Reference.class);
@@ -1373,6 +1463,37 @@ public class Communication extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Payload other = (Payload) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(content, other.content);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    content);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

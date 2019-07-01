@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -44,6 +45,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     private final List<Reference> device;
     private final List<Characteristics> characteristics;
     private final List<RouteOfAdministration> routeOfAdministration;
+
+    private volatile int hashCode;
 
     private MedicinalProductPharmaceutical(Builder builder) {
         super(builder);
@@ -165,6 +168,59 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProductPharmaceutical other = (MedicinalProductPharmaceutical) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(administrableDoseForm, other.administrableDoseForm) && 
+            Objects.equals(unitOfPresentation, other.unitOfPresentation) && 
+            Objects.equals(ingredient, other.ingredient) && 
+            Objects.equals(device, other.device) && 
+            Objects.equals(characteristics, other.characteristics) && 
+            Objects.equals(routeOfAdministration, other.routeOfAdministration);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                administrableDoseForm, 
+                unitOfPresentation, 
+                ingredient, 
+                device, 
+                characteristics, 
+                routeOfAdministration);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -590,6 +646,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         private final CodeableConcept code;
         private final CodeableConcept status;
 
+        private volatile int hashCode;
+
         private Characteristics(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -635,6 +693,39 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Characteristics other = (Characteristics) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(status, other.status);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    status);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -812,6 +903,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         private final Duration maxTreatmentPeriod;
         private final List<TargetSpecies> targetSpecies;
 
+        private volatile int hashCode;
+
         private RouteOfAdministration(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -932,6 +1025,49 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            RouteOfAdministration other = (RouteOfAdministration) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(firstDose, other.firstDose) && 
+                Objects.equals(maxSingleDose, other.maxSingleDose) && 
+                Objects.equals(maxDosePerDay, other.maxDosePerDay) && 
+                Objects.equals(maxDosePerTreatmentPeriod, other.maxDosePerTreatmentPeriod) && 
+                Objects.equals(maxTreatmentPeriod, other.maxTreatmentPeriod) && 
+                Objects.equals(targetSpecies, other.targetSpecies);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    firstDose, 
+                    maxSingleDose, 
+                    maxDosePerDay, 
+                    maxDosePerTreatmentPeriod, 
+                    maxTreatmentPeriod, 
+                    targetSpecies);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1221,6 +1357,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             private final CodeableConcept code;
             private final List<WithdrawalPeriod> withdrawalPeriod;
 
+            private volatile int hashCode;
+
             private TargetSpecies(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1266,6 +1404,39 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                TargetSpecies other = (TargetSpecies) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(withdrawalPeriod, other.withdrawalPeriod);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        withdrawalPeriod);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1456,6 +1627,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 private final Quantity value;
                 private final String supportingInformation;
 
+                private volatile int hashCode;
+
                 private WithdrawalPeriod(Builder builder) {
                     super(builder);
                     tissue = ValidationSupport.requireNonNull(builder.tissue, "tissue");
@@ -1515,6 +1688,41 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    WithdrawalPeriod other = (WithdrawalPeriod) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(tissue, other.tissue) && 
+                        Objects.equals(value, other.value) && 
+                        Objects.equals(supportingInformation, other.supportingInformation);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            tissue, 
+                            value, 
+                            supportingInformation);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -61,6 +62,8 @@ public class Group extends DomainResource {
     private final Reference managingEntity;
     private final List<Characteristic> characteristic;
     private final List<Member> member;
+
+    private volatile int hashCode;
 
     private Group(Builder builder) {
         super(builder);
@@ -225,6 +228,65 @@ public class Group extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Group other = (Group) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(active, other.active) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(actual, other.actual) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(managingEntity, other.managingEntity) && 
+            Objects.equals(characteristic, other.characteristic) && 
+            Objects.equals(member, other.member);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                active, 
+                type, 
+                actual, 
+                code, 
+                name, 
+                quantity, 
+                managingEntity, 
+                characteristic, 
+                member);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -688,6 +750,8 @@ public class Group extends DomainResource {
         private final Boolean exclude;
         private final Period period;
 
+        private volatile int hashCode;
+
         private Characteristic(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -761,6 +825,43 @@ public class Group extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Characteristic other = (Characteristic) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(exclude, other.exclude) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    value, 
+                    exclude, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -938,6 +1039,8 @@ public class Group extends DomainResource {
         private final Period period;
         private final Boolean inactive;
 
+        private volatile int hashCode;
+
         private Member(Builder builder) {
             super(builder);
             entity = ValidationSupport.requireNonNull(builder.entity, "entity");
@@ -998,6 +1101,41 @@ public class Group extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Member other = (Member) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(entity, other.entity) && 
+                Objects.equals(period, other.period) && 
+                Objects.equals(inactive, other.inactive);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    entity, 
+                    period, 
+                    inactive);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

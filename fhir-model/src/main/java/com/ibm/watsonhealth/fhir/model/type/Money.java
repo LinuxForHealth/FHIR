@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -21,6 +22,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class Money extends Element {
     private final Decimal value;
     private final Code currency;
+
+    private volatile int hashCode;
 
     private Money(Builder builder) {
         super(builder);
@@ -66,6 +69,37 @@ public class Money extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Money other = (Money) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(value, other.value) && 
+            Objects.equals(currency, other.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                value, 
+                currency);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

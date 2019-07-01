@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -56,6 +57,8 @@ public class PaymentReconciliation extends DomainResource {
     private final List<Detail> detail;
     private final CodeableConcept formCode;
     private final List<ProcessNote> processNote;
+
+    private volatile int hashCode;
 
     private PaymentReconciliation(Builder builder) {
         super(builder);
@@ -289,6 +292,75 @@ public class PaymentReconciliation extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        PaymentReconciliation other = (PaymentReconciliation) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(paymentIssuer, other.paymentIssuer) && 
+            Objects.equals(request, other.request) && 
+            Objects.equals(requestor, other.requestor) && 
+            Objects.equals(outcome, other.outcome) && 
+            Objects.equals(disposition, other.disposition) && 
+            Objects.equals(paymentDate, other.paymentDate) && 
+            Objects.equals(paymentAmount, other.paymentAmount) && 
+            Objects.equals(paymentIdentifier, other.paymentIdentifier) && 
+            Objects.equals(detail, other.detail) && 
+            Objects.equals(formCode, other.formCode) && 
+            Objects.equals(processNote, other.processNote);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                period, 
+                created, 
+                paymentIssuer, 
+                request, 
+                requestor, 
+                outcome, 
+                disposition, 
+                paymentDate, 
+                paymentAmount, 
+                paymentIdentifier, 
+                detail, 
+                formCode, 
+                processNote);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -816,6 +888,8 @@ public class PaymentReconciliation extends DomainResource {
         private final Reference payee;
         private final Money amount;
 
+        private volatile int hashCode;
+
         private Detail(Builder builder) {
             super(builder);
             identifier = builder.identifier;
@@ -973,6 +1047,55 @@ public class PaymentReconciliation extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Detail other = (Detail) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(predecessor, other.predecessor) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(request, other.request) && 
+                Objects.equals(submitter, other.submitter) && 
+                Objects.equals(response, other.response) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(responsible, other.responsible) && 
+                Objects.equals(payee, other.payee) && 
+                Objects.equals(amount, other.amount);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    predecessor, 
+                    type, 
+                    request, 
+                    submitter, 
+                    response, 
+                    date, 
+                    responsible, 
+                    payee, 
+                    amount);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1289,6 +1412,8 @@ public class PaymentReconciliation extends DomainResource {
         private final NoteType type;
         private final String text;
 
+        private volatile int hashCode;
+
         private ProcessNote(Builder builder) {
             super(builder);
             type = builder.type;
@@ -1334,6 +1459,39 @@ public class PaymentReconciliation extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ProcessNote other = (ProcessNote) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(text, other.text);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    text);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

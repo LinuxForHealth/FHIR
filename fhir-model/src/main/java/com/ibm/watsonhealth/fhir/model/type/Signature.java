@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -31,6 +32,8 @@ public class Signature extends Element {
     private final Code targetFormat;
     private final Code sigFormat;
     private final Base64Binary data;
+
+    private volatile int hashCode;
 
     private Signature(Builder builder) {
         super(builder);
@@ -150,6 +153,47 @@ public class Signature extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Signature other = (Signature) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(when, other.when) && 
+            Objects.equals(who, other.who) && 
+            Objects.equals(onBehalfOf, other.onBehalfOf) && 
+            Objects.equals(targetFormat, other.targetFormat) && 
+            Objects.equals(sigFormat, other.sigFormat) && 
+            Objects.equals(data, other.data);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                type, 
+                when, 
+                who, 
+                onBehalfOf, 
+                targetFormat, 
+                sigFormat, 
+                data);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

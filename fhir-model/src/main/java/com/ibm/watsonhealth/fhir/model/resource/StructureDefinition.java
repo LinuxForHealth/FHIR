@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -243,6 +244,8 @@ public class StructureDefinition extends DomainResource {
     private final TypeDerivationRule derivation;
     private final Snapshot snapshot;
     private final Differential differential;
+
+    private volatile int hashCode;
 
     private StructureDefinition(Builder builder) {
         super(builder);
@@ -668,6 +671,99 @@ public class StructureDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        StructureDefinition other = (StructureDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(keyword, other.keyword) && 
+            Objects.equals(fhirVersion, other.fhirVersion) && 
+            Objects.equals(mapping, other.mapping) && 
+            Objects.equals(kind, other.kind) && 
+            Objects.equals(_abstract, other._abstract) && 
+            Objects.equals(context, other.context) && 
+            Objects.equals(contextInvariant, other.contextInvariant) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(baseDefinition, other.baseDefinition) && 
+            Objects.equals(derivation, other.derivation) && 
+            Objects.equals(snapshot, other.snapshot) && 
+            Objects.equals(differential, other.differential);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                keyword, 
+                fhirVersion, 
+                mapping, 
+                kind, 
+                _abstract, 
+                context, 
+                contextInvariant, 
+                type, 
+                baseDefinition, 
+                derivation, 
+                snapshot, 
+                differential);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1482,6 +1578,8 @@ public class StructureDefinition extends DomainResource {
         private final String name;
         private final String comment;
 
+        private volatile int hashCode;
+
         private Mapping(Builder builder) {
             super(builder);
             identity = ValidationSupport.requireNonNull(builder.identity, "identity");
@@ -1555,6 +1653,43 @@ public class StructureDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Mapping other = (Mapping) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identity, other.identity) && 
+                Objects.equals(uri, other.uri) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(comment, other.comment);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identity, 
+                    uri, 
+                    name, 
+                    comment);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1763,6 +1898,8 @@ public class StructureDefinition extends DomainResource {
         private final ExtensionContextType type;
         private final String expression;
 
+        private volatile int hashCode;
+
         private Context(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1808,6 +1945,39 @@ public class StructureDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Context other = (Context) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(expression, other.expression);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    expression);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1962,6 +2132,8 @@ public class StructureDefinition extends DomainResource {
     public static class Snapshot extends BackboneElement {
         private final List<ElementDefinition> element;
 
+        private volatile int hashCode;
+
         private Snapshot(Builder builder) {
             super(builder);
             element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
@@ -1993,6 +2165,37 @@ public class StructureDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Snapshot other = (Snapshot) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(element, other.element);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    element);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2144,6 +2347,8 @@ public class StructureDefinition extends DomainResource {
     public static class Differential extends BackboneElement {
         private final List<ElementDefinition> element;
 
+        private volatile int hashCode;
+
         private Differential(Builder builder) {
             super(builder);
             element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
@@ -2175,6 +2380,37 @@ public class StructureDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Differential other = (Differential) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(element, other.element);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    element);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

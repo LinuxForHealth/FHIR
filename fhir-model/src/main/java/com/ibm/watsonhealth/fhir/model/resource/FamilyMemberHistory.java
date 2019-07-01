@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -77,6 +78,8 @@ public class FamilyMemberHistory extends DomainResource {
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Condition> condition;
+
+    private volatile int hashCode;
 
     private FamilyMemberHistory(Builder builder) {
         super(builder);
@@ -360,6 +363,81 @@ public class FamilyMemberHistory extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        FamilyMemberHistory other = (FamilyMemberHistory) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(dataAbsentReason, other.dataAbsentReason) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(relationship, other.relationship) && 
+            Objects.equals(sex, other.sex) && 
+            Objects.equals(born, other.born) && 
+            Objects.equals(age, other.age) && 
+            Objects.equals(estimatedAge, other.estimatedAge) && 
+            Objects.equals(deceased, other.deceased) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(condition, other.condition);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                status, 
+                dataAbsentReason, 
+                patient, 
+                date, 
+                name, 
+                relationship, 
+                sex, 
+                born, 
+                age, 
+                estimatedAge, 
+                deceased, 
+                reasonCode, 
+                reasonReference, 
+                note, 
+                condition);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1041,6 +1119,8 @@ public class FamilyMemberHistory extends DomainResource {
         private final Element onset;
         private final List<Annotation> note;
 
+        private volatile int hashCode;
+
         private Condition(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1132,6 +1212,45 @@ public class FamilyMemberHistory extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Condition other = (Condition) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(outcome, other.outcome) && 
+                Objects.equals(contributedToDeath, other.contributedToDeath) && 
+                Objects.equals(onset, other.onset) && 
+                Objects.equals(note, other.note);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    outcome, 
+                    contributedToDeath, 
+                    onset, 
+                    note);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -75,6 +76,8 @@ public class Claim extends DomainResource {
     private final Accident accident;
     private final List<Item> item;
     private final Money total;
+
+    private volatile int hashCode;
 
     private Claim(Builder builder) {
         super(builder);
@@ -484,6 +487,99 @@ public class Claim extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Claim other = (Claim) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(subType, other.subType) && 
+            Objects.equals(use, other.use) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(billablePeriod, other.billablePeriod) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(enterer, other.enterer) && 
+            Objects.equals(insurer, other.insurer) && 
+            Objects.equals(provider, other.provider) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(fundsReserve, other.fundsReserve) && 
+            Objects.equals(related, other.related) && 
+            Objects.equals(prescription, other.prescription) && 
+            Objects.equals(originalPrescription, other.originalPrescription) && 
+            Objects.equals(payee, other.payee) && 
+            Objects.equals(referral, other.referral) && 
+            Objects.equals(facility, other.facility) && 
+            Objects.equals(careTeam, other.careTeam) && 
+            Objects.equals(supportingInfo, other.supportingInfo) && 
+            Objects.equals(diagnosis, other.diagnosis) && 
+            Objects.equals(procedure, other.procedure) && 
+            Objects.equals(insurance, other.insurance) && 
+            Objects.equals(accident, other.accident) && 
+            Objects.equals(item, other.item) && 
+            Objects.equals(total, other.total);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                type, 
+                subType, 
+                use, 
+                patient, 
+                billablePeriod, 
+                created, 
+                enterer, 
+                insurer, 
+                provider, 
+                priority, 
+                fundsReserve, 
+                related, 
+                prescription, 
+                originalPrescription, 
+                payee, 
+                referral, 
+                facility, 
+                careTeam, 
+                supportingInfo, 
+                diagnosis, 
+                procedure, 
+                insurance, 
+                accident, 
+                item, 
+                total);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1237,6 +1333,8 @@ public class Claim extends DomainResource {
         private final CodeableConcept relationship;
         private final Identifier reference;
 
+        private volatile int hashCode;
+
         private Related(Builder builder) {
             super(builder);
             claim = builder.claim;
@@ -1296,6 +1394,41 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Related other = (Related) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(claim, other.claim) && 
+                Objects.equals(relationship, other.relationship) && 
+                Objects.equals(reference, other.reference);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    claim, 
+                    relationship, 
+                    reference);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1496,6 +1629,8 @@ public class Claim extends DomainResource {
         private final CodeableConcept type;
         private final Reference party;
 
+        private volatile int hashCode;
+
         private Payee(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1541,6 +1676,39 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Payee other = (Payee) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(party, other.party);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    party);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1716,6 +1884,8 @@ public class Claim extends DomainResource {
         private final CodeableConcept role;
         private final CodeableConcept qualification;
 
+        private volatile int hashCode;
+
         private CareTeam(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -1803,6 +1973,45 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            CareTeam other = (CareTeam) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(provider, other.provider) && 
+                Objects.equals(responsible, other.responsible) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(qualification, other.qualification);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    provider, 
+                    responsible, 
+                    role, 
+                    qualification);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2018,6 +2227,8 @@ public class Claim extends DomainResource {
         private final Element value;
         private final CodeableConcept reason;
 
+        private volatile int hashCode;
+
         private SupportingInfo(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -2121,6 +2332,47 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SupportingInfo other = (SupportingInfo) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(timing, other.timing) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(reason, other.reason);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    category, 
+                    code, 
+                    timing, 
+                    value, 
+                    reason);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2354,6 +2606,8 @@ public class Claim extends DomainResource {
         private final CodeableConcept onAdmission;
         private final CodeableConcept packageCode;
 
+        private volatile int hashCode;
+
         private Diagnosis(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -2442,6 +2696,45 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Diagnosis other = (Diagnosis) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(diagnosis, other.diagnosis) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(onAdmission, other.onAdmission) && 
+                Objects.equals(packageCode, other.packageCode);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    diagnosis, 
+                    type, 
+                    onAdmission, 
+                    packageCode);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2674,6 +2967,8 @@ public class Claim extends DomainResource {
         private final Element procedure;
         private final List<Reference> udi;
 
+        private volatile int hashCode;
+
         private Procedure(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -2761,6 +3056,45 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Procedure other = (Procedure) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(procedure, other.procedure) && 
+                Objects.equals(udi, other.udi);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    type, 
+                    date, 
+                    procedure, 
+                    udi);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3012,6 +3346,8 @@ public class Claim extends DomainResource {
         private final List<String> preAuthRef;
         private final Reference claimResponse;
 
+        private volatile int hashCode;
+
         private Insurance(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -3130,6 +3466,49 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Insurance other = (Insurance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(focal, other.focal) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(coverage, other.coverage) && 
+                Objects.equals(businessArrangement, other.businessArrangement) && 
+                Objects.equals(preAuthRef, other.preAuthRef) && 
+                Objects.equals(claimResponse, other.claimResponse);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    focal, 
+                    identifier, 
+                    coverage, 
+                    businessArrangement, 
+                    preAuthRef, 
+                    claimResponse);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3381,6 +3760,8 @@ public class Claim extends DomainResource {
         private final CodeableConcept type;
         private final Element location;
 
+        private volatile int hashCode;
+
         private Accident(Builder builder) {
             super(builder);
             date = ValidationSupport.requireNonNull(builder.date, "date");
@@ -3441,6 +3822,41 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Accident other = (Accident) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(location, other.location);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    date, 
+                    type, 
+                    location);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3651,6 +4067,8 @@ public class Claim extends DomainResource {
         private final List<CodeableConcept> subSite;
         private final List<Reference> encounter;
         private final List<Detail> detail;
+
+        private volatile int hashCode;
 
         private Item(Builder builder) {
             super(builder);
@@ -3966,6 +4384,77 @@ public class Claim extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Item other = (Item) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(careTeamSequence, other.careTeamSequence) && 
+                Objects.equals(diagnosisSequence, other.diagnosisSequence) && 
+                Objects.equals(procedureSequence, other.procedureSequence) && 
+                Objects.equals(informationSequence, other.informationSequence) && 
+                Objects.equals(revenue, other.revenue) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(productOrService, other.productOrService) && 
+                Objects.equals(modifier, other.modifier) && 
+                Objects.equals(programCode, other.programCode) && 
+                Objects.equals(serviced, other.serviced) && 
+                Objects.equals(location, other.location) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(unitPrice, other.unitPrice) && 
+                Objects.equals(factor, other.factor) && 
+                Objects.equals(net, other.net) && 
+                Objects.equals(udi, other.udi) && 
+                Objects.equals(bodySite, other.bodySite) && 
+                Objects.equals(subSite, other.subSite) && 
+                Objects.equals(encounter, other.encounter) && 
+                Objects.equals(detail, other.detail);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    careTeamSequence, 
+                    diagnosisSequence, 
+                    procedureSequence, 
+                    informationSequence, 
+                    revenue, 
+                    category, 
+                    productOrService, 
+                    modifier, 
+                    programCode, 
+                    serviced, 
+                    location, 
+                    quantity, 
+                    unitPrice, 
+                    factor, 
+                    net, 
+                    udi, 
+                    bodySite, 
+                    subSite, 
+                    encounter, 
+                    detail);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -4655,6 +5144,8 @@ public class Claim extends DomainResource {
             private final List<Reference> udi;
             private final List<SubDetail> subDetail;
 
+            private volatile int hashCode;
+
             private Detail(Builder builder) {
                 super(builder);
                 sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -4843,6 +5334,59 @@ public class Claim extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Detail other = (Detail) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(sequence, other.sequence) && 
+                    Objects.equals(revenue, other.revenue) && 
+                    Objects.equals(category, other.category) && 
+                    Objects.equals(productOrService, other.productOrService) && 
+                    Objects.equals(modifier, other.modifier) && 
+                    Objects.equals(programCode, other.programCode) && 
+                    Objects.equals(quantity, other.quantity) && 
+                    Objects.equals(unitPrice, other.unitPrice) && 
+                    Objects.equals(factor, other.factor) && 
+                    Objects.equals(net, other.net) && 
+                    Objects.equals(udi, other.udi) && 
+                    Objects.equals(subDetail, other.subDetail);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        sequence, 
+                        revenue, 
+                        category, 
+                        productOrService, 
+                        modifier, 
+                        programCode, 
+                        quantity, 
+                        unitPrice, 
+                        factor, 
+                        net, 
+                        udi, 
+                        subDetail);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -5261,6 +5805,8 @@ public class Claim extends DomainResource {
                 private final Money net;
                 private final List<Reference> udi;
 
+                private volatile int hashCode;
+
                 private SubDetail(Builder builder) {
                     super(builder);
                     sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -5435,6 +5981,57 @@ public class Claim extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    SubDetail other = (SubDetail) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(sequence, other.sequence) && 
+                        Objects.equals(revenue, other.revenue) && 
+                        Objects.equals(category, other.category) && 
+                        Objects.equals(productOrService, other.productOrService) && 
+                        Objects.equals(modifier, other.modifier) && 
+                        Objects.equals(programCode, other.programCode) && 
+                        Objects.equals(quantity, other.quantity) && 
+                        Objects.equals(unitPrice, other.unitPrice) && 
+                        Objects.equals(factor, other.factor) && 
+                        Objects.equals(net, other.net) && 
+                        Objects.equals(udi, other.udi);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            sequence, 
+                            revenue, 
+                            category, 
+                            productOrService, 
+                            modifier, 
+                            programCode, 
+                            quantity, 
+                            unitPrice, 
+                            factor, 
+                            net, 
+                            udi);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override

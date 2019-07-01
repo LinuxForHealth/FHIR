@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -23,6 +24,8 @@ public class Annotation extends Element {
     private final Element author;
     private final DateTime time;
     private final Markdown text;
+
+    private volatile int hashCode;
 
     private Annotation(Builder builder) {
         super(builder);
@@ -82,6 +85,39 @@ public class Annotation extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Annotation other = (Annotation) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(time, other.time) && 
+            Objects.equals(text, other.text);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                author, 
+                time, 
+                text);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

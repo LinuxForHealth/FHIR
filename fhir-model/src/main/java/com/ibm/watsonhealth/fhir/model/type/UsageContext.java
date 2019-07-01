@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -24,6 +25,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class UsageContext extends Element {
     private final Coding code;
     private final Element value;
+
+    private volatile int hashCode;
 
     private UsageContext(Builder builder) {
         super(builder);
@@ -70,6 +73,37 @@ public class UsageContext extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        UsageContext other = (UsageContext) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                code, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -111,6 +112,8 @@ public class ActivityDefinition extends DomainResource {
     private final List<Reference> observationResultRequirement;
     private final Canonical transform;
     private final List<DynamicValue> dynamicValue;
+
+    private volatile int hashCode;
 
     private ActivityDefinition(Builder builder) {
         super(builder);
@@ -806,6 +809,137 @@ public class ActivityDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ActivityDefinition other = (ActivityDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(subtitle, other.subtitle) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(usage, other.usage) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(approvalDate, other.approvalDate) && 
+            Objects.equals(lastReviewDate, other.lastReviewDate) && 
+            Objects.equals(effectivePeriod, other.effectivePeriod) && 
+            Objects.equals(topic, other.topic) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(editor, other.editor) && 
+            Objects.equals(reviewer, other.reviewer) && 
+            Objects.equals(endorser, other.endorser) && 
+            Objects.equals(relatedArtifact, other.relatedArtifact) && 
+            Objects.equals(library, other.library) && 
+            Objects.equals(kind, other.kind) && 
+            Objects.equals(profile, other.profile) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(intent, other.intent) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(doNotPerform, other.doNotPerform) && 
+            Objects.equals(timing, other.timing) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(participant, other.participant) && 
+            Objects.equals(product, other.product) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(dosage, other.dosage) && 
+            Objects.equals(bodySite, other.bodySite) && 
+            Objects.equals(specimenRequirement, other.specimenRequirement) && 
+            Objects.equals(observationRequirement, other.observationRequirement) && 
+            Objects.equals(observationResultRequirement, other.observationResultRequirement) && 
+            Objects.equals(transform, other.transform) && 
+            Objects.equals(dynamicValue, other.dynamicValue);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                subtitle, 
+                status, 
+                experimental, 
+                subject, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                usage, 
+                copyright, 
+                approvalDate, 
+                lastReviewDate, 
+                effectivePeriod, 
+                topic, 
+                author, 
+                editor, 
+                reviewer, 
+                endorser, 
+                relatedArtifact, 
+                library, 
+                kind, 
+                profile, 
+                code, 
+                intent, 
+                priority, 
+                doNotPerform, 
+                timing, 
+                location, 
+                participant, 
+                product, 
+                quantity, 
+                dosage, 
+                bodySite, 
+                specimenRequirement, 
+                observationRequirement, 
+                observationResultRequirement, 
+                transform, 
+                dynamicValue);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -2235,6 +2369,8 @@ public class ActivityDefinition extends DomainResource {
         private final ActivityParticipantType type;
         private final CodeableConcept role;
 
+        private volatile int hashCode;
+
         private Participant(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2280,6 +2416,39 @@ public class ActivityDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Participant other = (Participant) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(role, other.role);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    role);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2454,6 +2623,8 @@ public class ActivityDefinition extends DomainResource {
         private final String path;
         private final Expression expression;
 
+        private volatile int hashCode;
+
         private DynamicValue(Builder builder) {
             super(builder);
             path = ValidationSupport.requireNonNull(builder.path, "path");
@@ -2503,6 +2674,39 @@ public class ActivityDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            DynamicValue other = (DynamicValue) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(path, other.path) && 
+                Objects.equals(expression, other.expression);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    path, 
+                    expression);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

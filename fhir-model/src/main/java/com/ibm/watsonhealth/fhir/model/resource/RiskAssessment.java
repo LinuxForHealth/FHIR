@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -73,6 +74,8 @@ public class RiskAssessment extends DomainResource {
     private final List<Prediction> prediction;
     private final String mitigation;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private RiskAssessment(Builder builder) {
         super(builder);
@@ -335,6 +338,79 @@ public class RiskAssessment extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        RiskAssessment other = (RiskAssessment) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(parent, other.parent) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(method, other.method) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(occurrence, other.occurrence) && 
+            Objects.equals(condition, other.condition) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(basis, other.basis) && 
+            Objects.equals(prediction, other.prediction) && 
+            Objects.equals(mitigation, other.mitigation) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                basedOn, 
+                parent, 
+                status, 
+                method, 
+                code, 
+                subject, 
+                encounter, 
+                occurrence, 
+                condition, 
+                performer, 
+                reasonCode, 
+                reasonReference, 
+                basis, 
+                prediction, 
+                mitigation, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -982,6 +1058,8 @@ public class RiskAssessment extends DomainResource {
         private final Element when;
         private final String rationale;
 
+        private volatile int hashCode;
+
         private Prediction(Builder builder) {
             super(builder);
             outcome = builder.outcome;
@@ -1085,6 +1163,47 @@ public class RiskAssessment extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Prediction other = (Prediction) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(outcome, other.outcome) && 
+                Objects.equals(probability, other.probability) && 
+                Objects.equals(qualitativeRisk, other.qualitativeRisk) && 
+                Objects.equals(relativeRisk, other.relativeRisk) && 
+                Objects.equals(when, other.when) && 
+                Objects.equals(rationale, other.rationale);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    outcome, 
+                    probability, 
+                    qualitativeRisk, 
+                    relativeRisk, 
+                    when, 
+                    rationale);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

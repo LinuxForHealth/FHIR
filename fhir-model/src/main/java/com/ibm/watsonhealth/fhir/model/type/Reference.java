@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -31,6 +32,8 @@ public class Reference extends Element {
     private final Uri type;
     private final Identifier identifier;
     private final String display;
+
+    private volatile int hashCode;
 
     private Reference(Builder builder) {
         super(builder);
@@ -119,6 +122,41 @@ public class Reference extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Reference other = (Reference) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(reference, other.reference) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(display, other.display);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                reference, 
+                type, 
+                identifier, 
+                display);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -73,6 +74,8 @@ public class List extends DomainResource {
     private final java.util.List<Annotation> note;
     private final java.util.List<Entry> entry;
     private final CodeableConcept emptyReason;
+
+    private volatile int hashCode;
 
     private List(Builder builder) {
         super(builder);
@@ -281,6 +284,71 @@ public class List extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        List other = (List) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(mode, other.mode) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(orderedBy, other.orderedBy) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(entry, other.entry) && 
+            Objects.equals(emptyReason, other.emptyReason);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                mode, 
+                title, 
+                code, 
+                subject, 
+                encounter, 
+                date, 
+                source, 
+                orderedBy, 
+                note, 
+                entry, 
+                emptyReason);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -799,6 +867,8 @@ public class List extends DomainResource {
         private final DateTime date;
         private final Reference item;
 
+        private volatile int hashCode;
+
         private Entry(Builder builder) {
             super(builder);
             flag = builder.flag;
@@ -872,6 +942,43 @@ public class List extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Entry other = (Entry) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(flag, other.flag) && 
+                Objects.equals(deleted, other.deleted) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    flag, 
+                    deleted, 
+                    date, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

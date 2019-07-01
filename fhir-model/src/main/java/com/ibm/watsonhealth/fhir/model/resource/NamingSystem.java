@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -77,6 +78,8 @@ public class NamingSystem extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final String usage;
     private final List<UniqueId> uniqueId;
+
+    private volatile int hashCode;
 
     private NamingSystem(Builder builder) {
         super(builder);
@@ -290,6 +293,71 @@ public class NamingSystem extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        NamingSystem other = (NamingSystem) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(kind, other.kind) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(responsible, other.responsible) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(usage, other.usage) && 
+            Objects.equals(uniqueId, other.uniqueId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                name, 
+                status, 
+                kind, 
+                date, 
+                publisher, 
+                contact, 
+                responsible, 
+                type, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                usage, 
+                uniqueId);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -767,6 +835,8 @@ public class NamingSystem extends DomainResource {
         private final String comment;
         private final Period period;
 
+        private volatile int hashCode;
+
         private UniqueId(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -855,6 +925,45 @@ public class NamingSystem extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            UniqueId other = (UniqueId) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(preferred, other.preferred) && 
+                Objects.equals(comment, other.comment) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value, 
+                    preferred, 
+                    comment, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

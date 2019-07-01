@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -82,6 +83,8 @@ public class RequestGroup extends DomainResource {
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Action> action;
+
+    private volatile int hashCode;
 
     private RequestGroup(Builder builder) {
         super(builder);
@@ -361,6 +364,81 @@ public class RequestGroup extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        RequestGroup other = (RequestGroup) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(replaces, other.replaces) && 
+            Objects.equals(groupIdentifier, other.groupIdentifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(intent, other.intent) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(authoredOn, other.authoredOn) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(action, other.action);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                basedOn, 
+                replaces, 
+                groupIdentifier, 
+                status, 
+                intent, 
+                priority, 
+                code, 
+                subject, 
+                encounter, 
+                authoredOn, 
+                author, 
+                reasonCode, 
+                reasonReference, 
+                note, 
+                action);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1096,6 +1174,8 @@ public class RequestGroup extends DomainResource {
         private final Reference resource;
         private final List<RequestGroup.Action> action;
 
+        private volatile int hashCode;
+
         private Action(Builder builder) {
             super(builder);
             prefix = builder.prefix;
@@ -1382,6 +1462,73 @@ public class RequestGroup extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Action other = (Action) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(prefix, other.prefix) && 
+                Objects.equals(title, other.title) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(textEquivalent, other.textEquivalent) && 
+                Objects.equals(priority, other.priority) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(documentation, other.documentation) && 
+                Objects.equals(condition, other.condition) && 
+                Objects.equals(relatedAction, other.relatedAction) && 
+                Objects.equals(timing, other.timing) && 
+                Objects.equals(participant, other.participant) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(groupingBehavior, other.groupingBehavior) && 
+                Objects.equals(selectionBehavior, other.selectionBehavior) && 
+                Objects.equals(requiredBehavior, other.requiredBehavior) && 
+                Objects.equals(precheckBehavior, other.precheckBehavior) && 
+                Objects.equals(cardinalityBehavior, other.cardinalityBehavior) && 
+                Objects.equals(resource, other.resource) && 
+                Objects.equals(action, other.action);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    prefix, 
+                    title, 
+                    description, 
+                    textEquivalent, 
+                    priority, 
+                    code, 
+                    documentation, 
+                    condition, 
+                    relatedAction, 
+                    timing, 
+                    participant, 
+                    type, 
+                    groupingBehavior, 
+                    selectionBehavior, 
+                    requiredBehavior, 
+                    precheckBehavior, 
+                    cardinalityBehavior, 
+                    resource, 
+                    action);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1982,6 +2129,8 @@ public class RequestGroup extends DomainResource {
             private final ActionConditionKind kind;
             private final Expression expression;
 
+            private volatile int hashCode;
+
             private Condition(Builder builder) {
                 super(builder);
                 kind = ValidationSupport.requireNonNull(builder.kind, "kind");
@@ -2027,6 +2176,39 @@ public class RequestGroup extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Condition other = (Condition) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(kind, other.kind) && 
+                    Objects.equals(expression, other.expression);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        kind, 
+                        expression);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2200,6 +2382,8 @@ public class RequestGroup extends DomainResource {
             private final ActionRelationshipType relationship;
             private final Element offset;
 
+            private volatile int hashCode;
+
             private RelatedAction(Builder builder) {
                 super(builder);
                 actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
@@ -2259,6 +2443,41 @@ public class RequestGroup extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                RelatedAction other = (RelatedAction) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(actionId, other.actionId) && 
+                    Objects.equals(relationship, other.relationship) && 
+                    Objects.equals(offset, other.offset);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        actionId, 
+                        relationship, 
+                        offset);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

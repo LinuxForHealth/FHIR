@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -39,6 +40,8 @@ public class EnrollmentRequest extends DomainResource {
     private final Reference provider;
     private final Reference candidate;
     private final Reference coverage;
+
+    private volatile int hashCode;
 
     private EnrollmentRequest(Builder builder) {
         super(builder);
@@ -160,6 +163,59 @@ public class EnrollmentRequest extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        EnrollmentRequest other = (EnrollmentRequest) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(insurer, other.insurer) && 
+            Objects.equals(provider, other.provider) && 
+            Objects.equals(candidate, other.candidate) && 
+            Objects.equals(coverage, other.coverage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                created, 
+                insurer, 
+                provider, 
+                candidate, 
+                coverage);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

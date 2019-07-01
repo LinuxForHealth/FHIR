@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -30,6 +31,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class Extension extends Element {
     private final java.lang.String url;
     private final Element value;
+
+    private volatile int hashCode;
 
     private Extension(Builder builder) {
         super(builder);
@@ -76,6 +79,37 @@ public class Extension extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Extension other = (Extension) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                url, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

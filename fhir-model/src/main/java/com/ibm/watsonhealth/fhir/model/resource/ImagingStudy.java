@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -62,6 +63,8 @@ public class ImagingStudy extends DomainResource {
     private final List<Annotation> note;
     private final String description;
     private final List<Series> series;
+
+    private volatile int hashCode;
 
     private ImagingStudy(Builder builder) {
         super(builder);
@@ -375,6 +378,85 @@ public class ImagingStudy extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ImagingStudy other = (ImagingStudy) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(modality, other.modality) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(started, other.started) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(referrer, other.referrer) && 
+            Objects.equals(interpreter, other.interpreter) && 
+            Objects.equals(endpoint, other.endpoint) && 
+            Objects.equals(numberOfSeries, other.numberOfSeries) && 
+            Objects.equals(numberOfInstances, other.numberOfInstances) && 
+            Objects.equals(procedureReference, other.procedureReference) && 
+            Objects.equals(procedureCode, other.procedureCode) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(series, other.series);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                modality, 
+                subject, 
+                encounter, 
+                started, 
+                basedOn, 
+                referrer, 
+                interpreter, 
+                endpoint, 
+                numberOfSeries, 
+                numberOfInstances, 
+                procedureReference, 
+                procedureCode, 
+                location, 
+                reasonCode, 
+                reasonReference, 
+                note, 
+                description, 
+                series);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1167,6 +1249,8 @@ public class ImagingStudy extends DomainResource {
         private final List<Performer> performer;
         private final List<Instance> instance;
 
+        private volatile int hashCode;
+
         private Series(Builder builder) {
             super(builder);
             uid = ValidationSupport.requireNonNull(builder.uid, "uid");
@@ -1360,6 +1444,59 @@ public class ImagingStudy extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Series other = (Series) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(uid, other.uid) && 
+                Objects.equals(number, other.number) && 
+                Objects.equals(modality, other.modality) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(numberOfInstances, other.numberOfInstances) && 
+                Objects.equals(endpoint, other.endpoint) && 
+                Objects.equals(bodySite, other.bodySite) && 
+                Objects.equals(laterality, other.laterality) && 
+                Objects.equals(specimen, other.specimen) && 
+                Objects.equals(started, other.started) && 
+                Objects.equals(performer, other.performer) && 
+                Objects.equals(instance, other.instance);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    uid, 
+                    number, 
+                    modality, 
+                    description, 
+                    numberOfInstances, 
+                    endpoint, 
+                    bodySite, 
+                    laterality, 
+                    specimen, 
+                    started, 
+                    performer, 
+                    instance);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1777,6 +1914,8 @@ public class ImagingStudy extends DomainResource {
             private final CodeableConcept function;
             private final Reference actor;
 
+            private volatile int hashCode;
+
             private Performer(Builder builder) {
                 super(builder);
                 function = builder.function;
@@ -1822,6 +1961,39 @@ public class ImagingStudy extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Performer other = (Performer) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(function, other.function) && 
+                    Objects.equals(actor, other.actor);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        function, 
+                        actor);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1996,6 +2168,8 @@ public class ImagingStudy extends DomainResource {
             private final UnsignedInt number;
             private final String title;
 
+            private volatile int hashCode;
+
             private Instance(Builder builder) {
                 super(builder);
                 uid = ValidationSupport.requireNonNull(builder.uid, "uid");
@@ -2069,6 +2243,43 @@ public class ImagingStudy extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Instance other = (Instance) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(uid, other.uid) && 
+                    Objects.equals(sopClass, other.sopClass) && 
+                    Objects.equals(number, other.number) && 
+                    Objects.equals(title, other.title);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        uid, 
+                        sopClass, 
+                        number, 
+                        title);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

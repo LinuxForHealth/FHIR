@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -58,6 +59,8 @@ public class AdverseEvent extends DomainResource {
     private final List<Reference> subjectMedicalHistory;
     private final List<Reference> referenceDocument;
     private final List<Reference> study;
+
+    private volatile int hashCode;
 
     private AdverseEvent(Builder builder) {
         super(builder);
@@ -368,6 +371,85 @@ public class AdverseEvent extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AdverseEvent other = (AdverseEvent) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(actuality, other.actuality) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(event, other.event) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(detected, other.detected) && 
+            Objects.equals(recordedDate, other.recordedDate) && 
+            Objects.equals(resultingCondition, other.resultingCondition) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(seriousness, other.seriousness) && 
+            Objects.equals(severity, other.severity) && 
+            Objects.equals(outcome, other.outcome) && 
+            Objects.equals(recorder, other.recorder) && 
+            Objects.equals(contributor, other.contributor) && 
+            Objects.equals(suspectEntity, other.suspectEntity) && 
+            Objects.equals(subjectMedicalHistory, other.subjectMedicalHistory) && 
+            Objects.equals(referenceDocument, other.referenceDocument) && 
+            Objects.equals(study, other.study);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                actuality, 
+                category, 
+                event, 
+                subject, 
+                encounter, 
+                date, 
+                detected, 
+                recordedDate, 
+                resultingCondition, 
+                location, 
+                seriousness, 
+                severity, 
+                outcome, 
+                recorder, 
+                contributor, 
+                suspectEntity, 
+                subjectMedicalHistory, 
+                referenceDocument, 
+                study);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1095,6 +1177,8 @@ public class AdverseEvent extends DomainResource {
         private final Reference instance;
         private final List<Causality> causality;
 
+        private volatile int hashCode;
+
         private SuspectEntity(Builder builder) {
             super(builder);
             instance = ValidationSupport.requireNonNull(builder.instance, "instance");
@@ -1141,6 +1225,39 @@ public class AdverseEvent extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SuspectEntity other = (SuspectEntity) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(instance, other.instance) && 
+                Objects.equals(causality, other.causality);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    instance, 
+                    causality);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1332,6 +1449,8 @@ public class AdverseEvent extends DomainResource {
             private final Reference author;
             private final CodeableConcept method;
 
+            private volatile int hashCode;
+
             private Causality(Builder builder) {
                 super(builder);
                 assessment = builder.assessment;
@@ -1405,6 +1524,43 @@ public class AdverseEvent extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Causality other = (Causality) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(assessment, other.assessment) && 
+                    Objects.equals(productRelatedness, other.productRelatedness) && 
+                    Objects.equals(author, other.author) && 
+                    Objects.equals(method, other.method);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        assessment, 
+                        productRelatedness, 
+                        author, 
+                        method);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -57,6 +58,8 @@ public class SupplyRequest extends DomainResource {
     private final List<Reference> reasonReference;
     private final Reference deliverFrom;
     private final Reference deliverTo;
+
+    private volatile int hashCode;
 
     private SupplyRequest(Builder builder) {
         super(builder);
@@ -293,6 +296,75 @@ public class SupplyRequest extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SupplyRequest other = (SupplyRequest) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(item, other.item) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(parameter, other.parameter) && 
+            Objects.equals(occurrence, other.occurrence) && 
+            Objects.equals(authoredOn, other.authoredOn) && 
+            Objects.equals(requester, other.requester) && 
+            Objects.equals(supplier, other.supplier) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(deliverFrom, other.deliverFrom) && 
+            Objects.equals(deliverTo, other.deliverTo);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                category, 
+                priority, 
+                item, 
+                quantity, 
+                parameter, 
+                occurrence, 
+                authoredOn, 
+                requester, 
+                supplier, 
+                reasonCode, 
+                reasonReference, 
+                deliverFrom, 
+                deliverTo);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -883,6 +955,8 @@ public class SupplyRequest extends DomainResource {
         private final CodeableConcept code;
         private final Element value;
 
+        private volatile int hashCode;
+
         private Parameter(Builder builder) {
             super(builder);
             code = builder.code;
@@ -928,6 +1002,39 @@ public class SupplyRequest extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Parameter other = (Parameter) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    value);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

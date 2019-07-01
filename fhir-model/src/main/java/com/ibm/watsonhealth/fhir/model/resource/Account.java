@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -50,6 +51,8 @@ public class Account extends DomainResource {
     private final String description;
     private final List<Guarantor> guarantor;
     private final Reference partOf;
+
+    private volatile int hashCode;
 
     private Account(Builder builder) {
         super(builder);
@@ -230,6 +233,67 @@ public class Account extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Account other = (Account) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(servicePeriod, other.servicePeriod) && 
+            Objects.equals(coverage, other.coverage) && 
+            Objects.equals(owner, other.owner) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(guarantor, other.guarantor) && 
+            Objects.equals(partOf, other.partOf);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                type, 
+                name, 
+                subject, 
+                servicePeriod, 
+                coverage, 
+                owner, 
+                description, 
+                guarantor, 
+                partOf);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -752,6 +816,8 @@ public class Account extends DomainResource {
         private final Reference coverage;
         private final PositiveInt priority;
 
+        private volatile int hashCode;
+
         private Coverage(Builder builder) {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
@@ -801,6 +867,39 @@ public class Account extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Coverage other = (Coverage) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(coverage, other.coverage) && 
+                Objects.equals(priority, other.priority);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    coverage, 
+                    priority);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -974,6 +1073,8 @@ public class Account extends DomainResource {
         private final Boolean onHold;
         private final Period period;
 
+        private volatile int hashCode;
+
         private Guarantor(Builder builder) {
             super(builder);
             party = ValidationSupport.requireNonNull(builder.party, "party");
@@ -1033,6 +1134,41 @@ public class Account extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Guarantor other = (Guarantor) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(party, other.party) && 
+                Objects.equals(onHold, other.onHold) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    party, 
+                    onHold, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

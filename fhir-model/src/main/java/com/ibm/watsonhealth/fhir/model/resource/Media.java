@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -65,6 +66,8 @@ public class Media extends DomainResource {
     private final Decimal duration;
     private final Attachment content;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private Media(Builder builder) {
         super(builder);
@@ -400,6 +403,89 @@ public class Media extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Media other = (Media) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(modality, other.modality) && 
+            Objects.equals(view, other.view) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(issued, other.issued) && 
+            Objects.equals(operator, other.operator) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(bodySite, other.bodySite) && 
+            Objects.equals(deviceName, other.deviceName) && 
+            Objects.equals(device, other.device) && 
+            Objects.equals(height, other.height) && 
+            Objects.equals(width, other.width) && 
+            Objects.equals(frames, other.frames) && 
+            Objects.equals(duration, other.duration) && 
+            Objects.equals(content, other.content) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                basedOn, 
+                partOf, 
+                status, 
+                type, 
+                modality, 
+                view, 
+                subject, 
+                encounter, 
+                created, 
+                issued, 
+                operator, 
+                reasonCode, 
+                bodySite, 
+                deviceName, 
+                device, 
+                height, 
+                width, 
+                frames, 
+                duration, 
+                content, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,8 @@ public class VerificationResult extends DomainResource {
     private final List<PrimarySource> primarySource;
     private final Attestation attestation;
     private final List<Validator> validator;
+
+    private volatile int hashCode;
 
     private VerificationResult(Builder builder) {
         super(builder);
@@ -273,6 +276,73 @@ public class VerificationResult extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        VerificationResult other = (VerificationResult) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(target, other.target) && 
+            Objects.equals(targetLocation, other.targetLocation) && 
+            Objects.equals(need, other.need) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusDate, other.statusDate) && 
+            Objects.equals(validationType, other.validationType) && 
+            Objects.equals(validationProcess, other.validationProcess) && 
+            Objects.equals(frequency, other.frequency) && 
+            Objects.equals(lastPerformed, other.lastPerformed) && 
+            Objects.equals(nextScheduled, other.nextScheduled) && 
+            Objects.equals(failureAction, other.failureAction) && 
+            Objects.equals(primarySource, other.primarySource) && 
+            Objects.equals(attestation, other.attestation) && 
+            Objects.equals(validator, other.validator);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                target, 
+                targetLocation, 
+                need, 
+                status, 
+                statusDate, 
+                validationType, 
+                validationProcess, 
+                frequency, 
+                lastPerformed, 
+                nextScheduled, 
+                failureAction, 
+                primarySource, 
+                attestation, 
+                validator);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -867,6 +937,8 @@ public class VerificationResult extends DomainResource {
         private final CodeableConcept canPushUpdates;
         private final List<CodeableConcept> pushTypeAvailable;
 
+        private volatile int hashCode;
+
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
@@ -983,6 +1055,49 @@ public class VerificationResult extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            PrimarySource other = (PrimarySource) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(who, other.who) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(communicationMethod, other.communicationMethod) && 
+                Objects.equals(validationStatus, other.validationStatus) && 
+                Objects.equals(validationDate, other.validationDate) && 
+                Objects.equals(canPushUpdates, other.canPushUpdates) && 
+                Objects.equals(pushTypeAvailable, other.pushTypeAvailable);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    who, 
+                    type, 
+                    communicationMethod, 
+                    validationStatus, 
+                    validationDate, 
+                    canPushUpdates, 
+                    pushTypeAvailable);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1319,6 +1434,8 @@ public class VerificationResult extends DomainResource {
         private final Signature proxySignature;
         private final Signature sourceSignature;
 
+        private volatile int hashCode;
+
         private Attestation(Builder builder) {
             super(builder);
             who = builder.who;
@@ -1450,6 +1567,51 @@ public class VerificationResult extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Attestation other = (Attestation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(who, other.who) && 
+                Objects.equals(onBehalfOf, other.onBehalfOf) && 
+                Objects.equals(communicationMethod, other.communicationMethod) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(sourceIdentityCertificate, other.sourceIdentityCertificate) && 
+                Objects.equals(proxyIdentityCertificate, other.proxyIdentityCertificate) && 
+                Objects.equals(proxySignature, other.proxySignature) && 
+                Objects.equals(sourceSignature, other.sourceSignature);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    who, 
+                    onBehalfOf, 
+                    communicationMethod, 
+                    date, 
+                    sourceIdentityCertificate, 
+                    proxyIdentityCertificate, 
+                    proxySignature, 
+                    sourceSignature);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1744,6 +1906,8 @@ public class VerificationResult extends DomainResource {
         private final String identityCertificate;
         private final Signature attestationSignature;
 
+        private volatile int hashCode;
+
         private Validator(Builder builder) {
             super(builder);
             organization = ValidationSupport.requireNonNull(builder.organization, "organization");
@@ -1803,6 +1967,41 @@ public class VerificationResult extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Validator other = (Validator) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(organization, other.organization) && 
+                Objects.equals(identityCertificate, other.identityCertificate) && 
+                Objects.equals(attestationSignature, other.attestationSignature);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    organization, 
+                    identityCertificate, 
+                    attestationSignature);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

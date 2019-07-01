@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -81,6 +82,8 @@ public class MolecularSequence extends DomainResource {
     private final List<Repository> repository;
     private final List<Reference> pointer;
     private final List<StructureVariant> structureVariant;
+
+    private volatile int hashCode;
 
     private MolecularSequence(Builder builder) {
         super(builder);
@@ -336,6 +339,77 @@ public class MolecularSequence extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MolecularSequence other = (MolecularSequence) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(coordinateSystem, other.coordinateSystem) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(specimen, other.specimen) && 
+            Objects.equals(device, other.device) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(referenceSeq, other.referenceSeq) && 
+            Objects.equals(variant, other.variant) && 
+            Objects.equals(observedSeq, other.observedSeq) && 
+            Objects.equals(quality, other.quality) && 
+            Objects.equals(readCoverage, other.readCoverage) && 
+            Objects.equals(repository, other.repository) && 
+            Objects.equals(pointer, other.pointer) && 
+            Objects.equals(structureVariant, other.structureVariant);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                type, 
+                coordinateSystem, 
+                patient, 
+                specimen, 
+                device, 
+                performer, 
+                quantity, 
+                referenceSeq, 
+                variant, 
+                observedSeq, 
+                quality, 
+                readCoverage, 
+                repository, 
+                pointer, 
+                structureVariant);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -994,6 +1068,8 @@ public class MolecularSequence extends DomainResource {
         private final Integer windowStart;
         private final Integer windowEnd;
 
+        private volatile int hashCode;
+
         private ReferenceSeq(Builder builder) {
             super(builder);
             chromosome = builder.chromosome;
@@ -1147,6 +1223,53 @@ public class MolecularSequence extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ReferenceSeq other = (ReferenceSeq) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(chromosome, other.chromosome) && 
+                Objects.equals(genomeBuild, other.genomeBuild) && 
+                Objects.equals(orientation, other.orientation) && 
+                Objects.equals(referenceSeqId, other.referenceSeqId) && 
+                Objects.equals(referenceSeqPointer, other.referenceSeqPointer) && 
+                Objects.equals(referenceSeqString, other.referenceSeqString) && 
+                Objects.equals(strand, other.strand) && 
+                Objects.equals(windowStart, other.windowStart) && 
+                Objects.equals(windowEnd, other.windowEnd);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    chromosome, 
+                    genomeBuild, 
+                    orientation, 
+                    referenceSeqId, 
+                    referenceSeqPointer, 
+                    referenceSeqString, 
+                    strand, 
+                    windowStart, 
+                    windowEnd);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1472,6 +1595,8 @@ public class MolecularSequence extends DomainResource {
         private final String cigar;
         private final Reference variantPointer;
 
+        private volatile int hashCode;
+
         private Variant(Builder builder) {
             super(builder);
             start = builder.start;
@@ -1585,6 +1710,47 @@ public class MolecularSequence extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Variant other = (Variant) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(start, other.start) && 
+                Objects.equals(end, other.end) && 
+                Objects.equals(observedAllele, other.observedAllele) && 
+                Objects.equals(referenceAllele, other.referenceAllele) && 
+                Objects.equals(cigar, other.cigar) && 
+                Objects.equals(variantPointer, other.variantPointer);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    start, 
+                    end, 
+                    observedAllele, 
+                    referenceAllele, 
+                    cigar, 
+                    variantPointer);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1865,6 +2031,8 @@ public class MolecularSequence extends DomainResource {
         private final Decimal fScore;
         private final Roc roc;
 
+        private volatile int hashCode;
+
         private Quality(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2103,6 +2271,65 @@ public class MolecularSequence extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Quality other = (Quality) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(standardSequence, other.standardSequence) && 
+                Objects.equals(start, other.start) && 
+                Objects.equals(end, other.end) && 
+                Objects.equals(score, other.score) && 
+                Objects.equals(method, other.method) && 
+                Objects.equals(truthTP, other.truthTP) && 
+                Objects.equals(queryTP, other.queryTP) && 
+                Objects.equals(truthFN, other.truthFN) && 
+                Objects.equals(queryFP, other.queryFP) && 
+                Objects.equals(gtFP, other.gtFP) && 
+                Objects.equals(precision, other.precision) && 
+                Objects.equals(recall, other.recall) && 
+                Objects.equals(fScore, other.fScore) && 
+                Objects.equals(roc, other.roc);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    standardSequence, 
+                    start, 
+                    end, 
+                    score, 
+                    method, 
+                    truthTP, 
+                    queryTP, 
+                    truthFN, 
+                    queryFP, 
+                    gtFP, 
+                    precision, 
+                    recall, 
+                    fScore, 
+                    roc);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2524,6 +2751,8 @@ public class MolecularSequence extends DomainResource {
             private final List<Decimal> sensitivity;
             private final List<Decimal> fMeasure;
 
+            private volatile int hashCode;
+
             private Roc(Builder builder) {
                 super(builder);
                 score = Collections.unmodifiableList(builder.score);
@@ -2639,6 +2868,49 @@ public class MolecularSequence extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Roc other = (Roc) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(score, other.score) && 
+                    Objects.equals(numTP, other.numTP) && 
+                    Objects.equals(numFP, other.numFP) && 
+                    Objects.equals(numFN, other.numFN) && 
+                    Objects.equals(precision, other.precision) && 
+                    Objects.equals(sensitivity, other.sensitivity) && 
+                    Objects.equals(fMeasure, other.fMeasure);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        score, 
+                        numTP, 
+                        numFP, 
+                        numFN, 
+                        precision, 
+                        sensitivity, 
+                        fMeasure);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3043,6 +3315,8 @@ public class MolecularSequence extends DomainResource {
         private final String variantsetId;
         private final String readsetId;
 
+        private volatile int hashCode;
+
         private Repository(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -3146,6 +3420,47 @@ public class MolecularSequence extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Repository other = (Repository) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(url, other.url) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(datasetId, other.datasetId) && 
+                Objects.equals(variantsetId, other.variantsetId) && 
+                Objects.equals(readsetId, other.readsetId);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    url, 
+                    name, 
+                    datasetId, 
+                    variantsetId, 
+                    readsetId);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3395,6 +3710,8 @@ public class MolecularSequence extends DomainResource {
         private final Outer outer;
         private final Inner inner;
 
+        private volatile int hashCode;
+
         private StructureVariant(Builder builder) {
             super(builder);
             variantType = builder.variantType;
@@ -3482,6 +3799,45 @@ public class MolecularSequence extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            StructureVariant other = (StructureVariant) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(variantType, other.variantType) && 
+                Objects.equals(exact, other.exact) && 
+                Objects.equals(length, other.length) && 
+                Objects.equals(outer, other.outer) && 
+                Objects.equals(inner, other.inner);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    variantType, 
+                    exact, 
+                    length, 
+                    outer, 
+                    inner);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3717,6 +4073,8 @@ public class MolecularSequence extends DomainResource {
             private final Integer start;
             private final Integer end;
 
+            private volatile int hashCode;
+
             private Outer(Builder builder) {
                 super(builder);
                 start = builder.start;
@@ -3764,6 +4122,39 @@ public class MolecularSequence extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Outer other = (Outer) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(start, other.start) && 
+                    Objects.equals(end, other.end);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        start, 
+                        end);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3948,6 +4339,8 @@ public class MolecularSequence extends DomainResource {
             private final Integer start;
             private final Integer end;
 
+            private volatile int hashCode;
+
             private Inner(Builder builder) {
                 super(builder);
                 start = builder.start;
@@ -3995,6 +4388,39 @@ public class MolecularSequence extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Inner other = (Inner) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(start, other.start) && 
+                    Objects.equals(end, other.end);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        start, 
+                        end);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

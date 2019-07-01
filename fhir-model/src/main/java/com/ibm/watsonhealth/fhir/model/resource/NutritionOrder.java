@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -68,6 +69,8 @@ public class NutritionOrder extends DomainResource {
     private final List<Supplement> supplement;
     private final EnteralFormula enteralFormula;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private NutritionOrder(Builder builder) {
         super(builder);
@@ -342,6 +345,79 @@ public class NutritionOrder extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        NutritionOrder other = (NutritionOrder) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(instantiates, other.instantiates) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(intent, other.intent) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(dateTime, other.dateTime) && 
+            Objects.equals(orderer, other.orderer) && 
+            Objects.equals(allergyIntolerance, other.allergyIntolerance) && 
+            Objects.equals(foodPreferenceModifier, other.foodPreferenceModifier) && 
+            Objects.equals(excludeFoodModifier, other.excludeFoodModifier) && 
+            Objects.equals(oralDiet, other.oralDiet) && 
+            Objects.equals(supplement, other.supplement) && 
+            Objects.equals(enteralFormula, other.enteralFormula) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                instantiates, 
+                status, 
+                intent, 
+                patient, 
+                encounter, 
+                dateTime, 
+                orderer, 
+                allergyIntolerance, 
+                foodPreferenceModifier, 
+                excludeFoodModifier, 
+                oralDiet, 
+                supplement, 
+                enteralFormula, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1030,6 +1106,8 @@ public class NutritionOrder extends DomainResource {
         private final List<CodeableConcept> fluidConsistencyType;
         private final String instruction;
 
+        private volatile int hashCode;
+
         private OralDiet(Builder builder) {
             super(builder);
             type = Collections.unmodifiableList(builder.type);
@@ -1133,6 +1211,47 @@ public class NutritionOrder extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            OralDiet other = (OralDiet) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(schedule, other.schedule) && 
+                Objects.equals(nutrient, other.nutrient) && 
+                Objects.equals(texture, other.texture) && 
+                Objects.equals(fluidConsistencyType, other.fluidConsistencyType) && 
+                Objects.equals(instruction, other.instruction);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    schedule, 
+                    nutrient, 
+                    texture, 
+                    fluidConsistencyType, 
+                    instruction);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1481,6 +1600,8 @@ public class NutritionOrder extends DomainResource {
             private final CodeableConcept modifier;
             private final Quantity amount;
 
+            private volatile int hashCode;
+
             private Nutrient(Builder builder) {
                 super(builder);
                 modifier = builder.modifier;
@@ -1526,6 +1647,39 @@ public class NutritionOrder extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Nutrient other = (Nutrient) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(modifier, other.modifier) && 
+                    Objects.equals(amount, other.amount);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        modifier, 
+                        amount);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1708,6 +1862,8 @@ public class NutritionOrder extends DomainResource {
             private final CodeableConcept modifier;
             private final CodeableConcept foodType;
 
+            private volatile int hashCode;
+
             private Texture(Builder builder) {
                 super(builder);
                 modifier = builder.modifier;
@@ -1753,6 +1909,39 @@ public class NutritionOrder extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Texture other = (Texture) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(modifier, other.modifier) && 
+                    Objects.equals(foodType, other.foodType);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        modifier, 
+                        foodType);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1939,6 +2128,8 @@ public class NutritionOrder extends DomainResource {
         private final Quantity quantity;
         private final String instruction;
 
+        private volatile int hashCode;
+
         private Supplement(Builder builder) {
             super(builder);
             type = builder.type;
@@ -2027,6 +2218,45 @@ public class NutritionOrder extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Supplement other = (Supplement) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(productName, other.productName) && 
+                Objects.equals(schedule, other.schedule) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(instruction, other.instruction);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    productName, 
+                    schedule, 
+                    quantity, 
+                    instruction);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2291,6 +2521,8 @@ public class NutritionOrder extends DomainResource {
         private final Quantity maxVolumeToDeliver;
         private final String administrationInstruction;
 
+        private volatile int hashCode;
+
         private EnteralFormula(Builder builder) {
             super(builder);
             baseFormulaType = builder.baseFormulaType;
@@ -2441,6 +2673,53 @@ public class NutritionOrder extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            EnteralFormula other = (EnteralFormula) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(baseFormulaType, other.baseFormulaType) && 
+                Objects.equals(baseFormulaProductName, other.baseFormulaProductName) && 
+                Objects.equals(additiveType, other.additiveType) && 
+                Objects.equals(additiveProductName, other.additiveProductName) && 
+                Objects.equals(caloricDensity, other.caloricDensity) && 
+                Objects.equals(routeofAdministration, other.routeofAdministration) && 
+                Objects.equals(administration, other.administration) && 
+                Objects.equals(maxVolumeToDeliver, other.maxVolumeToDeliver) && 
+                Objects.equals(administrationInstruction, other.administrationInstruction);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    baseFormulaType, 
+                    baseFormulaProductName, 
+                    additiveType, 
+                    additiveProductName, 
+                    caloricDensity, 
+                    routeofAdministration, 
+                    administration, 
+                    maxVolumeToDeliver, 
+                    administrationInstruction);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2778,6 +3057,8 @@ public class NutritionOrder extends DomainResource {
             private final Quantity quantity;
             private final Element rate;
 
+            private volatile int hashCode;
+
             private Administration(Builder builder) {
                 super(builder);
                 schedule = builder.schedule;
@@ -2837,6 +3118,41 @@ public class NutritionOrder extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Administration other = (Administration) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(schedule, other.schedule) && 
+                    Objects.equals(quantity, other.quantity) && 
+                    Objects.equals(rate, other.rate);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        schedule, 
+                        quantity, 
+                        rate);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

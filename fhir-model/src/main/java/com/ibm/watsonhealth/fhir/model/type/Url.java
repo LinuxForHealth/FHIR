@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
@@ -22,6 +23,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 public class Url extends Uri {
     private static final Pattern PATTERN = Pattern.compile("\\S*");
 
+    private volatile int hashCode;
+
     private Url(Builder builder) {
         super(builder);
         ValidationSupport.checkMinLength(value);
@@ -34,6 +37,35 @@ public class Url extends Uri {
 
     public static Uri uri(java.lang.String value) {
         return Url.builder().value(value).build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Url other = (Url) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

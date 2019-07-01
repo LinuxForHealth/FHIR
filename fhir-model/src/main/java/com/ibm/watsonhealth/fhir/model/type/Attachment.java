@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -35,6 +36,8 @@ public class Attachment extends Element {
     private final Base64Binary hash;
     private final String title;
     private final DateTime creation;
+
+    private volatile int hashCode;
 
     private Attachment(Builder builder) {
         super(builder);
@@ -165,6 +168,49 @@ public class Attachment extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Attachment other = (Attachment) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(contentType, other.contentType) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(data, other.data) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(size, other.size) && 
+            Objects.equals(hash, other.hash) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(creation, other.creation);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                contentType, 
+                language, 
+                data, 
+                url, 
+                size, 
+                hash, 
+                title, 
+                creation);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

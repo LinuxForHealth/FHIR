@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class GraphCompartmentUse extends Code {
     /**
@@ -18,6 +19,8 @@ public class GraphCompartmentUse extends Code {
      * Requirement
      */
     public static final GraphCompartmentUse REQUIREMENT = GraphCompartmentUse.of(ValueSet.REQUIREMENT);
+
+    private volatile int hashCode;
 
     private GraphCompartmentUse(Builder builder) {
         super(builder);
@@ -39,16 +42,40 @@ public class GraphCompartmentUse extends Code {
         return GraphCompartmentUse.builder().value(value).build();
     }
 
-    public static Builder builder() {
-        return new Builder();
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        GraphCompartmentUse other = (GraphCompartmentUse) obj;
+        return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, extension, value);
+            hashCode = result;
+        }
+        return result;
+    }
     public Builder toBuilder() {
         Builder builder = new Builder();
         builder.id = id;
         builder.extension.addAll(extension);
         builder.value = value;
         return builder;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Code.Builder {

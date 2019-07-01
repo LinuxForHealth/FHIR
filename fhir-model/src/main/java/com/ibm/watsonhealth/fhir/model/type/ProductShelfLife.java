@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -27,6 +28,8 @@ public class ProductShelfLife extends BackboneElement {
     private final CodeableConcept type;
     private final Quantity period;
     private final List<CodeableConcept> specialPrecautionsForStorage;
+
+    private volatile int hashCode;
 
     private ProductShelfLife(Builder builder) {
         super(builder);
@@ -107,6 +110,43 @@ public class ProductShelfLife extends BackboneElement {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProductShelfLife other = (ProductShelfLife) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(specialPrecautionsForStorage, other.specialPrecautionsForStorage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                type, 
+                period, 
+                specialPrecautionsForStorage);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

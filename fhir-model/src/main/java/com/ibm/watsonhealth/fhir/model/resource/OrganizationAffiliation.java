@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -47,6 +48,8 @@ public class OrganizationAffiliation extends DomainResource {
     private final List<Reference> healthcareService;
     private final List<ContactPoint> telecom;
     private final List<Reference> endpoint;
+
+    private volatile int hashCode;
 
     private OrganizationAffiliation(Builder builder) {
         super(builder);
@@ -240,6 +243,69 @@ public class OrganizationAffiliation extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        OrganizationAffiliation other = (OrganizationAffiliation) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(active, other.active) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(organization, other.organization) && 
+            Objects.equals(participatingOrganization, other.participatingOrganization) && 
+            Objects.equals(network, other.network) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(specialty, other.specialty) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(healthcareService, other.healthcareService) && 
+            Objects.equals(telecom, other.telecom) && 
+            Objects.equals(endpoint, other.endpoint);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                active, 
+                period, 
+                organization, 
+                participatingOrganization, 
+                network, 
+                code, 
+                specialty, 
+                location, 
+                healthcareService, 
+                telecom, 
+                endpoint);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

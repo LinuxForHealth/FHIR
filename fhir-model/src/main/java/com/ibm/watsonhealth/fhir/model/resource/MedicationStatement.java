@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -70,6 +71,8 @@ public class MedicationStatement extends DomainResource {
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Dosage> dosage;
+
+    private volatile int hashCode;
 
     private MedicationStatement(Builder builder) {
         super(builder);
@@ -339,6 +342,79 @@ public class MedicationStatement extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicationStatement other = (MedicationStatement) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(medication, other.medication) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(context, other.context) && 
+            Objects.equals(effective, other.effective) && 
+            Objects.equals(dateAsserted, other.dateAsserted) && 
+            Objects.equals(informationSource, other.informationSource) && 
+            Objects.equals(derivedFrom, other.derivedFrom) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(dosage, other.dosage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                basedOn, 
+                partOf, 
+                status, 
+                statusReason, 
+                category, 
+                medication, 
+                subject, 
+                context, 
+                effective, 
+                dateAsserted, 
+                informationSource, 
+                derivedFrom, 
+                reasonCode, 
+                reasonReference, 
+                note, 
+                dosage);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

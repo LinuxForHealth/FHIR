@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -42,6 +43,8 @@ public class SubstanceReferenceInformation extends DomainResource {
     private final List<GeneElement> geneElement;
     private final List<Classification> classification;
     private final List<Target> target;
+
+    private volatile int hashCode;
 
     private SubstanceReferenceInformation(Builder builder) {
         super(builder);
@@ -135,6 +138,55 @@ public class SubstanceReferenceInformation extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SubstanceReferenceInformation other = (SubstanceReferenceInformation) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(comment, other.comment) && 
+            Objects.equals(gene, other.gene) && 
+            Objects.equals(geneElement, other.geneElement) && 
+            Objects.equals(classification, other.classification) && 
+            Objects.equals(target, other.target);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                comment, 
+                gene, 
+                geneElement, 
+                classification, 
+                target);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -551,6 +603,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         private final CodeableConcept gene;
         private final List<Reference> source;
 
+        private volatile int hashCode;
+
         private Gene(Builder builder) {
             super(builder);
             geneSequenceOrigin = builder.geneSequenceOrigin;
@@ -610,6 +664,41 @@ public class SubstanceReferenceInformation extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Gene other = (Gene) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(geneSequenceOrigin, other.geneSequenceOrigin) && 
+                Objects.equals(gene, other.gene) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    geneSequenceOrigin, 
+                    gene, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -829,6 +918,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         private final Identifier element;
         private final List<Reference> source;
 
+        private volatile int hashCode;
+
         private GeneElement(Builder builder) {
             super(builder);
             type = builder.type;
@@ -888,6 +979,41 @@ public class SubstanceReferenceInformation extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            GeneElement other = (GeneElement) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(element, other.element) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    element, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1108,6 +1234,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         private final List<CodeableConcept> subtype;
         private final List<Reference> source;
 
+        private volatile int hashCode;
+
         private Classification(Builder builder) {
             super(builder);
             domain = builder.domain;
@@ -1181,6 +1309,43 @@ public class SubstanceReferenceInformation extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Classification other = (Classification) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(domain, other.domain) && 
+                Objects.equals(classification, other.classification) && 
+                Objects.equals(subtype, other.subtype) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    domain, 
+                    classification, 
+                    subtype, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1441,6 +1606,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         private final CodeableConcept amountType;
         private final List<Reference> source;
 
+        private volatile int hashCode;
+
         private Target(Builder builder) {
             super(builder);
             target = builder.target;
@@ -1570,6 +1737,51 @@ public class SubstanceReferenceInformation extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Target other = (Target) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(target, other.target) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(interaction, other.interaction) && 
+                Objects.equals(organism, other.organism) && 
+                Objects.equals(organismType, other.organismType) && 
+                Objects.equals(amount, other.amount) && 
+                Objects.equals(amountType, other.amountType) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    target, 
+                    type, 
+                    interaction, 
+                    organism, 
+                    organismType, 
+                    amount, 
+                    amountType, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

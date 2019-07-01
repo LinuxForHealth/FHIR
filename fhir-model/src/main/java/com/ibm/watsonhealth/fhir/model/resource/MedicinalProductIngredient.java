@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -42,6 +43,8 @@ public class MedicinalProductIngredient extends DomainResource {
     private final List<Reference> manufacturer;
     private final List<SpecifiedSubstance> specifiedSubstance;
     private final Substance substance;
+
+    private volatile int hashCode;
 
     private MedicinalProductIngredient(Builder builder) {
         super(builder);
@@ -150,6 +153,57 @@ public class MedicinalProductIngredient extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProductIngredient other = (MedicinalProductIngredient) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(role, other.role) && 
+            Objects.equals(allergenicIndicator, other.allergenicIndicator) && 
+            Objects.equals(manufacturer, other.manufacturer) && 
+            Objects.equals(specifiedSubstance, other.specifiedSubstance) && 
+            Objects.equals(substance, other.substance);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                role, 
+                allergenicIndicator, 
+                manufacturer, 
+                specifiedSubstance, 
+                substance);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -540,6 +594,8 @@ public class MedicinalProductIngredient extends DomainResource {
         private final CodeableConcept confidentiality;
         private final List<Strength> strength;
 
+        private volatile int hashCode;
+
         private SpecifiedSubstance(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -613,6 +669,43 @@ public class MedicinalProductIngredient extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SpecifiedSubstance other = (SpecifiedSubstance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(group, other.group) && 
+                Objects.equals(confidentiality, other.confidentiality) && 
+                Objects.equals(strength, other.strength);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    group, 
+                    confidentiality, 
+                    strength);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -827,6 +920,8 @@ public class MedicinalProductIngredient extends DomainResource {
             private final List<CodeableConcept> country;
             private final List<ReferenceStrength> referenceStrength;
 
+            private volatile int hashCode;
+
             private Strength(Builder builder) {
                 super(builder);
                 presentation = ValidationSupport.requireNonNull(builder.presentation, "presentation");
@@ -945,6 +1040,49 @@ public class MedicinalProductIngredient extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Strength other = (Strength) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(presentation, other.presentation) && 
+                    Objects.equals(presentationLowLimit, other.presentationLowLimit) && 
+                    Objects.equals(concentration, other.concentration) && 
+                    Objects.equals(concentrationLowLimit, other.concentrationLowLimit) && 
+                    Objects.equals(measurementPoint, other.measurementPoint) && 
+                    Objects.equals(country, other.country) && 
+                    Objects.equals(referenceStrength, other.referenceStrength);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        presentation, 
+                        presentationLowLimit, 
+                        concentration, 
+                        concentrationLowLimit, 
+                        measurementPoint, 
+                        country, 
+                        referenceStrength);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1249,6 +1387,8 @@ public class MedicinalProductIngredient extends DomainResource {
                 private final String measurementPoint;
                 private final List<CodeableConcept> country;
 
+                private volatile int hashCode;
+
                 private ReferenceStrength(Builder builder) {
                     super(builder);
                     substance = builder.substance;
@@ -1336,6 +1476,45 @@ public class MedicinalProductIngredient extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    ReferenceStrength other = (ReferenceStrength) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(substance, other.substance) && 
+                        Objects.equals(strength, other.strength) && 
+                        Objects.equals(strengthLowLimit, other.strengthLowLimit) && 
+                        Objects.equals(measurementPoint, other.measurementPoint) && 
+                        Objects.equals(country, other.country);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            substance, 
+                            strength, 
+                            strengthLowLimit, 
+                            measurementPoint, 
+                            country);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -1582,6 +1761,8 @@ public class MedicinalProductIngredient extends DomainResource {
         private final CodeableConcept code;
         private final List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength;
 
+        private volatile int hashCode;
+
         private Substance(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1627,6 +1808,39 @@ public class MedicinalProductIngredient extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Substance other = (Substance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(strength, other.strength);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    strength);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

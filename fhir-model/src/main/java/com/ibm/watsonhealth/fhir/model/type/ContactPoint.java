@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -35,6 +36,8 @@ public class ContactPoint extends Element {
     private final ContactPointUse use;
     private final PositiveInt rank;
     private final Period period;
+
+    private volatile int hashCode;
 
     private ContactPoint(Builder builder) {
         super(builder);
@@ -124,6 +127,43 @@ public class ContactPoint extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ContactPoint other = (ContactPoint) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(system, other.system) && 
+            Objects.equals(value, other.value) && 
+            Objects.equals(use, other.use) && 
+            Objects.equals(rank, other.rank) && 
+            Objects.equals(period, other.period);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                system, 
+                value, 
+                use, 
+                rank, 
+                period);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

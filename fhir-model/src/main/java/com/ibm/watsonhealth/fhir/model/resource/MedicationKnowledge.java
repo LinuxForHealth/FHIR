@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -64,6 +65,8 @@ public class MedicationKnowledge extends DomainResource {
     private final List<Reference> contraindication;
     private final List<Regulatory> regulatory;
     private final List<Kinetics> kinetics;
+
+    private volatile int hashCode;
 
     private MedicationKnowledge(Builder builder) {
         super(builder);
@@ -406,6 +409,89 @@ public class MedicationKnowledge extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicationKnowledge other = (MedicationKnowledge) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(manufacturer, other.manufacturer) && 
+            Objects.equals(doseForm, other.doseForm) && 
+            Objects.equals(amount, other.amount) && 
+            Objects.equals(synonym, other.synonym) && 
+            Objects.equals(relatedMedicationKnowledge, other.relatedMedicationKnowledge) && 
+            Objects.equals(associatedMedication, other.associatedMedication) && 
+            Objects.equals(productType, other.productType) && 
+            Objects.equals(monograph, other.monograph) && 
+            Objects.equals(ingredient, other.ingredient) && 
+            Objects.equals(preparationInstruction, other.preparationInstruction) && 
+            Objects.equals(intendedRoute, other.intendedRoute) && 
+            Objects.equals(cost, other.cost) && 
+            Objects.equals(monitoringProgram, other.monitoringProgram) && 
+            Objects.equals(administrationGuidelines, other.administrationGuidelines) && 
+            Objects.equals(medicineClassification, other.medicineClassification) && 
+            Objects.equals(packaging, other.packaging) && 
+            Objects.equals(drugCharacteristic, other.drugCharacteristic) && 
+            Objects.equals(contraindication, other.contraindication) && 
+            Objects.equals(regulatory, other.regulatory) && 
+            Objects.equals(kinetics, other.kinetics);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                code, 
+                status, 
+                manufacturer, 
+                doseForm, 
+                amount, 
+                synonym, 
+                relatedMedicationKnowledge, 
+                associatedMedication, 
+                productType, 
+                monograph, 
+                ingredient, 
+                preparationInstruction, 
+                intendedRoute, 
+                cost, 
+                monitoringProgram, 
+                administrationGuidelines, 
+                medicineClassification, 
+                packaging, 
+                drugCharacteristic, 
+                contraindication, 
+                regulatory, 
+                kinetics);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1341,6 +1427,8 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final List<Reference> reference;
 
+        private volatile int hashCode;
+
         private RelatedMedicationKnowledge(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1386,6 +1474,39 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            RelatedMedicationKnowledge other = (RelatedMedicationKnowledge) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(reference, other.reference);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    reference);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1540,6 +1661,8 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final Reference source;
 
+        private volatile int hashCode;
+
         private Monograph(Builder builder) {
             super(builder);
             type = builder.type;
@@ -1585,6 +1708,39 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Monograph other = (Monograph) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1768,6 +1924,8 @@ public class MedicationKnowledge extends DomainResource {
         private final Boolean isActive;
         private final Ratio strength;
 
+        private volatile int hashCode;
+
         private Ingredient(Builder builder) {
             super(builder);
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
@@ -1828,6 +1986,41 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Ingredient other = (Ingredient) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(item, other.item) && 
+                Objects.equals(isActive, other.isActive) && 
+                Objects.equals(strength, other.strength);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    item, 
+                    isActive, 
+                    strength);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2020,6 +2213,8 @@ public class MedicationKnowledge extends DomainResource {
         private final String source;
         private final Money cost;
 
+        private volatile int hashCode;
+
         private Cost(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2080,6 +2275,41 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Cost other = (Cost) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(source, other.source) && 
+                Objects.equals(cost, other.cost);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    source, 
+                    cost);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2254,6 +2484,8 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final String name;
 
+        private volatile int hashCode;
+
         private MonitoringProgram(Builder builder) {
             super(builder);
             type = builder.type;
@@ -2299,6 +2531,39 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            MonitoringProgram other = (MonitoringProgram) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(name, other.name);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    name);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2482,6 +2747,8 @@ public class MedicationKnowledge extends DomainResource {
         private final Element indication;
         private final List<PatientCharacteristics> patientCharacteristics;
 
+        private volatile int hashCode;
+
         private AdministrationGuidelines(Builder builder) {
             super(builder);
             dosage = Collections.unmodifiableList(builder.dosage);
@@ -2542,6 +2809,41 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            AdministrationGuidelines other = (AdministrationGuidelines) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(dosage, other.dosage) && 
+                Objects.equals(indication, other.indication) && 
+                Objects.equals(patientCharacteristics, other.patientCharacteristics);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    dosage, 
+                    indication, 
+                    patientCharacteristics);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2779,6 +3081,8 @@ public class MedicationKnowledge extends DomainResource {
             private final CodeableConcept type;
             private final List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage;
 
+            private volatile int hashCode;
+
             private Dosage(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2824,6 +3128,39 @@ public class MedicationKnowledge extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Dosage other = (Dosage) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(dosage, other.dosage);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        dosage);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2979,6 +3316,8 @@ public class MedicationKnowledge extends DomainResource {
             private final Element characteristic;
             private final List<String> value;
 
+            private volatile int hashCode;
+
             private PatientCharacteristics(Builder builder) {
                 super(builder);
                 characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, Quantity.class);
@@ -3024,6 +3363,39 @@ public class MedicationKnowledge extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                PatientCharacteristics other = (PatientCharacteristics) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(characteristic, other.characteristic) && 
+                    Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        characteristic, 
+                        value);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3215,6 +3587,8 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final List<CodeableConcept> classification;
 
+        private volatile int hashCode;
+
         private MedicineClassification(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -3260,6 +3634,39 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            MedicineClassification other = (MedicineClassification) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(classification, other.classification);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    classification);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3450,6 +3857,8 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final Quantity quantity;
 
+        private volatile int hashCode;
+
         private Packaging(Builder builder) {
             super(builder);
             type = builder.type;
@@ -3496,6 +3905,39 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Packaging other = (Packaging) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(quantity, other.quantity);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    quantity);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3679,6 +4121,8 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final Element value;
 
+        private volatile int hashCode;
+
         private DrugCharacteristic(Builder builder) {
             super(builder);
             type = builder.type;
@@ -3724,6 +4168,39 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            DrugCharacteristic other = (DrugCharacteristic) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3908,6 +4385,8 @@ public class MedicationKnowledge extends DomainResource {
         private final List<Schedule> schedule;
         private final MaxDispense maxDispense;
 
+        private volatile int hashCode;
+
         private Regulatory(Builder builder) {
             super(builder);
             regulatoryAuthority = ValidationSupport.requireNonNull(builder.regulatoryAuthority, "regulatoryAuthority");
@@ -3981,6 +4460,43 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Regulatory other = (Regulatory) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(regulatoryAuthority, other.regulatoryAuthority) && 
+                Objects.equals(substitution, other.substitution) && 
+                Objects.equals(schedule, other.schedule) && 
+                Objects.equals(maxDispense, other.maxDispense);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    regulatoryAuthority, 
+                    substitution, 
+                    schedule, 
+                    maxDispense);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -4224,6 +4740,8 @@ public class MedicationKnowledge extends DomainResource {
             private final CodeableConcept type;
             private final Boolean allowed;
 
+            private volatile int hashCode;
+
             private Substitution(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -4269,6 +4787,39 @@ public class MedicationKnowledge extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Substitution other = (Substitution) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(allowed, other.allowed);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        allowed);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -4422,6 +4973,8 @@ public class MedicationKnowledge extends DomainResource {
         public static class Schedule extends BackboneElement {
             private final CodeableConcept schedule;
 
+            private volatile int hashCode;
+
             private Schedule(Builder builder) {
                 super(builder);
                 schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
@@ -4453,6 +5006,37 @@ public class MedicationKnowledge extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Schedule other = (Schedule) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(schedule, other.schedule);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        schedule);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -4605,6 +5189,8 @@ public class MedicationKnowledge extends DomainResource {
             private final Quantity quantity;
             private final Duration period;
 
+            private volatile int hashCode;
+
             private MaxDispense(Builder builder) {
                 super(builder);
                 quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
@@ -4650,6 +5236,39 @@ public class MedicationKnowledge extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                MaxDispense other = (MaxDispense) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(quantity, other.quantity) && 
+                    Objects.equals(period, other.period);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        quantity, 
+                        period);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -4824,6 +5443,8 @@ public class MedicationKnowledge extends DomainResource {
         private final List<Quantity> lethalDose50;
         private final Duration halfLifePeriod;
 
+        private volatile int hashCode;
+
         private Kinetics(Builder builder) {
             super(builder);
             areaUnderCurve = Collections.unmodifiableList(builder.areaUnderCurve);
@@ -4883,6 +5504,41 @@ public class MedicationKnowledge extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Kinetics other = (Kinetics) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(areaUnderCurve, other.areaUnderCurve) && 
+                Objects.equals(lethalDose50, other.lethalDose50) && 
+                Objects.equals(halfLifePeriod, other.halfLifePeriod);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    areaUnderCurve, 
+                    lethalDose50, 
+                    halfLifePeriod);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

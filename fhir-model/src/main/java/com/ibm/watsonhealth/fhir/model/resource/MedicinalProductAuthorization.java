@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,8 @@ public class MedicinalProductAuthorization extends DomainResource {
     private final Reference holder;
     private final Reference regulator;
     private final Procedure procedure;
+
+    private volatile int hashCode;
 
     private MedicinalProductAuthorization(Builder builder) {
         super(builder);
@@ -300,6 +303,77 @@ public class MedicinalProductAuthorization extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProductAuthorization other = (MedicinalProductAuthorization) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(country, other.country) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusDate, other.statusDate) && 
+            Objects.equals(restoreDate, other.restoreDate) && 
+            Objects.equals(validityPeriod, other.validityPeriod) && 
+            Objects.equals(dataExclusivityPeriod, other.dataExclusivityPeriod) && 
+            Objects.equals(dateOfFirstAuthorization, other.dateOfFirstAuthorization) && 
+            Objects.equals(internationalBirthDate, other.internationalBirthDate) && 
+            Objects.equals(legalBasis, other.legalBasis) && 
+            Objects.equals(jurisdictionalAuthorization, other.jurisdictionalAuthorization) && 
+            Objects.equals(holder, other.holder) && 
+            Objects.equals(regulator, other.regulator) && 
+            Objects.equals(procedure, other.procedure);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                subject, 
+                country, 
+                jurisdiction, 
+                status, 
+                statusDate, 
+                restoreDate, 
+                validityPeriod, 
+                dataExclusivityPeriod, 
+                dateOfFirstAuthorization, 
+                internationalBirthDate, 
+                legalBasis, 
+                jurisdictionalAuthorization, 
+                holder, 
+                regulator, 
+                procedure);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -918,6 +992,8 @@ public class MedicinalProductAuthorization extends DomainResource {
         private final CodeableConcept legalStatusOfSupply;
         private final Period validityPeriod;
 
+        private volatile int hashCode;
+
         private JurisdictionalAuthorization(Builder builder) {
             super(builder);
             identifier = Collections.unmodifiableList(builder.identifier);
@@ -1005,6 +1081,45 @@ public class MedicinalProductAuthorization extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            JurisdictionalAuthorization other = (JurisdictionalAuthorization) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(country, other.country) && 
+                Objects.equals(jurisdiction, other.jurisdiction) && 
+                Objects.equals(legalStatusOfSupply, other.legalStatusOfSupply) && 
+                Objects.equals(validityPeriod, other.validityPeriod);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    country, 
+                    jurisdiction, 
+                    legalStatusOfSupply, 
+                    validityPeriod);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1279,6 +1394,8 @@ public class MedicinalProductAuthorization extends DomainResource {
         private final Element date;
         private final List<MedicinalProductAuthorization.Procedure> application;
 
+        private volatile int hashCode;
+
         private Procedure(Builder builder) {
             super(builder);
             identifier = builder.identifier;
@@ -1352,6 +1469,43 @@ public class MedicinalProductAuthorization extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Procedure other = (Procedure) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(application, other.application);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    type, 
+                    date, 
+                    application);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

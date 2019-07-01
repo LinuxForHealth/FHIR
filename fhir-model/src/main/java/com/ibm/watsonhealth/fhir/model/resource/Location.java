@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -61,6 +62,8 @@ public class Location extends DomainResource {
     private final List<HoursOfOperation> hoursOfOperation;
     private final String availabilityExceptions;
     private final List<Reference> endpoint;
+
+    private volatile int hashCode;
 
     private Location(Builder builder) {
         super(builder);
@@ -328,6 +331,79 @@ public class Location extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Location other = (Location) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(operationalStatus, other.operationalStatus) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(alias, other.alias) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(mode, other.mode) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(telecom, other.telecom) && 
+            Objects.equals(address, other.address) && 
+            Objects.equals(physicalType, other.physicalType) && 
+            Objects.equals(position, other.position) && 
+            Objects.equals(managingOrganization, other.managingOrganization) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(hoursOfOperation, other.hoursOfOperation) && 
+            Objects.equals(availabilityExceptions, other.availabilityExceptions) && 
+            Objects.equals(endpoint, other.endpoint);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                operationalStatus, 
+                name, 
+                alias, 
+                description, 
+                mode, 
+                type, 
+                telecom, 
+                address, 
+                physicalType, 
+                position, 
+                managingOrganization, 
+                partOf, 
+                hoursOfOperation, 
+                availabilityExceptions, 
+                endpoint);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1005,6 +1081,8 @@ public class Location extends DomainResource {
         private final Decimal latitude;
         private final Decimal altitude;
 
+        private volatile int hashCode;
+
         private Position(Builder builder) {
             super(builder);
             longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
@@ -1067,6 +1145,41 @@ public class Location extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Position other = (Position) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(longitude, other.longitude) && 
+                Objects.equals(latitude, other.latitude) && 
+                Objects.equals(altitude, other.altitude);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    longitude, 
+                    latitude, 
+                    altitude);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1244,6 +1357,8 @@ public class Location extends DomainResource {
         private final Time openingTime;
         private final Time closingTime;
 
+        private volatile int hashCode;
+
         private HoursOfOperation(Builder builder) {
             super(builder);
             daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
@@ -1317,6 +1432,43 @@ public class Location extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            HoursOfOperation other = (HoursOfOperation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(daysOfWeek, other.daysOfWeek) && 
+                Objects.equals(allDay, other.allDay) && 
+                Objects.equals(openingTime, other.openingTime) && 
+                Objects.equals(closingTime, other.closingTime);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    daysOfWeek, 
+                    allDay, 
+                    openingTime, 
+                    closingTime);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

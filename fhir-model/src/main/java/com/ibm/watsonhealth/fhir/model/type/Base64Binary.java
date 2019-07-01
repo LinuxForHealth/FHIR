@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -21,6 +22,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Base64Binary extends Element {
     private final byte[] value;
+
+    private volatile int hashCode;
 
     private Base64Binary(Builder builder) {
         super(builder);
@@ -52,6 +55,35 @@ public class Base64Binary extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Base64Binary other = (Base64Binary) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

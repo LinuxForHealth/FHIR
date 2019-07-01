@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -67,6 +68,8 @@ public class CoverageEligibilityResponse extends DomainResource {
     private final String preAuthRef;
     private final CodeableConcept form;
     private final List<Error> error;
+
+    private volatile int hashCode;
 
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
@@ -303,6 +306,75 @@ public class CoverageEligibilityResponse extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CoverageEligibilityResponse other = (CoverageEligibilityResponse) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(serviced, other.serviced) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(requestor, other.requestor) && 
+            Objects.equals(request, other.request) && 
+            Objects.equals(outcome, other.outcome) && 
+            Objects.equals(disposition, other.disposition) && 
+            Objects.equals(insurer, other.insurer) && 
+            Objects.equals(insurance, other.insurance) && 
+            Objects.equals(preAuthRef, other.preAuthRef) && 
+            Objects.equals(form, other.form) && 
+            Objects.equals(error, other.error);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                purpose, 
+                patient, 
+                serviced, 
+                created, 
+                requestor, 
+                request, 
+                outcome, 
+                disposition, 
+                insurer, 
+                insurance, 
+                preAuthRef, 
+                form, 
+                error);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -777,6 +849,8 @@ public class CoverageEligibilityResponse extends DomainResource {
         private final Period benefitPeriod;
         private final List<Item> item;
 
+        private volatile int hashCode;
+
         private Insurance(Builder builder) {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
@@ -852,6 +926,43 @@ public class CoverageEligibilityResponse extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Insurance other = (Insurance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(coverage, other.coverage) && 
+                Objects.equals(inforce, other.inforce) && 
+                Objects.equals(benefitPeriod, other.benefitPeriod) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    coverage, 
+                    inforce, 
+                    benefitPeriod, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1090,6 +1201,8 @@ public class CoverageEligibilityResponse extends DomainResource {
             private final List<CodeableConcept> authorizationSupporting;
             private final Uri authorizationUrl;
 
+            private volatile int hashCode;
+
             private Item(Builder builder) {
                 super(builder);
                 category = builder.category;
@@ -1304,6 +1417,63 @@ public class CoverageEligibilityResponse extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Item other = (Item) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(category, other.category) && 
+                    Objects.equals(productOrService, other.productOrService) && 
+                    Objects.equals(modifier, other.modifier) && 
+                    Objects.equals(provider, other.provider) && 
+                    Objects.equals(excluded, other.excluded) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(description, other.description) && 
+                    Objects.equals(network, other.network) && 
+                    Objects.equals(unit, other.unit) && 
+                    Objects.equals(term, other.term) && 
+                    Objects.equals(benefit, other.benefit) && 
+                    Objects.equals(authorizationRequired, other.authorizationRequired) && 
+                    Objects.equals(authorizationSupporting, other.authorizationSupporting) && 
+                    Objects.equals(authorizationUrl, other.authorizationUrl);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        category, 
+                        productOrService, 
+                        modifier, 
+                        provider, 
+                        excluded, 
+                        name, 
+                        description, 
+                        network, 
+                        unit, 
+                        term, 
+                        benefit, 
+                        authorizationRequired, 
+                        authorizationSupporting, 
+                        authorizationUrl);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1757,6 +1927,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                 private final Element allowed;
                 private final Element used;
 
+                private volatile int hashCode;
+
                 private Benefit(Builder builder) {
                     super(builder);
                     type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1816,6 +1988,41 @@ public class CoverageEligibilityResponse extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Benefit other = (Benefit) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(type, other.type) && 
+                        Objects.equals(allowed, other.allowed) && 
+                        Objects.equals(used, other.used);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            type, 
+                            allowed, 
+                            used);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2007,6 +2214,8 @@ public class CoverageEligibilityResponse extends DomainResource {
     public static class Error extends BackboneElement {
         private final CodeableConcept code;
 
+        private volatile int hashCode;
+
         private Error(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2038,6 +2247,37 @@ public class CoverageEligibilityResponse extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Error other = (Error) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

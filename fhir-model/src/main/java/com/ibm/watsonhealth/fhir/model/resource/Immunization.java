@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -79,6 +80,8 @@ public class Immunization extends DomainResource {
     private final CodeableConcept fundingSource;
     private final List<Reaction> reaction;
     private final List<ProtocolApplied> protocolApplied;
+
+    private volatile int hashCode;
 
     private Immunization(Builder builder) {
         super(builder);
@@ -500,6 +503,101 @@ public class Immunization extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Immunization other = (Immunization) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(vaccineCode, other.vaccineCode) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(occurrence, other.occurrence) && 
+            Objects.equals(recorded, other.recorded) && 
+            Objects.equals(primarySource, other.primarySource) && 
+            Objects.equals(reportOrigin, other.reportOrigin) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(manufacturer, other.manufacturer) && 
+            Objects.equals(lotNumber, other.lotNumber) && 
+            Objects.equals(expirationDate, other.expirationDate) && 
+            Objects.equals(site, other.site) && 
+            Objects.equals(route, other.route) && 
+            Objects.equals(doseQuantity, other.doseQuantity) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(isSubpotent, other.isSubpotent) && 
+            Objects.equals(subpotentReason, other.subpotentReason) && 
+            Objects.equals(education, other.education) && 
+            Objects.equals(programEligibility, other.programEligibility) && 
+            Objects.equals(fundingSource, other.fundingSource) && 
+            Objects.equals(reaction, other.reaction) && 
+            Objects.equals(protocolApplied, other.protocolApplied);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                statusReason, 
+                vaccineCode, 
+                patient, 
+                encounter, 
+                occurrence, 
+                recorded, 
+                primarySource, 
+                reportOrigin, 
+                location, 
+                manufacturer, 
+                lotNumber, 
+                expirationDate, 
+                site, 
+                route, 
+                doseQuantity, 
+                performer, 
+                note, 
+                reasonCode, 
+                reasonReference, 
+                isSubpotent, 
+                subpotentReason, 
+                education, 
+                programEligibility, 
+                fundingSource, 
+                reaction, 
+                protocolApplied);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1385,6 +1483,8 @@ public class Immunization extends DomainResource {
         private final CodeableConcept function;
         private final Reference actor;
 
+        private volatile int hashCode;
+
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -1430,6 +1530,39 @@ public class Immunization extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Performer other = (Performer) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(function, other.function) && 
+                Objects.equals(actor, other.actor);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    function, 
+                    actor);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1604,6 +1737,8 @@ public class Immunization extends DomainResource {
         private final DateTime publicationDate;
         private final DateTime presentationDate;
 
+        private volatile int hashCode;
+
         private Education(Builder builder) {
             super(builder);
             documentType = builder.documentType;
@@ -1677,6 +1812,43 @@ public class Immunization extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Education other = (Education) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(documentType, other.documentType) && 
+                Objects.equals(reference, other.reference) && 
+                Objects.equals(publicationDate, other.publicationDate) && 
+                Objects.equals(presentationDate, other.presentationDate);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    documentType, 
+                    reference, 
+                    publicationDate, 
+                    presentationDate);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1896,6 +2068,8 @@ public class Immunization extends DomainResource {
         private final Reference detail;
         private final Boolean reported;
 
+        private volatile int hashCode;
+
         private Reaction(Builder builder) {
             super(builder);
             date = builder.date;
@@ -1955,6 +2129,41 @@ public class Immunization extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Reaction other = (Reaction) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(detail, other.detail) && 
+                Objects.equals(reported, other.reported);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    date, 
+                    detail, 
+                    reported);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2158,6 +2367,8 @@ public class Immunization extends DomainResource {
         private final Element doseNumber;
         private final Element seriesDoses;
 
+        private volatile int hashCode;
+
         private ProtocolApplied(Builder builder) {
             super(builder);
             series = builder.series;
@@ -2245,6 +2456,45 @@ public class Immunization extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ProtocolApplied other = (ProtocolApplied) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(series, other.series) && 
+                Objects.equals(authority, other.authority) && 
+                Objects.equals(targetDisease, other.targetDisease) && 
+                Objects.equals(doseNumber, other.doseNumber) && 
+                Objects.equals(seriesDoses, other.seriesDoses);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    series, 
+                    authority, 
+                    targetDisease, 
+                    doseNumber, 
+                    seriesDoses);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

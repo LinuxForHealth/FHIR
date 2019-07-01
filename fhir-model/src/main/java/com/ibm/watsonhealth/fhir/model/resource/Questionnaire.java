@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -176,6 +177,8 @@ public class Questionnaire extends DomainResource {
     private final Period effectivePeriod;
     private final List<Coding> code;
     private final List<Item> item;
+
+    private volatile int hashCode;
 
     private Questionnaire(Builder builder) {
         super(builder);
@@ -523,6 +526,89 @@ public class Questionnaire extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Questionnaire other = (Questionnaire) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(derivedFrom, other.derivedFrom) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(subjectType, other.subjectType) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(approvalDate, other.approvalDate) && 
+            Objects.equals(lastReviewDate, other.lastReviewDate) && 
+            Objects.equals(effectivePeriod, other.effectivePeriod) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(item, other.item);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                derivedFrom, 
+                status, 
+                experimental, 
+                subjectType, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                approvalDate, 
+                lastReviewDate, 
+                effectivePeriod, 
+                code, 
+                item);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1339,6 +1425,8 @@ public class Questionnaire extends DomainResource {
         private final List<Initial> initial;
         private final List<Questionnaire.Item> item;
 
+        private volatile int hashCode;
+
         private Item(Builder builder) {
             super(builder);
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
@@ -1602,6 +1690,67 @@ public class Questionnaire extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Item other = (Item) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(linkId, other.linkId) && 
+                Objects.equals(definition, other.definition) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(prefix, other.prefix) && 
+                Objects.equals(text, other.text) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(enableWhen, other.enableWhen) && 
+                Objects.equals(enableBehavior, other.enableBehavior) && 
+                Objects.equals(required, other.required) && 
+                Objects.equals(repeats, other.repeats) && 
+                Objects.equals(readOnly, other.readOnly) && 
+                Objects.equals(maxLength, other.maxLength) && 
+                Objects.equals(answerValueSet, other.answerValueSet) && 
+                Objects.equals(answerOption, other.answerOption) && 
+                Objects.equals(initial, other.initial) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    linkId, 
+                    definition, 
+                    code, 
+                    prefix, 
+                    text, 
+                    type, 
+                    enableWhen, 
+                    enableBehavior, 
+                    required, 
+                    repeats, 
+                    readOnly, 
+                    maxLength, 
+                    answerValueSet, 
+                    answerOption, 
+                    initial, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2124,6 +2273,8 @@ public class Questionnaire extends DomainResource {
             private final QuestionnaireItemOperator operator;
             private final Element answer;
 
+            private volatile int hashCode;
+
             private EnableWhen(Builder builder) {
                 super(builder);
                 question = ValidationSupport.requireNonNull(builder.question, "question");
@@ -2183,6 +2334,41 @@ public class Questionnaire extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                EnableWhen other = (EnableWhen) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(question, other.question) && 
+                    Objects.equals(operator, other.operator) && 
+                    Objects.equals(answer, other.answer);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        question, 
+                        operator, 
+                        answer);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2339,6 +2525,8 @@ public class Questionnaire extends DomainResource {
             private final Element value;
             private final Boolean initialSelected;
 
+            private volatile int hashCode;
+
             private AnswerOption(Builder builder) {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
@@ -2384,6 +2572,39 @@ public class Questionnaire extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                AnswerOption other = (AnswerOption) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(value, other.value) && 
+                    Objects.equals(initialSelected, other.initialSelected);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        value, 
+                        initialSelected);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2556,6 +2777,8 @@ public class Questionnaire extends DomainResource {
         public static class Initial extends BackboneElement {
             private final Element value;
 
+            private volatile int hashCode;
+
             private Initial(Builder builder) {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
@@ -2587,6 +2810,37 @@ public class Questionnaire extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Initial other = (Initial) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        value);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

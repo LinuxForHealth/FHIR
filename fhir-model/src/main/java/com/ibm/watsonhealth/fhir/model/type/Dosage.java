@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -37,6 +38,8 @@ public class Dosage extends BackboneElement {
     private final Ratio maxDosePerPeriod;
     private final Quantity maxDosePerAdministration;
     private final Quantity maxDosePerLifetime;
+
+    private volatile int hashCode;
 
     private Dosage(Builder builder) {
         super(builder);
@@ -240,6 +243,61 @@ public class Dosage extends BackboneElement {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Dosage other = (Dosage) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(sequence, other.sequence) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(additionalInstruction, other.additionalInstruction) && 
+            Objects.equals(patientInstruction, other.patientInstruction) && 
+            Objects.equals(timing, other.timing) && 
+            Objects.equals(asNeeded, other.asNeeded) && 
+            Objects.equals(site, other.site) && 
+            Objects.equals(route, other.route) && 
+            Objects.equals(method, other.method) && 
+            Objects.equals(doseAndRate, other.doseAndRate) && 
+            Objects.equals(maxDosePerPeriod, other.maxDosePerPeriod) && 
+            Objects.equals(maxDosePerAdministration, other.maxDosePerAdministration) && 
+            Objects.equals(maxDosePerLifetime, other.maxDosePerLifetime);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                modifierExtension, 
+                sequence, 
+                text, 
+                additionalInstruction, 
+                patientInstruction, 
+                timing, 
+                asNeeded, 
+                site, 
+                route, 
+                method, 
+                doseAndRate, 
+                maxDosePerPeriod, 
+                maxDosePerAdministration, 
+                maxDosePerLifetime);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -661,6 +719,8 @@ public class Dosage extends BackboneElement {
         private final Element dose;
         private final Element rate;
 
+        private volatile int hashCode;
+
         private DoseAndRate(Builder builder) {
             super(builder);
             type = builder.type;
@@ -720,6 +780,41 @@ public class Dosage extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            DoseAndRate other = (DoseAndRate) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(dose, other.dose) && 
+                Objects.equals(rate, other.rate);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    dose, 
+                    rate);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

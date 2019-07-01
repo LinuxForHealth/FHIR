@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,8 @@ public class DetectedIssue extends DomainResource {
     private final String detail;
     private final Uri reference;
     private final List<Mitigation> mitigation;
+
+    private volatile int hashCode;
 
     private DetectedIssue(Builder builder) {
         super(builder);
@@ -247,6 +250,69 @@ public class DetectedIssue extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DetectedIssue other = (DetectedIssue) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(severity, other.severity) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(identified, other.identified) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(implicated, other.implicated) && 
+            Objects.equals(evidence, other.evidence) && 
+            Objects.equals(detail, other.detail) && 
+            Objects.equals(reference, other.reference) && 
+            Objects.equals(mitigation, other.mitigation);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                code, 
+                severity, 
+                patient, 
+                identified, 
+                author, 
+                implicated, 
+                evidence, 
+                detail, 
+                reference, 
+                mitigation);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -786,6 +852,8 @@ public class DetectedIssue extends DomainResource {
         private final List<CodeableConcept> code;
         private final List<Reference> detail;
 
+        private volatile int hashCode;
+
         private Evidence(Builder builder) {
             super(builder);
             code = Collections.unmodifiableList(builder.code);
@@ -831,6 +899,39 @@ public class DetectedIssue extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Evidence other = (Evidence) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(detail, other.detail);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    detail);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1052,6 +1153,8 @@ public class DetectedIssue extends DomainResource {
         private final DateTime date;
         private final Reference author;
 
+        private volatile int hashCode;
+
         private Mitigation(Builder builder) {
             super(builder);
             action = ValidationSupport.requireNonNull(builder.action, "action");
@@ -1112,6 +1215,41 @@ public class DetectedIssue extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Mitigation other = (Mitigation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(action, other.action) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(author, other.author);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    action, 
+                    date, 
+                    author);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

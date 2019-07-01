@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -119,6 +120,8 @@ public class Task extends DomainResource {
     private final Restriction restriction;
     private final List<Input> input;
     private final List<Output> output;
+
+    private volatile int hashCode;
 
     private Task(Builder builder) {
         super(builder);
@@ -586,6 +589,107 @@ public class Task extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Task other = (Task) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(groupIdentifier, other.groupIdentifier) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(businessStatus, other.businessStatus) && 
+            Objects.equals(intent, other.intent) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(focus, other.focus) && 
+            Objects.equals(_for, other._for) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(executionPeriod, other.executionPeriod) && 
+            Objects.equals(authoredOn, other.authoredOn) && 
+            Objects.equals(lastModified, other.lastModified) && 
+            Objects.equals(requester, other.requester) && 
+            Objects.equals(performerType, other.performerType) && 
+            Objects.equals(owner, other.owner) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(insurance, other.insurance) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(relevantHistory, other.relevantHistory) && 
+            Objects.equals(restriction, other.restriction) && 
+            Objects.equals(input, other.input) && 
+            Objects.equals(output, other.output);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                basedOn, 
+                groupIdentifier, 
+                partOf, 
+                status, 
+                statusReason, 
+                businessStatus, 
+                intent, 
+                priority, 
+                code, 
+                description, 
+                focus, 
+                _for, 
+                encounter, 
+                executionPeriod, 
+                authoredOn, 
+                lastModified, 
+                requester, 
+                performerType, 
+                owner, 
+                location, 
+                reasonCode, 
+                reasonReference, 
+                insurance, 
+                note, 
+                relevantHistory, 
+                restriction, 
+                input, 
+                output);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1549,6 +1653,8 @@ public class Task extends DomainResource {
         private final Period period;
         private final List<Reference> recipient;
 
+        private volatile int hashCode;
+
         private Restriction(Builder builder) {
             super(builder);
             repetitions = builder.repetitions;
@@ -1608,6 +1714,41 @@ public class Task extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Restriction other = (Restriction) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(repetitions, other.repetitions) && 
+                Objects.equals(period, other.period) && 
+                Objects.equals(recipient, other.recipient);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    repetitions, 
+                    period, 
+                    recipient);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1826,6 +1967,8 @@ public class Task extends DomainResource {
         private final CodeableConcept type;
         private final Element value;
 
+        private volatile int hashCode;
+
         private Input(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1871,6 +2014,39 @@ public class Task extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Input other = (Input) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2025,6 +2201,8 @@ public class Task extends DomainResource {
         private final CodeableConcept type;
         private final Element value;
 
+        private volatile int hashCode;
+
         private Output(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2070,6 +2248,39 @@ public class Task extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Output other = (Output) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

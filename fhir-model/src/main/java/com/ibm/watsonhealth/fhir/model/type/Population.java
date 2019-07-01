@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -24,6 +25,8 @@ public class Population extends BackboneElement {
     private final CodeableConcept gender;
     private final CodeableConcept race;
     private final CodeableConcept physiologicalCondition;
+
+    private volatile int hashCode;
 
     private Population(Builder builder) {
         super(builder);
@@ -98,6 +101,43 @@ public class Population extends BackboneElement {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Population other = (Population) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(age, other.age) && 
+            Objects.equals(gender, other.gender) && 
+            Objects.equals(race, other.race) && 
+            Objects.equals(physiologicalCondition, other.physiologicalCondition);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                modifierExtension, 
+                age, 
+                gender, 
+                race, 
+                physiologicalCondition);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

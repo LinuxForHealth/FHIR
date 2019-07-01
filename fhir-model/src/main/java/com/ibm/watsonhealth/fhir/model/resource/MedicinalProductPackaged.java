@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -47,6 +48,8 @@ public class MedicinalProductPackaged extends DomainResource {
     private final List<Reference> manufacturer;
     private final List<BatchIdentifier> batchIdentifier;
     private final List<PackageItem> packageItem;
+
+    private volatile int hashCode;
 
     private MedicinalProductPackaged(Builder builder) {
         super(builder);
@@ -196,6 +199,63 @@ public class MedicinalProductPackaged extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProductPackaged other = (MedicinalProductPackaged) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(legalStatusOfSupply, other.legalStatusOfSupply) && 
+            Objects.equals(marketingStatus, other.marketingStatus) && 
+            Objects.equals(marketingAuthorization, other.marketingAuthorization) && 
+            Objects.equals(manufacturer, other.manufacturer) && 
+            Objects.equals(batchIdentifier, other.batchIdentifier) && 
+            Objects.equals(packageItem, other.packageItem);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                subject, 
+                description, 
+                legalStatusOfSupply, 
+                marketingStatus, 
+                marketingAuthorization, 
+                manufacturer, 
+                batchIdentifier, 
+                packageItem);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -691,6 +751,8 @@ public class MedicinalProductPackaged extends DomainResource {
         private final Identifier outerPackaging;
         private final Identifier immediatePackaging;
 
+        private volatile int hashCode;
+
         private BatchIdentifier(Builder builder) {
             super(builder);
             outerPackaging = ValidationSupport.requireNonNull(builder.outerPackaging, "outerPackaging");
@@ -736,6 +798,39 @@ public class MedicinalProductPackaged extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            BatchIdentifier other = (BatchIdentifier) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(outerPackaging, other.outerPackaging) && 
+                Objects.equals(immediatePackaging, other.immediatePackaging);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    outerPackaging, 
+                    immediatePackaging);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -917,6 +1012,8 @@ public class MedicinalProductPackaged extends DomainResource {
         private final List<CodeableConcept> otherCharacteristics;
         private final List<ProductShelfLife> shelfLifeStorage;
         private final List<Reference> manufacturer;
+
+        private volatile int hashCode;
 
         private PackageItem(Builder builder) {
             super(builder);
@@ -1103,6 +1200,59 @@ public class MedicinalProductPackaged extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            PackageItem other = (PackageItem) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(material, other.material) && 
+                Objects.equals(alternateMaterial, other.alternateMaterial) && 
+                Objects.equals(device, other.device) && 
+                Objects.equals(manufacturedItem, other.manufacturedItem) && 
+                Objects.equals(packageItem, other.packageItem) && 
+                Objects.equals(physicalCharacteristics, other.physicalCharacteristics) && 
+                Objects.equals(otherCharacteristics, other.otherCharacteristics) && 
+                Objects.equals(shelfLifeStorage, other.shelfLifeStorage) && 
+                Objects.equals(manufacturer, other.manufacturer);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    type, 
+                    quantity, 
+                    material, 
+                    alternateMaterial, 
+                    device, 
+                    manufacturedItem, 
+                    packageItem, 
+                    physicalCharacteristics, 
+                    otherCharacteristics, 
+                    shelfLifeStorage, 
+                    manufacturer);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

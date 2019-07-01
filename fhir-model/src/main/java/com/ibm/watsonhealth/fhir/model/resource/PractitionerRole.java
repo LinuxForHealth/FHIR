@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -54,6 +55,8 @@ public class PractitionerRole extends DomainResource {
     private final List<NotAvailable> notAvailable;
     private final String availabilityExceptions;
     private final List<Reference> endpoint;
+
+    private volatile int hashCode;
 
     private PractitionerRole(Builder builder) {
         super(builder);
@@ -274,6 +277,73 @@ public class PractitionerRole extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        PractitionerRole other = (PractitionerRole) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(active, other.active) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(practitioner, other.practitioner) && 
+            Objects.equals(organization, other.organization) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(specialty, other.specialty) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(healthcareService, other.healthcareService) && 
+            Objects.equals(telecom, other.telecom) && 
+            Objects.equals(availableTime, other.availableTime) && 
+            Objects.equals(notAvailable, other.notAvailable) && 
+            Objects.equals(availabilityExceptions, other.availabilityExceptions) && 
+            Objects.equals(endpoint, other.endpoint);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                active, 
+                period, 
+                practitioner, 
+                organization, 
+                code, 
+                specialty, 
+                location, 
+                healthcareService, 
+                telecom, 
+                availableTime, 
+                notAvailable, 
+                availabilityExceptions, 
+                endpoint);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -944,6 +1014,8 @@ public class PractitionerRole extends DomainResource {
         private final Time availableStartTime;
         private final Time availableEndTime;
 
+        private volatile int hashCode;
+
         private AvailableTime(Builder builder) {
             super(builder);
             daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
@@ -1017,6 +1089,43 @@ public class PractitionerRole extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            AvailableTime other = (AvailableTime) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(daysOfWeek, other.daysOfWeek) && 
+                Objects.equals(allDay, other.allDay) && 
+                Objects.equals(availableStartTime, other.availableStartTime) && 
+                Objects.equals(availableEndTime, other.availableEndTime);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    daysOfWeek, 
+                    allDay, 
+                    availableStartTime, 
+                    availableEndTime);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1253,6 +1362,8 @@ public class PractitionerRole extends DomainResource {
         private final String description;
         private final Period during;
 
+        private volatile int hashCode;
+
         private NotAvailable(Builder builder) {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
@@ -1298,6 +1409,39 @@ public class PractitionerRole extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            NotAvailable other = (NotAvailable) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(during, other.during);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    during);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

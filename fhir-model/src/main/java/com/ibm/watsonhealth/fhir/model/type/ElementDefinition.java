@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -206,6 +207,8 @@ public class ElementDefinition extends BackboneElement {
     private final Boolean isSummary;
     private final Binding binding;
     private final List<Mapping> mapping;
+
+    private volatile int hashCode;
 
     private ElementDefinition(Builder builder) {
         super(builder);
@@ -754,6 +757,103 @@ public class ElementDefinition extends BackboneElement {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ElementDefinition other = (ElementDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(path, other.path) && 
+            Objects.equals(representation, other.representation) && 
+            Objects.equals(sliceName, other.sliceName) && 
+            Objects.equals(sliceIsConstraining, other.sliceIsConstraining) && 
+            Objects.equals(label, other.label) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(slicing, other.slicing) && 
+            Objects.equals(_short, other._short) && 
+            Objects.equals(definition, other.definition) && 
+            Objects.equals(comment, other.comment) && 
+            Objects.equals(requirements, other.requirements) && 
+            Objects.equals(alias, other.alias) && 
+            Objects.equals(min, other.min) && 
+            Objects.equals(max, other.max) && 
+            Objects.equals(base, other.base) && 
+            Objects.equals(contentReference, other.contentReference) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(defaultValue, other.defaultValue) && 
+            Objects.equals(meaningWhenMissing, other.meaningWhenMissing) && 
+            Objects.equals(orderMeaning, other.orderMeaning) && 
+            Objects.equals(fixed, other.fixed) && 
+            Objects.equals(pattern, other.pattern) && 
+            Objects.equals(example, other.example) && 
+            Objects.equals(minValue, other.minValue) && 
+            Objects.equals(maxValue, other.maxValue) && 
+            Objects.equals(maxLength, other.maxLength) && 
+            Objects.equals(condition, other.condition) && 
+            Objects.equals(constraint, other.constraint) && 
+            Objects.equals(mustSupport, other.mustSupport) && 
+            Objects.equals(isModifier, other.isModifier) && 
+            Objects.equals(isModifierReason, other.isModifierReason) && 
+            Objects.equals(isSummary, other.isSummary) && 
+            Objects.equals(binding, other.binding) && 
+            Objects.equals(mapping, other.mapping);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                modifierExtension, 
+                path, 
+                representation, 
+                sliceName, 
+                sliceIsConstraining, 
+                label, 
+                code, 
+                slicing, 
+                _short, 
+                definition, 
+                comment, 
+                requirements, 
+                alias, 
+                min, 
+                max, 
+                base, 
+                contentReference, 
+                type, 
+                defaultValue, 
+                meaningWhenMissing, 
+                orderMeaning, 
+                fixed, 
+                pattern, 
+                example, 
+                minValue, 
+                maxValue, 
+                maxLength, 
+                condition, 
+                constraint, 
+                mustSupport, 
+                isModifier, 
+                isModifierReason, 
+                isSummary, 
+                binding, 
+                mapping);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1705,6 +1805,8 @@ public class ElementDefinition extends BackboneElement {
         private final Boolean ordered;
         private final SlicingRules rules;
 
+        private volatile int hashCode;
+
         private Slicing(Builder builder) {
             super(builder);
             discriminator = Collections.unmodifiableList(builder.discriminator);
@@ -1782,6 +1884,43 @@ public class ElementDefinition extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Slicing other = (Slicing) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(discriminator, other.discriminator) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(ordered, other.ordered) && 
+                Objects.equals(rules, other.rules);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    discriminator, 
+                    description, 
+                    ordered, 
+                    rules);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2010,6 +2149,8 @@ public class ElementDefinition extends BackboneElement {
             private final DiscriminatorType type;
             private final String path;
 
+            private volatile int hashCode;
+
             private Discriminator(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2056,6 +2197,39 @@ public class ElementDefinition extends BackboneElement {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Discriminator other = (Discriminator) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(path, other.path);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        path);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2212,6 +2386,8 @@ public class ElementDefinition extends BackboneElement {
         private final UnsignedInt min;
         private final String max;
 
+        private volatile int hashCode;
+
         private Base(Builder builder) {
             super(builder);
             path = ValidationSupport.requireNonNull(builder.path, "path");
@@ -2273,6 +2449,41 @@ public class ElementDefinition extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Base other = (Base) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(path, other.path) && 
+                Objects.equals(min, other.min) && 
+                Objects.equals(max, other.max);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    path, 
+                    min, 
+                    max);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2428,6 +2639,8 @@ public class ElementDefinition extends BackboneElement {
         private final List<AggregationMode> aggregation;
         private final ReferenceVersionRules versioning;
 
+        private volatile int hashCode;
+
         private Type(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2526,6 +2739,45 @@ public class ElementDefinition extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Type other = (Type) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(profile, other.profile) && 
+                Objects.equals(targetProfile, other.targetProfile) && 
+                Objects.equals(aggregation, other.aggregation) && 
+                Objects.equals(versioning, other.versioning);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    profile, 
+                    targetProfile, 
+                    aggregation, 
+                    versioning);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2820,6 +3072,8 @@ public class ElementDefinition extends BackboneElement {
         private final String label;
         private final Element value;
 
+        private volatile int hashCode;
+
         private Example(Builder builder) {
             super(builder);
             label = ValidationSupport.requireNonNull(builder.label, "label");
@@ -2865,6 +3119,39 @@ public class ElementDefinition extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Example other = (Example) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(label, other.label) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    label, 
+                    value);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3021,6 +3308,8 @@ public class ElementDefinition extends BackboneElement {
         private final String xpath;
         private final Canonical source;
 
+        private volatile int hashCode;
+
         private Constraint(Builder builder) {
             super(builder);
             key = ValidationSupport.requireNonNull(builder.key, "key");
@@ -3137,6 +3426,49 @@ public class ElementDefinition extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Constraint other = (Constraint) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(key, other.key) && 
+                Objects.equals(requirements, other.requirements) && 
+                Objects.equals(severity, other.severity) && 
+                Objects.equals(human, other.human) && 
+                Objects.equals(expression, other.expression) && 
+                Objects.equals(xpath, other.xpath) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    key, 
+                    requirements, 
+                    severity, 
+                    human, 
+                    expression, 
+                    xpath, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3365,6 +3697,8 @@ public class ElementDefinition extends BackboneElement {
         private final String description;
         private final Canonical valueSet;
 
+        private volatile int hashCode;
+
         private Binding(Builder builder) {
             super(builder);
             strength = ValidationSupport.requireNonNull(builder.strength, "strength");
@@ -3425,6 +3759,41 @@ public class ElementDefinition extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Binding other = (Binding) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(strength, other.strength) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(valueSet, other.valueSet);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    strength, 
+                    description, 
+                    valueSet);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3613,6 +3982,8 @@ public class ElementDefinition extends BackboneElement {
         private final String map;
         private final String comment;
 
+        private volatile int hashCode;
+
         private Mapping(Builder builder) {
             super(builder);
             identity = ValidationSupport.requireNonNull(builder.identity, "identity");
@@ -3686,6 +4057,43 @@ public class ElementDefinition extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Mapping other = (Mapping) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identity, other.identity) && 
+                Objects.equals(language, other.language) && 
+                Objects.equals(map, other.map) && 
+                Objects.equals(comment, other.comment);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identity, 
+                    language, 
+                    map, 
+                    comment);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

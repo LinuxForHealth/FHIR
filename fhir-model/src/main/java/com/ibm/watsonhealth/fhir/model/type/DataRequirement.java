@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -50,6 +51,8 @@ public class DataRequirement extends Element {
     private final List<DateFilter> dateFilter;
     private final PositiveInt limit;
     private final List<Sort> sort;
+
+    private volatile int hashCode;
 
     private DataRequirement(Builder builder) {
         super(builder);
@@ -189,6 +192,49 @@ public class DataRequirement extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DataRequirement other = (DataRequirement) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(profile, other.profile) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(mustSupport, other.mustSupport) && 
+            Objects.equals(codeFilter, other.codeFilter) && 
+            Objects.equals(dateFilter, other.dateFilter) && 
+            Objects.equals(limit, other.limit) && 
+            Objects.equals(sort, other.sort);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                type, 
+                profile, 
+                subject, 
+                mustSupport, 
+                codeFilter, 
+                dateFilter, 
+                limit, 
+                sort);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -528,6 +574,8 @@ public class DataRequirement extends Element {
         private final Canonical valueSet;
         private final List<Coding> code;
 
+        private volatile int hashCode;
+
         private CodeFilter(Builder builder) {
             super(builder);
             path = builder.path;
@@ -610,6 +658,43 @@ public class DataRequirement extends Element {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            CodeFilter other = (CodeFilter) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(path, other.path) && 
+                Objects.equals(searchParam, other.searchParam) && 
+                Objects.equals(valueSet, other.valueSet) && 
+                Objects.equals(code, other.code);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    path, 
+                    searchParam, 
+                    valueSet, 
+                    code);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -855,6 +940,8 @@ public class DataRequirement extends Element {
         private final String searchParam;
         private final Element value;
 
+        private volatile int hashCode;
+
         private DateFilter(Builder builder) {
             super(builder);
             path = builder.path;
@@ -922,6 +1009,41 @@ public class DataRequirement extends Element {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            DateFilter other = (DateFilter) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(path, other.path) && 
+                Objects.equals(searchParam, other.searchParam) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    path, 
+                    searchParam, 
+                    value);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1126,6 +1248,8 @@ public class DataRequirement extends Element {
         private final String path;
         private final SortDirection direction;
 
+        private volatile int hashCode;
+
         private Sort(Builder builder) {
             super(builder);
             path = ValidationSupport.requireNonNull(builder.path, "path");
@@ -1173,6 +1297,39 @@ public class DataRequirement extends Element {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Sort other = (Sort) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(path, other.path) && 
+                Objects.equals(direction, other.direction);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    path, 
+                    direction);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

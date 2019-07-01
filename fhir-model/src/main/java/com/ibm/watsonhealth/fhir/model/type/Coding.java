@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -24,6 +25,8 @@ public class Coding extends Element {
     private final Code code;
     private final String display;
     private final Boolean userSelected;
+
+    private volatile int hashCode;
 
     private Coding(Builder builder) {
         super(builder);
@@ -114,6 +117,43 @@ public class Coding extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Coding other = (Coding) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(system, other.system) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(display, other.display) && 
+            Objects.equals(userSelected, other.userSelected);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                system, 
+                version, 
+                code, 
+                display, 
+                userSelected);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

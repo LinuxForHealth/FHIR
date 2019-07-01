@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -36,6 +37,8 @@ public class Address extends Element {
     private final String postalCode;
     private final String country;
     private final Period period;
+
+    private volatile int hashCode;
 
     private Address(Builder builder) {
         super(builder);
@@ -197,6 +200,53 @@ public class Address extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Address other = (Address) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(use, other.use) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(line, other.line) && 
+            Objects.equals(city, other.city) && 
+            Objects.equals(district, other.district) && 
+            Objects.equals(state, other.state) && 
+            Objects.equals(postalCode, other.postalCode) && 
+            Objects.equals(country, other.country) && 
+            Objects.equals(period, other.period);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                use, 
+                type, 
+                text, 
+                line, 
+                city, 
+                district, 
+                state, 
+                postalCode, 
+                country, 
+                period);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

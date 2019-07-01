@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -98,6 +99,8 @@ public class Timing extends BackboneElement {
     private final Repeat repeat;
     private final CodeableConcept code;
 
+    private volatile int hashCode;
+
     private Timing(Builder builder) {
         super(builder);
         event = Collections.unmodifiableList(builder.event);
@@ -161,6 +164,41 @@ public class Timing extends BackboneElement {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Timing other = (Timing) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(event, other.event) && 
+            Objects.equals(repeat, other.repeat) && 
+            Objects.equals(code, other.code);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                modifierExtension, 
+                event, 
+                repeat, 
+                code);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -394,6 +432,8 @@ public class Timing extends BackboneElement {
         private final List<Time> timeOfDay;
         private final List<EventTiming> when;
         private final UnsignedInt offset;
+
+        private volatile int hashCode;
 
         private Repeat(Builder builder) {
             super(builder);
@@ -633,6 +673,65 @@ public class Timing extends BackboneElement {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Repeat other = (Repeat) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(bounds, other.bounds) && 
+                Objects.equals(count, other.count) && 
+                Objects.equals(countMax, other.countMax) && 
+                Objects.equals(duration, other.duration) && 
+                Objects.equals(durationMax, other.durationMax) && 
+                Objects.equals(durationUnit, other.durationUnit) && 
+                Objects.equals(frequency, other.frequency) && 
+                Objects.equals(frequencyMax, other.frequencyMax) && 
+                Objects.equals(period, other.period) && 
+                Objects.equals(periodMax, other.periodMax) && 
+                Objects.equals(periodUnit, other.periodUnit) && 
+                Objects.equals(dayOfWeek, other.dayOfWeek) && 
+                Objects.equals(timeOfDay, other.timeOfDay) && 
+                Objects.equals(when, other.when) && 
+                Objects.equals(offset, other.offset);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    bounds, 
+                    count, 
+                    countMax, 
+                    duration, 
+                    durationMax, 
+                    durationUnit, 
+                    frequency, 
+                    frequencyMax, 
+                    period, 
+                    periodMax, 
+                    periodUnit, 
+                    dayOfWeek, 
+                    timeOfDay, 
+                    when, 
+                    offset);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -73,6 +74,8 @@ public class ChargeItem extends DomainResource {
     private final List<Reference> account;
     private final List<Annotation> note;
     private final List<Reference> supportingInformation;
+
+    private volatile int hashCode;
 
     private ChargeItem(Builder builder) {
         super(builder);
@@ -461,6 +464,97 @@ public class ChargeItem extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ChargeItem other = (ChargeItem) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(definitionUri, other.definitionUri) && 
+            Objects.equals(definitionCanonical, other.definitionCanonical) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(context, other.context) && 
+            Objects.equals(occurrence, other.occurrence) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(performingOrganization, other.performingOrganization) && 
+            Objects.equals(requestingOrganization, other.requestingOrganization) && 
+            Objects.equals(costCenter, other.costCenter) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(bodysite, other.bodysite) && 
+            Objects.equals(factorOverride, other.factorOverride) && 
+            Objects.equals(priceOverride, other.priceOverride) && 
+            Objects.equals(overrideReason, other.overrideReason) && 
+            Objects.equals(enterer, other.enterer) && 
+            Objects.equals(enteredDate, other.enteredDate) && 
+            Objects.equals(reason, other.reason) && 
+            Objects.equals(service, other.service) && 
+            Objects.equals(product, other.product) && 
+            Objects.equals(account, other.account) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(supportingInformation, other.supportingInformation);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                definitionUri, 
+                definitionCanonical, 
+                status, 
+                partOf, 
+                code, 
+                subject, 
+                context, 
+                occurrence, 
+                performer, 
+                performingOrganization, 
+                requestingOrganization, 
+                costCenter, 
+                quantity, 
+                bodysite, 
+                factorOverride, 
+                priceOverride, 
+                overrideReason, 
+                enterer, 
+                enteredDate, 
+                reason, 
+                service, 
+                product, 
+                account, 
+                note, 
+                supportingInformation);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1339,6 +1433,8 @@ public class ChargeItem extends DomainResource {
         private final CodeableConcept function;
         private final Reference actor;
 
+        private volatile int hashCode;
+
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -1384,6 +1480,39 @@ public class ChargeItem extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Performer other = (Performer) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(function, other.function) && 
+                Objects.equals(actor, other.actor);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    function, 
+                    actor);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

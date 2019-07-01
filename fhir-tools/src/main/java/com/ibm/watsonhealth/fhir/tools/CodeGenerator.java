@@ -32,6 +32,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import javax.json.Json;
@@ -121,11 +122,7 @@ public class CodeGenerator {
 
     private static List<String> readHeader() {
         try {
-            String baseDir = ".";
-            if(System.getProperty("BaseDir") != null) {
-                baseDir = System.getProperty("BaseDir");
-            }
-            return Files.readAllLines(new File(baseDir + "/codegen-support/header.txt").toPath());
+            return Files.readAllLines(new File("./codegen-support/header.txt").toPath());
         } catch (IOException e) {
             throw new Error(e);
         }
@@ -699,7 +696,7 @@ public class CodeGenerator {
                 cb.annotation("Generated", quote("com.ibm.watsonhealth.fhir.tools.CodeGenerator"));
             }
             cb._class(mods, className, _super);
-            
+                        
             if (isDateTime(structureDefinition)) {
                 cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy\").optionalStart().appendPattern(\"-MM\").optionalStart().appendPattern(\"-dd\").optionalStart().appendPattern(\"'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 1, 6, true).optionalEnd().appendPattern(\"XXX\").optionalEnd().optionalEnd().optionalEnd().toFormatter()").newLine();
             }
@@ -731,7 +728,7 @@ public class CodeGenerator {
             if (isUnsignedInt(structureDefinition)) {
                 cb.field(mods("private", "static", "final"), "int", "MIN_VALUE", "0").newLine();
             }
-            
+
             List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
                         
             List<String> nestedPaths = new ArrayList<>();  
@@ -755,6 +752,8 @@ public class CodeGenerator {
             if (fieldCount > 0) {
                 cb.newLine();
             }
+            
+            cb.field(mods("private", "volatile"), "int", "hashCode").newLine();
                         
             cb.constructor(mods(visibility), className, args("Builder builder"));
             if ((!"Resource".equals(className) && !"Element".equals(className)) || nested) {
@@ -844,6 +843,7 @@ public class CodeGenerator {
             generateIsAsMethods(structureDefinition, cb);
             generateFactoryMethods(structureDefinition, cb);
             generateAcceptMethod(structureDefinition, className, path, cb, nested);
+            generateEqualsHashCodeMethods(structureDefinition, className, path, cb);
                         
             List<String> params = new ArrayList<>();
             List<String> args = new ArrayList<>();
@@ -891,6 +891,60 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
+    }
+
+    private void generateEqualsHashCodeMethods(JsonObject structureDefinition, String className, String path, CodeBuilder cb) {
+        int level = path.split("\\.").length + 2;
+        
+        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
+        cb.override();
+        cb.method(mods("public"), "boolean", "equals", params("Object obj"));
+        cb._if("this == obj")
+            ._return("true")
+        ._end();
+        cb._if("obj == null")
+            ._return("false")
+        ._end();
+        cb._if("getClass() != obj.getClass()")
+            ._return("false")
+        ._end();
+        cb.assign(className + " other", "(" + className + ") obj");
+        StringJoiner joiner = new StringJoiner(" && " + System.lineSeparator() + indent(level));
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String elementName = getElementName(elementDefinition, path);
+            String fieldName = getFieldName(elementName);
+            joiner.add("Objects.equals(" + fieldName + ", other." + fieldName +")");
+        }
+        cb._return(joiner.toString());
+        cb.end().newLine();
+        
+        cb.override();
+        cb.method(mods("public"), "int", "hashCode");
+        cb.assign("int result", "hashCode");
+        cb._if("result == 0");
+
+        joiner = new StringJoiner(", " + System.lineSeparator() + indent(level + 1));
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String elementName = getElementName(elementDefinition, path);
+            String fieldName = getFieldName(elementName);
+            joiner.add(fieldName);
+        }
+        
+        cb.assign("result", "Objects.hash(" + joiner.toString() + ")");
+        cb.assign("hashCode", "result");
+        
+        cb._end();
+        
+        cb._return("result");
+        cb.end().newLine();
+    }
+    
+    private String indent(int level) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < level; i++) {
+            sb.append("    ");
+        }
+        return sb.toString();
     }
 
     private void generateConstraintAnnotations(JsonObject structureDefinition, CodeBuilder cb) {
@@ -1277,6 +1331,8 @@ public class CodeGenerator {
         
         boolean containsCollection = false;
         boolean repeating = false;
+        
+        imports.add("java.util.Objects");
         
         if ("Resource".equals(name) || "Element".equals(name)) {
             imports.add("com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable");
@@ -1719,13 +1775,7 @@ public class CodeGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
         
-        // Work around the pseudo hardcoding
-        String baseDir = ".";
-        if(System.getProperty("BaseDir") != null) {
-            baseDir = System.getProperty("BaseDir");
-        }
-        
-        try (FileWriter writer = new FileWriter(file); JsonWriter jsonWriter = jsonWriterFactory.createWriter(new FileWriter(new File(baseDir + "/src/main/resources/json-support.json")))) {
+        try (FileWriter writer = new FileWriter(file); JsonWriter jsonWriter = jsonWriterFactory.createWriter(new FileWriter(new File("./src/main/resources/json-support.json")))) {
             writer.write(cb.toString());
             jsonWriter.write(jsonSupport);
         } catch (Exception e) {
@@ -2041,7 +2091,8 @@ public class CodeGenerator {
                 cb.javadoc(HEADER, true, true, false).newLine();
                 cb._package(packageName).newLine();
                 
-                cb._import("java.util.Collection").newLine();
+                cb._import("java.util.Collection");
+                cb._import("java.util.Objects").newLine();
                 
                 cb._class(mods("public"), bindingName, "Code");
                 
@@ -2055,6 +2106,8 @@ public class CodeGenerator {
                     }
                     cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".of(ValueSet." + enumConstantName + ")").newLine();
                 }
+                
+                cb.field(mods("private", "volatile"), "int", "hashCode").newLine();
                 
                 cb.constructor(mods("private"), bindingName, params("Builder builder"))
                     ._super(args("builder"))
@@ -2076,9 +2129,30 @@ public class CodeGenerator {
                     ._return(bindingName + ".builder().value(value).build()")
                 .end().newLine();
                 
-                cb.method(mods("public", "static"), "Builder", "builder")
-                    ._return(_new("Builder"))
-                .end().newLine();
+                cb.override();
+                cb.method(mods("public"), "boolean", "equals", params("Object obj"));
+                cb._if("this == obj")
+                    ._return("true")
+                ._end();
+                cb._if("obj == null")
+                    ._return("false")
+                ._end();
+                cb._if("getClass() != obj.getClass()")
+                    ._return("false")
+                ._end();
+                cb.assign(bindingName + " other", "(" + bindingName + ") obj");
+                cb._return("Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value)");
+                cb.end().newLine();
+                
+                cb.override();
+                cb.method(mods("public"), "int", "hashCode");
+                cb.assign("int result", "hashCode");
+                cb._if("result == 0");
+                cb.assign("result", "Objects.hash(id, extension, value)");
+                cb.assign("hashCode", "result");
+                cb._end();
+                cb._return("result");
+                cb.end();
                 
                 cb.method(mods("public"), "Builder", "toBuilder")
                     .assign("Builder builder", "new Builder()")
@@ -2086,6 +2160,10 @@ public class CodeGenerator {
                     .invoke("builder.extension", "addAll", args("extension"))
                     .assign("builder.value", "value")
                     ._return("builder")
+                .end().newLine();                
+                
+                cb.method(mods("public", "static"), "Builder", "builder")
+                    ._return(_new("Builder"))
                 .end().newLine();
                 
                 cb._class(mods("public", "static"), "Builder", "Code.Builder");
@@ -2177,7 +2255,6 @@ public class CodeGenerator {
 //              System.out.println(cb.toString());
                 codeSubtypeClassNames.add(bindingName);
             }
-            
         }
     }
 
@@ -2900,7 +2977,7 @@ public class CodeGenerator {
         }
         return "private";
     }
-    public static Map<String, JsonObject> buildResourceMap(String path, String resourceType) {
+    private static Map<String, JsonObject> buildResourceMap(String path, String resourceType) {
         try (JsonReader reader = Json.createReader(new FileReader(new File(path)))) {
             List<JsonObject> resources = new ArrayList<>();
             JsonObject bundle = reader.readObject();
@@ -2933,7 +3010,6 @@ public class CodeGenerator {
             throw new Error(e);
         }
     }
-    
     public static void main(String[] args) throws Exception {
         Map<String, JsonObject> structureDefinitionMap = buildResourceMap("./definitions/profiles-resources.json", "StructureDefinition");
         structureDefinitionMap.putAll(buildResourceMap("./definitions/profiles-types.json", "StructureDefinition"));
@@ -2947,5 +3023,4 @@ public class CodeGenerator {
         CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
         generator.generate("./src/main/java");
     }
-
 }

@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -34,6 +35,8 @@ public class Expression extends Element {
     private final Code language;
     private final String expression;
     private final Uri reference;
+
+    private volatile int hashCode;
 
     private Expression(Builder builder) {
         super(builder);
@@ -122,6 +125,43 @@ public class Expression extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Expression other = (Expression) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(expression, other.expression) && 
+            Objects.equals(reference, other.reference);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                description, 
+                name, 
+                language, 
+                expression, 
+                reference);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -88,6 +89,8 @@ public class EvidenceVariable extends DomainResource {
     private final List<RelatedArtifact> relatedArtifact;
     private final EvidenceVariableType type;
     private final List<Characteristic> characteristic;
+
+    private volatile int hashCode;
 
     private EvidenceVariable(Builder builder) {
         super(builder);
@@ -511,6 +514,99 @@ public class EvidenceVariable extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        EvidenceVariable other = (EvidenceVariable) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(shortTitle, other.shortTitle) && 
+            Objects.equals(subtitle, other.subtitle) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(approvalDate, other.approvalDate) && 
+            Objects.equals(lastReviewDate, other.lastReviewDate) && 
+            Objects.equals(effectivePeriod, other.effectivePeriod) && 
+            Objects.equals(topic, other.topic) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(editor, other.editor) && 
+            Objects.equals(reviewer, other.reviewer) && 
+            Objects.equals(endorser, other.endorser) && 
+            Objects.equals(relatedArtifact, other.relatedArtifact) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(characteristic, other.characteristic);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                shortTitle, 
+                subtitle, 
+                status, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                note, 
+                useContext, 
+                jurisdiction, 
+                copyright, 
+                approvalDate, 
+                lastReviewDate, 
+                effectivePeriod, 
+                topic, 
+                author, 
+                editor, 
+                reviewer, 
+                endorser, 
+                relatedArtifact, 
+                type, 
+                characteristic);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1453,6 +1549,8 @@ public class EvidenceVariable extends DomainResource {
         private final Duration timeFromStart;
         private final GroupMeasure groupMeasure;
 
+        private volatile int hashCode;
+
         private Characteristic(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1571,6 +1669,49 @@ public class EvidenceVariable extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Characteristic other = (Characteristic) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(definition, other.definition) && 
+                Objects.equals(usageContext, other.usageContext) && 
+                Objects.equals(exclude, other.exclude) && 
+                Objects.equals(participantEffective, other.participantEffective) && 
+                Objects.equals(timeFromStart, other.timeFromStart) && 
+                Objects.equals(groupMeasure, other.groupMeasure);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    definition, 
+                    usageContext, 
+                    exclude, 
+                    participantEffective, 
+                    timeFromStart, 
+                    groupMeasure);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

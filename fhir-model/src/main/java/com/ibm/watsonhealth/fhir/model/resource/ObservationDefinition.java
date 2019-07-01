@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -55,6 +56,8 @@ public class ObservationDefinition extends DomainResource {
     private final Reference normalCodedValueSet;
     private final Reference abnormalCodedValueSet;
     private final Reference criticalCodedValueSet;
+
+    private volatile int hashCode;
 
     private ObservationDefinition(Builder builder) {
         super(builder);
@@ -261,6 +264,71 @@ public class ObservationDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ObservationDefinition other = (ObservationDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(permittedDataType, other.permittedDataType) && 
+            Objects.equals(multipleResultsAllowed, other.multipleResultsAllowed) && 
+            Objects.equals(method, other.method) && 
+            Objects.equals(preferredReportName, other.preferredReportName) && 
+            Objects.equals(quantitativeDetails, other.quantitativeDetails) && 
+            Objects.equals(qualifiedInterval, other.qualifiedInterval) && 
+            Objects.equals(validCodedValueSet, other.validCodedValueSet) && 
+            Objects.equals(normalCodedValueSet, other.normalCodedValueSet) && 
+            Objects.equals(abnormalCodedValueSet, other.abnormalCodedValueSet) && 
+            Objects.equals(criticalCodedValueSet, other.criticalCodedValueSet);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                category, 
+                code, 
+                identifier, 
+                permittedDataType, 
+                multipleResultsAllowed, 
+                method, 
+                preferredReportName, 
+                quantitativeDetails, 
+                qualifiedInterval, 
+                validCodedValueSet, 
+                normalCodedValueSet, 
+                abnormalCodedValueSet, 
+                criticalCodedValueSet);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -814,6 +882,8 @@ public class ObservationDefinition extends DomainResource {
         private final Decimal conversionFactor;
         private final Integer decimalPrecision;
 
+        private volatile int hashCode;
+
         private QuantitativeDetails(Builder builder) {
             super(builder);
             customaryUnit = builder.customaryUnit;
@@ -887,6 +957,43 @@ public class ObservationDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            QuantitativeDetails other = (QuantitativeDetails) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(customaryUnit, other.customaryUnit) && 
+                Objects.equals(unit, other.unit) && 
+                Objects.equals(conversionFactor, other.conversionFactor) && 
+                Objects.equals(decimalPrecision, other.decimalPrecision);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    customaryUnit, 
+                    unit, 
+                    conversionFactor, 
+                    decimalPrecision);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1112,6 +1219,8 @@ public class ObservationDefinition extends DomainResource {
         private final Range gestationalAge;
         private final String condition;
 
+        private volatile int hashCode;
+
         private QualifiedInterval(Builder builder) {
             super(builder);
             category = builder.category;
@@ -1242,6 +1351,51 @@ public class ObservationDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            QualifiedInterval other = (QualifiedInterval) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(range, other.range) && 
+                Objects.equals(context, other.context) && 
+                Objects.equals(appliesTo, other.appliesTo) && 
+                Objects.equals(gender, other.gender) && 
+                Objects.equals(age, other.age) && 
+                Objects.equals(gestationalAge, other.gestationalAge) && 
+                Objects.equals(condition, other.condition);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    category, 
+                    range, 
+                    context, 
+                    appliesTo, 
+                    gender, 
+                    age, 
+                    gestationalAge, 
+                    condition);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

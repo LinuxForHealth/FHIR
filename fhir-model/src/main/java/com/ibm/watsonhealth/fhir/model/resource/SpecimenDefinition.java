@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -46,6 +47,8 @@ public class SpecimenDefinition extends DomainResource {
     private final String timeAspect;
     private final List<CodeableConcept> collection;
     private final List<TypeTested> typeTested;
+
+    private volatile int hashCode;
 
     private SpecimenDefinition(Builder builder) {
         super(builder);
@@ -153,6 +156,57 @@ public class SpecimenDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SpecimenDefinition other = (SpecimenDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(typeCollected, other.typeCollected) && 
+            Objects.equals(patientPreparation, other.patientPreparation) && 
+            Objects.equals(timeAspect, other.timeAspect) && 
+            Objects.equals(collection, other.collection) && 
+            Objects.equals(typeTested, other.typeTested);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                typeCollected, 
+                patientPreparation, 
+                timeAspect, 
+                collection, 
+                typeTested);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -574,6 +628,8 @@ public class SpecimenDefinition extends DomainResource {
         private final List<CodeableConcept> rejectionCriterion;
         private final List<Handling> handling;
 
+        private volatile int hashCode;
+
         private TypeTested(Builder builder) {
             super(builder);
             isDerived = builder.isDerived;
@@ -705,6 +761,51 @@ public class SpecimenDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            TypeTested other = (TypeTested) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(isDerived, other.isDerived) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(preference, other.preference) && 
+                Objects.equals(container, other.container) && 
+                Objects.equals(requirement, other.requirement) && 
+                Objects.equals(retentionTime, other.retentionTime) && 
+                Objects.equals(rejectionCriterion, other.rejectionCriterion) && 
+                Objects.equals(handling, other.handling);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    isDerived, 
+                    type, 
+                    preference, 
+                    container, 
+                    requirement, 
+                    retentionTime, 
+                    rejectionCriterion, 
+                    handling);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1029,6 +1130,8 @@ public class SpecimenDefinition extends DomainResource {
             private final List<Additive> additive;
             private final String preparation;
 
+            private volatile int hashCode;
+
             private Container(Builder builder) {
                 super(builder);
                 material = builder.material;
@@ -1159,6 +1262,51 @@ public class SpecimenDefinition extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Container other = (Container) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(material, other.material) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(cap, other.cap) && 
+                    Objects.equals(description, other.description) && 
+                    Objects.equals(capacity, other.capacity) && 
+                    Objects.equals(minimumVolume, other.minimumVolume) && 
+                    Objects.equals(additive, other.additive) && 
+                    Objects.equals(preparation, other.preparation);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        material, 
+                        type, 
+                        cap, 
+                        description, 
+                        capacity, 
+                        minimumVolume, 
+                        additive, 
+                        preparation);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1468,6 +1616,8 @@ public class SpecimenDefinition extends DomainResource {
             public static class Additive extends BackboneElement {
                 private final Element additive;
 
+                private volatile int hashCode;
+
                 private Additive(Builder builder) {
                     super(builder);
                     additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
@@ -1500,6 +1650,37 @@ public class SpecimenDefinition extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Additive other = (Additive) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(additive, other.additive);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            additive);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -1656,6 +1837,8 @@ public class SpecimenDefinition extends DomainResource {
             private final Duration maxDuration;
             private final String instruction;
 
+            private volatile int hashCode;
+
             private Handling(Builder builder) {
                 super(builder);
                 temperatureQualifier = builder.temperatureQualifier;
@@ -1731,6 +1914,43 @@ public class SpecimenDefinition extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Handling other = (Handling) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(temperatureQualifier, other.temperatureQualifier) && 
+                    Objects.equals(temperatureRange, other.temperatureRange) && 
+                    Objects.equals(maxDuration, other.maxDuration) && 
+                    Objects.equals(instruction, other.instruction);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        temperatureQualifier, 
+                        temperatureRange, 
+                        maxDuration, 
+                        instruction);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

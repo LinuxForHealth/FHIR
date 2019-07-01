@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -125,6 +126,8 @@ public class StructureMap extends DomainResource {
     private final List<Structure> structure;
     private final List<Canonical> _import;
     private final List<Group> group;
+
+    private volatile int hashCode;
 
     private StructureMap(Builder builder) {
         super(builder);
@@ -415,6 +418,81 @@ public class StructureMap extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        StructureMap other = (StructureMap) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(structure, other.structure) && 
+            Objects.equals(_import, other._import) && 
+            Objects.equals(group, other.group);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                structure, 
+                _import, 
+                group);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1060,6 +1138,8 @@ public class StructureMap extends DomainResource {
         private final String alias;
         private final String documentation;
 
+        private volatile int hashCode;
+
         private Structure(Builder builder) {
             super(builder);
             url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1133,6 +1213,43 @@ public class StructureMap extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Structure other = (Structure) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(url, other.url) && 
+                Objects.equals(mode, other.mode) && 
+                Objects.equals(alias, other.alias) && 
+                Objects.equals(documentation, other.documentation);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    url, 
+                    mode, 
+                    alias, 
+                    documentation);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1329,6 +1446,8 @@ public class StructureMap extends DomainResource {
         private final List<Input> input;
         private final List<Rule> rule;
 
+        private volatile int hashCode;
+
         private Group(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1430,6 +1549,47 @@ public class StructureMap extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Group other = (Group) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(_extends, other._extends) && 
+                Objects.equals(typeMode, other.typeMode) && 
+                Objects.equals(documentation, other.documentation) && 
+                Objects.equals(input, other.input) && 
+                Objects.equals(rule, other.rule);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    _extends, 
+                    typeMode, 
+                    documentation, 
+                    input, 
+                    rule);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1627,6 +1787,8 @@ public class StructureMap extends DomainResource {
             private final StructureMapInputMode mode;
             private final String documentation;
 
+            private volatile int hashCode;
+
             private Input(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1700,6 +1862,43 @@ public class StructureMap extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Input other = (Input) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(mode, other.mode) && 
+                    Objects.equals(documentation, other.documentation);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        name, 
+                        type, 
+                        mode, 
+                        documentation);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1896,6 +2095,8 @@ public class StructureMap extends DomainResource {
             private final List<Dependent> dependent;
             private final String documentation;
 
+            private volatile int hashCode;
+
             private Rule(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1997,6 +2198,47 @@ public class StructureMap extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Rule other = (Rule) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(source, other.source) && 
+                    Objects.equals(target, other.target) && 
+                    Objects.equals(rule, other.rule) && 
+                    Objects.equals(dependent, other.dependent) && 
+                    Objects.equals(documentation, other.documentation);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        name, 
+                        source, 
+                        target, 
+                        rule, 
+                        dependent, 
+                        documentation);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2287,6 +2529,8 @@ public class StructureMap extends DomainResource {
                 private final String check;
                 private final String logMessage;
 
+                private volatile int hashCode;
+
                 private Source(Builder builder) {
                     super(builder);
                     context = ValidationSupport.requireNonNull(builder.context, "context");
@@ -2461,6 +2705,57 @@ public class StructureMap extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Source other = (Source) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(context, other.context) && 
+                        Objects.equals(min, other.min) && 
+                        Objects.equals(max, other.max) && 
+                        Objects.equals(type, other.type) && 
+                        Objects.equals(defaultValue, other.defaultValue) && 
+                        Objects.equals(element, other.element) && 
+                        Objects.equals(listMode, other.listMode) && 
+                        Objects.equals(variable, other.variable) && 
+                        Objects.equals(condition, other.condition) && 
+                        Objects.equals(check, other.check) && 
+                        Objects.equals(logMessage, other.logMessage);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            context, 
+                            min, 
+                            max, 
+                            type, 
+                            defaultValue, 
+                            element, 
+                            listMode, 
+                            variable, 
+                            condition, 
+                            check, 
+                            logMessage);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2804,6 +3099,8 @@ public class StructureMap extends DomainResource {
                 private final StructureMapTransform transform;
                 private final List<Parameter> parameter;
 
+                private volatile int hashCode;
+
                 private Target(Builder builder) {
                     super(builder);
                     context = builder.context;
@@ -2933,6 +3230,51 @@ public class StructureMap extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Target other = (Target) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(context, other.context) && 
+                        Objects.equals(contextType, other.contextType) && 
+                        Objects.equals(element, other.element) && 
+                        Objects.equals(variable, other.variable) && 
+                        Objects.equals(listMode, other.listMode) && 
+                        Objects.equals(listRuleId, other.listRuleId) && 
+                        Objects.equals(transform, other.transform) && 
+                        Objects.equals(parameter, other.parameter);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            context, 
+                            contextType, 
+                            element, 
+                            variable, 
+                            listMode, 
+                            listRuleId, 
+                            transform, 
+                            parameter);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -3257,6 +3599,8 @@ public class StructureMap extends DomainResource {
                 public static class Parameter extends BackboneElement {
                     private final Element value;
 
+                    private volatile int hashCode;
+
                     private Parameter(Builder builder) {
                         super(builder);
                         value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
@@ -3288,6 +3632,37 @@ public class StructureMap extends DomainResource {
                             visitor.visitEnd(elementName, this);
                             visitor.postVisit(this);
                         }
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        if (this == obj) {
+                            return true;
+                        }
+                        if (obj == null) {
+                            return false;
+                        }
+                        if (getClass() != obj.getClass()) {
+                            return false;
+                        }
+                        Parameter other = (Parameter) obj;
+                        return Objects.equals(id, other.id) && 
+                            Objects.equals(extension, other.extension) && 
+                            Objects.equals(modifierExtension, other.modifierExtension) && 
+                            Objects.equals(value, other.value);
+                    }
+
+                    @Override
+                    public int hashCode() {
+                        int result = hashCode;
+                        if (result == 0) {
+                            result = Objects.hash(id, 
+                                extension, 
+                                modifierExtension, 
+                                value);
+                            hashCode = result;
+                        }
+                        return result;
                     }
 
                     @Override
@@ -3441,6 +3816,8 @@ public class StructureMap extends DomainResource {
                 private final Id name;
                 private final List<String> variable;
 
+                private volatile int hashCode;
+
                 private Dependent(Builder builder) {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -3486,6 +3863,39 @@ public class StructureMap extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Dependent other = (Dependent) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(name, other.name) && 
+                        Objects.equals(variable, other.variable);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            name, 
+                            variable);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -110,6 +111,8 @@ public class TerminologyCapabilities extends DomainResource {
     private final ValidateCode validateCode;
     private final Translation translation;
     private final Closure closure;
+
+    private volatile int hashCode;
 
     private TerminologyCapabilities(Builder builder) {
         super(builder);
@@ -489,6 +492,93 @@ public class TerminologyCapabilities extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        TerminologyCapabilities other = (TerminologyCapabilities) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(kind, other.kind) && 
+            Objects.equals(software, other.software) && 
+            Objects.equals(implementation, other.implementation) && 
+            Objects.equals(lockedDate, other.lockedDate) && 
+            Objects.equals(codeSystem, other.codeSystem) && 
+            Objects.equals(expansion, other.expansion) && 
+            Objects.equals(codeSearch, other.codeSearch) && 
+            Objects.equals(validateCode, other.validateCode) && 
+            Objects.equals(translation, other.translation) && 
+            Objects.equals(closure, other.closure);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                version, 
+                name, 
+                title, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                kind, 
+                software, 
+                implementation, 
+                lockedDate, 
+                codeSystem, 
+                expansion, 
+                codeSearch, 
+                validateCode, 
+                translation, 
+                closure);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1225,6 +1315,8 @@ public class TerminologyCapabilities extends DomainResource {
         private final String name;
         private final String version;
 
+        private volatile int hashCode;
+
         private Software(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1270,6 +1362,39 @@ public class TerminologyCapabilities extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Software other = (Software) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(version, other.version);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    version);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1443,6 +1568,8 @@ public class TerminologyCapabilities extends DomainResource {
         private final String description;
         private final Url url;
 
+        private volatile int hashCode;
+
         private Implementation(Builder builder) {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
@@ -1488,6 +1615,39 @@ public class TerminologyCapabilities extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Implementation other = (Implementation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(url, other.url);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    url);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1662,6 +1822,8 @@ public class TerminologyCapabilities extends DomainResource {
         private final List<Version> version;
         private final Boolean subsumption;
 
+        private volatile int hashCode;
+
         private CodeSystem(Builder builder) {
             super(builder);
             uri = builder.uri;
@@ -1721,6 +1883,41 @@ public class TerminologyCapabilities extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            CodeSystem other = (CodeSystem) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(uri, other.uri) && 
+                Objects.equals(version, other.version) && 
+                Objects.equals(subsumption, other.subsumption);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    uri, 
+                    version, 
+                    subsumption);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1942,6 +2139,8 @@ public class TerminologyCapabilities extends DomainResource {
             private final List<Filter> filter;
             private final List<Code> property;
 
+            private volatile int hashCode;
+
             private Version(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -2043,6 +2242,47 @@ public class TerminologyCapabilities extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Version other = (Version) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(isDefault, other.isDefault) && 
+                    Objects.equals(compositional, other.compositional) && 
+                    Objects.equals(language, other.language) && 
+                    Objects.equals(filter, other.filter) && 
+                    Objects.equals(property, other.property);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        isDefault, 
+                        compositional, 
+                        language, 
+                        filter, 
+                        property);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2350,6 +2590,8 @@ public class TerminologyCapabilities extends DomainResource {
                 private final Code code;
                 private final List<Code> op;
 
+                private volatile int hashCode;
+
                 private Filter(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2395,6 +2637,39 @@ public class TerminologyCapabilities extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Filter other = (Filter) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(code, other.code) && 
+                        Objects.equals(op, other.op);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            code, 
+                            op);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2554,6 +2829,8 @@ public class TerminologyCapabilities extends DomainResource {
         private final List<Parameter> parameter;
         private final Markdown textFilter;
 
+        private volatile int hashCode;
+
         private Expansion(Builder builder) {
             super(builder);
             hierarchical = builder.hierarchical;
@@ -2641,6 +2918,45 @@ public class TerminologyCapabilities extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Expansion other = (Expansion) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(hierarchical, other.hierarchical) && 
+                Objects.equals(paging, other.paging) && 
+                Objects.equals(incomplete, other.incomplete) && 
+                Objects.equals(parameter, other.parameter) && 
+                Objects.equals(textFilter, other.textFilter);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    hierarchical, 
+                    paging, 
+                    incomplete, 
+                    parameter, 
+                    textFilter);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2894,6 +3210,8 @@ public class TerminologyCapabilities extends DomainResource {
             private final Code name;
             private final String documentation;
 
+            private volatile int hashCode;
+
             private Parameter(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -2939,6 +3257,39 @@ public class TerminologyCapabilities extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Parameter other = (Parameter) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(documentation, other.documentation);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        name, 
+                        documentation);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3111,6 +3462,8 @@ public class TerminologyCapabilities extends DomainResource {
     public static class ValidateCode extends BackboneElement {
         private final Boolean translations;
 
+        private volatile int hashCode;
+
         private ValidateCode(Builder builder) {
             super(builder);
             translations = ValidationSupport.requireNonNull(builder.translations, "translations");
@@ -3142,6 +3495,37 @@ public class TerminologyCapabilities extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ValidateCode other = (ValidateCode) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(translations, other.translations);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    translations);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3293,6 +3677,8 @@ public class TerminologyCapabilities extends DomainResource {
     public static class Translation extends BackboneElement {
         private final Boolean needsMap;
 
+        private volatile int hashCode;
+
         private Translation(Builder builder) {
             super(builder);
             needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
@@ -3324,6 +3710,37 @@ public class TerminologyCapabilities extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Translation other = (Translation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(needsMap, other.needsMap);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    needsMap);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3475,6 +3892,8 @@ public class TerminologyCapabilities extends DomainResource {
     public static class Closure extends BackboneElement {
         private final Boolean translation;
 
+        private volatile int hashCode;
+
         private Closure(Builder builder) {
             super(builder);
             translation = builder.translation;
@@ -3506,6 +3925,37 @@ public class TerminologyCapabilities extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Closure other = (Closure) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(translation, other.translation);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    translation);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

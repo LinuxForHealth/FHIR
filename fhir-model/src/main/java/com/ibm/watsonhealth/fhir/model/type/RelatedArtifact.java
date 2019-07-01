@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -28,6 +29,8 @@ public class RelatedArtifact extends Element {
     private final Url url;
     private final Attachment document;
     private final Canonical resource;
+
+    private volatile int hashCode;
 
     private RelatedArtifact(Builder builder) {
         super(builder);
@@ -145,6 +148,47 @@ public class RelatedArtifact extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        RelatedArtifact other = (RelatedArtifact) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(label, other.label) && 
+            Objects.equals(display, other.display) && 
+            Objects.equals(citation, other.citation) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(document, other.document) && 
+            Objects.equals(resource, other.resource);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                type, 
+                label, 
+                display, 
+                citation, 
+                url, 
+                document, 
+                resource);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

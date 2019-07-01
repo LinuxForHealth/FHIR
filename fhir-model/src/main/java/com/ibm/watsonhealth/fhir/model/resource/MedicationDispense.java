@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -74,6 +75,8 @@ public class MedicationDispense extends DomainResource {
     private final Substitution substitution;
     private final List<Reference> detectedIssue;
     private final List<Reference> eventHistory;
+
+    private volatile int hashCode;
 
     private MedicationDispense(Builder builder) {
         super(builder);
@@ -443,6 +446,93 @@ public class MedicationDispense extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicationDispense other = (MedicationDispense) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(medication, other.medication) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(context, other.context) && 
+            Objects.equals(supportingInformation, other.supportingInformation) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(authorizingPrescription, other.authorizingPrescription) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(daysSupply, other.daysSupply) && 
+            Objects.equals(whenPrepared, other.whenPrepared) && 
+            Objects.equals(whenHandedOver, other.whenHandedOver) && 
+            Objects.equals(destination, other.destination) && 
+            Objects.equals(receiver, other.receiver) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(dosageInstruction, other.dosageInstruction) && 
+            Objects.equals(substitution, other.substitution) && 
+            Objects.equals(detectedIssue, other.detectedIssue) && 
+            Objects.equals(eventHistory, other.eventHistory);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                partOf, 
+                status, 
+                statusReason, 
+                category, 
+                medication, 
+                subject, 
+                context, 
+                supportingInformation, 
+                performer, 
+                location, 
+                authorizingPrescription, 
+                type, 
+                quantity, 
+                daysSupply, 
+                whenPrepared, 
+                whenHandedOver, 
+                destination, 
+                receiver, 
+                note, 
+                dosageInstruction, 
+                substitution, 
+                detectedIssue, 
+                eventHistory);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1296,6 +1386,8 @@ public class MedicationDispense extends DomainResource {
         private final CodeableConcept function;
         private final Reference actor;
 
+        private volatile int hashCode;
+
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -1342,6 +1434,39 @@ public class MedicationDispense extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Performer other = (Performer) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(function, other.function) && 
+                Objects.equals(actor, other.actor);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    function, 
+                    actor);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1518,6 +1643,8 @@ public class MedicationDispense extends DomainResource {
         private final List<CodeableConcept> reason;
         private final List<Reference> responsibleParty;
 
+        private volatile int hashCode;
+
         private Substitution(Builder builder) {
             super(builder);
             wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
@@ -1591,6 +1718,43 @@ public class MedicationDispense extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Substitution other = (Substitution) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(wasSubstituted, other.wasSubstituted) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(reason, other.reason) && 
+                Objects.equals(responsibleParty, other.responsibleParty);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    wasSubstituted, 
+                    type, 
+                    reason, 
+                    responsibleParty);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

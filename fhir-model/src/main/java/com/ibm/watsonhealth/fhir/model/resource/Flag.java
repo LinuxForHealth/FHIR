@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -42,6 +43,8 @@ public class Flag extends DomainResource {
     private final Period period;
     private final Reference encounter;
     private final Reference author;
+
+    private volatile int hashCode;
 
     private Flag(Builder builder) {
         super(builder);
@@ -180,6 +183,61 @@ public class Flag extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Flag other = (Flag) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(author, other.author);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                category, 
+                code, 
+                subject, 
+                period, 
+                encounter, 
+                author);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

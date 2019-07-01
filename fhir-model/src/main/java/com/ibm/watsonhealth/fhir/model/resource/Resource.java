@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.resource;
 
+import java.util.Objects;
+
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.builder.AbstractBuilder;
@@ -26,6 +28,8 @@ public abstract class Resource extends AbstractVisitable {
     protected final Meta meta;
     protected final Uri implicitRules;
     protected final Code language;
+
+    private volatile int hashCode;
 
     protected Resource(Builder builder) {
         id = builder.id;
@@ -91,6 +95,37 @@ public abstract class Resource extends AbstractVisitable {
 
     public <T extends Resource> T as(Class<T> resourceType) {
         return resourceType.cast(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Resource other = (Resource) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language);
+            hashCode = result;
+        }
+        return result;
     }
 
     public abstract Builder toBuilder();

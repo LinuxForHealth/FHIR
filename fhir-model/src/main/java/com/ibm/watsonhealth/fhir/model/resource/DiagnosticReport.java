@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -61,6 +62,8 @@ public class DiagnosticReport extends DomainResource {
     private final String conclusion;
     private final List<CodeableConcept> conclusionCode;
     private final List<Attachment> presentedForm;
+
+    private volatile int hashCode;
 
     private DiagnosticReport(Builder builder) {
         super(builder);
@@ -345,6 +348,81 @@ public class DiagnosticReport extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DiagnosticReport other = (DiagnosticReport) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(effective, other.effective) && 
+            Objects.equals(issued, other.issued) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(resultsInterpreter, other.resultsInterpreter) && 
+            Objects.equals(specimen, other.specimen) && 
+            Objects.equals(result, other.result) && 
+            Objects.equals(imagingStudy, other.imagingStudy) && 
+            Objects.equals(media, other.media) && 
+            Objects.equals(conclusion, other.conclusion) && 
+            Objects.equals(conclusionCode, other.conclusionCode) && 
+            Objects.equals(presentedForm, other.presentedForm);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                basedOn, 
+                status, 
+                category, 
+                code, 
+                subject, 
+                encounter, 
+                effective, 
+                issued, 
+                performer, 
+                resultsInterpreter, 
+                specimen, 
+                result, 
+                imagingStudy, 
+                media, 
+                conclusion, 
+                conclusionCode, 
+                presentedForm);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1109,6 +1187,8 @@ public class DiagnosticReport extends DomainResource {
         private final String comment;
         private final Reference link;
 
+        private volatile int hashCode;
+
         private Media(Builder builder) {
             super(builder);
             comment = builder.comment;
@@ -1155,6 +1235,39 @@ public class DiagnosticReport extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Media other = (Media) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(comment, other.comment) && 
+                Objects.equals(link, other.link);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    comment, 
+                    link);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

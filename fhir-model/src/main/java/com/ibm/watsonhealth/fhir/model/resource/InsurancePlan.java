@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -64,6 +65,8 @@ public class InsurancePlan extends DomainResource {
     private final List<Reference> network;
     private final List<Coverage> coverage;
     private final List<Plan> plan;
+
+    private volatile int hashCode;
 
     private InsurancePlan(Builder builder) {
         super(builder);
@@ -286,6 +289,73 @@ public class InsurancePlan extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        InsurancePlan other = (InsurancePlan) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(alias, other.alias) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(ownedBy, other.ownedBy) && 
+            Objects.equals(administeredBy, other.administeredBy) && 
+            Objects.equals(coverageArea, other.coverageArea) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(endpoint, other.endpoint) && 
+            Objects.equals(network, other.network) && 
+            Objects.equals(coverage, other.coverage) && 
+            Objects.equals(plan, other.plan);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                type, 
+                name, 
+                alias, 
+                period, 
+                ownedBy, 
+                administeredBy, 
+                coverageArea, 
+                contact, 
+                endpoint, 
+                network, 
+                coverage, 
+                plan);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -959,6 +1029,8 @@ public class InsurancePlan extends DomainResource {
         private final List<ContactPoint> telecom;
         private final Address address;
 
+        private volatile int hashCode;
+
         private Contact(Builder builder) {
             super(builder);
             purpose = builder.purpose;
@@ -1032,6 +1104,43 @@ public class InsurancePlan extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Contact other = (Contact) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(purpose, other.purpose) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(telecom, other.telecom) && 
+                Objects.equals(address, other.address);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    purpose, 
+                    name, 
+                    telecom, 
+                    address);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1269,6 +1378,8 @@ public class InsurancePlan extends DomainResource {
         private final List<Reference> network;
         private final List<Benefit> benefit;
 
+        private volatile int hashCode;
+
         private Coverage(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1329,6 +1440,41 @@ public class InsurancePlan extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Coverage other = (Coverage) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(network, other.network) && 
+                Objects.equals(benefit, other.benefit);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    network, 
+                    benefit);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1521,6 +1667,8 @@ public class InsurancePlan extends DomainResource {
             private final String requirement;
             private final List<Limit> limit;
 
+            private volatile int hashCode;
+
             private Benefit(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1580,6 +1728,41 @@ public class InsurancePlan extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Benefit other = (Benefit) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(requirement, other.requirement) && 
+                    Objects.equals(limit, other.limit);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        requirement, 
+                        limit);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1787,6 +1970,8 @@ public class InsurancePlan extends DomainResource {
                 private final Quantity value;
                 private final CodeableConcept code;
 
+                private volatile int hashCode;
+
                 private Limit(Builder builder) {
                     super(builder);
                     value = builder.value;
@@ -1833,6 +2018,39 @@ public class InsurancePlan extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Limit other = (Limit) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(value, other.value) && 
+                        Objects.equals(code, other.code);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            value, 
+                            code);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2022,6 +2240,8 @@ public class InsurancePlan extends DomainResource {
         private final List<GeneralCost> generalCost;
         private final List<SpecificCost> specificCost;
 
+        private volatile int hashCode;
+
         private Plan(Builder builder) {
             super(builder);
             identifier = Collections.unmodifiableList(builder.identifier);
@@ -2124,6 +2344,47 @@ public class InsurancePlan extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Plan other = (Plan) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(coverageArea, other.coverageArea) && 
+                Objects.equals(network, other.network) && 
+                Objects.equals(generalCost, other.generalCost) && 
+                Objects.equals(specificCost, other.specificCost);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    type, 
+                    coverageArea, 
+                    network, 
+                    generalCost, 
+                    specificCost);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2471,6 +2732,8 @@ public class InsurancePlan extends DomainResource {
             private final Money cost;
             private final String comment;
 
+            private volatile int hashCode;
+
             private GeneralCost(Builder builder) {
                 super(builder);
                 type = builder.type;
@@ -2544,6 +2807,43 @@ public class InsurancePlan extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                GeneralCost other = (GeneralCost) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(groupSize, other.groupSize) && 
+                    Objects.equals(cost, other.cost) && 
+                    Objects.equals(comment, other.comment);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        groupSize, 
+                        cost, 
+                        comment);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2762,6 +3062,8 @@ public class InsurancePlan extends DomainResource {
             private final CodeableConcept category;
             private final List<Benefit> benefit;
 
+            private volatile int hashCode;
+
             private SpecificCost(Builder builder) {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -2807,6 +3109,39 @@ public class InsurancePlan extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                SpecificCost other = (SpecificCost) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(category, other.category) && 
+                    Objects.equals(benefit, other.benefit);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        category, 
+                        benefit);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2996,6 +3331,8 @@ public class InsurancePlan extends DomainResource {
                 private final CodeableConcept type;
                 private final List<Cost> cost;
 
+                private volatile int hashCode;
+
                 private Benefit(Builder builder) {
                     super(builder);
                     type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -3042,6 +3379,39 @@ public class InsurancePlan extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Benefit other = (Benefit) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(type, other.type) && 
+                        Objects.equals(cost, other.cost);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            type, 
+                            cost);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -3233,6 +3603,8 @@ public class InsurancePlan extends DomainResource {
                     private final List<CodeableConcept> qualifiers;
                     private final Quantity value;
 
+                    private volatile int hashCode;
+
                     private Cost(Builder builder) {
                         super(builder);
                         type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -3307,6 +3679,43 @@ public class InsurancePlan extends DomainResource {
                             visitor.visitEnd(elementName, this);
                             visitor.postVisit(this);
                         }
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        if (this == obj) {
+                            return true;
+                        }
+                        if (obj == null) {
+                            return false;
+                        }
+                        if (getClass() != obj.getClass()) {
+                            return false;
+                        }
+                        Cost other = (Cost) obj;
+                        return Objects.equals(id, other.id) && 
+                            Objects.equals(extension, other.extension) && 
+                            Objects.equals(modifierExtension, other.modifierExtension) && 
+                            Objects.equals(type, other.type) && 
+                            Objects.equals(applicability, other.applicability) && 
+                            Objects.equals(qualifiers, other.qualifiers) && 
+                            Objects.equals(value, other.value);
+                    }
+
+                    @Override
+                    public int hashCode() {
+                        int result = hashCode;
+                        if (result == 0) {
+                            result = Objects.hash(id, 
+                                extension, 
+                                modifierExtension, 
+                                type, 
+                                applicability, 
+                                qualifiers, 
+                                value);
+                            hashCode = result;
+                        }
+                        return result;
                     }
 
                     @Override

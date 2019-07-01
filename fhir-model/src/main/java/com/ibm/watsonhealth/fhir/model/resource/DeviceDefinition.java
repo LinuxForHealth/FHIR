@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -64,6 +65,8 @@ public class DeviceDefinition extends DomainResource {
     private final Quantity quantity;
     private final Reference parentDevice;
     private final List<Material> material;
+
+    private volatile int hashCode;
 
     private DeviceDefinition(Builder builder) {
         super(builder);
@@ -400,6 +403,89 @@ public class DeviceDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DeviceDefinition other = (DeviceDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(udiDeviceIdentifier, other.udiDeviceIdentifier) && 
+            Objects.equals(manufacturer, other.manufacturer) && 
+            Objects.equals(deviceName, other.deviceName) && 
+            Objects.equals(modelNumber, other.modelNumber) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(specialization, other.specialization) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(safety, other.safety) && 
+            Objects.equals(shelfLifeStorage, other.shelfLifeStorage) && 
+            Objects.equals(physicalCharacteristics, other.physicalCharacteristics) && 
+            Objects.equals(languageCode, other.languageCode) && 
+            Objects.equals(capability, other.capability) && 
+            Objects.equals(property, other.property) && 
+            Objects.equals(owner, other.owner) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(onlineInformation, other.onlineInformation) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(parentDevice, other.parentDevice) && 
+            Objects.equals(material, other.material);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                udiDeviceIdentifier, 
+                manufacturer, 
+                deviceName, 
+                modelNumber, 
+                type, 
+                specialization, 
+                version, 
+                safety, 
+                shelfLifeStorage, 
+                physicalCharacteristics, 
+                languageCode, 
+                capability, 
+                property, 
+                owner, 
+                contact, 
+                url, 
+                onlineInformation, 
+                note, 
+                quantity, 
+                parentDevice, 
+                material);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1298,6 +1384,8 @@ public class DeviceDefinition extends DomainResource {
         private final Uri issuer;
         private final Uri jurisdiction;
 
+        private volatile int hashCode;
+
         private UdiDeviceIdentifier(Builder builder) {
             super(builder);
             deviceIdentifier = ValidationSupport.requireNonNull(builder.deviceIdentifier, "deviceIdentifier");
@@ -1358,6 +1446,41 @@ public class DeviceDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            UdiDeviceIdentifier other = (UdiDeviceIdentifier) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(deviceIdentifier, other.deviceIdentifier) && 
+                Objects.equals(issuer, other.issuer) && 
+                Objects.equals(jurisdiction, other.jurisdiction);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    deviceIdentifier, 
+                    issuer, 
+                    jurisdiction);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1514,6 +1637,8 @@ public class DeviceDefinition extends DomainResource {
         private final String name;
         private final DeviceNameType type;
 
+        private volatile int hashCode;
+
         private DeviceName(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1560,6 +1685,39 @@ public class DeviceDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            DeviceName other = (DeviceName) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(type, other.type);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    type);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1715,6 +1873,8 @@ public class DeviceDefinition extends DomainResource {
         private final String systemType;
         private final String version;
 
+        private volatile int hashCode;
+
         private Specialization(Builder builder) {
             super(builder);
             systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
@@ -1760,6 +1920,39 @@ public class DeviceDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Specialization other = (Specialization) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(systemType, other.systemType) && 
+                Objects.equals(version, other.version);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    systemType, 
+                    version);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1932,6 +2125,8 @@ public class DeviceDefinition extends DomainResource {
         private final CodeableConcept type;
         private final List<CodeableConcept> description;
 
+        private volatile int hashCode;
+
         private Capability(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1977,6 +2172,39 @@ public class DeviceDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Capability other = (Capability) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(description, other.description);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    description);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2168,6 +2396,8 @@ public class DeviceDefinition extends DomainResource {
         private final List<Quantity> valueQuantity;
         private final List<CodeableConcept> valueCode;
 
+        private volatile int hashCode;
+
         private Property(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2227,6 +2457,41 @@ public class DeviceDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Property other = (Property) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(valueQuantity, other.valueQuantity) && 
+                Objects.equals(valueCode, other.valueCode);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    valueQuantity, 
+                    valueCode);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2454,6 +2719,8 @@ public class DeviceDefinition extends DomainResource {
         private final Boolean alternate;
         private final Boolean allergenicIndicator;
 
+        private volatile int hashCode;
+
         private Material(Builder builder) {
             super(builder);
             substance = ValidationSupport.requireNonNull(builder.substance, "substance");
@@ -2513,6 +2780,41 @@ public class DeviceDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Material other = (Material) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(substance, other.substance) && 
+                Objects.equals(alternate, other.alternate) && 
+                Objects.equals(allergenicIndicator, other.allergenicIndicator);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    substance, 
+                    alternate, 
+                    allergenicIndicator);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -53,6 +54,8 @@ public class SubstanceSourceMaterial extends DomainResource {
     private final List<FractionDescription> fractionDescription;
     private final Organism organism;
     private final List<PartDescription> partDescription;
+
+    private volatile int hashCode;
 
     private SubstanceSourceMaterial(Builder builder) {
         super(builder);
@@ -270,6 +273,71 @@ public class SubstanceSourceMaterial extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SubstanceSourceMaterial other = (SubstanceSourceMaterial) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(sourceMaterialClass, other.sourceMaterialClass) && 
+            Objects.equals(sourceMaterialType, other.sourceMaterialType) && 
+            Objects.equals(sourceMaterialState, other.sourceMaterialState) && 
+            Objects.equals(organismId, other.organismId) && 
+            Objects.equals(organismName, other.organismName) && 
+            Objects.equals(parentSubstanceId, other.parentSubstanceId) && 
+            Objects.equals(parentSubstanceName, other.parentSubstanceName) && 
+            Objects.equals(countryOfOrigin, other.countryOfOrigin) && 
+            Objects.equals(geographicalLocation, other.geographicalLocation) && 
+            Objects.equals(developmentStage, other.developmentStage) && 
+            Objects.equals(fractionDescription, other.fractionDescription) && 
+            Objects.equals(organism, other.organism) && 
+            Objects.equals(partDescription, other.partDescription);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                sourceMaterialClass, 
+                sourceMaterialType, 
+                sourceMaterialState, 
+                organismId, 
+                organismName, 
+                parentSubstanceId, 
+                parentSubstanceName, 
+                countryOfOrigin, 
+                geographicalLocation, 
+                developmentStage, 
+                fractionDescription, 
+                organism, 
+                partDescription);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -910,6 +978,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         private final String fraction;
         private final CodeableConcept materialType;
 
+        private volatile int hashCode;
+
         private FractionDescription(Builder builder) {
             super(builder);
             fraction = builder.fraction;
@@ -956,6 +1026,39 @@ public class SubstanceSourceMaterial extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            FractionDescription other = (FractionDescription) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(fraction, other.fraction) && 
+                Objects.equals(materialType, other.materialType);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    fraction, 
+                    materialType);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1148,6 +1251,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         private final Hybrid hybrid;
         private final OrganismGeneral organismGeneral;
 
+        private volatile int hashCode;
+
         private Organism(Builder builder) {
             super(builder);
             family = builder.family;
@@ -1280,6 +1385,51 @@ public class SubstanceSourceMaterial extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Organism other = (Organism) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(family, other.family) && 
+                Objects.equals(genus, other.genus) && 
+                Objects.equals(species, other.species) && 
+                Objects.equals(intraspecificType, other.intraspecificType) && 
+                Objects.equals(intraspecificDescription, other.intraspecificDescription) && 
+                Objects.equals(author, other.author) && 
+                Objects.equals(hybrid, other.hybrid) && 
+                Objects.equals(organismGeneral, other.organismGeneral);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    family, 
+                    genus, 
+                    species, 
+                    intraspecificType, 
+                    intraspecificDescription, 
+                    author, 
+                    hybrid, 
+                    organismGeneral);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1593,6 +1743,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             private final CodeableConcept authorType;
             private final String authorDescription;
 
+            private volatile int hashCode;
+
             private Author(Builder builder) {
                 super(builder);
                 authorType = builder.authorType;
@@ -1642,6 +1794,39 @@ public class SubstanceSourceMaterial extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Author other = (Author) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(authorType, other.authorType) && 
+                    Objects.equals(authorDescription, other.authorDescription);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        authorType, 
+                        authorDescription);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1834,6 +2019,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             private final String paternalOrganismName;
             private final CodeableConcept hybridType;
 
+            private volatile int hashCode;
+
             private Hybrid(Builder builder) {
                 super(builder);
                 maternalOrganismId = builder.maternalOrganismId;
@@ -1925,6 +2112,45 @@ public class SubstanceSourceMaterial extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Hybrid other = (Hybrid) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(maternalOrganismId, other.maternalOrganismId) && 
+                    Objects.equals(maternalOrganismName, other.maternalOrganismName) && 
+                    Objects.equals(paternalOrganismId, other.paternalOrganismId) && 
+                    Objects.equals(paternalOrganismName, other.paternalOrganismName) && 
+                    Objects.equals(hybridType, other.hybridType);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        maternalOrganismId, 
+                        maternalOrganismName, 
+                        paternalOrganismId, 
+                        paternalOrganismName, 
+                        hybridType);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2171,6 +2397,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             private final CodeableConcept clazz;
             private final CodeableConcept order;
 
+            private volatile int hashCode;
+
             private OrganismGeneral(Builder builder) {
                 super(builder);
                 kingdom = builder.kingdom;
@@ -2244,6 +2472,43 @@ public class SubstanceSourceMaterial extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                OrganismGeneral other = (OrganismGeneral) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(kingdom, other.kingdom) && 
+                    Objects.equals(phylum, other.phylum) && 
+                    Objects.equals(clazz, other.clazz) && 
+                    Objects.equals(order, other.order);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        kingdom, 
+                        phylum, 
+                        clazz, 
+                        order);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2463,6 +2728,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         private final CodeableConcept part;
         private final CodeableConcept partLocation;
 
+        private volatile int hashCode;
+
         private PartDescription(Builder builder) {
             super(builder);
             part = builder.part;
@@ -2509,6 +2776,39 @@ public class SubstanceSourceMaterial extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            PartDescription other = (PartDescription) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(part, other.part) && 
+                Objects.equals(partLocation, other.partLocation);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    part, 
+                    partLocation);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -62,6 +63,8 @@ public class AuditEvent extends DomainResource {
     private final List<Agent> agent;
     private final Source source;
     private final List<Entity> entity;
+
+    private volatile int hashCode;
 
     private AuditEvent(Builder builder) {
         super(builder);
@@ -240,6 +243,67 @@ public class AuditEvent extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AuditEvent other = (AuditEvent) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(subtype, other.subtype) && 
+            Objects.equals(action, other.action) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(recorded, other.recorded) && 
+            Objects.equals(outcome, other.outcome) && 
+            Objects.equals(outcomeDesc, other.outcomeDesc) && 
+            Objects.equals(purposeOfEvent, other.purposeOfEvent) && 
+            Objects.equals(agent, other.agent) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(entity, other.entity);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                type, 
+                subtype, 
+                action, 
+                period, 
+                recorded, 
+                outcome, 
+                outcomeDesc, 
+                purposeOfEvent, 
+                agent, 
+                source, 
+                entity);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -696,6 +760,8 @@ public class AuditEvent extends DomainResource {
         private final Network network;
         private final List<CodeableConcept> purposeOfUse;
 
+        private volatile int hashCode;
+
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
@@ -871,6 +937,57 @@ public class AuditEvent extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Agent other = (Agent) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(who, other.who) && 
+                Objects.equals(altId, other.altId) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(requestor, other.requestor) && 
+                Objects.equals(location, other.location) && 
+                Objects.equals(policy, other.policy) && 
+                Objects.equals(media, other.media) && 
+                Objects.equals(network, other.network) && 
+                Objects.equals(purposeOfUse, other.purposeOfUse);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    role, 
+                    who, 
+                    altId, 
+                    name, 
+                    requestor, 
+                    location, 
+                    policy, 
+                    media, 
+                    network, 
+                    purposeOfUse);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1265,6 +1382,8 @@ public class AuditEvent extends DomainResource {
             private final String address;
             private final AuditEventAgentNetworkType type;
 
+            private volatile int hashCode;
+
             private Network(Builder builder) {
                 super(builder);
                 address = builder.address;
@@ -1310,6 +1429,39 @@ public class AuditEvent extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Network other = (Network) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(address, other.address) && 
+                    Objects.equals(type, other.type);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        address, 
+                        type);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1494,6 +1646,8 @@ public class AuditEvent extends DomainResource {
         private final Reference observer;
         private final List<Coding> type;
 
+        private volatile int hashCode;
+
         private Source(Builder builder) {
             super(builder);
             site = builder.site;
@@ -1554,6 +1708,41 @@ public class AuditEvent extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Source other = (Source) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(site, other.site) && 
+                Objects.equals(observer, other.observer) && 
+                Objects.equals(type, other.type);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    site, 
+                    observer, 
+                    type);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1770,6 +1959,8 @@ public class AuditEvent extends DomainResource {
         private final Base64Binary query;
         private final List<Detail> detail;
 
+        private volatile int hashCode;
+
         private Entity(Builder builder) {
             super(builder);
             what = builder.what;
@@ -1913,6 +2104,53 @@ public class AuditEvent extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Entity other = (Entity) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(what, other.what) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(lifecycle, other.lifecycle) && 
+                Objects.equals(securityLabel, other.securityLabel) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(query, other.query) && 
+                Objects.equals(detail, other.detail);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    what, 
+                    type, 
+                    role, 
+                    lifecycle, 
+                    securityLabel, 
+                    name, 
+                    description, 
+                    query, 
+                    detail);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2256,6 +2494,8 @@ public class AuditEvent extends DomainResource {
             private final String type;
             private final Element value;
 
+            private volatile int hashCode;
+
             private Detail(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2301,6 +2541,39 @@ public class AuditEvent extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Detail other = (Detail) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        value);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

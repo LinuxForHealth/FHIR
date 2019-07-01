@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -86,6 +87,8 @@ public class Contract extends DomainResource {
     private final List<Legal> legal;
     private final List<Rule> rule;
     private final Element legallyBinding;
+
+    private volatile int hashCode;
 
     private Contract(Builder builder) {
         super(builder);
@@ -595,6 +598,111 @@ public class Contract extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Contract other = (Contract) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(legalState, other.legalState) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(contentDerivative, other.contentDerivative) && 
+            Objects.equals(issued, other.issued) && 
+            Objects.equals(applies, other.applies) && 
+            Objects.equals(expirationType, other.expirationType) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(authority, other.authority) && 
+            Objects.equals(domain, other.domain) && 
+            Objects.equals(site, other.site) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(subtitle, other.subtitle) && 
+            Objects.equals(alias, other.alias) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(scope, other.scope) && 
+            Objects.equals(topic, other.topic) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(subType, other.subType) && 
+            Objects.equals(contentDefinition, other.contentDefinition) && 
+            Objects.equals(term, other.term) && 
+            Objects.equals(supportingInfo, other.supportingInfo) && 
+            Objects.equals(relevantHistory, other.relevantHistory) && 
+            Objects.equals(signer, other.signer) && 
+            Objects.equals(friendly, other.friendly) && 
+            Objects.equals(legal, other.legal) && 
+            Objects.equals(rule, other.rule) && 
+            Objects.equals(legallyBinding, other.legallyBinding);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                url, 
+                version, 
+                status, 
+                legalState, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                contentDerivative, 
+                issued, 
+                applies, 
+                expirationType, 
+                subject, 
+                authority, 
+                domain, 
+                site, 
+                name, 
+                title, 
+                subtitle, 
+                alias, 
+                author, 
+                scope, 
+                topic, 
+                type, 
+                subType, 
+                contentDefinition, 
+                term, 
+                supportingInfo, 
+                relevantHistory, 
+                signer, 
+                friendly, 
+                legal, 
+                rule, 
+                legallyBinding);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1737,6 +1845,8 @@ public class Contract extends DomainResource {
         private final ContractPublicationStatus publicationStatus;
         private final Markdown copyright;
 
+        private volatile int hashCode;
+
         private ContentDefinition(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1842,6 +1952,47 @@ public class Contract extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ContentDefinition other = (ContentDefinition) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(subType, other.subType) && 
+                Objects.equals(publisher, other.publisher) && 
+                Objects.equals(publicationDate, other.publicationDate) && 
+                Objects.equals(publicationStatus, other.publicationStatus) && 
+                Objects.equals(copyright, other.copyright);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    subType, 
+                    publisher, 
+                    publicationDate, 
+                    publicationStatus, 
+                    copyright);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2083,6 +2234,8 @@ public class Contract extends DomainResource {
         private final List<Action> action;
         private final List<Contract.Term> group;
 
+        private volatile int hashCode;
+
         private Term(Builder builder) {
             super(builder);
             identifier = builder.identifier;
@@ -2272,6 +2425,59 @@ public class Contract extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Term other = (Term) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(issued, other.issued) && 
+                Objects.equals(applies, other.applies) && 
+                Objects.equals(topic, other.topic) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(subType, other.subType) && 
+                Objects.equals(text, other.text) && 
+                Objects.equals(securityLabel, other.securityLabel) && 
+                Objects.equals(offer, other.offer) && 
+                Objects.equals(asset, other.asset) && 
+                Objects.equals(action, other.action) && 
+                Objects.equals(group, other.group);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    issued, 
+                    applies, 
+                    topic, 
+                    type, 
+                    subType, 
+                    text, 
+                    securityLabel, 
+                    offer, 
+                    asset, 
+                    action, 
+                    group);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2704,6 +2910,8 @@ public class Contract extends DomainResource {
             private final List<Coding> category;
             private final List<Coding> control;
 
+            private volatile int hashCode;
+
             private SecurityLabel(Builder builder) {
                 super(builder);
                 number = Collections.unmodifiableList(builder.number);
@@ -2779,6 +2987,43 @@ public class Contract extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                SecurityLabel other = (SecurityLabel) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(number, other.number) && 
+                    Objects.equals(classification, other.classification) && 
+                    Objects.equals(category, other.category) && 
+                    Objects.equals(control, other.control);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        number, 
+                        classification, 
+                        category, 
+                        control);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3051,6 +3296,8 @@ public class Contract extends DomainResource {
             private final List<String> linkId;
             private final List<UnsignedInt> securityLabelNumber;
 
+            private volatile int hashCode;
+
             private Offer(Builder builder) {
                 super(builder);
                 identifier = Collections.unmodifiableList(builder.identifier);
@@ -3210,6 +3457,55 @@ public class Contract extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Offer other = (Offer) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(identifier, other.identifier) && 
+                    Objects.equals(party, other.party) && 
+                    Objects.equals(topic, other.topic) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(decision, other.decision) && 
+                    Objects.equals(decisionMode, other.decisionMode) && 
+                    Objects.equals(answer, other.answer) && 
+                    Objects.equals(text, other.text) && 
+                    Objects.equals(linkId, other.linkId) && 
+                    Objects.equals(securityLabelNumber, other.securityLabelNumber);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        identifier, 
+                        party, 
+                        topic, 
+                        type, 
+                        decision, 
+                        decisionMode, 
+                        answer, 
+                        text, 
+                        linkId, 
+                        securityLabelNumber);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3645,6 +3941,8 @@ public class Contract extends DomainResource {
                 private final List<Reference> reference;
                 private final CodeableConcept role;
 
+                private volatile int hashCode;
+
                 private Party(Builder builder) {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
@@ -3690,6 +3988,39 @@ public class Contract extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Party other = (Party) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(reference, other.reference) && 
+                        Objects.equals(role, other.role);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            reference, 
+                            role);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -3843,6 +4174,8 @@ public class Contract extends DomainResource {
             public static class Answer extends BackboneElement {
                 private final Element value;
 
+                private volatile int hashCode;
+
                 private Answer(Builder builder) {
                     super(builder);
                     value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
@@ -3876,6 +4209,37 @@ public class Contract extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Answer other = (Answer) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(value, other.value);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            value);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -4041,6 +4405,8 @@ public class Contract extends DomainResource {
             private final List<Contract.Term.Offer.Answer> answer;
             private final List<UnsignedInt> securityLabelNumber;
             private final List<ValuedItem> valuedItem;
+
+            private volatile int hashCode;
 
             private Asset(Builder builder) {
                 super(builder);
@@ -4271,6 +4637,65 @@ public class Contract extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Asset other = (Asset) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(scope, other.scope) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(typeReference, other.typeReference) && 
+                    Objects.equals(subtype, other.subtype) && 
+                    Objects.equals(relationship, other.relationship) && 
+                    Objects.equals(context, other.context) && 
+                    Objects.equals(condition, other.condition) && 
+                    Objects.equals(periodType, other.periodType) && 
+                    Objects.equals(period, other.period) && 
+                    Objects.equals(usePeriod, other.usePeriod) && 
+                    Objects.equals(text, other.text) && 
+                    Objects.equals(linkId, other.linkId) && 
+                    Objects.equals(answer, other.answer) && 
+                    Objects.equals(securityLabelNumber, other.securityLabelNumber) && 
+                    Objects.equals(valuedItem, other.valuedItem);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        scope, 
+                        type, 
+                        typeReference, 
+                        subtype, 
+                        relationship, 
+                        context, 
+                        condition, 
+                        periodType, 
+                        period, 
+                        usePeriod, 
+                        text, 
+                        linkId, 
+                        answer, 
+                        securityLabelNumber, 
+                        valuedItem);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -4887,6 +5312,8 @@ public class Contract extends DomainResource {
                 private final List<CodeableConcept> code;
                 private final String text;
 
+                private volatile int hashCode;
+
                 private Context(Builder builder) {
                     super(builder);
                     reference = builder.reference;
@@ -4947,6 +5374,41 @@ public class Contract extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Context other = (Context) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(reference, other.reference) && 
+                        Objects.equals(code, other.code) && 
+                        Objects.equals(text, other.text);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            reference, 
+                            code, 
+                            text);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -5178,6 +5640,8 @@ public class Contract extends DomainResource {
                 private final List<String> linkId;
                 private final List<UnsignedInt> securityLabelNumber;
 
+                private volatile int hashCode;
+
                 private ValuedItem(Builder builder) {
                     super(builder);
                     entity = ValidationSupport.choiceElement(builder.entity, "entity", CodeableConcept.class, Reference.class);
@@ -5398,6 +5862,63 @@ public class Contract extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    ValuedItem other = (ValuedItem) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(entity, other.entity) && 
+                        Objects.equals(identifier, other.identifier) && 
+                        Objects.equals(effectiveTime, other.effectiveTime) && 
+                        Objects.equals(quantity, other.quantity) && 
+                        Objects.equals(unitPrice, other.unitPrice) && 
+                        Objects.equals(factor, other.factor) && 
+                        Objects.equals(points, other.points) && 
+                        Objects.equals(net, other.net) && 
+                        Objects.equals(payment, other.payment) && 
+                        Objects.equals(paymentDate, other.paymentDate) && 
+                        Objects.equals(responsible, other.responsible) && 
+                        Objects.equals(recipient, other.recipient) && 
+                        Objects.equals(linkId, other.linkId) && 
+                        Objects.equals(securityLabelNumber, other.securityLabelNumber);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            entity, 
+                            identifier, 
+                            effectiveTime, 
+                            quantity, 
+                            unitPrice, 
+                            factor, 
+                            points, 
+                            net, 
+                            payment, 
+                            paymentDate, 
+                            responsible, 
+                            recipient, 
+                            linkId, 
+                            securityLabelNumber);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -5861,6 +6382,8 @@ public class Contract extends DomainResource {
             private final List<Annotation> note;
             private final List<UnsignedInt> securityLabelNumber;
 
+            private volatile int hashCode;
+
             private Action(Builder builder) {
                 super(builder);
                 doNotPerform = builder.doNotPerform;
@@ -6178,6 +6701,77 @@ public class Contract extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Action other = (Action) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(doNotPerform, other.doNotPerform) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(subject, other.subject) && 
+                    Objects.equals(intent, other.intent) && 
+                    Objects.equals(linkId, other.linkId) && 
+                    Objects.equals(status, other.status) && 
+                    Objects.equals(context, other.context) && 
+                    Objects.equals(contextLinkId, other.contextLinkId) && 
+                    Objects.equals(occurrence, other.occurrence) && 
+                    Objects.equals(requester, other.requester) && 
+                    Objects.equals(requesterLinkId, other.requesterLinkId) && 
+                    Objects.equals(performerType, other.performerType) && 
+                    Objects.equals(performerRole, other.performerRole) && 
+                    Objects.equals(performer, other.performer) && 
+                    Objects.equals(performerLinkId, other.performerLinkId) && 
+                    Objects.equals(reasonCode, other.reasonCode) && 
+                    Objects.equals(reasonReference, other.reasonReference) && 
+                    Objects.equals(reason, other.reason) && 
+                    Objects.equals(reasonLinkId, other.reasonLinkId) && 
+                    Objects.equals(note, other.note) && 
+                    Objects.equals(securityLabelNumber, other.securityLabelNumber);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        doNotPerform, 
+                        type, 
+                        subject, 
+                        intent, 
+                        linkId, 
+                        status, 
+                        context, 
+                        contextLinkId, 
+                        occurrence, 
+                        requester, 
+                        requesterLinkId, 
+                        performerType, 
+                        performerRole, 
+                        performer, 
+                        performerLinkId, 
+                        reasonCode, 
+                        reasonReference, 
+                        reason, 
+                        reasonLinkId, 
+                        note, 
+                        securityLabelNumber);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -6903,6 +7497,8 @@ public class Contract extends DomainResource {
                 private final List<Reference> reference;
                 private final CodeableConcept role;
 
+                private volatile int hashCode;
+
                 private Subject(Builder builder) {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
@@ -6948,6 +7544,39 @@ public class Contract extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Subject other = (Subject) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(reference, other.reference) && 
+                        Objects.equals(role, other.role);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            reference, 
+                            role);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -7125,6 +7754,8 @@ public class Contract extends DomainResource {
         private final Reference party;
         private final List<Signature> signature;
 
+        private volatile int hashCode;
+
         private Signer(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -7184,6 +7815,41 @@ public class Contract extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Signer other = (Signer) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(party, other.party) && 
+                Objects.equals(signature, other.signature);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    party, 
+                    signature);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -7342,6 +8008,8 @@ public class Contract extends DomainResource {
     public static class Friendly extends BackboneElement {
         private final Element content;
 
+        private volatile int hashCode;
+
         private Friendly(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
@@ -7374,6 +8042,37 @@ public class Contract extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Friendly other = (Friendly) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(content, other.content);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    content);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -7525,6 +8224,8 @@ public class Contract extends DomainResource {
     public static class Legal extends BackboneElement {
         private final Element content;
 
+        private volatile int hashCode;
+
         private Legal(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
@@ -7556,6 +8257,37 @@ public class Contract extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Legal other = (Legal) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(content, other.content);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    content);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -7707,6 +8439,8 @@ public class Contract extends DomainResource {
     public static class Rule extends BackboneElement {
         private final Element content;
 
+        private volatile int hashCode;
+
         private Rule(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
@@ -7738,6 +8472,37 @@ public class Contract extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Rule other = (Rule) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(content, other.content);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    content);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

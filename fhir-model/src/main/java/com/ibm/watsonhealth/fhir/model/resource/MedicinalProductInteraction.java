@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -41,6 +42,8 @@ public class MedicinalProductInteraction extends DomainResource {
     private final CodeableConcept effect;
     private final CodeableConcept incidence;
     private final CodeableConcept management;
+
+    private volatile int hashCode;
 
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
@@ -162,6 +165,59 @@ public class MedicinalProductInteraction extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProductInteraction other = (MedicinalProductInteraction) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(interactant, other.interactant) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(effect, other.effect) && 
+            Objects.equals(incidence, other.incidence) && 
+            Objects.equals(management, other.management);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                subject, 
+                description, 
+                interactant, 
+                type, 
+                effect, 
+                incidence, 
+                management);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -576,6 +632,8 @@ public class MedicinalProductInteraction extends DomainResource {
     public static class Interactant extends BackboneElement {
         private final Element item;
 
+        private volatile int hashCode;
+
         private Interactant(Builder builder) {
             super(builder);
             item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
@@ -607,6 +665,37 @@ public class MedicinalProductInteraction extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Interactant other = (Interactant) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -67,6 +68,8 @@ public class ResearchStudy extends DomainResource {
     private final List<Annotation> note;
     private final List<Arm> arm;
     private final List<Objective> objective;
+
+    private volatile int hashCode;
 
     private ResearchStudy(Builder builder) {
         super(builder);
@@ -435,6 +438,93 @@ public class ResearchStudy extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ResearchStudy other = (ResearchStudy) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(protocol, other.protocol) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(primaryPurposeType, other.primaryPurposeType) && 
+            Objects.equals(phase, other.phase) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(focus, other.focus) && 
+            Objects.equals(condition, other.condition) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(relatedArtifact, other.relatedArtifact) && 
+            Objects.equals(keyword, other.keyword) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(enrollment, other.enrollment) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(sponsor, other.sponsor) && 
+            Objects.equals(principalInvestigator, other.principalInvestigator) && 
+            Objects.equals(site, other.site) && 
+            Objects.equals(reasonStopped, other.reasonStopped) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(arm, other.arm) && 
+            Objects.equals(objective, other.objective);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                title, 
+                protocol, 
+                partOf, 
+                status, 
+                primaryPurposeType, 
+                phase, 
+                category, 
+                focus, 
+                condition, 
+                contact, 
+                relatedArtifact, 
+                keyword, 
+                location, 
+                description, 
+                enrollment, 
+                period, 
+                sponsor, 
+                principalInvestigator, 
+                site, 
+                reasonStopped, 
+                note, 
+                arm, 
+                objective);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1398,6 +1488,8 @@ public class ResearchStudy extends DomainResource {
         private final CodeableConcept type;
         private final String description;
 
+        private volatile int hashCode;
+
         private Arm(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1457,6 +1549,41 @@ public class ResearchStudy extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Arm other = (Arm) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(description, other.description);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    type, 
+                    description);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1648,6 +1775,8 @@ public class ResearchStudy extends DomainResource {
         private final String name;
         private final CodeableConcept type;
 
+        private volatile int hashCode;
+
         private Objective(Builder builder) {
             super(builder);
             name = builder.name;
@@ -1693,6 +1822,39 @@ public class ResearchStudy extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Objective other = (Objective) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(type, other.type);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    type);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

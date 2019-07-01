@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -95,6 +96,8 @@ public class ExplanationOfBenefit extends DomainResource {
     private final List<ProcessNote> processNote;
     private final Period benefitPeriod;
     private final List<BenefitBalance> benefitBalance;
+
+    private volatile int hashCode;
 
     private ExplanationOfBenefit(Builder builder) {
         super(builder);
@@ -731,6 +734,131 @@ public class ExplanationOfBenefit extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ExplanationOfBenefit other = (ExplanationOfBenefit) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(subType, other.subType) && 
+            Objects.equals(use, other.use) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(billablePeriod, other.billablePeriod) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(enterer, other.enterer) && 
+            Objects.equals(insurer, other.insurer) && 
+            Objects.equals(provider, other.provider) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(fundsReserveRequested, other.fundsReserveRequested) && 
+            Objects.equals(fundsReserve, other.fundsReserve) && 
+            Objects.equals(related, other.related) && 
+            Objects.equals(prescription, other.prescription) && 
+            Objects.equals(originalPrescription, other.originalPrescription) && 
+            Objects.equals(payee, other.payee) && 
+            Objects.equals(referral, other.referral) && 
+            Objects.equals(facility, other.facility) && 
+            Objects.equals(claim, other.claim) && 
+            Objects.equals(claimResponse, other.claimResponse) && 
+            Objects.equals(outcome, other.outcome) && 
+            Objects.equals(disposition, other.disposition) && 
+            Objects.equals(preAuthRef, other.preAuthRef) && 
+            Objects.equals(preAuthRefPeriod, other.preAuthRefPeriod) && 
+            Objects.equals(careTeam, other.careTeam) && 
+            Objects.equals(supportingInfo, other.supportingInfo) && 
+            Objects.equals(diagnosis, other.diagnosis) && 
+            Objects.equals(procedure, other.procedure) && 
+            Objects.equals(precedence, other.precedence) && 
+            Objects.equals(insurance, other.insurance) && 
+            Objects.equals(accident, other.accident) && 
+            Objects.equals(item, other.item) && 
+            Objects.equals(addItem, other.addItem) && 
+            Objects.equals(adjudication, other.adjudication) && 
+            Objects.equals(total, other.total) && 
+            Objects.equals(payment, other.payment) && 
+            Objects.equals(formCode, other.formCode) && 
+            Objects.equals(form, other.form) && 
+            Objects.equals(processNote, other.processNote) && 
+            Objects.equals(benefitPeriod, other.benefitPeriod) && 
+            Objects.equals(benefitBalance, other.benefitBalance);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                type, 
+                subType, 
+                use, 
+                patient, 
+                billablePeriod, 
+                created, 
+                enterer, 
+                insurer, 
+                provider, 
+                priority, 
+                fundsReserveRequested, 
+                fundsReserve, 
+                related, 
+                prescription, 
+                originalPrescription, 
+                payee, 
+                referral, 
+                facility, 
+                claim, 
+                claimResponse, 
+                outcome, 
+                disposition, 
+                preAuthRef, 
+                preAuthRefPeriod, 
+                careTeam, 
+                supportingInfo, 
+                diagnosis, 
+                procedure, 
+                precedence, 
+                insurance, 
+                accident, 
+                item, 
+                addItem, 
+                adjudication, 
+                total, 
+                payment, 
+                formCode, 
+                form, 
+                processNote, 
+                benefitPeriod, 
+                benefitBalance);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1886,6 +2014,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept relationship;
         private final Identifier reference;
 
+        private volatile int hashCode;
+
         private Related(Builder builder) {
             super(builder);
             claim = builder.claim;
@@ -1945,6 +2075,41 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Related other = (Related) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(claim, other.claim) && 
+                Objects.equals(relationship, other.relationship) && 
+                Objects.equals(reference, other.reference);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    claim, 
+                    relationship, 
+                    reference);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2145,6 +2310,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept type;
         private final Reference party;
 
+        private volatile int hashCode;
+
         private Payee(Builder builder) {
             super(builder);
             type = builder.type;
@@ -2190,6 +2357,39 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Payee other = (Payee) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(party, other.party);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    party);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2375,6 +2575,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept role;
         private final CodeableConcept qualification;
 
+        private volatile int hashCode;
+
         private CareTeam(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -2462,6 +2664,45 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            CareTeam other = (CareTeam) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(provider, other.provider) && 
+                Objects.equals(responsible, other.responsible) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(qualification, other.qualification);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    provider, 
+                    responsible, 
+                    role, 
+                    qualification);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2677,6 +2918,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Element value;
         private final Coding reason;
 
+        private volatile int hashCode;
+
         private SupportingInfo(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -2780,6 +3023,47 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SupportingInfo other = (SupportingInfo) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(timing, other.timing) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(reason, other.reason);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    category, 
+                    code, 
+                    timing, 
+                    value, 
+                    reason);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3013,6 +3297,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept onAdmission;
         private final CodeableConcept packageCode;
 
+        private volatile int hashCode;
+
         private Diagnosis(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -3101,6 +3387,45 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Diagnosis other = (Diagnosis) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(diagnosis, other.diagnosis) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(onAdmission, other.onAdmission) && 
+                Objects.equals(packageCode, other.packageCode);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    diagnosis, 
+                    type, 
+                    onAdmission, 
+                    packageCode);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3333,6 +3658,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Element procedure;
         private final List<Reference> udi;
 
+        private volatile int hashCode;
+
         private Procedure(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -3420,6 +3747,45 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Procedure other = (Procedure) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(procedure, other.procedure) && 
+                Objects.equals(udi, other.udi);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    type, 
+                    date, 
+                    procedure, 
+                    udi);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3667,6 +4033,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Reference coverage;
         private final List<String> preAuthRef;
 
+        private volatile int hashCode;
+
         private Insurance(Builder builder) {
             super(builder);
             focal = ValidationSupport.requireNonNull(builder.focal, "focal");
@@ -3728,6 +4096,41 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Insurance other = (Insurance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(focal, other.focal) && 
+                Objects.equals(coverage, other.coverage) && 
+                Objects.equals(preAuthRef, other.preAuthRef);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    focal, 
+                    coverage, 
+                    preAuthRef);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3923,6 +4326,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept type;
         private final Element location;
 
+        private volatile int hashCode;
+
         private Accident(Builder builder) {
             super(builder);
             date = builder.date;
@@ -3983,6 +4388,41 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Accident other = (Accident) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(location, other.location);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    date, 
+                    type, 
+                    location);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -4205,6 +4645,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> noteNumber;
         private final List<Adjudication> adjudication;
         private final List<Detail> detail;
+
+        private volatile int hashCode;
 
         private Item(Builder builder) {
             super(builder);
@@ -4549,6 +4991,81 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Item other = (Item) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(careTeamSequence, other.careTeamSequence) && 
+                Objects.equals(diagnosisSequence, other.diagnosisSequence) && 
+                Objects.equals(procedureSequence, other.procedureSequence) && 
+                Objects.equals(informationSequence, other.informationSequence) && 
+                Objects.equals(revenue, other.revenue) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(productOrService, other.productOrService) && 
+                Objects.equals(modifier, other.modifier) && 
+                Objects.equals(programCode, other.programCode) && 
+                Objects.equals(serviced, other.serviced) && 
+                Objects.equals(location, other.location) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(unitPrice, other.unitPrice) && 
+                Objects.equals(factor, other.factor) && 
+                Objects.equals(net, other.net) && 
+                Objects.equals(udi, other.udi) && 
+                Objects.equals(bodySite, other.bodySite) && 
+                Objects.equals(subSite, other.subSite) && 
+                Objects.equals(encounter, other.encounter) && 
+                Objects.equals(noteNumber, other.noteNumber) && 
+                Objects.equals(adjudication, other.adjudication) && 
+                Objects.equals(detail, other.detail);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    sequence, 
+                    careTeamSequence, 
+                    diagnosisSequence, 
+                    procedureSequence, 
+                    informationSequence, 
+                    revenue, 
+                    category, 
+                    productOrService, 
+                    modifier, 
+                    programCode, 
+                    serviced, 
+                    location, 
+                    quantity, 
+                    unitPrice, 
+                    factor, 
+                    net, 
+                    udi, 
+                    bodySite, 
+                    subSite, 
+                    encounter, 
+                    noteNumber, 
+                    adjudication, 
+                    detail);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -5305,6 +5822,8 @@ public class ExplanationOfBenefit extends DomainResource {
             private final Money amount;
             private final Decimal value;
 
+            private volatile int hashCode;
+
             private Adjudication(Builder builder) {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -5380,6 +5899,43 @@ public class ExplanationOfBenefit extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Adjudication other = (Adjudication) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(category, other.category) && 
+                    Objects.equals(reason, other.reason) && 
+                    Objects.equals(amount, other.amount) && 
+                    Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        category, 
+                        reason, 
+                        amount, 
+                        value);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -5600,6 +6156,8 @@ public class ExplanationOfBenefit extends DomainResource {
             private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
+            private volatile int hashCode;
+
             private Detail(Builder builder) {
                 super(builder);
                 sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -5816,6 +6374,63 @@ public class ExplanationOfBenefit extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Detail other = (Detail) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(sequence, other.sequence) && 
+                    Objects.equals(revenue, other.revenue) && 
+                    Objects.equals(category, other.category) && 
+                    Objects.equals(productOrService, other.productOrService) && 
+                    Objects.equals(modifier, other.modifier) && 
+                    Objects.equals(programCode, other.programCode) && 
+                    Objects.equals(quantity, other.quantity) && 
+                    Objects.equals(unitPrice, other.unitPrice) && 
+                    Objects.equals(factor, other.factor) && 
+                    Objects.equals(net, other.net) && 
+                    Objects.equals(udi, other.udi) && 
+                    Objects.equals(noteNumber, other.noteNumber) && 
+                    Objects.equals(adjudication, other.adjudication) && 
+                    Objects.equals(subDetail, other.subDetail);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        sequence, 
+                        revenue, 
+                        category, 
+                        productOrService, 
+                        modifier, 
+                        programCode, 
+                        quantity, 
+                        unitPrice, 
+                        factor, 
+                        net, 
+                        udi, 
+                        noteNumber, 
+                        adjudication, 
+                        subDetail);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -6308,6 +6923,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final List<PositiveInt> noteNumber;
                 private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
 
+                private volatile int hashCode;
+
                 private SubDetail(Builder builder) {
                     super(builder);
                     sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -6510,6 +7127,61 @@ public class ExplanationOfBenefit extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    SubDetail other = (SubDetail) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(sequence, other.sequence) && 
+                        Objects.equals(revenue, other.revenue) && 
+                        Objects.equals(category, other.category) && 
+                        Objects.equals(productOrService, other.productOrService) && 
+                        Objects.equals(modifier, other.modifier) && 
+                        Objects.equals(programCode, other.programCode) && 
+                        Objects.equals(quantity, other.quantity) && 
+                        Objects.equals(unitPrice, other.unitPrice) && 
+                        Objects.equals(factor, other.factor) && 
+                        Objects.equals(net, other.net) && 
+                        Objects.equals(udi, other.udi) && 
+                        Objects.equals(noteNumber, other.noteNumber) && 
+                        Objects.equals(adjudication, other.adjudication);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            sequence, 
+                            revenue, 
+                            category, 
+                            productOrService, 
+                            modifier, 
+                            programCode, 
+                            quantity, 
+                            unitPrice, 
+                            factor, 
+                            net, 
+                            udi, 
+                            noteNumber, 
+                            adjudication);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -6974,6 +7646,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
         private final List<Detail> detail;
 
+        private volatile int hashCode;
+
         private AddItem(Builder builder) {
             super(builder);
             itemSequence = Collections.unmodifiableList(builder.itemSequence);
@@ -7247,6 +7921,71 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            AddItem other = (AddItem) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(itemSequence, other.itemSequence) && 
+                Objects.equals(detailSequence, other.detailSequence) && 
+                Objects.equals(subDetailSequence, other.subDetailSequence) && 
+                Objects.equals(provider, other.provider) && 
+                Objects.equals(productOrService, other.productOrService) && 
+                Objects.equals(modifier, other.modifier) && 
+                Objects.equals(programCode, other.programCode) && 
+                Objects.equals(serviced, other.serviced) && 
+                Objects.equals(location, other.location) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(unitPrice, other.unitPrice) && 
+                Objects.equals(factor, other.factor) && 
+                Objects.equals(net, other.net) && 
+                Objects.equals(bodySite, other.bodySite) && 
+                Objects.equals(subSite, other.subSite) && 
+                Objects.equals(noteNumber, other.noteNumber) && 
+                Objects.equals(adjudication, other.adjudication) && 
+                Objects.equals(detail, other.detail);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    itemSequence, 
+                    detailSequence, 
+                    subDetailSequence, 
+                    provider, 
+                    productOrService, 
+                    modifier, 
+                    programCode, 
+                    serviced, 
+                    location, 
+                    quantity, 
+                    unitPrice, 
+                    factor, 
+                    net, 
+                    bodySite, 
+                    subSite, 
+                    noteNumber, 
+                    adjudication, 
+                    detail);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -7897,6 +8636,8 @@ public class ExplanationOfBenefit extends DomainResource {
             private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
+            private volatile int hashCode;
+
             private Detail(Builder builder) {
                 super(builder);
                 productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
@@ -8043,6 +8784,53 @@ public class ExplanationOfBenefit extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Detail other = (Detail) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(productOrService, other.productOrService) && 
+                    Objects.equals(modifier, other.modifier) && 
+                    Objects.equals(quantity, other.quantity) && 
+                    Objects.equals(unitPrice, other.unitPrice) && 
+                    Objects.equals(factor, other.factor) && 
+                    Objects.equals(net, other.net) && 
+                    Objects.equals(noteNumber, other.noteNumber) && 
+                    Objects.equals(adjudication, other.adjudication) && 
+                    Objects.equals(subDetail, other.subDetail);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        productOrService, 
+                        modifier, 
+                        quantity, 
+                        unitPrice, 
+                        factor, 
+                        net, 
+                        noteNumber, 
+                        adjudication, 
+                        subDetail);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -8420,6 +9208,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final List<PositiveInt> noteNumber;
                 private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
 
+                private volatile int hashCode;
+
                 private SubDetail(Builder builder) {
                     super(builder);
                     productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
@@ -8552,6 +9342,51 @@ public class ExplanationOfBenefit extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    SubDetail other = (SubDetail) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(productOrService, other.productOrService) && 
+                        Objects.equals(modifier, other.modifier) && 
+                        Objects.equals(quantity, other.quantity) && 
+                        Objects.equals(unitPrice, other.unitPrice) && 
+                        Objects.equals(factor, other.factor) && 
+                        Objects.equals(net, other.net) && 
+                        Objects.equals(noteNumber, other.noteNumber) && 
+                        Objects.equals(adjudication, other.adjudication);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            productOrService, 
+                            modifier, 
+                            quantity, 
+                            unitPrice, 
+                            factor, 
+                            net, 
+                            noteNumber, 
+                            adjudication);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -8890,6 +9725,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept category;
         private final Money amount;
 
+        private volatile int hashCode;
+
         private Total(Builder builder) {
             super(builder);
             category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -8937,6 +9774,39 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Total other = (Total) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(amount, other.amount);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    category, 
+                    amount);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -9095,6 +9965,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Money amount;
         private final Identifier identifier;
 
+        private volatile int hashCode;
+
         private Payment(Builder builder) {
             super(builder);
             type = builder.type;
@@ -9197,6 +10069,47 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Payment other = (Payment) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(adjustment, other.adjustment) && 
+                Objects.equals(adjustmentReason, other.adjustmentReason) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(amount, other.amount) && 
+                Objects.equals(identifier, other.identifier);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    adjustment, 
+                    adjustmentReason, 
+                    date, 
+                    amount, 
+                    identifier);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -9454,6 +10367,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final String text;
         private final CodeableConcept language;
 
+        private volatile int hashCode;
+
         private ProcessNote(Builder builder) {
             super(builder);
             number = builder.number;
@@ -9527,6 +10442,43 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ProcessNote other = (ProcessNote) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(number, other.number) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(text, other.text) && 
+                Objects.equals(language, other.language);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    number, 
+                    type, 
+                    text, 
+                    language);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -9751,6 +10703,8 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept term;
         private final List<Financial> financial;
 
+        private volatile int hashCode;
+
         private BenefitBalance(Builder builder) {
             super(builder);
             category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -9881,6 +10835,51 @@ public class ExplanationOfBenefit extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            BenefitBalance other = (BenefitBalance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(excluded, other.excluded) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(network, other.network) && 
+                Objects.equals(unit, other.unit) && 
+                Objects.equals(term, other.term) && 
+                Objects.equals(financial, other.financial);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    category, 
+                    excluded, 
+                    name, 
+                    description, 
+                    network, 
+                    unit, 
+                    term, 
+                    financial);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -10180,6 +11179,8 @@ public class ExplanationOfBenefit extends DomainResource {
             private final Element allowed;
             private final Element used;
 
+            private volatile int hashCode;
+
             private Financial(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -10239,6 +11240,41 @@ public class ExplanationOfBenefit extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Financial other = (Financial) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(allowed, other.allowed) && 
+                    Objects.equals(used, other.used);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        allowed, 
+                        used);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

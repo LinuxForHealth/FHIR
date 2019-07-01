@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -63,6 +64,8 @@ public class ClinicalImpression extends DomainResource {
     private final List<Reference> prognosisReference;
     private final List<Reference> supportingInfo;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private ClinicalImpression(Builder builder) {
         super(builder);
@@ -375,6 +378,85 @@ public class ClinicalImpression extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ClinicalImpression other = (ClinicalImpression) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(effective, other.effective) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(assessor, other.assessor) && 
+            Objects.equals(previous, other.previous) && 
+            Objects.equals(problem, other.problem) && 
+            Objects.equals(investigation, other.investigation) && 
+            Objects.equals(protocol, other.protocol) && 
+            Objects.equals(summary, other.summary) && 
+            Objects.equals(finding, other.finding) && 
+            Objects.equals(prognosisCodeableConcept, other.prognosisCodeableConcept) && 
+            Objects.equals(prognosisReference, other.prognosisReference) && 
+            Objects.equals(supportingInfo, other.supportingInfo) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                statusReason, 
+                code, 
+                description, 
+                subject, 
+                encounter, 
+                effective, 
+                date, 
+                assessor, 
+                previous, 
+                problem, 
+                investigation, 
+                protocol, 
+                summary, 
+                finding, 
+                prognosisCodeableConcept, 
+                prognosisReference, 
+                supportingInfo, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1140,6 +1222,8 @@ public class ClinicalImpression extends DomainResource {
         private final CodeableConcept code;
         private final List<Reference> item;
 
+        private volatile int hashCode;
+
         private Investigation(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1187,6 +1271,39 @@ public class ClinicalImpression extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Investigation other = (Investigation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1378,6 +1495,8 @@ public class ClinicalImpression extends DomainResource {
         private final Reference itemReference;
         private final String basis;
 
+        private volatile int hashCode;
+
         private Finding(Builder builder) {
             super(builder);
             itemCodeableConcept = builder.itemCodeableConcept;
@@ -1437,6 +1556,41 @@ public class ClinicalImpression extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Finding other = (Finding) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(itemCodeableConcept, other.itemCodeableConcept) && 
+                Objects.equals(itemReference, other.itemReference) && 
+                Objects.equals(basis, other.basis);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    itemCodeableConcept, 
+                    itemReference, 
+                    basis);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

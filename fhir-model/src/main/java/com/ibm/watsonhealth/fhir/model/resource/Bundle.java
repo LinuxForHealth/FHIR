@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -123,6 +124,8 @@ public class Bundle extends Resource {
     private final List<Link> link;
     private final List<Entry> entry;
     private final Signature signature;
+
+    private volatile int hashCode;
 
     private Bundle(Builder builder) {
         super(builder);
@@ -243,6 +246,51 @@ public class Bundle extends Resource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Bundle other = (Bundle) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(timestamp, other.timestamp) && 
+            Objects.equals(total, other.total) && 
+            Objects.equals(link, other.link) && 
+            Objects.equals(entry, other.entry) && 
+            Objects.equals(signature, other.signature);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                identifier, 
+                type, 
+                timestamp, 
+                total, 
+                link, 
+                entry, 
+                signature);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -507,6 +555,8 @@ public class Bundle extends Resource {
         private final String relation;
         private final Uri url;
 
+        private volatile int hashCode;
+
         private Link(Builder builder) {
             super(builder);
             relation = ValidationSupport.requireNonNull(builder.relation, "relation");
@@ -554,6 +604,39 @@ public class Bundle extends Resource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Link other = (Link) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(relation, other.relation) && 
+                Objects.equals(url, other.url);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    relation, 
+                    url);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -713,6 +796,8 @@ public class Bundle extends Resource {
         private final Request request;
         private final Response response;
 
+        private volatile int hashCode;
+
         private Entry(Builder builder) {
             super(builder);
             link = Collections.unmodifiableList(builder.link);
@@ -821,6 +906,47 @@ public class Bundle extends Resource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Entry other = (Entry) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(link, other.link) && 
+                Objects.equals(fullUrl, other.fullUrl) && 
+                Objects.equals(resource, other.resource) && 
+                Objects.equals(search, other.search) && 
+                Objects.equals(request, other.request) && 
+                Objects.equals(response, other.response);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    link, 
+                    fullUrl, 
+                    resource, 
+                    search, 
+                    request, 
+                    response);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1099,6 +1225,8 @@ public class Bundle extends Resource {
             private final SearchEntryMode mode;
             private final Decimal score;
 
+            private volatile int hashCode;
+
             private Search(Builder builder) {
                 super(builder);
                 mode = builder.mode;
@@ -1145,6 +1273,39 @@ public class Bundle extends Resource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Search other = (Search) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(mode, other.mode) && 
+                    Objects.equals(score, other.score);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        mode, 
+                        score);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1333,6 +1494,8 @@ public class Bundle extends Resource {
             private final String ifMatch;
             private final String ifNoneExist;
 
+            private volatile int hashCode;
+
             private Request(Builder builder) {
                 super(builder);
                 method = ValidationSupport.requireNonNull(builder.method, "method");
@@ -1440,6 +1603,47 @@ public class Bundle extends Resource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Request other = (Request) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(method, other.method) && 
+                    Objects.equals(url, other.url) && 
+                    Objects.equals(ifNoneMatch, other.ifNoneMatch) && 
+                    Objects.equals(ifModifiedSince, other.ifModifiedSince) && 
+                    Objects.equals(ifMatch, other.ifMatch) && 
+                    Objects.equals(ifNoneExist, other.ifNoneExist);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        method, 
+                        url, 
+                        ifNoneMatch, 
+                        ifModifiedSince, 
+                        ifMatch, 
+                        ifNoneExist);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1677,6 +1881,8 @@ public class Bundle extends Resource {
             private final Instant lastModified;
             private final Resource outcome;
 
+            private volatile int hashCode;
+
             private Response(Builder builder) {
                 super(builder);
                 status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -1766,6 +1972,45 @@ public class Bundle extends Resource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Response other = (Response) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(status, other.status) && 
+                    Objects.equals(location, other.location) && 
+                    Objects.equals(etag, other.etag) && 
+                    Objects.equals(lastModified, other.lastModified) && 
+                    Objects.equals(outcome, other.outcome);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        status, 
+                        location, 
+                        etag, 
+                        lastModified, 
+                        outcome);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

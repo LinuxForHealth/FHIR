@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -71,6 +72,8 @@ public class Organization extends DomainResource {
     private final Reference partOf;
     private final List<Contact> contact;
     private final List<Reference> endpoint;
+
+    private volatile int hashCode;
 
     private Organization(Builder builder) {
         super(builder);
@@ -234,6 +237,65 @@ public class Organization extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Organization other = (Organization) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(active, other.active) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(alias, other.alias) && 
+            Objects.equals(telecom, other.telecom) && 
+            Objects.equals(address, other.address) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(endpoint, other.endpoint);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                active, 
+                type, 
+                name, 
+                alias, 
+                telecom, 
+                address, 
+                partOf, 
+                contact, 
+                endpoint);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -795,6 +857,8 @@ public class Organization extends DomainResource {
         private final List<ContactPoint> telecom;
         private final Address address;
 
+        private volatile int hashCode;
+
         private Contact(Builder builder) {
             super(builder);
             purpose = builder.purpose;
@@ -868,6 +932,43 @@ public class Organization extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Contact other = (Contact) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(purpose, other.purpose) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(telecom, other.telecom) && 
+                Objects.equals(address, other.address);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    purpose, 
+                    name, 
+                    telecom, 
+                    address);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

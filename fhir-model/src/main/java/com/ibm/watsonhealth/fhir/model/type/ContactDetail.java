@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -24,6 +25,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class ContactDetail extends Element {
     private final String name;
     private final List<ContactPoint> telecom;
+
+    private volatile int hashCode;
 
     private ContactDetail(Builder builder) {
         super(builder);
@@ -69,6 +72,37 @@ public class ContactDetail extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ContactDetail other = (ContactDetail) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(telecom, other.telecom);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                name, 
+                telecom);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

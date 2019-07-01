@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -54,6 +55,8 @@ public class RelatedPerson extends DomainResource {
     private final List<Attachment> photo;
     private final Period period;
     private final List<Communication> communication;
+
+    private volatile int hashCode;
 
     private RelatedPerson(Builder builder) {
         super(builder);
@@ -247,6 +250,69 @@ public class RelatedPerson extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        RelatedPerson other = (RelatedPerson) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(active, other.active) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(relationship, other.relationship) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(telecom, other.telecom) && 
+            Objects.equals(gender, other.gender) && 
+            Objects.equals(birthDate, other.birthDate) && 
+            Objects.equals(address, other.address) && 
+            Objects.equals(photo, other.photo) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(communication, other.communication);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                active, 
+                patient, 
+                relationship, 
+                name, 
+                telecom, 
+                gender, 
+                birthDate, 
+                address, 
+                photo, 
+                period, 
+                communication);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -834,6 +900,8 @@ public class RelatedPerson extends DomainResource {
         private final CodeableConcept language;
         private final Boolean preferred;
 
+        private volatile int hashCode;
+
         private Communication(Builder builder) {
             super(builder);
             language = ValidationSupport.requireNonNull(builder.language, "language");
@@ -881,6 +949,39 @@ public class RelatedPerson extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Communication other = (Communication) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(language, other.language) && 
+                Objects.equals(preferred, other.preferred);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    language, 
+                    preferred);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

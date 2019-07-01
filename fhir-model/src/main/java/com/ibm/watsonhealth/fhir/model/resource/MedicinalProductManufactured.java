@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -40,6 +41,8 @@ public class MedicinalProductManufactured extends DomainResource {
     private final List<Reference> ingredient;
     private final ProdCharacteristic physicalCharacteristics;
     private final List<CodeableConcept> otherCharacteristics;
+
+    private volatile int hashCode;
 
     private MedicinalProductManufactured(Builder builder) {
         super(builder);
@@ -161,6 +164,59 @@ public class MedicinalProductManufactured extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProductManufactured other = (MedicinalProductManufactured) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(manufacturedDoseForm, other.manufacturedDoseForm) && 
+            Objects.equals(unitOfPresentation, other.unitOfPresentation) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(manufacturer, other.manufacturer) && 
+            Objects.equals(ingredient, other.ingredient) && 
+            Objects.equals(physicalCharacteristics, other.physicalCharacteristics) && 
+            Objects.equals(otherCharacteristics, other.otherCharacteristics);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                manufacturedDoseForm, 
+                unitOfPresentation, 
+                quantity, 
+                manufacturer, 
+                ingredient, 
+                physicalCharacteristics, 
+                otherCharacteristics);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

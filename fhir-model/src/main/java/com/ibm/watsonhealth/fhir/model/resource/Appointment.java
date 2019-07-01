@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -94,6 +95,8 @@ public class Appointment extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Participant> participant;
     private final List<Period> requestedPeriod;
+
+    private volatile int hashCode;
 
     private Appointment(Builder builder) {
         super(builder);
@@ -444,6 +447,89 @@ public class Appointment extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Appointment other = (Appointment) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(cancelationReason, other.cancelationReason) && 
+            Objects.equals(serviceCategory, other.serviceCategory) && 
+            Objects.equals(serviceType, other.serviceType) && 
+            Objects.equals(specialty, other.specialty) && 
+            Objects.equals(appointmentType, other.appointmentType) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(supportingInformation, other.supportingInformation) && 
+            Objects.equals(start, other.start) && 
+            Objects.equals(end, other.end) && 
+            Objects.equals(minutesDuration, other.minutesDuration) && 
+            Objects.equals(slot, other.slot) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(comment, other.comment) && 
+            Objects.equals(patientInstruction, other.patientInstruction) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(participant, other.participant) && 
+            Objects.equals(requestedPeriod, other.requestedPeriod);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                cancelationReason, 
+                serviceCategory, 
+                serviceType, 
+                specialty, 
+                appointmentType, 
+                reasonCode, 
+                reasonReference, 
+                priority, 
+                description, 
+                supportingInformation, 
+                start, 
+                end, 
+                minutesDuration, 
+                slot, 
+                created, 
+                comment, 
+                patientInstruction, 
+                basedOn, 
+                participant, 
+                requestedPeriod);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1277,6 +1363,8 @@ public class Appointment extends DomainResource {
         private final ParticipationStatus status;
         private final Period period;
 
+        private volatile int hashCode;
+
         private Participant(Builder builder) {
             super(builder);
             type = Collections.unmodifiableList(builder.type);
@@ -1365,6 +1453,45 @@ public class Appointment extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Participant other = (Participant) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(actor, other.actor) && 
+                Objects.equals(required, other.required) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    actor, 
+                    required, 
+                    status, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

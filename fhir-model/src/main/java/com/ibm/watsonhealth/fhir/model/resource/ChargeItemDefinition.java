@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -79,6 +80,8 @@ public class ChargeItemDefinition extends DomainResource {
     private final List<Reference> instance;
     private final List<Applicability> applicability;
     private final List<PropertyGroup> propertyGroup;
+
+    private volatile int hashCode;
 
     private ChargeItemDefinition(Builder builder) {
         super(builder);
@@ -446,6 +449,91 @@ public class ChargeItemDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ChargeItemDefinition other = (ChargeItemDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(derivedFromUri, other.derivedFromUri) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(replaces, other.replaces) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(approvalDate, other.approvalDate) && 
+            Objects.equals(lastReviewDate, other.lastReviewDate) && 
+            Objects.equals(effectivePeriod, other.effectivePeriod) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(instance, other.instance) && 
+            Objects.equals(applicability, other.applicability) && 
+            Objects.equals(propertyGroup, other.propertyGroup);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                title, 
+                derivedFromUri, 
+                partOf, 
+                replaces, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                copyright, 
+                approvalDate, 
+                lastReviewDate, 
+                effectivePeriod, 
+                code, 
+                instance, 
+                applicability, 
+                propertyGroup);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1292,6 +1380,8 @@ public class ChargeItemDefinition extends DomainResource {
         private final String language;
         private final String expression;
 
+        private volatile int hashCode;
+
         private Applicability(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1354,6 +1444,41 @@ public class ChargeItemDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Applicability other = (Applicability) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(language, other.language) && 
+                Objects.equals(expression, other.expression);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    language, 
+                    expression);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1558,6 +1683,8 @@ public class ChargeItemDefinition extends DomainResource {
         private final List<ChargeItemDefinition.Applicability> applicability;
         private final List<PriceComponent> priceComponent;
 
+        private volatile int hashCode;
+
         private PropertyGroup(Builder builder) {
             super(builder);
             applicability = Collections.unmodifiableList(builder.applicability);
@@ -1606,6 +1733,39 @@ public class ChargeItemDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            PropertyGroup other = (PropertyGroup) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(applicability, other.applicability) && 
+                Objects.equals(priceComponent, other.priceComponent);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    applicability, 
+                    priceComponent);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1834,6 +1994,8 @@ public class ChargeItemDefinition extends DomainResource {
             private final Decimal factor;
             private final Money amount;
 
+            private volatile int hashCode;
+
             private PriceComponent(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1908,6 +2070,43 @@ public class ChargeItemDefinition extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                PriceComponent other = (PriceComponent) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(factor, other.factor) && 
+                    Objects.equals(amount, other.amount);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        code, 
+                        factor, 
+                        amount);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

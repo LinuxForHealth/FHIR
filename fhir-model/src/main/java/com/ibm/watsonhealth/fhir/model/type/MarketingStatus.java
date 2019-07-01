@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -26,6 +27,8 @@ public class MarketingStatus extends BackboneElement {
     private final CodeableConcept status;
     private final Period dateRange;
     private final DateTime restoreDate;
+
+    private volatile int hashCode;
 
     private MarketingStatus(Builder builder) {
         super(builder);
@@ -124,6 +127,45 @@ public class MarketingStatus extends BackboneElement {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MarketingStatus other = (MarketingStatus) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(country, other.country) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(dateRange, other.dateRange) && 
+            Objects.equals(restoreDate, other.restoreDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                modifierExtension, 
+                country, 
+                jurisdiction, 
+                status, 
+                dateRange, 
+                restoreDate);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

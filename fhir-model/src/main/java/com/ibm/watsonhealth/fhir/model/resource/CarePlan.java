@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -78,6 +79,8 @@ public class CarePlan extends DomainResource {
     private final List<Reference> goal;
     private final List<Activity> activity;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private CarePlan(Builder builder) {
         super(builder);
@@ -430,6 +433,91 @@ public class CarePlan extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CarePlan other = (CarePlan) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(replaces, other.replaces) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(intent, other.intent) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(contributor, other.contributor) && 
+            Objects.equals(careTeam, other.careTeam) && 
+            Objects.equals(addresses, other.addresses) && 
+            Objects.equals(supportingInfo, other.supportingInfo) && 
+            Objects.equals(goal, other.goal) && 
+            Objects.equals(activity, other.activity) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                basedOn, 
+                replaces, 
+                partOf, 
+                status, 
+                intent, 
+                category, 
+                title, 
+                description, 
+                subject, 
+                encounter, 
+                period, 
+                created, 
+                author, 
+                contributor, 
+                careTeam, 
+                addresses, 
+                supportingInfo, 
+                goal, 
+                activity, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1323,6 +1411,8 @@ public class CarePlan extends DomainResource {
         private final Reference reference;
         private final Detail detail;
 
+        private volatile int hashCode;
+
         private Activity(Builder builder) {
             super(builder);
             outcomeCodeableConcept = Collections.unmodifiableList(builder.outcomeCodeableConcept);
@@ -1414,6 +1504,45 @@ public class CarePlan extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Activity other = (Activity) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(outcomeCodeableConcept, other.outcomeCodeableConcept) && 
+                Objects.equals(outcomeReference, other.outcomeReference) && 
+                Objects.equals(progress, other.progress) && 
+                Objects.equals(reference, other.reference) && 
+                Objects.equals(detail, other.detail);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    outcomeCodeableConcept, 
+                    outcomeReference, 
+                    progress, 
+                    reference, 
+                    detail);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1726,6 +1855,8 @@ public class CarePlan extends DomainResource {
             private final Quantity quantity;
             private final String description;
 
+            private volatile int hashCode;
+
             private Detail(Builder builder) {
                 super(builder);
                 kind = builder.kind;
@@ -1990,6 +2121,69 @@ public class CarePlan extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Detail other = (Detail) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(kind, other.kind) && 
+                    Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+                    Objects.equals(instantiatesUri, other.instantiatesUri) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(reasonCode, other.reasonCode) && 
+                    Objects.equals(reasonReference, other.reasonReference) && 
+                    Objects.equals(goal, other.goal) && 
+                    Objects.equals(status, other.status) && 
+                    Objects.equals(statusReason, other.statusReason) && 
+                    Objects.equals(doNotPerform, other.doNotPerform) && 
+                    Objects.equals(scheduled, other.scheduled) && 
+                    Objects.equals(location, other.location) && 
+                    Objects.equals(performer, other.performer) && 
+                    Objects.equals(product, other.product) && 
+                    Objects.equals(dailyAmount, other.dailyAmount) && 
+                    Objects.equals(quantity, other.quantity) && 
+                    Objects.equals(description, other.description);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        kind, 
+                        instantiatesCanonical, 
+                        instantiatesUri, 
+                        code, 
+                        reasonCode, 
+                        reasonReference, 
+                        goal, 
+                        status, 
+                        statusReason, 
+                        doNotPerform, 
+                        scheduled, 
+                        location, 
+                        performer, 
+                        product, 
+                        dailyAmount, 
+                        quantity, 
+                        description);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

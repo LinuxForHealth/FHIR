@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -30,6 +31,8 @@ public class HumanName extends Element {
     private final List<String> prefix;
     private final List<String> suffix;
     private final Period period;
+
+    private volatile int hashCode;
 
     private HumanName(Builder builder) {
         super(builder);
@@ -149,6 +152,47 @@ public class HumanName extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        HumanName other = (HumanName) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(use, other.use) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(family, other.family) && 
+            Objects.equals(given, other.given) && 
+            Objects.equals(prefix, other.prefix) && 
+            Objects.equals(suffix, other.suffix) && 
+            Objects.equals(period, other.period);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                use, 
+                text, 
+                family, 
+                given, 
+                prefix, 
+                suffix, 
+                period);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

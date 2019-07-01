@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -33,6 +34,8 @@ public class DateTime extends Element {
     private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy").optionalStart().appendPattern("-MM").optionalStart().appendPattern("-dd").optionalStart().appendPattern("'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 1, 6, true).optionalEnd().appendPattern("XXX").optionalEnd().optionalEnd().optionalEnd().toFormatter();
 
     private final TemporalAccessor value;
+
+    private volatile int hashCode;
 
     private DateTime(Builder builder) {
         super(builder);
@@ -77,6 +80,35 @@ public class DateTime extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DateTime other = (DateTime) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

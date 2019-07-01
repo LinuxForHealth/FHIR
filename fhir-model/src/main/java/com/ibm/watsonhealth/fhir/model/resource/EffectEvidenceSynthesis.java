@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -88,6 +89,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private final List<ResultsByExposure> resultsByExposure;
     private final List<EffectEstimate> effectEstimate;
     private final List<Certainty> certainty;
+
+    private volatile int hashCode;
 
     private EffectEvidenceSynthesis(Builder builder) {
         super(builder);
@@ -590,6 +593,111 @@ public class EffectEvidenceSynthesis extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        EffectEvidenceSynthesis other = (EffectEvidenceSynthesis) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(approvalDate, other.approvalDate) && 
+            Objects.equals(lastReviewDate, other.lastReviewDate) && 
+            Objects.equals(effectivePeriod, other.effectivePeriod) && 
+            Objects.equals(topic, other.topic) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(editor, other.editor) && 
+            Objects.equals(reviewer, other.reviewer) && 
+            Objects.equals(endorser, other.endorser) && 
+            Objects.equals(relatedArtifact, other.relatedArtifact) && 
+            Objects.equals(synthesisType, other.synthesisType) && 
+            Objects.equals(studyType, other.studyType) && 
+            Objects.equals(population, other.population) && 
+            Objects.equals(exposure, other.exposure) && 
+            Objects.equals(exposureAlternative, other.exposureAlternative) && 
+            Objects.equals(outcome, other.outcome) && 
+            Objects.equals(sampleSize, other.sampleSize) && 
+            Objects.equals(resultsByExposure, other.resultsByExposure) && 
+            Objects.equals(effectEstimate, other.effectEstimate) && 
+            Objects.equals(certainty, other.certainty);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                status, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                note, 
+                useContext, 
+                jurisdiction, 
+                copyright, 
+                approvalDate, 
+                lastReviewDate, 
+                effectivePeriod, 
+                topic, 
+                author, 
+                editor, 
+                reviewer, 
+                endorser, 
+                relatedArtifact, 
+                synthesisType, 
+                studyType, 
+                population, 
+                exposure, 
+                exposureAlternative, 
+                outcome, 
+                sampleSize, 
+                resultsByExposure, 
+                effectEstimate, 
+                certainty);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1637,6 +1745,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final Integer numberOfStudies;
         private final Integer numberOfParticipants;
 
+        private volatile int hashCode;
+
         private SampleSize(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1696,6 +1806,41 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SampleSize other = (SampleSize) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(numberOfStudies, other.numberOfStudies) && 
+                Objects.equals(numberOfParticipants, other.numberOfParticipants);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    numberOfStudies, 
+                    numberOfParticipants);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1898,6 +2043,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final CodeableConcept variantState;
         private final Reference riskEvidenceSynthesis;
 
+        private volatile int hashCode;
+
         private ResultsByExposure(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1971,6 +2118,43 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ResultsByExposure other = (ResultsByExposure) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(exposureState, other.exposureState) && 
+                Objects.equals(variantState, other.variantState) && 
+                Objects.equals(riskEvidenceSynthesis, other.riskEvidenceSynthesis);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    exposureState, 
+                    variantState, 
+                    riskEvidenceSynthesis);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2183,6 +2367,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final CodeableConcept unitOfMeasure;
         private final List<PrecisionEstimate> precisionEstimate;
 
+        private volatile int hashCode;
+
         private EffectEstimate(Builder builder) {
             super(builder);
             description = builder.description;
@@ -2284,6 +2470,47 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            EffectEstimate other = (EffectEstimate) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(variantState, other.variantState) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(unitOfMeasure, other.unitOfMeasure) && 
+                Objects.equals(precisionEstimate, other.precisionEstimate);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    type, 
+                    variantState, 
+                    value, 
+                    unitOfMeasure, 
+                    precisionEstimate);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2557,6 +2784,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private final Decimal from;
             private final Decimal to;
 
+            private volatile int hashCode;
+
             private PrecisionEstimate(Builder builder) {
                 super(builder);
                 type = builder.type;
@@ -2630,6 +2859,43 @@ public class EffectEvidenceSynthesis extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                PrecisionEstimate other = (PrecisionEstimate) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(level, other.level) && 
+                    Objects.equals(from, other.from) && 
+                    Objects.equals(to, other.to);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        level, 
+                        from, 
+                        to);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2850,6 +3116,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final List<Annotation> note;
         private final List<CertaintySubcomponent> certaintySubcomponent;
 
+        private volatile int hashCode;
+
         private Certainty(Builder builder) {
             super(builder);
             rating = Collections.unmodifiableList(builder.rating);
@@ -2909,6 +3177,41 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Certainty other = (Certainty) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(rating, other.rating) && 
+                Objects.equals(note, other.note) && 
+                Objects.equals(certaintySubcomponent, other.certaintySubcomponent);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    rating, 
+                    note, 
+                    certaintySubcomponent);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3163,6 +3466,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private final List<CodeableConcept> rating;
             private final List<Annotation> note;
 
+            private volatile int hashCode;
+
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
                 type = builder.type;
@@ -3222,6 +3527,41 @@ public class EffectEvidenceSynthesis extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                CertaintySubcomponent other = (CertaintySubcomponent) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(rating, other.rating) && 
+                    Objects.equals(note, other.note);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        rating, 
+                        note);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

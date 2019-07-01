@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.resource;
 
+import java.util.Objects;
+
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
@@ -28,6 +30,8 @@ public class Binary extends Resource {
     private final Code contentType;
     private final Reference securityContext;
     private final Base64Binary data;
+
+    private volatile int hashCode;
 
     private Binary(Builder builder) {
         super(builder);
@@ -94,6 +98,43 @@ public class Binary extends Resource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Binary other = (Binary) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(contentType, other.contentType) && 
+            Objects.equals(securityContext, other.securityContext) && 
+            Objects.equals(data, other.data);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                contentType, 
+                securityContext, 
+                data);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

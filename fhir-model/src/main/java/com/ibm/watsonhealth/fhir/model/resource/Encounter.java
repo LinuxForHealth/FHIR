@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -63,6 +64,8 @@ public class Encounter extends DomainResource {
     private final List<Location> location;
     private final Reference serviceProvider;
     private final Reference partOf;
+
+    private volatile int hashCode;
 
     private Encounter(Builder builder) {
         super(builder);
@@ -423,6 +426,91 @@ public class Encounter extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Encounter other = (Encounter) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusHistory, other.statusHistory) && 
+            Objects.equals(clazz, other.clazz) && 
+            Objects.equals(classHistory, other.classHistory) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(serviceType, other.serviceType) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(episodeOfCare, other.episodeOfCare) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(participant, other.participant) && 
+            Objects.equals(appointment, other.appointment) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(length, other.length) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(diagnosis, other.diagnosis) && 
+            Objects.equals(account, other.account) && 
+            Objects.equals(hospitalization, other.hospitalization) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(serviceProvider, other.serviceProvider) && 
+            Objects.equals(partOf, other.partOf);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                statusHistory, 
+                clazz, 
+                classHistory, 
+                type, 
+                serviceType, 
+                priority, 
+                subject, 
+                episodeOfCare, 
+                basedOn, 
+                participant, 
+                appointment, 
+                period, 
+                length, 
+                reasonCode, 
+                reasonReference, 
+                diagnosis, 
+                account, 
+                hospitalization, 
+                location, 
+                serviceProvider, 
+                partOf);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1324,6 +1412,8 @@ public class Encounter extends DomainResource {
         private final EncounterStatus status;
         private final Period period;
 
+        private volatile int hashCode;
+
         private StatusHistory(Builder builder) {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -1369,6 +1459,39 @@ public class Encounter extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            StatusHistory other = (StatusHistory) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    status, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1527,6 +1650,8 @@ public class Encounter extends DomainResource {
         private final Coding clazz;
         private final Period period;
 
+        private volatile int hashCode;
+
         private ClassHistory(Builder builder) {
             super(builder);
             clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
@@ -1572,6 +1697,39 @@ public class Encounter extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ClassHistory other = (ClassHistory) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(clazz, other.clazz) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    clazz, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1727,6 +1885,8 @@ public class Encounter extends DomainResource {
         private final Period period;
         private final Reference individual;
 
+        private volatile int hashCode;
+
         private Participant(Builder builder) {
             super(builder);
             type = Collections.unmodifiableList(builder.type);
@@ -1787,6 +1947,41 @@ public class Encounter extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Participant other = (Participant) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(period, other.period) && 
+                Objects.equals(individual, other.individual);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    period, 
+                    individual);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2007,6 +2202,8 @@ public class Encounter extends DomainResource {
         private final CodeableConcept use;
         private final PositiveInt rank;
 
+        private volatile int hashCode;
+
         private Diagnosis(Builder builder) {
             super(builder);
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
@@ -2068,6 +2265,41 @@ public class Encounter extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Diagnosis other = (Diagnosis) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(condition, other.condition) && 
+                Objects.equals(use, other.use) && 
+                Objects.equals(rank, other.rank);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    condition, 
+                    use, 
+                    rank);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2265,6 +2497,8 @@ public class Encounter extends DomainResource {
         private final Reference destination;
         private final CodeableConcept dischargeDisposition;
 
+        private volatile int hashCode;
+
         private Hospitalization(Builder builder) {
             super(builder);
             preAdmissionIdentifier = builder.preAdmissionIdentifier;
@@ -2409,6 +2643,53 @@ public class Encounter extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Hospitalization other = (Hospitalization) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(preAdmissionIdentifier, other.preAdmissionIdentifier) && 
+                Objects.equals(origin, other.origin) && 
+                Objects.equals(admitSource, other.admitSource) && 
+                Objects.equals(reAdmission, other.reAdmission) && 
+                Objects.equals(dietPreference, other.dietPreference) && 
+                Objects.equals(specialCourtesy, other.specialCourtesy) && 
+                Objects.equals(specialArrangement, other.specialArrangement) && 
+                Objects.equals(destination, other.destination) && 
+                Objects.equals(dischargeDisposition, other.dischargeDisposition);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    preAdmissionIdentifier, 
+                    origin, 
+                    admitSource, 
+                    reAdmission, 
+                    dietPreference, 
+                    specialCourtesy, 
+                    specialArrangement, 
+                    destination, 
+                    dischargeDisposition);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2776,6 +3057,8 @@ public class Encounter extends DomainResource {
         private final CodeableConcept physicalType;
         private final Period period;
 
+        private volatile int hashCode;
+
         private Location(Builder builder) {
             super(builder);
             location = ValidationSupport.requireNonNull(builder.location, "location");
@@ -2851,6 +3134,43 @@ public class Encounter extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Location other = (Location) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(location, other.location) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(physicalType, other.physicalType) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    location, 
+                    status, 
+                    physicalType, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -51,6 +52,8 @@ public class ImmunizationEvaluation extends DomainResource {
     private final String series;
     private final Element doseNumber;
     private final Element seriesDoses;
+
+    private volatile int hashCode;
 
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
@@ -257,6 +260,71 @@ public class ImmunizationEvaluation extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ImmunizationEvaluation other = (ImmunizationEvaluation) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(authority, other.authority) && 
+            Objects.equals(targetDisease, other.targetDisease) && 
+            Objects.equals(immunizationEvent, other.immunizationEvent) && 
+            Objects.equals(doseStatus, other.doseStatus) && 
+            Objects.equals(doseStatusReason, other.doseStatusReason) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(series, other.series) && 
+            Objects.equals(doseNumber, other.doseNumber) && 
+            Objects.equals(seriesDoses, other.seriesDoses);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                patient, 
+                date, 
+                authority, 
+                targetDisease, 
+                immunizationEvent, 
+                doseStatus, 
+                doseStatusReason, 
+                description, 
+                series, 
+                doseNumber, 
+                seriesDoses);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -87,6 +88,8 @@ public class ServiceRequest extends DomainResource {
     private final List<Annotation> note;
     private final String patientInstruction;
     private final List<Reference> relevantHistory;
+
+    private volatile int hashCode;
 
     private ServiceRequest(Builder builder) {
         super(builder);
@@ -590,6 +593,111 @@ public class ServiceRequest extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ServiceRequest other = (ServiceRequest) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(replaces, other.replaces) && 
+            Objects.equals(requisition, other.requisition) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(intent, other.intent) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(priority, other.priority) && 
+            Objects.equals(doNotPerform, other.doNotPerform) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(orderDetail, other.orderDetail) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(occurrence, other.occurrence) && 
+            Objects.equals(asNeeded, other.asNeeded) && 
+            Objects.equals(authoredOn, other.authoredOn) && 
+            Objects.equals(requester, other.requester) && 
+            Objects.equals(performerType, other.performerType) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(locationCode, other.locationCode) && 
+            Objects.equals(locationReference, other.locationReference) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(insurance, other.insurance) && 
+            Objects.equals(supportingInfo, other.supportingInfo) && 
+            Objects.equals(specimen, other.specimen) && 
+            Objects.equals(bodySite, other.bodySite) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(patientInstruction, other.patientInstruction) && 
+            Objects.equals(relevantHistory, other.relevantHistory);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                basedOn, 
+                replaces, 
+                requisition, 
+                status, 
+                intent, 
+                category, 
+                priority, 
+                doNotPerform, 
+                code, 
+                orderDetail, 
+                quantity, 
+                subject, 
+                encounter, 
+                occurrence, 
+                asNeeded, 
+                authoredOn, 
+                requester, 
+                performerType, 
+                performer, 
+                locationCode, 
+                locationReference, 
+                reasonCode, 
+                reasonReference, 
+                insurance, 
+                supportingInfo, 
+                specimen, 
+                bodySite, 
+                note, 
+                patientInstruction, 
+                relevantHistory);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

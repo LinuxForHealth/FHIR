@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -77,6 +78,8 @@ public class Composition extends DomainResource {
     private final List<RelatesTo> relatesTo;
     private final List<Event> event;
     private final List<Section> section;
+
+    private volatile int hashCode;
 
     private Composition(Builder builder) {
         super(builder);
@@ -316,6 +319,75 @@ public class Composition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Composition other = (Composition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(confidentiality, other.confidentiality) && 
+            Objects.equals(attester, other.attester) && 
+            Objects.equals(custodian, other.custodian) && 
+            Objects.equals(relatesTo, other.relatesTo) && 
+            Objects.equals(event, other.event) && 
+            Objects.equals(section, other.section);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                type, 
+                category, 
+                subject, 
+                encounter, 
+                date, 
+                author, 
+                title, 
+                confidentiality, 
+                attester, 
+                custodian, 
+                relatesTo, 
+                event, 
+                section);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -862,6 +934,8 @@ public class Composition extends DomainResource {
         private final DateTime time;
         private final Reference party;
 
+        private volatile int hashCode;
+
         private Attester(Builder builder) {
             super(builder);
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
@@ -921,6 +995,41 @@ public class Composition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Attester other = (Attester) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(mode, other.mode) && 
+                Objects.equals(time, other.time) && 
+                Objects.equals(party, other.party);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    mode, 
+                    time, 
+                    party);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1111,6 +1220,8 @@ public class Composition extends DomainResource {
         private final DocumentRelationshipType code;
         private final Element target;
 
+        private volatile int hashCode;
+
         private RelatesTo(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1156,6 +1267,39 @@ public class Composition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            RelatesTo other = (RelatesTo) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(target, other.target);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    target);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1311,6 +1455,8 @@ public class Composition extends DomainResource {
         private final Period period;
         private final List<Reference> detail;
 
+        private volatile int hashCode;
+
         private Event(Builder builder) {
             super(builder);
             code = Collections.unmodifiableList(builder.code);
@@ -1374,6 +1520,41 @@ public class Composition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Event other = (Event) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(period, other.period) && 
+                Objects.equals(detail, other.detail);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    period, 
+                    detail);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1625,6 +1806,8 @@ public class Composition extends DomainResource {
         private final CodeableConcept emptyReason;
         private final List<Composition.Section> section;
 
+        private volatile int hashCode;
+
         private Section(Builder builder) {
             super(builder);
             title = builder.title;
@@ -1791,6 +1974,55 @@ public class Composition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Section other = (Section) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(title, other.title) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(author, other.author) && 
+                Objects.equals(focus, other.focus) && 
+                Objects.equals(text, other.text) && 
+                Objects.equals(mode, other.mode) && 
+                Objects.equals(orderedBy, other.orderedBy) && 
+                Objects.equals(entry, other.entry) && 
+                Objects.equals(emptyReason, other.emptyReason) && 
+                Objects.equals(section, other.section);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    title, 
+                    code, 
+                    author, 
+                    focus, 
+                    text, 
+                    mode, 
+                    orderedBy, 
+                    entry, 
+                    emptyReason, 
+                    section);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

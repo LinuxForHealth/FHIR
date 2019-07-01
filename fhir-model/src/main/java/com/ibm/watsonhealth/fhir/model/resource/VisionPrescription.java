@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -50,6 +51,8 @@ public class VisionPrescription extends DomainResource {
     private final DateTime dateWritten;
     private final Reference prescriber;
     private final List<LensSpecification> lensSpecification;
+
+    private volatile int hashCode;
 
     private VisionPrescription(Builder builder) {
         super(builder);
@@ -187,6 +190,61 @@ public class VisionPrescription extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        VisionPrescription other = (VisionPrescription) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(created, other.created) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(dateWritten, other.dateWritten) && 
+            Objects.equals(prescriber, other.prescriber) && 
+            Objects.equals(lensSpecification, other.lensSpecification);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                created, 
+                patient, 
+                encounter, 
+                dateWritten, 
+                prescriber, 
+                lensSpecification);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -526,6 +584,8 @@ public class VisionPrescription extends DomainResource {
         private final String brand;
         private final List<Annotation> note;
 
+        private volatile int hashCode;
+
         private LensSpecification(Builder builder) {
             super(builder);
             product = ValidationSupport.requireNonNull(builder.product, "product");
@@ -739,6 +799,63 @@ public class VisionPrescription extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            LensSpecification other = (LensSpecification) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(product, other.product) && 
+                Objects.equals(eye, other.eye) && 
+                Objects.equals(sphere, other.sphere) && 
+                Objects.equals(cylinder, other.cylinder) && 
+                Objects.equals(axis, other.axis) && 
+                Objects.equals(prism, other.prism) && 
+                Objects.equals(add, other.add) && 
+                Objects.equals(power, other.power) && 
+                Objects.equals(backCurve, other.backCurve) && 
+                Objects.equals(diameter, other.diameter) && 
+                Objects.equals(duration, other.duration) && 
+                Objects.equals(color, other.color) && 
+                Objects.equals(brand, other.brand) && 
+                Objects.equals(note, other.note);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    product, 
+                    eye, 
+                    sphere, 
+                    cylinder, 
+                    axis, 
+                    prism, 
+                    add, 
+                    power, 
+                    backCurve, 
+                    diameter, 
+                    duration, 
+                    color, 
+                    brand, 
+                    note);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1146,6 +1263,8 @@ public class VisionPrescription extends DomainResource {
             private final Decimal amount;
             private final VisionBase base;
 
+            private volatile int hashCode;
+
             private Prism(Builder builder) {
                 super(builder);
                 amount = ValidationSupport.requireNonNull(builder.amount, "amount");
@@ -1191,6 +1310,39 @@ public class VisionPrescription extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Prism other = (Prism) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(amount, other.amount) && 
+                    Objects.equals(base, other.base);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        amount, 
+                        base);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

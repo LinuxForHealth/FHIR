@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class LinkType extends Code {
     /**
@@ -29,6 +30,8 @@ public class LinkType extends Code {
      */
     public static final LinkType SEEALSO = LinkType.of(ValueSet.SEEALSO);
 
+    private volatile int hashCode;
+
     private LinkType(Builder builder) {
         super(builder);
     }
@@ -49,16 +52,40 @@ public class LinkType extends Code {
         return LinkType.builder().value(value).build();
     }
 
-    public static Builder builder() {
-        return new Builder();
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        LinkType other = (LinkType) obj;
+        return Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value);
     }
 
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, extension, value);
+            hashCode = result;
+        }
+        return result;
+    }
     public Builder toBuilder() {
         Builder builder = new Builder();
         builder.id = id;
         builder.extension.addAll(extension);
         builder.value = value;
         return builder;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Code.Builder {

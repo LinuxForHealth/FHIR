@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -65,6 +66,8 @@ public class QuestionnaireResponse extends DomainResource {
     private final Reference author;
     private final Reference source;
     private final List<Item> item;
+
+    private volatile int hashCode;
 
     private QuestionnaireResponse(Builder builder) {
         super(builder);
@@ -246,6 +249,67 @@ public class QuestionnaireResponse extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        QuestionnaireResponse other = (QuestionnaireResponse) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(questionnaire, other.questionnaire) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(authored, other.authored) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(item, other.item);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                basedOn, 
+                partOf, 
+                questionnaire, 
+                status, 
+                subject, 
+                encounter, 
+                authored, 
+                author, 
+                source, 
+                item);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -750,6 +814,8 @@ public class QuestionnaireResponse extends DomainResource {
         private final List<Answer> answer;
         private final List<QuestionnaireResponse.Item> item;
 
+        private volatile int hashCode;
+
         private Item(Builder builder) {
             super(builder);
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
@@ -837,6 +903,45 @@ public class QuestionnaireResponse extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Item other = (Item) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(linkId, other.linkId) && 
+                Objects.equals(definition, other.definition) && 
+                Objects.equals(text, other.text) && 
+                Objects.equals(answer, other.answer) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    linkId, 
+                    definition, 
+                    text, 
+                    answer, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1098,6 +1203,8 @@ public class QuestionnaireResponse extends DomainResource {
             private final Element value;
             private final List<QuestionnaireResponse.Item> item;
 
+            private volatile int hashCode;
+
             private Answer(Builder builder) {
                 super(builder);
                 value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
@@ -1143,6 +1250,39 @@ public class QuestionnaireResponse extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Answer other = (Answer) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(value, other.value) && 
+                    Objects.equals(item, other.item);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        value, 
+                        item);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

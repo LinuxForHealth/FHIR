@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -67,6 +68,8 @@ public class ExampleScenario extends DomainResource {
     private final List<Instance> instance;
     private final List<Process> process;
     private final List<Canonical> workflow;
+
+    private volatile int hashCode;
 
     private ExampleScenario(Builder builder) {
         super(builder);
@@ -343,6 +346,79 @@ public class ExampleScenario extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ExampleScenario other = (ExampleScenario) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(actor, other.actor) && 
+            Objects.equals(instance, other.instance) && 
+            Objects.equals(process, other.process) && 
+            Objects.equals(workflow, other.workflow);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                useContext, 
+                jurisdiction, 
+                copyright, 
+                purpose, 
+                actor, 
+                instance, 
+                process, 
+                workflow);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1056,6 +1132,8 @@ public class ExampleScenario extends DomainResource {
         private final String name;
         private final Markdown description;
 
+        private volatile int hashCode;
+
         private Actor(Builder builder) {
             super(builder);
             actorId = ValidationSupport.requireNonNull(builder.actorId, "actorId");
@@ -1129,6 +1207,43 @@ public class ExampleScenario extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Actor other = (Actor) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(actorId, other.actorId) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(description, other.description);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    actorId, 
+                    type, 
+                    name, 
+                    description);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1325,6 +1440,8 @@ public class ExampleScenario extends DomainResource {
         private final List<Version> version;
         private final List<ContainedInstance> containedInstance;
 
+        private volatile int hashCode;
+
         private Instance(Builder builder) {
             super(builder);
             resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
@@ -1426,6 +1543,47 @@ public class ExampleScenario extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Instance other = (Instance) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(resourceId, other.resourceId) && 
+                Objects.equals(resourceType, other.resourceType) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(version, other.version) && 
+                Objects.equals(containedInstance, other.containedInstance);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    resourceId, 
+                    resourceType, 
+                    name, 
+                    description, 
+                    version, 
+                    containedInstance);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1689,6 +1847,8 @@ public class ExampleScenario extends DomainResource {
             private final String versionId;
             private final Markdown description;
 
+            private volatile int hashCode;
+
             private Version(Builder builder) {
                 super(builder);
                 versionId = ValidationSupport.requireNonNull(builder.versionId, "versionId");
@@ -1734,6 +1894,39 @@ public class ExampleScenario extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Version other = (Version) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(versionId, other.versionId) && 
+                    Objects.equals(description, other.description);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        versionId, 
+                        description);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1888,6 +2081,8 @@ public class ExampleScenario extends DomainResource {
             private final String resourceId;
             private final String versionId;
 
+            private volatile int hashCode;
+
             private ContainedInstance(Builder builder) {
                 super(builder);
                 resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
@@ -1933,6 +2128,39 @@ public class ExampleScenario extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                ContainedInstance other = (ContainedInstance) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(resourceId, other.resourceId) && 
+                    Objects.equals(versionId, other.versionId);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        resourceId, 
+                        versionId);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2109,6 +2337,8 @@ public class ExampleScenario extends DomainResource {
         private final Markdown postConditions;
         private final List<Step> step;
 
+        private volatile int hashCode;
+
         private Process(Builder builder) {
             super(builder);
             title = ValidationSupport.requireNonNull(builder.title, "title");
@@ -2196,6 +2426,45 @@ public class ExampleScenario extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Process other = (Process) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(title, other.title) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(preConditions, other.preConditions) && 
+                Objects.equals(postConditions, other.postConditions) && 
+                Objects.equals(step, other.step);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    title, 
+                    description, 
+                    preConditions, 
+                    postConditions, 
+                    step);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2441,6 +2710,8 @@ public class ExampleScenario extends DomainResource {
             private final Operation operation;
             private final List<Alternative> alternative;
 
+            private volatile int hashCode;
+
             private Step(Builder builder) {
                 super(builder);
                 process = Collections.unmodifiableList(builder.process);
@@ -2515,6 +2786,43 @@ public class ExampleScenario extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Step other = (Step) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(process, other.process) && 
+                    Objects.equals(pause, other.pause) && 
+                    Objects.equals(operation, other.operation) && 
+                    Objects.equals(alternative, other.alternative);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        process, 
+                        pause, 
+                        operation, 
+                        alternative);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2778,6 +3086,8 @@ public class ExampleScenario extends DomainResource {
                 private final ExampleScenario.Instance.ContainedInstance request;
                 private final ExampleScenario.Instance.ContainedInstance response;
 
+                private volatile int hashCode;
+
                 private Operation(Builder builder) {
                     super(builder);
                     number = ValidationSupport.requireNonNull(builder.number, "number");
@@ -2935,6 +3245,55 @@ public class ExampleScenario extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Operation other = (Operation) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(number, other.number) && 
+                        Objects.equals(type, other.type) && 
+                        Objects.equals(name, other.name) && 
+                        Objects.equals(initiator, other.initiator) && 
+                        Objects.equals(receiver, other.receiver) && 
+                        Objects.equals(description, other.description) && 
+                        Objects.equals(initiatorActive, other.initiatorActive) && 
+                        Objects.equals(receiverActive, other.receiverActive) && 
+                        Objects.equals(request, other.request) && 
+                        Objects.equals(response, other.response);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            number, 
+                            type, 
+                            name, 
+                            initiator, 
+                            receiver, 
+                            description, 
+                            initiatorActive, 
+                            receiverActive, 
+                            request, 
+                            response);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -3253,6 +3612,8 @@ public class ExampleScenario extends DomainResource {
                 private final Markdown description;
                 private final List<ExampleScenario.Process.Step> step;
 
+                private volatile int hashCode;
+
                 private Alternative(Builder builder) {
                     super(builder);
                     title = ValidationSupport.requireNonNull(builder.title, "title");
@@ -3313,6 +3674,41 @@ public class ExampleScenario extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Alternative other = (Alternative) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(title, other.title) && 
+                        Objects.equals(description, other.description) && 
+                        Objects.equals(step, other.step);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            title, 
+                            description, 
+                            step);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override

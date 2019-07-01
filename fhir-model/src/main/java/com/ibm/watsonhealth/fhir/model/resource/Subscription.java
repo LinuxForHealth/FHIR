@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -46,6 +47,8 @@ public class Subscription extends DomainResource {
     private final String criteria;
     private final String error;
     private final Channel channel;
+
+    private volatile int hashCode;
 
     private Subscription(Builder builder) {
         super(builder);
@@ -168,6 +171,59 @@ public class Subscription extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Subscription other = (Subscription) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(end, other.end) && 
+            Objects.equals(reason, other.reason) && 
+            Objects.equals(criteria, other.criteria) && 
+            Objects.equals(error, other.error) && 
+            Objects.equals(channel, other.channel);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                status, 
+                contact, 
+                end, 
+                reason, 
+                criteria, 
+                error, 
+                channel);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -511,6 +567,8 @@ public class Subscription extends DomainResource {
         private final Code payload;
         private final List<String> header;
 
+        private volatile int hashCode;
+
         private Channel(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -586,6 +644,43 @@ public class Subscription extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Channel other = (Channel) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(endpoint, other.endpoint) && 
+                Objects.equals(payload, other.payload) && 
+                Objects.equals(header, other.header);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    endpoint, 
+                    payload, 
+                    header);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

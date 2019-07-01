@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -53,6 +54,8 @@ public class Specimen extends DomainResource {
     private final List<Container> container;
     private final List<CodeableConcept> condition;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private Specimen(Builder builder) {
         super(builder);
@@ -263,6 +266,71 @@ public class Specimen extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Specimen other = (Specimen) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(accessionIdentifier, other.accessionIdentifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(receivedTime, other.receivedTime) && 
+            Objects.equals(parent, other.parent) && 
+            Objects.equals(request, other.request) && 
+            Objects.equals(collection, other.collection) && 
+            Objects.equals(processing, other.processing) && 
+            Objects.equals(container, other.container) && 
+            Objects.equals(condition, other.condition) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                accessionIdentifier, 
+                status, 
+                type, 
+                subject, 
+                receivedTime, 
+                parent, 
+                request, 
+                collection, 
+                processing, 
+                container, 
+                condition, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -890,6 +958,8 @@ public class Specimen extends DomainResource {
         private final CodeableConcept bodySite;
         private final Element fastingStatus;
 
+        private volatile int hashCode;
+
         private Collection(Builder builder) {
             super(builder);
             collector = builder.collector;
@@ -1007,6 +1077,49 @@ public class Specimen extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Collection other = (Collection) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(collector, other.collector) && 
+                Objects.equals(collected, other.collected) && 
+                Objects.equals(duration, other.duration) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(method, other.method) && 
+                Objects.equals(bodySite, other.bodySite) && 
+                Objects.equals(fastingStatus, other.fastingStatus);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    collector, 
+                    collected, 
+                    duration, 
+                    quantity, 
+                    method, 
+                    bodySite, 
+                    fastingStatus);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1283,6 +1396,8 @@ public class Specimen extends DomainResource {
         private final List<Reference> additive;
         private final Element time;
 
+        private volatile int hashCode;
+
         private Processing(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1357,6 +1472,43 @@ public class Specimen extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Processing other = (Processing) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(procedure, other.procedure) && 
+                Objects.equals(additive, other.additive) && 
+                Objects.equals(time, other.time);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    procedure, 
+                    additive, 
+                    time);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1599,6 +1751,8 @@ public class Specimen extends DomainResource {
         private final Quantity specimenQuantity;
         private final Element additive;
 
+        private volatile int hashCode;
+
         private Container(Builder builder) {
             super(builder);
             identifier = Collections.unmodifiableList(builder.identifier);
@@ -1702,6 +1856,47 @@ public class Specimen extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Container other = (Container) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(capacity, other.capacity) && 
+                Objects.equals(specimenQuantity, other.specimenQuantity) && 
+                Objects.equals(additive, other.additive);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    description, 
+                    type, 
+                    capacity, 
+                    specimenQuantity, 
+                    additive);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

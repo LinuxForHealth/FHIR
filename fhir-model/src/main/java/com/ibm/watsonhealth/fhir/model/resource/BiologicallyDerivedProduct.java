@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -53,6 +54,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
     private final List<Processing> processing;
     private final Manipulation manipulation;
     private final List<Storage> storage;
+
+    private volatile int hashCode;
 
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
@@ -234,6 +237,67 @@ public class BiologicallyDerivedProduct extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        BiologicallyDerivedProduct other = (BiologicallyDerivedProduct) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(productCategory, other.productCategory) && 
+            Objects.equals(productCode, other.productCode) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(request, other.request) && 
+            Objects.equals(quantity, other.quantity) && 
+            Objects.equals(parent, other.parent) && 
+            Objects.equals(collection, other.collection) && 
+            Objects.equals(processing, other.processing) && 
+            Objects.equals(manipulation, other.manipulation) && 
+            Objects.equals(storage, other.storage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                productCategory, 
+                productCode, 
+                status, 
+                request, 
+                quantity, 
+                parent, 
+                collection, 
+                processing, 
+                manipulation, 
+                storage);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -783,6 +847,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final Reference source;
         private final Element collected;
 
+        private volatile int hashCode;
+
         private Collection(Builder builder) {
             super(builder);
             collector = builder.collector;
@@ -843,6 +909,41 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Collection other = (Collection) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(collector, other.collector) && 
+                Objects.equals(source, other.source) && 
+                Objects.equals(collected, other.collected);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    collector, 
+                    source, 
+                    collected);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1047,6 +1148,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final Reference additive;
         private final Element time;
 
+        private volatile int hashCode;
+
         private Processing(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1120,6 +1223,43 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Processing other = (Processing) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(procedure, other.procedure) && 
+                Objects.equals(additive, other.additive) && 
+                Objects.equals(time, other.time);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    procedure, 
+                    additive, 
+                    time);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1339,6 +1479,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final String description;
         private final Element time;
 
+        private volatile int hashCode;
+
         private Manipulation(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1384,6 +1526,39 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Manipulation other = (Manipulation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(time, other.time);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    time);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1568,6 +1743,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final BiologicallyDerivedProductStorageScale scale;
         private final Period duration;
 
+        private volatile int hashCode;
+
         private Storage(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1641,6 +1818,43 @@ public class BiologicallyDerivedProduct extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Storage other = (Storage) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(temperature, other.temperature) && 
+                Objects.equals(scale, other.scale) && 
+                Objects.equals(duration, other.duration);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    temperature, 
+                    scale, 
+                    duration);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

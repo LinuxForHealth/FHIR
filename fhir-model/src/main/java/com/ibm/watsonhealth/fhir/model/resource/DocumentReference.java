@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -59,6 +60,8 @@ public class DocumentReference extends DomainResource {
     private final List<CodeableConcept> securityLabel;
     private final List<Content> content;
     private final Context context;
+
+    private volatile int hashCode;
 
     private DocumentReference(Builder builder) {
         super(builder);
@@ -313,6 +316,77 @@ public class DocumentReference extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DocumentReference other = (DocumentReference) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(masterIdentifier, other.masterIdentifier) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(docStatus, other.docStatus) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(authenticator, other.authenticator) && 
+            Objects.equals(custodian, other.custodian) && 
+            Objects.equals(relatesTo, other.relatesTo) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(securityLabel, other.securityLabel) && 
+            Objects.equals(content, other.content) && 
+            Objects.equals(context, other.context);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                masterIdentifier, 
+                identifier, 
+                status, 
+                docStatus, 
+                type, 
+                category, 
+                subject, 
+                date, 
+                author, 
+                authenticator, 
+                custodian, 
+                relatesTo, 
+                description, 
+                securityLabel, 
+                content, 
+                context);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -928,6 +1002,8 @@ public class DocumentReference extends DomainResource {
         private final DocumentRelationshipType code;
         private final Reference target;
 
+        private volatile int hashCode;
+
         private RelatesTo(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -973,6 +1049,39 @@ public class DocumentReference extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            RelatesTo other = (RelatesTo) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(target, other.target);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    target);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1127,6 +1236,8 @@ public class DocumentReference extends DomainResource {
         private final Attachment attachment;
         private final Coding format;
 
+        private volatile int hashCode;
+
         private Content(Builder builder) {
             super(builder);
             attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
@@ -1173,6 +1284,39 @@ public class DocumentReference extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Content other = (Content) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(attachment, other.attachment) && 
+                Objects.equals(format, other.format);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    attachment, 
+                    format);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1351,6 +1495,8 @@ public class DocumentReference extends DomainResource {
         private final Reference sourcePatientInfo;
         private final List<Reference> related;
 
+        private volatile int hashCode;
+
         private Context(Builder builder) {
             super(builder);
             encounter = Collections.unmodifiableList(builder.encounter);
@@ -1470,6 +1616,49 @@ public class DocumentReference extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Context other = (Context) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(encounter, other.encounter) && 
+                Objects.equals(event, other.event) && 
+                Objects.equals(period, other.period) && 
+                Objects.equals(facilityType, other.facilityType) && 
+                Objects.equals(practiceSetting, other.practiceSetting) && 
+                Objects.equals(sourcePatientInfo, other.sourcePatientInfo) && 
+                Objects.equals(related, other.related);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    encounter, 
+                    event, 
+                    period, 
+                    facilityType, 
+                    practiceSetting, 
+                    sourcePatientInfo, 
+                    related);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -76,6 +77,8 @@ public class AllergyIntolerance extends DomainResource {
     private final DateTime lastOccurrence;
     private final List<Annotation> note;
     private final List<Reaction> reaction;
+
+    private volatile int hashCode;
 
     private AllergyIntolerance(Builder builder) {
         super(builder);
@@ -335,6 +338,77 @@ public class AllergyIntolerance extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AllergyIntolerance other = (AllergyIntolerance) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(clinicalStatus, other.clinicalStatus) && 
+            Objects.equals(verificationStatus, other.verificationStatus) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(criticality, other.criticality) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(onset, other.onset) && 
+            Objects.equals(recordedDate, other.recordedDate) && 
+            Objects.equals(recorder, other.recorder) && 
+            Objects.equals(asserter, other.asserter) && 
+            Objects.equals(lastOccurrence, other.lastOccurrence) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(reaction, other.reaction);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                clinicalStatus, 
+                verificationStatus, 
+                type, 
+                category, 
+                criticality, 
+                code, 
+                patient, 
+                encounter, 
+                onset, 
+                recordedDate, 
+                recorder, 
+                asserter, 
+                lastOccurrence, 
+                note, 
+                reaction);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -956,6 +1030,8 @@ public class AllergyIntolerance extends DomainResource {
         private final CodeableConcept exposureRoute;
         private final List<Annotation> note;
 
+        private volatile int hashCode;
+
         private Reaction(Builder builder) {
             super(builder);
             substance = builder.substance;
@@ -1078,6 +1154,49 @@ public class AllergyIntolerance extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Reaction other = (Reaction) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(substance, other.substance) && 
+                Objects.equals(manifestation, other.manifestation) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(onset, other.onset) && 
+                Objects.equals(severity, other.severity) && 
+                Objects.equals(exposureRoute, other.exposureRoute) && 
+                Objects.equals(note, other.note);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    substance, 
+                    manifestation, 
+                    description, 
+                    onset, 
+                    severity, 
+                    exposureRoute, 
+                    note);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

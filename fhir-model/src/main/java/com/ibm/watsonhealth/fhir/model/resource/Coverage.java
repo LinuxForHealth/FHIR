@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -59,6 +60,8 @@ public class Coverage extends DomainResource {
     private final List<CostToBeneficiary> costToBeneficiary;
     private final Boolean subrogation;
     private final List<Reference> contract;
+
+    private volatile int hashCode;
 
     private Coverage(Builder builder) {
         super(builder);
@@ -329,6 +332,79 @@ public class Coverage extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Coverage other = (Coverage) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(policyHolder, other.policyHolder) && 
+            Objects.equals(subscriber, other.subscriber) && 
+            Objects.equals(subscriberId, other.subscriberId) && 
+            Objects.equals(beneficiary, other.beneficiary) && 
+            Objects.equals(dependent, other.dependent) && 
+            Objects.equals(relationship, other.relationship) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(payor, other.payor) && 
+            Objects.equals(clazz, other.clazz) && 
+            Objects.equals(order, other.order) && 
+            Objects.equals(network, other.network) && 
+            Objects.equals(costToBeneficiary, other.costToBeneficiary) && 
+            Objects.equals(subrogation, other.subrogation) && 
+            Objects.equals(contract, other.contract);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                type, 
+                policyHolder, 
+                subscriber, 
+                subscriberId, 
+                beneficiary, 
+                dependent, 
+                relationship, 
+                period, 
+                payor, 
+                clazz, 
+                order, 
+                network, 
+                costToBeneficiary, 
+                subrogation, 
+                contract);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -928,6 +1004,8 @@ public class Coverage extends DomainResource {
         private final String value;
         private final String name;
 
+        private volatile int hashCode;
+
         private Class(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -988,6 +1066,41 @@ public class Coverage extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Class other = (Class) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(name, other.name);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value, 
+                    name);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1164,6 +1277,8 @@ public class Coverage extends DomainResource {
         private final Element value;
         private final List<Exception> exception;
 
+        private volatile int hashCode;
+
         private CostToBeneficiary(Builder builder) {
             super(builder);
             type = builder.type;
@@ -1223,6 +1338,41 @@ public class Coverage extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            CostToBeneficiary other = (CostToBeneficiary) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(exception, other.exception);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    value, 
+                    exception);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1430,6 +1580,8 @@ public class Coverage extends DomainResource {
             private final CodeableConcept type;
             private final Period period;
 
+            private volatile int hashCode;
+
             private Exception(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1475,6 +1627,39 @@ public class Coverage extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Exception other = (Exception) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(period, other.period);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        period);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

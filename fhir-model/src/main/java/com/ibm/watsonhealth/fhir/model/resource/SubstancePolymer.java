@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -41,6 +42,8 @@ public class SubstancePolymer extends DomainResource {
     private final List<String> modification;
     private final List<MonomerSet> monomerSet;
     private final List<Repeat> repeat;
+
+    private volatile int hashCode;
 
     private SubstancePolymer(Builder builder) {
         super(builder);
@@ -148,6 +151,57 @@ public class SubstancePolymer extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SubstancePolymer other = (SubstancePolymer) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(clazz, other.clazz) && 
+            Objects.equals(geometry, other.geometry) && 
+            Objects.equals(copolymerConnectivity, other.copolymerConnectivity) && 
+            Objects.equals(modification, other.modification) && 
+            Objects.equals(monomerSet, other.monomerSet) && 
+            Objects.equals(repeat, other.repeat);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                clazz, 
+                geometry, 
+                copolymerConnectivity, 
+                modification, 
+                monomerSet, 
+                repeat);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -581,6 +635,8 @@ public class SubstancePolymer extends DomainResource {
         private final CodeableConcept ratioType;
         private final List<StartingMaterial> startingMaterial;
 
+        private volatile int hashCode;
+
         private MonomerSet(Builder builder) {
             super(builder);
             ratioType = builder.ratioType;
@@ -626,6 +682,39 @@ public class SubstancePolymer extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            MonomerSet other = (MonomerSet) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(ratioType, other.ratioType) && 
+                Objects.equals(startingMaterial, other.startingMaterial);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    ratioType, 
+                    startingMaterial);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -827,6 +916,8 @@ public class SubstancePolymer extends DomainResource {
             private final Boolean isDefining;
             private final SubstanceAmount amount;
 
+            private volatile int hashCode;
+
             private StartingMaterial(Builder builder) {
                 super(builder);
                 material = builder.material;
@@ -900,6 +991,43 @@ public class SubstancePolymer extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                StartingMaterial other = (StartingMaterial) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(material, other.material) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(isDefining, other.isDefining) && 
+                    Objects.equals(amount, other.amount);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        material, 
+                        type, 
+                        isDefining, 
+                        amount);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1121,6 +1249,8 @@ public class SubstancePolymer extends DomainResource {
         private final CodeableConcept repeatUnitAmountType;
         private final List<RepeatUnit> repeatUnit;
 
+        private volatile int hashCode;
+
         private Repeat(Builder builder) {
             super(builder);
             numberOfUnits = builder.numberOfUnits;
@@ -1194,6 +1324,43 @@ public class SubstancePolymer extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Repeat other = (Repeat) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(numberOfUnits, other.numberOfUnits) && 
+                Objects.equals(averageMolecularFormula, other.averageMolecularFormula) && 
+                Objects.equals(repeatUnitAmountType, other.repeatUnitAmountType) && 
+                Objects.equals(repeatUnit, other.repeatUnit);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    numberOfUnits, 
+                    averageMolecularFormula, 
+                    repeatUnitAmountType, 
+                    repeatUnit);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1432,6 +1599,8 @@ public class SubstancePolymer extends DomainResource {
             private final List<DegreeOfPolymerisation> degreeOfPolymerisation;
             private final List<StructuralRepresentation> structuralRepresentation;
 
+            private volatile int hashCode;
+
             private RepeatUnit(Builder builder) {
                 super(builder);
                 orientationOfPolymerisation = builder.orientationOfPolymerisation;
@@ -1519,6 +1688,45 @@ public class SubstancePolymer extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                RepeatUnit other = (RepeatUnit) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(orientationOfPolymerisation, other.orientationOfPolymerisation) && 
+                    Objects.equals(repeatUnit, other.repeatUnit) && 
+                    Objects.equals(amount, other.amount) && 
+                    Objects.equals(degreeOfPolymerisation, other.degreeOfPolymerisation) && 
+                    Objects.equals(structuralRepresentation, other.structuralRepresentation);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        orientationOfPolymerisation, 
+                        repeatUnit, 
+                        amount, 
+                        degreeOfPolymerisation, 
+                        structuralRepresentation);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1790,6 +1998,8 @@ public class SubstancePolymer extends DomainResource {
                 private final CodeableConcept degree;
                 private final SubstanceAmount amount;
 
+                private volatile int hashCode;
+
                 private DegreeOfPolymerisation(Builder builder) {
                     super(builder);
                     degree = builder.degree;
@@ -1835,6 +2045,39 @@ public class SubstancePolymer extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    DegreeOfPolymerisation other = (DegreeOfPolymerisation) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(degree, other.degree) && 
+                        Objects.equals(amount, other.amount);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            degree, 
+                            amount);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2018,6 +2261,8 @@ public class SubstancePolymer extends DomainResource {
                 private final String representation;
                 private final Attachment attachment;
 
+                private volatile int hashCode;
+
                 private StructuralRepresentation(Builder builder) {
                     super(builder);
                     type = builder.type;
@@ -2077,6 +2322,41 @@ public class SubstancePolymer extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    StructuralRepresentation other = (StructuralRepresentation) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(type, other.type) && 
+                        Objects.equals(representation, other.representation) && 
+                        Objects.equals(attachment, other.attachment);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            type, 
+                            representation, 
+                            attachment);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override

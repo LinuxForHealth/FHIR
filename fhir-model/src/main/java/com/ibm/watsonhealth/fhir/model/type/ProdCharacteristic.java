@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -34,6 +35,8 @@ public class ProdCharacteristic extends BackboneElement {
     private final List<String> imprint;
     private final List<Attachment> image;
     private final CodeableConcept scoring;
+
+    private volatile int hashCode;
 
     private ProdCharacteristic(Builder builder) {
         super(builder);
@@ -222,6 +225,57 @@ public class ProdCharacteristic extends BackboneElement {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProdCharacteristic other = (ProdCharacteristic) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(height, other.height) && 
+            Objects.equals(width, other.width) && 
+            Objects.equals(depth, other.depth) && 
+            Objects.equals(weight, other.weight) && 
+            Objects.equals(nominalVolume, other.nominalVolume) && 
+            Objects.equals(externalDiameter, other.externalDiameter) && 
+            Objects.equals(shape, other.shape) && 
+            Objects.equals(color, other.color) && 
+            Objects.equals(imprint, other.imprint) && 
+            Objects.equals(image, other.image) && 
+            Objects.equals(scoring, other.scoring);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                modifierExtension, 
+                height, 
+                width, 
+                depth, 
+                weight, 
+                nominalVolume, 
+                externalDiameter, 
+                shape, 
+                color, 
+                imprint, 
+                image, 
+                scoring);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

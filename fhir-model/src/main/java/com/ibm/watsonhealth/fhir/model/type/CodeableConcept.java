@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -24,6 +25,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class CodeableConcept extends Element {
     private final List<Coding> coding;
     private final String text;
+
+    private volatile int hashCode;
 
     private CodeableConcept(Builder builder) {
         super(builder);
@@ -70,6 +73,37 @@ public class CodeableConcept extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CodeableConcept other = (CodeableConcept) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(coding, other.coding) && 
+            Objects.equals(text, other.text);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                coding, 
+                text);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

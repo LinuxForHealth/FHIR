@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -59,6 +60,8 @@ public class CareTeam extends DomainResource {
     private final List<Reference> managingOrganization;
     private final List<ContactPoint> telecom;
     private final List<Annotation> note;
+
+    private volatile int hashCode;
 
     private CareTeam(Builder builder) {
         super(builder);
@@ -266,6 +269,71 @@ public class CareTeam extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CareTeam other = (CareTeam) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(participant, other.participant) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(managingOrganization, other.managingOrganization) && 
+            Objects.equals(telecom, other.telecom) && 
+            Objects.equals(note, other.note);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                category, 
+                name, 
+                subject, 
+                encounter, 
+                period, 
+                participant, 
+                reasonCode, 
+                reasonReference, 
+                managingOrganization, 
+                telecom, 
+                note);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -903,6 +971,8 @@ public class CareTeam extends DomainResource {
         private final Reference onBehalfOf;
         private final Period period;
 
+        private volatile int hashCode;
+
         private Participant(Builder builder) {
             super(builder);
             role = Collections.unmodifiableList(builder.role);
@@ -977,6 +1047,43 @@ public class CareTeam extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Participant other = (Participant) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(member, other.member) && 
+                Objects.equals(onBehalfOf, other.onBehalfOf) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    role, 
+                    member, 
+                    onBehalfOf, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

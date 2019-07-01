@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -91,6 +92,8 @@ public class CodeSystem extends DomainResource {
     private final List<Filter> filter;
     private final List<Property> property;
     private final List<Concept> concept;
+
+    private volatile int hashCode;
 
     private CodeSystem(Builder builder) {
         super(builder);
@@ -498,6 +501,97 @@ public class CodeSystem extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CodeSystem other = (CodeSystem) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(caseSensitive, other.caseSensitive) && 
+            Objects.equals(valueSet, other.valueSet) && 
+            Objects.equals(hierarchyMeaning, other.hierarchyMeaning) && 
+            Objects.equals(compositional, other.compositional) && 
+            Objects.equals(versionNeeded, other.versionNeeded) && 
+            Objects.equals(content, other.content) && 
+            Objects.equals(supplements, other.supplements) && 
+            Objects.equals(count, other.count) && 
+            Objects.equals(filter, other.filter) && 
+            Objects.equals(property, other.property) && 
+            Objects.equals(concept, other.concept);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                caseSensitive, 
+                valueSet, 
+                hierarchyMeaning, 
+                compositional, 
+                versionNeeded, 
+                content, 
+                supplements, 
+                count, 
+                filter, 
+                property, 
+                concept);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1344,6 +1438,8 @@ public class CodeSystem extends DomainResource {
         private final List<FilterOperator> operator;
         private final String value;
 
+        private volatile int hashCode;
+
         private Filter(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1417,6 +1513,43 @@ public class CodeSystem extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Filter other = (Filter) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(operator, other.operator) && 
+                Objects.equals(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    description, 
+                    operator, 
+                    value);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1595,6 +1728,8 @@ public class CodeSystem extends DomainResource {
         private final String description;
         private final PropertyType type;
 
+        private volatile int hashCode;
+
         private Property(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1671,6 +1806,43 @@ public class CodeSystem extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Property other = (Property) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(uri, other.uri) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(type, other.type);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    uri, 
+                    description, 
+                    type);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1869,6 +2041,8 @@ public class CodeSystem extends DomainResource {
         private final List<Property> property;
         private final List<CodeSystem.Concept> concept;
 
+        private volatile int hashCode;
+
         private Concept(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1974,6 +2148,47 @@ public class CodeSystem extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Concept other = (Concept) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(display, other.display) && 
+                Objects.equals(definition, other.definition) && 
+                Objects.equals(designation, other.designation) && 
+                Objects.equals(property, other.property) && 
+                Objects.equals(concept, other.concept);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    display, 
+                    definition, 
+                    designation, 
+                    property, 
+                    concept);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2279,6 +2494,8 @@ public class CodeSystem extends DomainResource {
             private final Coding use;
             private final String value;
 
+            private volatile int hashCode;
+
             private Designation(Builder builder) {
                 super(builder);
                 language = builder.language;
@@ -2338,6 +2555,41 @@ public class CodeSystem extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Designation other = (Designation) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(language, other.language) && 
+                    Objects.equals(use, other.use) && 
+                    Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        language, 
+                        use, 
+                        value);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2528,6 +2780,8 @@ public class CodeSystem extends DomainResource {
             private final Code code;
             private final Element value;
 
+            private volatile int hashCode;
+
             private Property(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2573,6 +2827,39 @@ public class CodeSystem extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Property other = (Property) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        value);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

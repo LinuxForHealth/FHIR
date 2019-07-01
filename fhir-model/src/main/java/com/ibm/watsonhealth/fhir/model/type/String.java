@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
@@ -24,6 +25,8 @@ public class String extends Element {
     private static final Pattern PATTERN = Pattern.compile("[ \\r\\n\\t\\S]+");
 
     protected final java.lang.String value;
+
+    private volatile int hashCode;
 
     protected String(Builder builder) {
         super(builder);
@@ -66,6 +69,35 @@ public class String extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        String other = (String) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

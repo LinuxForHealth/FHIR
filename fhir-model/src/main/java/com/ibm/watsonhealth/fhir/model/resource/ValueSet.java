@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -116,6 +117,8 @@ public class ValueSet extends DomainResource {
     private final Markdown copyright;
     private final Compose compose;
     private final Expansion expansion;
+
+    private volatile int hashCode;
 
     private ValueSet(Builder builder) {
         super(builder);
@@ -409,6 +412,81 @@ public class ValueSet extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ValueSet other = (ValueSet) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(immutable, other.immutable) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(compose, other.compose) && 
+            Objects.equals(expansion, other.expansion);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                immutable, 
+                purpose, 
+                copyright, 
+                compose, 
+                expansion);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1071,6 +1149,8 @@ public class ValueSet extends DomainResource {
         private final List<Include> include;
         private final List<ValueSet.Compose.Include> exclude;
 
+        private volatile int hashCode;
+
         private Compose(Builder builder) {
             super(builder);
             lockedDate = builder.lockedDate;
@@ -1148,6 +1228,43 @@ public class ValueSet extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Compose other = (Compose) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(lockedDate, other.lockedDate) && 
+                Objects.equals(inactive, other.inactive) && 
+                Objects.equals(include, other.include) && 
+                Objects.equals(exclude, other.exclude);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    lockedDate, 
+                    inactive, 
+                    include, 
+                    exclude);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1380,6 +1497,8 @@ public class ValueSet extends DomainResource {
             private final List<Filter> filter;
             private final List<Canonical> valueSet;
 
+            private volatile int hashCode;
+
             private Include(Builder builder) {
                 super(builder);
                 system = builder.system;
@@ -1470,6 +1589,45 @@ public class ValueSet extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Include other = (Include) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(system, other.system) && 
+                    Objects.equals(version, other.version) && 
+                    Objects.equals(concept, other.concept) && 
+                    Objects.equals(filter, other.filter) && 
+                    Objects.equals(valueSet, other.valueSet);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        system, 
+                        version, 
+                        concept, 
+                        filter, 
+                        valueSet);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1766,6 +1924,8 @@ public class ValueSet extends DomainResource {
                 private final String display;
                 private final List<Designation> designation;
 
+                private volatile int hashCode;
+
                 private Concept(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1827,6 +1987,41 @@ public class ValueSet extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Concept other = (Concept) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(code, other.code) && 
+                        Objects.equals(display, other.display) && 
+                        Objects.equals(designation, other.designation);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            code, 
+                            display, 
+                            designation);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2039,6 +2234,8 @@ public class ValueSet extends DomainResource {
                     private final Coding use;
                     private final String value;
 
+                    private volatile int hashCode;
+
                     private Designation(Builder builder) {
                         super(builder);
                         language = builder.language;
@@ -2098,6 +2295,41 @@ public class ValueSet extends DomainResource {
                             visitor.visitEnd(elementName, this);
                             visitor.postVisit(this);
                         }
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        if (this == obj) {
+                            return true;
+                        }
+                        if (obj == null) {
+                            return false;
+                        }
+                        if (getClass() != obj.getClass()) {
+                            return false;
+                        }
+                        Designation other = (Designation) obj;
+                        return Objects.equals(id, other.id) && 
+                            Objects.equals(extension, other.extension) && 
+                            Objects.equals(modifierExtension, other.modifierExtension) && 
+                            Objects.equals(language, other.language) && 
+                            Objects.equals(use, other.use) && 
+                            Objects.equals(value, other.value);
+                    }
+
+                    @Override
+                    public int hashCode() {
+                        int result = hashCode;
+                        if (result == 0) {
+                            result = Objects.hash(id, 
+                                extension, 
+                                modifierExtension, 
+                                language, 
+                                use, 
+                                value);
+                            hashCode = result;
+                        }
+                        return result;
                     }
 
                     @Override
@@ -2291,6 +2523,8 @@ public class ValueSet extends DomainResource {
                 private final FilterOperator op;
                 private final String value;
 
+                private volatile int hashCode;
+
                 private Filter(Builder builder) {
                     super(builder);
                     property = ValidationSupport.requireNonNull(builder.property, "property");
@@ -2353,6 +2587,41 @@ public class ValueSet extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Filter other = (Filter) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(property, other.property) && 
+                        Objects.equals(op, other.op) && 
+                        Objects.equals(value, other.value);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            property, 
+                            op, 
+                            value);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2516,6 +2785,8 @@ public class ValueSet extends DomainResource {
         private final List<Parameter> parameter;
         private final List<Contains> contains;
 
+        private volatile int hashCode;
+
         private Expansion(Builder builder) {
             super(builder);
             identifier = builder.identifier;
@@ -2623,6 +2894,47 @@ public class ValueSet extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Expansion other = (Expansion) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(timestamp, other.timestamp) && 
+                Objects.equals(total, other.total) && 
+                Objects.equals(offset, other.offset) && 
+                Objects.equals(parameter, other.parameter) && 
+                Objects.equals(contains, other.contains);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    timestamp, 
+                    total, 
+                    offset, 
+                    parameter, 
+                    contains);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2910,6 +3222,8 @@ public class ValueSet extends DomainResource {
             private final String name;
             private final Element value;
 
+            private volatile int hashCode;
+
             private Parameter(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -2956,6 +3270,39 @@ public class ValueSet extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Parameter other = (Parameter) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        name, 
+                        value);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3134,6 +3481,8 @@ public class ValueSet extends DomainResource {
             private final List<ValueSet.Compose.Include.Concept.Designation> designation;
             private final List<ValueSet.Expansion.Contains> contains;
 
+            private volatile int hashCode;
+
             private Contains(Builder builder) {
                 super(builder);
                 system = builder.system;
@@ -3270,6 +3619,51 @@ public class ValueSet extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Contains other = (Contains) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(system, other.system) && 
+                    Objects.equals(_abstract, other._abstract) && 
+                    Objects.equals(inactive, other.inactive) && 
+                    Objects.equals(version, other.version) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(display, other.display) && 
+                    Objects.equals(designation, other.designation) && 
+                    Objects.equals(contains, other.contains);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        system, 
+                        _abstract, 
+                        inactive, 
+                        version, 
+                        code, 
+                        display, 
+                        designation, 
+                        contains);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

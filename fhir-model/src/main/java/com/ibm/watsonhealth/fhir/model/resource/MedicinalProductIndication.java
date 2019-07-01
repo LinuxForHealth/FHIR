@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -44,6 +45,8 @@ public class MedicinalProductIndication extends DomainResource {
     private final List<OtherTherapy> otherTherapy;
     private final List<Reference> undesirableEffect;
     private final List<Population> population;
+
+    private volatile int hashCode;
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
@@ -193,6 +196,63 @@ public class MedicinalProductIndication extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProductIndication other = (MedicinalProductIndication) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(diseaseSymptomProcedure, other.diseaseSymptomProcedure) && 
+            Objects.equals(diseaseStatus, other.diseaseStatus) && 
+            Objects.equals(comorbidity, other.comorbidity) && 
+            Objects.equals(intendedEffect, other.intendedEffect) && 
+            Objects.equals(duration, other.duration) && 
+            Objects.equals(otherTherapy, other.otherTherapy) && 
+            Objects.equals(undesirableEffect, other.undesirableEffect) && 
+            Objects.equals(population, other.population);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                subject, 
+                diseaseSymptomProcedure, 
+                diseaseStatus, 
+                comorbidity, 
+                intendedEffect, 
+                duration, 
+                otherTherapy, 
+                undesirableEffect, 
+                population);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -698,6 +758,8 @@ public class MedicinalProductIndication extends DomainResource {
         private final CodeableConcept therapyRelationshipType;
         private final Element medication;
 
+        private volatile int hashCode;
+
         private OtherTherapy(Builder builder) {
             super(builder);
             therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
@@ -744,6 +806,39 @@ public class MedicinalProductIndication extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            OtherTherapy other = (OtherTherapy) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(therapyRelationshipType, other.therapyRelationshipType) && 
+                Objects.equals(medication, other.medication);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    therapyRelationshipType, 
+                    medication);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

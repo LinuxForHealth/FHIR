@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,8 @@ public class TriggerDefinition extends Element {
     private final Element timing;
     private final List<DataRequirement> data;
     private final Expression condition;
+
+    private volatile int hashCode;
 
     private TriggerDefinition(Builder builder) {
         super(builder);
@@ -142,6 +145,43 @@ public class TriggerDefinition extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        TriggerDefinition other = (TriggerDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(timing, other.timing) && 
+            Objects.equals(data, other.data) && 
+            Objects.equals(condition, other.condition);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                type, 
+                name, 
+                timing, 
+                data, 
+                condition);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

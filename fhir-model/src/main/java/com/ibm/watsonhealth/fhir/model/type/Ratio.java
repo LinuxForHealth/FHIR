@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -29,6 +30,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class Ratio extends Element {
     private final Quantity numerator;
     private final Quantity denominator;
+
+    private volatile int hashCode;
 
     private Ratio(Builder builder) {
         super(builder);
@@ -74,6 +77,37 @@ public class Ratio extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Ratio other = (Ratio) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(numerator, other.numerator) && 
+            Objects.equals(denominator, other.denominator);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                numerator, 
+                denominator);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

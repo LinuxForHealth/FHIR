@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -86,6 +87,8 @@ public class MessageDefinition extends DomainResource {
     private final MessageHeaderResponseRequest responseRequired;
     private final List<AllowedResponse> allowedResponse;
     private final List<Canonical> graph;
+
+    private volatile int hashCode;
 
     private MessageDefinition(Builder builder) {
         super(builder);
@@ -460,6 +463,93 @@ public class MessageDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MessageDefinition other = (MessageDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(replaces, other.replaces) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(base, other.base) && 
+            Objects.equals(parent, other.parent) && 
+            Objects.equals(event, other.event) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(focus, other.focus) && 
+            Objects.equals(responseRequired, other.responseRequired) && 
+            Objects.equals(allowedResponse, other.allowedResponse) && 
+            Objects.equals(graph, other.graph);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                replaces, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                base, 
+                parent, 
+                event, 
+                category, 
+                focus, 
+                responseRequired, 
+                allowedResponse, 
+                graph);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1287,6 +1377,8 @@ public class MessageDefinition extends DomainResource {
         private final UnsignedInt min;
         private final String max;
 
+        private volatile int hashCode;
+
         private Focus(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1362,6 +1454,43 @@ public class MessageDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Focus other = (Focus) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(profile, other.profile) && 
+                Objects.equals(min, other.min) && 
+                Objects.equals(max, other.max);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    profile, 
+                    min, 
+                    max);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1555,6 +1684,8 @@ public class MessageDefinition extends DomainResource {
         private final Canonical message;
         private final Markdown situation;
 
+        private volatile int hashCode;
+
         private AllowedResponse(Builder builder) {
             super(builder);
             message = ValidationSupport.requireNonNull(builder.message, "message");
@@ -1601,6 +1732,39 @@ public class MessageDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            AllowedResponse other = (AllowedResponse) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(message, other.message) && 
+                Objects.equals(situation, other.situation);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    message, 
+                    situation);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

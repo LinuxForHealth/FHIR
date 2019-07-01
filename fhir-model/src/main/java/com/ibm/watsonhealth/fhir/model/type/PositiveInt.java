@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -20,6 +21,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class PositiveInt extends Integer {
     private static final int MIN_VALUE = 1;
+
+    private volatile int hashCode;
 
     private PositiveInt(Builder builder) {
         super(builder);
@@ -36,6 +39,35 @@ public class PositiveInt extends Integer {
 
     public static Integer integer(java.lang.String value) {
         return PositiveInt.builder().value(value).build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        PositiveInt other = (PositiveInt) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

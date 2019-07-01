@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -70,6 +71,8 @@ public class MedicationAdministration extends DomainResource {
     private final List<Annotation> note;
     private final Dosage dosage;
     private final List<Reference> eventHistory;
+
+    private volatile int hashCode;
 
     private MedicationAdministration(Builder builder) {
         super(builder);
@@ -368,6 +371,83 @@ public class MedicationAdministration extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicationAdministration other = (MedicationAdministration) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiates, other.instantiates) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(medication, other.medication) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(context, other.context) && 
+            Objects.equals(supportingInformation, other.supportingInformation) && 
+            Objects.equals(effective, other.effective) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(request, other.request) && 
+            Objects.equals(device, other.device) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(dosage, other.dosage) && 
+            Objects.equals(eventHistory, other.eventHistory);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiates, 
+                partOf, 
+                status, 
+                statusReason, 
+                category, 
+                medication, 
+                subject, 
+                context, 
+                supportingInformation, 
+                effective, 
+                performer, 
+                reasonCode, 
+                reasonReference, 
+                request, 
+                device, 
+                note, 
+                dosage, 
+                eventHistory);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1110,6 +1190,8 @@ public class MedicationAdministration extends DomainResource {
         private final CodeableConcept function;
         private final Reference actor;
 
+        private volatile int hashCode;
+
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -1155,6 +1237,39 @@ public class MedicationAdministration extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Performer other = (Performer) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(function, other.function) && 
+                Objects.equals(actor, other.actor);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    function, 
+                    actor);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1331,6 +1446,8 @@ public class MedicationAdministration extends DomainResource {
         private final Quantity dose;
         private final Element rate;
 
+        private volatile int hashCode;
+
         private Dosage(Builder builder) {
             super(builder);
             text = builder.text;
@@ -1442,6 +1559,47 @@ The dosage instructions should reflect the
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Dosage other = (Dosage) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(text, other.text) && 
+                Objects.equals(site, other.site) && 
+                Objects.equals(route, other.route) && 
+                Objects.equals(method, other.method) && 
+                Objects.equals(dose, other.dose) && 
+                Objects.equals(rate, other.rate);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    text, 
+                    site, 
+                    route, 
+                    method, 
+                    dose, 
+                    rate);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -59,6 +60,8 @@ public class SubstanceSpecification extends DomainResource {
     private final Reference polymer;
     private final Reference protein;
     private final Reference sourceMaterial;
+
+    private volatile int hashCode;
 
     private SubstanceSpecification(Builder builder) {
         super(builder);
@@ -348,6 +351,83 @@ public class SubstanceSpecification extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SubstanceSpecification other = (SubstanceSpecification) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(domain, other.domain) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(comment, other.comment) && 
+            Objects.equals(moiety, other.moiety) && 
+            Objects.equals(property, other.property) && 
+            Objects.equals(referenceInformation, other.referenceInformation) && 
+            Objects.equals(structure, other.structure) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(molecularWeight, other.molecularWeight) && 
+            Objects.equals(relationship, other.relationship) && 
+            Objects.equals(nucleicAcid, other.nucleicAcid) && 
+            Objects.equals(polymer, other.polymer) && 
+            Objects.equals(protein, other.protein) && 
+            Objects.equals(sourceMaterial, other.sourceMaterial);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                type, 
+                status, 
+                domain, 
+                description, 
+                source, 
+                comment, 
+                moiety, 
+                property, 
+                referenceInformation, 
+                structure, 
+                code, 
+                name, 
+                molecularWeight, 
+                relationship, 
+                nucleicAcid, 
+                polymer, 
+                protein, 
+                sourceMaterial);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1074,6 +1154,8 @@ public class SubstanceSpecification extends DomainResource {
         private final String molecularFormula;
         private final Element amount;
 
+        private volatile int hashCode;
+
         private Moiety(Builder builder) {
             super(builder);
             role = builder.role;
@@ -1189,6 +1271,49 @@ public class SubstanceSpecification extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Moiety other = (Moiety) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(stereochemistry, other.stereochemistry) && 
+                Objects.equals(opticalActivity, other.opticalActivity) && 
+                Objects.equals(molecularFormula, other.molecularFormula) && 
+                Objects.equals(amount, other.amount);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    role, 
+                    identifier, 
+                    name, 
+                    stereochemistry, 
+                    opticalActivity, 
+                    molecularFormula, 
+                    amount);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1464,6 +1589,8 @@ public class SubstanceSpecification extends DomainResource {
         private final Element definingSubstance;
         private final Element amount;
 
+        private volatile int hashCode;
+
         private Property(Builder builder) {
             super(builder);
             category = builder.category;
@@ -1551,6 +1678,45 @@ public class SubstanceSpecification extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Property other = (Property) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(category, other.category) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(parameters, other.parameters) && 
+                Objects.equals(definingSubstance, other.definingSubstance) && 
+                Objects.equals(amount, other.amount);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    category, 
+                    code, 
+                    parameters, 
+                    definingSubstance, 
+                    amount);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1793,6 +1959,8 @@ public class SubstanceSpecification extends DomainResource {
         private final List<Reference> source;
         private final List<Representation> representation;
 
+        private volatile int hashCode;
+
         private Structure(Builder builder) {
             super(builder);
             stereochemistry = builder.stereochemistry;
@@ -1923,6 +2091,51 @@ public class SubstanceSpecification extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Structure other = (Structure) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(stereochemistry, other.stereochemistry) && 
+                Objects.equals(opticalActivity, other.opticalActivity) && 
+                Objects.equals(molecularFormula, other.molecularFormula) && 
+                Objects.equals(molecularFormulaByMoiety, other.molecularFormulaByMoiety) && 
+                Objects.equals(isotope, other.isotope) && 
+                Objects.equals(molecularWeight, other.molecularWeight) && 
+                Objects.equals(source, other.source) && 
+                Objects.equals(representation, other.representation);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    stereochemistry, 
+                    opticalActivity, 
+                    molecularFormula, 
+                    molecularFormulaByMoiety, 
+                    isotope, 
+                    molecularWeight, 
+                    source, 
+                    representation);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2271,6 +2484,8 @@ public class SubstanceSpecification extends DomainResource {
             private final Quantity halfLife;
             private final MolecularWeight molecularWeight;
 
+            private volatile int hashCode;
+
             private Isotope(Builder builder) {
                 super(builder);
                 identifier = builder.identifier;
@@ -2358,6 +2573,45 @@ public class SubstanceSpecification extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Isotope other = (Isotope) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(identifier, other.identifier) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(substitution, other.substitution) && 
+                    Objects.equals(halfLife, other.halfLife) && 
+                    Objects.equals(molecularWeight, other.molecularWeight);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        identifier, 
+                        name, 
+                        substitution, 
+                        halfLife, 
+                        molecularWeight);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2594,6 +2848,8 @@ public class SubstanceSpecification extends DomainResource {
                 private final CodeableConcept type;
                 private final Quantity amount;
 
+                private volatile int hashCode;
+
                 private MolecularWeight(Builder builder) {
                     super(builder);
                     method = builder.method;
@@ -2654,6 +2910,41 @@ public class SubstanceSpecification extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    MolecularWeight other = (MolecularWeight) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(method, other.method) && 
+                        Objects.equals(type, other.type) && 
+                        Objects.equals(amount, other.amount);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            method, 
+                            type, 
+                            amount);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2858,6 +3149,8 @@ public class SubstanceSpecification extends DomainResource {
             private final String representation;
             private final Attachment attachment;
 
+            private volatile int hashCode;
+
             private Representation(Builder builder) {
                 super(builder);
                 type = builder.type;
@@ -2917,6 +3210,41 @@ public class SubstanceSpecification extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Representation other = (Representation) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(representation, other.representation) && 
+                    Objects.equals(attachment, other.attachment);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        representation, 
+                        attachment);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3121,6 +3449,8 @@ public class SubstanceSpecification extends DomainResource {
         private final String comment;
         private final List<Reference> source;
 
+        private volatile int hashCode;
+
         private Code(Builder builder) {
             super(builder);
             code = builder.code;
@@ -3208,6 +3538,45 @@ public class SubstanceSpecification extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Code other = (Code) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(statusDate, other.statusDate) && 
+                Objects.equals(comment, other.comment) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    status, 
+                    statusDate, 
+                    comment, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -3471,6 +3840,8 @@ public class SubstanceSpecification extends DomainResource {
         private final List<Official> official;
         private final List<Reference> source;
 
+        private volatile int hashCode;
+
         private Name(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -3643,6 +4014,57 @@ public class SubstanceSpecification extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Name other = (Name) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(preferred, other.preferred) && 
+                Objects.equals(language, other.language) && 
+                Objects.equals(domain, other.domain) && 
+                Objects.equals(jurisdiction, other.jurisdiction) && 
+                Objects.equals(synonym, other.synonym) && 
+                Objects.equals(translation, other.translation) && 
+                Objects.equals(official, other.official) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    type, 
+                    status, 
+                    preferred, 
+                    language, 
+                    domain, 
+                    jurisdiction, 
+                    synonym, 
+                    translation, 
+                    official, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -4107,6 +4529,8 @@ public class SubstanceSpecification extends DomainResource {
             private final CodeableConcept status;
             private final DateTime date;
 
+            private volatile int hashCode;
+
             private Official(Builder builder) {
                 super(builder);
                 authority = builder.authority;
@@ -4166,6 +4590,41 @@ public class SubstanceSpecification extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Official other = (Official) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(authority, other.authority) && 
+                    Objects.equals(status, other.status) && 
+                    Objects.equals(date, other.date);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        authority, 
+                        status, 
+                        date);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -4372,6 +4831,8 @@ public class SubstanceSpecification extends DomainResource {
         private final CodeableConcept amountType;
         private final List<Reference> source;
 
+        private volatile int hashCode;
+
         private Relationship(Builder builder) {
             super(builder);
             substance = ValidationSupport.choiceElement(builder.substance, "substance", Reference.class, CodeableConcept.class);
@@ -4489,6 +4950,49 @@ public class SubstanceSpecification extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Relationship other = (Relationship) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(substance, other.substance) && 
+                Objects.equals(relationship, other.relationship) && 
+                Objects.equals(isDefining, other.isDefining) && 
+                Objects.equals(amount, other.amount) && 
+                Objects.equals(amountRatioLowLimit, other.amountRatioLowLimit) && 
+                Objects.equals(amountType, other.amountType) && 
+                Objects.equals(source, other.source);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    substance, 
+                    relationship, 
+                    isDefining, 
+                    amount, 
+                    amountRatioLowLimit, 
+                    amountType, 
+                    source);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

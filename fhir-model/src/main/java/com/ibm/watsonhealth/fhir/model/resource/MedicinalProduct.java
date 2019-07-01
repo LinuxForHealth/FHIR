@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -58,6 +59,8 @@ public class MedicinalProduct extends DomainResource {
     private final List<Identifier> crossReference;
     private final List<ManufacturingBusinessOperation> manufacturingBusinessOperation;
     private final List<SpecialDesignation> specialDesignation;
+
+    private volatile int hashCode;
 
     private MedicinalProduct(Builder builder) {
         super(builder);
@@ -361,6 +364,85 @@ public class MedicinalProduct extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MedicinalProduct other = (MedicinalProduct) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(domain, other.domain) && 
+            Objects.equals(combinedPharmaceuticalDoseForm, other.combinedPharmaceuticalDoseForm) && 
+            Objects.equals(legalStatusOfSupply, other.legalStatusOfSupply) && 
+            Objects.equals(additionalMonitoringIndicator, other.additionalMonitoringIndicator) && 
+            Objects.equals(specialMeasures, other.specialMeasures) && 
+            Objects.equals(paediatricUseIndicator, other.paediatricUseIndicator) && 
+            Objects.equals(productClassification, other.productClassification) && 
+            Objects.equals(marketingStatus, other.marketingStatus) && 
+            Objects.equals(pharmaceuticalProduct, other.pharmaceuticalProduct) && 
+            Objects.equals(packagedMedicinalProduct, other.packagedMedicinalProduct) && 
+            Objects.equals(attachedDocument, other.attachedDocument) && 
+            Objects.equals(masterFile, other.masterFile) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(clinicalTrial, other.clinicalTrial) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(crossReference, other.crossReference) && 
+            Objects.equals(manufacturingBusinessOperation, other.manufacturingBusinessOperation) && 
+            Objects.equals(specialDesignation, other.specialDesignation);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                type, 
+                domain, 
+                combinedPharmaceuticalDoseForm, 
+                legalStatusOfSupply, 
+                additionalMonitoringIndicator, 
+                specialMeasures, 
+                paediatricUseIndicator, 
+                productClassification, 
+                marketingStatus, 
+                pharmaceuticalProduct, 
+                packagedMedicinalProduct, 
+                attachedDocument, 
+                masterFile, 
+                contact, 
+                clinicalTrial, 
+                name, 
+                crossReference, 
+                manufacturingBusinessOperation, 
+                specialDesignation);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1199,6 +1281,8 @@ public class MedicinalProduct extends DomainResource {
         private final List<NamePart> namePart;
         private final List<CountryLanguage> countryLanguage;
 
+        private volatile int hashCode;
+
         private Name(Builder builder) {
             super(builder);
             productName = ValidationSupport.requireNonNull(builder.productName, "productName");
@@ -1258,6 +1342,41 @@ public class MedicinalProduct extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Name other = (Name) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(productName, other.productName) && 
+                Objects.equals(namePart, other.namePart) && 
+                Objects.equals(countryLanguage, other.countryLanguage);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    productName, 
+                    namePart, 
+                    countryLanguage);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1483,6 +1602,8 @@ public class MedicinalProduct extends DomainResource {
             private final String part;
             private final Coding type;
 
+            private volatile int hashCode;
+
             private NamePart(Builder builder) {
                 super(builder);
                 part = ValidationSupport.requireNonNull(builder.part, "part");
@@ -1528,6 +1649,39 @@ public class MedicinalProduct extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                NamePart other = (NamePart) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(part, other.part) && 
+                    Objects.equals(type, other.type);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        part, 
+                        type);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1683,6 +1837,8 @@ public class MedicinalProduct extends DomainResource {
             private final CodeableConcept jurisdiction;
             private final CodeableConcept language;
 
+            private volatile int hashCode;
+
             private CountryLanguage(Builder builder) {
                 super(builder);
                 country = ValidationSupport.requireNonNull(builder.country, "country");
@@ -1742,6 +1898,41 @@ public class MedicinalProduct extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                CountryLanguage other = (CountryLanguage) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(country, other.country) && 
+                    Objects.equals(jurisdiction, other.jurisdiction) && 
+                    Objects.equals(language, other.language);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        country, 
+                        jurisdiction, 
+                        language);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1921,6 +2112,8 @@ public class MedicinalProduct extends DomainResource {
         private final List<Reference> manufacturer;
         private final Reference regulator;
 
+        private volatile int hashCode;
+
         private ManufacturingBusinessOperation(Builder builder) {
             super(builder);
             operationType = builder.operationType;
@@ -2022,6 +2215,47 @@ public class MedicinalProduct extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            ManufacturingBusinessOperation other = (ManufacturingBusinessOperation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(operationType, other.operationType) && 
+                Objects.equals(authorisationReferenceNumber, other.authorisationReferenceNumber) && 
+                Objects.equals(effectiveDate, other.effectiveDate) && 
+                Objects.equals(confidentialityIndicator, other.confidentialityIndicator) && 
+                Objects.equals(manufacturer, other.manufacturer) && 
+                Objects.equals(regulator, other.regulator);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    operationType, 
+                    authorisationReferenceNumber, 
+                    effectiveDate, 
+                    confidentialityIndicator, 
+                    manufacturer, 
+                    regulator);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2299,6 +2533,8 @@ public class MedicinalProduct extends DomainResource {
         private final DateTime date;
         private final CodeableConcept species;
 
+        private volatile int hashCode;
+
         private SpecialDesignation(Builder builder) {
             super(builder);
             identifier = Collections.unmodifiableList(builder.identifier);
@@ -2414,6 +2650,49 @@ public class MedicinalProduct extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SpecialDesignation other = (SpecialDesignation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(intendedUse, other.intendedUse) && 
+                Objects.equals(indication, other.indication) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(date, other.date) && 
+                Objects.equals(species, other.species);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    type, 
+                    intendedUse, 
+                    indication, 
+                    status, 
+                    date, 
+                    species);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

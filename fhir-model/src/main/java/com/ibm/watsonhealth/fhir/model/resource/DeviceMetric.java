@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -50,6 +51,8 @@ public class DeviceMetric extends DomainResource {
     private final DeviceMetricCategory category;
     private final Timing measurementPeriod;
     private final List<Calibration> calibration;
+
+    private volatile int hashCode;
 
     private DeviceMetric(Builder builder) {
         super(builder);
@@ -225,6 +228,65 @@ public class DeviceMetric extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DeviceMetric other = (DeviceMetric) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(unit, other.unit) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(parent, other.parent) && 
+            Objects.equals(operationalStatus, other.operationalStatus) && 
+            Objects.equals(color, other.color) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(measurementPeriod, other.measurementPeriod) && 
+            Objects.equals(calibration, other.calibration);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                type, 
+                unit, 
+                source, 
+                parent, 
+                operationalStatus, 
+                color, 
+                category, 
+                measurementPeriod, 
+                calibration);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -681,6 +743,8 @@ public class DeviceMetric extends DomainResource {
         private final DeviceMetricCalibrationState state;
         private final Instant time;
 
+        private volatile int hashCode;
+
         private Calibration(Builder builder) {
             super(builder);
             type = builder.type;
@@ -740,6 +804,41 @@ public class DeviceMetric extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Calibration other = (Calibration) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(state, other.state) && 
+                Objects.equals(time, other.time);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    state, 
+                    time);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -71,6 +72,8 @@ public class Procedure extends DomainResource {
     private final List<FocalDevice> focalDevice;
     private final List<Reference> usedReference;
     private final List<CodeableConcept> usedCode;
+
+    private volatile int hashCode;
 
     private Procedure(Builder builder) {
         super(builder);
@@ -498,6 +501,101 @@ public class Procedure extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Procedure other = (Procedure) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(instantiatesCanonical, other.instantiatesCanonical) && 
+            Objects.equals(instantiatesUri, other.instantiatesUri) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusReason, other.statusReason) && 
+            Objects.equals(category, other.category) && 
+            Objects.equals(code, other.code) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(performed, other.performed) && 
+            Objects.equals(recorder, other.recorder) && 
+            Objects.equals(asserter, other.asserter) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(bodySite, other.bodySite) && 
+            Objects.equals(outcome, other.outcome) && 
+            Objects.equals(report, other.report) && 
+            Objects.equals(complication, other.complication) && 
+            Objects.equals(complicationDetail, other.complicationDetail) && 
+            Objects.equals(followUp, other.followUp) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(focalDevice, other.focalDevice) && 
+            Objects.equals(usedReference, other.usedReference) && 
+            Objects.equals(usedCode, other.usedCode);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                instantiatesCanonical, 
+                instantiatesUri, 
+                basedOn, 
+                partOf, 
+                status, 
+                statusReason, 
+                category, 
+                code, 
+                subject, 
+                encounter, 
+                performed, 
+                recorder, 
+                asserter, 
+                performer, 
+                location, 
+                reasonCode, 
+                reasonReference, 
+                bodySite, 
+                outcome, 
+                report, 
+                complication, 
+                complicationDetail, 
+                followUp, 
+                note, 
+                focalDevice, 
+                usedReference, 
+                usedCode);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1557,6 +1655,8 @@ public class Procedure extends DomainResource {
         private final Reference actor;
         private final Reference onBehalfOf;
 
+        private volatile int hashCode;
+
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -1617,6 +1717,41 @@ public class Procedure extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Performer other = (Performer) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(function, other.function) && 
+                Objects.equals(actor, other.actor) && 
+                Objects.equals(onBehalfOf, other.onBehalfOf);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    function, 
+                    actor, 
+                    onBehalfOf);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1809,6 +1944,8 @@ public class Procedure extends DomainResource {
         private final CodeableConcept action;
         private final Reference manipulated;
 
+        private volatile int hashCode;
+
         private FocalDevice(Builder builder) {
             super(builder);
             action = builder.action;
@@ -1854,6 +1991,39 @@ public class Procedure extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            FocalDevice other = (FocalDevice) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(action, other.action) && 
+                Objects.equals(manipulated, other.manipulated);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    action, 
+                    manipulated);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

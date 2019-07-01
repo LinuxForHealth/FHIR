@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -40,6 +41,8 @@ public class SubstanceNucleicAcid extends DomainResource {
     private final String areaOfHybridisation;
     private final CodeableConcept oligoNucleotideType;
     private final List<Subunit> subunit;
+
+    private volatile int hashCode;
 
     private SubstanceNucleicAcid(Builder builder) {
         super(builder);
@@ -138,6 +141,55 @@ public class SubstanceNucleicAcid extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SubstanceNucleicAcid other = (SubstanceNucleicAcid) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(sequenceType, other.sequenceType) && 
+            Objects.equals(numberOfSubunits, other.numberOfSubunits) && 
+            Objects.equals(areaOfHybridisation, other.areaOfHybridisation) && 
+            Objects.equals(oligoNucleotideType, other.oligoNucleotideType) && 
+            Objects.equals(subunit, other.subunit);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                sequenceType, 
+                numberOfSubunits, 
+                areaOfHybridisation, 
+                oligoNucleotideType, 
+                subunit);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -518,6 +570,8 @@ public class SubstanceNucleicAcid extends DomainResource {
         private final List<Linkage> linkage;
         private final List<Sugar> sugar;
 
+        private volatile int hashCode;
+
         private Subunit(Builder builder) {
             super(builder);
             subunit = builder.subunit;
@@ -653,6 +707,51 @@ public class SubstanceNucleicAcid extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Subunit other = (Subunit) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(subunit, other.subunit) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(length, other.length) && 
+                Objects.equals(sequenceAttachment, other.sequenceAttachment) && 
+                Objects.equals(fivePrime, other.fivePrime) && 
+                Objects.equals(threePrime, other.threePrime) && 
+                Objects.equals(linkage, other.linkage) && 
+                Objects.equals(sugar, other.sugar);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    subunit, 
+                    sequence, 
+                    length, 
+                    sequenceAttachment, 
+                    fivePrime, 
+                    threePrime, 
+                    linkage, 
+                    sugar);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -992,6 +1091,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             private final String name;
             private final String residueSite;
 
+            private volatile int hashCode;
+
             private Linkage(Builder builder) {
                 super(builder);
                 connectivity = builder.connectivity;
@@ -1068,6 +1169,43 @@ public class SubstanceNucleicAcid extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Linkage other = (Linkage) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(connectivity, other.connectivity) && 
+                    Objects.equals(identifier, other.identifier) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(residueSite, other.residueSite);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        connectivity, 
+                        identifier, 
+                        name, 
+                        residueSite);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1293,6 +1431,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             private final String name;
             private final String residueSite;
 
+            private volatile int hashCode;
+
             private Sugar(Builder builder) {
                 super(builder);
                 identifier = builder.identifier;
@@ -1353,6 +1493,41 @@ public class SubstanceNucleicAcid extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Sugar other = (Sugar) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(identifier, other.identifier) && 
+                    Objects.equals(name, other.name) && 
+                    Objects.equals(residueSite, other.residueSite);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        identifier, 
+                        name, 
+                        residueSite);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

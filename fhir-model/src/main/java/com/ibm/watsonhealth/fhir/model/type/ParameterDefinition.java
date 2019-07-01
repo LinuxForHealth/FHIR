@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -30,6 +31,8 @@ public class ParameterDefinition extends Element {
     private final String documentation;
     private final FHIRAllTypes type;
     private final Canonical profile;
+
+    private volatile int hashCode;
 
     private ParameterDefinition(Builder builder) {
         super(builder);
@@ -145,6 +148,47 @@ public class ParameterDefinition extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ParameterDefinition other = (ParameterDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(use, other.use) && 
+            Objects.equals(min, other.min) && 
+            Objects.equals(max, other.max) && 
+            Objects.equals(documentation, other.documentation) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(profile, other.profile);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                name, 
+                use, 
+                min, 
+                max, 
+                documentation, 
+                type, 
+                profile);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

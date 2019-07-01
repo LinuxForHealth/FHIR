@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
@@ -23,6 +24,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 public class Code extends String {
     private static final Pattern PATTERN = Pattern.compile("[^\\s]+(\\s[^\\s]+)*");
 
+    private volatile int hashCode;
+
     protected Code(Builder builder) {
         super(builder);
         ValidationSupport.checkValue(value, PATTERN);
@@ -38,6 +41,35 @@ public class Code extends String {
 
     public static Code code(java.lang.String value) {
         return Code.builder().value(value).build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Code other = (Code) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(value, other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                value);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

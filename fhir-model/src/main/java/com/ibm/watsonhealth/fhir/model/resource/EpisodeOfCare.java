@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -49,6 +50,8 @@ public class EpisodeOfCare extends DomainResource {
     private final Reference careManager;
     private final List<Reference> team;
     private final List<Reference> account;
+
+    private volatile int hashCode;
 
     private EpisodeOfCare(Builder builder) {
         super(builder);
@@ -242,6 +245,69 @@ public class EpisodeOfCare extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        EpisodeOfCare other = (EpisodeOfCare) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(statusHistory, other.statusHistory) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(diagnosis, other.diagnosis) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(managingOrganization, other.managingOrganization) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(referralRequest, other.referralRequest) && 
+            Objects.equals(careManager, other.careManager) && 
+            Objects.equals(team, other.team) && 
+            Objects.equals(account, other.account);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                statusHistory, 
+                type, 
+                diagnosis, 
+                patient, 
+                managingOrganization, 
+                period, 
+                referralRequest, 
+                careManager, 
+                team, 
+                account);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -816,6 +882,8 @@ public class EpisodeOfCare extends DomainResource {
         private final EpisodeOfCareStatus status;
         private final Period period;
 
+        private volatile int hashCode;
+
         private StatusHistory(Builder builder) {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -861,6 +929,39 @@ public class EpisodeOfCare extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            StatusHistory other = (StatusHistory) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(status, other.status) && 
+                Objects.equals(period, other.period);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    status, 
+                    period);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1016,6 +1117,8 @@ public class EpisodeOfCare extends DomainResource {
         private final CodeableConcept role;
         private final PositiveInt rank;
 
+        private volatile int hashCode;
+
         private Diagnosis(Builder builder) {
             super(builder);
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
@@ -1075,6 +1178,41 @@ public class EpisodeOfCare extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Diagnosis other = (Diagnosis) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(condition, other.condition) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(rank, other.rank);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    condition, 
+                    role, 
+                    rank);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

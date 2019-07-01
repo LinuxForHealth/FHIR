@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -52,6 +53,8 @@ public class MessageHeader extends DomainResource {
     private final Response response;
     private final List<Reference> focus;
     private final Canonical definition;
+
+    private volatile int hashCode;
 
     private MessageHeader(Builder builder) {
         super(builder);
@@ -235,6 +238,67 @@ public class MessageHeader extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MessageHeader other = (MessageHeader) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(event, other.event) && 
+            Objects.equals(destination, other.destination) && 
+            Objects.equals(sender, other.sender) && 
+            Objects.equals(enterer, other.enterer) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(responsible, other.responsible) && 
+            Objects.equals(reason, other.reason) && 
+            Objects.equals(response, other.response) && 
+            Objects.equals(focus, other.focus) && 
+            Objects.equals(definition, other.definition);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                event, 
+                destination, 
+                sender, 
+                enterer, 
+                author, 
+                source, 
+                responsible, 
+                reason, 
+                response, 
+                focus, 
+                definition);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -702,6 +766,8 @@ public class MessageHeader extends DomainResource {
         private final Url endpoint;
         private final Reference receiver;
 
+        private volatile int hashCode;
+
         private Destination(Builder builder) {
             super(builder);
             name = builder.name;
@@ -776,6 +842,43 @@ public class MessageHeader extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Destination other = (Destination) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(target, other.target) && 
+                Objects.equals(endpoint, other.endpoint) && 
+                Objects.equals(receiver, other.receiver);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    target, 
+                    endpoint, 
+                    receiver);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -988,6 +1091,8 @@ public class MessageHeader extends DomainResource {
         private final ContactPoint contact;
         private final Url endpoint;
 
+        private volatile int hashCode;
+
         private Source(Builder builder) {
             super(builder);
             name = builder.name;
@@ -1075,6 +1180,45 @@ public class MessageHeader extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Source other = (Source) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(software, other.software) && 
+                Objects.equals(version, other.version) && 
+                Objects.equals(contact, other.contact) && 
+                Objects.equals(endpoint, other.endpoint);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    software, 
+                    version, 
+                    contact, 
+                    endpoint);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1302,6 +1446,8 @@ public class MessageHeader extends DomainResource {
         private final ResponseType code;
         private final Reference details;
 
+        private volatile int hashCode;
+
         private Response(Builder builder) {
             super(builder);
             identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
@@ -1362,6 +1508,41 @@ public class MessageHeader extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Response other = (Response) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(details, other.details);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    code, 
+                    details);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

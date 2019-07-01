@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -155,6 +156,8 @@ public class CapabilityStatement extends DomainResource {
     private final List<Rest> rest;
     private final List<Messaging> messaging;
     private final List<Document> document;
+
+    private volatile int hashCode;
 
     private CapabilityStatement(Builder builder) {
         super(builder);
@@ -566,6 +569,97 @@ public class CapabilityStatement extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CapabilityStatement other = (CapabilityStatement) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(kind, other.kind) && 
+            Objects.equals(instantiates, other.instantiates) && 
+            Objects.equals(imports, other.imports) && 
+            Objects.equals(software, other.software) && 
+            Objects.equals(implementation, other.implementation) && 
+            Objects.equals(fhirVersion, other.fhirVersion) && 
+            Objects.equals(format, other.format) && 
+            Objects.equals(patchFormat, other.patchFormat) && 
+            Objects.equals(implementationGuide, other.implementationGuide) && 
+            Objects.equals(rest, other.rest) && 
+            Objects.equals(messaging, other.messaging) && 
+            Objects.equals(document, other.document);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                version, 
+                name, 
+                title, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                kind, 
+                instantiates, 
+                imports, 
+                software, 
+                implementation, 
+                fhirVersion, 
+                format, 
+                patchFormat, 
+                implementationGuide, 
+                rest, 
+                messaging, 
+                document);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1421,6 +1515,8 @@ public class CapabilityStatement extends DomainResource {
         private final String version;
         private final DateTime releaseDate;
 
+        private volatile int hashCode;
+
         private Software(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1480,6 +1576,41 @@ public class CapabilityStatement extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Software other = (Software) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(version, other.version) && 
+                Objects.equals(releaseDate, other.releaseDate);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    version, 
+                    releaseDate);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1672,6 +1803,8 @@ public class CapabilityStatement extends DomainResource {
         private final Url url;
         private final Reference custodian;
 
+        private volatile int hashCode;
+
         private Implementation(Builder builder) {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
@@ -1733,6 +1866,41 @@ public class CapabilityStatement extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Implementation other = (Implementation) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(url, other.url) && 
+                Objects.equals(custodian, other.custodian);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    description, 
+                    url, 
+                    custodian);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1931,6 +2099,8 @@ public class CapabilityStatement extends DomainResource {
         private final List<CapabilityStatement.Rest.Resource.Operation> operation;
         private final List<Canonical> compartment;
 
+        private volatile int hashCode;
+
         private Rest(Builder builder) {
             super(builder);
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
@@ -2062,6 +2232,51 @@ public class CapabilityStatement extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Rest other = (Rest) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(mode, other.mode) && 
+                Objects.equals(documentation, other.documentation) && 
+                Objects.equals(security, other.security) && 
+                Objects.equals(resource, other.resource) && 
+                Objects.equals(interaction, other.interaction) && 
+                Objects.equals(searchParam, other.searchParam) && 
+                Objects.equals(operation, other.operation) && 
+                Objects.equals(compartment, other.compartment);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    mode, 
+                    documentation, 
+                    security, 
+                    resource, 
+                    interaction, 
+                    searchParam, 
+                    operation, 
+                    compartment);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2436,6 +2651,8 @@ public class CapabilityStatement extends DomainResource {
             private final List<CodeableConcept> service;
             private final Markdown description;
 
+            private volatile int hashCode;
+
             private Security(Builder builder) {
                 super(builder);
                 cors = builder.cors;
@@ -2495,6 +2712,41 @@ public class CapabilityStatement extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Security other = (Security) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(cors, other.cors) && 
+                    Objects.equals(service, other.service) && 
+                    Objects.equals(description, other.description);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        cors, 
+                        service, 
+                        description);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2727,6 +2979,8 @@ public class CapabilityStatement extends DomainResource {
             private final List<String> searchRevInclude;
             private final List<SearchParam> searchParam;
             private final List<Operation> operation;
+
+            private volatile int hashCode;
 
             private Resource(Builder builder) {
                 super(builder);
@@ -2996,6 +3250,69 @@ public class CapabilityStatement extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Resource other = (Resource) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(profile, other.profile) && 
+                    Objects.equals(supportedProfile, other.supportedProfile) && 
+                    Objects.equals(documentation, other.documentation) && 
+                    Objects.equals(interaction, other.interaction) && 
+                    Objects.equals(versioning, other.versioning) && 
+                    Objects.equals(readHistory, other.readHistory) && 
+                    Objects.equals(updateCreate, other.updateCreate) && 
+                    Objects.equals(conditionalCreate, other.conditionalCreate) && 
+                    Objects.equals(conditionalRead, other.conditionalRead) && 
+                    Objects.equals(conditionalUpdate, other.conditionalUpdate) && 
+                    Objects.equals(conditionalDelete, other.conditionalDelete) && 
+                    Objects.equals(referencePolicy, other.referencePolicy) && 
+                    Objects.equals(searchInclude, other.searchInclude) && 
+                    Objects.equals(searchRevInclude, other.searchRevInclude) && 
+                    Objects.equals(searchParam, other.searchParam) && 
+                    Objects.equals(operation, other.operation);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        profile, 
+                        supportedProfile, 
+                        documentation, 
+                        interaction, 
+                        versioning, 
+                        readHistory, 
+                        updateCreate, 
+                        conditionalCreate, 
+                        conditionalRead, 
+                        conditionalUpdate, 
+                        conditionalDelete, 
+                        referencePolicy, 
+                        searchInclude, 
+                        searchRevInclude, 
+                        searchParam, 
+                        operation);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -3582,6 +3899,8 @@ public class CapabilityStatement extends DomainResource {
                 private final TypeRestfulInteraction code;
                 private final Markdown documentation;
 
+                private volatile int hashCode;
+
                 private Interaction(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -3628,6 +3947,39 @@ public class CapabilityStatement extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Interaction other = (Interaction) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(code, other.code) && 
+                        Objects.equals(documentation, other.documentation);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            code, 
+                            documentation);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -3804,6 +4156,8 @@ public class CapabilityStatement extends DomainResource {
                 private final SearchParamType type;
                 private final Markdown documentation;
 
+                private volatile int hashCode;
+
                 private SearchParam(Builder builder) {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -3881,6 +4235,43 @@ public class CapabilityStatement extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    SearchParam other = (SearchParam) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(name, other.name) && 
+                        Objects.equals(definition, other.definition) && 
+                        Objects.equals(type, other.type) && 
+                        Objects.equals(documentation, other.documentation);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            name, 
+                            definition, 
+                            type, 
+                            documentation);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -4079,6 +4470,8 @@ public class CapabilityStatement extends DomainResource {
                 private final Canonical definition;
                 private final Markdown documentation;
 
+                private volatile int hashCode;
+
                 private Operation(Builder builder) {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -4144,6 +4537,41 @@ public class CapabilityStatement extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Operation other = (Operation) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(name, other.name) && 
+                        Objects.equals(definition, other.definition) && 
+                        Objects.equals(documentation, other.documentation);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            name, 
+                            definition, 
+                            documentation);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -4320,6 +4748,8 @@ public class CapabilityStatement extends DomainResource {
             private final SystemRestfulInteraction code;
             private final Markdown documentation;
 
+            private volatile int hashCode;
+
             private Interaction(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -4366,6 +4796,39 @@ public class CapabilityStatement extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Interaction other = (Interaction) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(documentation, other.documentation);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        documentation);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -4542,6 +5005,8 @@ public class CapabilityStatement extends DomainResource {
         private final Markdown documentation;
         private final List<SupportedMessage> supportedMessage;
 
+        private volatile int hashCode;
+
         private Messaging(Builder builder) {
             super(builder);
             endpoint = Collections.unmodifiableList(builder.endpoint);
@@ -4617,6 +5082,43 @@ public class CapabilityStatement extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Messaging other = (Messaging) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(endpoint, other.endpoint) && 
+                Objects.equals(reliableCache, other.reliableCache) && 
+                Objects.equals(documentation, other.documentation) && 
+                Objects.equals(supportedMessage, other.supportedMessage);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    endpoint, 
+                    reliableCache, 
+                    documentation, 
+                    supportedMessage);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -4872,6 +5374,8 @@ public class CapabilityStatement extends DomainResource {
             private final Coding protocol;
             private final Url address;
 
+            private volatile int hashCode;
+
             private Endpoint(Builder builder) {
                 super(builder);
                 protocol = ValidationSupport.requireNonNull(builder.protocol, "protocol");
@@ -4918,6 +5422,39 @@ public class CapabilityStatement extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Endpoint other = (Endpoint) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(protocol, other.protocol) && 
+                    Objects.equals(address, other.address);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        protocol, 
+                        address);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -5072,6 +5609,8 @@ public class CapabilityStatement extends DomainResource {
             private final EventCapabilityMode mode;
             private final Canonical definition;
 
+            private volatile int hashCode;
+
             private SupportedMessage(Builder builder) {
                 super(builder);
                 mode = ValidationSupport.requireNonNull(builder.mode, "mode");
@@ -5117,6 +5656,39 @@ public class CapabilityStatement extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                SupportedMessage other = (SupportedMessage) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(mode, other.mode) && 
+                    Objects.equals(definition, other.definition);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        mode, 
+                        definition);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -5273,6 +5845,8 @@ public class CapabilityStatement extends DomainResource {
         private final Markdown documentation;
         private final Canonical profile;
 
+        private volatile int hashCode;
+
         private Document(Builder builder) {
             super(builder);
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
@@ -5333,6 +5907,41 @@ public class CapabilityStatement extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Document other = (Document) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(mode, other.mode) && 
+                Objects.equals(documentation, other.documentation) && 
+                Objects.equals(profile, other.profile);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    mode, 
+                    documentation, 
+                    profile);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

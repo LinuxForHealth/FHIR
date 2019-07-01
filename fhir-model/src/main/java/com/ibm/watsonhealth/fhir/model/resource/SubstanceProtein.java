@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -42,6 +43,8 @@ public class SubstanceProtein extends DomainResource {
     private final Integer numberOfSubunits;
     private final List<String> disulfideLinkage;
     private final List<Subunit> subunit;
+
+    private volatile int hashCode;
 
     private SubstanceProtein(Builder builder) {
         super(builder);
@@ -130,6 +133,53 @@ public class SubstanceProtein extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SubstanceProtein other = (SubstanceProtein) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(sequenceType, other.sequenceType) && 
+            Objects.equals(numberOfSubunits, other.numberOfSubunits) && 
+            Objects.equals(disulfideLinkage, other.disulfideLinkage) && 
+            Objects.equals(subunit, other.subunit);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                sequenceType, 
+                numberOfSubunits, 
+                disulfideLinkage, 
+                subunit);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -533,6 +583,8 @@ public class SubstanceProtein extends DomainResource {
         private final Identifier cTerminalModificationId;
         private final String cTerminalModification;
 
+        private volatile int hashCode;
+
         private Subunit(Builder builder) {
             super(builder);
             subunit = builder.subunit;
@@ -672,6 +724,51 @@ public class SubstanceProtein extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Subunit other = (Subunit) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(subunit, other.subunit) && 
+                Objects.equals(sequence, other.sequence) && 
+                Objects.equals(length, other.length) && 
+                Objects.equals(sequenceAttachment, other.sequenceAttachment) && 
+                Objects.equals(nTerminalModificationId, other.nTerminalModificationId) && 
+                Objects.equals(nTerminalModification, other.nTerminalModification) && 
+                Objects.equals(cTerminalModificationId, other.cTerminalModificationId) && 
+                Objects.equals(cTerminalModification, other.cTerminalModification);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    subunit, 
+                    sequence, 
+                    length, 
+                    sequenceAttachment, 
+                    nTerminalModificationId, 
+                    nTerminalModification, 
+                    cTerminalModificationId, 
+                    cTerminalModification);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

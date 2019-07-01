@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -68,6 +69,8 @@ public class GraphDefinition extends DomainResource {
     private final ResourceType start;
     private final Canonical profile;
     private final List<Link> link;
+
+    private volatile int hashCode;
 
     private GraphDefinition(Builder builder) {
         super(builder);
@@ -313,6 +316,75 @@ public class GraphDefinition extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        GraphDefinition other = (GraphDefinition) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(start, other.start) && 
+            Objects.equals(profile, other.profile) && 
+            Objects.equals(link, other.link);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                version, 
+                name, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                start, 
+                profile, 
+                link);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -883,6 +955,8 @@ public class GraphDefinition extends DomainResource {
         private final String description;
         private final List<Target> target;
 
+        private volatile int hashCode;
+
         private Link(Builder builder) {
             super(builder);
             path = builder.path;
@@ -984,6 +1058,47 @@ public class GraphDefinition extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Link other = (Link) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(path, other.path) && 
+                Objects.equals(sliceName, other.sliceName) && 
+                Objects.equals(min, other.min) && 
+                Objects.equals(max, other.max) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(target, other.target);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    path, 
+                    sliceName, 
+                    min, 
+                    max, 
+                    description, 
+                    target);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1258,6 +1373,8 @@ public class GraphDefinition extends DomainResource {
             private final List<Compartment> compartment;
             private final List<GraphDefinition.Link> link;
 
+            private volatile int hashCode;
+
             private Target(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1345,6 +1462,45 @@ public class GraphDefinition extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Target other = (Target) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(params, other.params) && 
+                    Objects.equals(profile, other.profile) && 
+                    Objects.equals(compartment, other.compartment) && 
+                    Objects.equals(link, other.link);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        params, 
+                        profile, 
+                        compartment, 
+                        link);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1609,6 +1765,8 @@ public class GraphDefinition extends DomainResource {
                 private final String expression;
                 private final String description;
 
+                private volatile int hashCode;
+
                 private Compartment(Builder builder) {
                     super(builder);
                     use = ValidationSupport.requireNonNull(builder.use, "use");
@@ -1697,6 +1855,45 @@ public class GraphDefinition extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Compartment other = (Compartment) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(use, other.use) && 
+                        Objects.equals(code, other.code) && 
+                        Objects.equals(rule, other.rule) && 
+                        Objects.equals(expression, other.expression) && 
+                        Objects.equals(description, other.description);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            use, 
+                            code, 
+                            rule, 
+                            expression, 
+                            description);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override

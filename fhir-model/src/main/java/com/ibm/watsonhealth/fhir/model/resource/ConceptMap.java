@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -91,6 +92,8 @@ public class ConceptMap extends DomainResource {
     private final Element source;
     private final Element target;
     private final List<Group> group;
+
+    private volatile int hashCode;
 
     private ConceptMap(Builder builder) {
         super(builder);
@@ -382,6 +385,81 @@ public class ConceptMap extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ConceptMap other = (ConceptMap) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(target, other.target) && 
+            Objects.equals(group, other.group);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                status, 
+                experimental, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                copyright, 
+                source, 
+                target, 
+                group);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -1043,6 +1121,8 @@ public class ConceptMap extends DomainResource {
         private final List<Element> element;
         private final Unmapped unmapped;
 
+        private volatile int hashCode;
+
         private Group(Builder builder) {
             super(builder);
             source = builder.source;
@@ -1145,6 +1225,47 @@ public class ConceptMap extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Group other = (Group) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(source, other.source) && 
+                Objects.equals(sourceVersion, other.sourceVersion) && 
+                Objects.equals(target, other.target) && 
+                Objects.equals(targetVersion, other.targetVersion) && 
+                Objects.equals(element, other.element) && 
+                Objects.equals(unmapped, other.unmapped);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    source, 
+                    sourceVersion, 
+                    target, 
+                    targetVersion, 
+                    element, 
+                    unmapped);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1390,6 +1511,8 @@ public class ConceptMap extends DomainResource {
             private final String display;
             private final List<Target> target;
 
+            private volatile int hashCode;
+
             private Element(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -1449,6 +1572,41 @@ public class ConceptMap extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Element other = (Element) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(display, other.display) && 
+                    Objects.equals(target, other.target);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        display, 
+                        target);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1670,6 +1828,8 @@ public class ConceptMap extends DomainResource {
                 private final List<DependsOn> dependsOn;
                 private final List<ConceptMap.Group.Element.Target.DependsOn> product;
 
+                private volatile int hashCode;
+
                 private Target(Builder builder) {
                     super(builder);
                     code = builder.code;
@@ -1775,6 +1935,47 @@ public class ConceptMap extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Target other = (Target) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(code, other.code) && 
+                        Objects.equals(display, other.display) && 
+                        Objects.equals(equivalence, other.equivalence) && 
+                        Objects.equals(comment, other.comment) && 
+                        Objects.equals(dependsOn, other.dependsOn) && 
+                        Objects.equals(product, other.product);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            code, 
+                            display, 
+                            equivalence, 
+                            comment, 
+                            dependsOn, 
+                            product);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -2063,6 +2264,8 @@ public class ConceptMap extends DomainResource {
                     private final String value;
                     private final String display;
 
+                    private volatile int hashCode;
+
                     private DependsOn(Builder builder) {
                         super(builder);
                         property = ValidationSupport.requireNonNull(builder.property, "property");
@@ -2138,6 +2341,43 @@ public class ConceptMap extends DomainResource {
                             visitor.visitEnd(elementName, this);
                             visitor.postVisit(this);
                         }
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        if (this == obj) {
+                            return true;
+                        }
+                        if (obj == null) {
+                            return false;
+                        }
+                        if (getClass() != obj.getClass()) {
+                            return false;
+                        }
+                        DependsOn other = (DependsOn) obj;
+                        return Objects.equals(id, other.id) && 
+                            Objects.equals(extension, other.extension) && 
+                            Objects.equals(modifierExtension, other.modifierExtension) && 
+                            Objects.equals(property, other.property) && 
+                            Objects.equals(system, other.system) && 
+                            Objects.equals(value, other.value) && 
+                            Objects.equals(display, other.display);
+                    }
+
+                    @Override
+                    public int hashCode() {
+                        int result = hashCode;
+                        if (result == 0) {
+                            result = Objects.hash(id, 
+                                extension, 
+                                modifierExtension, 
+                                property, 
+                                system, 
+                                value, 
+                                display);
+                            hashCode = result;
+                        }
+                        return result;
                     }
 
                     @Override
@@ -2336,6 +2576,8 @@ public class ConceptMap extends DomainResource {
             private final String display;
             private final Canonical url;
 
+            private volatile int hashCode;
+
             private Unmapped(Builder builder) {
                 super(builder);
                 mode = ValidationSupport.requireNonNull(builder.mode, "mode");
@@ -2413,6 +2655,43 @@ public class ConceptMap extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Unmapped other = (Unmapped) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(mode, other.mode) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(display, other.display) && 
+                    Objects.equals(url, other.url);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        mode, 
+                        code, 
+                        display, 
+                        url);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override

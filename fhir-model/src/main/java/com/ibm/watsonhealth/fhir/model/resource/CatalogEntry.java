@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -51,6 +52,8 @@ public class CatalogEntry extends DomainResource {
     private final List<CodeableConcept> additionalCharacteristic;
     private final List<CodeableConcept> additionalClassification;
     private final List<RelatedEntry> relatedEntry;
+
+    private volatile int hashCode;
 
     private CatalogEntry(Builder builder) {
         super(builder);
@@ -258,6 +261,71 @@ public class CatalogEntry extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CatalogEntry other = (CatalogEntry) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(orderable, other.orderable) && 
+            Objects.equals(referencedItem, other.referencedItem) && 
+            Objects.equals(additionalIdentifier, other.additionalIdentifier) && 
+            Objects.equals(classification, other.classification) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(validityPeriod, other.validityPeriod) && 
+            Objects.equals(validTo, other.validTo) && 
+            Objects.equals(lastUpdated, other.lastUpdated) && 
+            Objects.equals(additionalCharacteristic, other.additionalCharacteristic) && 
+            Objects.equals(additionalClassification, other.additionalClassification) && 
+            Objects.equals(relatedEntry, other.relatedEntry);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                type, 
+                orderable, 
+                referencedItem, 
+                additionalIdentifier, 
+                classification, 
+                status, 
+                validityPeriod, 
+                validTo, 
+                lastUpdated, 
+                additionalCharacteristic, 
+                additionalClassification, 
+                relatedEntry);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -829,6 +897,8 @@ public class CatalogEntry extends DomainResource {
         private final CatalogEntryRelationType relationtype;
         private final Reference item;
 
+        private volatile int hashCode;
+
         private RelatedEntry(Builder builder) {
             super(builder);
             relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
@@ -874,6 +944,39 @@ public class CatalogEntry extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            RelatedEntry other = (RelatedEntry) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(relationtype, other.relationtype) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    relationtype, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

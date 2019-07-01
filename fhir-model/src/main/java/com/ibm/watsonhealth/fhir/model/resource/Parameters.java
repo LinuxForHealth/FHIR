@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -87,6 +88,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class Parameters extends Resource {
     private final List<Parameter> parameter;
 
+    private volatile int hashCode;
+
     private Parameters(Builder builder) {
         super(builder);
         parameter = Collections.unmodifiableList(builder.parameter);
@@ -119,6 +122,39 @@ public class Parameters extends Resource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Parameters other = (Parameters) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(parameter, other.parameter);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                parameter);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -265,6 +301,8 @@ public class Parameters extends Resource {
         private final Resource resource;
         private final List<Parameters.Parameter> part;
 
+        private volatile int hashCode;
+
         private Parameter(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -338,6 +376,43 @@ public class Parameters extends Resource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Parameter other = (Parameter) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(name, other.name) && 
+                Objects.equals(value, other.value) && 
+                Objects.equals(resource, other.resource) && 
+                Objects.equals(part, other.part);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    name, 
+                    value, 
+                    resource, 
+                    part);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

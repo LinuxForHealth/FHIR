@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -27,6 +28,8 @@ public class Contributor extends Element {
     private final ContributorType type;
     private final String name;
     private final List<ContactDetail> contact;
+
+    private volatile int hashCode;
 
     private Contributor(Builder builder) {
         super(builder);
@@ -86,6 +89,39 @@ public class Contributor extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Contributor other = (Contributor) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(contact, other.contact);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                type, 
+                name, 
+                contact);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

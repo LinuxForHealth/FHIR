@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -50,6 +51,8 @@ public class SupplyDelivery extends DomainResource {
     private final Reference supplier;
     private final Reference destination;
     private final List<Reference> receiver;
+
+    private volatile int hashCode;
 
     private SupplyDelivery(Builder builder) {
         super(builder);
@@ -228,6 +231,67 @@ public class SupplyDelivery extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SupplyDelivery other = (SupplyDelivery) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(basedOn, other.basedOn) && 
+            Objects.equals(partOf, other.partOf) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(patient, other.patient) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(suppliedItem, other.suppliedItem) && 
+            Objects.equals(occurrence, other.occurrence) && 
+            Objects.equals(supplier, other.supplier) && 
+            Objects.equals(destination, other.destination) && 
+            Objects.equals(receiver, other.receiver);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                basedOn, 
+                partOf, 
+                status, 
+                patient, 
+                type, 
+                suppliedItem, 
+                occurrence, 
+                supplier, 
+                destination, 
+                receiver);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -752,6 +816,8 @@ public class SupplyDelivery extends DomainResource {
         private final Quantity quantity;
         private final Element item;
 
+        private volatile int hashCode;
+
         private SuppliedItem(Builder builder) {
             super(builder);
             quantity = builder.quantity;
@@ -798,6 +864,39 @@ public class SupplyDelivery extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SuppliedItem other = (SuppliedItem) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(quantity, other.quantity) && 
+                Objects.equals(item, other.item);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    quantity, 
+                    item);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

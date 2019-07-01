@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -54,6 +55,8 @@ public class GuidanceResponse extends DomainResource {
     private final Reference outputParameters;
     private final Reference result;
     private final List<DataRequirement> dataRequirement;
+
+    private volatile int hashCode;
 
     private GuidanceResponse(Builder builder) {
         super(builder);
@@ -300,6 +303,75 @@ public class GuidanceResponse extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        GuidanceResponse other = (GuidanceResponse) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(requestIdentifier, other.requestIdentifier) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(module, other.module) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(encounter, other.encounter) && 
+            Objects.equals(occurrenceDateTime, other.occurrenceDateTime) && 
+            Objects.equals(performer, other.performer) && 
+            Objects.equals(reasonCode, other.reasonCode) && 
+            Objects.equals(reasonReference, other.reasonReference) && 
+            Objects.equals(note, other.note) && 
+            Objects.equals(evaluationMessage, other.evaluationMessage) && 
+            Objects.equals(outputParameters, other.outputParameters) && 
+            Objects.equals(result, other.result) && 
+            Objects.equals(dataRequirement, other.dataRequirement);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                requestIdentifier, 
+                identifier, 
+                module, 
+                status, 
+                subject, 
+                encounter, 
+                occurrenceDateTime, 
+                performer, 
+                reasonCode, 
+                reasonReference, 
+                note, 
+                evaluationMessage, 
+                outputParameters, 
+                result, 
+                dataRequirement);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

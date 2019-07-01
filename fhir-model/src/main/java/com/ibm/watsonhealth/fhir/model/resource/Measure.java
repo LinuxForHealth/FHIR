@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -102,6 +103,8 @@ public class Measure extends DomainResource {
     private final Markdown guidance;
     private final List<Group> group;
     private final List<SupplementalData> supplementalData;
+
+    private volatile int hashCode;
 
     private Measure(Builder builder) {
         super(builder);
@@ -729,6 +732,127 @@ public class Measure extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Measure other = (Measure) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(url, other.url) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(version, other.version) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(title, other.title) && 
+            Objects.equals(subtitle, other.subtitle) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(experimental, other.experimental) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(publisher, other.publisher) && 
+            Objects.equals(contact, other.contact) && 
+            Objects.equals(description, other.description) && 
+            Objects.equals(useContext, other.useContext) && 
+            Objects.equals(jurisdiction, other.jurisdiction) && 
+            Objects.equals(purpose, other.purpose) && 
+            Objects.equals(usage, other.usage) && 
+            Objects.equals(copyright, other.copyright) && 
+            Objects.equals(approvalDate, other.approvalDate) && 
+            Objects.equals(lastReviewDate, other.lastReviewDate) && 
+            Objects.equals(effectivePeriod, other.effectivePeriod) && 
+            Objects.equals(topic, other.topic) && 
+            Objects.equals(author, other.author) && 
+            Objects.equals(editor, other.editor) && 
+            Objects.equals(reviewer, other.reviewer) && 
+            Objects.equals(endorser, other.endorser) && 
+            Objects.equals(relatedArtifact, other.relatedArtifact) && 
+            Objects.equals(library, other.library) && 
+            Objects.equals(disclaimer, other.disclaimer) && 
+            Objects.equals(scoring, other.scoring) && 
+            Objects.equals(compositeScoring, other.compositeScoring) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(riskAdjustment, other.riskAdjustment) && 
+            Objects.equals(rateAggregation, other.rateAggregation) && 
+            Objects.equals(rationale, other.rationale) && 
+            Objects.equals(clinicalRecommendationStatement, other.clinicalRecommendationStatement) && 
+            Objects.equals(improvementNotation, other.improvementNotation) && 
+            Objects.equals(definition, other.definition) && 
+            Objects.equals(guidance, other.guidance) && 
+            Objects.equals(group, other.group) && 
+            Objects.equals(supplementalData, other.supplementalData);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                url, 
+                identifier, 
+                version, 
+                name, 
+                title, 
+                subtitle, 
+                status, 
+                experimental, 
+                subject, 
+                date, 
+                publisher, 
+                contact, 
+                description, 
+                useContext, 
+                jurisdiction, 
+                purpose, 
+                usage, 
+                copyright, 
+                approvalDate, 
+                lastReviewDate, 
+                effectivePeriod, 
+                topic, 
+                author, 
+                editor, 
+                reviewer, 
+                endorser, 
+                relatedArtifact, 
+                library, 
+                disclaimer, 
+                scoring, 
+                compositeScoring, 
+                type, 
+                riskAdjustment, 
+                rateAggregation, 
+                rationale, 
+                clinicalRecommendationStatement, 
+                improvementNotation, 
+                definition, 
+                guidance, 
+                group, 
+                supplementalData);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -2018,6 +2142,8 @@ public class Measure extends DomainResource {
         private final List<Population> population;
         private final List<Stratifier> stratifier;
 
+        private volatile int hashCode;
+
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
@@ -2093,6 +2219,43 @@ public class Measure extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Group other = (Group) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(population, other.population) && 
+                Objects.equals(stratifier, other.stratifier);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    description, 
+                    population, 
+                    stratifier);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -2350,6 +2513,8 @@ public class Measure extends DomainResource {
             private final String description;
             private final Expression criteria;
 
+            private volatile int hashCode;
+
             private Population(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -2409,6 +2574,41 @@ public class Measure extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Population other = (Population) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(description, other.description) && 
+                    Objects.equals(criteria, other.criteria);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        description, 
+                        criteria);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2603,6 +2803,8 @@ public class Measure extends DomainResource {
             private final Expression criteria;
             private final List<Component> component;
 
+            private volatile int hashCode;
+
             private Stratifier(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -2679,6 +2881,43 @@ public class Measure extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Stratifier other = (Stratifier) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(description, other.description) && 
+                    Objects.equals(criteria, other.criteria) && 
+                    Objects.equals(component, other.component);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        description, 
+                        criteria, 
+                        component);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -2920,6 +3159,8 @@ public class Measure extends DomainResource {
                 private final String description;
                 private final Expression criteria;
 
+                private volatile int hashCode;
+
                 private Component(Builder builder) {
                     super(builder);
                     code = builder.code;
@@ -2981,6 +3222,41 @@ public class Measure extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Component other = (Component) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(code, other.code) && 
+                        Objects.equals(description, other.description) && 
+                        Objects.equals(criteria, other.criteria);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            code, 
+                            description, 
+                            criteria);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -3177,6 +3453,8 @@ public class Measure extends DomainResource {
         private final String description;
         private final Expression criteria;
 
+        private volatile int hashCode;
+
         private SupplementalData(Builder builder) {
             super(builder);
             code = builder.code;
@@ -3256,6 +3534,43 @@ public class Measure extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            SupplementalData other = (SupplementalData) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(usage, other.usage) && 
+                Objects.equals(description, other.description) && 
+                Objects.equals(criteria, other.criteria);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    usage, 
+                    description, 
+                    criteria);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

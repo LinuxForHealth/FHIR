@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -29,6 +30,8 @@ public class Meta extends Element {
     private final List<Canonical> profile;
     private final List<Coding> security;
     private final List<Coding> tag;
+
+    private volatile int hashCode;
 
     private Meta(Builder builder) {
         super(builder);
@@ -137,6 +140,45 @@ public class Meta extends Element {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Meta other = (Meta) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(versionId, other.versionId) && 
+            Objects.equals(lastUpdated, other.lastUpdated) && 
+            Objects.equals(source, other.source) && 
+            Objects.equals(profile, other.profile) && 
+            Objects.equals(security, other.security) && 
+            Objects.equals(tag, other.tag);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                extension, 
+                versionId, 
+                lastUpdated, 
+                source, 
+                profile, 
+                security, 
+                tag);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override

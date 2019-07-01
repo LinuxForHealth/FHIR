@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -51,6 +52,8 @@ public class Practitioner extends DomainResource {
     private final List<Attachment> photo;
     private final List<Qualification> qualification;
     private final List<CodeableConcept> communication;
+
+    private volatile int hashCode;
 
     private Practitioner(Builder builder) {
         super(builder);
@@ -219,6 +222,65 @@ Work addresses are not typically
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Practitioner other = (Practitioner) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(active, other.active) && 
+            Objects.equals(name, other.name) && 
+            Objects.equals(telecom, other.telecom) && 
+            Objects.equals(address, other.address) && 
+            Objects.equals(gender, other.gender) && 
+            Objects.equals(birthDate, other.birthDate) && 
+            Objects.equals(photo, other.photo) && 
+            Objects.equals(qualification, other.qualification) && 
+            Objects.equals(communication, other.communication);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                active, 
+                name, 
+                telecom, 
+                address, 
+                gender, 
+                birthDate, 
+                photo, 
+                qualification, 
+                communication);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -791,6 +853,8 @@ Work addresses are not typically
         private final Period period;
         private final Reference issuer;
 
+        private volatile int hashCode;
+
         private Qualification(Builder builder) {
             super(builder);
             identifier = Collections.unmodifiableList(builder.identifier);
@@ -864,6 +928,43 @@ Work addresses are not typically
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Qualification other = (Qualification) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(identifier, other.identifier) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(period, other.period) && 
+                Objects.equals(issuer, other.issuer);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    identifier, 
+                    code, 
+                    period, 
+                    issuer);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

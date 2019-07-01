@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -54,6 +55,8 @@ public class Provenance extends DomainResource {
     private final List<Agent> agent;
     private final List<Entity> entity;
     private final List<Signature> signature;
+
+    private volatile int hashCode;
 
     private Provenance(Builder builder) {
         super(builder);
@@ -222,6 +225,65 @@ public class Provenance extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Provenance other = (Provenance) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(target, other.target) && 
+            Objects.equals(occurred, other.occurred) && 
+            Objects.equals(recorded, other.recorded) && 
+            Objects.equals(policy, other.policy) && 
+            Objects.equals(location, other.location) && 
+            Objects.equals(reason, other.reason) && 
+            Objects.equals(activity, other.activity) && 
+            Objects.equals(agent, other.agent) && 
+            Objects.equals(entity, other.entity) && 
+            Objects.equals(signature, other.signature);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                target, 
+                occurred, 
+                recorded, 
+                policy, 
+                location, 
+                reason, 
+                activity, 
+                agent, 
+                entity, 
+                signature);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -693,6 +755,8 @@ public class Provenance extends DomainResource {
         private final Reference who;
         private final Reference onBehalfOf;
 
+        private volatile int hashCode;
+
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
@@ -767,6 +831,43 @@ public class Provenance extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Agent other = (Agent) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(type, other.type) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(who, other.who) && 
+                Objects.equals(onBehalfOf, other.onBehalfOf);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    type, 
+                    role, 
+                    who, 
+                    onBehalfOf);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -996,6 +1097,8 @@ public class Provenance extends DomainResource {
         private final Reference what;
         private final List<Provenance.Agent> agent;
 
+        private volatile int hashCode;
+
         private Entity(Builder builder) {
             super(builder);
             role = ValidationSupport.requireNonNull(builder.role, "role");
@@ -1057,6 +1160,41 @@ public class Provenance extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Entity other = (Entity) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(role, other.role) && 
+                Objects.equals(what, other.what) && 
+                Objects.equals(agent, other.agent);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    role, 
+                    what, 
+                    agent);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override

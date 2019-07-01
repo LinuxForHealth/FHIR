@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -67,6 +68,8 @@ public class MeasureReport extends DomainResource {
     private final CodeableConcept improvementNotation;
     private final List<Group> group;
     private final List<Reference> evaluatedResource;
+
+    private volatile int hashCode;
 
     private MeasureReport(Builder builder) {
         super(builder);
@@ -249,6 +252,67 @@ public class MeasureReport extends DomainResource {
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MeasureReport other = (MeasureReport) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(identifier, other.identifier) && 
+            Objects.equals(status, other.status) && 
+            Objects.equals(type, other.type) && 
+            Objects.equals(measure, other.measure) && 
+            Objects.equals(subject, other.subject) && 
+            Objects.equals(date, other.date) && 
+            Objects.equals(reporter, other.reporter) && 
+            Objects.equals(period, other.period) && 
+            Objects.equals(improvementNotation, other.improvementNotation) && 
+            Objects.equals(group, other.group) && 
+            Objects.equals(evaluatedResource, other.evaluatedResource);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                identifier, 
+                status, 
+                type, 
+                measure, 
+                subject, 
+                date, 
+                reporter, 
+                period, 
+                improvementNotation, 
+                group, 
+                evaluatedResource);
+            hashCode = result;
+        }
+        return result;
     }
 
     @Override
@@ -700,6 +764,8 @@ public class MeasureReport extends DomainResource {
         private final Quantity measureScore;
         private final List<Stratifier> stratifier;
 
+        private volatile int hashCode;
+
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
@@ -775,6 +841,43 @@ public class MeasureReport extends DomainResource {
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
             }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Group other = (Group) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(code, other.code) && 
+                Objects.equals(population, other.population) && 
+                Objects.equals(measureScore, other.measureScore) && 
+                Objects.equals(stratifier, other.stratifier);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    code, 
+                    population, 
+                    measureScore, 
+                    stratifier);
+                hashCode = result;
+            }
+            return result;
         }
 
         @Override
@@ -1032,6 +1135,8 @@ public class MeasureReport extends DomainResource {
             private final Integer count;
             private final Reference subjectResults;
 
+            private volatile int hashCode;
+
             private Population(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -1091,6 +1196,41 @@ public class MeasureReport extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Population other = (Population) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(count, other.count) && 
+                    Objects.equals(subjectResults, other.subjectResults);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        count, 
+                        subjectResults);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1293,6 +1433,8 @@ public class MeasureReport extends DomainResource {
             private final List<CodeableConcept> code;
             private final List<Stratum> stratum;
 
+            private volatile int hashCode;
+
             private Stratifier(Builder builder) {
                 super(builder);
                 code = Collections.unmodifiableList(builder.code);
@@ -1339,6 +1481,39 @@ public class MeasureReport extends DomainResource {
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Stratifier other = (Stratifier) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(code, other.code) && 
+                    Objects.equals(stratum, other.stratum);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        code, 
+                        stratum);
+                    hashCode = result;
+                }
+                return result;
             }
 
             @Override
@@ -1561,6 +1736,8 @@ public class MeasureReport extends DomainResource {
                 private final List<Population> population;
                 private final Quantity measureScore;
 
+                private volatile int hashCode;
+
                 private Stratum(Builder builder) {
                     super(builder);
                     value = builder.value;
@@ -1636,6 +1813,43 @@ public class MeasureReport extends DomainResource {
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
                     }
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) {
+                        return true;
+                    }
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    Stratum other = (Stratum) obj;
+                    return Objects.equals(id, other.id) && 
+                        Objects.equals(extension, other.extension) && 
+                        Objects.equals(modifierExtension, other.modifierExtension) && 
+                        Objects.equals(value, other.value) && 
+                        Objects.equals(component, other.component) && 
+                        Objects.equals(population, other.population) && 
+                        Objects.equals(measureScore, other.measureScore);
+                }
+
+                @Override
+                public int hashCode() {
+                    int result = hashCode;
+                    if (result == 0) {
+                        result = Objects.hash(id, 
+                            extension, 
+                            modifierExtension, 
+                            value, 
+                            component, 
+                            population, 
+                            measureScore);
+                        hashCode = result;
+                    }
+                    return result;
                 }
 
                 @Override
@@ -1891,6 +2105,8 @@ public class MeasureReport extends DomainResource {
                     private final CodeableConcept code;
                     private final CodeableConcept value;
 
+                    private volatile int hashCode;
+
                     private Component(Builder builder) {
                         super(builder);
                         code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1936,6 +2152,39 @@ public class MeasureReport extends DomainResource {
                             visitor.visitEnd(elementName, this);
                             visitor.postVisit(this);
                         }
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        if (this == obj) {
+                            return true;
+                        }
+                        if (obj == null) {
+                            return false;
+                        }
+                        if (getClass() != obj.getClass()) {
+                            return false;
+                        }
+                        Component other = (Component) obj;
+                        return Objects.equals(id, other.id) && 
+                            Objects.equals(extension, other.extension) && 
+                            Objects.equals(modifierExtension, other.modifierExtension) && 
+                            Objects.equals(code, other.code) && 
+                            Objects.equals(value, other.value);
+                    }
+
+                    @Override
+                    public int hashCode() {
+                        int result = hashCode;
+                        if (result == 0) {
+                            result = Objects.hash(id, 
+                                extension, 
+                                modifierExtension, 
+                                code, 
+                                value);
+                            hashCode = result;
+                        }
+                        return result;
                     }
 
                     @Override
@@ -2091,6 +2340,8 @@ public class MeasureReport extends DomainResource {
                     private final Integer count;
                     private final Reference subjectResults;
 
+                    private volatile int hashCode;
+
                     private Population(Builder builder) {
                         super(builder);
                         code = builder.code;
@@ -2151,6 +2402,41 @@ public class MeasureReport extends DomainResource {
                             visitor.visitEnd(elementName, this);
                             visitor.postVisit(this);
                         }
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        if (this == obj) {
+                            return true;
+                        }
+                        if (obj == null) {
+                            return false;
+                        }
+                        if (getClass() != obj.getClass()) {
+                            return false;
+                        }
+                        Population other = (Population) obj;
+                        return Objects.equals(id, other.id) && 
+                            Objects.equals(extension, other.extension) && 
+                            Objects.equals(modifierExtension, other.modifierExtension) && 
+                            Objects.equals(code, other.code) && 
+                            Objects.equals(count, other.count) && 
+                            Objects.equals(subjectResults, other.subjectResults);
+                    }
+
+                    @Override
+                    public int hashCode() {
+                        int result = hashCode;
+                        if (result == 0) {
+                            result = Objects.hash(id, 
+                                extension, 
+                                modifierExtension, 
+                                code, 
+                                count, 
+                                subjectResults);
+                            hashCode = result;
+                        }
+                        return result;
                     }
 
                     @Override
