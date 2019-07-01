@@ -38,10 +38,12 @@ import com.ibm.watsonhealth.fhir.tools.CodeGenerator;
  * </code>
  * 
  * @author PBastide
+ * 
+ * @requiresDependencyResolution runtime
  *
  */
 @Mojo(name = "generate-model", //$NON-NLS-1$
-        requiresProject = true, requiresDependencyResolution = ResolutionScope.COMPILE, defaultPhase = LifecyclePhase.GENERATE_SOURCES, requiresOnline = false, threadSafe = false)
+        requiresProject = true, requiresDependencyResolution = ResolutionScope.RUNTIME_PLUS_SYSTEM, requiresDependencyCollection = ResolutionScope.RUNTIME_PLUS_SYSTEM, defaultPhase = LifecyclePhase.GENERATE_SOURCES, requiresOnline = false, threadSafe = false)
 @Execute(phase = LifecyclePhase.GENERATE_SOURCES)
 public class ModelPlugin extends AbstractMojo {
 
@@ -59,7 +61,7 @@ public class ModelPlugin extends AbstractMojo {
         String targetDir = baseDir + "/src/main/java";
         String definitionsDir = baseDir + "/definitions";
 
-        // Only runs for the fhir-model, short-circuits otherwise. 
+        // Only runs for the fhir-model, short-circuits otherwise.
         if (mavenProject.getArtifactId().contains("fhir-model")) {
 
             // Check the base directory
@@ -82,7 +84,7 @@ public class ModelPlugin extends AbstractMojo {
                 getLog().info("[Started] generating the code for fhir-model");
                 CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
                 generator.generate(targetDir);
-                
+
                 getLog().info("[Finished] generating the code for fhir-model");
             } else {
                 getLog().info("Skipping as the Definitions don't exist in this project " + baseDir);
