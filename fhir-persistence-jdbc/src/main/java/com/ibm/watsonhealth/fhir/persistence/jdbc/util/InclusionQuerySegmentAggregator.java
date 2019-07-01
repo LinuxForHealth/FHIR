@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -39,7 +39,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private List<InclusionParameter> revIncludeParameters;
 
     
-    protected InclusionQuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize,
+    protected InclusionQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize,
                                               ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao, 
                                               List<InclusionParameter> includeParameters, List<InclusionParameter> revIncludeParameters) {
         super(resourceType, offset, pageSize, parameterDao, resourceDao);

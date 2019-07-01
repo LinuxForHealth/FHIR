@@ -7,9 +7,9 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.impl;
 
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
+//import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
+//import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.instant;
+//import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +20,7 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,16 +41,17 @@ import javax.xml.bind.JAXBException;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Instant;
-import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.Meta;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+// import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
@@ -83,6 +85,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     
     private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
+    private static final ZoneId systemZoneId = ZoneId.systemDefault();
     
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     
@@ -96,9 +99,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     private Connection sharedConnection = null;
     protected UserTransaction userTransaction = null;
     protected Boolean updateCreateEnabled = null;
-    protected ObjectFactory objectFactory = new ObjectFactory();
-    
-
 
     
     /**
@@ -157,17 +157,29 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
         return isActive;
     }
+    
+    protected Instant instant(long millis) {
+    	java.time.Instant time = java.time.Instant.ofEpochMilli(millis);
+    	return Instant.builder().value(time.atZone(systemZoneId)).build();
+	}
+    
+    protected Id id(String idString) {
+    	return Id.of(idString);
+    }
 
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#create(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
-    public void create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException  {
+    public Resource create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException  {
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
         
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         String logicalId;
+
+        // We need to update the meta in the resource, so we need a modifiable version
+        Resource.Builder resultBuilder = resource.toBuilder();
                 
         try {
             // Default version is 1 for a brand new FHIR Resource.
@@ -179,14 +191,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
             
             // Set the resource id and meta fields.
-            resource.setId(id(logicalId));
+            resultBuilder.id(Id.of(logicalId));
             Meta meta = resource.getMeta();
-            if (meta == null) {
-                meta = objectFactory.createMeta();
-            }
-            meta.setVersionId(id(Integer.toString(newVersionNumber)));
-            meta.setLastUpdated(lastUpdated);
-            resource.setMeta(meta);
+            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+            metaBuilder.lastUpdated(lastUpdated);
+            resultBuilder.meta(metaBuilder.build());
             
             // Create the new Resource DTO instance.
             com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
@@ -212,6 +222,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             
             // Store search parameters
             this.storeSearchParameters(resource, resourceDTO);
+            
+            // For FHIR R4, model objects are immutable, so we need to return an updated copy
+            return resultBuilder.build();
         }
         catch(FHIRPersistenceException e) {
             throw e;
@@ -297,9 +310,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#update(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.String, com.ibm.watsonhealth.fhir.model.Resource)
      */
     @Override
-    public void update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+    public Resource update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
         final String METHODNAME = "update";
         log.entering(CLASSNAME, METHODNAME);
+
+        // Resources are immutable, so we need a new builder to update it (since R4)
+        Resource.Builder resultBuilder = resource.toBuilder();
         
         Class<? extends Resource> resourceType = resource.getClass();
         com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
@@ -336,14 +352,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             Instant lastUpdated = instant(System.currentTimeMillis());
             
             // Set the resource id and meta fields.
-            resource.setId(id(logicalId));
+            resultBuilder.id(Id.of(logicalId));
             Meta meta = resource.getMeta();
-            if (meta == null) {
-                meta = objectFactory.createMeta();
-            }
-            meta.setVersionId(id(Integer.toString(newVersionNumber)));
-            meta.setLastUpdated(lastUpdated);
-            resource.setMeta(meta);
+            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+            metaBuilder.lastUpdated(lastUpdated);
+            resultBuilder.meta(metaBuilder.build());
             
             // Create the new Resource DTO instance.
             com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
@@ -369,6 +383,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             
             // Store search parameters
             this.storeSearchParameters(resource, resourceDTO);
+            
+            return resultBuilder.build();
         }
         catch(FHIRPersistenceException e) {
             throw e;

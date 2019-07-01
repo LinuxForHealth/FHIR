@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
@@ -26,7 +26,7 @@ public class QuerySegmentAggregatorFactory {
      * Instantiates and returns a QuerySegmentAggregator instance based on the passed parameters.    
      *
      */
-    public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, 
+    public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, 
                                     ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao, FHIRSearchContext searchContext) {
         final String METHODNAME = "buildQuerySegmentAggregator";
         log.entering(CLASSNAME, METHODNAME);

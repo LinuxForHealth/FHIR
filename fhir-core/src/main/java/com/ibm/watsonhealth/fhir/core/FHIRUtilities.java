@@ -191,6 +191,15 @@ public class FHIRUtilities {
     public static Timestamp convertToTimestamp(XMLGregorianCalendar calendar) {
         return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
     }
+    
+    /**
+     * For R4 model, generate a sql timestamp
+     * @param zdt
+     * @return
+     */
+    public static Timestamp convertToTimestamp(java.time.ZonedDateTime zdt) {
+    	return new Timestamp(zdt.toInstant().toEpochMilli());
+    }
 
     public static XMLGregorianCalendar convertToCalendar(Timestamp timestamp, TimeZone zone) {
         GregorianCalendar calendar = new GregorianCalendar();

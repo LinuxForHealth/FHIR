@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,42 +18,44 @@ import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Address;
-import com.ibm.watsonhealth.fhir.model.Annotation;
-import com.ibm.watsonhealth.fhir.model.Attachment;
-import com.ibm.watsonhealth.fhir.model.Base64Binary;
-import com.ibm.watsonhealth.fhir.model.Boolean;
-import com.ibm.watsonhealth.fhir.model.Code;
-import com.ibm.watsonhealth.fhir.model.CodeableConcept;
-import com.ibm.watsonhealth.fhir.model.Coding;
-import com.ibm.watsonhealth.fhir.model.ContactPoint;
-import com.ibm.watsonhealth.fhir.model.Date;
-import com.ibm.watsonhealth.fhir.model.DateTime;
-import com.ibm.watsonhealth.fhir.model.Decimal;
-import com.ibm.watsonhealth.fhir.model.HumanName;
-import com.ibm.watsonhealth.fhir.model.Id;
-import com.ibm.watsonhealth.fhir.model.Identifier;
-import com.ibm.watsonhealth.fhir.model.Instant;
-import com.ibm.watsonhealth.fhir.model.Integer;
-import com.ibm.watsonhealth.fhir.model.LocationPosition;
-import com.ibm.watsonhealth.fhir.model.Markdown;
-import com.ibm.watsonhealth.fhir.model.Meta;
-import com.ibm.watsonhealth.fhir.model.Oid;
-import com.ibm.watsonhealth.fhir.model.Period;
-import com.ibm.watsonhealth.fhir.model.PositiveInt;
-import com.ibm.watsonhealth.fhir.model.Quantity;
-import com.ibm.watsonhealth.fhir.model.Range;
-import com.ibm.watsonhealth.fhir.model.Ratio;
-import com.ibm.watsonhealth.fhir.model.Reference;
-import com.ibm.watsonhealth.fhir.model.SampledData;
-import com.ibm.watsonhealth.fhir.model.SearchParameter;
-import com.ibm.watsonhealth.fhir.model.Signature;
-import com.ibm.watsonhealth.fhir.model.Time;
-import com.ibm.watsonhealth.fhir.model.Timing;
-import com.ibm.watsonhealth.fhir.model.TimingRepeat;
-import com.ibm.watsonhealth.fhir.model.UnsignedInt;
-import com.ibm.watsonhealth.fhir.model.Uri;
-import com.ibm.watsonhealth.fhir.model.Uuid;
+import com.ibm.watsonhealth.fhir.model.type.Address;
+import com.ibm.watsonhealth.fhir.model.type.Annotation;
+import com.ibm.watsonhealth.fhir.model.type.Attachment;
+import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
+import com.ibm.watsonhealth.fhir.model.type.Boolean;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.ContactPoint;
+import com.ibm.watsonhealth.fhir.model.type.Date;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.Identifier;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Integer;
+import com.ibm.watsonhealth.fhir.model.resource.Location;
+import com.ibm.watsonhealth.fhir.model.resource.Location.Position;
+import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
+import com.ibm.watsonhealth.fhir.model.type.Markdown;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
+import com.ibm.watsonhealth.fhir.model.type.Oid;
+import com.ibm.watsonhealth.fhir.model.type.Period;
+import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
+import com.ibm.watsonhealth.fhir.model.type.Range;
+import com.ibm.watsonhealth.fhir.model.type.Ratio;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.SampledData;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.type.Signature;
+import com.ibm.watsonhealth.fhir.model.type.Time;
+import com.ibm.watsonhealth.fhir.model.type.Timing;
+import com.ibm.watsonhealth.fhir.model.type.Timing.Repeat;
+import com.ibm.watsonhealth.fhir.model.type.UnsignedInt;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.type.Uuid;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractProcessor;
@@ -65,6 +68,9 @@ import com.ibm.watsonhealth.fhir.persistence.util.AbstractProcessor;
 public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     private static final Logger log = Logger.getLogger(JDBCParameterBuilder.class.getName());
     private static final String className = JDBCParameterBuilder.class.getName();
+    
+    private static final ZoneId systemZoneId = ZoneId.systemDefault();
+
     
     // Datetime Limits from 
     // DB2:  https://www.ibm.com/support/knowledgecenter/en/SSEPGG_10.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
@@ -100,7 +106,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     }
 
     @Override
-    public List<Parameter> process(SearchParameter parameter, com.ibm.watsonhealth.fhir.model.String value) throws FHIRPersistenceProcessorException {
+    public List<Parameter> process(SearchParameter parameter, com.ibm.watsonhealth.fhir.model.type.String value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,String)";
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
@@ -153,7 +159,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             }
 
             if(value.getLine() != null){
-                for (com.ibm.watsonhealth.fhir.model.String aLine : value.getLine()) {
+                for (com.ibm.watsonhealth.fhir.model.type.String aLine : value.getLine()) {
                     p = new Parameter();
                     p.setName(paramName);
                     p.setValueString(aLine.getValue());
@@ -180,14 +186,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             if(value.getUse() != null){
                 p = new Parameter();
                 p.setName(paramName);
-                p.setValueString(value.getUse().getValue().value());
+                p.setValueString(value.getUse().getValue());
                 parameters.add(p);
             }
 
             if(value.getType() != null){
                 p = new Parameter();
                 p.setName(paramName);
-                p.setValueString(value.getType().getValue().value());
+                p.setValueString(value.getType().getValue());
                 parameters.add(p);
             }
 
@@ -236,7 +242,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            if (value.isValue()) {
+            if (value.getValue()) {
                 p.setValueCode("true");
             } else {
                 p.setValueCode("false");
@@ -334,7 +340,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
                 telecom.setValueCode(value.getValue().getValue());
                 if (value.getSystem() != null && value.getSystem().getValue() != null) {
                     // XXX according to spec, this should be "http://hl7.org/fhir/contact-point-system/" + ContactPoint.use
-                    telecom.setValueSystem(value.getSystem().getValue().value());
+                    telecom.setValueSystem(value.getSystem().getValue());
                 }
                 parameters.add(telecom);
             }
@@ -344,8 +350,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
                 Parameter phone = new Parameter();
                 // phone | fax | email | pager | other
                 phone.setValueCode(value.getValue().getValue());
-                phone.setName(value.getSystem().getValue().value());
-                phone.setValueSystem(value.getSystem().getValue().value());
+                phone.setName(value.getSystem().getValue());
+                phone.setValueSystem(value.getSystem().getValue());
                 parameters.add(phone);
             }
 
@@ -367,7 +373,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
-            String stringDateValue = value.getValue();
+        	// handles all the variants of partial dates
+            String stringDateValue = value.toString();
             
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
@@ -429,7 +436,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
-            String stringDateValue = value.getValue();
+            String stringDateValue = value.toString();
             
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
@@ -481,15 +488,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             Parameter p = new Parameter();
             if (value.getFamily() != null) {
-                for(com.ibm.watsonhealth.fhir.model.String family : value.getFamily()) {
-                    p = new Parameter();
-                    p.setName(paramname);
-                    p.setValueString(family.getValue());
-                    parameters.add(p);
-                }
+            	// family just a string in R4 (not a list)
+            	p = new Parameter();
+            	p.setName(paramname);
+            	p.setValueString(value.getFamily().getValue());
+            	parameters.add(p);
             }
             if (value.getGiven() != null) {
-                for(com.ibm.watsonhealth.fhir.model.String given : value.getGiven()) {
+                for(com.ibm.watsonhealth.fhir.model.type.String given : value.getGiven()) {
                     p = new Parameter();
                     p.setName(paramname);
                     p.setValueString(given.getValue());
@@ -510,7 +516,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
                 p = new Parameter();
                 p = new Parameter();
                 p.setName(paramname);
-                p.setValueString(value.getUse().getValue().value());
+                p.setValueString(value.getUse().getValue());
 
                 parameters.add(p);
             }
@@ -585,9 +591,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             Parameter p = new Parameter();
             p.setName(parameter.getName().getValue());
-            XMLGregorianCalendar calendar = value.getValue();
-            calendar = calendar.normalize();
-            p.setValueDate(FHIRUtilities.convertToTimestamp(calendar));
+            p.setValueDate(Timestamp.from(value.getValue().toInstant()));
             parameters.add(p);
             return parameters;
         } catch (Throwable e) {
@@ -631,9 +635,9 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
      * @throws FHIRPersistenceProcessorException
      */
     @Override
-    public List<Parameter> process(SearchParameter parameter, LocationPosition value) throws FHIRPersistenceProcessorException {
+    public List<Parameter> process(SearchParameter parameter, Location.Position value) throws FHIRPersistenceProcessorException {
 
-        String methodName = "process(SearchParameter,LocationPosition)";
+        String methodName = "process(SearchParameter,Location.Position)";
         log.entering(className, methodName);
         List<Parameter> parameters = new ArrayList<Parameter>();
         try {
@@ -722,14 +726,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             if (value.getStart() == null || value.getStart().getValue() == null) {
                 p.setValueDateStart(SMALLEST_TIMESTAMP);
             } else {
-                XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime(value.getStart().getValue(), true);
-                p.setValueDateStart(FHIRUtilities.convertToTimestamp(calendar));
+            	java.time.Instant startInst = java.time.Instant.from(value.getStart().getValue());
+                p.setValueDateStart(Timestamp.from(startInst));
             }
             if (value.getEnd() == null || value.getEnd().getValue() == null) {
                 p.setValueDateEnd(LARGEST_TIMESTAMP);
             } else {
-                XMLGregorianCalendar calendar1 = FHIRUtilities.parseDateTime(value.getEnd().getValue(), true);
-                p.setValueDateEnd(FHIRUtilities.convertToTimestamp(calendar1));
+            	java.time.Instant endInst = java.time.Instant.from(value.getEnd().getValue());
+                p.setValueDateEnd(Timestamp.from(endInst));
             }
             parameters.add(p);
             return parameters;
@@ -907,7 +911,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
          * includes 1-Feb 2013, even though that is on an odd day that is not specified by the period.
          * This is to keep the server load processing queries reasonable. */
 
-        TimingRepeat repeat = value.getRepeat();
+        Timing.Repeat repeat = value.getRepeat();
         if (repeat != null) {
             // XXX Timing.repeat.period is the # of times the event occurs per period.
             // Instead, I think this should be using the bounds[x] element if present.

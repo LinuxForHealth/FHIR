@@ -8,11 +8,12 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.exception;
 
 import java.util.Collection;
 
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * This exception class represents failures encountered while attempting to close/cleanup JDBC resources.
+ * TODO use Builder fluent pattern to align with R4 model style
  * @author markd
  *
  */
@@ -32,13 +33,13 @@ public class FHIRPersistenceDBCleanupException extends FHIRPersistenceException 
     }
 
     @Override
-    public FHIRPersistenceDBCleanupException withIssue(OperationOutcomeIssue... issues) {
+    public FHIRPersistenceDBCleanupException withIssue(OperationOutcome.Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIRPersistenceDBCleanupException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIRPersistenceDBCleanupException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);
         return this;
     }

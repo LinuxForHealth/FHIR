@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
@@ -48,7 +48,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * @param FHIRDBDAO - A basic FHIR DB Data Access Object
      * @param sortParms - A list of SortParameters
      */
-    protected SortedQuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, ParameterNormalizedDAO parameterDao, 
+    protected SortedQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, ParameterNormalizedDAO parameterDao, 
                                             ResourceNormalizedDAO resourceDao, List<SortParameter> sortParms) {
         super(resourceType, offset, pageSize, parameterDao, resourceDao);
         this.sortParameters = sortParms;

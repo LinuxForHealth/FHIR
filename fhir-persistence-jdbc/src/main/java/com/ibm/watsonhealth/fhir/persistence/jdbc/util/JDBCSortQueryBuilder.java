@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
@@ -50,7 +50,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
      * @return String - A count query SQL string
      * @throws Exception 
      */
-    public String buildCountQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
+    public String buildCountQuery(Class<?> resourceType, FHIRSearchContext searchContext)
             throws Exception {
         final String METHODNAME = "buildCountQuery";
         log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
@@ -87,7 +87,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
      * @throws Exception 
       */
     @Override
-    public String buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
+    public String buildQuery(Class<?> resourceType, FHIRSearchContext searchContext)
             throws Exception {
         final String METHODNAME = "buildQuery";
         log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});

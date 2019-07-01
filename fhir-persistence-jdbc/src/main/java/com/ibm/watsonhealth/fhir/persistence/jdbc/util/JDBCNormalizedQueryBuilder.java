@@ -24,17 +24,17 @@ import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Code;
-import com.ibm.watsonhealth.fhir.model.Count;
-import com.ibm.watsonhealth.fhir.model.DateTime;
-import com.ibm.watsonhealth.fhir.model.Instant;
-import com.ibm.watsonhealth.fhir.model.Location;
-import com.ibm.watsonhealth.fhir.model.Period;
-import com.ibm.watsonhealth.fhir.model.PositiveInt;
-import com.ibm.watsonhealth.fhir.model.Range;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.SearchParameter;
-import com.ibm.watsonhealth.fhir.model.UnsignedInt;
+import com.ibm.watsonhealth.fhir.model.resource.Location;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.Count;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Period;
+import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
+import com.ibm.watsonhealth.fhir.model.type.Range;
+import com.ibm.watsonhealth.fhir.model.type.UnsignedInt;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
@@ -109,11 +109,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     private ParameterNormalizedDAO parameterDao;
     private ResourceNormalizedDAO resourceDao;
 
-    public static final boolean isIntegerSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+    public static final boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
         try {
             Set<Class<?>> valueTypes = SearchUtil.getValueTypes(resourceType, queryParm.getName());
         
-            return (valueTypes.contains(com.ibm.watsonhealth.fhir.model.Integer.class) ||
+            return (valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Integer.class) ||
                     valueTypes.contains(UnsignedInt.class) ||
                     valueTypes.contains(PositiveInt.class) ||
                     valueTypes.contains(Count.class));
@@ -123,20 +123,20 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         }
     }
     
-    public static final boolean isRangeSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+    public static final boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
         // TODO: handle decimal searches like a range search
         return (SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Range.class));
     }
 
-    public static final boolean isDateSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+    public static final boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
         Set<Class<?>> valueTypes = SearchUtil.getValueTypes(resourceType, queryParm.getName());
         // TODO: handle Date and partial DateTimes like a range search
-        return valueTypes.contains(com.ibm.watsonhealth.fhir.model.Date.class) ||
+        return valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Date.class) ||
                valueTypes.contains(DateTime.class) ||
                valueTypes.contains(Instant.class);
     }
 
-    public static final boolean isDateRangeSearch(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception  {
+    public static final boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception  {
         return SearchUtil.getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
     }
 
@@ -155,7 +155,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      * @return String - A count query SQL string
      * @throws Exception
      */
-    public SqlQueryData buildCountQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext)
+    public SqlQueryData buildCountQuery(Class<?> resourceType, FHIRSearchContext searchContext)
             throws Exception {
         final String METHODNAME = "buildCountQuery";
         log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
@@ -176,7 +176,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      * @see com.ibm.watsonhealth.fhir.persistence.util.QueryBuilder#buildQuery(java.lang.Class, com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext)
      */
     @Override
-    public SqlQueryData buildQuery(Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws Exception {
+    public SqlQueryData buildQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildQuery";
         log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 
@@ -199,7 +199,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      * @return QuerySegmentAggregator - A query builder helper containing processed query segments.
      * @throws Exception
      */
-    private QuerySegmentAggregator buildQueryCommon (Class<? extends Resource> resourceType, FHIRSearchContext searchContext) throws Exception {
+    private QuerySegmentAggregator buildQueryCommon (Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildQueryCommon";
         log.entering(CLASSNAME, METHODNAME, new Object[] {resourceType.getSimpleName(), searchContext.getSearchParameters()});
 
@@ -392,7 +392,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processReferenceParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -420,7 +420,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             } else if (!isAbsoluteURL(searchValue)) {
                 SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getName());
                 if (definition != null) {
-                    List<Code> targets = definition.getTarget();
+                    List<? extends Code> targets = definition.getTarget();
                     if (targets.size() == 1) {
                         Code target = targets.get(0);
                         String targetResourceTypeName = target.getValue();
@@ -528,7 +528,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             } else {
                 // This logic processes the LAST parameter in the chain.
                 // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
-                Class<? extends Resource> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
+                Class<?> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
                 SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
                 whereClauseSegment.append(sqlQueryData.getQueryString());
                 bindVariables.addAll(sqlQueryData.getBindVariables());
@@ -654,7 +654,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
             // This logic processes the LAST parameter in the chain.
             // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
-            Class<? extends Resource> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
+            Class<?> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
             SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, lastParm, chainedParmVar);
             whereClauseSegment.append(sqlQueryData.getQueryString());
             bindVariables.addAll(sqlQueryData.getBindVariables());
@@ -775,7 +775,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processDateParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processDateParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1067,7 +1067,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    protected SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processNumberParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1108,7 +1108,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processQuantityParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1432,7 +1432,7 @@ CODE_REMOVED
      * @see com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder#processMissingParm(com.ibm.watsonhealth.fhir.search.Parameter, java.lang.String)
      */
     @Override
-    protected SqlQueryData processMissingParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    protected SqlQueryData processMissingParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 

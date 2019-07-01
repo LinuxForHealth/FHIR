@@ -8,8 +8,8 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.util.logging.Logger;
 
-import com.ibm.watsonhealth.fhir.model.Location;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Location;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
@@ -87,7 +87,7 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
      * @return T1 - An object representing the selector query segment for the passed search parm.
      * @throws Exception 
      */
-    protected T1 buildQueryParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) 
+    protected T1 buildQueryParm(Class<?> resourceType, Parameter queryParm, String tableAlias) 
             throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -139,25 +139,25 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
         return databaseQueryParm;
     }
 
-    protected T1 processMissingParm(Class<? extends Resource> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+    protected T1 processMissingParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
         return processMissingParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
 
-    protected abstract T1 processMissingParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
+    protected abstract T1 processMissingParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
 
     @Override
-    protected T1 processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+    protected T1 processNumberParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
         return processNumberParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    protected abstract T1 processNumberParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
+    protected abstract T1 processNumberParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
     
     @Override
-    protected T1 processDateParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+    protected T1 processDateParm(Class<?> resourceType, Parameter queryParm) throws Exception {
         return processDateParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    protected abstract T1 processDateParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception;
+    protected abstract T1 processDateParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception;
     
     @Override
     protected T1 processStringParm(Parameter queryParm) throws FHIRPersistenceException {
@@ -174,18 +174,18 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
     protected abstract T1 processTokenParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException;
     
     @Override
-    protected T1 processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+    protected T1 processReferenceParm(Class<?> resourceType, Parameter queryParm) throws Exception {
         return processReferenceParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    protected abstract T1 processReferenceParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception;
+    protected abstract T1 processReferenceParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception;
     
     @Override
-    protected T1 processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm) throws Exception {
+    protected T1 processQuantityParm(Class<?> resourceType, Parameter queryParm) throws Exception {
         return processQuantityParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    protected abstract T1 processQuantityParm(Class<? extends Resource> resourceType, Parameter queryParm, String tableAlias) throws Exception;
+    protected abstract T1 processQuantityParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception;
     
     @Override
     protected T1 processUriParm(Parameter queryParm) throws FHIRPersistenceException {

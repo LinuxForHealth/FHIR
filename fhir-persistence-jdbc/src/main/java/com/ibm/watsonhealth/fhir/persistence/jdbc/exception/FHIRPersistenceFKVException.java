@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.exception;
 
 import java.util.Collection;
 
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 
 /**
  * This exception class is thrown when Foreign Key violations are encountered while attempting to access data in the FHIR DB.
@@ -28,13 +28,13 @@ public class FHIRPersistenceFKVException extends FHIRPersistenceDataAccessExcept
     }
 
     @Override
-    public FHIRPersistenceFKVException withIssue(OperationOutcomeIssue... issues) {
+    public FHIRPersistenceFKVException withIssue(OperationOutcome.Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIRPersistenceFKVException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIRPersistenceFKVException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);
         return this;
     }

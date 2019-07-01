@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.watsonhealth.fhir.model.Location;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Location;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
@@ -51,7 +51,7 @@ class QuerySegmentAggregator {
     protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
     private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
         
-    protected Class<? extends Resource> resourceType;
+    protected Class<?> resourceType;
 
     /**
      * querySegments and searchQueryParameters are used as parallel arrays
@@ -72,7 +72,7 @@ class QuerySegmentAggregator {
      * @param offset - The beginning index of the first search result.
      * @param pageSize - The max number of requested search results.
      */
-    protected QuerySegmentAggregator(Class<? extends Resource> resourceType, int offset, int pageSize, 
+    protected QuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, 
                                     ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao) {
         super();
         this.resourceType = resourceType;

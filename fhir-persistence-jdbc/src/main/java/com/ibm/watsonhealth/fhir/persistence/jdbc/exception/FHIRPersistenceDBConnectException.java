@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.exception;
 
 import java.util.Collection;
 
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -30,13 +30,13 @@ public class FHIRPersistenceDBConnectException extends FHIRPersistenceException 
     }
 
     @Override
-    public FHIRPersistenceDBConnectException withIssue(OperationOutcomeIssue... issues) {
+    public FHIRPersistenceDBConnectException withIssue(OperationOutcome.Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIRPersistenceDBConnectException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIRPersistenceDBConnectException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);
         return this;
     }
