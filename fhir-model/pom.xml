@@ -30,6 +30,10 @@
             <artifactId>org.eclipse.persistence.moxy</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
         </dependency>
@@ -58,4 +62,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
 </project>
