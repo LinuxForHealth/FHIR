@@ -122,7 +122,11 @@ public class CodeGenerator {
 
     private static List<String> readHeader() {
         try {
-            return Files.readAllLines(new File("./codegen-support/header.txt").toPath());
+            String baseDir = ".";
+            if(System.getProperty("BaseDir") != null) {
+                baseDir = System.getProperty("BaseDir");
+            }
+            return Files.readAllLines(new File(baseDir + "/codegen-support/header.txt").toPath());
         } catch (IOException e) {
             throw new Error(e);
         }
@@ -1775,7 +1779,13 @@ public class CodeGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
         
-        try (FileWriter writer = new FileWriter(file); JsonWriter jsonWriter = jsonWriterFactory.createWriter(new FileWriter(new File("./src/main/resources/json-support.json")))) {
+        // Work around the pseudo hardcoding
+        String baseDir = ".";
+        if(System.getProperty("BaseDir") != null) {
+            baseDir = System.getProperty("BaseDir");
+        }
+        
+        try (FileWriter writer = new FileWriter(file); JsonWriter jsonWriter = jsonWriterFactory.createWriter(new FileWriter(new File(baseDir + "/src/main/resources/json-support.json")))) {
             writer.write(cb.toString());
             jsonWriter.write(jsonSupport);
         } catch (Exception e) {
@@ -2977,7 +2987,7 @@ public class CodeGenerator {
         }
         return "private";
     }
-    private static Map<String, JsonObject> buildResourceMap(String path, String resourceType) {
+    public static Map<String, JsonObject> buildResourceMap(String path, String resourceType) {
         try (JsonReader reader = Json.createReader(new FileReader(new File(path)))) {
             List<JsonObject> resources = new ArrayList<>();
             JsonObject bundle = reader.readObject();
@@ -3010,6 +3020,7 @@ public class CodeGenerator {
             throw new Error(e);
         }
     }
+    
     public static void main(String[] args) throws Exception {
         Map<String, JsonObject> structureDefinitionMap = buildResourceMap("./definitions/profiles-resources.json", "StructureDefinition");
         structureDefinitionMap.putAll(buildResourceMap("./definitions/profiles-types.json", "StructureDefinition"));
@@ -3023,4 +3034,5 @@ public class CodeGenerator {
         CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
         generator.generate("./src/main/java");
     }
+
 }
