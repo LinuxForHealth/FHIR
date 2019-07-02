@@ -544,7 +544,7 @@ public class Library extends DomainResource {
                 accept(status, "status", visitor);
                 accept(experimental, "experimental", visitor);
                 accept(type, "type", visitor);
-                accept(subject, "subject", visitor, true);
+                accept(subject, "subject", visitor);
                 accept(date, "date", visitor);
                 accept(publisher, "publisher", visitor);
                 accept(contact, "contact", visitor, ContactDetail.class);

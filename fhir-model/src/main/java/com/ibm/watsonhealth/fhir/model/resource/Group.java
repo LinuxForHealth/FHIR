@@ -818,7 +818,7 @@ public class Group extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(code, "code", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                     accept(exclude, "exclude", visitor);
                     accept(period, "period", visitor);
                 }

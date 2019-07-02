@@ -1730,7 +1730,7 @@ public class SubstanceReferenceInformation extends DomainResource {
                     accept(interaction, "interaction", visitor);
                     accept(organism, "organism", visitor);
                     accept(organismType, "organismType", visitor);
-                    accept(amount, "amount", visitor, true);
+                    accept(amount, "amount", visitor);
                     accept(amountType, "amountType", visitor);
                     accept(source, "source", visitor, Reference.class);
                 }

@@ -223,7 +223,7 @@ public class MessageHeader extends DomainResource {
                 accept(contained, "contained", visitor, Resource.class);
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                accept(event, "event", visitor, true);
+                accept(event, "event", visitor);
                 accept(destination, "destination", visitor, Destination.class);
                 accept(sender, "sender", visitor);
                 accept(enterer, "enterer", visitor);

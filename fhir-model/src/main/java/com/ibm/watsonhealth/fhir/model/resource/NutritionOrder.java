@@ -3113,7 +3113,7 @@ public class NutritionOrder extends DomainResource {
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(schedule, "schedule", visitor);
                         accept(quantity, "quantity", visitor);
-                        accept(rate, "rate", visitor, true);
+                        accept(rate, "rate", visitor);
                     }
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);

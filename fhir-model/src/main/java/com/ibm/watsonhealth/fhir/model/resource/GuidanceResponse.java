@@ -286,7 +286,7 @@ public class GuidanceResponse extends DomainResource {
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                 accept(requestIdentifier, "requestIdentifier", visitor);
                 accept(identifier, "identifier", visitor, Identifier.class);
-                accept(module, "module", visitor, true);
+                accept(module, "module", visitor);
                 accept(status, "status", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);

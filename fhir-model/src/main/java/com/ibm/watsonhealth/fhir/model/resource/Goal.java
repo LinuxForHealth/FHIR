@@ -308,7 +308,7 @@ public class Goal extends DomainResource {
                 accept(priority, "priority", visitor);
                 accept(description, "description", visitor);
                 accept(subject, "subject", visitor);
-                accept(start, "start", visitor, true);
+                accept(start, "start", visitor);
                 accept(target, "target", visitor, Target.class);
                 accept(statusDate, "statusDate", visitor);
                 accept(statusReason, "statusReason", visitor);
@@ -1078,8 +1078,8 @@ public class Goal extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(measure, "measure", visitor);
-                    accept(detail, "detail", visitor, true);
-                    accept(due, "due", visitor, true);
+                    accept(detail, "detail", visitor);
+                    accept(due, "due", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

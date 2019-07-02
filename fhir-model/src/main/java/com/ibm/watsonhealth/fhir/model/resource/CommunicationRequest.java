@@ -394,7 +394,7 @@ public class CommunicationRequest extends DomainResource {
                 accept(about, "about", visitor, Reference.class);
                 accept(encounter, "encounter", visitor);
                 accept(payload, "payload", visitor, Payload.class);
-                accept(occurrence, "occurrence", visitor, true);
+                accept(occurrence, "occurrence", visitor);
                 accept(authoredOn, "authoredOn", visitor);
                 accept(requester, "requester", visitor);
                 accept(recipient, "recipient", visitor, Reference.class);
@@ -1363,7 +1363,7 @@ public class CommunicationRequest extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(content, "content", visitor, true);
+                    accept(content, "content", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

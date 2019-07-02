@@ -93,7 +93,7 @@ public class Population extends BackboneElement {
                 accept(id, "id", visitor);
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                accept(age, "age", visitor, true);
+                accept(age, "age", visitor);
                 accept(gender, "gender", visitor);
                 accept(race, "race", visitor);
                 accept(physiologicalCondition, "physiologicalCondition", visitor);

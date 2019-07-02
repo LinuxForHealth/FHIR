@@ -1448,7 +1448,7 @@ public class RequestGroup extends DomainResource {
                     accept(documentation, "documentation", visitor, RelatedArtifact.class);
                     accept(condition, "condition", visitor, Condition.class);
                     accept(relatedAction, "relatedAction", visitor, RelatedAction.class);
-                    accept(timing, "timing", visitor, true);
+                    accept(timing, "timing", visitor);
                     accept(participant, "participant", visitor, Reference.class);
                     accept(type, "type", visitor);
                     accept(groupingBehavior, "groupingBehavior", visitor);
@@ -2438,7 +2438,7 @@ public class RequestGroup extends DomainResource {
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(actionId, "actionId", visitor);
                         accept(relationship, "relationship", visitor);
-                        accept(offset, "offset", visitor, true);
+                        accept(offset, "offset", visitor);
                     }
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);

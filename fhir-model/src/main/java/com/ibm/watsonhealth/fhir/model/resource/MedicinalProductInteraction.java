@@ -660,7 +660,7 @@ public class MedicinalProductInteraction extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(item, "item", visitor, true);
+                    accept(item, "item", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

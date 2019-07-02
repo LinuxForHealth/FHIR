@@ -1067,12 +1067,12 @@ public class Specimen extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(collector, "collector", visitor);
-                    accept(collected, "collected", visitor, true);
+                    accept(collected, "collected", visitor);
                     accept(duration, "duration", visitor);
                     accept(quantity, "quantity", visitor);
                     accept(method, "method", visitor);
                     accept(bodySite, "bodySite", visitor);
-                    accept(fastingStatus, "fastingStatus", visitor, true);
+                    accept(fastingStatus, "fastingStatus", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -1467,7 +1467,7 @@ public class Specimen extends DomainResource {
                     accept(description, "description", visitor);
                     accept(procedure, "procedure", visitor);
                     accept(additive, "additive", visitor, Reference.class);
-                    accept(time, "time", visitor, true);
+                    accept(time, "time", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -1851,7 +1851,7 @@ public class Specimen extends DomainResource {
                     accept(type, "type", visitor);
                     accept(capacity, "capacity", visitor);
                     accept(specimenQuantity, "specimenQuantity", visitor);
-                    accept(additive, "additive", visitor, true);
+                    accept(additive, "additive", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

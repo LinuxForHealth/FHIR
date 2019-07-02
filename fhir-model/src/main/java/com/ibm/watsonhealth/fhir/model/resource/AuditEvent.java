@@ -2536,7 +2536,7 @@ public class AuditEvent extends DomainResource {
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(type, "type", visitor);
-                        accept(value, "value", visitor, true);
+                        accept(value, "value", visitor);
                     }
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);

@@ -705,8 +705,8 @@ public class ImmunizationRecommendation extends DomainResource {
                     accept(dateCriterion, "dateCriterion", visitor, DateCriterion.class);
                     accept(description, "description", visitor);
                     accept(series, "series", visitor);
-                    accept(doseNumber, "doseNumber", visitor, true);
-                    accept(seriesDoses, "seriesDoses", visitor, true);
+                    accept(doseNumber, "doseNumber", visitor);
+                    accept(seriesDoses, "seriesDoses", visitor);
                     accept(supportingImmunization, "supportingImmunization", visitor, Reference.class);
                     accept(supportingPatientInformation, "supportingPatientInformation", visitor, Reference.class);
                 }

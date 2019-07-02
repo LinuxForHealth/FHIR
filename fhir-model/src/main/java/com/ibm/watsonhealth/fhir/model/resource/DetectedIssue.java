@@ -239,7 +239,7 @@ public class DetectedIssue extends DomainResource {
                 accept(code, "code", visitor);
                 accept(severity, "severity", visitor);
                 accept(patient, "patient", visitor);
-                accept(identified, "identified", visitor, true);
+                accept(identified, "identified", visitor);
                 accept(author, "author", visitor);
                 accept(implicated, "implicated", visitor, Reference.class);
                 accept(evidence, "evidence", visitor, Evidence.class);

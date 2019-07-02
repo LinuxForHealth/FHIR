@@ -904,7 +904,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(collector, "collector", visitor);
                     accept(source, "source", visitor);
-                    accept(collected, "collected", visitor, true);
+                    accept(collected, "collected", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -1218,7 +1218,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                     accept(description, "description", visitor);
                     accept(procedure, "procedure", visitor);
                     accept(additive, "additive", visitor);
-                    accept(time, "time", visitor, true);
+                    accept(time, "time", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -1521,7 +1521,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(description, "description", visitor);
-                    accept(time, "time", visitor, true);
+                    accept(time, "time", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

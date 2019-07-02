@@ -212,7 +212,7 @@ public class Provenance extends DomainResource {
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                 accept(target, "target", visitor, Reference.class);
-                accept(occurred, "occurred", visitor, true);
+                accept(occurred, "occurred", visitor);
                 accept(recorded, "recorded", visitor);
                 accept(policy, "policy", visitor, Uri.class);
                 accept(location, "location", visitor);

@@ -273,7 +273,7 @@ public class CoverageEligibilityRequest extends DomainResource {
                 accept(priority, "priority", visitor);
                 accept(purpose, "purpose", visitor, EligibilityRequestPurpose.class);
                 accept(patient, "patient", visitor);
-                accept(serviced, "serviced", visitor, true);
+                accept(serviced, "serviced", visitor);
                 accept(created, "created", visitor);
                 accept(enterer, "enterer", visitor);
                 accept(provider, "provider", visitor);
@@ -2062,7 +2062,7 @@ public class CoverageEligibilityRequest extends DomainResource {
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                        accept(diagnosis, "diagnosis", visitor, true);
+                        accept(diagnosis, "diagnosis", visitor);
                     }
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);

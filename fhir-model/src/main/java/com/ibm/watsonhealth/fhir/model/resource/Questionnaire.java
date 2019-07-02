@@ -2329,7 +2329,7 @@ public class Questionnaire extends DomainResource {
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(question, "question", visitor);
                         accept(operator, "operator", visitor);
-                        accept(answer, "answer", visitor, true);
+                        accept(answer, "answer", visitor);
                     }
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);
@@ -2566,7 +2566,7 @@ public class Questionnaire extends DomainResource {
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                        accept(value, "value", visitor, true);
+                        accept(value, "value", visitor);
                         accept(initialSelected, "initialSelected", visitor);
                     }
                     visitor.visitEnd(elementName, this);
@@ -2805,7 +2805,7 @@ public class Questionnaire extends DomainResource {
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                        accept(value, "value", visitor, true);
+                        accept(value, "value", visitor);
                     }
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);

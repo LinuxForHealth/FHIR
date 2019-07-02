@@ -477,7 +477,7 @@ public class Immunization extends DomainResource {
                 accept(vaccineCode, "vaccineCode", visitor);
                 accept(patient, "patient", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(occurrence, "occurrence", visitor, true);
+                accept(occurrence, "occurrence", visitor);
                 accept(recorded, "recorded", visitor);
                 accept(primarySource, "primarySource", visitor);
                 accept(reportOrigin, "reportOrigin", visitor);
@@ -2450,8 +2450,8 @@ public class Immunization extends DomainResource {
                     accept(series, "series", visitor);
                     accept(authority, "authority", visitor);
                     accept(targetDisease, "targetDisease", visitor, CodeableConcept.class);
-                    accept(doseNumber, "doseNumber", visitor, true);
-                    accept(seriesDoses, "seriesDoses", visitor, true);
+                    accept(doseNumber, "doseNumber", visitor);
+                    accept(seriesDoses, "seriesDoses", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

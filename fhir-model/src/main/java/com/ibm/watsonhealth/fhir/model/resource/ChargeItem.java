@@ -442,7 +442,7 @@ public class ChargeItem extends DomainResource {
                 accept(code, "code", visitor);
                 accept(subject, "subject", visitor);
                 accept(context, "context", visitor);
-                accept(occurrence, "occurrence", visitor, true);
+                accept(occurrence, "occurrence", visitor);
                 accept(performer, "performer", visitor, Performer.class);
                 accept(performingOrganization, "performingOrganization", visitor);
                 accept(requestingOrganization, "requestingOrganization", visitor);
@@ -456,7 +456,7 @@ public class ChargeItem extends DomainResource {
                 accept(enteredDate, "enteredDate", visitor);
                 accept(reason, "reason", visitor, CodeableConcept.class);
                 accept(service, "service", visitor, Reference.class);
-                accept(product, "product", visitor, true);
+                accept(product, "product", visitor);
                 accept(account, "account", visitor, Reference.class);
                 accept(note, "note", visitor, Annotation.class);
                 accept(supportingInformation, "supportingInformation", visitor, Reference.class);

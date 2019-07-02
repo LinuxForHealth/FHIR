@@ -801,7 +801,7 @@ public class MedicinalProductIndication extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(therapyRelationshipType, "therapyRelationshipType", visitor);
-                    accept(medication, "medication", visitor, true);
+                    accept(medication, "medication", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

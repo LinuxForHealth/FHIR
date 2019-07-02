@@ -2110,10 +2110,10 @@ public class CarePlan extends DomainResource {
                         accept(status, "status", visitor);
                         accept(statusReason, "statusReason", visitor);
                         accept(doNotPerform, "doNotPerform", visitor);
-                        accept(scheduled, "scheduled", visitor, true);
+                        accept(scheduled, "scheduled", visitor);
                         accept(location, "location", visitor);
                         accept(performer, "performer", visitor, Reference.class);
-                        accept(product, "product", visitor, true);
+                        accept(product, "product", visitor);
                         accept(dailyAmount, "dailyAmount", visitor);
                         accept(quantity, "quantity", visitor);
                         accept(description, "description", visitor);

@@ -453,7 +453,7 @@ public class MessageDefinition extends DomainResource {
                 accept(copyright, "copyright", visitor);
                 accept(base, "base", visitor);
                 accept(parent, "parent", visitor, Canonical.class);
-                accept(event, "event", visitor, true);
+                accept(event, "event", visitor);
                 accept(category, "category", visitor);
                 accept(focus, "focus", visitor, Focus.class);
                 accept(responseRequired, "responseRequired", visitor);

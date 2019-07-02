@@ -546,8 +546,8 @@ public class MedicationRequest extends DomainResource {
                 accept(category, "category", visitor, CodeableConcept.class);
                 accept(priority, "priority", visitor);
                 accept(doNotPerform, "doNotPerform", visitor);
-                accept(reported, "reported", visitor, true);
-                accept(medication, "medication", visitor, true);
+                accept(reported, "reported", visitor);
+                accept(medication, "medication", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
                 accept(supportingInformation, "supportingInformation", visitor, Reference.class);
@@ -2466,7 +2466,7 @@ public class MedicationRequest extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(allowed, "allowed", visitor, true);
+                    accept(allowed, "allowed", visitor);
                     accept(reason, "reason", visitor);
                 }
                 visitor.visitEnd(elementName, this);

@@ -2429,7 +2429,7 @@ public class ImplementationGuide extends DomainResource {
                         accept(fhirVersion, "fhirVersion", visitor, FHIRVersion.class);
                         accept(name, "name", visitor);
                         accept(description, "description", visitor);
-                        accept(example, "example", visitor, true);
+                        accept(example, "example", visitor);
                         accept(groupingId, "groupingId", visitor);
                     }
                     visitor.visitEnd(elementName, this);
@@ -2811,7 +2811,7 @@ public class ImplementationGuide extends DomainResource {
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                        accept(name, "name", visitor, true);
+                        accept(name, "name", visitor);
                         accept(title, "title", visitor);
                         accept(generation, "generation", visitor);
                         accept(page, "page", visitor, ImplementationGuide.Definition.Page.class);
@@ -3673,7 +3673,7 @@ public class ImplementationGuide extends DomainResource {
                 Objects.equals(resource, other.resource) && 
                 Objects.equals(page, other.page) && 
                 Objects.equals(image, other.image) && 
-                Objects.equals(other, other.other);
+                Objects.equals(this.other, other.other);
         }
 
         @Override
@@ -4031,7 +4031,7 @@ public class ImplementationGuide extends DomainResource {
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(reference, "reference", visitor);
-                        accept(example, "example", visitor, true);
+                        accept(example, "example", visitor);
                         accept(relativePath, "relativePath", visitor);
                     }
                     visitor.visitEnd(elementName, this);

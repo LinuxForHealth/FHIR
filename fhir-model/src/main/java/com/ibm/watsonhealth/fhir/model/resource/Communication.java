@@ -1458,7 +1458,7 @@ public class Communication extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(content, "content", visitor, true);
+                    accept(content, "content", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

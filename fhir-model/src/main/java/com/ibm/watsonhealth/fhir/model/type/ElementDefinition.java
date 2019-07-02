@@ -736,14 +736,14 @@ public class ElementDefinition extends BackboneElement {
                 accept(base, "base", visitor);
                 accept(contentReference, "contentReference", visitor);
                 accept(type, "type", visitor, Type.class);
-                accept(defaultValue, "defaultValue", visitor, true);
+                accept(defaultValue, "defaultValue", visitor);
                 accept(meaningWhenMissing, "meaningWhenMissing", visitor);
                 accept(orderMeaning, "orderMeaning", visitor);
-                accept(fixed, "fixed", visitor, true);
-                accept(pattern, "pattern", visitor, true);
+                accept(fixed, "fixed", visitor);
+                accept(pattern, "pattern", visitor);
                 accept(example, "example", visitor, Example.class);
-                accept(minValue, "minValue", visitor, true);
-                accept(maxValue, "maxValue", visitor, true);
+                accept(minValue, "minValue", visitor);
+                accept(maxValue, "maxValue", visitor);
                 accept(maxLength, "maxLength", visitor);
                 accept(condition, "condition", visitor, Id.class);
                 accept(constraint, "constraint", visitor, Constraint.class);
@@ -3114,7 +3114,7 @@ public class ElementDefinition extends BackboneElement {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(label, "label", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

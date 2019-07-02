@@ -251,7 +251,7 @@ public class DeviceUseStatement extends DomainResource {
                 accept(status, "status", visitor);
                 accept(subject, "subject", visitor);
                 accept(derivedFrom, "derivedFrom", visitor, Reference.class);
-                accept(timing, "timing", visitor, true);
+                accept(timing, "timing", visitor);
                 accept(recordedOn, "recordedOn", visitor);
                 accept(source, "source", visitor);
                 accept(device, "device", visitor);

@@ -386,7 +386,7 @@ public class Media extends DomainResource {
                 accept(view, "view", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(created, "created", visitor, true);
+                accept(created, "created", visitor);
                 accept(issued, "issued", visitor);
                 accept(operator, "operator", visitor);
                 accept(reasonCode, "reasonCode", visitor, CodeableConcept.class);

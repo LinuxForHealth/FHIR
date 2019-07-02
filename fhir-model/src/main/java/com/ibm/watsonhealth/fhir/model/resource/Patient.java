@@ -315,10 +315,10 @@ public class Patient extends DomainResource {
                 accept(telecom, "telecom", visitor, ContactPoint.class);
                 accept(gender, "gender", visitor);
                 accept(birthDate, "birthDate", visitor);
-                accept(deceased, "deceased", visitor, true);
+                accept(deceased, "deceased", visitor);
                 accept(address, "address", visitor, Address.class);
                 accept(maritalStatus, "maritalStatus", visitor);
-                accept(multipleBirth, "multipleBirth", visitor, true);
+                accept(multipleBirth, "multipleBirth", visitor);
                 accept(photo, "photo", visitor, Attachment.class);
                 accept(contact, "contact", visitor, Contact.class);
                 accept(communication, "communication", visitor, Communication.class);
@@ -1905,7 +1905,7 @@ public class Patient extends DomainResource {
             return Objects.equals(id, other.id) && 
                 Objects.equals(extension, other.extension) && 
                 Objects.equals(modifierExtension, other.modifierExtension) && 
-                Objects.equals(other, other.other) && 
+                Objects.equals(this.other, other.other) && 
                 Objects.equals(type, other.type);
         }
 

@@ -420,11 +420,11 @@ public class DeviceRequest extends DomainResource {
                 accept(status, "status", visitor);
                 accept(intent, "intent", visitor);
                 accept(priority, "priority", visitor);
-                accept(code, "code", visitor, true);
+                accept(code, "code", visitor);
                 accept(parameter, "parameter", visitor, Parameter.class);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(occurrence, "occurrence", visitor, true);
+                accept(occurrence, "occurrence", visitor);
                 accept(authoredOn, "authoredOn", visitor);
                 accept(requester, "requester", visitor);
                 accept(performerType, "performerType", visitor);
@@ -1439,7 +1439,7 @@ public class DeviceRequest extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(code, "code", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

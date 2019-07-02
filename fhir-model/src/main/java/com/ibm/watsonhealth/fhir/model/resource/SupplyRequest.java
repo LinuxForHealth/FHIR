@@ -281,10 +281,10 @@ public class SupplyRequest extends DomainResource {
                 accept(status, "status", visitor);
                 accept(category, "category", visitor);
                 accept(priority, "priority", visitor);
-                accept(item, "item", visitor, true);
+                accept(item, "item", visitor);
                 accept(quantity, "quantity", visitor);
                 accept(parameter, "parameter", visitor, Parameter.class);
-                accept(occurrence, "occurrence", visitor, true);
+                accept(occurrence, "occurrence", visitor);
                 accept(authoredOn, "authoredOn", visitor);
                 accept(requester, "requester", visitor);
                 accept(supplier, "supplier", visitor, Reference.class);
@@ -997,7 +997,7 @@ public class SupplyRequest extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(code, "code", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

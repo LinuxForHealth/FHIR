@@ -351,10 +351,10 @@ public class FamilyMemberHistory extends DomainResource {
                 accept(name, "name", visitor);
                 accept(relationship, "relationship", visitor);
                 accept(sex, "sex", visitor);
-                accept(born, "born", visitor, true);
-                accept(age, "age", visitor, true);
+                accept(born, "born", visitor);
+                accept(age, "age", visitor);
                 accept(estimatedAge, "estimatedAge", visitor);
-                accept(deceased, "deceased", visitor, true);
+                accept(deceased, "deceased", visitor);
                 accept(reasonCode, "reasonCode", visitor, CodeableConcept.class);
                 accept(reasonReference, "reasonReference", visitor, Reference.class);
                 accept(note, "note", visitor, Annotation.class);
@@ -1206,7 +1206,7 @@ public class FamilyMemberHistory extends DomainResource {
                     accept(code, "code", visitor);
                     accept(outcome, "outcome", visitor);
                     accept(contributedToDeath, "contributedToDeath", visitor);
-                    accept(onset, "onset", visitor, true);
+                    accept(onset, "onset", visitor);
                     accept(note, "note", visitor, Annotation.class);
                 }
                 visitor.visitEnd(elementName, this);

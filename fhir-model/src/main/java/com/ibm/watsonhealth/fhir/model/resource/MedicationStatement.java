@@ -327,10 +327,10 @@ public class MedicationStatement extends DomainResource {
                 accept(status, "status", visitor);
                 accept(statusReason, "statusReason", visitor, CodeableConcept.class);
                 accept(category, "category", visitor);
-                accept(medication, "medication", visitor, true);
+                accept(medication, "medication", visitor);
                 accept(subject, "subject", visitor);
                 accept(context, "context", visitor);
-                accept(effective, "effective", visitor, true);
+                accept(effective, "effective", visitor);
                 accept(dateAsserted, "dateAsserted", visitor);
                 accept(informationSource, "informationSource", visitor);
                 accept(derivedFrom, "derivedFrom", visitor, Reference.class);

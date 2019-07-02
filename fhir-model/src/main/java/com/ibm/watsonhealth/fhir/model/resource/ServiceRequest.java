@@ -569,11 +569,11 @@ public class ServiceRequest extends DomainResource {
                 accept(doNotPerform, "doNotPerform", visitor);
                 accept(code, "code", visitor);
                 accept(orderDetail, "orderDetail", visitor, CodeableConcept.class);
-                accept(quantity, "quantity", visitor, true);
+                accept(quantity, "quantity", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(occurrence, "occurrence", visitor, true);
-                accept(asNeeded, "asNeeded", visitor, true);
+                accept(occurrence, "occurrence", visitor);
+                accept(asNeeded, "asNeeded", visitor);
                 accept(authoredOn, "authoredOn", visitor);
                 accept(requester, "requester", visitor);
                 accept(performerType, "performerType", visitor);

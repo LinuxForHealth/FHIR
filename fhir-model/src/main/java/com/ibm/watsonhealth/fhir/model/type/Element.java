@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -34,8 +33,6 @@ import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
 public abstract class Element extends AbstractVisitable {
     protected final java.lang.String id;
     protected final List<Extension> extension;
-
-    private volatile int hashCode;
 
     protected Element(Builder builder) {
         id = builder.id;
@@ -76,33 +73,6 @@ public abstract class Element extends AbstractVisitable {
 
     public <T extends Element> T as(Class<T> elementType) {
         return elementType.cast(this);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Element other = (Element) obj;
-        return Objects.equals(id, other.id) && 
-            Objects.equals(extension, other.extension);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = hashCode;
-        if (result == 0) {
-            result = Objects.hash(id, 
-                extension);
-            hashCode = result;
-        }
-        return result;
     }
 
     public abstract Builder toBuilder();

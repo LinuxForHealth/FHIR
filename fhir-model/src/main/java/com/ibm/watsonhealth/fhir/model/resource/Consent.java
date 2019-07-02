@@ -298,7 +298,7 @@ public class Consent extends DomainResource {
                 accept(dateTime, "dateTime", visitor);
                 accept(performer, "performer", visitor, Reference.class);
                 accept(organization, "organization", visitor, Reference.class);
-                accept(source, "source", visitor, true);
+                accept(source, "source", visitor);
                 accept(policy, "policy", visitor, Policy.class);
                 accept(policyRule, "policyRule", visitor);
                 accept(verification, "verification", visitor, Verification.class);

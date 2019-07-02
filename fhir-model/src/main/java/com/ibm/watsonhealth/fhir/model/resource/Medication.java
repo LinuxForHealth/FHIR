@@ -740,7 +740,7 @@ public class Medication extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(item, "item", visitor, true);
+                    accept(item, "item", visitor);
                     accept(isActive, "isActive", visitor);
                     accept(strength, "strength", visitor);
                 }

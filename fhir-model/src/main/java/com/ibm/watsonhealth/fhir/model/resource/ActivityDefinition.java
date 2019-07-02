@@ -767,7 +767,7 @@ public class ActivityDefinition extends DomainResource {
                 accept(subtitle, "subtitle", visitor);
                 accept(status, "status", visitor);
                 accept(experimental, "experimental", visitor);
-                accept(subject, "subject", visitor, true);
+                accept(subject, "subject", visitor);
                 accept(date, "date", visitor);
                 accept(publisher, "publisher", visitor);
                 accept(contact, "contact", visitor, ContactDetail.class);
@@ -793,10 +793,10 @@ public class ActivityDefinition extends DomainResource {
                 accept(intent, "intent", visitor);
                 accept(priority, "priority", visitor);
                 accept(doNotPerform, "doNotPerform", visitor);
-                accept(timing, "timing", visitor, true);
+                accept(timing, "timing", visitor);
                 accept(location, "location", visitor);
                 accept(participant, "participant", visitor, Participant.class);
-                accept(product, "product", visitor, true);
+                accept(product, "product", visitor);
                 accept(quantity, "quantity", visitor);
                 accept(dosage, "dosage", visitor, Dosage.class);
                 accept(bodySite, "bodySite", visitor, CodeableConcept.class);

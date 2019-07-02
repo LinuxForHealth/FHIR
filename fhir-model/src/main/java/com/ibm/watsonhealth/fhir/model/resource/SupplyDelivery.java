@@ -223,7 +223,7 @@ public class SupplyDelivery extends DomainResource {
                 accept(patient, "patient", visitor);
                 accept(type, "type", visitor);
                 accept(suppliedItem, "suppliedItem", visitor);
-                accept(occurrence, "occurrence", visitor, true);
+                accept(occurrence, "occurrence", visitor);
                 accept(supplier, "supplier", visitor);
                 accept(destination, "destination", visitor);
                 accept(receiver, "receiver", visitor, Reference.class);
@@ -859,7 +859,7 @@ public class SupplyDelivery extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(quantity, "quantity", visitor);
-                    accept(item, "item", visitor, true);
+                    accept(item, "item", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

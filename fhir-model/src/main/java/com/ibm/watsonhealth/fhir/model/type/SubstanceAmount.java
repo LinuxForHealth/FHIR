@@ -102,7 +102,7 @@ public class SubstanceAmount extends BackboneElement {
                 accept(id, "id", visitor);
                 accept(extension, "extension", visitor, Extension.class);
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                accept(amount, "amount", visitor, true);
+                accept(amount, "amount", visitor);
                 accept(amountType, "amountType", visitor);
                 accept(amountText, "amountText", visitor);
                 accept(referenceRange, "referenceRange", visitor);

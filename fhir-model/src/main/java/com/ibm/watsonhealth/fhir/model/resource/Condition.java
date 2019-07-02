@@ -352,8 +352,8 @@ public class Condition extends DomainResource {
                 accept(bodySite, "bodySite", visitor, CodeableConcept.class);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(onset, "onset", visitor, true);
-                accept(abatement, "abatement", visitor, true);
+                accept(onset, "onset", visitor);
+                accept(abatement, "abatement", visitor);
                 accept(recordedDate, "recordedDate", visitor);
                 accept(recorder, "recorder", visitor);
                 accept(asserter, "asserter", visitor);

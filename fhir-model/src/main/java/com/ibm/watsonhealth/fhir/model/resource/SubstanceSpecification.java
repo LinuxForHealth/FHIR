@@ -1266,7 +1266,7 @@ public class SubstanceSpecification extends DomainResource {
                     accept(stereochemistry, "stereochemistry", visitor);
                     accept(opticalActivity, "opticalActivity", visitor);
                     accept(molecularFormula, "molecularFormula", visitor);
-                    accept(amount, "amount", visitor, true);
+                    accept(amount, "amount", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -1672,8 +1672,8 @@ public class SubstanceSpecification extends DomainResource {
                     accept(category, "category", visitor);
                     accept(code, "code", visitor);
                     accept(parameters, "parameters", visitor);
-                    accept(definingSubstance, "definingSubstance", visitor, true);
-                    accept(amount, "amount", visitor, true);
+                    accept(definingSubstance, "definingSubstance", visitor);
+                    accept(amount, "amount", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -4939,10 +4939,10 @@ public class SubstanceSpecification extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(substance, "substance", visitor, true);
+                    accept(substance, "substance", visitor);
                     accept(relationship, "relationship", visitor);
                     accept(isDefining, "isDefining", visitor);
-                    accept(amount, "amount", visitor, true);
+                    accept(amount, "amount", visitor);
                     accept(amountRatioLowLimit, "amountRatioLowLimit", visitor);
                     accept(amountType, "amountType", visitor);
                     accept(source, "source", visitor, Reference.class);

@@ -1255,7 +1255,7 @@ public class SpecimenDefinition extends DomainResource {
                         accept(cap, "cap", visitor);
                         accept(description, "description", visitor);
                         accept(capacity, "capacity", visitor);
-                        accept(minimumVolume, "minimumVolume", visitor, true);
+                        accept(minimumVolume, "minimumVolume", visitor);
                         accept(additive, "additive", visitor, Additive.class);
                         accept(preparation, "preparation", visitor);
                     }
@@ -1645,7 +1645,7 @@ public class SpecimenDefinition extends DomainResource {
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
                             accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                            accept(additive, "additive", visitor, true);
+                            accept(additive, "additive", visitor);
                         }
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);

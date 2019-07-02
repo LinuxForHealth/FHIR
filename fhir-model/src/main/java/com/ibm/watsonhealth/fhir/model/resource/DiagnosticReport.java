@@ -333,7 +333,7 @@ public class DiagnosticReport extends DomainResource {
                 accept(code, "code", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(effective, "effective", visitor, true);
+                accept(effective, "effective", visitor);
                 accept(issued, "issued", visitor);
                 accept(performer, "performer", visitor, Reference.class);
                 accept(resultsInterpreter, "resultsInterpreter", visitor, Reference.class);

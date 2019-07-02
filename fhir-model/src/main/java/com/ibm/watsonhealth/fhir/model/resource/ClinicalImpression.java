@@ -361,7 +361,7 @@ public class ClinicalImpression extends DomainResource {
                 accept(description, "description", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(effective, "effective", visitor, true);
+                accept(effective, "effective", visitor);
                 accept(date, "date", visitor);
                 accept(assessor, "assessor", visitor);
                 accept(previous, "previous", visitor);

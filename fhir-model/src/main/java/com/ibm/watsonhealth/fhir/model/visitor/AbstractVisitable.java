@@ -18,18 +18,10 @@ import java.util.List;
 public abstract class AbstractVisitable implements Visitable {
     @Override
     public abstract void accept(String elementName, Visitor visitor);
-    
-    protected void accept(Visitable visitable, java.lang.String elementName, Visitor visitor) {
-        accept(visitable, elementName, visitor, false);
-    }
 
-    protected void accept(Visitable visitable, java.lang.String elementName, Visitor visitor, boolean choiceElement) {
+    protected void accept(Visitable visitable, java.lang.String elementName, Visitor visitor) {
         if (visitable != null) {
-            if (choiceElement) {
-                visitable.accept(elementName + visitable.getClass().getSimpleName(), visitor);
-            } else {
-                visitable.accept(elementName, visitor);
-            }
+            visitable.accept(elementName, visitor);
         }
     }
 

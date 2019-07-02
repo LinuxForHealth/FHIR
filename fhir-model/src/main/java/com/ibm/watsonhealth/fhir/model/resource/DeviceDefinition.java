@@ -379,7 +379,7 @@ public class DeviceDefinition extends DomainResource {
                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                 accept(identifier, "identifier", visitor, Identifier.class);
                 accept(udiDeviceIdentifier, "udiDeviceIdentifier", visitor, UdiDeviceIdentifier.class);
-                accept(manufacturer, "manufacturer", visitor, true);
+                accept(manufacturer, "manufacturer", visitor);
                 accept(deviceName, "deviceName", visitor, DeviceName.class);
                 accept(modelNumber, "modelNumber", visitor);
                 accept(type, "type", visitor);

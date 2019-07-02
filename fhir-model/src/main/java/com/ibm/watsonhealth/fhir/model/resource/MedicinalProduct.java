@@ -2642,7 +2642,7 @@ public class MedicinalProduct extends DomainResource {
                     accept(identifier, "identifier", visitor, Identifier.class);
                     accept(type, "type", visitor);
                     accept(intendedUse, "intendedUse", visitor);
-                    accept(indication, "indication", visitor, true);
+                    accept(indication, "indication", visitor);
                     accept(status, "status", visitor);
                     accept(date, "date", visitor);
                     accept(species, "species", visitor);

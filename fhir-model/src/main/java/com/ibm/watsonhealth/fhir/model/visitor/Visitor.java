@@ -71,7 +71,6 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, Bundle.Entry.Response bundleEntryResponse);
     boolean visit(java.lang.String elementName, Bundle.Entry.Search bundleEntrySearch);
     boolean visit(java.lang.String elementName, Bundle.Link bundleLink);
-    boolean visit(java.lang.String elementName, Canonical canonical);
     boolean visit(java.lang.String elementName, CapabilityStatement capabilityStatement);
     boolean visit(java.lang.String elementName, CapabilityStatement.Document capabilityStatementDocument);
     boolean visit(java.lang.String elementName, CapabilityStatement.Implementation capabilityStatementImplementation);
@@ -127,7 +126,6 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, ClinicalImpression clinicalImpression);
     boolean visit(java.lang.String elementName, ClinicalImpression.Finding clinicalImpressionFinding);
     boolean visit(java.lang.String elementName, ClinicalImpression.Investigation clinicalImpressionInvestigation);
-    boolean visit(java.lang.String elementName, Code code);
     boolean visit(java.lang.String elementName, CodeSystem codeSystem);
     boolean visit(java.lang.String elementName, CodeSystem.Concept codeSystemConcept);
     boolean visit(java.lang.String elementName, CodeSystem.Concept.Designation codeSystemConceptDesignation);
@@ -321,7 +319,6 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, HealthcareService.Eligibility healthcareServiceEligibility);
     boolean visit(java.lang.String elementName, HealthcareService.NotAvailable healthcareServiceNotAvailable);
     boolean visit(java.lang.String elementName, HumanName humanName);
-    boolean visit(java.lang.String elementName, Id id);
     boolean visit(java.lang.String elementName, Identifier identifier);
     boolean visit(java.lang.String elementName, ImagingStudy imagingStudy);
     boolean visit(java.lang.String elementName, ImagingStudy.Series imagingStudySeries);
@@ -372,7 +369,6 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, Location location);
     boolean visit(java.lang.String elementName, Location.HoursOfOperation locationHoursOfOperation);
     boolean visit(java.lang.String elementName, Location.Position locationPosition);
-    boolean visit(java.lang.String elementName, Markdown markdown);
     boolean visit(java.lang.String elementName, MarketingStatus marketingStatus);
     boolean visit(java.lang.String elementName, Measure measure);
     boolean visit(java.lang.String elementName, Measure.Group measureGroup);
@@ -485,7 +481,6 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, ObservationDefinition observationDefinition);
     boolean visit(java.lang.String elementName, ObservationDefinition.QualifiedInterval observationDefinitionQualifiedInterval);
     boolean visit(java.lang.String elementName, ObservationDefinition.QuantitativeDetails observationDefinitionQuantitativeDetails);
-    boolean visit(java.lang.String elementName, Oid oid);
     boolean visit(java.lang.String elementName, OperationDefinition operationDefinition);
     boolean visit(java.lang.String elementName, OperationDefinition.Overload operationDefinitionOverload);
     boolean visit(java.lang.String elementName, OperationDefinition.Parameter operationDefinitionParameter);
@@ -519,7 +514,6 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, PlanDefinition.Goal planDefinitionGoal);
     boolean visit(java.lang.String elementName, PlanDefinition.Goal.Target planDefinitionGoalTarget);
     boolean visit(java.lang.String elementName, Population population);
-    boolean visit(java.lang.String elementName, PositiveInt positiveInt);
     boolean visit(java.lang.String elementName, Practitioner practitioner);
     boolean visit(java.lang.String elementName, Practitioner.Qualification practitionerQualification);
     boolean visit(java.lang.String elementName, PractitionerRole practitionerRole);
@@ -693,11 +687,8 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, Timing timing);
     boolean visit(java.lang.String elementName, Timing.Repeat timingRepeat);
     boolean visit(java.lang.String elementName, TriggerDefinition triggerDefinition);
-    boolean visit(java.lang.String elementName, UnsignedInt unsignedInt);
     boolean visit(java.lang.String elementName, Uri uri);
-    boolean visit(java.lang.String elementName, Url url);
     boolean visit(java.lang.String elementName, UsageContext usageContext);
-    boolean visit(java.lang.String elementName, Uuid uuid);
     boolean visit(java.lang.String elementName, ValueSet valueSet);
     boolean visit(java.lang.String elementName, ValueSet.Compose valueSetCompose);
     boolean visit(java.lang.String elementName, ValueSet.Compose.Include valueSetComposeInclude);

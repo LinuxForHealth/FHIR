@@ -1326,7 +1326,7 @@ public class Invoice extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(sequence, "sequence", visitor);
-                    accept(chargeItem, "chargeItem", visitor, true);
+                    accept(chargeItem, "chargeItem", visitor);
                     accept(priceComponent, "priceComponent", visitor, PriceComponent.class);
                 }
                 visitor.visitEnd(elementName, this);

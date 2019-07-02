@@ -1979,7 +1979,7 @@ public class MedicationKnowledge extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(item, "item", visitor, true);
+                    accept(item, "item", visitor);
                     accept(isActive, "isActive", visitor);
                     accept(strength, "strength", visitor);
                 }
@@ -2803,7 +2803,7 @@ public class MedicationKnowledge extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(dosage, "dosage", visitor, Dosage.class);
-                    accept(indication, "indication", visitor, true);
+                    accept(indication, "indication", visitor);
                     accept(patientCharacteristics, "patientCharacteristics", visitor, PatientCharacteristics.class);
                 }
                 visitor.visitEnd(elementName, this);
@@ -3357,7 +3357,7 @@ public class MedicationKnowledge extends DomainResource {
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                        accept(characteristic, "characteristic", visitor, true);
+                        accept(characteristic, "characteristic", visitor);
                         accept(value, "value", visitor, String.class);
                     }
                     visitor.visitEnd(elementName, this);
@@ -4163,7 +4163,7 @@ public class MedicationKnowledge extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(type, "type", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

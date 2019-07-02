@@ -455,10 +455,10 @@ public class Observation extends DomainResource {
                 accept(subject, "subject", visitor);
                 accept(focus, "focus", visitor, Reference.class);
                 accept(encounter, "encounter", visitor);
-                accept(effective, "effective", visitor, true);
+                accept(effective, "effective", visitor);
                 accept(issued, "issued", visitor);
                 accept(performer, "performer", visitor, Reference.class);
-                accept(value, "value", visitor, true);
+                accept(value, "value", visitor);
                 accept(dataAbsentReason, "dataAbsentReason", visitor);
                 accept(interpretation, "interpretation", visitor, CodeableConcept.class);
                 accept(note, "note", visitor, Annotation.class);
@@ -1998,7 +1998,7 @@ public class Observation extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(code, "code", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                     accept(dataAbsentReason, "dataAbsentReason", visitor);
                     accept(interpretation, "interpretation", visitor, CodeableConcept.class);
                     accept(referenceRange, "referenceRange", visitor, Observation.ReferenceRange.class);

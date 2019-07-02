@@ -378,8 +378,8 @@ public class ConceptMap extends DomainResource {
                 accept(jurisdiction, "jurisdiction", visitor, CodeableConcept.class);
                 accept(purpose, "purpose", visitor);
                 accept(copyright, "copyright", visitor);
-                accept(source, "source", visitor, true);
-                accept(target, "target", visitor, true);
+                accept(source, "source", visitor);
+                accept(target, "target", visitor);
                 accept(group, "group", visitor, Group.class);
             }
             visitor.visitEnd(elementName, this);

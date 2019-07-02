@@ -492,7 +492,7 @@ public class EventDefinition extends DomainResource {
                 accept(subtitle, "subtitle", visitor);
                 accept(status, "status", visitor);
                 accept(experimental, "experimental", visitor);
-                accept(subject, "subject", visitor, true);
+                accept(subject, "subject", visitor);
                 accept(date, "date", visitor);
                 accept(publisher, "publisher", visitor);
                 accept(contact, "contact", visitor, ContactDetail.class);

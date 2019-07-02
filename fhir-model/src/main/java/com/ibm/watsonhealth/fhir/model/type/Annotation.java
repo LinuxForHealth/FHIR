@@ -78,7 +78,7 @@ public class Annotation extends Element {
                 // visit children
                 accept(id, "id", visitor);
                 accept(extension, "extension", visitor, Extension.class);
-                accept(author, "author", visitor, true);
+                accept(author, "author", visitor);
                 accept(time, "time", visitor);
                 accept(text, "text", visitor);
             }

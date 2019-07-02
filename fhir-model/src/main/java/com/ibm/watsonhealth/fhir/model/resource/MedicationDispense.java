@@ -421,9 +421,9 @@ public class MedicationDispense extends DomainResource {
                 accept(identifier, "identifier", visitor, Identifier.class);
                 accept(partOf, "partOf", visitor, Reference.class);
                 accept(status, "status", visitor);
-                accept(statusReason, "statusReason", visitor, true);
+                accept(statusReason, "statusReason", visitor);
                 accept(category, "category", visitor);
-                accept(medication, "medication", visitor, true);
+                accept(medication, "medication", visitor);
                 accept(subject, "subject", visitor);
                 accept(context, "context", visitor);
                 accept(supportingInformation, "supportingInformation", visitor, Reference.class);

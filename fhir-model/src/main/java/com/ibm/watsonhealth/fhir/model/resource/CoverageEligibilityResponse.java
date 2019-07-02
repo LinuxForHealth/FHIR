@@ -291,7 +291,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 accept(status, "status", visitor);
                 accept(purpose, "purpose", visitor, EligibilityResponsePurpose.class);
                 accept(patient, "patient", visitor);
-                accept(serviced, "serviced", visitor, true);
+                accept(serviced, "serviced", visitor);
                 accept(created, "created", visitor);
                 accept(requestor, "requestor", visitor);
                 accept(request, "request", visitor);
@@ -1982,8 +1982,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                             accept(extension, "extension", visitor, Extension.class);
                             accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                             accept(type, "type", visitor);
-                            accept(allowed, "allowed", visitor, true);
-                            accept(used, "used", visitor, true);
+                            accept(allowed, "allowed", visitor);
+                            accept(used, "used", visitor);
                         }
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);

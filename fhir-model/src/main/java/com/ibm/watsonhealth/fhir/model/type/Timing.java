@@ -654,7 +654,7 @@ public class Timing extends BackboneElement {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(bounds, "bounds", visitor, true);
+                    accept(bounds, "bounds", visitor);
                     accept(count, "count", visitor);
                     accept(countMax, "countMax", visitor);
                     accept(duration, "duration", visitor);

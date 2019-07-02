@@ -3265,7 +3265,7 @@ public class ValueSet extends DomainResource {
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(name, "name", visitor);
-                        accept(value, "value", visitor, true);
+                        accept(value, "value", visitor);
                     }
                     visitor.visitEnd(elementName, this);
                     visitor.postVisit(this);

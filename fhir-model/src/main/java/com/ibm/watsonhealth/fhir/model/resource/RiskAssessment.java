@@ -325,7 +325,7 @@ public class RiskAssessment extends DomainResource {
                 accept(code, "code", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(occurrence, "occurrence", visitor, true);
+                accept(occurrence, "occurrence", visitor);
                 accept(condition, "condition", visitor);
                 accept(performer, "performer", visitor);
                 accept(reasonCode, "reasonCode", visitor, CodeableConcept.class);
@@ -1154,10 +1154,10 @@ public class RiskAssessment extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(outcome, "outcome", visitor);
-                    accept(probability, "probability", visitor, true);
+                    accept(probability, "probability", visitor);
                     accept(qualitativeRisk, "qualitativeRisk", visitor);
                     accept(relativeRisk, "relativeRisk", visitor);
-                    accept(when, "when", visitor, true);
+                    accept(when, "when", visitor);
                     accept(rationale, "rationale", visitor);
                 }
                 visitor.visitEnd(elementName, this);

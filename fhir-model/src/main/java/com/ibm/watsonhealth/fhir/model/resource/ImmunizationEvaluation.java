@@ -254,8 +254,8 @@ public class ImmunizationEvaluation extends DomainResource {
                 accept(doseStatusReason, "doseStatusReason", visitor, CodeableConcept.class);
                 accept(description, "description", visitor);
                 accept(series, "series", visitor);
-                accept(doseNumber, "doseNumber", visitor, true);
-                accept(seriesDoses, "seriesDoses", visitor, true);
+                accept(doseNumber, "doseNumber", visitor);
+                accept(seriesDoses, "seriesDoses", visitor);
             }
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);

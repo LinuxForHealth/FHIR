@@ -1463,7 +1463,7 @@ public class MedicinalProductAuthorization extends DomainResource {
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(identifier, "identifier", visitor);
                     accept(type, "type", visitor);
-                    accept(date, "date", visitor, true);
+                    accept(date, "date", visitor);
                     accept(application, "application", visitor, MedicinalProductAuthorization.Procedure.class);
                 }
                 visitor.visitEnd(elementName, this);

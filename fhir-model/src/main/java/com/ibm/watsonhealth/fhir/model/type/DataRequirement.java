@@ -182,7 +182,7 @@ public class DataRequirement extends Element {
                 accept(extension, "extension", visitor, Extension.class);
                 accept(type, "type", visitor);
                 accept(profile, "profile", visitor, Canonical.class);
-                accept(subject, "subject", visitor, true);
+                accept(subject, "subject", visitor);
                 accept(mustSupport, "mustSupport", visitor, String.class);
                 accept(codeFilter, "codeFilter", visitor, CodeFilter.class);
                 accept(dateFilter, "dateFilter", visitor, DateFilter.class);
@@ -1004,7 +1004,7 @@ public class DataRequirement extends Element {
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(path, "path", visitor);
                     accept(searchParam, "searchParam", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

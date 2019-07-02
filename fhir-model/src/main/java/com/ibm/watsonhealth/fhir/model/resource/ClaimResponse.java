@@ -2988,8 +2988,8 @@ public class ClaimResponse extends DomainResource {
                     accept(productOrService, "productOrService", visitor);
                     accept(modifier, "modifier", visitor, CodeableConcept.class);
                     accept(programCode, "programCode", visitor, CodeableConcept.class);
-                    accept(serviced, "serviced", visitor, true);
-                    accept(location, "location", visitor, true);
+                    accept(serviced, "serviced", visitor);
+                    accept(location, "location", visitor);
                     accept(quantity, "quantity", visitor);
                     accept(unitPrice, "unitPrice", visitor);
                     accept(factor, "factor", visitor);

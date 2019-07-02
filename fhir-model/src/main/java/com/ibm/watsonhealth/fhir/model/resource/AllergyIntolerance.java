@@ -327,7 +327,7 @@ public class AllergyIntolerance extends DomainResource {
                 accept(code, "code", visitor);
                 accept(patient, "patient", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(onset, "onset", visitor, true);
+                accept(onset, "onset", visitor);
                 accept(recordedDate, "recordedDate", visitor);
                 accept(recorder, "recorder", visitor);
                 accept(asserter, "asserter", visitor);

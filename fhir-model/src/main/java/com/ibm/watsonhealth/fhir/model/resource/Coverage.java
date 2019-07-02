@@ -1332,7 +1332,7 @@ public class Coverage extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(type, "type", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                     accept(exception, "exception", visitor, Exception.class);
                 }
                 visitor.visitEnd(elementName, this);

@@ -6,9 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +25,7 @@ public final class JsonSupport {
     private static final JsonObject JSON_SUPPORT = readJsonSupportObject();
     private static final Map<String, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap();
     private static final Map<String, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildRequiredElementNameMap();
+    private static final Map<String, Set<String>> CHOICE_ELEMENT_NAME_MAP = buildChoiceElementNameMap();
     
     private JsonSupport() { }
     
@@ -66,12 +69,30 @@ public final class JsonSupport {
         return Collections.unmodifiableMap(requiredElementNameMap);
     }
     
+    private static Map<String, Set<String>> buildChoiceElementNameMap() {
+        Map<String, Set<String>> choiceElementNameMap = new LinkedHashMap<>();
+        for (String key : JSON_SUPPORT.keySet()) {
+            JsonObject jsonObject = JSON_SUPPORT.get(key).asJsonObject();
+            Set<String> elementNames = new LinkedHashSet<>();
+            for (JsonValue jsonValue : jsonObject.getJsonArray("choiceElementNames")) {
+                JsonString jsonString = (JsonString) jsonValue;
+                elementNames.add(jsonString.getString());
+            }
+            choiceElementNameMap.put(key, Collections.unmodifiableSet(elementNames));
+        }
+        return Collections.unmodifiableMap(choiceElementNameMap);
+    }
+
     public static Set<String> getElementNames(String typeName) {
-        return ELEMENT_NAME_MAP.get(typeName);
+        return ELEMENT_NAME_MAP.getOrDefault(typeName, Collections.emptySet());
     }
     
     public static Set<String> getRequiredElementNames(String typeName) {
-        return REQUIRED_ELEMENT_NAME_MAP.get(typeName);
+        return REQUIRED_ELEMENT_NAME_MAP.getOrDefault(typeName, Collections.emptySet());
+    }
+    
+    public static Set<String> getChoiceElementNames(String typeName) {
+        return CHOICE_ELEMENT_NAME_MAP.getOrDefault(typeName, Collections.emptySet());
     }
     
     public static JsonArray getJsonArray(JsonObject jsonObject, String key) {
@@ -95,5 +116,27 @@ public final class JsonSupport {
             throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType());
         }
         return expectedType.cast(jsonValue);
+    }
+
+    public static String getTypeName(Class<?> type) {
+        List<String> names = new ArrayList<>();
+        while (type != null) {
+            names.add(type.getSimpleName());
+            type = type.getEnclosingClass();
+        }
+        Collections.reverse(names);
+        return String.join(".", names);
+    }
+
+    public static boolean isElement(Class<?> type, String elementName) {
+        return getElementNames(getTypeName(type)).contains(elementName);
+    }
+
+    public static boolean isRequiredElement(Class<?> type, String elementName) {
+        return getRequiredElementNames(getTypeName(type)).contains(elementName);
+    }
+
+    public static boolean isChoiceElement(Class<?> type, String name) {
+        return getChoiceElementNames(getTypeName(type)).contains(name);
     }
 }

@@ -578,7 +578,7 @@ public class ResearchElementDefinition extends DomainResource {
                 accept(subtitle, "subtitle", visitor);
                 accept(status, "status", visitor);
                 accept(experimental, "experimental", visitor);
-                accept(subject, "subject", visitor, true);
+                accept(subject, "subject", visitor);
                 accept(date, "date", visitor);
                 accept(publisher, "publisher", visitor);
                 accept(contact, "contact", visitor, ContactDetail.class);
@@ -1943,16 +1943,16 @@ public class ResearchElementDefinition extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(definition, "definition", visitor, true);
+                    accept(definition, "definition", visitor);
                     accept(usageContext, "usageContext", visitor, UsageContext.class);
                     accept(exclude, "exclude", visitor);
                     accept(unitOfMeasure, "unitOfMeasure", visitor);
                     accept(studyEffectiveDescription, "studyEffectiveDescription", visitor);
-                    accept(studyEffective, "studyEffective", visitor, true);
+                    accept(studyEffective, "studyEffective", visitor);
                     accept(studyEffectiveTimeFromStart, "studyEffectiveTimeFromStart", visitor);
                     accept(studyEffectiveGroupMeasure, "studyEffectiveGroupMeasure", visitor);
                     accept(participantEffectiveDescription, "participantEffectiveDescription", visitor);
-                    accept(participantEffective, "participantEffective", visitor, true);
+                    accept(participantEffective, "participantEffective", visitor);
                     accept(participantEffectiveTimeFromStart, "participantEffectiveTimeFromStart", visitor);
                     accept(participantEffectiveGroupMeasure, "participantEffectiveGroupMeasure", visitor);
                 }

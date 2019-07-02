@@ -2325,8 +2325,8 @@ public class Claim extends DomainResource {
                     accept(sequence, "sequence", visitor);
                     accept(category, "category", visitor);
                     accept(code, "code", visitor);
-                    accept(timing, "timing", visitor, true);
-                    accept(value, "value", visitor, true);
+                    accept(timing, "timing", visitor);
+                    accept(value, "value", visitor);
                     accept(reason, "reason", visitor);
                 }
                 visitor.visitEnd(elementName, this);
@@ -2688,7 +2688,7 @@ public class Claim extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(sequence, "sequence", visitor);
-                    accept(diagnosis, "diagnosis", visitor, true);
+                    accept(diagnosis, "diagnosis", visitor);
                     accept(type, "type", visitor, CodeableConcept.class);
                     accept(onAdmission, "onAdmission", visitor);
                     accept(packageCode, "packageCode", visitor);
@@ -3050,7 +3050,7 @@ public class Claim extends DomainResource {
                     accept(sequence, "sequence", visitor);
                     accept(type, "type", visitor, CodeableConcept.class);
                     accept(date, "date", visitor);
-                    accept(procedure, "procedure", visitor, true);
+                    accept(procedure, "procedure", visitor);
                     accept(udi, "udi", visitor, Reference.class);
                 }
                 visitor.visitEnd(elementName, this);
@@ -3817,7 +3817,7 @@ public class Claim extends DomainResource {
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(date, "date", visitor);
                     accept(type, "type", visitor);
-                    accept(location, "location", visitor, true);
+                    accept(location, "location", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -4369,8 +4369,8 @@ public class Claim extends DomainResource {
                     accept(productOrService, "productOrService", visitor);
                     accept(modifier, "modifier", visitor, CodeableConcept.class);
                     accept(programCode, "programCode", visitor, CodeableConcept.class);
-                    accept(serviced, "serviced", visitor, true);
-                    accept(location, "location", visitor, true);
+                    accept(serviced, "serviced", visitor);
+                    accept(location, "location", visitor);
                     accept(quantity, "quantity", visitor);
                     accept(unitPrice, "unitPrice", visitor);
                     accept(factor, "factor", visitor);

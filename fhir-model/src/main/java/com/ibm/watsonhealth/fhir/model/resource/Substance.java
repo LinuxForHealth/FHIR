@@ -1003,7 +1003,7 @@ public class Substance extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(quantity, "quantity", visitor);
-                    accept(substance, "substance", visitor, true);
+                    accept(substance, "substance", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

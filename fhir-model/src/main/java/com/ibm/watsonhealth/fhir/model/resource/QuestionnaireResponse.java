@@ -1244,7 +1244,7 @@ public class QuestionnaireResponse extends DomainResource {
                         accept(id, "id", visitor);
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                        accept(value, "value", visitor, true);
+                        accept(value, "value", visitor);
                         accept(item, "item", visitor, QuestionnaireResponse.Item.class);
                     }
                     visitor.visitEnd(elementName, this);

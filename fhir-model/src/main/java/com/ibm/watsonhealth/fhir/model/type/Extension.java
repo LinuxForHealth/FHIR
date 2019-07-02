@@ -74,7 +74,7 @@ public class Extension extends Element {
                 accept(id, "id", visitor);
                 accept(extension, "extension", visitor, Extension.class);
                 accept(url, "url", visitor);
-                accept(value, "value", visitor, true);
+                accept(value, "value", visitor);
             }
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);

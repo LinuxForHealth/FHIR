@@ -231,7 +231,7 @@ public class Dosage extends BackboneElement {
                 accept(additionalInstruction, "additionalInstruction", visitor, CodeableConcept.class);
                 accept(patientInstruction, "patientInstruction", visitor);
                 accept(timing, "timing", visitor);
-                accept(asNeeded, "asNeeded", visitor, true);
+                accept(asNeeded, "asNeeded", visitor);
                 accept(site, "site", visitor);
                 accept(route, "route", visitor);
                 accept(method, "method", visitor);
@@ -774,8 +774,8 @@ public class Dosage extends BackboneElement {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(type, "type", visitor);
-                    accept(dose, "dose", visitor, true);
-                    accept(rate, "rate", visitor, true);
+                    accept(dose, "dose", visitor);
+                    accept(rate, "rate", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

@@ -1262,7 +1262,7 @@ public class Composition extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(code, "code", visitor);
-                    accept(target, "target", visitor, true);
+                    accept(target, "target", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

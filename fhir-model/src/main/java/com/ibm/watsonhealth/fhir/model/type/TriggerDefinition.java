@@ -138,7 +138,7 @@ public class TriggerDefinition extends Element {
                 accept(extension, "extension", visitor, Extension.class);
                 accept(type, "type", visitor);
                 accept(name, "name", visitor);
-                accept(timing, "timing", visitor, true);
+                accept(timing, "timing", visitor);
                 accept(data, "data", visitor, DataRequirement.class);
                 accept(condition, "condition", visitor);
             }

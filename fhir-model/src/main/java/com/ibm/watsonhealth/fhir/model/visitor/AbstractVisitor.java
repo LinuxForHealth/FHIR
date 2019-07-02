@@ -268,11 +268,6 @@ public abstract class AbstractVisitor implements Visitor {
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, Canonical canonical) {
-        return true;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, CapabilityStatement capabilityStatement) {
         return true;
     }
@@ -544,11 +539,6 @@ public abstract class AbstractVisitor implements Visitor {
 
     @Override
     public boolean visit(java.lang.String elementName, ClinicalImpression.Investigation clinicalImpressionInvestigation) {
-        return true;
-    }
-
-    @Override
-    public boolean visit(java.lang.String elementName, Code code) {
         return true;
     }
 
@@ -1518,11 +1508,6 @@ public abstract class AbstractVisitor implements Visitor {
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, Id id) {
-        return true;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, Identifier identifier) {
         return true;
     }
@@ -1769,11 +1754,6 @@ public abstract class AbstractVisitor implements Visitor {
 
     @Override
     public boolean visit(java.lang.String elementName, Location.Position locationPosition) {
-        return true;
-    }
-
-    @Override
-    public boolean visit(java.lang.String elementName, Markdown markdown) {
         return true;
     }
 
@@ -2338,11 +2318,6 @@ public abstract class AbstractVisitor implements Visitor {
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, Oid oid) {
-        return true;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, OperationDefinition operationDefinition) {
         return true;
     }
@@ -2504,11 +2479,6 @@ public abstract class AbstractVisitor implements Visitor {
 
     @Override
     public boolean visit(java.lang.String elementName, Population population) {
-        return true;
-    }
-
-    @Override
-    public boolean visit(java.lang.String elementName, PositiveInt positiveInt) {
         return true;
     }
 
@@ -3378,27 +3348,12 @@ public abstract class AbstractVisitor implements Visitor {
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, UnsignedInt unsignedInt) {
-        return true;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, Uri uri) {
         return true;
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, Url url) {
-        return true;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, UsageContext usageContext) {
-        return true;
-    }
-
-    @Override
-    public boolean visit(java.lang.String elementName, Uuid uuid) {
         return true;
     }
 

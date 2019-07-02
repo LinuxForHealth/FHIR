@@ -582,7 +582,7 @@ public class Contract extends DomainResource {
                 accept(alias, "alias", visitor, String.class);
                 accept(author, "author", visitor);
                 accept(scope, "scope", visitor);
-                accept(topic, "topic", visitor, true);
+                accept(topic, "topic", visitor);
                 accept(type, "type", visitor);
                 accept(subType, "subType", visitor, CodeableConcept.class);
                 accept(contentDefinition, "contentDefinition", visitor);
@@ -593,7 +593,7 @@ public class Contract extends DomainResource {
                 accept(friendly, "friendly", visitor, Friendly.class);
                 accept(legal, "legal", visitor, Legal.class);
                 accept(rule, "rule", visitor, Rule.class);
-                accept(legallyBinding, "legallyBinding", visitor, true);
+                accept(legallyBinding, "legallyBinding", visitor);
             }
             visitor.visitEnd(elementName, this);
             visitor.postVisit(this);
@@ -2412,7 +2412,7 @@ public class Contract extends DomainResource {
                     accept(identifier, "identifier", visitor);
                     accept(issued, "issued", visitor);
                     accept(applies, "applies", visitor);
-                    accept(topic, "topic", visitor, true);
+                    accept(topic, "topic", visitor);
                     accept(type, "type", visitor);
                     accept(subType, "subType", visitor);
                     accept(text, "text", visitor);
@@ -4204,7 +4204,7 @@ public class Contract extends DomainResource {
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
                             accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                            accept(value, "value", visitor, true);
+                            accept(value, "value", visitor);
                         }
                         visitor.visitEnd(elementName, this);
                         visitor.postVisit(this);
@@ -5844,7 +5844,7 @@ public class Contract extends DomainResource {
                             accept(id, "id", visitor);
                             accept(extension, "extension", visitor, Extension.class);
                             accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                            accept(entity, "entity", visitor, true);
+                            accept(entity, "entity", visitor);
                             accept(identifier, "identifier", visitor);
                             accept(effectiveTime, "effectiveTime", visitor);
                             accept(quantity, "quantity", visitor);
@@ -6684,7 +6684,7 @@ public class Contract extends DomainResource {
                         accept(status, "status", visitor);
                         accept(context, "context", visitor);
                         accept(contextLinkId, "contextLinkId", visitor, String.class);
-                        accept(occurrence, "occurrence", visitor, true);
+                        accept(occurrence, "occurrence", visitor);
                         accept(requester, "requester", visitor, Reference.class);
                         accept(requesterLinkId, "requesterLinkId", visitor, String.class);
                         accept(performerType, "performerType", visitor, CodeableConcept.class);
@@ -8037,7 +8037,7 @@ public class Contract extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(content, "content", visitor, true);
+                    accept(content, "content", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -8252,7 +8252,7 @@ public class Contract extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(content, "content", visitor, true);
+                    accept(content, "content", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
@@ -8467,7 +8467,7 @@ public class Contract extends DomainResource {
                     accept(id, "id", visitor);
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                    accept(content, "content", visitor, true);
+                    accept(content, "content", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);

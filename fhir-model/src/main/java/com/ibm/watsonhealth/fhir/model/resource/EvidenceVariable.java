@@ -1659,10 +1659,10 @@ public class EvidenceVariable extends DomainResource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(description, "description", visitor);
-                    accept(definition, "definition", visitor, true);
+                    accept(definition, "definition", visitor);
                     accept(usageContext, "usageContext", visitor, UsageContext.class);
                     accept(exclude, "exclude", visitor);
-                    accept(participantEffective, "participantEffective", visitor, true);
+                    accept(participantEffective, "participantEffective", visitor);
                     accept(timeFromStart, "timeFromStart", visitor);
                     accept(groupMeasure, "groupMeasure", visitor);
                 }

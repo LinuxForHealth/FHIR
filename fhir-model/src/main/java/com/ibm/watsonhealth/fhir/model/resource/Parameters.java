@@ -369,7 +369,7 @@ public class Parameters extends Resource {
                     accept(extension, "extension", visitor, Extension.class);
                     accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                     accept(name, "name", visitor);
-                    accept(value, "value", visitor, true);
+                    accept(value, "value", visitor);
                     accept(resource, "resource", visitor);
                     accept(part, "part", visitor, Parameters.Parameter.class);
                 }

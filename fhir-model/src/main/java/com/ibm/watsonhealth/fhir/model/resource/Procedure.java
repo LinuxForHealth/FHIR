@@ -480,7 +480,7 @@ public class Procedure extends DomainResource {
                 accept(code, "code", visitor);
                 accept(subject, "subject", visitor);
                 accept(encounter, "encounter", visitor);
-                accept(performed, "performed", visitor, true);
+                accept(performed, "performed", visitor);
                 accept(recorder, "recorder", visitor);
                 accept(asserter, "asserter", visitor);
                 accept(performer, "performer", visitor, Performer.class);

@@ -214,7 +214,6 @@ public class CodeGenerator {
         }
         generateVisitorInterface(basePath);
         generateAbstractVisitorClass(basePath);
-        generateCollectingVisitor(basePath);
         generateJsonParser(basePath);
     }
 
@@ -283,11 +282,13 @@ public class CodeGenerator {
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
+            if (isPrimitiveSubtype(className)) {
+                continue;
+            }
             String paramName = camelCase(className).replace(".", "");
             if (SourceVersion.isKeyword(paramName)) {
                 paramName = "_" + paramName;
             }
-            
             cb.override();
             cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", className + " " + paramName))._return("true").end().newLine();
         }
@@ -365,10 +366,6 @@ public class CodeGenerator {
             if (isRepeating(elementDefinition)) {
                 String fieldType = getFieldType(structureDefinition, elementDefinition, false);
                 args.add(fieldType + ".class");
-            }
-            
-            if (isChoiceElement(elementDefinition)) {
-                args.add("true");
             }
             
             cb.invoke("accept", args);
@@ -757,7 +754,9 @@ public class CodeGenerator {
                 cb.newLine();
             }
             
-            cb.field(mods("private", "volatile"), "int", "hashCode").newLine();
+            if (!isAbstract(structureDefinition)) {
+                cb.field(mods("private", "volatile"), "int", "hashCode").newLine();
+            }
                         
             cb.constructor(mods(visibility), className, args("Builder builder"));
             if ((!"Resource".equals(className) && !"Element".equals(className)) || nested) {
@@ -898,6 +897,10 @@ public class CodeGenerator {
     }
 
     private void generateEqualsHashCodeMethods(JsonObject structureDefinition, String className, String path, CodeBuilder cb) {
+        if (isAbstract(structureDefinition)) {
+            return;
+        }
+        
         int level = path.split("\\.").length + 2;
         
         List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
@@ -917,7 +920,11 @@ public class CodeGenerator {
         for (JsonObject elementDefinition : elementDefinitions) {
             String elementName = getElementName(elementDefinition, path);
             String fieldName = getFieldName(elementName);
-            joiner.add("Objects.equals(" + fieldName + ", other." + fieldName +")");
+            String prefix = "";
+            if ("other".equals(fieldName)) {
+                prefix = "this.";
+            }
+            joiner.add("Objects.equals(" + prefix + fieldName + ", other." + fieldName +")");
         }
         cb._return(joiner.toString());
         cb.end().newLine();
@@ -1080,146 +1087,6 @@ public class CodeGenerator {
 //      System.out.println(cb.toString());
     }
 
-    private void generateCollectingVisitor(String basePath) {
-        CodeBuilder cb = new CodeBuilder();
-        
-        String packageName = "com.ibm.watsonhealth.fhir.model.util";
-        cb.javadoc(HEADER, true, true, false).newLine();
-        cb._package(packageName).newLine();
-        
-        cb._import("java.math.BigDecimal");
-        cb._import("java.time.LocalDate");
-        cb._import("java.time.LocalTime");
-        cb._import("java.time.Year");
-        cb._import("java.time.YearMonth");
-        cb._import("java.time.ZonedDateTime");
-        cb._import("java.util.ArrayList");
-        cb._import("java.util.Collections");
-        
-        cb.newLine();
-        
-        cb._import("com.ibm.watsonhealth.fhir.model.resource.*");
-        /*
-        Collections.sort(typeClassNames);
-        
-        for (String typeClassName : typeClassNames) {
-            cb._import("com.ibm.watsonhealth.fhir.model.type." + typeClassName);
-        }
-        */
-        cb._import("com.ibm.watsonhealth.fhir.model.type.*");
-        cb._import("com.ibm.watsonhealth.fhir.model.type.Boolean");
-        cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
-        cb._import("com.ibm.watsonhealth.fhir.model.type.String");
-        cb._import("com.ibm.watsonhealth.fhir.model.visitor.Visitable");
-        cb._import("com.ibm.watsonhealth.fhir.model.visitor.Visitor");
-        cb.newLine();
-        
-        cb._class(mods("public"), "CollectingVisitor<T>", null, implementsInterfaces("Visitor"));
-
-        cb.field(mods("protected", "final"), "java.util.List<T>", "result", _new("ArrayList<>"));
-        cb.field(mods("protected", "final"), "Class<T>", "type").newLine();
-        
-        cb.constructor(mods("public"), "CollectingVisitor", args("Class<T> type"))
-            .assign("this.type", "type")
-        .end().newLine();
-        
-        cb.method(mods("protected"), "boolean", "collect", params("Object object"))
-            ._if("type.isInstance(object)")
-                .invoke("result", "add", args("type.cast(object)"))
-            ._end()
-            ._return("true")
-        .end().newLine();
-        
-        cb.method(mods("public"), "java.util.List<T>", "getResult")
-            ._return("Collections.unmodifiableList(result)")
-        .end().newLine();
-        
-        cb.override();
-        cb.method(mods("public"), "boolean", "preVisit", params("Element element"))._return("true").end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "boolean", "preVisit", params("Resource resource"))._return("true").end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "postVisit", params("Element element")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "postVisit", params("Resource resource")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "Element element")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "Resource resource")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visitStart", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "Element element")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "Resource resource")).end().newLine();
-        
-        cb.override();
-        cb.method(mods("public"), "void", "visitEnd", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type")).end().newLine();
-        
-        Collections.sort(generatedClassNames);
-        
-        for (String className : generatedClassNames) {
-            String paramName = camelCase(className).replace(".", "");
-            if (SourceVersion.isKeyword(paramName)) {
-                paramName = "_" + paramName;
-            }
-            
-            cb.override();
-            cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", className + " " + paramName))._return("collect(" + paramName + ")").end().newLine();
-        }
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "byte[] value")).invoke("collect", args("value")).end().newLine();
-        
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "BigDecimal value")).invoke("collect", args("value")).end().newLine();
-        
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Boolean value")).invoke("collect", args("value")).end().newLine();
-
-//      cb.override();
-//      cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "org.w3c.dom.Element value")).invoke("collect", args("value")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.Integer value")).invoke("collect", args("value")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "LocalDate value")).invoke("collect", args("value")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "LocalTime value")).invoke("collect", args("value")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "java.lang.String value")).invoke("collect", args("value")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "Year value")).invoke("collect", args("value")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "YearMonth value")).invoke("collect", args("value")).end().newLine();
-
-        cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "ZonedDateTime value")).invoke("collect", args("value")).end();
-
-        cb._end();
-        
-        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/CollectingVisitor.java");
-
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(cb.toString());
-        } catch (Exception e) {
-            throw new Error(e);
-        }        
-    }
-
     private void generateFactoryMethods(JsonObject structureDefinition, CodeBuilder cb) {
         String className = titleCase(structureDefinition.getString("name"));
         
@@ -1336,7 +1203,9 @@ public class CodeGenerator {
         boolean containsCollection = false;
         boolean repeating = false;
         
-        imports.add("java.util.Objects");
+        if (!isAbstract(structureDefinition)) {
+            imports.add("java.util.Objects");
+        }
         
         if ("Resource".equals(name) || "Element".equals(name)) {
             imports.add("com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable");
@@ -2314,6 +2183,9 @@ public class CodeGenerator {
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
+            if (isPrimitiveSubtype(className)) {
+                continue;
+            }
             String paramName = camelCase(className).replace(".", "");
             if (SourceVersion.isKeyword(paramName)) {
                 paramName = "_" + paramName;
@@ -2480,15 +2352,34 @@ public class CodeGenerator {
                 requiredElementNameArrayBuilder.add(elementName);
             }
             
+            JsonArrayBuilder choiceElementNameArrayBuilder = Json.createArrayBuilder();
+            for (String elementName : getChoiceElementNames(generatedClassName)) {
+                choiceElementNameArrayBuilder.add(elementName);
+            }
+            
             builder.add(generatedClassName, Json.createObjectBuilder()
                 .add("elementNames", elementNameArrayBuilder)
-                .add("requiredElementNames", requiredElementNameArrayBuilder));            
+                .add("requiredElementNames", requiredElementNameArrayBuilder)
+                .add("choiceElementNames", choiceElementNameArrayBuilder));            
         }
-        
         
         return builder.build();
     }
     
+    private List<String> getChoiceElementNames(String generatedClassName) {
+        List<String> choiceElementNames = new ArrayList<>();
+        JsonObject structureDefinition = getStructureDefinition(generatedClassName);
+        String path = getPath(generatedClassName);
+        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path).stream()
+                .filter(e -> isChoiceElement(e))
+                .collect(Collectors.toList());
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String elementName = getElementName(elementDefinition, path);
+            choiceElementNames.add(elementName);
+        }
+        return choiceElementNames;
+    }
+
     private List<String> getElementNames(String generatedClassName) {
         return getElementNames(generatedClassName, false);
     }
@@ -2510,7 +2401,7 @@ public class CodeGenerator {
                 continue;
             }
             
-            String elementName = getElementName(elementDefinition, path);            
+            String elementName = getElementName(elementDefinition, path);           
             if (isChoiceElement(elementDefinition)) {
                 for (String type : getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code"))).collect(Collectors.toList())) {
                     String choiceElementName = elementName + type;

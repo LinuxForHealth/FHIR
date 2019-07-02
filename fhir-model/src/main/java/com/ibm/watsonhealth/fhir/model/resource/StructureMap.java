@@ -2694,7 +2694,7 @@ public class StructureMap extends DomainResource {
                             accept(min, "min", visitor);
                             accept(max, "max", visitor);
                             accept(type, "type", visitor);
-                            accept(defaultValue, "defaultValue", visitor, true);
+                            accept(defaultValue, "defaultValue", visitor);
                             accept(element, "element", visitor);
                             accept(listMode, "listMode", visitor);
                             accept(variable, "variable", visitor);
@@ -3627,7 +3627,7 @@ public class StructureMap extends DomainResource {
                                 accept(id, "id", visitor);
                                 accept(extension, "extension", visitor, Extension.class);
                                 accept(modifierExtension, "modifierExtension", visitor, Extension.class);
-                                accept(value, "value", visitor, true);
+                                accept(value, "value", visitor);
                             }
                             visitor.visitEnd(elementName, this);
                             visitor.postVisit(this);

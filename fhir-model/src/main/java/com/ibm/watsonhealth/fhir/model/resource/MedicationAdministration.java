@@ -354,11 +354,11 @@ public class MedicationAdministration extends DomainResource {
                 accept(status, "status", visitor);
                 accept(statusReason, "statusReason", visitor, CodeableConcept.class);
                 accept(category, "category", visitor);
-                accept(medication, "medication", visitor, true);
+                accept(medication, "medication", visitor);
                 accept(subject, "subject", visitor);
                 accept(context, "context", visitor);
                 accept(supportingInformation, "supportingInformation", visitor, Reference.class);
-                accept(effective, "effective", visitor, true);
+                accept(effective, "effective", visitor);
                 accept(performer, "performer", visitor, Performer.class);
                 accept(reasonCode, "reasonCode", visitor, CodeableConcept.class);
                 accept(reasonReference, "reasonReference", visitor, Reference.class);
@@ -1554,7 +1554,7 @@ The dosage instructions should reflect the
                     accept(route, "route", visitor);
                     accept(method, "method", visitor);
                     accept(dose, "dose", visitor);
-                    accept(rate, "rate", visitor, true);
+                    accept(rate, "rate", visitor);
                 }
                 visitor.visitEnd(elementName, this);
                 visitor.postVisit(this);
