@@ -15,9 +15,10 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Encounter;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Encounter;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 /**
@@ -36,7 +37,10 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
     public void testCreateEncounterAndObservationWithSameId() throws Exception {
         String commonId = UUID.randomUUID().toString();
         Encounter encounter = readResource(Encounter.class, "Encounter.json");
-        encounter.setId(FHIRUtil.id(commonId));
+        
+        // Update the id on the resource
+        encounter = encounter.toBuilder().id(Id.of(commonId)).build();        
+        
 //        encounter.setLength(f.createDuration()
 //            .withCode(FHIRUtil.code("d"))
 //            .withValue(FHIRUtil.decimal(7)));
@@ -49,15 +53,17 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
         assertEquals("1", encounter.getMeta().getVersionId().getValue());
         
         Observation observation = readResource(Observation.class, "observation-example.canonical.json");
-        observation.setId(FHIRUtil.id(commonId));
-        persistence.create(getDefaultPersistenceContext(), observation);
-        persistence.update(getDefaultPersistenceContext(), commonId, observation);
-        assertNotNull(observation);
-        assertNotNull(observation.getId());
-        assertNotNull(observation.getId().getValue());
-        assertNotNull(observation.getMeta());
-        assertNotNull(observation.getMeta().getVersionId().getValue());
-        assertEquals("2", observation.getMeta().getVersionId().getValue());
+
+        // update the id on the resource
+        observation = observation.toBuilder().id(Id.of(commonId)).build();        
+        Resource resource = persistence.create(getDefaultPersistenceContext(), observation);
+        resource = persistence.update(getDefaultPersistenceContext(), commonId, resource);
+        assertNotNull(resource);
+        assertNotNull(resource.getId());
+        assertNotNull(resource.getId().getValue());
+        assertNotNull(resource.getMeta());
+        assertNotNull(resource.getMeta().getVersionId().getValue());
+        assertEquals("2", resource.getMeta().getVersionId().getValue());
     } 
     
     /**

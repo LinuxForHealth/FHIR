@@ -9,7 +9,7 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.dto;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import com.ibm.watsonhealth.fhir.search.Parameter.Type;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
 
 /**
  * This class defines the Data Transfer Object representing a row in the FHIR Parameter table.

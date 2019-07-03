@@ -300,11 +300,14 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         assertNotNull(contract.getMeta());
         assertNotNull(contract.getMeta().getVersionId().getValue());
         assertEquals("1", contract.getMeta().getVersionId().getValue());
+
+        Reference patientRef = Reference.builder()
+        		.reference(com.ibm.watsonhealth.fhir.model.type.String.of("Patient/" + patient.getId().getValue()))
+        		.build();
         
-        Reference patientRef = new Reference().withReference(new com.ibm.watsonhealth.fhir.model.String().withValue("Patient/" + patient.getId().getValue()));
-        contract.withSubject(patientRef);
-        persistence.update(getDefaultPersistenceContext(), contract.getId().getValue(), contract);
-        assertEquals("2", contract.getMeta().getVersionId().getValue());
+        Contract updatedContract = contract.toBuilder().subject(patientRef).build();
+        Resource updatedResource = persistence.update(getDefaultPersistenceContext(), updatedContract.getId().getValue(), updatedContract);
+        assertEquals("2", updatedResource.getMeta().getVersionId().getValue());
     }
     
     /**

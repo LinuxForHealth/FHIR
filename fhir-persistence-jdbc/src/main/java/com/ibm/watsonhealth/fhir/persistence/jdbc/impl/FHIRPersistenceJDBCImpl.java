@@ -21,12 +21,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +42,7 @@ import javax.xml.bind.JAXBException;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
@@ -72,7 +74,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
-import com.ibm.watsonhealth.fhir.search.Parameter.Type;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
@@ -627,7 +629,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws IOException 
      */
     protected List<Resource> convertResourceDTOList(List<com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
-                                throws JAXBException, IOException {
+                                throws FHIRException, JAXBException, IOException {
         final String METHODNAME = "convertResourceDTO List";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -653,7 +655,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws IOException 
      */
     protected Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType, 
-                                          List<String> elements)  throws JAXBException, IOException {
+                                          List<String> elements)  throws FHIRException, JAXBException, IOException {
         final String METHODNAME = "convertResourceDTO";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -683,18 +685,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 }
                 pushbackReader.close();
                 
-                resource.setId(id(resourceDTO.getLogicalId()));
-                Meta meta = resource.getMeta();
-                if (meta == null) {
-                    meta = objectFactory.createMeta();
-                }
-                meta.setVersionId(id(Integer.toString(resourceDTO.getVersionId())));
                 Timestamp lastUpdated = resourceDTO.getLastUpdated();
-                meta.setLastUpdated(objectFactory.createInstant()
-                    .withValue(FHIRUtilities.convertToCalendar(lastUpdated, TimeZone.getTimeZone("UTC"))));
-                resource.setMeta(meta);
+                Meta meta = resource.getMeta();
+                
+                Meta.Builder mb = meta == null ? Meta.builder() : meta.toBuilder();
+                mb.versionId(Id.of(Integer.toString(resourceDTO.getVersionId())))
+                .lastUpdated(Instant.of(ZonedDateTime.ofInstant(lastUpdated.toInstant(), ZoneOffset.UTC)));
+
+                // Update the id/meta data in the resource
+                Resource.Builder rb = resource.toBuilder();
+                rb.id(Id.of(resourceDTO.getLogicalId()))
+                .meta(mb.build());
+                
+                resource = rb.build();
+                
                 if (elements != null && resource.getClass().equals(resourceType)) {
-                    FHIRPersistenceUtil.addFilteredTag(resource);
+                	resource = FHIRPersistenceUtil.addFilteredTag(resource);
                 }
             }
         }
@@ -720,7 +726,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      */
     protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList, 
                                                       List<String> elements) 
-                            throws FHIRPersistenceException, JAXBException, IOException {
+                            throws FHIRException, FHIRPersistenceException, JAXBException, IOException {
         final String METHOD_NAME = "buildFhirResource";
         log.entering(this.getClass().getName(), METHOD_NAME);
         
@@ -947,20 +953,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
 
     private OperationOutcome buildOKOperationOutcome() {
-        OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
-                .withIssue(objectFactory.createOperationOutcomeIssue()
-                    .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.INFORMATION))
-                    .withCode(objectFactory.createIssueType().withValue(IssueTypeList.INFORMATIONAL))
-                    .withDetails(objectFactory.createCodeableConcept().withText(string("All OK"))));
-        return operationOutcome;
+    	return FHIRUtil.buildOperationOutcome("All OK", IssueType.ValueSet.NO_STORE, IssueSeverity.ValueSet.ERROR);
     }
 
     private OperationOutcome buildErrorOperationOutcome() {
-        OperationOutcome operationOutcome = objectFactory.createOperationOutcome()
-                .withIssue(objectFactory.createOperationOutcomeIssue()
-                    .withSeverity(objectFactory.createIssueSeverity().withValue(IssueSeverityList.ERROR))
-                    .withCode(objectFactory.createIssueType().withValue(IssueTypeList.NO_STORE))
-                    .withDetails(objectFactory.createCodeableConcept().withText(string("The database connection was not valid"))));
-        return operationOutcome;
+    	return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.ValueSet.INFORMATIONAL, IssueSeverity.ValueSet.INFORMATION);
     }
 }

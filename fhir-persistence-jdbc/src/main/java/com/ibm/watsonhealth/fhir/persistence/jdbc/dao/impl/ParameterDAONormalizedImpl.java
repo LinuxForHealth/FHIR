@@ -34,7 +34,8 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ParameterNamesCacheUpdater;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SQLParameterEncoder;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
-import com.ibm.watsonhealth.fhir.search.Parameter.Type;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
+
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**

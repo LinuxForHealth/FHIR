@@ -8,11 +8,11 @@ package com.ibm.watsonhealth.fhir.replication.api.util;
 
 import java.util.List;
 
-import com.ibm.watsonhealth.fhir.model.DomainResource;
-import com.ibm.watsonhealth.fhir.model.Extension;
-import com.ibm.watsonhealth.fhir.model.Identifier;
-import com.ibm.watsonhealth.fhir.model.Person;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
+import com.ibm.watsonhealth.fhir.model.type.Extension;
+import com.ibm.watsonhealth.fhir.model.type.Identifier;
+import com.ibm.watsonhealth.fhir.model.resource.Person;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;

@@ -17,7 +17,8 @@ import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
 
 /**
@@ -94,7 +95,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
         
         T1 databaseQueryParm = null;
-        Parameter.Type type;
+        Type type;
         
         try {
             // NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is

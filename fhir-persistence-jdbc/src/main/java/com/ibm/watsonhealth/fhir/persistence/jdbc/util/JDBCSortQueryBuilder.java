@@ -15,8 +15,8 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.search.SortParameter;
-import com.ibm.watsonhealth.fhir.search.SortParameter.SortDirection;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.SortDirection;
 
 /**
  * This query builder class extends the base JDBCQueryBuilder, and provides support for sorting search results.

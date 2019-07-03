@@ -13,13 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.resource.Location;
 import com.ibm.watsonhealth.fhir.model.type.Range;
+import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
@@ -28,10 +26,10 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
 import com.ibm.watsonhealth.fhir.persistence.util.BoundingBox;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
 import com.ibm.watsonhealth.fhir.search.ParameterValue;
-import com.ibm.watsonhealth.fhir.search.ParameterValue.Prefix;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Prefix;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
 /**
@@ -408,7 +406,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
                 searchValue = queryParm.getModifierResourceTypeName() + "/" + searchValue;
             } else if (!isAbsoluteURL(searchValue)) {
                 SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getName());
-                List<Code> targets = definition.getTarget();
+                List<ResourceType> targets = definition.getTarget();
                 if (targets.size() == 1) {
                     Code target = targets.get(0);
                     String targetResourceTypeName = target.getValue();
@@ -621,9 +619,7 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
         StringBuilder whereClauseSegment = new StringBuilder();
         JDBCOperator operator;
         boolean parmValueProcessed = false;
-        XMLGregorianCalendar calendar;
         Date date, start=null, end=null;
-        Duration duration;
                 
         // Build this piece: p1.name = 'search-attribute-name' AND (
         this.populateNameQuerySegment(whereClauseSegment, queryParm.getName(), tableAlias);
@@ -638,22 +634,20 @@ public class JDBCQueryBuilder extends AbstractJDBCQueryBuilder<String, JDBCOpera
             }
             whereClauseSegment.append(LEFT_PAREN);
             // NOTE: The valueDate is cloned so subsequent calendar adjustments do not affect the original valueDate object.
-            calendar = (XMLGregorianCalendar)value.getValueDate().clone();
-            date = calendar.toGregorianCalendar().getTime();
+            date = Date.from((java.time.Instant.from(value.getValueDate().getValue())));
             operator = getPrefixOperator(value);
             // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
-            if (FHIRUtilities.isDateTime(calendar)) {
+            
+            if (!value.getValueDate().isPartial()) {
+            	// fully qualified date (a point in time)
                 start = date;
                 end = date;
                 whereClauseSegment.append(tableAlias).append(VALUE_DATE).append(operator.value())
                                   .append(QUOTE).append(FHIRUtilities.formatTimestamp(date)).append(QUOTE);
             }
-            else if (FHIRUtilities.isPartialDate(calendar)) { 
-                duration = FHIRUtilities.createDuration(calendar);
-                FHIRUtilities.setDefaults(calendar);
-                start = calendar.toGregorianCalendar().getTime();
-                calendar.add(duration);
-                end = calendar.toGregorianCalendar().getTime();
+            else { 
+            	end = Date.from(QueryBuilderUtil.getEnd(value.getValueDate()));
+            	
                 // For a partial dateTime and an EQ operator, a duration is calculated and a where segment is generated to cover a range.
                 // For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
                 if (operator.equals(JDBCOperator.EQ)) { 

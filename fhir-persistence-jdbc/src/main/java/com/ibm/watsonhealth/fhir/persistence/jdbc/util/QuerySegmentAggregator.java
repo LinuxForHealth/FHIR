@@ -20,7 +20,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
 
 /**
  * This class assists the JDBCNormalizedQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 

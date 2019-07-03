@@ -6,8 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.coding;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.uri;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -19,14 +17,15 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Coding;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.Uri;
+import com.ibm.watsonhealth.fhir.model.type.Canonical;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
 
 public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
-    protected ObjectFactory objFactory = new ObjectFactory();
     protected String patientId;
     protected String lastUpdated;
 
@@ -34,22 +33,31 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
     public void testCreatePatient() throws Exception {
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         
-        Coding tag = coding("http://ibm.com/watsonhealth/fhir/tag", "tag");
-        Coding security = coding("http://ibm.com/watsonhealth/fhir/security", "security");
-        Uri profile = uri("http://ibm.com/watsonhealth/fhir/profile/Profile");
+        Coding tag = Coding.builder()
+        		.system(Uri.of("http://ibm.com/watsonhealth/fhir/tag"))
+        		.code(Code.of("tag")).build();
+        Coding security = Coding.builder()
+        		.system(Uri.of("http://ibm.com/watsonhealth/fhir/security"))
+        		.code(Code.of("security")).build();
+
+        Meta meta = patient.getMeta();
+        Meta.Builder mb = meta == null ? Meta.builder() : meta.toBuilder();
+        mb.tag(tag);
+        mb.security(security);
+        mb.profile(Canonical.of("http://ibm.com/watsonhealth/fhir/profile/Profile"));
         
-        patient.setMeta(objFactory.createMeta().withTag(tag).withSecurity(security).withProfile(profile));
+        patient = patient.toBuilder().meta(mb.build()).build();
         
-        persistence.create(getDefaultPersistenceContext(), patient);
-        assertNotNull(patient);
-        assertNotNull(patient.getId());
-        assertNotNull(patient.getId().getValue());
-        assertNotNull(patient.getMeta());
-        assertNotNull(patient.getMeta().getVersionId().getValue());
-        assertEquals("1", patient.getMeta().getVersionId().getValue());
+        Resource resource = persistence.create(getDefaultPersistenceContext(), patient);
+        assertNotNull(resource);
+        assertNotNull(resource.getId());
+        assertNotNull(resource.getId().getValue());
+        assertNotNull(resource.getMeta());
+        assertNotNull(resource.getMeta().getVersionId().getValue());
+        assertEquals("1", resource.getMeta().getVersionId().getValue());
         
-        patientId = patient.getId().getValue();
-        lastUpdated = patient.getMeta().getLastUpdated().getValue().toString();
+        patientId = resource.getId().getValue();
+        lastUpdated = resource.getMeta().getLastUpdated().getValue().toString();
     }
     
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreatePatient" })

@@ -9,12 +9,12 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.model.resource.Location;
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.Parameter.Modifier;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Modifier;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
 
 /**
  * This class extends AbstractQueryBuilder with methods shared by the 'basic' and 'normalized' schema implementations.
@@ -93,7 +93,7 @@ public abstract class AbstractJDBCQueryBuilder<T1, T2> extends AbstractQueryBuil
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
         
         T1 databaseQueryParm = null;
-        Parameter.Type type;
+        Type type;
         
         try {
             if (Modifier.MISSING.equals(queryParm.getModifier())) {
