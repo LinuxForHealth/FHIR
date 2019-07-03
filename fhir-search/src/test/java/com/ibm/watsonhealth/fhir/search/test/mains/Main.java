@@ -6,21 +6,34 @@
 
 package com.ibm.watsonhealth.fhir.search.test.mains;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.id;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.string;
 
 import java.util.List;
 import java.util.Map;
 
-import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
-import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.type.ContactPoint;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointSystem;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointUse;
+import com.ibm.watsonhealth.fhir.model.type.Date;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
-public class Main {
+/**
+ * From release prior to R4
+ * @author paulbastide
+ *
+ */
+public class Main extends BaseSearchTest {
+    
+    /**
+     * 
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         for (SearchParameter parameter : SearchUtil.getSearchParameters(Resource.class)) {
             String name = parameter.getName().getValue();
@@ -44,24 +57,35 @@ public class Main {
             System.out.println("name: " + name + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
         }        
         
-        // build patient object using fluent API
-        ObjectFactory f = new ObjectFactory();
-        Patient patient = f.createPatient()
-            .withId(id("1234"))
-            .withName(
-                f.createHumanName()
-                    .withGiven(string("John"))
-                    .withFamily(string("Doe"))
-            )
-            .withBirthDate(f.createDate().withValue("1950-08-15"))
-            .withTelecom(
-                f.createContactPoint()
-                    .withUse(f.createContactPointUse().withValue(ContactPointUseList.HOME))
-                    .withSystem(f.createContactPointSystem().withValue(ContactPointSystemList.PHONE))
-                    .withValue(string("555-1234"))
-            );
+        // Build Patient Resource 
+        Id.Builder idBuilder = Id.builder();
+        idBuilder.id("1234");
         
-        Resource resource = patient;
+        HumanName.Builder humanNameBuilder = HumanName.builder();
+        humanNameBuilder.given(com.ibm.watsonhealth.fhir.model.type.String.of("John"));
+        humanNameBuilder.family(com.ibm.watsonhealth.fhir.model.type.String.of("Doe"));
+        
+        Date.Builder birthDateBuilder = Date.builder();
+        birthDateBuilder.value("1950-08-15");
+        
+        ContactPointSystem.Builder contactPointSystemBuilder = ContactPointSystem.builder();
+        contactPointSystemBuilder.value(ContactPointSystem.ValueSet.PHONE);
+       
+        ContactPointUse.Builder contactPointUseBuilder = ContactPointUse.builder();
+        contactPointUseBuilder.value(ContactPointUse.ValueSet.HOME);
+        
+        ContactPoint.Builder telecomBuilder = ContactPoint.builder();
+        telecomBuilder.system(contactPointSystemBuilder.build());
+        telecomBuilder.value(com.ibm.watsonhealth.fhir.model.type.String.of("555-1234"));
+        telecomBuilder.use(contactPointUseBuilder.build());
+       
+        Patient.Builder builder = Patient.builder();
+        builder.id(idBuilder.build());
+        builder.name(humanNameBuilder.build());
+        builder.birthDate(birthDateBuilder.build());
+        builder.telecom(telecomBuilder.build());
+        
+        Resource resource = builder.build();
         
         Map<SearchParameter, List<Object>> map = SearchUtil.extractParameterValues(resource);
         for (SearchParameter parameter : map.keySet()) {

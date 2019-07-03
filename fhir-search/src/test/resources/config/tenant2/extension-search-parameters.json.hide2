@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="searchParams" />
+    <type value="collection" />
+    <entry>
+        <fullUrl value="http://ibm.com/watsonhealth/fhir/SearchParameter/Patient-favorite-mlb-team" />
+        <resource>
+            <SearchParameter>
+                <id value="Patient-favorite-mlb-team" />
+                <name value="favorite-mlb-team" />
+                <base value="Patient" />
+                <type value="string" />
+                <xpath value="f:Patient/f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/Patient/favorite-mlb-team']/valueString" />
+                <xpathUsage value="normal" />
+            </SearchParameter>
+        </resource>
+    </entry>
+</Bundle>

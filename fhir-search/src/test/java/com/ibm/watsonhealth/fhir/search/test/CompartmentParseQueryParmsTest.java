@@ -6,12 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.search.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,31 +20,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.CommunicationRequest;
-import com.ibm.watsonhealth.fhir.model.Condition;
-import com.ibm.watsonhealth.fhir.model.Device;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.CommunicationRequest;
+import com.ibm.watsonhealth.fhir.model.resource.Condition;
+import com.ibm.watsonhealth.fhir.model.resource.Device;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.search.Parameter;
-import com.ibm.watsonhealth.fhir.search.Parameter.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
+import com.ibm.watsonhealth.fhir.search.util.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
+
 /**
- * This JUNIT test class contains methods that test the parsing of compartment related search data in the SearchUtil class.
+ * This TestNG test class contains methods that test the parsing of compartment related search data in the SearchUtil class.
  * @author markd
+ * @author pbastide@us.ibm.com
  *
  */
-public class CompartmentParseQueryParmsTest {
+public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     
     /**
      * This method tests parsing compartment related query parms, passing an invalid compartment.
      * @throws Exception
      */
-    @Test(expected = FHIRSearchException.class) 
+    @Test(expectedExceptions = { FHIRSearchException.class}) 
     public void testInvalidComparmentName() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
         SearchUtil.parseQueryParameters("bogusCompartmentName", "1", Observation.class, queryParameters, null);
@@ -54,7 +56,7 @@ public class CompartmentParseQueryParmsTest {
      * This method tests parsing compartment related query parms, passing an invalid resource type for the compartment.
      * @throws Exception
      */
-    @Test(expected = FHIRSearchException.class) 
+    @Test(expectedExceptions = {FHIRSearchException.class}) 
     public void testInvalidResource() throws Exception{
         Map<String, List<String>> queryParameters = new HashMap<>();
         SearchUtil.parseQueryParameters("Patient", "1", Device.class, queryParameters, null);
@@ -62,7 +64,7 @@ public class CompartmentParseQueryParmsTest {
     
     /**
      * This method tests parsing compartment related query parms. 
-     * Based on the compartment and resource type, a single inclusion criterion is expected to be 
+     * Based on the compartment and resource type, a single inclusion criterion is expectedExceptions to be 
      * returned by SearchUtil.parseQueryParameters(). 
      * @throws Exception
      */
@@ -87,7 +89,7 @@ public class CompartmentParseQueryParmsTest {
     
     /**
      * This method tests parsing compartment related query parms. 
-     * Based on the compartment and resource type, multiple inclusion criteria is expected to be 
+     * Based on the compartment and resource type, multiple inclusion criteria is expectedExceptions to be 
      * returned by SearchUtil.parseQueryParameters(). 
      * @throws Exception
      */
@@ -122,7 +124,7 @@ public class CompartmentParseQueryParmsTest {
     
     /**
      * This method tests parsing compartment related query parms together with non-compartment related query parms.. 
-     * Based on the compartment and resource type, multiple inclusion criteria is expected to be 
+     * Based on the compartment and resource type, multiple inclusion criteria is expectedExceptions to be 
      * returned by SearchUtil.parseQueryParameters(). 
      * @throws Exception
      */
@@ -171,13 +173,13 @@ public class CompartmentParseQueryParmsTest {
         }
         
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/" + resourceType.getSimpleName(), context);
-        assertTrue(selfUri + " does not contain expected " + queryStringPart1, selfUri.contains(queryStringPart1));
-        assertTrue(selfUri + " does not contain expected " + queryStringPart2, selfUri.contains(queryStringPart2));
+        assertTrue(selfUri.contains(queryStringPart1), selfUri + " does not contain expectedExceptions " + queryStringPart1);
+        assertTrue(selfUri.contains(queryStringPart2), selfUri + " does not contain expectedExceptions " + queryStringPart2);
     }
 
     /**
      * This method tests parsing compartment related query parms which are not valid. 
-     * In lenient mode, this is expected to ignore the query parameter.
+     * In lenient mode, this is expectedExceptions to ignore the query parameter.
      * In strict mode (lenient=false) this should throw an exception.
      * @throws Exception
      */
@@ -213,11 +215,11 @@ public class CompartmentParseQueryParmsTest {
         assertEquals(2, parmCount);
         
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/" + resourceType.getSimpleName(), context);
-        assertFalse(selfUri + " contain unexpected query parameter 'fakeParameter'", selfUri.contains(queryString));
+        assertFalse(selfUri.contains(queryString),selfUri + " contain unexpectedExceptions query parameter 'fakeParameter'");
         
         try {
             SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null, false);
-            fail("Expected parseQueryParameters to throw due to strict mode but it didn't.");
+            fail("expectedExceptions parseQueryParameters to throw due to strict mode but it didn't.");
         } catch (Exception e) {
             assertTrue(e instanceof FHIRSearchException);
         }
@@ -256,8 +258,8 @@ public class CompartmentParseQueryParmsTest {
         }
         
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
-        assertTrue(selfUri + " does not contain expected " + queryStringPart1, selfUri.contains(queryStringPart1));
-        assertTrue(selfUri + " does not contain expected " + queryStringPart2, selfUri.contains(queryStringPart2));
+        assertTrue(selfUri.contains(queryStringPart1), selfUri + " does not contain expectedExceptions " + queryStringPart1);
+        assertTrue(selfUri.contains(queryStringPart2), selfUri + " does not contain expectedExceptions " + queryStringPart2 );
     }
     
     private String encodeQueryString(String queryString) {

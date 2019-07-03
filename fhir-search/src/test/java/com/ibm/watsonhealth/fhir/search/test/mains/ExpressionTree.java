@@ -11,11 +11,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.search.Parameter;
+import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
-public class ExpressionTree {
+/**
+ * Created prior to R4. 
+ * 
+ * @author paulbastide
+ *
+ */
+public class ExpressionTree extends BaseSearchTest {
     
     public static abstract class Expression {
         abstract void accept(Visitor visitor);
@@ -98,6 +105,12 @@ public class ExpressionTree {
         }
     }
     
+    /**
+     * TODO: Needs a Readme 
+     * 
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("language", Arrays.asList("FR,NL", "EN"));

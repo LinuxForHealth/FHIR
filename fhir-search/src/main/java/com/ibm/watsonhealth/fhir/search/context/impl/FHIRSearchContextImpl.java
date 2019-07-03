@@ -24,7 +24,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     private List<String> elementsParameters = null;
     
     public FHIRSearchContextImpl() {
-        searchParameters = new ArrayList<Parameter>();
+        searchParameters = new ArrayList<>();
     }
 
     @Override
