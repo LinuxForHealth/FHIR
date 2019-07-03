@@ -8,8 +8,8 @@ package com.ibm.watsonhealth.fhir.persistence.test;
 
 import java.util.List;
 
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
@@ -23,7 +23,8 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDe
 public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
-    public void create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException {
+    public Resource create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException {
+    	return null;
     }
 
     @Override
@@ -39,7 +40,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public void update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+    public Resource update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+    	return null;
     }
 
     @Override

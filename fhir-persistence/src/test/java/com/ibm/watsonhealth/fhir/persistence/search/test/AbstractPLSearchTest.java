@@ -12,6 +12,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -20,7 +21,9 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.resource.Basic;
 import com.ibm.watsonhealth.fhir.model.resource.Composition;
-// import com.ibm.watsonhealth.fhir.model.resource.CompositionStatusList;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.CompositionStatus;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
@@ -147,13 +150,17 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      */
     @Test
     protected Composition createCompositionReferencingSavedResource() throws Exception {
-        Reference ref = f.createReference().withReference(f.createString().withValue("Basic/" + savedResource.getId().getValue()));
-        composition = f.createComposition()
-                .withDate(f.createDateTime().withValue("2019"))
-                .withType(f.createCodeableConcept().withText(f.createString().withValue("test")))
-                .withTitle(f.createString().withValue("TEST"))
-                .withStatus(f.createCompositionStatus().withValue(CompositionStatusList.PRELIMINARY))
-                .withSubject(ref);
+    	
+    	Reference ref = Reference.builder()
+    			.reference(com.ibm.watsonhealth.fhir.model.type.String.of("Basic/" + savedResource.getId().getValue()))
+    			.build();
+    	
+    	composition = Composition.builder(
+    			CompositionStatus.builder().value(CompositionStatus.ValueSet.PRELIMINARY).build(), 
+    			CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of("test")).build(), 
+    			DateTime.of("2019"), 
+    			Arrays.asList(ref), com.ibm.watsonhealth.fhir.model.type.String.of("TEST")).build();
+    	
         persistence.create(getDefaultPersistenceContext(), composition);
         assertNotNull(composition);
         assertNotNull(composition.getId());

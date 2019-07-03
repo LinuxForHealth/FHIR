@@ -20,6 +20,11 @@ import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.ImmunizationRecommendation;
 import com.ibm.watsonhealth.fhir.model.resource.ImmunizationRecommendation.Recommendation;
+import com.ibm.watsonhealth.fhir.model.resource.ImmunizationRecommendation.Recommendation.DateCriterion;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
@@ -37,22 +42,27 @@ public abstract class AbstractQueryImmunizationRecommendationTest extends Abstra
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateImmunizationRecommendation() throws Exception {
-        ImmunizationRecommendationRecommendation imm_recrec = f.createImmunizationRecommendationRecommendation()
-                .withDate(f.createDateTime().withValue("2017-01-01T10:10:10Z"))
-                .withVaccineCode(f.createCodeableConcept().withText(f.createString().withValue("a vaccine")))
-                .withDoseNumber(f.createPositiveInt().withValue(BigInteger.valueOf(10)))
-                .withForecastStatus(f.createCodeableConcept().withText(f.createString().withValue("cloudy")));
+    	
+    	ImmunizationRecommendation.Recommendation rec = ImmunizationRecommendation.Recommendation
+    			.builder(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of("cloudy")).build())
+    			.vaccineCode(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of("a vaccine")).build())
+    			.doseNumber(PositiveInt.of(10))
+    			.dateCriterion(DateCriterion.builder(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of("dateType")).build(), DateTime.of("2017-01-01T10:10:10Z")).build())
+    			.build();
+
+    	Reference patient = Reference.builder()
+    			.display(com.ibm.watsonhealth.fhir.model.type.String.of("Pat Ient"))
+    			.build();
         
-        ImmunizationRecommendation imm_rec = f.createImmunizationRecommendation()
-               .withPatient(f.createReference().withDisplay(f.createString().withValue("Pat Ient")))
-               .withRecommendation(imm_recrec);
-        persistence.create(getDefaultPersistenceContext(), imm_rec);
-        assertNotNull(imm_rec);
-        assertNotNull(imm_rec.getId());
-        assertNotNull(imm_rec.getId().getValue());
-        assertNotNull(imm_rec.getMeta());
-        assertNotNull(imm_rec.getMeta().getVersionId().getValue());
-        assertEquals("1", imm_rec.getMeta().getVersionId().getValue());
+        ImmunizationRecommendation imr = ImmunizationRecommendation.builder(patient, DateTime.of("2017-01-01T10:10:10Z"), Arrays.asList(rec)).build();
+
+        persistence.create(getDefaultPersistenceContext(), imr);
+        assertNotNull(imr);
+        assertNotNull(imr.getId());
+        assertNotNull(imr.getId().getValue());
+        assertNotNull(imr.getMeta());
+        assertNotNull(imr.getMeta().getVersionId().getValue());
+        assertEquals("1", imr.getMeta().getVersionId().getValue());
     }
     
     /**

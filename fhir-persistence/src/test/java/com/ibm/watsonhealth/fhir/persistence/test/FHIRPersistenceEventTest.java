@@ -16,10 +16,10 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * Tests associated with the FHIRPersistenceContextImpl class.

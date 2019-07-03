@@ -17,12 +17,12 @@ import java.util.Map;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.watsonhealth.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * This class tests the persistence interceptor feature. The MyInterceptor class is our test interceptor implementation
@@ -215,7 +215,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireBeforeCreateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(IssueTypeList.FORBIDDEN, e.getIssues().get(0).getCode().getValue());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
             throw e;
         }
     }
@@ -227,7 +227,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireAfterCreateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(IssueTypeList.CODE_INVALID, e.getIssues().get(0).getCode().getValue());
+            assertEquals(IssueType.CODE_INVALID, e.getIssues().get(0).getCode());
             throw e;
         }
     }
@@ -239,7 +239,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireBeforeUpdateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(IssueTypeList.CONFLICT, e.getIssues().get(0).getCode().getValue());
+            assertEquals(IssueType.CONFLICT, e.getIssues().get(0).getCode());
             throw e;
         }
     }
@@ -251,7 +251,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         try {
             mgr.fireAfterUpdateEvent(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            assertEquals(IssueTypeList.EXPIRED, e.getIssues().get(0).getCode().getValue());
+            assertEquals(IssueType.EXPIRED, e.getIssues().get(0).getCode());
             throw e;
         }
     }

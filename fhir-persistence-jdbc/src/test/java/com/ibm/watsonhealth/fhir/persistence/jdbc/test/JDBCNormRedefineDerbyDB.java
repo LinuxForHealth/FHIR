@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.util.Properties;
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.test.util.DerbyInitializer;
+import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * This sole purpose of this class is to delete and redefine the Derby database used by the JDBCNormXXX testng tests. This test class should run first in
