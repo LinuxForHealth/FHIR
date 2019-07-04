@@ -32,7 +32,7 @@
             <artifactId>fhir-model</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
-            <type>test-jar</type>
+<!--              <type>test-jar</type>-->
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -66,4 +66,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
 </project>
