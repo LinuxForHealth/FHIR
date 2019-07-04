@@ -11,10 +11,9 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.watsonhealth.fhir.model.IssueType;
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 
 public class IssueTypeToHttpStatusMapper {
     /**
@@ -32,19 +31,20 @@ public class IssueTypeToHttpStatusMapper {
      * @return an HTTP response status based on the first issue contained within the OperationOutcomeIssue list with a code;
      *         Response.Status.INTERNAL_SERVER_ERROR if it is null or empty
      */
-    public static Response.Status issueListToStatus(List<OperationOutcomeIssue> issues) {
+    public static Response.Status issueListToStatus(List<Issue> issues) {
         if (issues != null) {
-            for (OperationOutcomeIssue issue : issues) {
+            for (Issue issue : issues) {
                 IssueType code = issue.getCode();
                 if (code != null && code.getValue() != null) {
-                    return issueTypeToResponseCode(code.getValue());
+                    return issueTypeToResponseCode(IssueType.ValueSet.valueOf(code.getValue()));
                 }
             }
         }
+        
         return Status.INTERNAL_SERVER_ERROR;
     }
     
-    public static Status issueTypeToResponseCode(IssueTypeList value) {
+    public static Status issueTypeToResponseCode(IssueType.ValueSet value) {
         switch (value) {
         case INFORMATIONAL:
             return Status.OK;

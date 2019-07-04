@@ -10,7 +10,7 @@ import java.util.Collection;
 
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 
 /**
  * Exception to report a virtual resource type related exception
@@ -36,13 +36,13 @@ public class FHIRVirtualResourceTypeException extends FHIRHttpException {
     }
 
     @Override
-    public FHIRVirtualResourceTypeException withIssue(OperationOutcomeIssue... issues) {
+    public FHIRVirtualResourceTypeException withIssue(Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIRVirtualResourceTypeException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIRVirtualResourceTypeException withIssue(Collection<Issue> issues) {
         super.withIssue(issues);
         return this;
     }

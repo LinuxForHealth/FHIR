@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -546,5 +547,11 @@ public class FHIRUtil {
         }
 
         return resource.getClass().getSimpleName();
+    }
+    
+    public static List<String> getResourceTypeNames() {
+        List<String> typeNameList = new ArrayList<String>();
+        typeNameList.addAll(RESOURCE_TYPE_MAP.keySet());
+        return typeNameList;
     }
 }

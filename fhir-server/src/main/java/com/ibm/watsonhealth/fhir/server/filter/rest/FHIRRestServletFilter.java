@@ -27,11 +27,11 @@ import org.owasp.encoder.Encode;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
-import com.ibm.watsonhealth.fhir.model.IssueSeverityList;
-import com.ibm.watsonhealth.fhir.model.IssueTypeList;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 
 /**
  * This class is a servlet filter which is registered with the REST API's servlet. The main purpose of the class is to
@@ -109,7 +109,7 @@ public class FHIRRestServletFilter implements Filter {
         } catch (FHIRException e) {
             log.log(Level.INFO, "Error while setting request context or processing request", e);
             
-            OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueTypeList.INVALID, IssueSeverityList.FATAL, false);
+            OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.ValueSet.INVALID, IssueSeverity.ValueSet.FATAL, false);
             
             if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
                 HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -117,7 +117,7 @@ public class FHIRRestServletFilter implements Filter {
                 
                 httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 
-                FHIRUtil.Format format = chooseResponseFormat(httpRequest.getHeader("Accept"));
+                Format format = chooseResponseFormat(httpRequest.getHeader("Accept"));
                 switch (format) {
                 case XML:
                     httpResponse.setContentType(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_XML_FHIR);
@@ -130,13 +130,13 @@ public class FHIRRestServletFilter implements Filter {
                 
                 try {
                     FHIRUtil.write(outcome, format, httpResponse.getWriter());
-                } catch (JAXBException e1) {
+                } catch (FHIRException e1) {
                     throw new ServletException(e1);
                 }
             } else {
                 try {
                     FHIRUtil.write(outcome, Format.JSON, response.getWriter());
-                } catch (JAXBException e1) {
+                } catch (FHIRException e1) {
                     throw new ServletException(e1);
                 }
             }
@@ -162,7 +162,7 @@ public class FHIRRestServletFilter implements Filter {
         }
     }
 
-    private FHIRUtil.Format chooseResponseFormat(String acceptableContentTypes) {
+    private Format chooseResponseFormat(String acceptableContentTypes) {
         if (acceptableContentTypes.contains(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR) ||
                 acceptableContentTypes.contains(MediaType.APPLICATION_JSON)) {
             return Format.JSON;

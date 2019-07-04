@@ -10,8 +10,8 @@ import java.util.Collection;
 
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 
 public class FHIRRestBundledRequestException extends FHIRHttpException {
     private static final long serialVersionUID = 1L;
@@ -47,13 +47,13 @@ public class FHIRRestBundledRequestException extends FHIRHttpException {
     }
     
     @Override
-    public FHIRRestBundledRequestException withIssue(OperationOutcomeIssue... issues) {
+    public FHIRRestBundledRequestException withIssue(Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIRRestBundledRequestException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIRRestBundledRequestException withIssue(Collection<Issue> issues) {
         super.withIssue(issues);
         return this;
     }

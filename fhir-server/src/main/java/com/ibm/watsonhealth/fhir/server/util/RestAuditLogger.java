@@ -32,13 +32,15 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleEntry;
-import com.ibm.watsonhealth.fhir.model.HTTPVerb;
-import com.ibm.watsonhealth.fhir.model.Meta;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
+import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
+import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource.Builder;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
  * This class provides convenience methods for FHIR Rest services that need to write FHIR audit log entries.
@@ -55,6 +57,7 @@ public class RestAuditLogger {
     private static final String HEADER_CORRELATION_ID = "IBM-DP-correlationid";
     
     private static final String COMPONENT_ID = "fhir-server";
+    
     
     /**
      * Builds an audit log entry for a 'create' REST service invocation.
@@ -255,10 +258,10 @@ public class RestAuditLogger {
                     
         populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
         if (bundle != null) {
-            for (BundleEntry bundleEntry : bundle.getEntry()) {
+            for (Entry bundleEntry : bundle.getEntry()) {
                 if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
                     requestMethod = bundleEntry.getRequest().getMethod();
-                    switch (requestMethod.getValue())  {
+                    switch (HTTPVerb.ValueSet.from(requestMethod.getValue()))  {
                     case GET:
                         readCount++;
                         break;
@@ -380,26 +383,25 @@ public class RestAuditLogger {
         log.entering(CLASSNAME, METHODNAME);
         
         Class<? extends Resource> resourceType;
-        Resource tempResource = null;
+        Builder tempResourceBuilder = null;
         Meta meta;
-        ObjectFactory objFactory;
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_OPERATION);
         
         try {
             if (resourceTypeName != null) {
-                resourceType = FHIRUtil.getResourceType(resourceTypeName);
-                tempResource = FHIRUtil.createResource(resourceType);
+                resourceType = (Class<? extends Resource>) FHIRUtil.getResourceType(resourceTypeName);
+             
+                tempResourceBuilder = resourceType.newInstance().toBuilder();    
                 if (logicalId != null) {
-                    tempResource.setId(FHIRUtil.id(logicalId));
+                    tempResourceBuilder.id(Id.of(logicalId));
                 }
                 if (versionId != null) {
-                    objFactory = new ObjectFactory();
-                    meta = objFactory.createMeta().withVersionId(FHIRUtil.id(versionId));
-                    tempResource.setMeta(meta);
+                    meta = Meta.builder().versionId(Id.of(versionId)).build();
+                    tempResourceBuilder.meta(meta);
                 }
             }
-            populateAuditLogEntry(entry, request, tempResource, startTime, endTime, responseStatus);
+            populateAuditLogEntry(entry, request, tempResourceBuilder != null? tempResourceBuilder.build() : null, startTime, endTime, responseStatus);
             entry.getContext().setAction("O");
             entry.setDescription("FHIR Operation request");
             entry.getContext().setOperationName(operationName);

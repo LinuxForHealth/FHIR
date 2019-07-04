@@ -14,7 +14,6 @@ import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.Application;
 
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
-import com.ibm.watsonhealth.fhir.provider.FHIRVirtualResourceProvider;
 import com.ibm.watsonhealth.fhir.server.resources.FHIRResource;
 
 public class FHIRApplication extends Application {
@@ -53,7 +52,6 @@ public class FHIRApplication extends Application {
             if (singletons == null) {
                 singletons = new HashSet<Object>();
                 singletons.add(new FHIRProvider(RuntimeType.SERVER));
-                singletons.add(new FHIRVirtualResourceProvider());
             }
             return singletons;
         } finally {

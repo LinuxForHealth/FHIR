@@ -11,7 +11,7 @@ import java.util.Collection;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
-import com.ibm.watsonhealth.fhir.model.OperationOutcomeIssue;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 
 /**
  * An exception class used within the FHIR REST API layer.
@@ -48,13 +48,13 @@ public class FHIRHttpException extends FHIROperationException {
     }
     
     @Override
-    public FHIRHttpException withIssue(OperationOutcomeIssue... issues) {
+    public FHIRHttpException withIssue(Issue... issues) {
         super.withIssue(issues);
         return this;
     }
     
     @Override
-    public FHIRHttpException withIssue(Collection<OperationOutcomeIssue> issues) {
+    public FHIRHttpException withIssue(Collection<Issue> issues) {
         super.withIssue(issues);
         return this;
     }
