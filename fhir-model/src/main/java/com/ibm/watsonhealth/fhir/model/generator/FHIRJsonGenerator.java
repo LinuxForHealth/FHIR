@@ -315,7 +315,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         public boolean visit(java.lang.String elementName, Uri uri) {
             if (isChoiceElement(elementName)) {
                 elementName = getChoiceElementName(elementName, uri.getClass());
-            }            
+            }
             if (uri.getValue() != null) {
                 writeValue(elementName, uri.getValue());
             } else {

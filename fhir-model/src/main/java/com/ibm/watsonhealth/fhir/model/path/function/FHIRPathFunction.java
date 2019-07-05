@@ -7,11 +7,11 @@
 package com.ibm.watsonhealth.fhir.model.path.function;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ExpressionContext;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator_;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 
 public interface FHIRPathFunction {
     String getName();
 
-    Object invoke(FHIRPathEvaluator evaluator, Object context, ExpressionContext... arguments) throws FHIRPathException;
+    Object invoke(FHIRPathEvaluator_ evaluator, Object context, ExpressionContext... arguments) throws FHIRPathException;
 }

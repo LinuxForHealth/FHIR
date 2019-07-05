@@ -9,60 +9,56 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.ibm.watsonhealth.fhir.model.type.Element;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
-public class FHIRPathElementNode extends AbstractFHIRPathNode {
-    private final Element element;
+public class FHIRPathResourceNode extends AbstractFHIRPathNode {
+    private final Resource resource;
     
-    private FHIRPathElementNode(Builder builder) {
+    private FHIRPathResourceNode(Builder builder) {
         super(builder);
-        this.element = builder.element;
-    }
-    
-    public Element element() {
-        return element;
+        this.resource = builder.resource;
     }
     
     @Override
-    public boolean isElementNode() {
+    public boolean isResourceNode() {
         return true;
     }
     
-    public static FHIRPathElementNode elementNode(Element element) {
-        return FHIRPathElementNode.builder(element).build();
+    public Resource resource() {
+        return resource;
+    }
+
+    public static FHIRPathResourceNode resourceNode(Resource resource) {
+        return FHIRPathResourceNode.builder(resource).build();
     }
     
-    public static FHIRPathElementNode elementNode(String name, Element element) {
-        return FHIRPathElementNode.builder(element).name(name).build();
+    public static FHIRPathResourceNode resourceNode(String name, Resource resource) {
+        return FHIRPathResourceNode.builder(resource).name(name).build();
     }
     
     @Override
     public Builder toBuilder() {
-        Builder builder = new Builder(type, element);
+        Builder builder = new Builder(type, resource);
         builder.name = name;
         builder.value = value;
         builder.children = children;
         return builder;
     }
 
-    public static Builder builder(Element element) {
-        return new Builder(FHIRPathType.from(element.getClass()), element);
+    public static Builder builder(Resource resource) {
+        return new Builder(FHIRPathType.from(resource.getClass()), resource);
     }
     
     public static class Builder extends AbstractFHIRPathNode.Builder {
-        private final Element element;
+        private final Resource resource;
 
-        protected Builder(FHIRPathType type, Element element) {
+        protected Builder(FHIRPathType type, Resource resource) {
             super(type);
-            this.element = element;
+            this.resource = resource;
         }
         
         public Builder name(String name) {
             return (Builder) super.name(name);
-        }
-        
-        public Builder value(FHIRPathPrimitiveTypeNode value) {
-            return (Builder) super.value(value);
         }
         
         public Builder children(FHIRPathNode... children) {
@@ -78,8 +74,8 @@ public class FHIRPathElementNode extends AbstractFHIRPathNode {
         }
 
         @Override
-        public FHIRPathElementNode build() {
-            return new FHIRPathElementNode(this);
+        public FHIRPathResourceNode build() {
+            return new FHIRPathResourceNode(this);
         }
     }
     
@@ -94,12 +90,12 @@ public class FHIRPathElementNode extends AbstractFHIRPathNode {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        FHIRPathElementNode other = (FHIRPathElementNode) obj;
-        return Objects.equals(element, other.element());
+        FHIRPathResourceNode other = (FHIRPathResourceNode) obj;
+        return Objects.equals(resource, other.resource());
     }
     
     @Override
     public int hashCode() {
-        return Objects.hashCode(element);
+        return Objects.hashCode(resource);
     }
 }

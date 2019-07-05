@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.path.function;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ExpressionContext;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator_;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 
 public class ToIntegerFunction implements FHIRPathFunction {
@@ -17,7 +17,7 @@ public class ToIntegerFunction implements FHIRPathFunction {
     }
 
     @Override
-    public Object invoke(FHIRPathEvaluator evaluator, Object context, ExpressionContext... arguments) throws FHIRPathException {
+    public Object invoke(FHIRPathEvaluator_ evaluator, Object context, ExpressionContext... arguments) throws FHIRPathException {
         if (arguments.length != 0) {
             throw new FHIRPathException("Unexpected number of arguments: " + arguments.length);
         }

@@ -7,22 +7,42 @@
 package com.ibm.watsonhealth.fhir.model.path;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public interface FHIRPathNode {
     String name();
     FHIRPathType type();
     boolean hasValue();
-    FHIRPathNode getValue();
+    FHIRPathPrimitiveTypeNode getValue();
     Collection<FHIRPathNode> children();
-    default Collection<FHIRPathNode> descendants() {
-        return stream().skip(1).collect(Collectors.toList());
+    Stream<FHIRPathNode> stream();
+    Collection<FHIRPathNode> descendants();
+    <T extends FHIRPathNode> boolean is(Class<T> nodeType);
+    <T extends FHIRPathNode> T as(Class<T> nodeType);
+    default boolean isElementNode() {
+        return false;
     }
-    default Stream<FHIRPathNode> stream() {
-        return Stream.concat(Stream.of(this), children().stream().flatMap(FHIRPathNode::stream));
+    default boolean isResourceNode() {
+        return false;
     }
-    default <T extends FHIRPathNode> T as(Class<T> nodeType) {
-        return nodeType.cast(this);
+    default boolean isPrimitiveTypeNode() {
+        return false;
+    }
+    default FHIRPathElementNode asElementNode() {
+        return as(FHIRPathElementNode.class);
+    }
+    default FHIRPathResourceNode asResourceNode() {
+        return as(FHIRPathResourceNode.class);
+    }
+    default FHIRPathPrimitiveTypeNode asPrimitiveTypeNode() {
+        return as(FHIRPathPrimitiveTypeNode.class);
+    }
+    interface Builder { 
+        Builder name(String name);
+        Builder value(FHIRPathPrimitiveTypeNode value);
+        Builder children(FHIRPathNode... children);
+        Builder children(Collection<FHIRPathNode> children);
+        Builder children(Builder builder);
+        FHIRPathNode build();
     }
 }

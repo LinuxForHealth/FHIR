@@ -6,6 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.path.util;
 
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * IBM Confidential OCO Source Materials
  * 5737-D31, 5737-A56
@@ -24,25 +27,26 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathLexer;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ExpressionContext;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 
-public class FHIRPathUtil {
+public final class FHIRPathUtil {
     private static ConcurrentMap<String, ExpressionContext> expressionCache = new ConcurrentHashMap<>();
 
     private FHIRPathUtil() {
     }
 
-    public static <T> T eval(String expr) {
+    public static Collection<FHIRPathNode> eval(String expr) throws FHIRPathException {
         return eval(expr, null);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T eval(String expr, Object context) {
+    public static Collection<FHIRPathNode> eval(String expr, Collection<FHIRPathNode> context) throws FHIRPathException {
         ExpressionContext expressionContext = expressionCache.computeIfAbsent(expr, k -> compile(expr));
         FHIRPathEvaluator evaluator = new FHIRPathEvaluator(expressionContext);
-        return (T) evaluator.evaluate(context);
+        return evaluator.evaluate(context);
     }
 
     private static ExpressionContext compile(String expr) {
