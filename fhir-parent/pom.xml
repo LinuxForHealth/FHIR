@@ -33,6 +33,7 @@
         <module>../fhir-persistence</module>
         <module>../fhir-replication-api</module>
         <module>../fhir-persistence-proxy</module>
+        <module>../fhir-persistence-schema</module>
         <module>../fhir-persistence-jdbc</module>
         <module>../fhir-provider</module>
         <module>../fhir-operation</module>
@@ -74,6 +75,11 @@
                 <version>${was.liberty.version}</version>
                 <type>pom</type>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.ibm.watson.platform.health</groupId>
+                <artifactId>database-utils</artifactId>
+                <version>4.0.0-3-201907081045</version>
             </dependency>
             <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>

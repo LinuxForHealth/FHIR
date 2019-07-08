@@ -2,6 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <artifactId>fhir-persistence-jdbc</artifactId>
 
     <parent>
         <groupId>com.ibm.watsonhealth.fhir</groupId>
@@ -9,8 +10,6 @@
         <version>99-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
-
-    <artifactId>fhir-persistence-jdbc</artifactId>
     
     <properties>
         <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
@@ -22,6 +21,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-persistence-schema</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.ibm.watsonhealth.database.utils.api.IConnectionProvider;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
@@ -50,12 +51,16 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     private Properties dbProps = null;
     private Connection externalConnection = null;
     private static boolean dbDriverLoaded = false;
+    
+    // Abstract source of configured connections
+    private final IConnectionProvider connectionProvider;
 
     /**
      * Constructs a DAO instance suitable for acquiring DB connections via JNDI from the app server.
      */
     public FHIRDbDAOBasicImpl() {
         super();
+        this.connectionProvider = null;
     }
     
     /**
@@ -63,10 +68,18 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
      * @param dbProperties
      */
     public FHIRDbDAOBasicImpl(Properties dbProperties) {
-        this();
         this.setDbProps(dbProperties);
+        this.connectionProvider = null;
     }
-    
+
+    /**
+     * Constructor taking an {@link IConnectionProvider} (useful for new R4 unit tests)
+     * @param cp
+     */
+    public FHIRDbDAOBasicImpl(IConnectionProvider cp) {
+        this.connectionProvider = cp;
+    }
+
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
@@ -95,6 +108,14 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 
             if (this.getExternalConnection() != null) {
                 connection = this.getExternalConnection();
+            }
+            else if (this.connectionProvider != null) {
+                try {
+                    connection = connectionProvider.getConnection();
+                }
+                catch (SQLException x) {
+                    throw new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider", x);
+                }
             }
             else if (this.getDbProps() == null) {
                 try {

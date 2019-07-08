@@ -30,6 +30,7 @@ import javax.naming.InitialContext;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.xml.bind.JAXBException;
 
+import com.ibm.watsonhealth.database.utils.api.IConnectionProvider;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -127,6 +128,27 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
         
         this.setBaseDao(new FHIRDbDAOBasicImpl(configProps));
+        this.setManagedConnection(this.getBaseDao().getConnection());
+        this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
+        this.resourceDao.setRepInfoRequired(false);
+        this.parameterDao = new ParameterDAONormalizedImpl(this.getManagedConnection());
+                
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Constructor for use when running standalone, outside of any web container.
+     * @throws Exception 
+     */
+    @SuppressWarnings("rawtypes")
+    public FHIRPersistenceJDBCNormalizedImpl(Properties configProps, IConnectionProvider cp) throws Exception {
+        super(configProps, cp);
+        final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl(Properties, IConnectionProvider)";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
+        
+        this.setBaseDao(new FHIRDbDAOBasicImpl(cp));
         this.setManagedConnection(this.getBaseDao().getConnection());
         this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
         this.resourceDao.setRepInfoRequired(false);

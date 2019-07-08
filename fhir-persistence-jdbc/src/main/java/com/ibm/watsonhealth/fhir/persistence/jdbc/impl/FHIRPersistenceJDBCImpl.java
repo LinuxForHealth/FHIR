@@ -39,6 +39,7 @@ import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import javax.xml.bind.JAXBException;
 
+import com.ibm.watsonhealth.database.utils.api.IConnectionProvider;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
@@ -139,6 +140,25 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         
         log.exiting(CLASSNAME, METHODNAME);
     }
+    
+    /**
+     * Constructor when using the new database-utils {@link IConnectionProvider} pattern
+     */
+    @SuppressWarnings("rawtypes")
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
+        super();
+        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
+        this.setBaseDao(new FHIRDbDAOBasicImpl(cp));
+        this.setManagedConnection(this.getBaseDao().getConnection());
+        this.resourceDao = new ResourceDAOBasicImpl(this.getManagedConnection());
+        this.parameterDao = new ParameterDAOBasicImpl(this.getManagedConnection());
+        
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+    
     
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction#isActive()

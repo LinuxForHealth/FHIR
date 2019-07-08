@@ -9,13 +9,18 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec;
 import java.util.Properties;
 
 import org.testng.annotations.Test;
+import org.testng.annotations.AfterClass;
 
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractPersistenceTest;
+import com.ibm.watsonhealth.fhir.schema.derby.DerbyFhirDatabase;
 
 public class R4JDBCExamplesTest extends AbstractPersistenceTest {
+
+    // The Derby database instance used for the persistence tests
+    private DerbyFhirDatabase database;
 	
     private Properties properties;
 
@@ -46,12 +51,19 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
 	@Override
 	public FHIRPersistence getPersistenceImpl() throws Exception {
-		return new FHIRPersistenceJDBCNormalizedImpl(this.properties);
+		return new FHIRPersistenceJDBCNormalizedImpl(this.properties, database);
 	}
 
 	@Override
     public void bootstrapDatabase() throws Exception {
-		// Create the derby database
+	    // Create the derby database
+	    this.database = new DerbyFhirDatabase();
     }
 
+	@AfterClass
+	public void shutdown() throws Exception {
+	    if (this.database != null) {
+            this.database.close();
+	    }
+	}
 }
