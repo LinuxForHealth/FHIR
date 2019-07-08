@@ -7,19 +7,6 @@
 package com.ibm.watsonhealth.fhir.model.path.util;
 
 import java.util.Collection;
-import java.util.Collections;
-
-/**
- * IBM Confidential OCO Source Materials
- * 5737-D31, 5737-A56
- * (C) Copyright IBM Corp. 2019
- * 
- * The source code for this program is not published or otherwise
- * divested of its trade secrets, irrespective of what has
- * been deposited with the U.S. Copyright Office.
- * 
- */
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
