@@ -87,8 +87,8 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             }));
         } catch (Exception e) {
             Response response = buildResponse(
-            		FHIRUtil.buildOperationOutcome(Arrays.asList(
-                		FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), null)
+                    FHIRUtil.buildOperationOutcome(Arrays.asList(
+                            FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), null)
             )));
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
             throw new WebApplicationException(response);
@@ -122,8 +122,8 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             }, isPretty(requestHeaders));
         } catch (Exception e) {
             Response response = buildResponse(
-            		FHIRUtil.buildOperationOutcome(Arrays.asList(
-                		FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: an error occurred during resource serialization",null)
+                    FHIRUtil.buildOperationOutcome(Arrays.asList(
+                            FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: an error occurred during resource serialization",null)
             )));
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             throw new WebApplicationException(response);
