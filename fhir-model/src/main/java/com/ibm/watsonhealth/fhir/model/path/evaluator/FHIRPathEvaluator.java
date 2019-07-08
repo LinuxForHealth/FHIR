@@ -6,17 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.model.path.evaluator;
 
-import static com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanNode.booleanNode;
-import static com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalNode.decimalNode;
-import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerNode.integerNode;
-import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringNode.stringNode;
+import static com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue.booleanValue;
+import static com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue.decimalValue;
+import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue.integerValue;
+import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.stringValue;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +30,8 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ExpressionContext;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ParamListContext;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveTypeNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathType;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil;
 
@@ -72,15 +73,63 @@ public class FHIRPathEvaluator {
             return null;
         }
         
+        private Integer getInteger(Collection<FHIRPathNode> nodes) {
+            return getPrimitiveValue(nodes).asNumberValue().asIntegerValue().integer();
+        }
+        
+        private String getString(Collection<FHIRPathNode> nodes) {
+            return getPrimitiveValue(nodes).asStringValue().string();
+        }
+        
+        private Boolean getBoolean(Collection<FHIRPathNode> nodes) {
+            return getPrimitiveValue(nodes).asBooleanValue()._boolean();
+        }
+        
         private Collection<FHIRPathNode> getCurrentContext() {
             if (!contextStack.isEmpty()) {
                 return contextStack.peek();
             }
-            return Collections.emptyList();
+            return empty();
         }
         
+        private boolean hasPrimitiveValue(Collection<FHIRPathNode> input) {
+            if (isSingleton(input)) {
+                FHIRPathNode node = getSingleton(input);
+                if (node.isPrimitiveValue()) {
+                    return true;
+                }
+                if (node.isElementNode()) {
+                    return node.asElementNode().hasValue();
+                }
+            }
+            return false;
+        }
+        
+        private FHIRPathPrimitiveValue getPrimitiveValue(Collection<FHIRPathNode> input) {
+            if (!isSingleton(input)) {
+                throw new IllegalArgumentException();
+            }
+            FHIRPathNode node = getSingleton(input);
+            if (node.isPrimitiveValue()) {
+                return node.asPrimitiveValue();
+            }
+            if (node.isElementNode() && node.asElementNode().hasValue()) {
+                return node.asElementNode().getValue();
+            }
+            throw new IllegalArgumentException();
+        }
+
+        private boolean isSingleton(Collection<FHIRPathNode> nodes) {
+            return nodes.size() == 1;
+        }
+
+        private FHIRPathNode getSingleton(Collection<FHIRPathNode> nodes) {
+            return nodes.iterator().next();
+        }
+
         private void setCurrentContext(Collection<FHIRPathNode> context) {
             popContext();
+            System.out.println("setCurrentContext: " + context);
             pushContext(context);
         }
         
@@ -88,13 +137,20 @@ public class FHIRPathEvaluator {
             return singletonList(node);
         }
         
+        private Collection<FHIRPathNode> empty() {
+            return emptyList();
+        }
+        
+        /**
+         * expression '[' expression ']'
+         */
         @Override
         public Collection<FHIRPathNode> visitIndexerExpression(FHIRPathParser.IndexerExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
             visit(ctx.expression(0));
-            int index = getValue(visit(ctx.expression(1))).asNumberNode().asIntegerNode().integer();
+            int index = getInteger(visit(ctx.expression(1)));
             
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             
@@ -102,7 +158,7 @@ public class FHIRPathEvaluator {
             if (index >= 0 && index < list.size()) {
                 currentContext = singleton(list.get(index));
             } else {
-                currentContext = Collections.emptyList();
+                currentContext = empty();
             }
             
             setCurrentContext(currentContext);
@@ -111,23 +167,32 @@ public class FHIRPathEvaluator {
             return currentContext;
         }
         
+        /**
+         * ('+' | '-') expression
+         */
         @Override
         public Collection<FHIRPathNode> visitPolarityExpression(FHIRPathParser.PolarityExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> nodes = visit(ctx.expression());
+            if (!isSingleton(nodes)) {
+                indentLevel--;
+                return empty();
+            }
             
-            FHIRPathPrimitiveTypeNode node = getValue(visit(ctx.expression()));
+            Collection<FHIRPathNode> result = empty();
+            
+            FHIRPathPrimitiveValue value = getPrimitiveValue(nodes);
             String polarity = ctx.getChild(0).getText();
             
-            if (node.isNumberNode()) {
+            if (value.isNumberValue()) {
                 switch (polarity) {
                 case "+":
-                    result = singleton(node.asNumberNode().plus());
+                    result = singleton(value.asNumberValue().plus());
                     break;
                 case "-":
-                    result = singleton(node.asNumberNode().negate());
+                    result = singleton(value.asNumberValue().negate());
                     break;
                 }
             }
@@ -136,80 +201,83 @@ public class FHIRPathEvaluator {
             return result;
         }
         
-        private FHIRPathPrimitiveTypeNode getValue(Collection<FHIRPathNode> input) {
-            /*
-            if (input.size() > 1) {
-                throw new IllegalArgumentException();
-            }
-            */
-            Iterator<FHIRPathNode> iterator = input.iterator();
-            if (iterator.hasNext()) {
-                FHIRPathNode node = iterator.next();
-                if (node.isPrimitiveTypeNode()) {
-                    return node.asPrimitiveTypeNode();
-                }
-                if (node.isElementNode()) {
-                    return node.asElementNode().getValue();
-                }
-            }
-            throw new IllegalArgumentException();
-        }
-    
+        /**
+         * expression ('+' | '-' | '&') expression
+         */
         @Override
         public Collection<FHIRPathNode> visitAdditiveExpression(FHIRPathParser.AdditiveExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
-                        
-            FHIRPathPrimitiveTypeNode left = getValue(visit(ctx.expression(0)));
-            FHIRPathPrimitiveTypeNode right = getValue(visit(ctx.expression(1)));
+            Collection<FHIRPathNode> left = visit(ctx.expression(0));
+            Collection<FHIRPathNode> right = visit(ctx.expression(1));
+            
+            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+                indentLevel--;
+                return empty();
+            }
+
+            Collection<FHIRPathNode> result = empty();
+            
+            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
             
             String operator = ctx.getChild(1).getText();
             
-            if (left.isNumberNode() && right.isNumberNode()) {            
+            if (leftValue.isNumberValue() && rightValue.isNumberValue()) {            
                 switch (operator) {
                 case "+":
-                    result = singleton(left.asNumberNode().add(right.asNumberNode()));
+                    result = singleton(leftValue.asNumberValue().add(rightValue.asNumberValue()));
                     break;
                 case "-":
-                    result = singleton(left.asNumberNode().subtract(right.asNumberNode()));
+                    result = singleton(leftValue.asNumberValue().subtract(rightValue.asNumberValue()));
                     break;
                 }
-            } else if (left.isStringNode() && right.isStringNode() && "+".equals(operator)) {
+            } else if (leftValue.isStringValue() && rightValue.isStringValue() && "+".equals(operator)) {
                 // concatenation
-                result = singleton(left.asStringNode().concat(right.asStringNode()));
+                result = singleton(leftValue.asStringValue().concat(rightValue.asStringValue()));
             }
                                     
             indentLevel--;
             return result;
         }
     
+        /**
+         * expression ('*' | '/' | 'div' | 'mod') expression
+         */
         @Override
         public Collection<FHIRPathNode> visitMultiplicativeExpression(FHIRPathParser.MultiplicativeExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> left = visit(ctx.expression(0));
+            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            FHIRPathPrimitiveTypeNode left = getValue(visit(ctx.expression(0)));
-            FHIRPathPrimitiveTypeNode right = getValue(visit(ctx.expression(1)));
+            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+                indentLevel--;
+                return empty();
+            }
+            
+            Collection<FHIRPathNode> result = empty();
+            
+            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
             
             String operator = ctx.getChild(1).getText();
 
-            if (left.isNumberNode() && right.isNumberNode()) {
+            if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
                 switch (operator) {
                 case "*":
-                    result = singleton(left.asNumberNode().multiply(right.asNumberNode()));
+                    result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
                     break;
                 case "/":
-                    result = singleton(left.asNumberNode().divide(right.asNumberNode()));
+                    result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
                     break;
                 case "div":
-                    result = singleton(left.asNumberNode().div(right.asNumberNode()));
+                    result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
                     break;
                 case "mod":
-                    result = singleton(left.asNumberNode().mod(right.asNumberNode()));
+                    result = singleton(leftValue.asNumberValue().mod(rightValue.asNumberValue()));
                     break;
                 }
             }
@@ -218,6 +286,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * expression '|' expression
+         */
         @Override
         public Collection<FHIRPathNode> visitUnionExpression(FHIRPathParser.UnionExpressionContext ctx) {
             debug(ctx);
@@ -230,51 +301,85 @@ public class FHIRPathEvaluator {
             union.addAll(right);
             
             indentLevel--;
-            return new ArrayList<>(union);
+            return Collections.unmodifiableCollection(new ArrayList<>(union));
         }
     
+        /**
+         * expression ('or' | 'xor') expression
+         */
         @Override
         public Collection<FHIRPathNode> visitOrExpression(FHIRPathParser.OrExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> left = visit(ctx.expression(0));
+            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            FHIRPathPrimitiveTypeNode left = getValue(visit(ctx.expression(0)));
-            FHIRPathPrimitiveTypeNode right = getValue(visit(ctx.expression(1)));
+            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+                indentLevel--;
+                return singleton(booleanValue(false));
+            }
             
-            if (left.isBooleanNode() && right.isBooleanNode()) {
-                result = singleton(left.asBooleanNode().or(right.asBooleanNode()));
+            Collection<FHIRPathNode> result = singleton(booleanValue(false));
+            
+            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+            
+            String operator = ctx.getChild(1).getText();
+            
+            if (leftValue.isBooleanValue() && rightValue.isBooleanValue()) {
+                switch (operator) {
+                case "or":
+                    result = singleton(leftValue.asBooleanValue().or(rightValue.asBooleanValue()));
+                    break;
+                case "xor":
+                    result = singleton(leftValue.asBooleanValue().xor(rightValue.asBooleanValue()));
+                    break;
+                }
             }
             
             indentLevel--;
             return result;
         }
     
+        /**
+         * expression 'and' expression
+         */
         @Override
         public Collection<FHIRPathNode> visitAndExpression(FHIRPathParser.AndExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> left = visit(ctx.expression(0));
+            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            FHIRPathPrimitiveTypeNode left = getValue(visit(ctx.expression(0)));
-            FHIRPathPrimitiveTypeNode right = getValue(visit(ctx.expression(1)));
+            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+                indentLevel--;
+                return singleton(booleanValue(false));
+            }
             
-            if (left.isBooleanNode() && right.isBooleanNode()) {
-                result = singleton(left.asBooleanNode().and(right.asBooleanNode()));
+            Collection<FHIRPathNode> result = singleton(booleanValue(false));
+            
+            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+            
+            if (leftValue.isBooleanValue() && rightValue.isBooleanValue()) {
+                result = singleton(leftValue.asBooleanValue().and(rightValue.asBooleanValue()));
             }
             
             indentLevel--;
             return result;
         }
     
+        /**
+         * expression ('in' | 'contains') expression
+         */
         @Override
         public Collection<FHIRPathNode> visitMembershipExpression(FHIRPathParser.MembershipExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> result = empty();
             
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
@@ -283,10 +388,10 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                result = singleton(booleanNode(right.containsAll(left)));
+                result = singleton(booleanValue(right.containsAll(left)));
                 break;
             case "contains":
-                result = singleton(booleanNode(left.containsAll(right)));
+                result = singleton(booleanValue(left.containsAll(right)));
                 break;
             }
             
@@ -294,31 +399,42 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * expression ('<=' | '<' | '>' | '>=') expression
+         */
         @Override
         public Collection<FHIRPathNode> visitInequalityExpression(FHIRPathParser.InequalityExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> left = visit(ctx.expression(0));
+            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            FHIRPathPrimitiveTypeNode left = getValue(visit(ctx.expression(0)));
-            FHIRPathPrimitiveTypeNode right = getValue(visit(ctx.expression(1)));
+            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+                indentLevel--;
+                return singleton(booleanValue(false));
+            }
+            
+            Collection<FHIRPathNode> result = singleton(booleanValue(false));
+            
+            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
             
             String operator = ctx.getChild(1).getText();
 
-            if (left.isNumberNode() && right.isNumberNode()) {
+            if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
                 switch (operator) {
                 case ">":
-                    result = singleton(booleanNode(left.asNumberNode().greaterThan(right.asNumberNode())));
+                    result = singleton(booleanValue(leftValue.asNumberValue().greaterThan(rightValue.asNumberValue())));
                     break;
                 case ">=":
-                    result = singleton(booleanNode(left.asNumberNode().greaterThanOrEqual(right.asNumberNode())));
+                    result = singleton(booleanValue(leftValue.asNumberValue().greaterThanOrEqual(rightValue.asNumberValue())));
                     break;
                 case "<":
-                    result = singleton(booleanNode(left.asNumberNode().lessThan(right.asNumberNode())));
+                    result = singleton(booleanValue(leftValue.asNumberValue().lessThan(rightValue.asNumberValue())));
                     break;
                 case "<=":
-                    result = singleton(booleanNode(left.asNumberNode().lessThanOrEqual(right.asNumberNode())));
+                    result = singleton(booleanValue(leftValue.asNumberValue().lessThanOrEqual(rightValue.asNumberValue())));
                     break;
                 }
             }
@@ -327,6 +443,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * expression '.' invocation
+         */
         @Override
         public Collection<FHIRPathNode> visitInvocationExpression(FHIRPathParser.InvocationExpressionContext ctx) {
             debug(ctx);
@@ -339,37 +458,31 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * expression ('=' | '~' | '!=' | '!~') expression
+         */
         @Override
         public Collection<FHIRPathNode> visitEqualityExpression(FHIRPathParser.EqualityExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> result = singleton(booleanValue(false));
 
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            System.out.println("left: " + left);
-            System.out.println("right: " + right);
-            
             String operator = ctx.getChild(1).getText();
             
-            // TODO: this needs some work as "equal to" and "equivalent to" have different semantics
-
+            // TODO: needs work as "equals" and "equivalent" have different semantics
+            
             switch (operator) {
-            case "=": {
-                result = singleton(booleanNode(getValue(left).equals(getValue(right))));
-                break;
-            }
+            case "=":
             case "~":
-                result = singleton(booleanNode(left.equals(right)));
+                result = singleton(booleanValue(left.equals(right)));
                 break;
-            case "!=": {
-                result = singleton(booleanNode(!getValue(left).equals(getValue(right))));
-                break;
-            }
+            case "!=":
             case "!~":
-                result = singleton(booleanNode(!left.equals(right)));
+                result = singleton(booleanValue(!left.equals(right)));
                 break;
             }
 
@@ -377,24 +490,30 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * expression 'implies' expression
+         */
         @Override
         public Collection<FHIRPathNode> visitImpliesExpression(FHIRPathParser.ImpliesExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> result = singleton(booleanValue(false));
             
-            FHIRPathPrimitiveTypeNode left = getValue(visit(ctx.expression(0)));
-            FHIRPathPrimitiveTypeNode right = getValue(visit(ctx.expression(1)));
+            FHIRPathPrimitiveValue left = getPrimitiveValue(visit(ctx.expression(0)));
+            FHIRPathPrimitiveValue right = getPrimitiveValue(visit(ctx.expression(1)));
             
-            if (left.isBooleanNode() && right.isBooleanNode()) {
-                result = singleton(left.asBooleanNode().implies(right.asBooleanNode()));
+            if (left.isBooleanValue() && right.isBooleanValue()) {
+                result = singleton(left.asBooleanValue().implies(right.asBooleanValue()));
             }
             
             indentLevel--;
             return result;
         }
-    
+        
+        /**
+         * term
+         */
         @Override
         public Collection<FHIRPathNode> visitTermExpression(FHIRPathParser.TermExpressionContext ctx) {
             debug(ctx);
@@ -404,15 +523,47 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * expression ('is' | 'as') typeSpecifier
+         */
         @Override
         public Collection<FHIRPathNode> visitTypeExpression(FHIRPathParser.TypeExpressionContext ctx) {
             debug(ctx);
             indentLevel++;
-            Collection<FHIRPathNode> result = visitChildren(ctx);
+            
+            Collection<FHIRPathNode> result = empty();
+            
+            visit(ctx.expression());
+            
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            
+            if (isSingleton(currentContext)) {
+                String qualifiedIdentifier = getString(visit(ctx.typeSpecifier()));
+                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
+                String operator = ctx.getChild(1).getText();
+                
+                FHIRPathNode node = getSingleton(currentContext);
+                
+                switch (operator) {
+                case "is":
+                    result = singleton(booleanValue(node.type().isAssignableFrom(type) ? true : false));
+                    break;
+                    
+                case "as":
+                    if (node.type().isAssignableFrom(type)) {
+                        result = singleton(node);
+                    }
+                    break;
+                }
+            }
+                        
             indentLevel--;
             return result;
         }
-    
+
+        /**
+         * invocation
+         */
         @Override
         public Collection<FHIRPathNode> visitInvocationTerm(FHIRPathParser.InvocationTermContext ctx) {
             debug(ctx);
@@ -422,6 +573,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * literal
+         */
         @Override
         public Collection<FHIRPathNode> visitLiteralTerm(FHIRPathParser.LiteralTermContext ctx) {
             debug(ctx);
@@ -431,6 +585,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * externalConstant
+         */
         @Override
         public Collection<FHIRPathNode> visitExternalConstantTerm(FHIRPathParser.ExternalConstantTermContext ctx) {
             debug(ctx);
@@ -440,6 +597,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * '(' expression ')'
+         */
         @Override
         public Collection<FHIRPathNode> visitParenthesizedTerm(FHIRPathParser.ParenthesizedTermContext ctx) {
             debug(ctx);
@@ -449,36 +609,64 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * '{' '}'
+         */
         @Override
         public Collection<FHIRPathNode> visitNullLiteral(FHIRPathParser.NullLiteralContext ctx) {
             debug(ctx);
-            return Collections.emptyList();
+            return empty();
         }
     
+        /**
+         * ('true' | 'false')
+         */
         @Override
         public Collection<FHIRPathNode> visitBooleanLiteral(FHIRPathParser.BooleanLiteralContext ctx) {
             debug(ctx);
-            return singleton(booleanNode(Boolean.valueOf(ctx.getText())));
+            return singleton(booleanValue(Boolean.valueOf(ctx.getText())));
         }
     
+        /**
+         * '\'' (ESC | .)*? '\''
+         */
         @Override
         public Collection<FHIRPathNode> visitStringLiteral(FHIRPathParser.StringLiteralContext ctx) {
             debug(ctx);
-            return singleton(stringNode(ctx.getText().substring(1, ctx.getText().length() - 1)));
+            String text = ctx.getText();
+            
+            return singleton(stringValue(text.substring(1, text.length() - 1)));
         }
     
+        /**
+         * [0-9]+('.' [0-9]+)?
+         */
         @Override
         public Collection<FHIRPathNode> visitNumberLiteral(FHIRPathParser.NumberLiteralContext ctx) {
             debug(ctx);
             BigDecimal decimal = new BigDecimal(ctx.getText());
             try {
                 Integer integer = decimal.intValueExact();
-                return singleton(integerNode(integer));
+                return singleton(integerValue(integer));
             } catch (ArithmeticException e) {
-                return singleton(decimalNode(decimal));
+                return singleton(decimalValue(decimal));
             }
         }
     
+        /**
+         * '@'
+         *  [0-9][0-9][0-9][0-9] // year
+         *  (
+         *      '-'[0-9][0-9] // month
+         *      (
+         *          '-'[0-9][0-9] // day
+         *          (
+         *              'T' TIMEFORMAT
+         *          )?
+         *       )?
+         *   )?
+         *   'Z'? // UTC specifier
+         */
         @Override
         public Collection<FHIRPathNode> visitDateTimeLiteral(FHIRPathParser.DateTimeLiteralContext ctx) {
             debug(ctx);
@@ -488,6 +676,10 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * [0-9][0-9] (':'[0-9][0-9] (':'[0-9][0-9] ('.'[0-9]+)?)?)?
+         * ('Z' | ('+' | '-') [0-9][0-9]':'[0-9][0-9])? // timezone
+         */
         @Override
         public Collection<FHIRPathNode> visitTimeLiteral(FHIRPathParser.TimeLiteralContext ctx) {
             debug(ctx);
@@ -497,6 +689,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * NUMBER unit?
+         */
         @Override
         public Collection<FHIRPathNode> visitQuantityLiteral(FHIRPathParser.QuantityLiteralContext ctx) {
             debug(ctx);
@@ -506,6 +701,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * '%' identifier
+         */
         @Override
         public Collection<FHIRPathNode> visitExternalConstant(FHIRPathParser.ExternalConstantContext ctx) {
             debug(ctx);
@@ -515,13 +713,16 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * identifier
+         */
         @Override
         public Collection<FHIRPathNode> visitMemberInvocation(FHIRPathParser.MemberInvocationContext ctx) {
             debug(ctx);
             indentLevel++;
             
             Collection<FHIRPathNode> currentContext = getCurrentContext();
-            String identifier = getValue(visit(ctx.identifier())).asStringNode().string();
+            String identifier = getString(visit(ctx.identifier()));
             currentContext = currentContext.stream()
                     .flatMap(node -> node.children().stream())
                     .filter(node -> identifier.equals(node.name()))
@@ -532,6 +733,9 @@ public class FHIRPathEvaluator {
             return currentContext;
         }
     
+        /**
+         * function
+         */
         @Override
         public Collection<FHIRPathNode> visitFunctionInvocation(FHIRPathParser.FunctionInvocationContext ctx) {
             debug(ctx);
@@ -541,15 +745,18 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * '$this'
+         */
         @Override
         public Collection<FHIRPathNode> visitThisInvocation(FHIRPathParser.ThisInvocationContext ctx) {
             debug(ctx);
-            indentLevel++;
-            Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return getCurrentContext();
         }
     
+        /**
+         * '$index'
+         */
         @Override
         public Collection<FHIRPathNode> visitIndexInvocation(FHIRPathParser.IndexInvocationContext ctx) {
             debug(ctx);
@@ -559,6 +766,9 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * '$total'
+         */
         @Override
         public Collection<FHIRPathNode> visitTotalInvocation(FHIRPathParser.TotalInvocationContext ctx) {
             debug(ctx);
@@ -568,14 +778,17 @@ public class FHIRPathEvaluator {
             return result;
         }
     
+        /**
+         * identifier '(' paramList? ')'
+         */
         @Override
         public Collection<FHIRPathNode> visitFunction(FHIRPathParser.FunctionContext ctx) {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = Collections.emptyList();
+            Collection<FHIRPathNode> result = empty();
             
-            String functionName = (String) getValue(visit(ctx.identifier())).asStringNode().string();
+            String functionName = getString(visit(ctx.identifier()));
 
             List<ExpressionContext> arguments = new ArrayList<ExpressionContext>();
             ParamListContext paramList = ctx.paramList();
@@ -587,28 +800,125 @@ public class FHIRPathEvaluator {
             
             switch (functionName) {
             case "where":
-                result = new ArrayList<>();
-                ExpressionContext criteria = arguments.get(0);
-                for (FHIRPathNode node : currentContext) {
-                    pushContext(singleton(node));
-                    if (getValue(visit(criteria)).asBooleanNode()._boolean()) {
-                        result.add(node);
+                result = where(arguments.get(0));
+                break;
+            case "select":
+                result = select(arguments.get(0));
+                break;
+            case "getValue":
+                if (isSingleton(currentContext)) {
+                    FHIRPathNode node = getSingleton(currentContext);
+                    if (node.isElementNode() && node.asElementNode().hasValue()) {
+                        result = singleton(node.asElementNode().getValue());
+                        setCurrentContext(result);
                     }
-                    popContext();
+                }
+                break;
+            case "toInteger":
+                if (hasPrimitiveValue(currentContext)) {
+                    FHIRPathPrimitiveValue value = getPrimitiveValue(currentContext);
+                    result = toInteger(value);
                 }
                 break;
             case "exists":
-                result = singleton(booleanNode(!currentContext.isEmpty()));
+                result = singleton(booleanValue(!currentContext.isEmpty()));
                 break;
             case "empty":
-                result = singleton(booleanNode(currentContext.isEmpty()));
+                result = singleton(booleanValue(currentContext.isEmpty()));
                 break;
             case "count":
-                result = singleton(integerNode(currentContext.size()));
+                result = singleton(integerValue(currentContext.size()));
+                break;
+            case "single":
+                if (isSingleton(currentContext)) {
+                    result = singleton(getSingleton(currentContext));
+                    setCurrentContext(result);
+                }
+                break;
+            case "first":
+                if (!currentContext.isEmpty()) {
+                    List<FHIRPathNode> list = new ArrayList<>(currentContext);
+                    result = singleton(list.get(0));
+                    setCurrentContext(result);
+                }
+                break;
+            case "last":
+                if (!currentContext.isEmpty()) {
+                    List<FHIRPathNode> list = new ArrayList<>(currentContext);
+                    result = singleton(list.get(list.size() - 1));
+                    setCurrentContext(result);
+                }
+                break;
+            case "skip":
+                result = skip(arguments.get(0));
+                break;
+                
+            case "take":
+                result = limit(arguments.get(0));
                 break;
             }
             
             indentLevel--;
+            return result;
+        }
+        
+        private Collection<FHIRPathNode> limit(ExpressionContext expressionContext) {
+            Integer num = getInteger(visit(expressionContext));
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            currentContext = currentContext.stream().limit(num).collect(Collectors.toList());
+            setCurrentContext(currentContext);
+            return currentContext;
+        }
+
+        private Collection<FHIRPathNode> skip(ExpressionContext expressionContext) {
+            Integer num = getInteger(visit(expressionContext));
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            currentContext = currentContext.stream().skip(num).collect(Collectors.toList());
+            setCurrentContext(currentContext);
+            return currentContext;
+        }
+
+        private Collection<FHIRPathNode> select(ExpressionContext projection) {
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            for (FHIRPathNode node : currentContext) {
+                pushContext(singleton(node));
+                result.addAll(visit(projection));
+                popContext();
+            }
+            return Collections.unmodifiableCollection(result);
+        }
+
+        private Collection<FHIRPathNode> toInteger(FHIRPathPrimitiveValue value) {
+            if (value.isNumberValue() && value.asNumberValue().isIntegerValue()) {
+                return singleton(value);
+            }
+            if (value.isStringValue()) {
+                String string = value.asStringValue().string();
+                try {
+                    Integer integer = Integer.parseInt(string);
+                    return singleton(integerValue(integer));
+                } catch (NumberFormatException e) {
+                    return empty();
+                }
+            }
+            if (value.isBooleanValue()) {
+                Boolean _boolean = value.asBooleanValue()._boolean();
+                return singleton(integerValue(_boolean ? 1 : 0));
+            }            
+            return empty();
+        }
+
+        private Collection<FHIRPathNode> where(ExpressionContext criteria) {
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            for (FHIRPathNode node : currentContext) {
+                pushContext(singleton(node));
+                if (getBoolean(visit(criteria))) {
+                    result.add(node);
+                }
+                popContext();
+            }
             return result;
         }
     
@@ -669,16 +979,13 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitQualifiedIdentifier(FHIRPathParser.QualifiedIdentifierContext ctx) {
             debug(ctx);
-            indentLevel++;
-            Collection<FHIRPathNode> result = visitChildren(ctx);
-            indentLevel--;
-            return result;
+            return singleton(stringValue(ctx.getText()));
         }
     
         @Override
         public Collection<FHIRPathNode> visitIdentifier(FHIRPathParser.IdentifierContext ctx) {
             debug(ctx);
-            return singleton(stringNode(ctx.getChild(0).getText()));
+            return singleton(stringValue(ctx.getChild(0).getText()));
         }
     
         private String indent() {
@@ -691,14 +998,14 @@ public class FHIRPathEvaluator {
     
         private void debug(ParseTree ctx) {
             if (DEBUG) {
-                System.out.println(indent() + ctx.getClass().getName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
+                System.out.println(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
             }
         }
     }
     
     public static void main(String[] args) throws Exception {
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathUtil.eval("(1 + 2).exists()");
+        Collection<FHIRPathNode> result = FHIRPathUtil.eval("'Hello, World!'");
         System.out.println(result);        
     }
 }

@@ -84,7 +84,11 @@ public class FHIRPathEvaluatorTest {
         tree.stream().forEach(FHIRPathTreeBuilderTest::print);
         
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathUtil.eval("name.where(given = 'John')", Collections.singletonList(tree));
-        System.out.println("result: " + result.iterator().next());
+        Collection<FHIRPathNode> result = FHIRPathUtil.eval("name.given.where(getValue() is System.String)", Collections.singletonList(tree));
+        if (!result.isEmpty()) {
+            System.out.println("result: " + result);
+        } else {
+            System.out.println("result is empty");
+        }
     }
 }

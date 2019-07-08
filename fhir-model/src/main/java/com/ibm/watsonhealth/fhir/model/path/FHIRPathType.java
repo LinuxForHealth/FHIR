@@ -310,8 +310,15 @@ public enum FHIRPathType {
         return isAssignableFrom(type.superType);
     }
     
-    public static FHIRPathType from(java.lang.String fullName) {
-        return TYPE_NAME_MAP.get(fullName);
+    public static FHIRPathType from(java.lang.String name) {
+        if (name.contains(".")) {
+            return TYPE_NAME_MAP.get(name);
+        }
+        FHIRPathType type = from("FHIR", name);
+        if (type == null) {
+            type = from("System", name);
+        }
+        return type;
     }
     
     public static FHIRPathType from(java.lang.String namespace, java.lang.String name) {

@@ -13,7 +13,7 @@ public interface FHIRPathNode {
     String name();
     FHIRPathType type();
     boolean hasValue();
-    FHIRPathPrimitiveTypeNode getValue();
+    FHIRPathPrimitiveValue getValue();
     Collection<FHIRPathNode> children();
     Stream<FHIRPathNode> stream();
     Collection<FHIRPathNode> descendants();
@@ -25,7 +25,7 @@ public interface FHIRPathNode {
     default boolean isResourceNode() {
         return false;
     }
-    default boolean isPrimitiveTypeNode() {
+    default boolean isPrimitiveValue() {
         return false;
     }
     default FHIRPathElementNode asElementNode() {
@@ -34,12 +34,12 @@ public interface FHIRPathNode {
     default FHIRPathResourceNode asResourceNode() {
         return as(FHIRPathResourceNode.class);
     }
-    default FHIRPathPrimitiveTypeNode asPrimitiveTypeNode() {
-        return as(FHIRPathPrimitiveTypeNode.class);
+    default FHIRPathPrimitiveValue asPrimitiveValue() {
+        return as(FHIRPathPrimitiveValue.class);
     }
     interface Builder { 
         Builder name(String name);
-        Builder value(FHIRPathPrimitiveTypeNode value);
+        Builder value(FHIRPathPrimitiveValue value);
         Builder children(FHIRPathNode... children);
         Builder children(Collection<FHIRPathNode> children);
         Builder children(Builder builder);

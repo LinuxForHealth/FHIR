@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
-public class FHIRPathResourceNode extends AbstractFHIRPathNode {
+public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     private final Resource resource;
     
     private FHIRPathResourceNode(Builder builder) {
@@ -49,7 +49,7 @@ public class FHIRPathResourceNode extends AbstractFHIRPathNode {
         return new Builder(FHIRPathType.from(resource.getClass()), resource);
     }
     
-    public static class Builder extends AbstractFHIRPathNode.Builder {
+    public static class Builder extends FHIRPathAbstractNode.Builder {
         private final Resource resource;
 
         protected Builder(FHIRPathType type, Resource resource) {

@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import com.ibm.watsonhealth.fhir.model.type.Element;
 
-public class FHIRPathElementNode extends AbstractFHIRPathNode {
+public class FHIRPathElementNode extends FHIRPathAbstractNode {
     private final Element element;
     
     private FHIRPathElementNode(Builder builder) {
@@ -49,7 +49,7 @@ public class FHIRPathElementNode extends AbstractFHIRPathNode {
         return new Builder(FHIRPathType.from(element.getClass()), element);
     }
     
-    public static class Builder extends AbstractFHIRPathNode.Builder {
+    public static class Builder extends FHIRPathAbstractNode.Builder {
         private final Element element;
 
         protected Builder(FHIRPathType type, Element element) {
@@ -61,7 +61,7 @@ public class FHIRPathElementNode extends AbstractFHIRPathNode {
             return (Builder) super.name(name);
         }
         
-        public Builder value(FHIRPathPrimitiveTypeNode value) {
+        public Builder value(FHIRPathPrimitiveValue value) {
             return (Builder) super.value(value);
         }
         
