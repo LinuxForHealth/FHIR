@@ -127,11 +127,12 @@ public class FHIRPathEvaluator {
             return nodes.iterator().next();
         }
 
+        
         private void setCurrentContext(Collection<FHIRPathNode> context) {
             popContext();
-            System.out.println("setCurrentContext: " + context);
             pushContext(context);
         }
+        
         
         private Collection<FHIRPathNode> singleton(FHIRPathNode node) {
             return singletonList(node);
@@ -211,31 +212,43 @@ public class FHIRPathEvaluator {
             
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
-            
-            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
-                indentLevel--;
-                return empty();
-            }
 
             Collection<FHIRPathNode> result = empty();
             
-            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
-            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
-            
             String operator = ctx.getChild(1).getText();
             
-            if (leftValue.isNumberValue() && rightValue.isNumberValue()) {            
-                switch (operator) {
-                case "+":
-                    result = singleton(leftValue.asNumberValue().add(rightValue.asNumberValue()));
-                    break;
-                case "-":
-                    result = singleton(leftValue.asNumberValue().subtract(rightValue.asNumberValue()));
-                    break;
+            if (hasPrimitiveValue(left) && hasPrimitiveValue(right)) {
+                FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+                FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+                
+                if (leftValue.isNumberValue() && rightValue.isNumberValue()) {            
+                    switch (operator) {
+                    case "+":
+                        result = singleton(leftValue.asNumberValue().add(rightValue.asNumberValue()));
+                        break;
+                    case "-":
+                        result = singleton(leftValue.asNumberValue().subtract(rightValue.asNumberValue()));
+                        break;
+                    }
+                } else if (leftValue.isStringValue() && rightValue.isStringValue() && ("+".equals(operator) || "&".equals(operator))) {
+                    // concatenation
+                    result = singleton(leftValue.asStringValue().concat(rightValue.asStringValue()));
                 }
-            } else if (leftValue.isStringValue() && rightValue.isStringValue() && "+".equals(operator)) {
-                // concatenation
-                result = singleton(leftValue.asStringValue().concat(rightValue.asStringValue()));
+            } else if ("&".equals(operator)) {
+                // concatenation where an empty collection is treated as an empty string
+                if (hasPrimitiveValue(left) && right.isEmpty()) {
+                    FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+                    if (leftValue.isStringValue()) {
+                        result = singleton(leftValue.asStringValue().concat(stringValue("")));
+                    }
+                } else if (left.isEmpty() && hasPrimitiveValue(right)) {
+                    FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+                    if (left.isEmpty()) {
+                        result = singleton(stringValue("").concat(rightValue.asStringValue()));
+                    }
+                } else if (left.isEmpty() && right.isEmpty()) {
+                    result = singleton(stringValue(""));
+                }
             }
                                     
             indentLevel--;
@@ -424,17 +437,17 @@ public class FHIRPathEvaluator {
 
             if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
                 switch (operator) {
+                case "<=":
+                    result = singleton(booleanValue(leftValue.asNumberValue().lessThanOrEqual(rightValue.asNumberValue())));
+                    break;
+                case "<":
+                    result = singleton(booleanValue(leftValue.asNumberValue().lessThan(rightValue.asNumberValue())));
+                    break;
                 case ">":
                     result = singleton(booleanValue(leftValue.asNumberValue().greaterThan(rightValue.asNumberValue())));
                     break;
                 case ">=":
                     result = singleton(booleanValue(leftValue.asNumberValue().greaterThanOrEqual(rightValue.asNumberValue())));
-                    break;
-                case "<":
-                    result = singleton(booleanValue(leftValue.asNumberValue().lessThan(rightValue.asNumberValue())));
-                    break;
-                case "<=":
-                    result = singleton(booleanValue(leftValue.asNumberValue().lessThanOrEqual(rightValue.asNumberValue())));
                     break;
                 }
             }
@@ -451,8 +464,9 @@ public class FHIRPathEvaluator {
             debug(ctx);
             indentLevel++;
             
-            setCurrentContext(visit(ctx.expression()));
+            pushContext(visit(ctx.expression()));            
             Collection<FHIRPathNode> result = visit(ctx.invocation());
+            popContext();
             
             indentLevel--;
             return result;
@@ -556,7 +570,7 @@ public class FHIRPathEvaluator {
                     break;
                 }
             }
-                        
+                                    
             indentLevel--;
             return result;
         }
@@ -723,14 +737,13 @@ public class FHIRPathEvaluator {
             
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             String identifier = getString(visit(ctx.identifier()));
-            currentContext = currentContext.stream()
+            Collection<FHIRPathNode> result = currentContext.stream()
                     .flatMap(node -> node.children().stream())
                     .filter(node -> identifier.equals(node.name()))
-                    .collect(Collectors.toList());
-            setCurrentContext(currentContext);
+                    .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableCollection));
             
             indentLevel--;
-            return currentContext;
+            return result;
         }
     
         /**
@@ -805,6 +818,14 @@ public class FHIRPathEvaluator {
             case "select":
                 result = select(arguments.get(0));
                 break;
+            case "hasValue":
+                if (isSingleton(currentContext)) {
+                    FHIRPathNode node = getSingleton(currentContext);
+                    if (node.isElementNode()) {
+                        result = singleton(booleanValue(node.asElementNode().hasValue()));
+                    }
+                }
+                break;
             case "getValue":
                 if (isSingleton(currentContext)) {
                     FHIRPathNode node = getSingleton(currentContext);
@@ -812,6 +833,22 @@ public class FHIRPathEvaluator {
                         result = singleton(node.asElementNode().getValue());
                         setCurrentContext(result);
                     }
+                }
+                break;
+            case "children":
+                if (!currentContext.isEmpty()) {
+                    result = isSingleton(currentContext) ? getSingleton(currentContext).children() : currentContext.stream()
+                        .flatMap(node -> node.children().stream())
+                        .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableCollection));
+                    setCurrentContext(result);
+                }
+                break;
+            case "descendants":
+                if (!currentContext.isEmpty()) {
+                    result = isSingleton(currentContext) ? getSingleton(currentContext).children() : currentContext.stream()
+                        .flatMap(node -> node.descendants().stream())
+                        .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableCollection));
+                    setCurrentContext(result);
                 }
                 break;
             case "toInteger":
@@ -822,6 +859,7 @@ public class FHIRPathEvaluator {
                 break;
             case "exists":
                 result = singleton(booleanValue(!currentContext.isEmpty()));
+                setCurrentContext(result);
                 break;
             case "empty":
                 result = singleton(booleanValue(currentContext.isEmpty()));
@@ -865,7 +903,7 @@ public class FHIRPathEvaluator {
         private Collection<FHIRPathNode> limit(ExpressionContext expressionContext) {
             Integer num = getInteger(visit(expressionContext));
             Collection<FHIRPathNode> currentContext = getCurrentContext();
-            currentContext = currentContext.stream().limit(num).collect(Collectors.toList());
+            currentContext = currentContext.stream().limit(num).collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableCollection));
             setCurrentContext(currentContext);
             return currentContext;
         }
@@ -873,7 +911,7 @@ public class FHIRPathEvaluator {
         private Collection<FHIRPathNode> skip(ExpressionContext expressionContext) {
             Integer num = getInteger(visit(expressionContext));
             Collection<FHIRPathNode> currentContext = getCurrentContext();
-            currentContext = currentContext.stream().skip(num).collect(Collectors.toList());
+            currentContext = currentContext.stream().skip(num).collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableCollection));
             setCurrentContext(currentContext);
             return currentContext;
         }
@@ -919,7 +957,7 @@ public class FHIRPathEvaluator {
                 }
                 popContext();
             }
-            return result;
+            return Collections.unmodifiableCollection(result);
         }
     
         @Override
@@ -1005,7 +1043,7 @@ public class FHIRPathEvaluator {
     
     public static void main(String[] args) throws Exception {
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathUtil.eval("'Hello, World!'");
+        Collection<FHIRPathNode> result = FHIRPathUtil.eval("((1 + 2) | (3 + 4) | (5 + 6)).count() + 5");
         System.out.println(result);        
     }
 }

@@ -71,11 +71,6 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-        
-        @Override
-        public Builder children(FHIRPathNode.Builder builder) {
-            return this;
-        }
 
         @Override
         public FHIRPathDecimalValue build() {
@@ -167,5 +162,10 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
     @Override
     public FHIRPathNumberValue plus() {
         return this;
+    }
+    
+    @Override
+    public String toString() {
+        return decimal.toPlainString();
     }
 }

@@ -70,11 +70,6 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-        
-        @Override
-        public Builder children(FHIRPathNode.Builder builder) {
-            return this;
-        }
 
         @Override
         public FHIRPathBooleanValue build() {

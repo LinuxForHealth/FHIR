@@ -71,11 +71,6 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-        
-        @Override
-        public Builder children(FHIRPathNode.Builder builder) {
-            return this;
-        }
 
         @Override
         public FHIRPathDateTimeValue build() {

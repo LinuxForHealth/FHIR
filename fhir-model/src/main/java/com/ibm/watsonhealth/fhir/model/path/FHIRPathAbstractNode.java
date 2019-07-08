@@ -113,12 +113,6 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
             this.children.addAll(children);
             return this;
         }
-        
-        @Override
-        public Builder children(FHIRPathNode.Builder builder) {
-            this.children.add(builder.build());
-            return this;
-        }
 
         @Override
         public abstract FHIRPathNode build();

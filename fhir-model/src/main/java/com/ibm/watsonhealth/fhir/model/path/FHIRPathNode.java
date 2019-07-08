@@ -42,7 +42,6 @@ public interface FHIRPathNode {
         Builder value(FHIRPathPrimitiveValue value);
         Builder children(FHIRPathNode... children);
         Builder children(Collection<FHIRPathNode> children);
-        Builder children(Builder builder);
         FHIRPathNode build();
     }
 }

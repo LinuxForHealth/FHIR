@@ -72,10 +72,6 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         public Builder children(Collection<FHIRPathNode> children) {
             return (Builder) super.children(children);
         }
-        
-        public Builder children(FHIRPathNode.Builder builder) {
-            return (Builder) super.children(builder);
-        }
 
         @Override
         public FHIRPathElementNode build() {
@@ -101,5 +97,12 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     @Override
     public int hashCode() {
         return Objects.hashCode(element);
+    }
+    
+    public String toString() {
+        if (hasValue()) {
+            return value.toString();
+        }
+        return super.toString();
     }
 }

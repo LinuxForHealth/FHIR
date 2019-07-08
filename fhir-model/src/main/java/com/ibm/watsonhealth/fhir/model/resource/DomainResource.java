@@ -59,7 +59,7 @@ import com.ibm.watsonhealth.fhir.model.type.Uri;
     level = "Warning",
     location = "(base)",
     description = "A resource should have narrative for robust management",
-    expression = "text.div.exists()"
+    expression = "text.`div`.exists()"
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public abstract class DomainResource extends Resource {

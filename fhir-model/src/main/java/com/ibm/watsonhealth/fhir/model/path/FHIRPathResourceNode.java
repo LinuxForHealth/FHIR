@@ -68,10 +68,6 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
         public Builder children(Collection<FHIRPathNode> children) {
             return (Builder) super.children(children);
         }
-        
-        public Builder children(FHIRPathNode.Builder builder) {
-            return (Builder) super.children(builder);
-        }
 
         @Override
         public FHIRPathResourceNode build() {

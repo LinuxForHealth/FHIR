@@ -74,11 +74,6 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-        
-        @Override
-        public Builder children(FHIRPathNode.Builder builder) {
-            return this;
-        }
 
         @Override
         public FHIRPathStringValue build() {
@@ -104,5 +99,10 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     @Override
     public int hashCode() {
         return Objects.hashCode(string);
+    }
+    
+    @Override
+    public String toString() {
+        return string;
     }
 }

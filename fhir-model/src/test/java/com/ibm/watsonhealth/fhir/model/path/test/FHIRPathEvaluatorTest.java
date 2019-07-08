@@ -78,10 +78,14 @@ public class FHIRPathEvaluatorTest {
         
         FHIRGenerator.generator(Format.JSON, true).generate(patient, out);
         
+        System.out.println("");
+        
         FHIRPathTreeBuilder builder = new FHIRPathTreeBuilder(patient);
-        builder.build();
-        FHIRPathNode tree = builder.getTree();
+        FHIRPathNode tree = builder.build();
         tree.stream().forEach(FHIRPathTreeBuilderTest::print);
+        
+        FHIRPathNode node = builder.getPathNodeMap().get("Patient.id.extension[0]");
+        System.out.println("node: " + node + ", name: " + node.name() + ", class: " + node.getClass());
         
         FHIRPathEvaluator.DEBUG = true;
         Collection<FHIRPathNode> result = FHIRPathUtil.eval("name.given.where(getValue() is System.String)", Collections.singletonList(tree));

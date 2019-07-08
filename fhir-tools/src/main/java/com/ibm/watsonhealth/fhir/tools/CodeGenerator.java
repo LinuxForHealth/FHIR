@@ -1014,7 +1014,7 @@ public class CodeGenerator {
             valueMap.put("level", "error".equals(severity) ? "Rule" : "Warning");
             valueMap.put("location", path.equals(name) ? "(base)" : path);
             valueMap.put("description", human.replace("\"", "\\\""));
-            valueMap.put("expression", expression.replace("\"", "\\\""));
+            valueMap.put("expression", expression.replace("\"", "\\\"").replace("div", "`div`"));
             cb.annotation("Constraint", valueMap);
         }
     }
