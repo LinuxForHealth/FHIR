@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.operation.util;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +33,9 @@ public class FHIROperationUtil {
                         List<String> values = queryParameters.get(name);
                         if (values != null) {
                             String value = values.get(0);                           
-                            Parameter.Builder parameterBuilder = Parameter.builder(com.ibm.watsonhealth.fhir.model.type.String.of(name));
+                            Parameter.Builder parameterBuilder = Parameter.builder(string(name));
                             if ("string".equals(typeName)) {
-                              parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.String.of(value));
+                              parameterBuilder.value(string(value));
                             } else if ("boolean".equals(typeName)) {
                               parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(value));
                             } else if ("decimal".equals(typeName)) {
@@ -62,7 +64,7 @@ public class FHIROperationUtil {
             String parameterTypeName = parameterDefinition.getType().getValue();
             String resourceTypeName = resource.getClass().getSimpleName();
             if ((resourceTypeName.equals(parameterTypeName) || "Resource".equals(parameterTypeName)) && OperationParameterUse.IN.getValue().equals(parameterDefinition.getUse().getValue())) {              
-                Parameter.Builder parameterBuilder = Parameter.builder(com.ibm.watsonhealth.fhir.model.type.String.of(parameterDefinition.getName().getValue()));
+                Parameter.Builder parameterBuilder = Parameter.builder(string(parameterDefinition.getName().getValue()));
                 
           //      ResourceContainer container = factory.createResourceContainer();
           //      FHIRUtil.setResourceContainerResource(container, resource);
@@ -83,7 +85,7 @@ public class FHIROperationUtil {
 //        parameter.setResource(container);
         /* TODO  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
         /* So, assume we always want the resource itself instead the wrapping ResourceContainer */    
-        parametersBuilder.parameter(Parameter.builder(com.ibm.watsonhealth.fhir.model.type.String.of("return")).resource(resource).build());
+        parametersBuilder.parameter(Parameter.builder(string("return")).resource(resource).build());
 
         return parametersBuilder.build();
     }

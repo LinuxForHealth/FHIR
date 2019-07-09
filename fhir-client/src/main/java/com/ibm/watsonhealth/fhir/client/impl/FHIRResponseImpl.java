@@ -14,7 +14,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  * An implementation of the FHIRResponse interface which exposes the results

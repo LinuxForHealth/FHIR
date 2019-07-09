@@ -13,11 +13,11 @@ import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.ValuePrefix;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.BundleType;
 
 /**
  * This class is sample code that demonstrates the use of the FHIR Server's Client API.
@@ -36,11 +36,9 @@ public class FHIRClientSample {
         
         // Retrieve an instance of the FHIRClient interface.
         FHIRClient client = FHIRClientFactory.getClient(clientProperties);
-        
-        ObjectFactory objFactory = new ObjectFactory();
-        
+                
         // Create and initialize patient.
-        Patient patient = objFactory.createPatient();
+        Patient patient = Patient.builder().build();
         // patient.set...
         
         // 1) Persist the patient and then display its location URI (e.g. "Patient/123/_history/1").
@@ -81,7 +79,7 @@ public class FHIRClientSample {
         // Check status code, retrieve OperationOutcome response resource, etc.
         
         // 7) Invoke a batch request.
-        Bundle bundle = objFactory.createBundle();
+        Bundle bundle = Bundle.builder(BundleType.BATCH).build();
         // Initialize bundle by adding individual operations (read, vread, create, update, etc.)
         
         response = client.batch(bundle);

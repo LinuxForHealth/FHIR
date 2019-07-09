@@ -41,11 +41,10 @@ import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.BundleType;
-import com.ibm.watsonhealth.fhir.model.BundleTypeList;
-import com.ibm.watsonhealth.fhir.model.Parameters;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.resource.Parameters;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 
@@ -509,7 +508,7 @@ public class FHIRClientImpl implements FHIRClient {
         if (bundle == null) {
             throw new IllegalArgumentException("The 'bundle' argument is required but was null.");
         }
-        return _bundle(bundle, BundleTypeList.BATCH, headers);
+        return _bundle(bundle, BundleType.BATCH, headers);
     }
 
     /*
@@ -521,7 +520,7 @@ public class FHIRClientImpl implements FHIRClient {
         if (bundle == null) {
             throw new IllegalArgumentException("The 'bundle' argument is required but was null.");
         }
-        return _bundle(bundle, BundleTypeList.TRANSACTION, headers);
+        return _bundle(bundle, BundleType.TRANSACTION, headers);
     }
 
     /*
@@ -711,10 +710,11 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    private FHIRResponse _bundle(Bundle bundle, BundleTypeList bundleType, FHIRRequestHeader... headers) throws Exception {
-        bundle.setType(new BundleType().withValue(bundleType));
+    private FHIRResponse _bundle(Bundle bundle, BundleType bundleType, FHIRRequestHeader... headers) throws Exception {
+        Bundle bundleNew = bundle.toBuilder(bundleType).build();
+        
         WebTarget endpoint = getWebTarget();
-        Entity<Bundle> entity = Entity.entity(bundle, getDefaultMimeType());
+        Entity<Bundle> entity = Entity.entity(bundleNew, getDefaultMimeType());
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);

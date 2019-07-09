@@ -6,7 +6,10 @@
 
 package com.ibm.watsonhealth.fhir.client.test.mains;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.quantity;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
+
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -15,9 +18,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.Observation.Component;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 
 public class UpdateTestMain {
@@ -32,7 +36,11 @@ public class UpdateTestMain {
         Observation observation = response.readEntity(Observation.class);
         FHIRUtil.write(observation, Format.JSON, System.out);
         
-        observation.getComponent().get(0).setValueQuantity(quantity(120.0, "mmHg"));
+        
+        Component componentNew = observation.getComponent().get(0).toBuilder()
+            .value(Quantity.builder().value(Decimal.of(120)).unit(string("mmHg")).build()).build(); 
+        
+        observation.getComponent().set(0, componentNew);
         
         Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_JSON_FHIR);
         response = target.path("Observation/14").request().put(observationEntity);

@@ -12,9 +12,9 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 
 public class Main {

@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.cli.invoker;
 
 import javax.json.JsonObject;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  * This class is the OperationInvoker implementation for the 'update' operation.

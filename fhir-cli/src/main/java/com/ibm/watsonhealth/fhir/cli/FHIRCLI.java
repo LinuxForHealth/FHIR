@@ -45,9 +45,9 @@ import com.ibm.watsonhealth.fhir.cli.invoker.UpdateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.ValidateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.VreadInvoker;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 
 /**
  * This class provides a command-line interface (CLI) to the FHIR Client API, allowing

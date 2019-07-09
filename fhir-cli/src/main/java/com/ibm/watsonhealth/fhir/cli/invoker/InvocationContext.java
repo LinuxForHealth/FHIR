@@ -16,9 +16,9 @@ import java.util.Properties;
 
 import com.ibm.watsonhealth.fhir.cli.Operations;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 
 /**
  * This class serves as a holder of context information for a particular operation invocation.

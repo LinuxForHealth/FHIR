@@ -18,6 +18,7 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.StringWriter;
 import java.net.URI;
@@ -2087,17 +2088,17 @@ public class FHIRResource implements FHIRResourceHelpers {
                         List<OperationOutcome.Issue> issues = FHIRValidator.getInstance().validate(resource, isUserDefinedSchematronEnabled());
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
-                            response = Bundle.Entry.Response.builder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(SC_BAD_REQUEST))).build();
+                            response = Bundle.Entry.Response.builder(string(Integer.toString(SC_BAD_REQUEST))).build();
                             responseEntry = Bundle.Entry.builder().response(response).resource(oo).build();
                             numErrors++;
                             continue;
                         }
                     }
-                    response = Bundle.Entry.Response.builder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(SC_OK))).build();
+                    response = Bundle.Entry.Response.builder(string(Integer.toString(SC_OK))).build();
                     responseEntry = Bundle.Entry.builder().response(response).build();                  
                 } catch (FHIROperationException e) {
                     log.log(Level.INFO, "Failed to process BundleEntry [" + bundle.getEntry().indexOf(requestEntry) + "]", e);
-                    response = Bundle.Entry.Response.builder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(SC_BAD_REQUEST))).build();
+                    response = Bundle.Entry.Response.builder(string(Integer.toString(SC_BAD_REQUEST))).build();
                     responseEntry = Bundle.Entry.builder().response(response).resource(FHIRUtil.buildOperationOutcome(e, false)).build();
                     numErrors++;
                 } finally {    
@@ -2405,7 +2406,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         // Save the results of the operation in the bundle response field.
                         
-                        Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(httpStatus)));                                           
+                        Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(httpStatus)));                                           
                         setBundleResponseStatus(response, httpStatus, requestDescription.toString(), initialTime);
                         
                         requestBundle.getEntry().remove(entryIndex.intValue());
@@ -2443,7 +2444,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
                             }
                             
-                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(SC_OK)));                                           
+                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_OK)));                                           
 
                             requestBundle.getEntry().remove(entryIndex.intValue());
                             requestBundle.getEntry().add(responseEntryBuilder.resource(result).response(responseBuilder.build()).build());
@@ -2455,7 +2456,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             Bundle searchResults = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, requestProperties, null);
                             
                             // Save the results of the operation in the bundle response field.
-                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(SC_OK)));                                           
+                            Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_OK)));                                           
                             
                             requestBundle.getEntry().remove(entryIndex.intValue());
                             requestBundle.getEntry().add(responseEntryBuilder.resource(searchResults).response(responseBuilder.build()).build());
@@ -2575,7 +2576,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
                     }
                 } catch (FHIRHttpException e) {
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(e.getHttpStatus().getStatusCode())));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(e.getHttpStatus().getStatusCode())));                                           
                     
                     requestBundle.getEntry().remove(entryIndex.intValue());
                     requestBundle.getEntry().add(responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
@@ -2589,7 +2590,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             .withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceNotFoundException e) {
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(SC_NOT_FOUND)));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_NOT_FOUND)));                                           
                     
                     requestBundle.getEntry().remove(entryIndex.intValue());
                     requestBundle.getEntry().add(responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
@@ -2602,7 +2603,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             .withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(SC_GONE)));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(SC_GONE)));                                           
                     
                     requestBundle.getEntry().remove(entryIndex.intValue());
                     requestBundle.getEntry().add(responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
@@ -2617,7 +2618,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 } catch (FHIROperationException e) {
                     Status status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
                     
-                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(status.getStatusCode())));                                           
+                    Bundle.Entry.Response.Builder responseBuilder = response.toBuilder(string(Integer.toString(status.getStatusCode())));                                           
                     
                     requestBundle.getEntry().remove(entryIndex.intValue());
                     requestBundle.getEntry().add(responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
@@ -2863,7 +2864,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 }
                 
                 //TODO After the Reference implementation become mutable, then uncomment this following line. 
-           //     ref.setReference(com.ibm.watsonhealth.fhir.model.type.String.of(externalRef));
+           //     ref.setReference(string(externalRef));
                 log.finer("Convert local ref '" + refValue + "' to external ref '" + externalRef + "'.");
             }
         }
@@ -2887,14 +2888,14 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private Bundle.Entry setBundleResponseFields(Bundle.Entry responseEntry, Resource resource, URI locationURI, int httpStatus, String requestDescription, long initialTime) throws FHIROperationException {
         Bundle.Entry.Response response = responseEntry.getResponse();        
-        Bundle.Entry.Response.Builder resBuilder = response.toBuilder(com.ibm.watsonhealth.fhir.model.type.String.of(Integer.toString(httpStatus)));
+        Bundle.Entry.Response.Builder resBuilder = response.toBuilder(string(Integer.toString(httpStatus)));
         
         Bundle.Entry.Builder bundleEntryBuilder = responseEntry.toBuilder();
         
         if (resource != null) {
             resBuilder = resBuilder.id(resource.getId().getValue())
             .lastModified(resource.getMeta().getLastUpdated())
-            .etag(com.ibm.watsonhealth.fhir.model.type.String.of(getEtagValue(resource)));
+            .etag(string(getEtagValue(resource)));
 
             bundleEntryBuilder = bundleEntryBuilder.resource(resource);
 
@@ -3109,7 +3110,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         CapabilityStatement.Rest.Security restSecurity =  CapabilityStatement.Rest.Security.builder()
                 .service(CodeableConcept.builder().coding(Coding.builder().code(Code.of("SMART-on-FHIR"))
                         .system(Uri.of("http://hl7.org/fhir/restful-security-service")).build())
-                        .text(com.ibm.watsonhealth.fhir.model.type.String.of("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")).build())
+                        .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")).build())
                 .extension(Extension.builder("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
                         .extension(Extension.builder("token").value(Url.of(tokenURL)).build(), 
                                 Extension.builder("authorize").value(Url.of(authURL)).build(), 
@@ -3134,13 +3135,13 @@ public class FHIRResource implements FHIRResourceHelpers {
         CapabilityStatement conformance = CapabilityStatement.builder(PublicationStatus.ACTIVE, DateTime.of(java.time.Instant.now()), 
                 CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.INSTANCE), 
                 FHIRVersion.VERSION_4_0_0, format)
-                .version(com.ibm.watsonhealth.fhir.model.type.String.of(buildInfo.getBuildVersion()))
-                .name(com.ibm.watsonhealth.fhir.model.type.String.of(FHIR_SERVER_NAME))
+                .version(string(buildInfo.getBuildVersion()))
+                .name(string(FHIR_SERVER_NAME))
                 .description(com.ibm.watsonhealth.fhir.model.type.Markdown.of(buildDescription))
                 .copyright(com.ibm.watsonhealth.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT))
-                .publisher(com.ibm.watsonhealth.fhir.model.type.String.of("IBM Corporation"))
-                .software(CapabilityStatement.Software.builder(com.ibm.watsonhealth.fhir.model.type.String.of(FHIR_SERVER_NAME))
-                        .version(com.ibm.watsonhealth.fhir.model.type.String.of(buildInfo.getBuildVersion()))
+                .publisher(string("IBM Corporation"))
+                .software(CapabilityStatement.Software.builder(string(FHIR_SERVER_NAME))
+                        .version(string(buildInfo.getBuildVersion()))
                         .id(buildInfo.getBuildId()).build())
                 .rest(rest)
                 .build() ;   
@@ -3156,7 +3157,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     
     private void addExtensionElements(CapabilityStatement capabilityStatement) throws Exception {
         Extension extension = Extension.builder(EXTENSION_URL + "/defaultTenantId")
-                .value(com.ibm.watsonhealth.fhir.model.type.String.of(fhirConfig
+                .value(string(fhirConfig
                         .getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID))).build();
         capabilityStatement.getExtension().add(extension);
         
@@ -3174,7 +3175,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         capabilityStatement.getExtension().add(extension);  
         
         extension = Extension.builder(EXTENSION_URL + "/allowableVirtualResourceTypes")
-                .value(com.ibm.watsonhealth.fhir.model.type.String.of(getAllowableVirtualResourceTypes()
+                .value(string(getAllowableVirtualResourceTypes()
                         .toString().replace("[", "").replace("]", "").replace(" ", ""))).build();
         capabilityStatement.getExtension().add(extension);
         
@@ -3195,7 +3196,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
         
         extension = Extension.builder(EXTENSION_URL + "/notificationResourceTypes")
-                .value(com.ibm.watsonhealth.fhir.model.type.String.of(notificationResourceTypes)).build();
+                .value(string(notificationResourceTypes)).build();
         capabilityStatement.getExtension().add(extension);
         
         String auditLogServiceName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_CLASS_NAME);
@@ -3209,19 +3210,19 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
         
         extension = Extension.builder(EXTENSION_URL + "/auditLogServiceName")
-                .value(com.ibm.watsonhealth.fhir.model.type.String.of(auditLogServiceName)).build();
+                .value(string(auditLogServiceName)).build();
         capabilityStatement.getExtension().add(extension);
         
 
         PropertyGroup auditLogProperties = fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
         String auditLogPropertiesString = auditLogProperties != null ? auditLogProperties.toString() : "<not specified>";
         extension = Extension.builder(EXTENSION_URL + "/auditLogProperties")
-                .value(com.ibm.watsonhealth.fhir.model.type.String.of(auditLogPropertiesString)).build();
+                .value(string(auditLogPropertiesString)).build();
         capabilityStatement.getExtension().add(extension);
         
         
         extension = Extension.builder(EXTENSION_URL + "/persistenceType")
-                .value(com.ibm.watsonhealth.fhir.model.type.String.of(getPersistenceImpl().getClass().getSimpleName())).build();
+                .value(string(getPersistenceImpl().getClass().getSimpleName())).build();
         capabilityStatement.getExtension().add(extension);
         
     }
@@ -3392,7 +3393,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             selfUri = requestUri;
         }
         // create 'self' link
-        Bundle.Link selfLink = Bundle.Link.builder(com.ibm.watsonhealth.fhir.model.type.String.of("self"), Url.of(selfUri)).build();
+        Bundle.Link selfLink = Bundle.Link.builder(string("self"), Url.of(selfUri)).build();
         bundle.getLink().add(selfLink);
         
         int nextPageNumber = context.getPageNumber() + 1;
@@ -3420,7 +3421,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             nextLinkUrl += "_page=" + nextPageNumber;
             
             // create 'next' link
-            Bundle.Link nextLink = Bundle.Link.builder(com.ibm.watsonhealth.fhir.model.type.String.of("next"), Url.of(nextLinkUrl)).build();
+            Bundle.Link nextLink = Bundle.Link.builder(string("next"), Url.of(nextLinkUrl)).build();
             bundle.getLink().add(nextLink);
         }
         
@@ -3449,7 +3450,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             prevLinkUrl += "_page=" + prevPageNumber;
             
             // create 'previous' link
-            Bundle.Link prevLink = Bundle.Link.builder(com.ibm.watsonhealth.fhir.model.type.String.of("previous"), Url.of(prevLinkUrl)).build();
+            Bundle.Link prevLink = Bundle.Link.builder(string("previous"), Url.of(prevLinkUrl)).build();
             bundle.getLink().add(prevLink);
         }
     }
@@ -3459,7 +3460,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet type, String msg) {
         return OperationOutcome.Issue.builder(IssueSeverity.of(severity), IssueType.of(type))
-                .diagnostics(com.ibm.watsonhealth.fhir.model.type.String.of(msg)).build(); 
+                .diagnostics(string(msg)).build(); 
         
     }
     

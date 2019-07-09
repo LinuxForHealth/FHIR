@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.cli.invoker;
 
-import com.ibm.watsonhealth.fhir.model.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 
 /**
  * This class is the OperationInvoker implementation for the 'transaction' operation.

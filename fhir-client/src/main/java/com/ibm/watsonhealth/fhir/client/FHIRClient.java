@@ -9,8 +9,8 @@ package com.ibm.watsonhealth.fhir.client;
 import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  * This interface provides a client API for invoking the FHIR Server's REST API.
