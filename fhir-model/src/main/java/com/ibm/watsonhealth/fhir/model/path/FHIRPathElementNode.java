@@ -101,7 +101,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     
     public String toString() {
         if (hasValue()) {
-            return value.toString();
+            return type() + ": " + value.toString();
         }
         return super.toString();
     }

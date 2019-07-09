@@ -8,16 +8,12 @@ package com.ibm.watsonhealth.fhir.model.path.test;
 
 import java.io.FilterOutputStream;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Date;
@@ -29,7 +25,7 @@ import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
 
-public class FHIRPathEvaluatorTest {
+public class FHIRPathTreeTest {
     public static void main(java.lang.String[] args) throws Exception {
         Id id = Id.builder().value(UUID.randomUUID().toString())
                 .extension(Extension.builder("http://www.ibm.com/someExtension")
@@ -79,21 +75,12 @@ public class FHIRPathEvaluatorTest {
         FHIRGenerator.generator(Format.JSON, true).generate(patient, out);
         
         System.out.println("");
-        
         FHIRPathTree.DEBUG = true;
         FHIRPathTree tree = FHIRPathTree.tree(patient);
-        FHIRPathNode root = tree.getRoot();
-        root.stream().forEach(FHIRPathTreeTest::print);
-        
-        FHIRPathNode node = tree.getNode("Patient.id.extension[0]");
-        System.out.println("node: " + node + ", name: " + node.name() + ", class: " + node.getClass().getSimpleName());
-        
-        FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathUtil.eval("id.extension.value.getValue()", Collections.singletonList(root));
-        if (!result.isEmpty()) {
-            System.out.println("result: " + result);
-        } else {
-            System.out.println("result is empty");
-        }
+        tree.getRoot().stream().forEach(FHIRPathTreeTest::print);
+    }
+    
+    public static void print(FHIRPathNode node) {
+        System.out.println("name: " + node.name() + ", type: " + node.type() + ", class: " + node.getClass().getSimpleName());
     }
 }

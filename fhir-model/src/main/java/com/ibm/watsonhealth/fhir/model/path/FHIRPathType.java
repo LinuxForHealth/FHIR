@@ -25,6 +25,7 @@ public enum FHIRPathType {
     FHIR_DOMAIN_RESOURCE("FHIR", "DomainResource", FHIR_RESOURCE, DomainResource.class),
     FHIR_ELEMENT("FHIR", "Element", FHIR_ANY, Element.class),
     FHIR_BACKBONE_ELEMENT("FHIR", "BackboneElement", FHIR_ELEMENT, BackboneElement.class),
+    FHIR_TYPE("FHIR", "Type"),
     
     // FHIR complex data types
     FHIR_ADDRESS("FHIR", "Address", FHIR_ELEMENT, Address.class),
@@ -238,7 +239,6 @@ public enum FHIRPathType {
     FHIR_VALUE_SET("FHIR", "ValueSet", FHIR_DOMAIN_RESOURCE, ValueSet.class),
     FHIR_VERIFICATION_RESULT("FHIR", "VerificationResult", FHIR_DOMAIN_RESOURCE, VerificationResult.class),
     FHIR_VISION_PRESCRIPTION("FHIR", "VisionPrescription", FHIR_DOMAIN_RESOURCE, VisionPrescription.class),
-    FHIR_TYPE("FHIR", "Type"),
     
     // FHIRPath system types
     SYSTEM_ANY("System", "Any"),

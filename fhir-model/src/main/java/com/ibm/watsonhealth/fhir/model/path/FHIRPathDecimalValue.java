@@ -135,6 +135,16 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
     }
     
     @Override
+    public FHIRPathNumberValue negate() {
+        return decimalValue(decimal.negate());
+    }
+
+    @Override
+    public FHIRPathNumberValue plus() {
+        return this;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -154,16 +164,6 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
         return Objects.hashCode(decimal);
     }
 
-    @Override
-    public FHIRPathNumberValue negate() {
-        return decimalValue(decimal.negate());
-    }
-
-    @Override
-    public FHIRPathNumberValue plus() {
-        return this;
-    }
-    
     @Override
     public String toString() {
         return decimal.toPlainString();
