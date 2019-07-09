@@ -6,41 +6,32 @@
 
 package com.ibm.watsonhealth.fhir.model.validation;
 
-import java.io.FilterOutputStream;
-import java.time.LocalDate;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 import java.util.StringJoiner;
-import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
-import com.ibm.watsonhealth.fhir.model.format.Format;
-import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
-import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.type.Boolean;
-import com.ibm.watsonhealth.fhir.model.type.Date;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.type.Extension;
-import com.ibm.watsonhealth.fhir.model.type.HumanName;
-import com.ibm.watsonhealth.fhir.model.type.Id;
-import com.ibm.watsonhealth.fhir.model.type.Instant;
-import com.ibm.watsonhealth.fhir.model.type.Integer;
-import com.ibm.watsonhealth.fhir.model.type.Meta;
-import com.ibm.watsonhealth.fhir.model.type.String;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.validation.exception.FHIRValidationException;
 import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
-import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 public class FHIRValidator {
     public static boolean DEBUG = false;
@@ -51,8 +42,8 @@ public class FHIRValidator {
         this.tree = Objects.requireNonNull(tree);
     }
     
-    public void validate() throws FHIRValidationException {
-        Visitor visitor = new ValidatingVisitor(tree);
+    public List<Issue> validate() throws FHIRValidationException {
+        ValidatingVisitor visitor = new ValidatingVisitor(tree);
         FHIRPathNode root = tree.getRoot();
         if (root.isResourceNode()) {
             Resource resource = root.asResourceNode().resource();
@@ -61,6 +52,7 @@ public class FHIRValidator {
             Element element = root.asElementNode().element();
             element.accept(element.getClass().getSimpleName(), visitor);;
         }
+        return visitor.getIssues();
     }
     
     public static FHIRValidator validator(FHIRPathTree tree) {
@@ -82,10 +74,47 @@ public class FHIRValidator {
         
         private final FHIRPathTree tree;
         
+        private List<Issue> issues = new ArrayList<>(); 
+        
         private ValidatingVisitor(FHIRPathTree tree) {
             this.tree = tree;
         }
         
+        private List<Issue> getIssues() {
+            return Collections.unmodifiableList(issues);
+        }
+        
+        private void checkConstraints(Class<?> type) {
+            List<Constraint> constraints = getConstraints(type);
+            FHIRPathNode node = tree.getNode(getPath());
+            for (Constraint constraint : constraints) {
+                try {
+                    if (DEBUG) {
+                        System.out.println("    Constraint: " + constraint.id() + ", " + constraint.level() + ", " + constraint.expression() + ", " + constraint.description());
+                    }
+                    java.lang.String expr = constraint.expression();
+                    Collection<FHIRPathNode> result = eval(expr, node);
+                    if (hasPrimitiveValue(result)) {
+                        FHIRPathPrimitiveValue value = getPrimitiveValue(result);
+                        if (value.isBooleanValue() && !value.asBooleanValue()._boolean()) {
+                            // constraint check failed
+                            String level = constraint.level();
+                            IssueSeverity severity = "Warning".equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+                            Issue issue = Issue.builder(severity, IssueType.INVARIANT)
+                                    .location(string(getPath()))
+                                    .diagnostics(string(constraint.description()))
+                                    .build();
+                            issues.add(issue);
+                        }
+                    }
+                    if (DEBUG) {
+                        System.out.println("    Evaluation result: " + result);
+                    }
+                } catch (FHIRPathException e) {
+                }
+            }
+        }
+
         private List<Constraint> getConstraints(Class<?> type) {
             List<Class<?>> classes = new ArrayList<>();
             while (!Object.class.equals(type)) {
@@ -95,7 +124,9 @@ public class FHIRValidator {
             Collections.reverse(classes);
             List<Constraint> constraints = new ArrayList<>();
             for (Class<?> _class : classes) {
-                constraints.addAll(Arrays.asList(_class.getDeclaredAnnotationsByType(Constraint.class)));
+                for (Constraint constraint : _class.getDeclaredAnnotationsByType(Constraint.class)) {
+                    constraints.add(constraint);
+                }
             }
             return constraints;
         }
@@ -158,31 +189,12 @@ public class FHIRValidator {
             int index = getIndex(elementName);
             elementName = getElementName(elementName);
             pathStackPush(elementName, index);
-            
-            Class<?> elementType = element.getClass();
-            
-            List<Constraint> constraints = getConstraints(elementType);
-            if (!constraints.isEmpty()) {
-                java.lang.String path = getPath();
-                FHIRPathNode node = tree.getNode(path);
-                for (Constraint constraint : constraints) {
-                    try {
-                        System.out.println("Constraint: " + constraint);
-                        java.lang.String expr = constraint.expression();
-                        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator(expr).evaluate(node);
-                        if (!result.isEmpty()) {
-                            System.out.println("       Evaluation result: " + result.iterator().next());
-                        }
-                    } catch (FHIRPathException e) {
-                    }
-                }
-            }
-            
+            checkConstraints(element.getClass());
             if (index != -1) {
                 indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
             }
         }
-        
+
         @Override
         public void visitStart(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
             nameStack.push(elementName);
@@ -194,82 +206,10 @@ public class FHIRValidator {
             int index = getIndex(elementName);
             elementName = getElementName(elementName);
             pathStackPush(elementName, index);
-            
-            Class<?> resourceType = resource.getClass();
-            
-            List<Constraint> constraints = getConstraints(resourceType);
-            if (!constraints.isEmpty()) {
-                java.lang.String path = getPath();
-                FHIRPathNode node = tree.getNode(path);
-                for (Constraint constraint : constraints) {
-                    try {
-                        System.out.println("Constraint: " + constraint);
-                        java.lang.String expr = constraint.expression();
-                        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator(expr).evaluate(node);
-                        if (!result.isEmpty()) {
-                            System.out.println("       Evaluation result: " + result.iterator().next());
-                        }
-                    } catch (FHIRPathException e) {
-                    }
-                }
-            }
+            checkConstraints(resource.getClass());
             if (index != -1) {
                 indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
             }
         }
-    }
-    
-    public static void main(java.lang.String[] args) throws Exception {
-        Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
-                    .value(String.of("Hello, World!"))
-                    .build())
-                .build();
-        
-        Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(true))
-                .build();
-        
-        String given = String.builder().value("John")
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
-                    .value(String.of("value and extension"))
-                    .build())
-                .build();
-        
-        String otherGiven = String.builder()
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
-                    .value(String.of("extension only"))
-                    .build())
-                .build();
-        
-        HumanName name = HumanName.builder()
-                .id("someId")
-                .given(given)
-                .given(otherGiven)
-                .given(String.of("value no extension"))
-                .family(String.of("Doe"))
-                .build();
-                
-        Patient patient = Patient.builder()
-                .id(id)
-                .active(Boolean.TRUE)
-                .multipleBirth(Integer.of(2))
-                .meta(meta)
-                .name(name)
-                .birthDate(Date.of(LocalDate.now()))
-                .build();
-        
-        FilterOutputStream out = new FilterOutputStream(System.out) {
-            public void close() {
-                // do nothing
-            }
-        };
-        
-        FHIRGenerator.generator(Format.JSON, true).generate(patient, out);
-        
-        System.out.println("");
-        
-        FHIRValidator.DEBUG = true;
-        FHIRValidator.validator(patient).validate();
     }
 }

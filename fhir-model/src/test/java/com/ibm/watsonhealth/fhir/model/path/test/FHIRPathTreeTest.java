@@ -76,8 +76,12 @@ public class FHIRPathTreeTest {
         
         System.out.println("");
         FHIRPathTree.DEBUG = true;
+        
         FHIRPathTree tree = FHIRPathTree.tree(patient);
         tree.getRoot().stream().forEach(FHIRPathTreeTest::print);
+        
+        FHIRPathNode node = tree.getNode("Patient.id.extension[0]");
+        print(node);
     }
     
     public static void print(FHIRPathNode node) {

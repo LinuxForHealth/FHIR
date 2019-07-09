@@ -10,8 +10,15 @@ import static com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue.booleanV
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue.decimalValue;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue.integerValue;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.stringValue;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getBoolean;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getInteger;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getSingleton;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getString;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isSingleton;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -20,6 +27,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,7 +58,7 @@ public class FHIRPathEvaluator {
     private final ExpressionContext expressionContext;
     
     private FHIRPathEvaluator(ExpressionContext expressionContext) {
-        this.expressionContext = expressionContext;
+        this.expressionContext = Objects.requireNonNull(expressionContext);
     }
     
     public Collection<FHIRPathNode> evaluate() throws FHIRPathException {
@@ -70,7 +78,7 @@ public class FHIRPathEvaluator {
     }
     
     public Collection<FHIRPathNode> evaluate(FHIRPathNode node) throws FHIRPathException {
-        return evaluate(Collections.singletonList(node));
+        return evaluate(singleton(node));
     }
     
     public Collection<FHIRPathNode> evaluate(Collection<FHIRPathNode> initialContext) throws FHIRPathException {
@@ -86,7 +94,10 @@ public class FHIRPathEvaluator {
     }
     
     public static FHIRPathEvaluator evaluator(String expr) {
-        ExpressionContext expressionContext = EXPRESSION_CACHE.computeIfAbsent(expr, k -> compile(expr));
+        ExpressionContext expressionContext = EXPRESSION_CACHE.get(expr);
+        if (expressionContext == null) {
+            expressionContext = EXPRESSION_CACHE.computeIfAbsent(expr, FHIRPathEvaluator::compile);
+        }
         return new FHIRPathEvaluator(expressionContext);
     }
     
@@ -114,66 +125,11 @@ public class FHIRPathEvaluator {
             return null;
         }
         
-        private Integer getInteger(Collection<FHIRPathNode> nodes) {
-            return getPrimitiveValue(nodes).asNumberValue().asIntegerValue().integer();
-        }
-        
-        private String getString(Collection<FHIRPathNode> nodes) {
-            return getPrimitiveValue(nodes).asStringValue().string();
-        }
-        
-        private Boolean getBoolean(Collection<FHIRPathNode> nodes) {
-            return getPrimitiveValue(nodes).asBooleanValue()._boolean();
-        }
-        
         private Collection<FHIRPathNode> getCurrentContext() {
             if (!contextStack.isEmpty()) {
                 return contextStack.peek();
             }
             return empty();
-        }
-        
-        private boolean hasPrimitiveValue(Collection<FHIRPathNode> input) {
-            if (isSingleton(input)) {
-                FHIRPathNode node = getSingleton(input);
-                if (node.isPrimitiveValue()) {
-                    return true;
-                }
-                if (node.isElementNode()) {
-                    return node.asElementNode().hasValue();
-                }
-            }
-            return false;
-        }
-        
-        private FHIRPathPrimitiveValue getPrimitiveValue(Collection<FHIRPathNode> input) {
-            if (!isSingleton(input)) {
-                throw new IllegalArgumentException();
-            }
-            FHIRPathNode node = getSingleton(input);
-            if (node.isPrimitiveValue()) {
-                return node.asPrimitiveValue();
-            }
-            if (node.isElementNode() && node.asElementNode().hasValue()) {
-                return node.asElementNode().getValue();
-            }
-            throw new IllegalArgumentException();
-        }
-
-        private boolean isSingleton(Collection<FHIRPathNode> nodes) {
-            return nodes.size() == 1;
-        }
-
-        private FHIRPathNode getSingleton(Collection<FHIRPathNode> nodes) {
-            return nodes.iterator().next();
-        }
-        
-        private Collection<FHIRPathNode> singleton(FHIRPathNode node) {
-            return singletonList(node);
-        }
-        
-        private Collection<FHIRPathNode> empty() {
-            return emptyList();
         }
         
         /**
@@ -275,7 +231,7 @@ public class FHIRPathEvaluator {
                     }
                 } else if (left.isEmpty() && hasPrimitiveValue(right)) {
                     FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
-                    if (left.isEmpty()) {
+                    if (rightValue.isStringValue()) {
                         result = singleton(stringValue("").concat(rightValue.asStringValue()));
                     }
                 } else if (left.isEmpty() && right.isEmpty()) {
@@ -519,7 +475,7 @@ public class FHIRPathEvaluator {
             
             String operator = ctx.getChild(1).getText();
             
-            // TODO: needs work as "equals" and "equivalent" have different semantics
+            // TODO: "equals" and "equivalent" have different semantics
             
             switch (operator) {
             case "=":
@@ -911,9 +867,11 @@ public class FHIRPathEvaluator {
             case "skip":
                 result = skip(arguments.get(0));
                 break;
-                
             case "take":
                 result = limit(arguments.get(0));
+                break;
+            default:
+                result = currentContext;
                 break;
             }
                         

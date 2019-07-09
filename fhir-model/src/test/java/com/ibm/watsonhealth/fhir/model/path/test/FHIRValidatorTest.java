@@ -6,18 +6,15 @@
 
 package com.ibm.watsonhealth.fhir.model.path.test;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
-
 import java.io.FilterOutputStream;
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Date;
@@ -28,8 +25,9 @@ import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
+import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 
-public class FHIRPathEvaluatorTest {
+public class FHIRValidatorTest {
     public static void main(java.lang.String[] args) throws Exception {
         Id id = Id.builder().value(UUID.randomUUID().toString())
                 .extension(Extension.builder("http://www.ibm.com/someExtension")
@@ -81,15 +79,10 @@ public class FHIRPathEvaluatorTest {
         System.out.println("");
         
         FHIRPathTree.DEBUG = true;
-        FHIRPathTree tree = FHIRPathTree.tree(patient);
-        
-        FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = eval("id.extension.value.getValue()", tree.getRoot());
-        
-        if (!result.isEmpty()) {
-            System.out.println("result: " + result);
-        } else {
-            System.out.println("result is empty");
+        FHIRValidator.DEBUG = true;
+        List<Issue> issues = FHIRValidator.validator(patient).validate();
+        for (Issue issue : issues) {
+            System.out.println("Issue: [Severity: " + issue.getSeverity().getValue() + ", Issue Type: " + issue.getCode().getValue() + ", Diagnostics: " + issue.getDiagnostics().getValue() + ", Location: " + issue.getLocation().get(0).getValue() + "]");
         }
     }
 }
