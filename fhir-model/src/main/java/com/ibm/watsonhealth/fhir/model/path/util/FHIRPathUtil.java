@@ -13,13 +13,18 @@ import java.math.BigDecimal;
 import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 
-public final class FHIRPathUtil {    
+public final class FHIRPathUtil {
+    private static final Map<String, FHIRPathEvaluator> EVALUATOR_CACHE = new ConcurrentHashMap<>();
+    
     private FHIRPathUtil() { }
 
     public static Collection<FHIRPathNode> eval(String expr) throws FHIRPathException {
@@ -31,7 +36,12 @@ public final class FHIRPathUtil {
     }
 
     public static Collection<FHIRPathNode> eval(String expr, Collection<FHIRPathNode> context) throws FHIRPathException {
-        return FHIRPathEvaluator.evaluator(expr).evaluate(context);
+        Objects.requireNonNull(expr);
+        FHIRPathEvaluator evaluator = EVALUATOR_CACHE.get(expr);
+        if (evaluator == null) {
+            evaluator = EVALUATOR_CACHE.computeIfAbsent(expr, FHIRPathEvaluator::evaluator);
+        }
+        return evaluator.evaluate(context);
     }
     
     public static BigDecimal getDecimal(Collection<FHIRPathNode> nodes) {

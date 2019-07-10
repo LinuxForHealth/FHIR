@@ -55,12 +55,10 @@ public class FHIRPathEvaluator {
     
     private static final Map<String, ExpressionContext> EXPRESSION_CACHE = new ConcurrentHashMap<>();
     
-    private final String expr;
     private final ExpressionContext expressionContext;
     
-    private FHIRPathEvaluator(String expr, ExpressionContext expressionContext) {
-        this.expr = expr;
-        this.expressionContext = expressionContext;
+    private FHIRPathEvaluator(ExpressionContext expressionContext) {
+        this.expressionContext = Objects.requireNonNull(expressionContext);
     }
     
     public Collection<FHIRPathNode> evaluate() throws FHIRPathException {
@@ -91,17 +89,16 @@ public class FHIRPathEvaluator {
             visitor.popContext();
             return result;
         } catch (Exception e) {
-            throw new FHIRPathException("An error occurred while evaluating expression: " + expr, e);
+            throw new FHIRPathException(e.getMessage(), e);
         }
     }
     
     public static FHIRPathEvaluator evaluator(String expr) {
-        Objects.requireNonNull(expr);
         ExpressionContext expressionContext = EXPRESSION_CACHE.get(expr);
         if (expressionContext == null) {
             expressionContext = EXPRESSION_CACHE.computeIfAbsent(expr, FHIRPathEvaluator::compile);
         }
-        return new FHIRPathEvaluator(expr, expressionContext);
+        return new FHIRPathEvaluator(expressionContext);
     }
     
     private static ExpressionContext compile(String expr) {
@@ -115,19 +112,6 @@ public class FHIRPathEvaluator {
         private Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();
         private int indentLevel = 0;
         
-        private Set<String> closure(FHIRPathType type) {
-            if ("System".equals(type.namespace())) {
-                return Collections.emptySet();
-            }
-            // compute type name closure
-            Set<String> closure = new HashSet<>();
-            while (!FHIRPathType.FHIR_ANY.equals(type)) {
-                closure.add(type.getName());
-                type = type.superType();
-            }
-            return closure;
-        }
-
         private void pushContext(Collection<FHIRPathNode> context) {
             if (context != null) {
                 contextStack.push(context);
@@ -160,11 +144,11 @@ public class FHIRPathEvaluator {
             
             Collection<FHIRPathNode> nodes = visit(ctx.expression(0));
             
-            List<?> list = (nodes instanceof List) ? (List<?>) nodes : new ArrayList<>(nodes);
+            List<FHIRPathNode> list = new ArrayList<>(nodes);
             int index = getInteger(visit(ctx.expression(1)));
             
             if (index >= 0 && index < list.size()) {
-                result = singleton((FHIRPathNode) list.get(index));
+                result = singleton(list.get(index));
             }
                                     
             indentLevel--;
@@ -562,11 +546,11 @@ public class FHIRPathEvaluator {
                 
                 switch (operator) {
                 case "is":
-                    result = singleton(booleanValue(type.isAssignableFrom(node.type()) ? true : false));
+                    result = singleton(booleanValue(node.type().isAssignableFrom(type) ? true : false));
                     break;
                     
                 case "as":
-                    if (type.isAssignableFrom(node.type())) {
+                    if (node.type().isAssignableFrom(type)) {
                         result = singleton(node);
                     }
                     break;
@@ -738,15 +722,6 @@ public class FHIRPathEvaluator {
             
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             String identifier = getString(visit(ctx.identifier()));
-            
-            if (isSingleton(currentContext)) {
-                FHIRPathNode node = getSingleton(currentContext);
-                if (closure(node.type()).contains(identifier)) {
-                    indentLevel--;
-                    return currentContext;
-                }
-            }
-            
             Collection<FHIRPathNode> result = currentContext.stream()
                     .flatMap(node -> node.children().stream())
                     .filter(node -> identifier.equals(node.name()))
@@ -755,7 +730,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-        
+    
         /**
          * function
          */
