@@ -37,7 +37,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.apache.commons.io.IOUtils;
 
 /**
- * A collection of miscellaneous utility functions used by the various fhir-* projects.
+ * A collection of miscellaneous utility functions used by the various fhir-*
+ * projects.
  */
 public class FHIRUtilities {
     private static final String VALID_CHARACTERS_FOR_DATETIME = "^([\\-\\:\\.TZ0123456789\\+]+)$";
@@ -89,18 +90,18 @@ public class FHIRUtilities {
         StringBuilder sb = new StringBuilder();
         sb.append("Current stacktrace:\n");
         for (StackTraceElement frame : stackTrace) {
-            sb.append("\tat " + frame.getClassName() + "." + frame.getMethodName() + "(" + frame.getFileName() + ":" + frame.getLineNumber() + ")\n");
+            sb.append("\tat " + frame.getClassName() + "." + frame.getMethodName() + "(" + frame.getFileName() + ":"
+                    + frame.getLineNumber() + ")\n");
         }
 
         return sb.toString();
     }
 
     /**
-     * This function will remove any whitspace characters which appear in a '<div>...</div>' section within the
-     * specified string.
+     * This function will remove any whitspace characters which appear in a
+     * '<div>...</div>' section within the specified string.
      * 
-     * @param str
-     *            the string to process
+     * @param str the string to process
      * @return the input string with the 'div' whitespace characters removed
      */
     public static String stripNamespaceIfPresentInDiv(String str) {
@@ -114,10 +115,10 @@ public class FHIRUtilities {
     }
 
     /**
-     * This function will remove any newlines which appear in a '<div>...</div>' section within the specified string.
+     * This function will remove any newlines which appear in a '<div>...</div>'
+     * section within the specified string.
      * 
-     * @param str
-     *            the string to process
+     * @param str the string to process
      * @return the input string with the 'div' new lines removed
      */
     public static String stripNewLineWhitespaceIfPresentInDiv(String str) {
@@ -136,11 +137,10 @@ public class FHIRUtilities {
     }
 
     /**
-     * This function can be used to decode an xor-encoded value that was produced by the WebSphere Liberty
-     * 'securityUtility' command.
+     * This function can be used to decode an xor-encoded value that was produced by
+     * the WebSphere Liberty 'securityUtility' command.
      * 
-     * @param encodedString
-     *            the encoded string to be decoded
+     * @param encodedString the encoded string to be decoded
      * @return the decoded version of the input string
      * @throws Exception
      */
@@ -162,17 +162,17 @@ public class FHIRUtilities {
     }
 
     /**
-     * Returns true if and only if the specified string 's' is an encoded value, which means it starts with the string
-     * "{xor}".
+     * Returns true if and only if the specified string 's' is an encoded value,
+     * which means it starts with the string "{xor}".
      * 
-     * @param s
-     *            the string value to check
+     * @param s the string value to check
      */
     public static boolean isEncoded(String s) {
         return s != null && s.startsWith("{xor}");
     }
 
-    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults) throws IllegalArgumentException {
+    public static XMLGregorianCalendar parseDateTime(String lexicalRepresentation, boolean defaults)
+            throws IllegalArgumentException {
         validateInputCharacters(lexicalRepresentation);
         XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(lexicalRepresentation);
         if (defaults) {
@@ -191,14 +191,15 @@ public class FHIRUtilities {
     public static Timestamp convertToTimestamp(XMLGregorianCalendar calendar) {
         return Timestamp.valueOf(formatTimestamp(calendar.toGregorianCalendar().getTime()));
     }
-    
+
     /**
      * For R4 model, generate a sql timestamp
+     * 
      * @param zdt
      * @return
      */
     public static Timestamp convertToTimestamp(java.time.ZonedDateTime zdt) {
-    	return new Timestamp(zdt.toInstant().toEpochMilli());
+        return new Timestamp(zdt.toInstant().toEpochMilli());
     }
 
     public static XMLGregorianCalendar convertToCalendar(Timestamp timestamp, TimeZone zone) {
@@ -207,8 +208,8 @@ public class FHIRUtilities {
         XMLGregorianCalendar xmlCalendar = datatypeFactory.newXMLGregorianCalendar(calendar);
         xmlCalendar.setTimezone(zone.getRawOffset());
         return xmlCalendar;
-   }
-    
+    }
+
     public static void setDefaults(XMLGregorianCalendar calendar) {
         if (isYear(calendar)) {
             calendar.setMonth(DatatypeConstants.JANUARY);
@@ -238,65 +239,81 @@ public class FHIRUtilities {
         if (isDate(calendar)) {
             days = 1;
         }
-        
+
         return datatypeFactory.newDuration(true, years, months, days, 0, 0, 0);
     }
 
     public static boolean isDateTime(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() != DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() != DatatypeConstants.FIELD_UNDEFINED
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getHour() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getSecond() != DatatypeConstants.FIELD_UNDEFINED
                 && calendar.getTimezone() != DatatypeConstants.FIELD_UNDEFINED;
     }
-    
+
     public static boolean isPartialDate(XMLGregorianCalendar calendar) {
         return isYear(calendar) || isYearMonth(calendar) || isDate(calendar);
     }
 
     public static boolean isYear(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMonth() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
                 && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
     }
 
     public static boolean isYearMonth(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
                 && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
     }
 
     public static boolean isDate(XMLGregorianCalendar calendar) {
-        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
-                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
+        return calendar != null && calendar.getYear() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMonth() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getDay() != DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getHour() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getMinute() == DatatypeConstants.FIELD_UNDEFINED
+                && calendar.getSecond() == DatatypeConstants.FIELD_UNDEFINED
                 && calendar.getTimezone() == DatatypeConstants.FIELD_UNDEFINED;
     }
 
     public static String formatTimestamp(Date date) {
         return timestampSimpleDateFormat.get().format(date);
     }
-    
+
     public static String formatCalendar(Timestamp timestamp) {
         return calendarSimpleDateFormat.get().format(timestamp);
     }
-    
+
     public static String formatCalendarGMT(XMLGregorianCalendar calendar) {
         return calendarSimpleDateFormatGMT.get().format(calendar.toGregorianCalendar().getTimeInMillis());
     }
 
     /**
-     * Retrieves an encryption key from the specified keystore file, using the specified
-     * alias and password values.
+     * Retrieves an encryption key from the specified keystore file, using the
+     * specified alias and password values.
+     * 
      * @param keystoreLocation the name of the keystore file
      * @param keystorePassword the keystore's password
-     * @param keyAlias the alias name of the entry containing the desired key
-     * @param keyPassword the password associated with the key's entry in the keystore file
-     * @return a SecretKeySpec object containing the AES encryption key retrieved from the keystore file
+     * @param keyAlias         the alias name of the entry containing the desired
+     *                         key
+     * @param keyPassword      the password associated with the key's entry in the
+     *                         keystore file
+     * @return a SecretKeySpec object containing the AES encryption key retrieved
+     *         from the keystore file
      */
-    public static SecretKeySpec retrieveEncryptionKeyFromKeystore(String keystoreLocation, String keystorePassword, String keyAlias, String keyPassword,
-        String storeType, String keyAlgorithm) throws Exception {
+    public static SecretKeySpec retrieveEncryptionKeyFromKeystore(String keystoreLocation, String keystorePassword,
+            String keyAlias, String keyPassword, String storeType, String keyAlgorithm) throws Exception {
         InputStream is = null;
         SecretKeySpec secretKey = null;
 
@@ -332,10 +349,12 @@ public class FHIRUtilities {
                 }
                 byte[] key = keyEntry.getEncoded();
 
-                // Create our secret key object from the key's byte array stored in the keystore file.
+                // Create our secret key object from the key's byte array stored in the keystore
+                // file.
                 secretKey = new SecretKeySpec(key, keyAlgorithm);
             } else {
-                throw new IllegalArgumentException("Keystore file does not contain the required key alias: " + keyAlias);
+                throw new IllegalArgumentException(
+                        "Keystore file does not contain the required key alias: " + keyAlias);
             }
             return secretKey;
         } finally {
@@ -344,44 +363,50 @@ public class FHIRUtilities {
             }
         }
     }
-    
+
     /**
-     * Determines whether or not the passed byte array was previously gzip compressed.
+     * Determines whether or not the passed byte array was previously gzip
+     * compressed.
+     * 
      * @param inputBytes - A byte array
-     * @return boolean - true if the input stream is gzip compressed; false otherwise.
+     * @return boolean - true if the input stream is gzip compressed; false
+     *         otherwise.
      */
     public static boolean isGzipCompressed(byte[] inputBytes) {
         int head = ((int) inputBytes[0] & 0xff) | ((inputBytes[1] << 8) & 0xff00);
         return (GZIPInputStream.GZIP_MAGIC == head);
     }
-    
+
     /**
      * Performs a gzip compression of the passed byte array.
+     * 
      * @param input - Any byte array
      * @return byte[] - A gzip'd byte array representation of the input byte array.
-     * @throws IOException 
+     * @throws IOException
      * 
      */
     public static byte[] gzipCompress(byte[] input) throws IOException {
-        
+
         Objects.requireNonNull(input, "input cannot be null");
-                
+
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         GZIPOutputStream gzip;
-         
+
         gzip = new GZIPOutputStream(byteOutputStream);
         gzip.write(input);
         gzip.close();
-                
+
         return byteOutputStream.toByteArray();
     }
-    
+
     /**
-     * Decompresses a previously gzip'd compressed byte array.
-     * If the input byte array is not gzip compressed, the input byte array is returned.
-     * @param compressedInput - A byte array previously created by a gzip compression.
+     * Decompresses a previously gzip'd compressed byte array. If the input byte
+     * array is not gzip compressed, the input byte array is returned.
+     * 
+     * @param compressedInput - A byte array previously created by a gzip
+     *                        compression.
      * @return byte[] - The decompressed bytes.
-     * @throws IOException 
+     * @throws IOException
      * 
      */
     public static byte[] gzipDecompress(byte[] compressedInput) throws IOException {
@@ -389,10 +414,10 @@ public class FHIRUtilities {
         Objects.requireNonNull(compressedInput, "compressedInput cannot be null");
         if (isGzipCompressed(compressedInput)) {
             try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput))) {
-            output = IOUtils.toByteArray(gzip);
+                output = IOUtils.toByteArray(gzip);
             }
         }
-                                
+
         return output;
     }
 
