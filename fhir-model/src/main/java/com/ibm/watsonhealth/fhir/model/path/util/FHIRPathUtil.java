@@ -23,7 +23,7 @@ public final class FHIRPathUtil {
     private FHIRPathUtil() { }
 
     public static Collection<FHIRPathNode> eval(String expr) throws FHIRPathException {
-        return eval(expr, (Collection<FHIRPathNode>) null);
+        return eval(expr, empty());
     }
     
     public static Collection<FHIRPathNode> eval(String expr, FHIRPathNode node) throws FHIRPathException {

@@ -1,0 +1,74 @@
+as(typeName : String)
+is(typeName : String)
+empty() : Boolean
+not() : Boolean
+exists([criteria : expression]) : Boolean
+all(criteria : expression) : Boolean
+allTrue() : Boolean
+anyTrue() : Boolean
+allFalse() : Boolean
+anyFalse() : Boolean
+subsetOf(other : collection) : Boolean
+supersetOf(other : collection) : Boolean
+isDistinct() : Boolean
+distinct() : collection
+count() : Integer
+where(criteria : expression) : collection
+select(projection : expression) : collection
+repeat(projection : expression) : collection
+ofType(type : identifier) : collection
+item(index : Integer) : collection
+single() : collection
+first() : collection
+last() : collection
+tail() : collection
+skip(num : Integer) : collection
+take(num : Integer) : collection
+intersect(other: collection) : collection
+exclude(other: collection) : collection
+union(other : collection)
+combine(other : collection) : collection
+iif(criterion: expression, true-result: collection [, otherwise-result: collection]) : collection
+convertsToBoolean() : Boolean
+toBoolean() : Boolean
+convertsToInteger() : Boolean
+toInteger() : Integer
+convertsToDate() : Boolean
+toDate() : Date
+convertsToDateTime() : Boolean
+toDateTime() : DateTime
+convertsToDecimal() : Boolean
+toDecimal() : Decimal
+convertsToQuantity() : Boolean
+toQuantity() : Quantity
+convertsToString() : String
+toString() : String
+indexOf(substring : String) : Integer
+substring(start : Integer [, length : Integer]) : String
+startsWith(prefix : String) : Boolean
+endsWith(suffix : String) : Boolean
+contains(substring : String) : Boolean
+upper() : String
+lower() : String
+replace(pattern : String, substitution : String) : String
+matches(regex : String) : Boolean
+replaceMatches(regex : String, substitution: String) : String
+length() : Integer
+toChars() : collection
+children() : collection
+descendants() : collection
+trace(name : String) : collection
+today() : Date
+now() : DateTime
+extension(url : string) : collection
+hasValue() : Boolean
+getValue() : System.[type]
+trace(name : string, selector : expression) : collection
+resolve() : collection
+slice(structure : string, name : string) : collection
+checkModifiers([{modifier : string}]) : collection
+conformsTo(structure : string) : Boolean
+memberOf(valueset : string) : Boolean
+subsumes(code : Coding | CodeableConcept) : Boolean
+subsumedBy(code: Coding | CodeableConcept) : Boolean
+htmlChecks() : Boolean

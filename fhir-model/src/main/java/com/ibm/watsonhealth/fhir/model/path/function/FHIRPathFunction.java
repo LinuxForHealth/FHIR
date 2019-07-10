@@ -6,12 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathParser.ExpressionContext;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator_;
-import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiFunction;
 
-public interface FHIRPathFunction {
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+
+public interface FHIRPathFunction extends BiFunction<Collection<FHIRPathNode>, List<Collection<FHIRPathNode>>, Collection<FHIRPathNode>> {
     String getName();
-
-    Object invoke(FHIRPathEvaluator_ evaluator, Object context, ExpressionContext... arguments) throws FHIRPathException;
+    int getMinArity();
+    int getMaxArity();
+    
+    @Override
+    Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> parameters);
 }

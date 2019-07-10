@@ -11,20 +11,20 @@ import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 
-public class ToIntegerFunction implements FHIRPathFunction {
+public class ReplaceFunction implements FHIRPathFunction {
     @Override
     public String getName() {
-        return "toInteger";
+        return "replace";
     }
 
     @Override
     public int getMinArity() {
-        return 0;
+        return 2;
     }
 
     @Override
     public int getMaxArity() {
-        return 0;
+        return 2;
     }
 
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {

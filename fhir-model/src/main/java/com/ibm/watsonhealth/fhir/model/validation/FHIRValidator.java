@@ -44,8 +44,8 @@ public class FHIRValidator {
     }
     
     public List<Issue> validate() throws FHIRValidationException {
-        ValidatingVisitor visitor = new ValidatingVisitor(tree);
         try {
+            ValidatingVisitor visitor = new ValidatingVisitor(tree);
             FHIRPathNode root = tree.getRoot();
             if (root.isResourceNode()) {
                 Resource resource = root.asResourceNode().resource();
@@ -56,7 +56,7 @@ public class FHIRValidator {
             }
             return visitor.getIssues();
         } catch (Exception e) {
-            throw new FHIRValidationException("An error occurred during validation", visitor.getPath(), e);
+            throw new FHIRValidationException("An error occurred during validation", e);
         }
     }
     

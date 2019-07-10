@@ -101,6 +101,10 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
         return booleanValue(!_boolean || value._boolean());
     }
     
+    public FHIRPathBooleanValue not() {
+        return booleanValue(!_boolean);
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

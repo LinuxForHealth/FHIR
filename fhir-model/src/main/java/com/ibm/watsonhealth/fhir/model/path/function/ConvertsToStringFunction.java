@@ -11,10 +11,10 @@ import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 
-public class ToIntegerFunction implements FHIRPathFunction {
+public class ConvertsToStringFunction implements FHIRPathFunction {
     @Override
     public String getName() {
-        return "toInteger";
+        return "convertsToString";
     }
 
     @Override

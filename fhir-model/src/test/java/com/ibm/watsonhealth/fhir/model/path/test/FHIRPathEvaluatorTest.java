@@ -84,7 +84,7 @@ public class FHIRPathEvaluatorTest {
         FHIRPathTree tree = FHIRPathTree.tree(patient);
         
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = eval("id.extension as Element", tree.getRoot());
+        Collection<FHIRPathNode> result = eval("Patient.name.given.first().as(System.String)", tree.getRoot());
         
         System.out.println("result: " + result);
     }

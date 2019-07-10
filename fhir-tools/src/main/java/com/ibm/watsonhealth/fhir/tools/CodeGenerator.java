@@ -113,6 +113,7 @@ public class CodeGenerator {
         "UsageContext", 
         "Dosage");
     private static final List<String> HEADER = readHeader();
+    private static final List<String> FUNCTIONS = readFunctions();
 
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
         this.structureDefinitionMap = structureDefinitionMap;
@@ -123,10 +124,22 @@ public class CodeGenerator {
     private static List<String> readHeader() {
         try {
             String baseDir = ".";
-            if(System.getProperty("BaseDir") != null) {
+            if (System.getProperty("BaseDir") != null) {
                 baseDir = System.getProperty("BaseDir");
             }
             return Files.readAllLines(new File(baseDir + "/codegen-support/header.txt").toPath());
+        } catch (IOException e) {
+            throw new Error(e);
+        }
+    }
+    
+    private static List<String> readFunctions() {
+        try {
+            String baseDir = ".";
+            if (System.getProperty("BaseDir") != null) {
+                baseDir = System.getProperty("BaseDir");
+            }
+            return Files.readAllLines(new File(baseDir + "/codegen-support/functions.txt").toPath());
         } catch (IOException e) {
             throw new Error(e);
         }
@@ -215,6 +228,102 @@ public class CodeGenerator {
         generateVisitorInterface(basePath);
         generateAbstractVisitorClass(basePath);
         generateJsonParser(basePath);
+        generateFunctions(basePath);
+    }
+
+    private void generateFunctions(String basePath) {
+        List<String> functionClassNames = new ArrayList<>();
+        
+        for (String line : FUNCTIONS) {
+            if (line.contains("expression")) {
+                continue;
+            }
+            
+            CodeBuilder cb = new CodeBuilder();
+            
+            String packageName = "com.ibm.watsonhealth.fhir.model.path.function";
+            cb.javadoc(HEADER, true, true, false).newLine();
+            cb._package(packageName).newLine();
+            
+            cb._import("java.util.Collection");
+            cb._import("java.util.List");
+            cb.newLine();
+            cb._import("com.ibm.watsonhealth.fhir.model.path.FHIRPathNode");
+            cb.newLine();
+            
+            String functionName = line.substring(0, line.indexOf("("));
+            String className = titleCase(functionName) + "Function";
+            functionClassNames.add(className);
+            
+            long maxArity;
+            if (line.contains("()")) {
+                maxArity = 0;
+            } else {
+                maxArity = 1;
+                if (line.contains(",")) {
+                    maxArity = line.chars().filter(ch -> ch == ',').count() + 1;
+                }
+            }
+            long minArity = maxArity - line.chars().filter(ch -> ch == '[').count();
+            
+            cb._class(mods("public"), className, null, implementsInterfaces("FHIRPathFunction"));
+            
+            cb.override();
+            cb.method(mods("public"), "String", "getName");
+            cb._return(quote(functionName));
+            cb.end();
+            
+            cb.newLine();
+            
+            cb.override();
+            cb.method(mods("public"), "int", "getMinArity");
+            cb._return(String.valueOf(minArity));
+            cb.end();
+            
+            cb.newLine();
+            
+            cb.override();
+            cb.method(mods("public"), "int", "getMaxArity");
+            cb._return(String.valueOf(maxArity));
+            cb.end();
+            
+            cb.newLine();
+            
+            cb.method(mods("public"), "Collection<FHIRPathNode>", "apply", params("Collection<FHIRPathNode> context", "List<Collection<FHIRPathNode>> arguments"));
+            cb._throw(_new("UnsupportedOperationException", args("\"Function: '\" + getName() + \"' is not supported\"")));
+            cb.end();
+            
+            cb._end();
+            
+            File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + className + ".java");
+            
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(cb.toString());
+            } catch (Exception e) {
+                throw new Error(e);
+            }
+        }
+        
+        Collections.sort(functionClassNames);
+        
+        // Work around the pseudo hardcoding
+        String baseDir = ".";
+        if (System.getProperty("BaseDir") != null) {
+            baseDir = System.getProperty("BaseDir");
+        }
+        
+        File file = new File(baseDir + "/src/main/resources/META-INF/services/com.ibm.watsonhealth.fhir.model.path.function.FHIRPathFunction");
+
+        try (FileWriter writer = new FileWriter(file)) {
+            for (String functionClassName : functionClassNames) {
+                writer.write("com.ibm.watsonhealth.fhir.model.path.function." + functionClassName);
+                if (!isLast(functionClassNames, functionClassName)) {
+                    writer.write(System.lineSeparator());
+                }
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 
     private void generateAbstractVisitorClass(String basePath) {
@@ -1650,7 +1759,7 @@ public class CodeGenerator {
         
         // Work around the pseudo hardcoding
         String baseDir = ".";
-        if(System.getProperty("BaseDir") != null) {
+        if (System.getProperty("BaseDir") != null) {
             baseDir = System.getProperty("BaseDir");
         }
         
@@ -1659,7 +1768,7 @@ public class CodeGenerator {
             jsonWriter.write(jsonSupport);
         } catch (Exception e) {
             throw new Error(e);
-        }        
+        }
     }
     
     private void generateParseChoiceElementMethod(CodeBuilder cb) {
