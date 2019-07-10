@@ -5,6 +5,7 @@
         <groupId>com.ibm.watsonhealth.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>99-SNAPSHOT</version>
+        <relativePath>../fhir-parent</relativePath>
     </parent>
 
     <artifactId>fhir-connectathon-clients</artifactId>
@@ -38,6 +39,13 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.watsonhealth.fhir</groupId>
+            <artifactId>fhir-persistence</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>            
         </dependency>
     </dependencies>
 

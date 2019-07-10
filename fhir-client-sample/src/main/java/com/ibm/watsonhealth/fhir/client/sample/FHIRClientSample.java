@@ -6,11 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.client.sample;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.codeableConcept;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.coding;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.contactPoint;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.observationStatus;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.quantity;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,15 +20,23 @@ import javax.ws.rs.core.Response.Status;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.ContactPointSystemList;
-import com.ibm.watsonhealth.fhir.model.ContactPointUseList;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.Observation;
-import com.ibm.watsonhealth.fhir.model.ObservationStatusList;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Patient;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.ContactPoint;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointSystem;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointUse;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 
 /**
  * This class is sample code that demonstrates the use of the FHIR Server's Client API. This sample is not necessarily
@@ -41,7 +45,6 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
  */
 public class FHIRClientSample {
 
-    private ObjectFactory of;
 
     public static void main(String[] args) throws Exception {
         FHIRClientSample sample = new FHIRClientSample();
@@ -49,7 +52,6 @@ public class FHIRClientSample {
     }
 
     public FHIRClientSample() {
-        of = new ObjectFactory();
     }
 
     public void run() throws Exception {
@@ -184,15 +186,26 @@ public class FHIRClientSample {
      * @return
      */
     private Patient createPatient(String firstName, String lastName, String mobilePhoneNum) {
-        Patient p =
-                of.createPatient().withName(of.createHumanName().withFamily(of.createString().withValue(lastName)).withGiven(of.createString().withValue(firstName))).withTelecom(contactPoint(ContactPointSystemList.fromValue("phone"), mobilePhoneNum, ContactPointUseList.fromValue("mobile")));
+        Patient p = Patient.builder()
+                .name(HumanName.builder().given(string(firstName)).family(string(lastName)).build())
+                .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE).use(ContactPointUse.MOBILE)
+                        .value(string(mobilePhoneNum)).build())
+                .build();
+
         return p;
     }
 
     private Observation createObservation(Patient p, double glucoseReading) {
         String subject = "Patient/" + p.getId().getValue();
-        Observation o =
-                of.createObservation().withSubject(of.createReference().withReference(of.createString().withValue(subject))).withStatus(observationStatus(ObservationStatusList.PRELIMINARY)).withCode(codeableConcept(coding("http://loinc.org", "15074-8", "Glucose [Moles/volume] in Blood"))).withValueQuantity(quantity(glucoseReading, "mmol/l", "http://unitsofmeasure.org", "mmol/L"));
+        Observation o = Observation.builder(ObservationStatus.PRELIMINARY, 
+                                CodeableConcept.builder().coding(Coding.builder().code(Code.of("15074-8"))
+                                        .system(Uri.of("http://loinc.org")).display(string("Glucose [Moles/volume] in Blood"))
+                                        .build()).build())
+                .subject(Reference.builder().reference(string(subject)).build())
+                .value(Quantity.builder().unit(string("mmol/l")).value(Decimal.of(glucoseReading))
+                        .system(Uri.of("http://unitsofmeasure.org")).code(Code.of("mmol/L")).build())
+                .build();
+
         return o;
     }
 }

@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.connectathon.patient;
 
 import static com.ibm.watsonhealth.fhir.client.FHIRRequestHeader.header;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.InputStream;
 import java.util.List;
@@ -23,21 +24,19 @@ import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.Bundle;
-import com.ibm.watsonhealth.fhir.model.Conformance;
-import com.ibm.watsonhealth.fhir.model.ConformanceInteraction;
-import com.ibm.watsonhealth.fhir.model.ConformanceResource;
-import com.ibm.watsonhealth.fhir.model.ConformanceRest;
-import com.ibm.watsonhealth.fhir.model.Extension;
-import com.ibm.watsonhealth.fhir.model.HumanName;
-import com.ibm.watsonhealth.fhir.model.ObjectFactory;
-import com.ibm.watsonhealth.fhir.model.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.Patient;
-import com.ibm.watsonhealth.fhir.model.Resource;
-import com.ibm.watsonhealth.fhir.model.RestfulConformanceModeList;
-import com.ibm.watsonhealth.fhir.model.TypeRestfulInteractionList;
-import com.ibm.watsonhealth.fhir.model.test.FHIRModelTestBase;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Extension;
+import com.ibm.watsonhealth.fhir.model.type.HumanName;
+import com.ibm.watsonhealth.fhir.model.type.RestfulCapabilityMode;
+import com.ibm.watsonhealth.fhir.model.type.TypeRestfulInteraction;
+import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * This class is an implementation of the Patient track scenario defined as part of Connectathon 13, September 2016
@@ -52,7 +51,6 @@ public class PatientTrackTest extends FHIRModelTestBase {
     private static final String EXTURI_FAVORITE_NFL = "http://com.ibm.watsonhealth.fhir.sample/favorite-nfl";
     private static final String EXTURI_FAVORITE_NBA = "http://com.ibm.watsonhealth.fhir.sample/favorite-nba";
 
-    private ObjectFactory of = new ObjectFactory();
     private FHIRClient client = null;
     private Patient patient = null;
     private String baseUrl = null;
@@ -92,22 +90,22 @@ public class PatientTrackTest extends FHIRModelTestBase {
             throw new Exception(msg);
         }
 
-        Conformance conformance = response.getResource(Conformance.class);
-        List<ConformanceRest> crList = conformance.getRest();
-        for (ConformanceRest cr : crList) {
-            if (cr.getMode().getValue() == RestfulConformanceModeList.SERVER) {
-                List<ConformanceResource> resources = cr.getResource();
-                for (ConformanceResource resource : resources) {
+        CapabilityStatement conformance = response.getResource(CapabilityStatement.class);
+        List<Rest> crList = conformance.getRest();
+        for (Rest cr : crList) {
+            if (cr.getMode() == RestfulCapabilityMode.SERVER) {
+                List<Rest.Resource> resources = cr.getResource();
+                for (Rest.Resource resource : resources) {
                     if (resource.getType().getValue().equals("Patient")) {
-                        List<ConformanceInteraction> interactions = resource.getInteraction();
-                        for (ConformanceInteraction interaction : interactions) {
-                            if (interaction.getCode().getValue() == TypeRestfulInteractionList.UPDATE) {
+                        List<Rest.Resource.Interaction> interactions = resource.getInteraction();
+                        for (Rest.Resource.Interaction interaction : interactions) {
+                            if (interaction.getCode() == TypeRestfulInteraction.UPDATE) {
                                 supportsUpdate = true;
                             }
-                            if (interaction.getCode().getValue() == TypeRestfulInteractionList.HISTORY_INSTANCE) {
+                            if (interaction.getCode() == TypeRestfulInteraction.HISTORY_INSTANCE) {
                                 supportsHistory = true;
                             }
-                            if (interaction.getCode().getValue() == TypeRestfulInteractionList.SEARCH_TYPE) {
+                            if (interaction.getCode() == TypeRestfulInteraction.SEARCH_TYPE) {
                                 supportsSearch = true;
                             }
                         }
@@ -185,7 +183,9 @@ public class PatientTrackTest extends FHIRModelTestBase {
 
         // 2a) Next, we'll test whether the server implements version-aware updates.
         // change the patient's name, then try to update it.
-        patient.withName(of.createHumanName().withFamily(of.createString().withValue("Failed!!!")).withGiven(of.createString().withValue("Version-aware-update-check")));
+        patient = patient.toBuilder().name(HumanName.builder().family(string("Failed!!!"))
+                .given(string("Version-aware-update-check")).build()).build();
+        
         response = client.update(patient, header("If-Match", "W/\"1\""));
         log("Performed version-aware-update-check, status=" + response.getStatus());
         if (response.getStatus() == Status.CONFLICT.getStatusCode()) {
@@ -274,7 +274,7 @@ public class PatientTrackTest extends FHIRModelTestBase {
         return patient;
     }
 
-    private void displayResource(String msg, Resource resource) throws JAXBException {
+    private void displayResource(String msg, Resource resource) throws JAXBException, FHIRException {
         String s = writeResource(resource, Format.JSON);
         log(msg);
         log(s);
@@ -306,20 +306,23 @@ public class PatientTrackTest extends FHIRModelTestBase {
 
     private Patient modifyPatientContents(Patient patient) {
         // Modify the patient's name.
-        HumanName name = patient.getName().get(0);
-        name.withFamily(of.createString().withValue("Chalmers"), of.createString().withValue("Jr.")).withGiven(of.createString().withValue("Jimmy"));
-
+        HumanName name = patient.getName().get(0);    
+        HumanName newName = name.toBuilder().family(string("Chalmers")).given(string("Jimmy")).build();
+        
+        patient.getName().remove(0);
+        patient.getName().add(newName);
+    
         // Next, change the favorite-nfl attribute to "Packers".
         List<Extension> extensions = patient.getExtension();
-        for (Extension ext : extensions) {
+        for (int i = 0; i < extensions.size(); i++) {
+            Extension ext = extensions.get(i);
             if (ext.getUrl().equals(EXTURI_FAVORITE_NFL)) {
-                ext.withValueString(of.createString().withValue("Packers"));
+                extensions.set(i,ext.toBuilder().value(string("Packers")).build());                
             }
         }
-
+        
         // Finally, add a new extension to indicate the patient's favorite NBA team.
-        extensions.add(of.createExtension().withUrl(EXTURI_FAVORITE_NBA).withValueString(of.createString().withValue("Spurs")));
-
+        extensions.add(Extension.builder(EXTURI_FAVORITE_NBA).value(string("Spurs")).build());
         return patient;
     }
 }
