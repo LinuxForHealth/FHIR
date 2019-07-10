@@ -84,12 +84,8 @@ public class FHIRPathEvaluatorTest {
         FHIRPathTree tree = FHIRPathTree.tree(patient);
         
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = eval("id.extension.value.getValue()", tree.getRoot());
+        Collection<FHIRPathNode> result = eval("id.extension as Element", tree.getRoot());
         
-        if (!result.isEmpty()) {
-            System.out.println("result: " + result);
-        } else {
-            System.out.println("result is empty");
-        }
+        System.out.println("result: " + result);
     }
 }
