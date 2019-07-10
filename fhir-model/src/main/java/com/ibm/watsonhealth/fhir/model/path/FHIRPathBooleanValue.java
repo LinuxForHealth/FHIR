@@ -14,7 +14,7 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     
     protected FHIRPathBooleanValue(Builder builder) {
         super(builder);
-        _boolean = builder._boolean;
+        _boolean = Objects.requireNonNull(builder._boolean);
     }
     
     @Override
@@ -24,6 +24,14 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     
     public Boolean _boolean() {
         return _boolean;
+    }
+    
+    public boolean isTrue() {
+        return Boolean.TRUE.equals(_boolean);
+    }
+    
+    public boolean isFalse() {
+        return Boolean.FALSE.equals(_boolean);
     }
     
     public static FHIRPathBooleanValue booleanValue(Boolean _boolean) {
