@@ -961,9 +961,15 @@ public class FHIRPathEvaluator {
                 result = where(arguments);
                 break;
             default:
+                FHIRPathFunction function = FHIRPathFunction.registry().getFunction(functionName);
+                if (function == null) {
+                    throw new IllegalArgumentException("Function: '" + functionName + "' not found");
+                }
                 // evaluate arguments: ExpressionContext -> Collection<FHIRPathNode>
                 List<Collection<FHIRPathNode>> args = arguments.stream().map(expressionContext -> visit(expressionContext)).collect(Collectors.toList());
-                FHIRPathFunction function = FHIRPathFunction.registry().getFunction(functionName, args.size());
+                if (args.size() < function.getMinArity() && args.size() > function.getMaxArity()) {
+                    throw new IllegalArgumentException("Unexpected number of arguments: " + args.size() + " for function: '" + functionName + "'");
+                }
                 result = function.apply(currentContext, args);
                 break;
             }
