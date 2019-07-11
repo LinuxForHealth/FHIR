@@ -19,7 +19,7 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 
-public final class FHIRPathUtil {    
+public final class FHIRPathUtil {
     private FHIRPathUtil() { }
 
     public static Collection<FHIRPathNode> eval(String expr) throws FHIRPathException {

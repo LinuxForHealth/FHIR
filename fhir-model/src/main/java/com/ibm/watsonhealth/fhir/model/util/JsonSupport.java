@@ -96,7 +96,20 @@ public final class JsonSupport {
     }
     
     public static JsonArray getJsonArray(JsonObject jsonObject, String key) {
-        return getJsonValue(jsonObject, key, JsonArray.class);
+        return getJsonArray(jsonObject, key, false);
+    }
+    
+    public static JsonArray getJsonArray(JsonObject jsonObject, String key, boolean primitive) {
+        JsonArray jsonArray = getJsonValue(jsonObject, key, JsonArray.class);
+        if (primitive) {
+            if (jsonArray == null) {
+                JsonArray _jsonArray = jsonObject.getJsonArray("_" + key);
+                if (_jsonArray != null) {
+                    throw new IllegalArgumentException("Found array with key '_" + key + "' but could not find matching array with key: '" + key + "'");
+                }
+            }
+        }
+        return jsonArray;
     }
 
     public static JsonValue getJsonValue(JsonArray jsonArray, int index) {

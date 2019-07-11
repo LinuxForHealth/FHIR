@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.Objects;
 
 public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
+    public static final FHIRPathBooleanValue TRUE = FHIRPathBooleanValue.booleanValue(true);
+    public static final FHIRPathBooleanValue FALSE = FHIRPathBooleanValue.booleanValue(false);
+    
     private final Boolean _boolean;
     
     protected FHIRPathBooleanValue(Builder builder) {
@@ -86,23 +89,23 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     }
     
     public FHIRPathBooleanValue or(FHIRPathBooleanValue value) {
-        return booleanValue(_boolean || value._boolean());
+        return (_boolean || value._boolean) ? TRUE : FALSE; 
     }
     
     public FHIRPathBooleanValue xor(FHIRPathBooleanValue value) {
-        return booleanValue((_boolean || value._boolean()) && !(_boolean && value._boolean()));
+        return ((_boolean || value._boolean()) && !(_boolean && value._boolean())) ? TRUE : FALSE;
     }
     
     public FHIRPathBooleanValue and(FHIRPathBooleanValue value) {
-        return booleanValue(_boolean && value._boolean());
+        return (_boolean && value._boolean()) ? TRUE : FALSE;
     }
     
     public FHIRPathBooleanValue implies(FHIRPathBooleanValue value) {
-        return booleanValue(!_boolean || value._boolean());
+        return (!_boolean || value._boolean()) ? TRUE : FALSE;
     }
     
     public FHIRPathBooleanValue not() {
-        return booleanValue(!_boolean);
+        return _boolean ? FALSE : TRUE;
     }
     
     @Override

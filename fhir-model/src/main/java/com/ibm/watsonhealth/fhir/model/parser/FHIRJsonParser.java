@@ -584,7 +584,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library");
+        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library", true);
         if (libraryArray != null) {
             int index = 0;
             JsonArray _libraryArray = jsonObject.getJsonArray("_library");
@@ -703,7 +703,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.use((AddressUse) parseString(AddressUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
         builder.type((AddressType) parseString(AddressType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.text(parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
-        JsonArray lineArray = JsonSupport.getJsonArray(jsonObject, "line");
+        JsonArray lineArray = JsonSupport.getJsonArray(jsonObject, "line", true);
         if (lineArray != null) {
             int index = 0;
             JsonArray _lineArray = jsonObject.getJsonArray("_line");
@@ -860,7 +860,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.clinicalStatus(parseCodeableConcept("clinicalStatus", JsonSupport.getJsonValue(jsonObject, "clinicalStatus", JsonObject.class), -1));
         builder.verificationStatus(parseCodeableConcept("verificationStatus", JsonSupport.getJsonValue(jsonObject, "verificationStatus", JsonObject.class), -1));
         builder.type((AllergyIntoleranceType) parseString(AllergyIntoleranceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
-        JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
+        JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category", true);
         if (categoryArray != null) {
             int index = 0;
             JsonArray _categoryArray = jsonObject.getJsonArray("_category");
@@ -1210,7 +1210,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.altId(parseString("altId", JsonSupport.getJsonValue(jsonObject, "altId", JsonString.class), jsonObject.get("_altId"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.location(parseReference("location", JsonSupport.getJsonValue(jsonObject, "location", JsonObject.class), -1));
-        JsonArray policyArray = JsonSupport.getJsonArray(jsonObject, "policy");
+        JsonArray policyArray = JsonSupport.getJsonArray(jsonObject, "policy", true);
         if (policyArray != null) {
             int index = 0;
             JsonArray _policyArray = jsonObject.getJsonArray("_policy");
@@ -1698,7 +1698,7 @@ public class FHIRJsonParser implements FHIRParser {
         CapabilityStatementKind kind = (CapabilityStatementKind) parseString(CapabilityStatementKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
         FHIRVersion fhirVersion = (FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", JsonSupport.getJsonValue(jsonObject, "fhirVersion", JsonString.class), jsonObject.get("_fhirVersion"), -1);
         java.util.List<Code> format = new ArrayList<>();
-        JsonArray formatArray = JsonSupport.getJsonArray(jsonObject, "format");
+        JsonArray formatArray = JsonSupport.getJsonArray(jsonObject, "format", true);
         if (formatArray != null) {
             int index = 0;
             JsonArray _formatArray = jsonObject.getJsonArray("_format");
@@ -1742,7 +1742,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
         builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", JsonSupport.getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
-        JsonArray instantiatesArray = JsonSupport.getJsonArray(jsonObject, "instantiates");
+        JsonArray instantiatesArray = JsonSupport.getJsonArray(jsonObject, "instantiates", true);
         if (instantiatesArray != null) {
             int index = 0;
             JsonArray _instantiatesArray = jsonObject.getJsonArray("_instantiates");
@@ -1751,7 +1751,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray importsArray = JsonSupport.getJsonArray(jsonObject, "imports");
+        JsonArray importsArray = JsonSupport.getJsonArray(jsonObject, "imports", true);
         if (importsArray != null) {
             int index = 0;
             JsonArray _importsArray = jsonObject.getJsonArray("_imports");
@@ -1762,7 +1762,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.software(parseCapabilityStatementSoftware("software", JsonSupport.getJsonValue(jsonObject, "software", JsonObject.class), -1));
         builder.implementation(parseCapabilityStatementImplementation("implementation", JsonSupport.getJsonValue(jsonObject, "implementation", JsonObject.class), -1));
-        JsonArray patchFormatArray = JsonSupport.getJsonArray(jsonObject, "patchFormat");
+        JsonArray patchFormatArray = JsonSupport.getJsonArray(jsonObject, "patchFormat", true);
         if (patchFormatArray != null) {
             int index = 0;
             JsonArray _patchFormatArray = jsonObject.getJsonArray("_patchFormat");
@@ -1771,7 +1771,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray implementationGuideArray = JsonSupport.getJsonArray(jsonObject, "implementationGuide");
+        JsonArray implementationGuideArray = JsonSupport.getJsonArray(jsonObject, "implementationGuide", true);
         if (implementationGuideArray != null) {
             int index = 0;
             JsonArray _implementationGuideArray = jsonObject.getJsonArray("_implementationGuide");
@@ -1939,7 +1939,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray compartmentArray = JsonSupport.getJsonArray(jsonObject, "compartment");
+        JsonArray compartmentArray = JsonSupport.getJsonArray(jsonObject, "compartment", true);
         if (compartmentArray != null) {
             int index = 0;
             JsonArray _compartmentArray = jsonObject.getJsonArray("_compartment");
@@ -1976,7 +1976,7 @@ public class FHIRJsonParser implements FHIRParser {
         CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder(type);
         parseBackboneElement(builder, jsonObject);
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
-        JsonArray supportedProfileArray = JsonSupport.getJsonArray(jsonObject, "supportedProfile");
+        JsonArray supportedProfileArray = JsonSupport.getJsonArray(jsonObject, "supportedProfile", true);
         if (supportedProfileArray != null) {
             int index = 0;
             JsonArray _supportedProfileArray = jsonObject.getJsonArray("_supportedProfile");
@@ -2001,7 +2001,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.conditionalRead((ConditionalReadStatus) parseString(ConditionalReadStatus.builder(), "conditionalRead", JsonSupport.getJsonValue(jsonObject, "conditionalRead", JsonString.class), jsonObject.get("_conditionalRead"), -1));
         builder.conditionalUpdate(parseBoolean("conditionalUpdate", JsonSupport.getJsonValue(jsonObject, "conditionalUpdate", JsonValue.class), jsonObject.get("_conditionalUpdate"), -1));
         builder.conditionalDelete((ConditionalDeleteStatus) parseString(ConditionalDeleteStatus.builder(), "conditionalDelete", JsonSupport.getJsonValue(jsonObject, "conditionalDelete", JsonString.class), jsonObject.get("_conditionalDelete"), -1));
-        JsonArray referencePolicyArray = JsonSupport.getJsonArray(jsonObject, "referencePolicy");
+        JsonArray referencePolicyArray = JsonSupport.getJsonArray(jsonObject, "referencePolicy", true);
         if (referencePolicyArray != null) {
             int index = 0;
             JsonArray _referencePolicyArray = jsonObject.getJsonArray("_referencePolicy");
@@ -2010,7 +2010,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray searchIncludeArray = JsonSupport.getJsonArray(jsonObject, "searchInclude");
+        JsonArray searchIncludeArray = JsonSupport.getJsonArray(jsonObject, "searchInclude", true);
         if (searchIncludeArray != null) {
             int index = 0;
             JsonArray _searchIncludeArray = jsonObject.getJsonArray("_searchInclude");
@@ -2019,7 +2019,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray searchRevIncludeArray = JsonSupport.getJsonArray(jsonObject, "searchRevInclude");
+        JsonArray searchRevIncludeArray = JsonSupport.getJsonArray(jsonObject, "searchRevInclude", true);
         if (searchRevIncludeArray != null) {
             int index = 0;
             JsonArray _searchRevIncludeArray = jsonObject.getJsonArray("_searchRevInclude");
@@ -2149,7 +2149,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -2158,7 +2158,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -2313,7 +2313,7 @@ public class FHIRJsonParser implements FHIRParser {
         CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder(status);
         parseBackboneElement(builder, jsonObject);
         builder.kind((CarePlanActivityKind) parseString(CarePlanActivityKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -2322,7 +2322,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -2580,7 +2580,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray definitionUriArray = JsonSupport.getJsonArray(jsonObject, "definitionUri");
+        JsonArray definitionUriArray = JsonSupport.getJsonArray(jsonObject, "definitionUri", true);
         if (definitionUriArray != null) {
             int index = 0;
             JsonArray _definitionUriArray = jsonObject.getJsonArray("_definitionUri");
@@ -2589,7 +2589,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray definitionCanonicalArray = JsonSupport.getJsonArray(jsonObject, "definitionCanonical");
+        JsonArray definitionCanonicalArray = JsonSupport.getJsonArray(jsonObject, "definitionCanonical", true);
         if (definitionCanonicalArray != null) {
             int index = 0;
             JsonArray _definitionCanonicalArray = jsonObject.getJsonArray("_definitionCanonical");
@@ -2712,7 +2712,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        JsonArray derivedFromUriArray = JsonSupport.getJsonArray(jsonObject, "derivedFromUri");
+        JsonArray derivedFromUriArray = JsonSupport.getJsonArray(jsonObject, "derivedFromUri", true);
         if (derivedFromUriArray != null) {
             int index = 0;
             JsonArray _derivedFromUriArray = jsonObject.getJsonArray("_derivedFromUri");
@@ -2721,7 +2721,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray partOfArray = JsonSupport.getJsonArray(jsonObject, "partOf");
+        JsonArray partOfArray = JsonSupport.getJsonArray(jsonObject, "partOf", true);
         if (partOfArray != null) {
             int index = 0;
             JsonArray _partOfArray = jsonObject.getJsonArray("_partOf");
@@ -2730,7 +2730,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray replacesArray = JsonSupport.getJsonArray(jsonObject, "replaces");
+        JsonArray replacesArray = JsonSupport.getJsonArray(jsonObject, "replaces", true);
         if (replacesArray != null) {
             int index = 0;
             JsonArray _replacesArray = jsonObject.getJsonArray("_replaces");
@@ -3024,7 +3024,7 @@ public class FHIRJsonParser implements FHIRParser {
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.businessArrangement(parseString("businessArrangement", JsonSupport.getJsonValue(jsonObject, "businessArrangement", JsonString.class), jsonObject.get("_businessArrangement"), -1));
-        JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef");
+        JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef", true);
         if (preAuthRefArray != null) {
             int index = 0;
             JsonArray _preAuthRefArray = jsonObject.getJsonArray("_preAuthRef");
@@ -3048,7 +3048,7 @@ public class FHIRJsonParser implements FHIRParser {
         CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
         Claim.Item.Builder builder = Claim.Item.builder(sequence, productOrService);
         parseBackboneElement(builder, jsonObject);
-        JsonArray careTeamSequenceArray = JsonSupport.getJsonArray(jsonObject, "careTeamSequence");
+        JsonArray careTeamSequenceArray = JsonSupport.getJsonArray(jsonObject, "careTeamSequence", true);
         if (careTeamSequenceArray != null) {
             int index = 0;
             JsonArray _careTeamSequenceArray = jsonObject.getJsonArray("_careTeamSequence");
@@ -3057,7 +3057,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray diagnosisSequenceArray = JsonSupport.getJsonArray(jsonObject, "diagnosisSequence");
+        JsonArray diagnosisSequenceArray = JsonSupport.getJsonArray(jsonObject, "diagnosisSequence", true);
         if (diagnosisSequenceArray != null) {
             int index = 0;
             JsonArray _diagnosisSequenceArray = jsonObject.getJsonArray("_diagnosisSequence");
@@ -3066,7 +3066,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray procedureSequenceArray = JsonSupport.getJsonArray(jsonObject, "procedureSequence");
+        JsonArray procedureSequenceArray = JsonSupport.getJsonArray(jsonObject, "procedureSequence", true);
         if (procedureSequenceArray != null) {
             int index = 0;
             JsonArray _procedureSequenceArray = jsonObject.getJsonArray("_procedureSequence");
@@ -3075,7 +3075,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray informationSequenceArray = JsonSupport.getJsonArray(jsonObject, "informationSequence");
+        JsonArray informationSequenceArray = JsonSupport.getJsonArray(jsonObject, "informationSequence", true);
         if (informationSequenceArray != null) {
             int index = 0;
             JsonArray _informationSequenceArray = jsonObject.getJsonArray("_informationSequence");
@@ -3439,7 +3439,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder(productOrService, adjudication);
         parseBackboneElement(builder, jsonObject);
-        JsonArray itemSequenceArray = JsonSupport.getJsonArray(jsonObject, "itemSequence");
+        JsonArray itemSequenceArray = JsonSupport.getJsonArray(jsonObject, "itemSequence", true);
         if (itemSequenceArray != null) {
             int index = 0;
             JsonArray _itemSequenceArray = jsonObject.getJsonArray("_itemSequence");
@@ -3448,7 +3448,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray detailSequenceArray = JsonSupport.getJsonArray(jsonObject, "detailSequence");
+        JsonArray detailSequenceArray = JsonSupport.getJsonArray(jsonObject, "detailSequence", true);
         if (detailSequenceArray != null) {
             int index = 0;
             JsonArray _detailSequenceArray = jsonObject.getJsonArray("_detailSequence");
@@ -3457,7 +3457,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray subdetailSequenceArray = JsonSupport.getJsonArray(jsonObject, "subdetailSequence");
+        JsonArray subdetailSequenceArray = JsonSupport.getJsonArray(jsonObject, "subdetailSequence", true);
         if (subdetailSequenceArray != null) {
             int index = 0;
             JsonArray _subdetailSequenceArray = jsonObject.getJsonArray("_subdetailSequence");
@@ -3505,7 +3505,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -3556,7 +3556,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -3607,7 +3607,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -3671,7 +3671,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder(itemSequence, adjudication);
         parseBackboneElement(builder, jsonObject);
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -3726,7 +3726,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder(detailSequence, adjudication);
         parseBackboneElement(builder, jsonObject);
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -3756,7 +3756,7 @@ public class FHIRJsonParser implements FHIRParser {
         PositiveInt subDetailSequence = (PositiveInt) parseInteger(PositiveInt.builder(), "subDetailSequence", JsonSupport.getJsonValue(jsonObject, "subDetailSequence", JsonNumber.class), jsonObject.get("_subDetailSequence"), -1);
         ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder(subDetailSequence);
         parseBackboneElement(builder, jsonObject);
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -3867,7 +3867,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray protocolArray = JsonSupport.getJsonArray(jsonObject, "protocol");
+        JsonArray protocolArray = JsonSupport.getJsonArray(jsonObject, "protocol", true);
         if (protocolArray != null) {
             int index = 0;
             JsonArray _protocolArray = jsonObject.getJsonArray("_protocol");
@@ -4120,7 +4120,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("CodeSystem.Filter", jsonObject);
         Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
         java.util.List<FilterOperator> operator = new ArrayList<>();
-        JsonArray operatorArray = JsonSupport.getJsonArray(jsonObject, "operator");
+        JsonArray operatorArray = JsonSupport.getJsonArray(jsonObject, "operator", true);
         if (operatorArray != null) {
             int index = 0;
             JsonArray _operatorArray = jsonObject.getJsonArray("_operator");
@@ -4208,7 +4208,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -4217,7 +4217,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -4519,7 +4519,7 @@ public class FHIRJsonParser implements FHIRParser {
         ResourceType code = (ResourceType) parseString(ResourceType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
         CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder(code);
         parseBackboneElement(builder, jsonObject);
-        JsonArray paramArray = JsonSupport.getJsonArray(jsonObject, "param");
+        JsonArray paramArray = JsonSupport.getJsonArray(jsonObject, "param", true);
         if (paramArray != null) {
             int index = 0;
             JsonArray _paramArray = jsonObject.getJsonArray("_param");
@@ -5298,7 +5298,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
-        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias");
+        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias", true);
         if (aliasArray != null) {
             int index = 0;
             JsonArray _aliasArray = jsonObject.getJsonArray("_alias");
@@ -5533,7 +5533,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId");
+        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId", true);
         if (linkIdArray != null) {
             int index = 0;
             JsonArray _linkIdArray = jsonObject.getJsonArray("_linkId");
@@ -5543,7 +5543,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.context(parseReference("context", JsonSupport.getJsonValue(jsonObject, "context", JsonObject.class), -1));
-        JsonArray contextLinkIdArray = JsonSupport.getJsonArray(jsonObject, "contextLinkId");
+        JsonArray contextLinkIdArray = JsonSupport.getJsonArray(jsonObject, "contextLinkId", true);
         if (contextLinkIdArray != null) {
             int index = 0;
             JsonArray _contextLinkIdArray = jsonObject.getJsonArray("_contextLinkId");
@@ -5561,7 +5561,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray requesterLinkIdArray = JsonSupport.getJsonArray(jsonObject, "requesterLinkId");
+        JsonArray requesterLinkIdArray = JsonSupport.getJsonArray(jsonObject, "requesterLinkId", true);
         if (requesterLinkIdArray != null) {
             int index = 0;
             JsonArray _requesterLinkIdArray = jsonObject.getJsonArray("_requesterLinkId");
@@ -5580,7 +5580,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.performerRole(parseCodeableConcept("performerRole", JsonSupport.getJsonValue(jsonObject, "performerRole", JsonObject.class), -1));
         builder.performer(parseReference("performer", JsonSupport.getJsonValue(jsonObject, "performer", JsonObject.class), -1));
-        JsonArray performerLinkIdArray = JsonSupport.getJsonArray(jsonObject, "performerLinkId");
+        JsonArray performerLinkIdArray = JsonSupport.getJsonArray(jsonObject, "performerLinkId", true);
         if (performerLinkIdArray != null) {
             int index = 0;
             JsonArray _performerLinkIdArray = jsonObject.getJsonArray("_performerLinkId");
@@ -5605,7 +5605,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray reasonArray = JsonSupport.getJsonArray(jsonObject, "reason");
+        JsonArray reasonArray = JsonSupport.getJsonArray(jsonObject, "reason", true);
         if (reasonArray != null) {
             int index = 0;
             JsonArray _reasonArray = jsonObject.getJsonArray("_reason");
@@ -5614,7 +5614,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray reasonLinkIdArray = JsonSupport.getJsonArray(jsonObject, "reasonLinkId");
+        JsonArray reasonLinkIdArray = JsonSupport.getJsonArray(jsonObject, "reasonLinkId", true);
         if (reasonLinkIdArray != null) {
             int index = 0;
             JsonArray _reasonLinkIdArray = jsonObject.getJsonArray("_reasonLinkId");
@@ -5631,7 +5631,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber");
+        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber", true);
         if (securityLabelNumberArray != null) {
             int index = 0;
             JsonArray _securityLabelNumberArray = jsonObject.getJsonArray("_securityLabelNumber");
@@ -5734,7 +5734,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.text(parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
-        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId");
+        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId", true);
         if (linkIdArray != null) {
             int index = 0;
             JsonArray _linkIdArray = jsonObject.getJsonArray("_linkId");
@@ -5751,7 +5751,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber");
+        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber", true);
         if (securityLabelNumberArray != null) {
             int index = 0;
             JsonArray _securityLabelNumberArray = jsonObject.getJsonArray("_securityLabelNumber");
@@ -5814,7 +5814,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.paymentDate(parseDateTime("paymentDate", JsonSupport.getJsonValue(jsonObject, "paymentDate", JsonString.class), jsonObject.get("_paymentDate"), -1));
         builder.responsible(parseReference("responsible", JsonSupport.getJsonValue(jsonObject, "responsible", JsonObject.class), -1));
         builder.recipient(parseReference("recipient", JsonSupport.getJsonValue(jsonObject, "recipient", JsonObject.class), -1));
-        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId");
+        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId", true);
         if (linkIdArray != null) {
             int index = 0;
             JsonArray _linkIdArray = jsonObject.getJsonArray("_linkId");
@@ -5823,7 +5823,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber");
+        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber", true);
         if (securityLabelNumberArray != null) {
             int index = 0;
             JsonArray _securityLabelNumberArray = jsonObject.getJsonArray("_securityLabelNumber");
@@ -5880,7 +5880,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.text(parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
-        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId");
+        JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId", true);
         if (linkIdArray != null) {
             int index = 0;
             JsonArray _linkIdArray = jsonObject.getJsonArray("_linkId");
@@ -5889,7 +5889,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber");
+        JsonArray securityLabelNumberArray = JsonSupport.getJsonArray(jsonObject, "securityLabelNumber", true);
         if (securityLabelNumberArray != null) {
             int index = 0;
             JsonArray _securityLabelNumberArray = jsonObject.getJsonArray("_securityLabelNumber");
@@ -5946,7 +5946,7 @@ public class FHIRJsonParser implements FHIRParser {
         Coding classification = parseCoding("classification", JsonSupport.getJsonValue(jsonObject, "classification", JsonObject.class), -1);
         Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder(classification);
         parseBackboneElement(builder, jsonObject);
-        JsonArray numberArray = JsonSupport.getJsonArray(jsonObject, "number");
+        JsonArray numberArray = JsonSupport.getJsonArray(jsonObject, "number", true);
         if (numberArray != null) {
             int index = 0;
             JsonArray _numberArray = jsonObject.getJsonArray("_number");
@@ -6121,7 +6121,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("CoverageEligibilityRequest", jsonObject);
         EligibilityRequestStatus status = (EligibilityRequestStatus) parseString(EligibilityRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
         java.util.List<EligibilityRequestPurpose> purpose = new ArrayList<>();
-        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose");
+        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose", true);
         if (purposeArray != null) {
             int index = 0;
             JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
@@ -6199,7 +6199,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("CoverageEligibilityRequest.Item", jsonObject);
         CoverageEligibilityRequest.Item.Builder builder = CoverageEligibilityRequest.Item.builder();
         parseBackboneElement(builder, jsonObject);
-        JsonArray supportingInfoSequenceArray = JsonSupport.getJsonArray(jsonObject, "supportingInfoSequence");
+        JsonArray supportingInfoSequenceArray = JsonSupport.getJsonArray(jsonObject, "supportingInfoSequence", true);
         if (supportingInfoSequenceArray != null) {
             int index = 0;
             JsonArray _supportingInfoSequenceArray = jsonObject.getJsonArray("_supportingInfoSequence");
@@ -6278,7 +6278,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("CoverageEligibilityResponse", jsonObject);
         EligibilityResponseStatus status = (EligibilityResponseStatus) parseString(EligibilityResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
         java.util.List<EligibilityResponsePurpose> purpose = new ArrayList<>();
-        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose");
+        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose", true);
         if (purposeArray != null) {
             int index = 0;
             JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
@@ -6434,7 +6434,7 @@ public class FHIRJsonParser implements FHIRParser {
         FHIRAllTypes type = (FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
         DataRequirement.Builder builder = DataRequirement.builder(type);
         parseElement(builder, jsonObject);
-        JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile");
+        JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile", true);
         if (profileArray != null) {
             int index = 0;
             JsonArray _profileArray = jsonObject.getJsonArray("_profile");
@@ -6444,7 +6444,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
-        JsonArray mustSupportArray = JsonSupport.getJsonArray(jsonObject, "mustSupport");
+        JsonArray mustSupportArray = JsonSupport.getJsonArray(jsonObject, "mustSupport", true);
         if (mustSupportArray != null) {
             int index = 0;
             JsonArray _mustSupportArray = jsonObject.getJsonArray("_mustSupport");
@@ -6927,7 +6927,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray versionArray = JsonSupport.getJsonArray(jsonObject, "version");
+        JsonArray versionArray = JsonSupport.getJsonArray(jsonObject, "version", true);
         if (versionArray != null) {
             int index = 0;
             JsonArray _versionArray = jsonObject.getJsonArray("_version");
@@ -7188,7 +7188,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -7197,7 +7197,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -8090,7 +8090,7 @@ public class FHIRJsonParser implements FHIRParser {
         String path = parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1);
         ElementDefinition.Builder builder = ElementDefinition.builder(path);
         parseBackboneElement(builder, jsonObject);
-        JsonArray representationArray = JsonSupport.getJsonArray(jsonObject, "representation");
+        JsonArray representationArray = JsonSupport.getJsonArray(jsonObject, "representation", true);
         if (representationArray != null) {
             int index = 0;
             JsonArray _representationArray = jsonObject.getJsonArray("_representation");
@@ -8115,7 +8115,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.definition((Markdown) parseString(Markdown.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
         builder.comment((Markdown) parseString(Markdown.builder(), "comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         builder.requirements((Markdown) parseString(Markdown.builder(), "requirements", JsonSupport.getJsonValue(jsonObject, "requirements", JsonString.class), jsonObject.get("_requirements"), -1));
-        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias");
+        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias", true);
         if (aliasArray != null) {
             int index = 0;
             JsonArray _aliasArray = jsonObject.getJsonArray("_alias");
@@ -8152,7 +8152,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.minValue(parseChoiceElement("minValue", jsonObject, "Date", "DateTime", "Instant", "Time", "Decimal", "Integer", "PositiveInt", "UnsignedInt", "Quantity"));
         builder.maxValue(parseChoiceElement("maxValue", jsonObject, "Date", "DateTime", "Instant", "Time", "Decimal", "Integer", "PositiveInt", "UnsignedInt", "Quantity"));
         builder.maxLength(parseInteger("maxLength", JsonSupport.getJsonValue(jsonObject, "maxLength", JsonNumber.class), jsonObject.get("_maxLength"), -1));
-        JsonArray conditionArray = JsonSupport.getJsonArray(jsonObject, "condition");
+        JsonArray conditionArray = JsonSupport.getJsonArray(jsonObject, "condition", true);
         if (conditionArray != null) {
             int index = 0;
             JsonArray _conditionArray = jsonObject.getJsonArray("_condition");
@@ -8311,7 +8311,7 @@ public class FHIRJsonParser implements FHIRParser {
         Uri code = parseUri("code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
         ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder(code);
         parseBackboneElement(builder, jsonObject);
-        JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile");
+        JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile", true);
         if (profileArray != null) {
             int index = 0;
             JsonArray _profileArray = jsonObject.getJsonArray("_profile");
@@ -8320,7 +8320,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray targetProfileArray = JsonSupport.getJsonArray(jsonObject, "targetProfile");
+        JsonArray targetProfileArray = JsonSupport.getJsonArray(jsonObject, "targetProfile", true);
         if (targetProfileArray != null) {
             int index = 0;
             JsonArray _targetProfileArray = jsonObject.getJsonArray("_targetProfile");
@@ -8329,7 +8329,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray aggregationArray = JsonSupport.getJsonArray(jsonObject, "aggregation");
+        JsonArray aggregationArray = JsonSupport.getJsonArray(jsonObject, "aggregation", true);
         if (aggregationArray != null) {
             int index = 0;
             JsonArray _aggregationArray = jsonObject.getJsonArray("_aggregation");
@@ -8631,7 +8631,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
-        JsonArray payloadMimeTypeArray = JsonSupport.getJsonArray(jsonObject, "payloadMimeType");
+        JsonArray payloadMimeTypeArray = JsonSupport.getJsonArray(jsonObject, "payloadMimeType", true);
         if (payloadMimeTypeArray != null) {
             int index = 0;
             JsonArray _payloadMimeTypeArray = jsonObject.getJsonArray("_payloadMimeType");
@@ -8640,7 +8640,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray headerArray = JsonSupport.getJsonArray(jsonObject, "header");
+        JsonArray headerArray = JsonSupport.getJsonArray(jsonObject, "header", true);
         if (headerArray != null) {
             int index = 0;
             JsonArray _headerArray = jsonObject.getJsonArray("_header");
@@ -9280,7 +9280,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray workflowArray = JsonSupport.getJsonArray(jsonObject, "workflow");
+        JsonArray workflowArray = JsonSupport.getJsonArray(jsonObject, "workflow", true);
         if (workflowArray != null) {
             int index = 0;
             JsonArray _workflowArray = jsonObject.getJsonArray("_workflow");
@@ -9522,7 +9522,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.claim(parseReference("claim", JsonSupport.getJsonValue(jsonObject, "claim", JsonObject.class), -1));
         builder.claimResponse(parseReference("claimResponse", JsonSupport.getJsonValue(jsonObject, "claimResponse", JsonObject.class), -1));
         builder.disposition(parseString("disposition", JsonSupport.getJsonValue(jsonObject, "disposition", JsonString.class), jsonObject.get("_disposition"), -1));
-        JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef");
+        JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef", true);
         if (preAuthRefArray != null) {
             int index = 0;
             JsonArray _preAuthRefArray = jsonObject.getJsonArray("_preAuthRef");
@@ -9653,7 +9653,7 @@ public class FHIRJsonParser implements FHIRParser {
         CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
         ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder(productOrService);
         parseBackboneElement(builder, jsonObject);
-        JsonArray itemSequenceArray = JsonSupport.getJsonArray(jsonObject, "itemSequence");
+        JsonArray itemSequenceArray = JsonSupport.getJsonArray(jsonObject, "itemSequence", true);
         if (itemSequenceArray != null) {
             int index = 0;
             JsonArray _itemSequenceArray = jsonObject.getJsonArray("_itemSequence");
@@ -9662,7 +9662,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray detailSequenceArray = JsonSupport.getJsonArray(jsonObject, "detailSequence");
+        JsonArray detailSequenceArray = JsonSupport.getJsonArray(jsonObject, "detailSequence", true);
         if (detailSequenceArray != null) {
             int index = 0;
             JsonArray _detailSequenceArray = jsonObject.getJsonArray("_detailSequence");
@@ -9671,7 +9671,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray subDetailSequenceArray = JsonSupport.getJsonArray(jsonObject, "subDetailSequence");
+        JsonArray subDetailSequenceArray = JsonSupport.getJsonArray(jsonObject, "subDetailSequence", true);
         if (subDetailSequenceArray != null) {
             int index = 0;
             JsonArray _subDetailSequenceArray = jsonObject.getJsonArray("_subDetailSequence");
@@ -9719,7 +9719,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -9769,7 +9769,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -9819,7 +9819,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -9933,7 +9933,7 @@ public class FHIRJsonParser implements FHIRParser {
         Reference coverage = parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1);
         ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder(focal, coverage);
         parseBackboneElement(builder, jsonObject);
-        JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef");
+        JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef", true);
         if (preAuthRefArray != null) {
             int index = 0;
             JsonArray _preAuthRefArray = jsonObject.getJsonArray("_preAuthRef");
@@ -9956,7 +9956,7 @@ public class FHIRJsonParser implements FHIRParser {
         CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
         ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder(sequence, productOrService);
         parseBackboneElement(builder, jsonObject);
-        JsonArray careTeamSequenceArray = JsonSupport.getJsonArray(jsonObject, "careTeamSequence");
+        JsonArray careTeamSequenceArray = JsonSupport.getJsonArray(jsonObject, "careTeamSequence", true);
         if (careTeamSequenceArray != null) {
             int index = 0;
             JsonArray _careTeamSequenceArray = jsonObject.getJsonArray("_careTeamSequence");
@@ -9965,7 +9965,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray diagnosisSequenceArray = JsonSupport.getJsonArray(jsonObject, "diagnosisSequence");
+        JsonArray diagnosisSequenceArray = JsonSupport.getJsonArray(jsonObject, "diagnosisSequence", true);
         if (diagnosisSequenceArray != null) {
             int index = 0;
             JsonArray _diagnosisSequenceArray = jsonObject.getJsonArray("_diagnosisSequence");
@@ -9974,7 +9974,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray procedureSequenceArray = JsonSupport.getJsonArray(jsonObject, "procedureSequence");
+        JsonArray procedureSequenceArray = JsonSupport.getJsonArray(jsonObject, "procedureSequence", true);
         if (procedureSequenceArray != null) {
             int index = 0;
             JsonArray _procedureSequenceArray = jsonObject.getJsonArray("_procedureSequence");
@@ -9983,7 +9983,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray informationSequenceArray = JsonSupport.getJsonArray(jsonObject, "informationSequence");
+        JsonArray informationSequenceArray = JsonSupport.getJsonArray(jsonObject, "informationSequence", true);
         if (informationSequenceArray != null) {
             int index = 0;
             JsonArray _informationSequenceArray = jsonObject.getJsonArray("_informationSequence");
@@ -10041,7 +10041,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -10126,7 +10126,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -10195,7 +10195,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber");
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
@@ -10392,7 +10392,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -10401,7 +10401,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -11031,7 +11031,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("HealthcareService.AvailableTime", jsonObject);
         HealthcareService.AvailableTime.Builder builder = HealthcareService.AvailableTime.builder();
         parseBackboneElement(builder, jsonObject);
-        JsonArray daysOfWeekArray = JsonSupport.getJsonArray(jsonObject, "daysOfWeek");
+        JsonArray daysOfWeekArray = JsonSupport.getJsonArray(jsonObject, "daysOfWeek", true);
         if (daysOfWeekArray != null) {
             int index = 0;
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
@@ -11086,7 +11086,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.use((NameUse) parseString(NameUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
         builder.text(parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
         builder.family(parseString("family", JsonSupport.getJsonValue(jsonObject, "family", JsonString.class), jsonObject.get("_family"), -1));
-        JsonArray givenArray = JsonSupport.getJsonArray(jsonObject, "given");
+        JsonArray givenArray = JsonSupport.getJsonArray(jsonObject, "given", true);
         if (givenArray != null) {
             int index = 0;
             JsonArray _givenArray = jsonObject.getJsonArray("_given");
@@ -11095,7 +11095,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray prefixArray = JsonSupport.getJsonArray(jsonObject, "prefix");
+        JsonArray prefixArray = JsonSupport.getJsonArray(jsonObject, "prefix", true);
         if (prefixArray != null) {
             int index = 0;
             JsonArray _prefixArray = jsonObject.getJsonArray("_prefix");
@@ -11104,7 +11104,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray suffixArray = JsonSupport.getJsonArray(jsonObject, "suffix");
+        JsonArray suffixArray = JsonSupport.getJsonArray(jsonObject, "suffix", true);
         if (suffixArray != null) {
             int index = 0;
             JsonArray _suffixArray = jsonObject.getJsonArray("_suffix");
@@ -11661,7 +11661,7 @@ public class FHIRJsonParser implements FHIRParser {
         PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
         Id packageId = (Id) parseString(Id.builder(), "packageId", JsonSupport.getJsonValue(jsonObject, "packageId", JsonString.class), jsonObject.get("_packageId"), -1);
         java.util.List<FHIRVersion> fhirVersion = new ArrayList<>();
-        JsonArray fhirVersionArray = JsonSupport.getJsonArray(jsonObject, "fhirVersion");
+        JsonArray fhirVersionArray = JsonSupport.getJsonArray(jsonObject, "fhirVersion", true);
         if (fhirVersionArray != null) {
             int index = 0;
             JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
@@ -11832,7 +11832,7 @@ public class FHIRJsonParser implements FHIRParser {
         Reference reference = parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1);
         ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder(reference);
         parseBackboneElement(builder, jsonObject);
-        JsonArray fhirVersionArray = JsonSupport.getJsonArray(jsonObject, "fhirVersion");
+        JsonArray fhirVersionArray = JsonSupport.getJsonArray(jsonObject, "fhirVersion", true);
         if (fhirVersionArray != null) {
             int index = 0;
             JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
@@ -11919,7 +11919,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray imageArray = JsonSupport.getJsonArray(jsonObject, "image");
+        JsonArray imageArray = JsonSupport.getJsonArray(jsonObject, "image", true);
         if (imageArray != null) {
             int index = 0;
             JsonArray _imageArray = jsonObject.getJsonArray("_image");
@@ -11928,7 +11928,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray otherArray = JsonSupport.getJsonArray(jsonObject, "other");
+        JsonArray otherArray = JsonSupport.getJsonArray(jsonObject, "other", true);
         if (otherArray != null) {
             int index = 0;
             JsonArray _otherArray = jsonObject.getJsonArray("_other");
@@ -11951,7 +11951,7 @@ public class FHIRJsonParser implements FHIRParser {
         ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder(name);
         parseBackboneElement(builder, jsonObject);
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        JsonArray anchorArray = JsonSupport.getJsonArray(jsonObject, "anchor");
+        JsonArray anchorArray = JsonSupport.getJsonArray(jsonObject, "anchor", true);
         if (anchorArray != null) {
             int index = 0;
             JsonArray _anchorArray = jsonObject.getJsonArray("_anchor");
@@ -12024,7 +12024,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias");
+        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias", true);
         if (aliasArray != null) {
             int index = 0;
             JsonArray _aliasArray = jsonObject.getJsonArray("_alias");
@@ -12700,7 +12700,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.status((LocationStatus) parseString(LocationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.operationalStatus(parseCoding("operationalStatus", JsonSupport.getJsonValue(jsonObject, "operationalStatus", JsonObject.class), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias");
+        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias", true);
         if (aliasArray != null) {
             int index = 0;
             JsonArray _aliasArray = jsonObject.getJsonArray("_alias");
@@ -12761,7 +12761,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("Location.HoursOfOperation", jsonObject);
         Location.HoursOfOperation.Builder builder = Location.HoursOfOperation.builder();
         parseBackboneElement(builder, jsonObject);
-        JsonArray daysOfWeekArray = JsonSupport.getJsonArray(jsonObject, "daysOfWeek");
+        JsonArray daysOfWeekArray = JsonSupport.getJsonArray(jsonObject, "daysOfWeek", true);
         if (daysOfWeekArray != null) {
             int index = 0;
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
@@ -12914,7 +12914,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library");
+        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library", true);
         if (libraryArray != null) {
             int index = 0;
             JsonArray _libraryArray = jsonObject.getJsonArray("_library");
@@ -12939,7 +12939,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.rationale((Markdown) parseString(Markdown.builder(), "rationale", JsonSupport.getJsonValue(jsonObject, "rationale", JsonString.class), jsonObject.get("_rationale"), -1));
         builder.clinicalRecommendationStatement((Markdown) parseString(Markdown.builder(), "clinicalRecommendationStatement", JsonSupport.getJsonValue(jsonObject, "clinicalRecommendationStatement", JsonString.class), jsonObject.get("_clinicalRecommendationStatement"), -1));
         builder.improvementNotation(parseCodeableConcept("improvementNotation", JsonSupport.getJsonValue(jsonObject, "improvementNotation", JsonObject.class), -1));
-        JsonArray definitionArray = JsonSupport.getJsonArray(jsonObject, "definition");
+        JsonArray definitionArray = JsonSupport.getJsonArray(jsonObject, "definition", true);
         if (definitionArray != null) {
             int index = 0;
             JsonArray _definitionArray = jsonObject.getJsonArray("_definition");
@@ -13403,7 +13403,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesArray = JsonSupport.getJsonArray(jsonObject, "instantiates");
+        JsonArray instantiatesArray = JsonSupport.getJsonArray(jsonObject, "instantiates", true);
         if (instantiatesArray != null) {
             int index = 0;
             JsonArray _instantiatesArray = jsonObject.getJsonArray("_instantiates");
@@ -13687,7 +13687,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.manufacturer(parseReference("manufacturer", JsonSupport.getJsonValue(jsonObject, "manufacturer", JsonObject.class), -1));
         builder.doseForm(parseCodeableConcept("doseForm", JsonSupport.getJsonValue(jsonObject, "doseForm", JsonObject.class), -1));
         builder.amount(parseQuantity("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
-        JsonArray synonymArray = JsonSupport.getJsonArray(jsonObject, "synonym");
+        JsonArray synonymArray = JsonSupport.getJsonArray(jsonObject, "synonym", true);
         if (synonymArray != null) {
             int index = 0;
             JsonArray _synonymArray = jsonObject.getJsonArray("_synonym");
@@ -13874,7 +13874,7 @@ public class FHIRJsonParser implements FHIRParser {
         Element characteristic = parseChoiceElement("characteristic", jsonObject, "CodeableConcept", "Quantity");
         MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder(characteristic);
         parseBackboneElement(builder, jsonObject);
-        JsonArray valueArray = JsonSupport.getJsonArray(jsonObject, "value");
+        JsonArray valueArray = JsonSupport.getJsonArray(jsonObject, "value", true);
         if (valueArray != null) {
             int index = 0;
             JsonArray _valueArray = jsonObject.getJsonArray("_value");
@@ -14178,7 +14178,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -14187,7 +14187,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -14422,7 +14422,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.combinedPharmaceuticalDoseForm(parseCodeableConcept("combinedPharmaceuticalDoseForm", JsonSupport.getJsonValue(jsonObject, "combinedPharmaceuticalDoseForm", JsonObject.class), -1));
         builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", JsonSupport.getJsonValue(jsonObject, "legalStatusOfSupply", JsonObject.class), -1));
         builder.additionalMonitoringIndicator(parseCodeableConcept("additionalMonitoringIndicator", JsonSupport.getJsonValue(jsonObject, "additionalMonitoringIndicator", JsonObject.class), -1));
-        JsonArray specialMeasuresArray = JsonSupport.getJsonArray(jsonObject, "specialMeasures");
+        JsonArray specialMeasuresArray = JsonSupport.getJsonArray(jsonObject, "specialMeasures", true);
         if (specialMeasuresArray != null) {
             int index = 0;
             JsonArray _specialMeasuresArray = jsonObject.getJsonArray("_specialMeasures");
@@ -15450,7 +15450,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        JsonArray replacesArray = JsonSupport.getJsonArray(jsonObject, "replaces");
+        JsonArray replacesArray = JsonSupport.getJsonArray(jsonObject, "replaces", true);
         if (replacesArray != null) {
             int index = 0;
             JsonArray _replacesArray = jsonObject.getJsonArray("_replaces");
@@ -15489,7 +15489,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
         builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", JsonSupport.getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
         builder.base((Canonical) parseUri(Canonical.builder(), "base", JsonSupport.getJsonValue(jsonObject, "base", JsonString.class), jsonObject.get("_base"), -1));
-        JsonArray parentArray = JsonSupport.getJsonArray(jsonObject, "parent");
+        JsonArray parentArray = JsonSupport.getJsonArray(jsonObject, "parent", true);
         if (parentArray != null) {
             int index = 0;
             JsonArray _parentArray = jsonObject.getJsonArray("_parent");
@@ -15516,7 +15516,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray graphArray = JsonSupport.getJsonArray(jsonObject, "graph");
+        JsonArray graphArray = JsonSupport.getJsonArray(jsonObject, "graph", true);
         if (graphArray != null) {
             int index = 0;
             JsonArray _graphArray = jsonObject.getJsonArray("_graph");
@@ -15655,7 +15655,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.versionId((Id) parseString(Id.builder(), "versionId", JsonSupport.getJsonValue(jsonObject, "versionId", JsonString.class), jsonObject.get("_versionId"), -1));
         builder.lastUpdated(parseInstant("lastUpdated", JsonSupport.getJsonValue(jsonObject, "lastUpdated", JsonString.class), jsonObject.get("_lastUpdated"), -1));
         builder.source(parseUri("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
-        JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile");
+        JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile", true);
         if (profileArray != null) {
             int index = 0;
             JsonArray _profileArray = jsonObject.getJsonArray("_profile");
@@ -15834,7 +15834,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("MolecularSequence.Quality.Roc", jsonObject);
         MolecularSequence.Quality.Roc.Builder builder = MolecularSequence.Quality.Roc.builder();
         parseBackboneElement(builder, jsonObject);
-        JsonArray scoreArray = JsonSupport.getJsonArray(jsonObject, "score");
+        JsonArray scoreArray = JsonSupport.getJsonArray(jsonObject, "score", true);
         if (scoreArray != null) {
             int index = 0;
             JsonArray _scoreArray = jsonObject.getJsonArray("_score");
@@ -15843,7 +15843,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray numTPArray = JsonSupport.getJsonArray(jsonObject, "numTP");
+        JsonArray numTPArray = JsonSupport.getJsonArray(jsonObject, "numTP", true);
         if (numTPArray != null) {
             int index = 0;
             JsonArray _numTPArray = jsonObject.getJsonArray("_numTP");
@@ -15852,7 +15852,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray numFPArray = JsonSupport.getJsonArray(jsonObject, "numFP");
+        JsonArray numFPArray = JsonSupport.getJsonArray(jsonObject, "numFP", true);
         if (numFPArray != null) {
             int index = 0;
             JsonArray _numFPArray = jsonObject.getJsonArray("_numFP");
@@ -15861,7 +15861,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray numFNArray = JsonSupport.getJsonArray(jsonObject, "numFN");
+        JsonArray numFNArray = JsonSupport.getJsonArray(jsonObject, "numFN", true);
         if (numFNArray != null) {
             int index = 0;
             JsonArray _numFNArray = jsonObject.getJsonArray("_numFN");
@@ -15870,7 +15870,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray precisionArray = JsonSupport.getJsonArray(jsonObject, "precision");
+        JsonArray precisionArray = JsonSupport.getJsonArray(jsonObject, "precision", true);
         if (precisionArray != null) {
             int index = 0;
             JsonArray _precisionArray = jsonObject.getJsonArray("_precision");
@@ -15879,7 +15879,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray sensitivityArray = JsonSupport.getJsonArray(jsonObject, "sensitivity");
+        JsonArray sensitivityArray = JsonSupport.getJsonArray(jsonObject, "sensitivity", true);
         if (sensitivityArray != null) {
             int index = 0;
             JsonArray _sensitivityArray = jsonObject.getJsonArray("_sensitivity");
@@ -15888,7 +15888,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray fMeasureArray = JsonSupport.getJsonArray(jsonObject, "fMeasure");
+        JsonArray fMeasureArray = JsonSupport.getJsonArray(jsonObject, "fMeasure", true);
         if (fMeasureArray != null) {
             int index = 0;
             JsonArray _fMeasureArray = jsonObject.getJsonArray("_fMeasure");
@@ -16122,7 +16122,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -16131,7 +16131,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -16140,7 +16140,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesArray = JsonSupport.getJsonArray(jsonObject, "instantiates");
+        JsonArray instantiatesArray = JsonSupport.getJsonArray(jsonObject, "instantiates", true);
         if (instantiatesArray != null) {
             int index = 0;
             JsonArray _instantiatesArray = jsonObject.getJsonArray("_instantiates");
@@ -16546,7 +16546,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray permittedDataTypeArray = JsonSupport.getJsonArray(jsonObject, "permittedDataType");
+        JsonArray permittedDataTypeArray = JsonSupport.getJsonArray(jsonObject, "permittedDataType", true);
         if (permittedDataTypeArray != null) {
             int index = 0;
             JsonArray _permittedDataTypeArray = jsonObject.getJsonArray("_permittedDataType");
@@ -16668,7 +16668,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.affectsState(parseBoolean("affectsState", JsonSupport.getJsonValue(jsonObject, "affectsState", JsonValue.class), jsonObject.get("_affectsState"), -1));
         builder.comment((Markdown) parseString(Markdown.builder(), "comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         builder.base((Canonical) parseUri(Canonical.builder(), "base", JsonSupport.getJsonValue(jsonObject, "base", JsonString.class), jsonObject.get("_base"), -1));
-        JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource");
+        JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource", true);
         if (resourceArray != null) {
             int index = 0;
             JsonArray _resourceArray = jsonObject.getJsonArray("_resource");
@@ -16707,7 +16707,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("OperationDefinition.Overload", jsonObject);
         OperationDefinition.Overload.Builder builder = OperationDefinition.Overload.builder();
         parseBackboneElement(builder, jsonObject);
-        JsonArray parameterNameArray = JsonSupport.getJsonArray(jsonObject, "parameterName");
+        JsonArray parameterNameArray = JsonSupport.getJsonArray(jsonObject, "parameterName", true);
         if (parameterNameArray != null) {
             int index = 0;
             JsonArray _parameterNameArray = jsonObject.getJsonArray("_parameterName");
@@ -16735,7 +16735,7 @@ public class FHIRJsonParser implements FHIRParser {
         parseBackboneElement(builder, jsonObject);
         builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         builder.type((FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
-        JsonArray targetProfileArray = JsonSupport.getJsonArray(jsonObject, "targetProfile");
+        JsonArray targetProfileArray = JsonSupport.getJsonArray(jsonObject, "targetProfile", true);
         if (targetProfileArray != null) {
             int index = 0;
             JsonArray _targetProfileArray = jsonObject.getJsonArray("_targetProfile");
@@ -16827,7 +16827,7 @@ public class FHIRJsonParser implements FHIRParser {
         parseBackboneElement(builder, jsonObject);
         builder.details(parseCodeableConcept("details", JsonSupport.getJsonValue(jsonObject, "details", JsonObject.class), -1));
         builder.diagnostics(parseString("diagnostics", JsonSupport.getJsonValue(jsonObject, "diagnostics", JsonString.class), jsonObject.get("_diagnostics"), -1));
-        JsonArray locationArray = JsonSupport.getJsonArray(jsonObject, "location");
+        JsonArray locationArray = JsonSupport.getJsonArray(jsonObject, "location", true);
         if (locationArray != null) {
             int index = 0;
             JsonArray _locationArray = jsonObject.getJsonArray("_location");
@@ -16836,7 +16836,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray expressionArray = JsonSupport.getJsonArray(jsonObject, "expression");
+        JsonArray expressionArray = JsonSupport.getJsonArray(jsonObject, "expression", true);
         if (expressionArray != null) {
             int index = 0;
             JsonArray _expressionArray = jsonObject.getJsonArray("_expression");
@@ -16875,7 +16875,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias");
+        JsonArray aliasArray = JsonSupport.getJsonArray(jsonObject, "alias", true);
         if (aliasArray != null) {
             int index = 0;
             JsonArray _aliasArray = jsonObject.getJsonArray("_alias");
@@ -17544,7 +17544,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library");
+        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library", true);
         if (libraryArray != null) {
             int index = 0;
             JsonArray _libraryArray = jsonObject.getJsonArray("_library");
@@ -17610,7 +17610,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray goalIdArray = JsonSupport.getJsonArray(jsonObject, "goalId");
+        JsonArray goalIdArray = JsonSupport.getJsonArray(jsonObject, "goalId", true);
         if (goalIdArray != null) {
             int index = 0;
             JsonArray _goalIdArray = jsonObject.getJsonArray("_goalId");
@@ -18016,7 +18016,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("PractitionerRole.AvailableTime", jsonObject);
         PractitionerRole.AvailableTime.Builder builder = PractitionerRole.AvailableTime.builder();
         parseBackboneElement(builder, jsonObject);
-        JsonArray daysOfWeekArray = JsonSupport.getJsonArray(jsonObject, "daysOfWeek");
+        JsonArray daysOfWeekArray = JsonSupport.getJsonArray(jsonObject, "daysOfWeek", true);
         if (daysOfWeekArray != null) {
             int index = 0;
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
@@ -18064,7 +18064,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -18073,7 +18073,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -18251,7 +18251,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.nominalVolume(parseQuantity("nominalVolume", JsonSupport.getJsonValue(jsonObject, "nominalVolume", JsonObject.class), -1));
         builder.externalDiameter(parseQuantity("externalDiameter", JsonSupport.getJsonValue(jsonObject, "externalDiameter", JsonObject.class), -1));
         builder.shape(parseString("shape", JsonSupport.getJsonValue(jsonObject, "shape", JsonString.class), jsonObject.get("_shape"), -1));
-        JsonArray colorArray = JsonSupport.getJsonArray(jsonObject, "color");
+        JsonArray colorArray = JsonSupport.getJsonArray(jsonObject, "color", true);
         if (colorArray != null) {
             int index = 0;
             JsonArray _colorArray = jsonObject.getJsonArray("_color");
@@ -18260,7 +18260,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray imprintArray = JsonSupport.getJsonArray(jsonObject, "imprint");
+        JsonArray imprintArray = JsonSupport.getJsonArray(jsonObject, "imprint", true);
         if (imprintArray != null) {
             int index = 0;
             JsonArray _imprintArray = jsonObject.getJsonArray("_imprint");
@@ -18333,7 +18333,7 @@ public class FHIRJsonParser implements FHIRParser {
         Provenance.Builder builder = Provenance.builder(target, recorded, agent);
         parseDomainResource(builder, jsonObject);
         builder.occurred(parseChoiceElement("occurred", jsonObject, "Period", "DateTime"));
-        JsonArray policyArray = JsonSupport.getJsonArray(jsonObject, "policy");
+        JsonArray policyArray = JsonSupport.getJsonArray(jsonObject, "policy", true);
         if (policyArray != null) {
             int index = 0;
             JsonArray _policyArray = jsonObject.getJsonArray("_policy");
@@ -18458,7 +18458,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        JsonArray derivedFromArray = JsonSupport.getJsonArray(jsonObject, "derivedFrom");
+        JsonArray derivedFromArray = JsonSupport.getJsonArray(jsonObject, "derivedFrom", true);
         if (derivedFromArray != null) {
             int index = 0;
             JsonArray _derivedFromArray = jsonObject.getJsonArray("_derivedFrom");
@@ -18468,7 +18468,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
-        JsonArray subjectTypeArray = JsonSupport.getJsonArray(jsonObject, "subjectType");
+        JsonArray subjectTypeArray = JsonSupport.getJsonArray(jsonObject, "subjectType", true);
         if (subjectTypeArray != null) {
             int index = 0;
             JsonArray _subjectTypeArray = jsonObject.getJsonArray("_subjectType");
@@ -18898,7 +18898,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -18907,7 +18907,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -19114,7 +19114,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray commentArray = JsonSupport.getJsonArray(jsonObject, "comment");
+        JsonArray commentArray = JsonSupport.getJsonArray(jsonObject, "comment", true);
         if (commentArray != null) {
             int index = 0;
             JsonArray _commentArray = jsonObject.getJsonArray("_comment");
@@ -19193,7 +19193,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library");
+        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library", true);
         if (libraryArray != null) {
             int index = 0;
             JsonArray _libraryArray = jsonObject.getJsonArray("_library");
@@ -19255,7 +19255,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray commentArray = JsonSupport.getJsonArray(jsonObject, "comment");
+        JsonArray commentArray = JsonSupport.getJsonArray(jsonObject, "comment", true);
         if (commentArray != null) {
             int index = 0;
             JsonArray _commentArray = jsonObject.getJsonArray("_comment");
@@ -19334,7 +19334,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library");
+        JsonArray libraryArray = JsonSupport.getJsonArray(jsonObject, "library", true);
         if (libraryArray != null) {
             int index = 0;
             JsonArray _libraryArray = jsonObject.getJsonArray("_library");
@@ -20008,7 +20008,7 @@ public class FHIRJsonParser implements FHIRParser {
         Markdown description = (Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1);
         Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
         java.util.List<ResourceType> base = new ArrayList<>();
-        JsonArray baseArray = JsonSupport.getJsonArray(jsonObject, "base");
+        JsonArray baseArray = JsonSupport.getJsonArray(jsonObject, "base", true);
         if (baseArray != null) {
             int index = 0;
             JsonArray _baseArray = jsonObject.getJsonArray("_base");
@@ -20053,7 +20053,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
         builder.xpath(parseString("xpath", JsonSupport.getJsonValue(jsonObject, "xpath", JsonString.class), jsonObject.get("_xpath"), -1));
         builder.xpathUsage((XPathUsageType) parseString(XPathUsageType.builder(), "xpathUsage", JsonSupport.getJsonValue(jsonObject, "xpathUsage", JsonString.class), jsonObject.get("_xpathUsage"), -1));
-        JsonArray targetArray = JsonSupport.getJsonArray(jsonObject, "target");
+        JsonArray targetArray = JsonSupport.getJsonArray(jsonObject, "target", true);
         if (targetArray != null) {
             int index = 0;
             JsonArray _targetArray = jsonObject.getJsonArray("_target");
@@ -20064,7 +20064,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.multipleOr(parseBoolean("multipleOr", JsonSupport.getJsonValue(jsonObject, "multipleOr", JsonValue.class), jsonObject.get("_multipleOr"), -1));
         builder.multipleAnd(parseBoolean("multipleAnd", JsonSupport.getJsonValue(jsonObject, "multipleAnd", JsonValue.class), jsonObject.get("_multipleAnd"), -1));
-        JsonArray comparatorArray = JsonSupport.getJsonArray(jsonObject, "comparator");
+        JsonArray comparatorArray = JsonSupport.getJsonArray(jsonObject, "comparator", true);
         if (comparatorArray != null) {
             int index = 0;
             JsonArray _comparatorArray = jsonObject.getJsonArray("_comparator");
@@ -20073,7 +20073,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
+        JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier", true);
         if (modifierArray != null) {
             int index = 0;
             JsonArray _modifierArray = jsonObject.getJsonArray("_modifier");
@@ -20082,7 +20082,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray chainArray = JsonSupport.getJsonArray(jsonObject, "chain");
+        JsonArray chainArray = JsonSupport.getJsonArray(jsonObject, "chain", true);
         if (chainArray != null) {
             int index = 0;
             JsonArray _chainArray = jsonObject.getJsonArray("_chain");
@@ -20136,7 +20136,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical");
+        JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
         if (instantiatesCanonicalArray != null) {
             int index = 0;
             JsonArray _instantiatesCanonicalArray = jsonObject.getJsonArray("_instantiatesCanonical");
@@ -20145,7 +20145,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri");
+        JsonArray instantiatesUriArray = JsonSupport.getJsonArray(jsonObject, "instantiatesUri", true);
         if (instantiatesUriArray != null) {
             int index = 0;
             JsonArray _instantiatesUriArray = jsonObject.getJsonArray("_instantiatesUri");
@@ -20739,7 +20739,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray contextInvariantArray = JsonSupport.getJsonArray(jsonObject, "contextInvariant");
+        JsonArray contextInvariantArray = JsonSupport.getJsonArray(jsonObject, "contextInvariant", true);
         if (contextInvariantArray != null) {
             int index = 0;
             JsonArray _contextInvariantArray = jsonObject.getJsonArray("_contextInvariant");
@@ -20896,7 +20896,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray importArray = JsonSupport.getJsonArray(jsonObject, "import");
+        JsonArray importArray = JsonSupport.getJsonArray(jsonObject, "import", true);
         if (importArray != null) {
             int index = 0;
             JsonArray _importArray = jsonObject.getJsonArray("_import");
@@ -21014,7 +21014,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("StructureMap.Group.Rule.Dependent", jsonObject);
         Id name = (Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
         java.util.List<String> variable = new ArrayList<>();
-        JsonArray variableArray = JsonSupport.getJsonArray(jsonObject, "variable");
+        JsonArray variableArray = JsonSupport.getJsonArray(jsonObject, "variable", true);
         if (variableArray != null) {
             int index = 0;
             JsonArray _variableArray = jsonObject.getJsonArray("_variable");
@@ -21064,7 +21064,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.contextType((StructureMapContextType) parseString(StructureMapContextType.builder(), "contextType", JsonSupport.getJsonValue(jsonObject, "contextType", JsonString.class), jsonObject.get("_contextType"), -1));
         builder.element(parseString("element", JsonSupport.getJsonValue(jsonObject, "element", JsonString.class), jsonObject.get("_element"), -1));
         builder.variable((Id) parseString(Id.builder(), "variable", JsonSupport.getJsonValue(jsonObject, "variable", JsonString.class), jsonObject.get("_variable"), -1));
-        JsonArray listModeArray = JsonSupport.getJsonArray(jsonObject, "listMode");
+        JsonArray listModeArray = JsonSupport.getJsonArray(jsonObject, "listMode", true);
         if (listModeArray != null) {
             int index = 0;
             JsonArray _listModeArray = jsonObject.getJsonArray("_listMode");
@@ -21153,7 +21153,7 @@ public class FHIRJsonParser implements FHIRParser {
         parseBackboneElement(builder, jsonObject);
         builder.endpoint((Url) parseUri(Url.builder(), "endpoint", JsonSupport.getJsonValue(jsonObject, "endpoint", JsonString.class), jsonObject.get("_endpoint"), -1));
         builder.payload((Code) parseString(Code.builder(), "payload", JsonSupport.getJsonValue(jsonObject, "payload", JsonString.class), jsonObject.get("_payload"), -1));
-        JsonArray headerArray = JsonSupport.getJsonArray(jsonObject, "header");
+        JsonArray headerArray = JsonSupport.getJsonArray(jsonObject, "header", true);
         if (headerArray != null) {
             int index = 0;
             JsonArray _headerArray = jsonObject.getJsonArray("_header");
@@ -21379,7 +21379,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray modificationArray = JsonSupport.getJsonArray(jsonObject, "modification");
+        JsonArray modificationArray = JsonSupport.getJsonArray(jsonObject, "modification", true);
         if (modificationArray != null) {
             int index = 0;
             JsonArray _modificationArray = jsonObject.getJsonArray("_modification");
@@ -21538,7 +21538,7 @@ public class FHIRJsonParser implements FHIRParser {
         parseDomainResource(builder, jsonObject);
         builder.sequenceType(parseCodeableConcept("sequenceType", JsonSupport.getJsonValue(jsonObject, "sequenceType", JsonObject.class), -1));
         builder.numberOfSubunits(parseInteger("numberOfSubunits", JsonSupport.getJsonValue(jsonObject, "numberOfSubunits", JsonNumber.class), jsonObject.get("_numberOfSubunits"), -1));
-        JsonArray disulfideLinkageArray = JsonSupport.getJsonArray(jsonObject, "disulfideLinkage");
+        JsonArray disulfideLinkageArray = JsonSupport.getJsonArray(jsonObject, "disulfideLinkage", true);
         if (disulfideLinkageArray != null) {
             int index = 0;
             JsonArray _disulfideLinkageArray = jsonObject.getJsonArray("_disulfideLinkage");
@@ -21746,7 +21746,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray parentSubstanceNameArray = JsonSupport.getJsonArray(jsonObject, "parentSubstanceName");
+        JsonArray parentSubstanceNameArray = JsonSupport.getJsonArray(jsonObject, "parentSubstanceName", true);
         if (parentSubstanceNameArray != null) {
             int index = 0;
             JsonArray _parentSubstanceNameArray = jsonObject.getJsonArray("_parentSubstanceName");
@@ -21763,7 +21763,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray geographicalLocationArray = JsonSupport.getJsonArray(jsonObject, "geographicalLocation");
+        JsonArray geographicalLocationArray = JsonSupport.getJsonArray(jsonObject, "geographicalLocation", true);
         if (geographicalLocationArray != null) {
             int index = 0;
             JsonArray _geographicalLocationArray = jsonObject.getJsonArray("_geographicalLocation");
@@ -22644,7 +22644,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.code(parseString("code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.isDefault(parseBoolean("isDefault", JsonSupport.getJsonValue(jsonObject, "isDefault", JsonValue.class), jsonObject.get("_isDefault"), -1));
         builder.compositional(parseBoolean("compositional", JsonSupport.getJsonValue(jsonObject, "compositional", JsonValue.class), jsonObject.get("_compositional"), -1));
-        JsonArray languageArray = JsonSupport.getJsonArray(jsonObject, "language");
+        JsonArray languageArray = JsonSupport.getJsonArray(jsonObject, "language", true);
         if (languageArray != null) {
             int index = 0;
             JsonArray _languageArray = jsonObject.getJsonArray("_language");
@@ -22661,7 +22661,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray propertyArray = JsonSupport.getJsonArray(jsonObject, "property");
+        JsonArray propertyArray = JsonSupport.getJsonArray(jsonObject, "property", true);
         if (propertyArray != null) {
             int index = 0;
             JsonArray _propertyArray = jsonObject.getJsonArray("_property");
@@ -22682,7 +22682,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("TerminologyCapabilities.CodeSystem.Version.Filter", jsonObject);
         Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
         java.util.List<Code> op = new ArrayList<>();
-        JsonArray opArray = JsonSupport.getJsonArray(jsonObject, "op");
+        JsonArray opArray = JsonSupport.getJsonArray(jsonObject, "op", true);
         if (opArray != null) {
             int index = 0;
             JsonArray _opArray = jsonObject.getJsonArray("_op");
@@ -23147,7 +23147,7 @@ public class FHIRJsonParser implements FHIRParser {
         TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder(required, validated, capabilities);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray originArray = JsonSupport.getJsonArray(jsonObject, "origin");
+        JsonArray originArray = JsonSupport.getJsonArray(jsonObject, "origin", true);
         if (originArray != null) {
             int index = 0;
             JsonArray _originArray = jsonObject.getJsonArray("_origin");
@@ -23157,7 +23157,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.destination(parseInteger("destination", JsonSupport.getJsonValue(jsonObject, "destination", JsonNumber.class), jsonObject.get("_destination"), -1));
-        JsonArray linkArray = JsonSupport.getJsonArray(jsonObject, "link");
+        JsonArray linkArray = JsonSupport.getJsonArray(jsonObject, "link", true);
         if (linkArray != null) {
             int index = 0;
             JsonArray _linkArray = jsonObject.getJsonArray("_link");
@@ -23435,7 +23435,7 @@ public class FHIRJsonParser implements FHIRParser {
         checkForUnrecognizedElements("Timing", jsonObject);
         Timing.Builder builder = Timing.builder();
         parseBackboneElement(builder, jsonObject);
-        JsonArray eventArray = JsonSupport.getJsonArray(jsonObject, "event");
+        JsonArray eventArray = JsonSupport.getJsonArray(jsonObject, "event", true);
         if (eventArray != null) {
             int index = 0;
             JsonArray _eventArray = jsonObject.getJsonArray("_event");
@@ -23469,7 +23469,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.period(parseDecimal("period", JsonSupport.getJsonValue(jsonObject, "period", JsonNumber.class), jsonObject.get("_period"), -1));
         builder.periodMax(parseDecimal("periodMax", JsonSupport.getJsonValue(jsonObject, "periodMax", JsonNumber.class), jsonObject.get("_periodMax"), -1));
         builder.periodUnit((UnitsOfTime) parseString(UnitsOfTime.builder(), "periodUnit", JsonSupport.getJsonValue(jsonObject, "periodUnit", JsonString.class), jsonObject.get("_periodUnit"), -1));
-        JsonArray dayOfWeekArray = JsonSupport.getJsonArray(jsonObject, "dayOfWeek");
+        JsonArray dayOfWeekArray = JsonSupport.getJsonArray(jsonObject, "dayOfWeek", true);
         if (dayOfWeekArray != null) {
             int index = 0;
             JsonArray _dayOfWeekArray = jsonObject.getJsonArray("_dayOfWeek");
@@ -23478,7 +23478,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray timeOfDayArray = JsonSupport.getJsonArray(jsonObject, "timeOfDay");
+        JsonArray timeOfDayArray = JsonSupport.getJsonArray(jsonObject, "timeOfDay", true);
         if (timeOfDayArray != null) {
             int index = 0;
             JsonArray _timeOfDayArray = jsonObject.getJsonArray("_timeOfDay");
@@ -23487,7 +23487,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray whenArray = JsonSupport.getJsonArray(jsonObject, "when");
+        JsonArray whenArray = JsonSupport.getJsonArray(jsonObject, "when", true);
         if (whenArray != null) {
             int index = 0;
             JsonArray _whenArray = jsonObject.getJsonArray("_when");
@@ -23676,7 +23676,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray valueSetArray = JsonSupport.getJsonArray(jsonObject, "valueSet");
+        JsonArray valueSetArray = JsonSupport.getJsonArray(jsonObject, "valueSet", true);
         if (valueSetArray != null) {
             int index = 0;
             JsonArray _valueSetArray = jsonObject.getJsonArray("_valueSet");
@@ -23838,7 +23838,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
-        JsonArray targetLocationArray = JsonSupport.getJsonArray(jsonObject, "targetLocation");
+        JsonArray targetLocationArray = JsonSupport.getJsonArray(jsonObject, "targetLocation", true);
         if (targetLocationArray != null) {
             int index = 0;
             JsonArray _targetLocationArray = jsonObject.getJsonArray("_targetLocation");

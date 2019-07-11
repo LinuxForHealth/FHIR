@@ -228,13 +228,11 @@ public class CodeGenerator {
         generateVisitorInterface(basePath);
         generateAbstractVisitorClass(basePath);
         generateJsonParser(basePath);
-//      generateFunctions(basePath);
+//      generateFunctionClasses(basePath);
     }
 
     @SuppressWarnings("unused")
-    private void generateFunctions(String basePath) {
-        List<String> functionClassNames = new ArrayList<>();
-        
+    private void generateFunctionClasses(String basePath) {        
         for (String line : FUNCTIONS) {
             if (line.contains("expression")) {
                 continue;
@@ -253,7 +251,6 @@ public class CodeGenerator {
             }
             
             String className = titleCase(functionName) + "Function";
-            functionClassNames.add(className);
             
             long maxArity;
             if (line.contains("()")) {
@@ -298,27 +295,6 @@ public class CodeGenerator {
             } catch (Exception e) {
                 throw new Error(e);
             }
-        }
-        
-        Collections.sort(functionClassNames);
-        
-        // Work around the pseudo hardcoding
-        String baseDir = ".";
-        if (System.getProperty("BaseDir") != null) {
-            baseDir = System.getProperty("BaseDir");
-        }
-        
-        File file = new File(baseDir + "/src/main/resources/META-INF/services/com.ibm.watsonhealth.fhir.model.path.function.FHIRPathFunction");
-
-        try (FileWriter writer = new FileWriter(file)) {
-            for (String functionClassName : functionClassNames) {
-                writer.write("com.ibm.watsonhealth.fhir.model.path.function." + functionClassName);
-                if (!isLast(functionClassNames, functionClassName)) {
-                    writer.write(System.lineSeparator());
-                }
-            }
-        } catch (Exception e) {
-            throw new Error(e);
         }
     }
 
@@ -1897,7 +1873,11 @@ public class CodeGenerator {
             String parseMethodInvocation;
             if (isRepeating(elementDefinition)) {
                 cb.assign("java.util.List<" + fieldType + "> " + fieldName, "new ArrayList<>()");
-                cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ")");
+                if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
+                    cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ", true)");
+                } else {
+                    cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ")");
+                }
                 cb._if(elementName + "Array != null");
                 cb.assign("int index", "0");
                 if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
@@ -1940,7 +1920,11 @@ public class CodeGenerator {
                 
                 String parseMethodInvocation;            
                 if (isRepeating(elementDefinition)) {
-                    cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ")");
+                    if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
+                        cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ", true)");
+                    } else {
+                        cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ")");
+                    }
                     cb._if(elementName + "Array != null");
                     cb.assign("int index", "0");
                     if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {

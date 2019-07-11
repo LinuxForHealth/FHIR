@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.Objects;
 
 public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
+    public static final FHIRPathStringValue EMPTY_STRING = stringValue("");
+    
     private final String string;
     
     protected FHIRPathStringValue(Builder builder) {
