@@ -1117,7 +1117,7 @@ public class CodeGenerator {
         if (isRepeating(elementDefinition)) {
             String reference = getFieldType(structureDefinition, elementDefinition, false);
             reference = reference.substring(reference.lastIndexOf(".") + 1);
-            cb.javadocReturn("A list containing immutable objects of type " + javadocLink(reference) + ".");
+            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + ".");
         } else {
             String reference = fieldType;
             if (!"java.lang.String".equals(fieldType)) {
