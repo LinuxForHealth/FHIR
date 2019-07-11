@@ -32,6 +32,7 @@ public class SingleFunction extends FHIRPathAbstractFunction {
         return 0;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (isSingleton(context)) {
             return singleton(getSingleton(context));

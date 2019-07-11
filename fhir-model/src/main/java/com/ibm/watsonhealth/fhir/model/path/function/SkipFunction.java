@@ -30,6 +30,7 @@ public class SkipFunction extends FHIRPathAbstractFunction {
         return 1;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Integer num = getInteger(arguments.get(0));
         return context.stream()

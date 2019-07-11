@@ -30,6 +30,7 @@ public class EmptyFunction extends FHIRPathAbstractFunction {
         return 0;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         return context.isEmpty() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
     }

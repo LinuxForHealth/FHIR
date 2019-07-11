@@ -33,11 +33,12 @@ public class HasValueFunction extends FHIRPathAbstractFunction {
         return 0;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (isSingleton(context)) {
             FHIRPathNode node = getSingleton(context);
-            if (node.isElementNode()) {
-                return node.asElementNode().hasValue() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+            if (node.isElementNode() && node.asElementNode().hasValue()) {
+                return SINGLETON_BOOLEAN_TRUE;
             }
         }
         return SINGLETON_BOOLEAN_FALSE;        

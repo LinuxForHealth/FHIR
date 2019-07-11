@@ -30,6 +30,7 @@ public class CountFunction extends FHIRPathAbstractFunction {
         return 0;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         return singleton(integerValue(context.size()));
     }

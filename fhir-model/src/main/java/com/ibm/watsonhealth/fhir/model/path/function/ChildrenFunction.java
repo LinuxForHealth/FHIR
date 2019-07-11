@@ -32,6 +32,7 @@ public class ChildrenFunction extends FHIRPathAbstractFunction {
         return 0;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!context.isEmpty()) {
             return isSingleton(context) ? getSingleton(context).children() : context.stream()

@@ -52,7 +52,7 @@ public class FHIRValidator {
                 resource.accept(resource.getClass().getSimpleName(), visitor);
             } else if (root.isElementNode()) {
                 Element element = root.asElementNode().element();
-                element.accept(element.getClass().getSimpleName(), visitor);;
+                element.accept(element.getClass().getSimpleName(), visitor);
             }
             return visitor.getIssues();
         } catch (Exception e) {

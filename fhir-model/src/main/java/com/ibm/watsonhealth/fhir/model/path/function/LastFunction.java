@@ -31,6 +31,7 @@ public class LastFunction extends FHIRPathAbstractFunction {
         return 0;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!context.isEmpty()) {
             List<?> list = (context instanceof List) ? (List<?>) context : new ArrayList<>(context);

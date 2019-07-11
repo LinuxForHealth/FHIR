@@ -34,6 +34,7 @@ public class ToIntegerFunction extends FHIRPathAbstractFunction {
         return 0;
     }
 
+    @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!hasPrimitiveValue(context)) {
             throw new IllegalArgumentException();
@@ -52,8 +53,7 @@ public class ToIntegerFunction extends FHIRPathAbstractFunction {
             }
         }
         if (value.isBooleanValue()) {
-            Boolean _boolean = value.asBooleanValue()._boolean();
-            return singleton(integerValue(_boolean ? 1 : 0));
+            return singleton(integerValue(value.asBooleanValue().isTrue() ? 1 : 0));
         }            
         return empty();        
     }
