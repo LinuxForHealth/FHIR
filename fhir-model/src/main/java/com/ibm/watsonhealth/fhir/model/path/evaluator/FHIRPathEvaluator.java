@@ -48,6 +48,7 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathType;
 import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
+import com.ibm.watsonhealth.fhir.model.path.function.FHIRPathFunction;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 
@@ -130,6 +131,31 @@ public class FHIRPathEvaluator {
             }
         }
         
+        private Collection<FHIRPathNode> as(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "as");
+            }
+            ExpressionContext typeName = arguments.get(0);
+            Collection<FHIRPathNode> result = empty();
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            if (isSingleton(currentContext)) {
+                String qualifiedIdentifier = typeName.getText();
+                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
+                if (type != null) {
+                    FHIRPathNode node = getSingleton(currentContext);
+                    if ("System".equals(type.namespace()) && 
+                            node.isElementNode() && 
+                            node.asElementNode().hasValue()) {
+                        node = node.asElementNode().getValue();
+                    }
+                    if (type.isAssignableFrom(node.type())) {
+                        result = singleton(node);
+                    }
+                }
+            }
+            return result;
+        }
+
         private Set<String> closure(FHIRPathType type) {
             if ("System".equals(type.namespace())) {
                 return Collections.emptySet();
@@ -143,19 +169,14 @@ public class FHIRPathEvaluator {
             return closure;
         }
 
-        private void pushContext(Collection<FHIRPathNode> context) {
-            if (context != null) {
-                contextStack.push(context);
+        private Collection<FHIRPathNode> exists(List<ExpressionContext> arguments) {
+            if (arguments.size() < 0 || arguments.size() > 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "exists");
             }
+            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));
+            return singleton(booleanValue(!nodes.isEmpty()));
         }
-    
-        private Collection<FHIRPathNode> popContext() {
-            if (!contextStack.isEmpty()) {
-                return contextStack.pop();
-            }
-            return null;
-        }
-        
+
         private Collection<FHIRPathNode> getCurrentContext() {
             if (!contextStack.isEmpty()) {
                 return contextStack.peek();
@@ -163,6 +184,82 @@ public class FHIRPathEvaluator {
             return empty();
         }
         
+        private Collection<FHIRPathNode> is(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "is");
+            }
+            ExpressionContext typeName = arguments.get(0);
+            Collection<FHIRPathNode> result = singleton(booleanValue(false));
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            if (isSingleton(currentContext)) {
+                String qualifiedIdentifier = typeName.getText();
+                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
+                if (type != null) {
+                    FHIRPathNode node = getSingleton(currentContext);
+                    result = singleton(booleanValue(type.isAssignableFrom(node.type())));
+                }
+            }
+            return result;
+        }
+
+        private Collection<FHIRPathNode> popContext() {
+            if (!contextStack.isEmpty()) {
+                return contextStack.pop();
+            }
+            return null;
+        }
+
+        private void pushContext(Collection<FHIRPathNode> context) {
+            if (context != null) {
+                contextStack.push(context);
+            }
+        }
+
+        private Collection<FHIRPathNode> select(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "select");
+            }
+            ExpressionContext projection = arguments.get(0);
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            for (FHIRPathNode node : getCurrentContext()) {
+                pushContext(singleton(node));
+                result.addAll(visit(projection));
+                popContext();
+            }
+            return result;
+        }
+
+        private Collection<FHIRPathNode> trace(List<ExpressionContext> arguments) {
+            if (arguments.size() < 1 || arguments.size() > 2) {
+                throw unexpectedNumberOfArguments(arguments.size(), "is");
+            }
+            String name = getString(visit(arguments.get(0)));            
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            Collection<FHIRPathNode> nodes = arguments.size() == 1 ? currentContext : visit(arguments.get(1));
+            if (!nodes.isEmpty()) {
+                // TODO: add to log
+                System.out.println(name + ": " + nodes);
+            }
+            return currentContext;
+        }
+
+        private IllegalArgumentException unexpectedNumberOfArguments(int arity, String functionName) {
+            return new IllegalArgumentException(String.format("Unexpected number of arguments: %d for function: '%s'", arity, functionName));
+        }
+
+        private Collection<FHIRPathNode> where(List<ExpressionContext> arguments) {
+            ExpressionContext criteria = arguments.get(0);
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            for (FHIRPathNode node : getCurrentContext()) {
+                pushContext(singleton(node));
+                if (getBoolean(visit(criteria))) {
+                    result.add(node);
+                }
+                popContext();
+            }
+            return result;
+        }
+
         /**
          * expression '[' expression ']'
          */
@@ -823,7 +920,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
+        
         /**
          * identifier '(' paramList? ')'
          */
@@ -841,219 +938,40 @@ public class FHIRPathEvaluator {
             if (paramList != null) {
                 arguments.addAll(ctx.paramList().expression());
             }
-            
+                        
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             
             switch (functionName) {
-            case "where":
-                result = where(arguments.get(0));
+            case "as":
+                result = as(arguments);
+                break;   
+            case "exists":
+                result = exists(arguments);
+                break;
+            case "is":
+                result = is(arguments);
                 break;
             case "select":
-                result = select(arguments.get(0));
-                break;
-            case "hasValue":
-                result = hasValue(currentContext);
-                break;
-            case "getValue":
-                result = getValue(currentContext);
-                break;
-            case "children":
-                if (!currentContext.isEmpty()) {
-                    result = isSingleton(currentContext) ? getSingleton(currentContext).children() : currentContext.stream()
-                        .flatMap(node -> node.children().stream())
-                        .collect(Collectors.toList());
-                }
-                break;
-            case "descendants":
-                if (!currentContext.isEmpty()) {
-                    result = isSingleton(currentContext) ? getSingleton(currentContext).descendants() : currentContext.stream()
-                        .flatMap(node -> node.descendants().stream())
-                        .collect(Collectors.toList());
-                }
-                break;
-            case "toInteger":
-                if (hasPrimitiveValue(currentContext)) {
-                    result = toInteger(getPrimitiveValue(currentContext));
-                }
-                break;
-            case "exists":
-                result = singleton(booleanValue(!currentContext.isEmpty()));
-                break;
-            case "empty":
-                result = singleton(booleanValue(currentContext.isEmpty()));
-                break;
-            case "count":
-                result = singleton(integerValue(currentContext.size()));
-                break;
-            case "single":
-                if (isSingleton(currentContext)) {
-                    result = singleton(getSingleton(currentContext));
-                }
-                break;
-            case "first":
-                if (!currentContext.isEmpty()) {
-                    List<?> list = (currentContext instanceof List) ? (List<?>) currentContext : new ArrayList<>(currentContext);
-                    result = singleton((FHIRPathNode) list.get(0));
-                }
-                break;
-            case "last":
-                if (!currentContext.isEmpty()) {
-                    List<?> list = (currentContext instanceof List) ? (List<?>) currentContext : new ArrayList<>(currentContext);
-                    result = singleton((FHIRPathNode) list.get(list.size() - 1));
-                }
-                break;
-            case "skip":
-                result = skip(arguments.get(0));
-                break;
-            case "take":
-                result = limit(arguments.get(0));
+                result = select(arguments);
                 break;
             case "trace":
                 result = trace(arguments);
                 break;
-            case "not":
-                if (hasPrimitiveValue(currentContext)) {
-                    FHIRPathPrimitiveValue value = getPrimitiveValue(currentContext);
-                    if (value.isBooleanValue()) {
-                        result = singleton(value.asBooleanValue().not());
-                    }
-                }
-                break;
-            case "is":
-                result = is(arguments.get(0));
-                break;
-            case "as":
-                result = as(arguments.get(0));
+            case "where":
+                result = where(arguments);
                 break;
             default:
-                throw new UnsupportedOperationException("Function: '" + functionName + "' is not supported");
+                // evaluate arguments: ExpressionContext -> Collection<FHIRPathNode>
+                List<Collection<FHIRPathNode>> args = arguments.stream().map(expressionContext -> visit(expressionContext)).collect(Collectors.toList());
+                FHIRPathFunction function = FHIRPathFunction.registry().getFunction(functionName, args.size());
+                result = function.apply(currentContext, args);
+                break;
             }
                         
             indentLevel--;
             return result;
         }
-
-        private Collection<FHIRPathNode> getValue(Collection<FHIRPathNode> currentContext) {
-            if (isSingleton(currentContext)) {
-                FHIRPathNode node = getSingleton(currentContext);
-                if (node.isElementNode() && node.asElementNode().hasValue()) {
-                    return singleton(node.asElementNode().getValue());
-                }
-            }
-            return empty();
-        }
-
-        private Collection<FHIRPathNode> hasValue(Collection<FHIRPathNode> currentContext) {
-            if (isSingleton(currentContext)) {
-                FHIRPathNode node = getSingleton(currentContext);
-                if (node.isElementNode()) {
-                    return singleton(booleanValue(node.asElementNode().hasValue()));
-                }
-            }
-            return singleton(booleanValue(false));
-        }
         
-        private Collection<FHIRPathNode> is(ExpressionContext typeName) {
-            Collection<FHIRPathNode> result = singleton(booleanValue(false));
-            Collection<FHIRPathNode> currentContext = getCurrentContext();
-            if (isSingleton(currentContext)) {
-                String qualifiedIdentifier = typeName.getText();
-                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
-                if (type != null) {
-                    FHIRPathNode node = getSingleton(currentContext);
-                    result = singleton(booleanValue(type.isAssignableFrom(node.type())));
-                }
-            }
-            return result;
-        }
-
-        private Collection<FHIRPathNode> as(ExpressionContext typeName) {
-            Collection<FHIRPathNode> result = empty();
-            Collection<FHIRPathNode> currentContext = getCurrentContext();
-            if (isSingleton(currentContext)) {
-                String qualifiedIdentifier = typeName.getText();
-                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
-                if (type != null) {
-                    FHIRPathNode node = getSingleton(currentContext);
-                    if ("System".equals(type.namespace()) && 
-                            node.isElementNode() && 
-                            node.asElementNode().hasValue()) {
-                        node = node.asElementNode().getValue();
-                    }
-                    if (type.isAssignableFrom(node.type())) {
-                        result = singleton(node);
-                    }
-                }
-            }
-            return result;
-        }
-
-        private Collection<FHIRPathNode> trace(List<ExpressionContext> arguments) {
-            String name = getString(visit(arguments.get(0)));            
-            Collection<FHIRPathNode> nodes = visit(arguments.get(1));
-            if (!nodes.isEmpty()) {
-                // TODO: add to log
-                System.out.println(name + ": " + nodes);
-            }
-            return getCurrentContext();
-        }
-
-        private Collection<FHIRPathNode> where(ExpressionContext criteria) {
-            Collection<FHIRPathNode> result = new ArrayList<>();
-            for (FHIRPathNode node : getCurrentContext()) {
-                pushContext(singleton(node));
-                if (getBoolean(visit(criteria))) {
-                    result.add(node);
-                }
-                popContext();
-            }
-            return result;
-        }
-
-        private Collection<FHIRPathNode> select(ExpressionContext projection) {
-            Collection<FHIRPathNode> result = new ArrayList<>();
-            for (FHIRPathNode node : getCurrentContext()) {
-                pushContext(singleton(node));
-                result.addAll(visit(projection));
-                popContext();
-            }
-            return result;
-        }
-
-        private Collection<FHIRPathNode> toInteger(FHIRPathPrimitiveValue value) {
-            if (value.isNumberValue() && value.asNumberValue().isIntegerValue()) {
-                return singleton(value);
-            }
-            if (value.isStringValue()) {
-                String string = value.asStringValue().string();
-                try {
-                    Integer integer = Integer.parseInt(string);
-                    return singleton(integerValue(integer));
-                } catch (NumberFormatException e) {
-                    return empty();
-                }
-            }
-            if (value.isBooleanValue()) {
-                Boolean _boolean = value.asBooleanValue()._boolean();
-                return singleton(integerValue(_boolean ? 1 : 0));
-            }            
-            return empty();
-        }
-
-        private Collection<FHIRPathNode> skip(ExpressionContext expressionContext) {
-            Integer num = getInteger(visit(expressionContext));
-            return getCurrentContext().stream()
-                    .skip(num)
-                    .collect(Collectors.toList());
-        }
-
-        private Collection<FHIRPathNode> limit(ExpressionContext expressionContext) {
-            Integer num = getInteger(visit(expressionContext));
-            return getCurrentContext().stream()
-                    .limit(num)
-                    .collect(Collectors.toList());
-        }
-
         @Override
         public Collection<FHIRPathNode> visitParamList(FHIRPathParser.ParamListContext ctx) {
             debug(ctx);

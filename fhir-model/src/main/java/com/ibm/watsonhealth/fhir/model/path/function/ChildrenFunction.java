@@ -6,12 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getSingleton;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isSingleton;
+
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 
-public class ChildrenFunction implements FHIRPathFunction {
+public class ChildrenFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
         return "children";
@@ -28,6 +33,11 @@ public class ChildrenFunction implements FHIRPathFunction {
     }
 
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
+        if (!context.isEmpty()) {
+            return isSingleton(context) ? getSingleton(context).children() : context.stream()
+                .flatMap(node -> node.children().stream())
+                .collect(Collectors.toList());
+        }
+        return empty();
     }
 }

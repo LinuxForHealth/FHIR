@@ -35,7 +35,14 @@ public class FHIRPathFunctionRegistry {
         functionMap.put(function.getName(), function);
     }
     
-    public FHIRPathFunction getFunction(String functionName) {
-        return functionMap.get(functionName);
+    public FHIRPathFunction getFunction(String functionName, int arity) {
+        FHIRPathFunction function = functionMap.get(functionName);
+        if (function == null) {
+            throw new IllegalArgumentException("Function: '" + functionName + "' not found");
+        }
+        if (arity >= function.getMinArity() && arity <= function.getMaxArity()) {
+            return function;
+        }
+        throw new IllegalArgumentException("Unexpected number of arguments: " + arity + " for function: '" + functionName + "'");
     }
 }

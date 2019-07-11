@@ -228,9 +228,10 @@ public class CodeGenerator {
         generateVisitorInterface(basePath);
         generateAbstractVisitorClass(basePath);
         generateJsonParser(basePath);
-        generateFunctions(basePath);
+//      generateFunctions(basePath);
     }
 
+    @SuppressWarnings("unused")
     private void generateFunctions(String basePath) {
         List<String> functionClassNames = new ArrayList<>();
         
@@ -243,15 +244,14 @@ public class CodeGenerator {
             
             String packageName = "com.ibm.watsonhealth.fhir.model.path.function";
             cb.javadoc(HEADER, true, true, false).newLine();
-            cb._package(packageName).newLine();
-            
-            cb._import("java.util.Collection");
-            cb._import("java.util.List");
-            cb.newLine();
-            cb._import("com.ibm.watsonhealth.fhir.model.path.FHIRPathNode");
-            cb.newLine();
-            
+            cb._package(packageName);
+                        
             String functionName = line.substring(0, line.indexOf("("));
+            
+            if ("as".equals(functionName) || "is".equals(functionName)) {
+                continue;
+            }
+            
             String className = titleCase(functionName) + "Function";
             functionClassNames.add(className);
             
@@ -266,7 +266,9 @@ public class CodeGenerator {
             }
             long minArity = maxArity - line.chars().filter(ch -> ch == '[').count();
             
-            cb._class(mods("public"), className, null, implementsInterfaces("FHIRPathFunction"));
+            cb.newLine();
+            
+            cb._class(mods("public"), className, "FHIRPathAbstractFunction");
             
             cb.override();
             cb.method(mods("public"), "String", "getName");
@@ -285,12 +287,6 @@ public class CodeGenerator {
             cb.override();
             cb.method(mods("public"), "int", "getMaxArity");
             cb._return(String.valueOf(maxArity));
-            cb.end();
-            
-            cb.newLine();
-            
-            cb.method(mods("public"), "Collection<FHIRPathNode>", "apply", params("Collection<FHIRPathNode> context", "List<Collection<FHIRPathNode>> arguments"));
-            cb._throw(_new("UnsupportedOperationException", args("\"Function: '\" + getName() + \"' is not supported\"")));
             cb.end();
             
             cb._end();

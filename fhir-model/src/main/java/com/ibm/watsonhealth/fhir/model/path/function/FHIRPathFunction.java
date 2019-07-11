@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.function.registry.FHIRPathFunctionRegistry;
 
 public interface FHIRPathFunction extends BiFunction<Collection<FHIRPathNode>, List<Collection<FHIRPathNode>>, Collection<FHIRPathNode>> {
     String getName();
@@ -18,5 +19,9 @@ public interface FHIRPathFunction extends BiFunction<Collection<FHIRPathNode>, L
     int getMaxArity();
     
     @Override
-    Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> parameters);
+    Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments);
+    
+    static FHIRPathFunctionRegistry registry() {
+        return FHIRPathFunctionRegistry.getInstance();
+    }
 }

@@ -6,12 +6,15 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getInteger;
+
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 
-public class SkipFunction implements FHIRPathFunction {
+public class SkipFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
         return "skip";
@@ -28,6 +31,9 @@ public class SkipFunction implements FHIRPathFunction {
     }
 
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
+        Integer num = getInteger(arguments.get(0));
+        return context.stream()
+                .skip(num)
+                .collect(Collectors.toList());
     }
 }

@@ -6,12 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-
-public class EndsWithFunction implements FHIRPathFunction {
+public class EndsWithFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
         return "endsWith";
@@ -25,9 +20,5 @@ public class EndsWithFunction implements FHIRPathFunction {
     @Override
     public int getMaxArity() {
         return 1;
-    }
-
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
     }
 }

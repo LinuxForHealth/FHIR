@@ -6,12 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-
-public class ReplaceMatchesFunction implements FHIRPathFunction {
+public class ReplaceMatchesFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
         return "replaceMatches";
@@ -25,9 +20,5 @@ public class ReplaceMatchesFunction implements FHIRPathFunction {
     @Override
     public int getMaxArity() {
         return 2;
-    }
-
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
     }
 }

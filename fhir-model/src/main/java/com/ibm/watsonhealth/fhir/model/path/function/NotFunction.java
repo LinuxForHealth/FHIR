@@ -6,12 +6,18 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
+
 import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 
-public class NotFunction implements FHIRPathFunction {
+public class NotFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
         return "not";
@@ -28,6 +34,12 @@ public class NotFunction implements FHIRPathFunction {
     }
 
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
+        if (hasPrimitiveValue(context)) {
+            FHIRPathPrimitiveValue value = getPrimitiveValue(context);
+            if (value.isBooleanValue()) {
+                return singleton(value.asBooleanValue().not());
+            }
+        }
+        return empty();
     }
 }

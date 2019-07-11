@@ -6,12 +6,15 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
+import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue.integerValue;
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
+
 import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 
-public class CountFunction implements FHIRPathFunction {
+public class CountFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
         return "count";
@@ -28,6 +31,6 @@ public class CountFunction implements FHIRPathFunction {
     }
 
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
+        return singleton(integerValue(context.size()));
     }
 }

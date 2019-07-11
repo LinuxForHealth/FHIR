@@ -92,6 +92,4 @@ public class ModelPlugin extends AbstractMojo {
         } else {
             getLog().info("Skipping project as the artifact is not a model project -> " + mavenProject.getArtifactId());
         }
-    }
-
-}
+    }}
