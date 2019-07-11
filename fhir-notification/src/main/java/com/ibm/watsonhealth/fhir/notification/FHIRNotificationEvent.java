@@ -8,7 +8,7 @@ package com.ibm.watsonhealth.fhir.notification;
 
 import javax.ws.rs.core.HttpHeaders;
 
-import com.ibm.watsonhealth.fhir.model.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 public class FHIRNotificationEvent {
     private String lastUpdated = null;
