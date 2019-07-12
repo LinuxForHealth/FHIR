@@ -589,28 +589,6 @@ public class CodeGenerator {
                 }
                 
                 cb.end();
-                cb.newLine();
-                
-                cb.javadocStart();
-                char[] shortDesc = elementDefinition.getString("short").toCharArray();
-                shortDesc[0] = Character.toLowerCase(shortDesc[0]);
-                cb.javadoc("Clear the list of " + new String(shortDesc));
-                cb.javadoc("");  
-                cb.javadocReturn("A reference to this Builder instance.");
-                cb.javadocEnd();
-                if (!declaredBy) {
-                    cb.override();
-                }
-                cb.method(mods("public"), "Builder", "clear" + titleCase(fieldName));
-                
-                if (declaredBy) {
-                    cb.invoke(_this(fieldName), "clear", args());
-                    cb._return("this");
-                } else {
-                    cb._return("(Builder) super.clear" + titleCase(fieldName) + "()");
-                }
-                
-                cb.end();
             } else {
                 generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, cb);
                 if (!declaredBy) {
@@ -1139,7 +1117,7 @@ public class CodeGenerator {
         if (isRepeating(elementDefinition)) {
             String reference = getFieldType(structureDefinition, elementDefinition, false);
             reference = reference.substring(reference.lastIndexOf(".") + 1);
-            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + ".");
+            cb.javadocReturn("A list containing immutable objects of type " + javadocLink(reference) + ".");
         } else {
             String reference = fieldType;
             if (!"java.lang.String".equals(fieldType)) {
@@ -1180,14 +1158,6 @@ public class CodeGenerator {
         generateClass(structureDefinition, Collections.singletonList(path), cb, false);
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + className + ".java");
-        try {
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                Files.createFile(file.toPath());
-            }
-        } catch (Exception e) {
-            throw new Error(e);
-        }
 
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(cb.toString());
@@ -1754,15 +1724,7 @@ public class CodeGenerator {
         cb._end();
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/FHIRJsonParser.java");
-        try {
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                Files.createFile(file.toPath());
-            }
-        } catch (Exception e) {
-            throw new Error(e);
-        }
-        
+
         Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
@@ -2251,15 +2213,7 @@ public class CodeGenerator {
                 
                 
                 File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + bindingName + ".java");
-                try {
-                    if (!file.exists()) {
-                        file.getParentFile().mkdirs();
-                        Files.createFile(file.toPath());
-                    }
-                } catch (Exception e) {
-                    throw new Error(e);
-                }
-                
+
                 try (FileWriter writer = new FileWriter(file)) {
                     writer.write(cb.toString());
                 } catch (Exception e) {
@@ -2343,14 +2297,6 @@ public class CodeGenerator {
         cb._end();
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/Visitor.java");
-        try {
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                Files.createFile(file.toPath());
-            }
-        } catch (Exception e) {
-            throw new Error(e);
-        }
 
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(cb.toString());
