@@ -6,8 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
-import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_BOOLEAN_FALSE;
-import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_BOOLEAN_TRUE;
+import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
+import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +32,6 @@ public class EmptyFunction extends FHIRPathAbstractFunction {
 
     @Override
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        return context.isEmpty() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+        return context.isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
     }
 }

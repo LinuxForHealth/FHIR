@@ -6,8 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function;
 
-import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_BOOLEAN_FALSE;
-import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_BOOLEAN_TRUE;
+import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
+import static com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.isSingleton;
@@ -38,9 +38,9 @@ public class HasValueFunction extends FHIRPathAbstractFunction {
         if (isSingleton(context)) {
             FHIRPathNode node = getSingleton(context);
             if (node.isElementNode() && node.asElementNode().hasValue()) {
-                return SINGLETON_BOOLEAN_TRUE;
+                return SINGLETON_TRUE;
             }
         }
-        return SINGLETON_BOOLEAN_FALSE;        
+        return SINGLETON_FALSE;        
     }
 }

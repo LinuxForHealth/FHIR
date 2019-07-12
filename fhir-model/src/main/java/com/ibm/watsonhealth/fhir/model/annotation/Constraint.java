@@ -21,4 +21,5 @@ public @interface Constraint {
     String location();
     String description();
     String expression();
+    boolean modelChecked() default false;
 }

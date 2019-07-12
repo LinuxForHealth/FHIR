@@ -69,7 +69,6 @@ public class FHIRPathTree {
         private final Stack<java.lang.String> nameStack = new Stack<>();
         private final Stack<String> pathStack = new Stack<>();
         private final Stack<Integer> indexStack = new Stack<>();
-
         private final Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
         
         private FHIRPathNode root;

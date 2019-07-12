@@ -46,6 +46,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.SubstanceSpecification.Code;
 import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
@@ -103,7 +104,9 @@ public class FHIRUtil {
     
     public static String getTypeName(Class<?> type) {
         String typeName = type.getSimpleName();
-        if (isPrimitiveType(type)) {
+        if (Code.class.isAssignableFrom(type)) {
+            typeName = "code";
+        } else if (isPrimitiveType(type)) {
             typeName = typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
         }
         return typeName;

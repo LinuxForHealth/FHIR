@@ -57,8 +57,8 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
 public class FHIRPathEvaluator {
     public static boolean DEBUG = false;
     
-    public static final Collection<FHIRPathNode> SINGLETON_BOOLEAN_TRUE = singleton(FHIRPathBooleanValue.TRUE);
-    public static final Collection<FHIRPathNode> SINGLETON_BOOLEAN_FALSE = singleton(FHIRPathBooleanValue.FALSE);
+    public static final Collection<FHIRPathNode> SINGLETON_TRUE = singleton(FHIRPathBooleanValue.TRUE);
+    public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
     
     private static final Map<String, ExpressionContext> EXPRESSION_CACHE = new ConcurrentHashMap<>();
     
@@ -179,7 +179,7 @@ public class FHIRPathEvaluator {
                 throw unexpectedNumberOfArguments(arguments.size(), "exists");
             }
             Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));    
-            return !nodes.isEmpty() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+            return !nodes.isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> getCurrentContext() {
@@ -200,10 +200,12 @@ public class FHIRPathEvaluator {
                 FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
                 if (type != null) {
                     FHIRPathNode node = getSingleton(currentContext);
-                    return type.isAssignableFrom(node.type()) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                    if (type.isAssignableFrom(node.type())) {
+                        return SINGLETON_TRUE;
+                    }
                 }
             }
-            return SINGLETON_BOOLEAN_FALSE;
+            return SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> popContext() {
@@ -454,10 +456,10 @@ public class FHIRPathEvaluator {
             
             if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
                 indentLevel--;
-                return SINGLETON_BOOLEAN_FALSE;
+                return SINGLETON_FALSE;
             }
             
-            Collection<FHIRPathNode> result = SINGLETON_BOOLEAN_FALSE;
+            Collection<FHIRPathNode> result = SINGLETON_FALSE;
             
             FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
             FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
@@ -467,10 +469,14 @@ public class FHIRPathEvaluator {
             if (leftValue.isBooleanValue() && rightValue.isBooleanValue()) {
                 switch (operator) {
                 case "or":
-                    result = leftValue.asBooleanValue().or(rightValue.asBooleanValue()).isTrue() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                    if (leftValue.asBooleanValue().or(rightValue.asBooleanValue()).isTrue()) {
+                        result = SINGLETON_TRUE;
+                    }
                     break;
                 case "xor":
-                    result = leftValue.asBooleanValue().xor(rightValue.asBooleanValue()).isTrue() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                    if (leftValue.asBooleanValue().xor(rightValue.asBooleanValue()).isTrue()) {
+                        result = SINGLETON_TRUE;
+                    }
                     break;
                 }
             }
@@ -492,16 +498,18 @@ public class FHIRPathEvaluator {
             
             if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
                 indentLevel--;
-                return SINGLETON_BOOLEAN_FALSE;
+                return SINGLETON_FALSE;
             }
             
-            Collection<FHIRPathNode> result = SINGLETON_BOOLEAN_FALSE;
+            Collection<FHIRPathNode> result = SINGLETON_FALSE;
             
             FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
             FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
             
             if (leftValue.isBooleanValue() && rightValue.isBooleanValue()) {
-                result = leftValue.asBooleanValue().and(rightValue.asBooleanValue()).isTrue() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                if (leftValue.asBooleanValue().and(rightValue.asBooleanValue()).isTrue()) {
+                    result = SINGLETON_TRUE;
+                }
             }
             
             indentLevel--;
@@ -516,7 +524,7 @@ public class FHIRPathEvaluator {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = SINGLETON_BOOLEAN_FALSE;
+            Collection<FHIRPathNode> result = SINGLETON_FALSE;
             
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
@@ -525,10 +533,14 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                result = right.containsAll(left) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                if (right.containsAll(left)) {
+                    result = SINGLETON_TRUE;
+                }
                 break;
             case "contains":
-                result = left.containsAll(right) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                if (left.containsAll(right)) {
+                    result = SINGLETON_TRUE;
+                }
                 break;
             }
             
@@ -549,10 +561,10 @@ public class FHIRPathEvaluator {
             
             if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
                 indentLevel--;
-                return SINGLETON_BOOLEAN_FALSE;
+                return SINGLETON_FALSE;
             }
             
-            Collection<FHIRPathNode> result = SINGLETON_BOOLEAN_FALSE;
+            Collection<FHIRPathNode> result = SINGLETON_FALSE;
             
             FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
             FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
@@ -562,16 +574,24 @@ public class FHIRPathEvaluator {
             if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
                 switch (operator) {
                 case "<=":
-                    result = leftValue.asNumberValue().lessThanOrEqual(rightValue.asNumberValue()) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                    if (leftValue.asNumberValue().lessThanOrEqual(rightValue.asNumberValue())) {
+                        result = SINGLETON_TRUE;
+                    }
                     break;
                 case "<":
-                    result = leftValue.asNumberValue().lessThan(rightValue.asNumberValue()) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                    if (leftValue.asNumberValue().lessThan(rightValue.asNumberValue())) {
+                        result = SINGLETON_TRUE;
+                    }
                     break;
                 case ">":
-                    result = leftValue.asNumberValue().greaterThan(rightValue.asNumberValue()) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                    if (leftValue.asNumberValue().greaterThan(rightValue.asNumberValue())) {
+                        result = SINGLETON_TRUE;
+                    }
                     break;
                 case ">=":
-                    result = leftValue.asNumberValue().greaterThanOrEqual(rightValue.asNumberValue()) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                    if (leftValue.asNumberValue().greaterThanOrEqual(rightValue.asNumberValue())) {
+                        result = SINGLETON_TRUE;
+                    }
                     break;
                 }
             }
@@ -604,7 +624,7 @@ public class FHIRPathEvaluator {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = SINGLETON_BOOLEAN_FALSE;
+            Collection<FHIRPathNode> result = SINGLETON_FALSE;
 
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
@@ -616,11 +636,15 @@ public class FHIRPathEvaluator {
             switch (operator) {
             case "=":
             case "~":
-                result = left.equals(right) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                if (left.equals(right)) {
+                    result = SINGLETON_TRUE;
+                }
                 break;
             case "!=":
             case "!~":
-                result = !left.equals(right) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                if (!left.equals(right)) {
+                    result = SINGLETON_TRUE;
+                }
                 break;
             }
 
@@ -636,13 +660,13 @@ public class FHIRPathEvaluator {
             debug(ctx);
             indentLevel++;
             
-            Collection<FHIRPathNode> result = SINGLETON_BOOLEAN_FALSE;
+            Collection<FHIRPathNode> result = SINGLETON_FALSE;
             
             FHIRPathPrimitiveValue left = getPrimitiveValue(visit(ctx.expression(0)));
             FHIRPathPrimitiveValue right = getPrimitiveValue(visit(ctx.expression(1)));
             
-            if (left.isBooleanValue() && right.isBooleanValue()) {
-                result = left.asBooleanValue().implies(right.asBooleanValue()).isTrue() ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+            if (left.isBooleanValue() && right.isBooleanValue() && left.asBooleanValue().implies(right.asBooleanValue()).isTrue()) {
+                return SINGLETON_TRUE;
             }
             
             indentLevel--;
@@ -672,7 +696,7 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> nodes = visit(ctx.expression());
             String operator = ctx.getChild(1).getText();
             
-            Collection<FHIRPathNode> result = "is".equals(operator) ? SINGLETON_BOOLEAN_FALSE : empty();
+            Collection<FHIRPathNode> result = "is".equals(operator) ? SINGLETON_FALSE : empty();
                         
             if (isSingleton(nodes)) {
                 String qualifiedIdentifier = getString(visit(ctx.typeSpecifier()));
@@ -681,9 +705,10 @@ public class FHIRPathEvaluator {
                     FHIRPathNode node = getSingleton(nodes);
                     switch (operator) {
                     case "is":
-                        result = type.isAssignableFrom(node.type()) ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+                        if (type.isAssignableFrom(node.type())) {
+                            result = SINGLETON_TRUE;
+                        }
                         break;
-                        
                     case "as":
                         if (type.isAssignableFrom(node.type())) {
                             result = singleton(node);
@@ -761,7 +786,7 @@ public class FHIRPathEvaluator {
         public Collection<FHIRPathNode> visitBooleanLiteral(FHIRPathParser.BooleanLiteralContext ctx) {
             debug(ctx);
             Boolean _boolean = Boolean.valueOf(ctx.getText());
-            return _boolean ? SINGLETON_BOOLEAN_TRUE : SINGLETON_BOOLEAN_FALSE;
+            return _boolean ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
     
         /**
