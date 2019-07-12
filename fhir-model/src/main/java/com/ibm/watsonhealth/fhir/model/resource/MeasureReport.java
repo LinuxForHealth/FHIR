@@ -808,7 +808,7 @@ public class MeasureReport extends DomainResource {
             population = Collections.unmodifiableList(builder.population);
             measureScore = builder.measureScore;
             stratifier = Collections.unmodifiableList(builder.stratifier);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1214,7 +1214,7 @@ public class MeasureReport extends DomainResource {
                 code = builder.code;
                 count = builder.count;
                 subjectResults = builder.subjectResults;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1534,7 +1534,7 @@ public class MeasureReport extends DomainResource {
                 super(builder);
                 code = Collections.unmodifiableList(builder.code);
                 stratum = Collections.unmodifiableList(builder.stratum);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1873,7 +1873,7 @@ public class MeasureReport extends DomainResource {
                     component = Collections.unmodifiableList(builder.component);
                     population = Collections.unmodifiableList(builder.population);
                     measureScore = builder.measureScore;
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -2276,7 +2276,7 @@ public class MeasureReport extends DomainResource {
                         super(builder);
                         code = ValidationSupport.requireNonNull(builder.code, "code");
                         value = ValidationSupport.requireNonNull(builder.value, "value");
-                        if (!hasChildren()) {
+                        if (!hasValue() && !hasChildren()) {
                             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                         }
                     }
@@ -2534,7 +2534,7 @@ public class MeasureReport extends DomainResource {
                         code = builder.code;
                         count = builder.count;
                         subjectResults = builder.subjectResults;
-                        if (!hasChildren()) {
+                        if (!hasValue() && !hasChildren()) {
                             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                         }
                     }

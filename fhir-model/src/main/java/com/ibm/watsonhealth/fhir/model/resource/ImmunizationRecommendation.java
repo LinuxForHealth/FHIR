@@ -565,7 +565,7 @@ public class ImmunizationRecommendation extends DomainResource {
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             supportingImmunization = Collections.unmodifiableList(builder.supportingImmunization);
             supportingPatientInformation = Collections.unmodifiableList(builder.supportingPatientInformation);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1325,7 +1325,7 @@ public class ImmunizationRecommendation extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 value = ValidationSupport.requireNonNull(builder.value, "value");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

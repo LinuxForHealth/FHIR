@@ -957,7 +957,7 @@ public class CatalogEntry extends DomainResource {
             super(builder);
             relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
             item = ValidationSupport.requireNonNull(builder.item, "item");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

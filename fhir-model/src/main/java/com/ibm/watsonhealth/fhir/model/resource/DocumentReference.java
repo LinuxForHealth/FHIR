@@ -1056,7 +1056,7 @@ public class DocumentReference extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             target = ValidationSupport.requireNonNull(builder.target, "target");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1312,7 +1312,7 @@ public class DocumentReference extends DomainResource {
             super(builder);
             attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
             format = builder.format;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1598,7 +1598,7 @@ public class DocumentReference extends DomainResource {
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
             related = Collections.unmodifiableList(builder.related);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

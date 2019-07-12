@@ -1465,7 +1465,7 @@ public class ChargeItemDefinition extends DomainResource {
             description = builder.description;
             language = builder.language;
             expression = builder.expression;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1790,7 +1790,7 @@ public class ChargeItemDefinition extends DomainResource {
             super(builder);
             applicability = Collections.unmodifiableList(builder.applicability);
             priceComponent = Collections.unmodifiableList(builder.priceComponent);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2137,7 +2137,7 @@ public class ChargeItemDefinition extends DomainResource {
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

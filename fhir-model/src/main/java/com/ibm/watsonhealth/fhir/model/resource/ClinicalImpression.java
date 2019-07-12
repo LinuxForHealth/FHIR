@@ -1300,7 +1300,7 @@ public class ClinicalImpression extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             item = Collections.unmodifiableList(builder.item);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1602,7 +1602,7 @@ public class ClinicalImpression extends DomainResource {
             itemCodeableConcept = builder.itemCodeableConcept;
             itemReference = builder.itemReference;
             basis = builder.basis;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

@@ -1173,7 +1173,7 @@ public class ConceptMap extends DomainResource {
             targetVersion = builder.targetVersion;
             element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
             unmapped = builder.unmapped;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1586,7 +1586,7 @@ public class ConceptMap extends DomainResource {
                 code = builder.code;
                 display = builder.display;
                 target = Collections.unmodifiableList(builder.target);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1935,7 +1935,7 @@ public class ConceptMap extends DomainResource {
                     comment = builder.comment;
                     dependsOn = Collections.unmodifiableList(builder.dependsOn);
                     product = Collections.unmodifiableList(builder.product);
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -2407,7 +2407,7 @@ public class ConceptMap extends DomainResource {
                         system = builder.system;
                         value = ValidationSupport.requireNonNull(builder.value, "value");
                         display = builder.display;
-                        if (!hasChildren()) {
+                        if (!hasValue() && !hasChildren()) {
                             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                         }
                     }
@@ -2743,7 +2743,7 @@ public class ConceptMap extends DomainResource {
                 code = builder.code;
                 display = builder.display;
                 url = builder.url;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

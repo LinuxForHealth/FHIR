@@ -902,7 +902,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             collector = builder.collector;
             source = builder.source;
             collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1227,7 +1227,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             procedure = builder.procedure;
             additive = builder.additive;
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1580,7 +1580,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             super(builder);
             description = builder.description;
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1868,7 +1868,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             temperature = builder.temperature;
             scale = builder.scale;
             duration = builder.duration;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

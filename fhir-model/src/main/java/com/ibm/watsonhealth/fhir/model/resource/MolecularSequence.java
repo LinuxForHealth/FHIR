@@ -1135,7 +1135,7 @@ public class MolecularSequence extends DomainResource {
             strand = builder.strand;
             windowStart = builder.windowStart;
             windowEnd = builder.windowEnd;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1688,7 +1688,7 @@ public class MolecularSequence extends DomainResource {
             referenceAllele = builder.referenceAllele;
             cigar = builder.cigar;
             variantPointer = builder.variantPointer;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2159,7 +2159,7 @@ public class MolecularSequence extends DomainResource {
             recall = builder.recall;
             fScore = builder.fScore;
             roc = builder.roc;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2906,7 +2906,7 @@ public class MolecularSequence extends DomainResource {
                 precision = Collections.unmodifiableList(builder.precision);
                 sensitivity = Collections.unmodifiableList(builder.sensitivity);
                 fMeasure = Collections.unmodifiableList(builder.fMeasure);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3538,7 +3538,7 @@ public class MolecularSequence extends DomainResource {
             datasetId = builder.datasetId;
             variantsetId = builder.variantsetId;
             readsetId = builder.readsetId;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3958,7 +3958,7 @@ public class MolecularSequence extends DomainResource {
             length = builder.length;
             outer = builder.outer;
             inner = builder.inner;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4343,7 +4343,7 @@ public class MolecularSequence extends DomainResource {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -4631,7 +4631,7 @@ public class MolecularSequence extends DomainResource {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

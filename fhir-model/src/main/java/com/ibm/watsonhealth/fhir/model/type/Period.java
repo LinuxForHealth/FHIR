@@ -37,7 +37,7 @@ public class Period extends Element {
         super(builder);
         start = builder.start;
         end = builder.end;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

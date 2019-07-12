@@ -1511,7 +1511,7 @@ public class Questionnaire extends DomainResource {
             answerOption = Collections.unmodifiableList(builder.answerOption);
             initial = Collections.unmodifiableList(builder.initial);
             item = Collections.unmodifiableList(builder.item);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2412,7 +2412,7 @@ public class Questionnaire extends DomainResource {
                 question = ValidationSupport.requireNonNull(builder.question, "question");
                 operator = ValidationSupport.requireNonNull(builder.operator, "operator");
                 answer = ValidationSupport.requireChoiceElement(builder.answer, "answer", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2686,7 +2686,7 @@ public class Questionnaire extends DomainResource {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
                 initialSelected = builder.initialSelected;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2959,7 +2959,7 @@ public class Questionnaire extends DomainResource {
             private Initial(Builder builder) {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

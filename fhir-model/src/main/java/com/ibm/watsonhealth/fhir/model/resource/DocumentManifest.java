@@ -880,7 +880,7 @@ public class DocumentManifest extends DomainResource {
             super(builder);
             identifier = builder.identifier;
             ref = builder.ref;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

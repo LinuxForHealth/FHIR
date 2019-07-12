@@ -246,7 +246,7 @@ public class ElementDefinition extends BackboneElement {
         isSummary = builder.isSummary;
         binding = builder.binding;
         mapping = Collections.unmodifiableList(builder.mapping);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
@@ -1915,7 +1915,7 @@ public class ElementDefinition extends BackboneElement {
             description = builder.description;
             ordered = builder.ordered;
             rules = ValidationSupport.requireNonNull(builder.rules, "rules");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2287,7 +2287,7 @@ public class ElementDefinition extends BackboneElement {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 path = ValidationSupport.requireNonNull(builder.path, "path");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2547,7 +2547,7 @@ public class ElementDefinition extends BackboneElement {
             path = ValidationSupport.requireNonNull(builder.path, "path");
             min = ValidationSupport.requireNonNull(builder.min, "min");
             max = ValidationSupport.requireNonNull(builder.max, "max");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2825,7 +2825,7 @@ public class ElementDefinition extends BackboneElement {
             targetProfile = Collections.unmodifiableList(builder.targetProfile);
             aggregation = Collections.unmodifiableList(builder.aggregation);
             versioning = builder.versioning;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3298,7 +3298,7 @@ public class ElementDefinition extends BackboneElement {
             super(builder);
             label = ValidationSupport.requireNonNull(builder.label, "label");
             value = ValidationSupport.requireChoiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3561,7 +3561,7 @@ public class ElementDefinition extends BackboneElement {
             expression = builder.expression;
             xpath = builder.xpath;
             source = builder.source;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3973,7 +3973,7 @@ public class ElementDefinition extends BackboneElement {
             strength = ValidationSupport.requireNonNull(builder.strength, "strength");
             description = builder.description;
             valueSet = builder.valueSet;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4282,7 +4282,7 @@ public class ElementDefinition extends BackboneElement {
             language = builder.language;
             map = ValidationSupport.requireNonNull(builder.map, "map");
             comment = builder.comment;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

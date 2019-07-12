@@ -811,7 +811,7 @@ public class AuditEvent extends DomainResource {
             media = builder.media;
             network = builder.network;
             purposeOfUse = Collections.unmodifiableList(builder.purposeOfUse);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1473,7 +1473,7 @@ public class AuditEvent extends DomainResource {
                 super(builder);
                 address = builder.address;
                 type = builder.type;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1760,7 +1760,7 @@ public class AuditEvent extends DomainResource {
             site = builder.site;
             observer = ValidationSupport.requireNonNull(builder.observer, "observer");
             type = Collections.unmodifiableList(builder.type);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2108,7 +2108,7 @@ public class AuditEvent extends DomainResource {
             description = builder.description;
             query = builder.query;
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2677,7 +2677,7 @@ public class AuditEvent extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", String.class, Base64Binary.class);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

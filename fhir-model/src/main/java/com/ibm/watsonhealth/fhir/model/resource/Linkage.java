@@ -481,7 +481,7 @@ public class Linkage extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             resource = ValidationSupport.requireNonNull(builder.resource, "resource");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

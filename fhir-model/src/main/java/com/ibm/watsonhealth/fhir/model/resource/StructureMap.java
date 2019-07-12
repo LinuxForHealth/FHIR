@@ -1200,7 +1200,7 @@ public class StructureMap extends DomainResource {
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
             alias = builder.alias;
             documentation = builder.documentation;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1534,7 +1534,7 @@ public class StructureMap extends DomainResource {
             documentation = builder.documentation;
             input = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.input, "input"));
             rule = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.rule, "rule"));
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1899,7 +1899,7 @@ public class StructureMap extends DomainResource {
                 type = builder.type;
                 mode = ValidationSupport.requireNonNull(builder.mode, "mode");
                 documentation = builder.documentation;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2233,7 +2233,7 @@ public class StructureMap extends DomainResource {
                 rule = Collections.unmodifiableList(builder.rule);
                 dependent = Collections.unmodifiableList(builder.dependent);
                 documentation = builder.documentation;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2716,7 +2716,7 @@ public class StructureMap extends DomainResource {
                     condition = builder.condition;
                     check = builder.check;
                     logMessage = builder.logMessage;
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -3314,7 +3314,7 @@ public class StructureMap extends DomainResource {
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
                     parameter = Collections.unmodifiableList(builder.parameter);
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -3847,7 +3847,7 @@ public class StructureMap extends DomainResource {
                     private Parameter(Builder builder) {
                         super(builder);
                         value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
-                        if (!hasChildren()) {
+                        if (!hasValue() && !hasChildren()) {
                             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                         }
                     }
@@ -4086,7 +4086,7 @@ public class StructureMap extends DomainResource {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
                     variable = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.variable, "variable"));
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }

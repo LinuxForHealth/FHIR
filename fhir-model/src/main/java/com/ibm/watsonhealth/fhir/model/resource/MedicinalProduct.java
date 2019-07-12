@@ -1384,7 +1384,7 @@ public class MedicinalProduct extends DomainResource {
             productName = ValidationSupport.requireNonNull(builder.productName, "productName");
             namePart = Collections.unmodifiableList(builder.namePart);
             countryLanguage = Collections.unmodifiableList(builder.countryLanguage);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1739,7 +1739,7 @@ public class MedicinalProduct extends DomainResource {
                 super(builder);
                 part = ValidationSupport.requireNonNull(builder.part, "part");
                 type = ValidationSupport.requireNonNull(builder.type, "type");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1997,7 +1997,7 @@ public class MedicinalProduct extends DomainResource {
                 country = ValidationSupport.requireNonNull(builder.country, "country");
                 jurisdiction = builder.jurisdiction;
                 language = ValidationSupport.requireNonNull(builder.language, "language");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2298,7 +2298,7 @@ public class MedicinalProduct extends DomainResource {
             confidentialityIndicator = builder.confidentialityIndicator;
             manufacturer = Collections.unmodifiableList(builder.manufacturer);
             regulator = builder.regulator;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2752,7 +2752,7 @@ public class MedicinalProduct extends DomainResource {
             status = builder.status;
             date = builder.date;
             species = builder.species;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

@@ -43,7 +43,7 @@ public class ParameterDefinition extends Element {
         documentation = builder.documentation;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         profile = builder.profile;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

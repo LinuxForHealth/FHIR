@@ -900,7 +900,7 @@ public class DetectedIssue extends DomainResource {
             super(builder);
             code = Collections.unmodifiableList(builder.code);
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1236,7 +1236,7 @@ public class DetectedIssue extends DomainResource {
             action = ValidationSupport.requireNonNull(builder.action, "action");
             date = builder.date;
             author = builder.author;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

@@ -31,6 +31,11 @@ public class Uuid extends Uri {
         ValidationSupport.checkValue(value, PATTERN);
     }
 
+    @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
     public static Uuid of(java.lang.String value) {
         return Uuid.builder().value(value).build();
     }

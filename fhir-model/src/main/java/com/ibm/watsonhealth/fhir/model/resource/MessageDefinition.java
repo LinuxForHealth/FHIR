@@ -1457,7 +1457,7 @@ public class MessageDefinition extends DomainResource {
             profile = builder.profile;
             min = ValidationSupport.requireNonNull(builder.min, "min");
             max = builder.max;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1786,7 +1786,7 @@ public class MessageDefinition extends DomainResource {
             super(builder);
             message = ValidationSupport.requireNonNull(builder.message, "message");
             situation = builder.situation;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

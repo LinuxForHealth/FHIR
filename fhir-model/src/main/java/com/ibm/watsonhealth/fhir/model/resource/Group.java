@@ -794,7 +794,7 @@ public class Group extends DomainResource {
             value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class);
             exclude = ValidationSupport.requireNonNull(builder.exclude, "exclude");
             period = builder.period;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1106,7 +1106,7 @@ public class Group extends DomainResource {
             entity = ValidationSupport.requireNonNull(builder.entity, "entity");
             period = builder.period;
             inactive = builder.inactive;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

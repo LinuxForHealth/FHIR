@@ -35,7 +35,7 @@ public class Coding extends Element {
         code = builder.code;
         display = builder.display;
         userSelected = builder.userSelected;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

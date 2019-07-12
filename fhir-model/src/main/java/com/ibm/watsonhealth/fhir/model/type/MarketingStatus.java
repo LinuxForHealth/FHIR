@@ -37,7 +37,7 @@ public class MarketingStatus extends BackboneElement {
         status = ValidationSupport.requireNonNull(builder.status, "status");
         dateRange = ValidationSupport.requireNonNull(builder.dateRange, "dateRange");
         restoreDate = builder.restoreDate;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

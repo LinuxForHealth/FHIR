@@ -1122,7 +1122,7 @@ public class RiskAssessment extends DomainResource {
             relativeRisk = builder.relativeRisk;
             when = ValidationSupport.choiceElement(builder.when, "when", Period.class, Range.class);
             rationale = builder.rationale;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

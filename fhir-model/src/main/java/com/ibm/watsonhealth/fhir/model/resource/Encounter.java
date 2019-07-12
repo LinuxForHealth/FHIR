@@ -1514,7 +1514,7 @@ public class Encounter extends DomainResource {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
             period = ValidationSupport.requireNonNull(builder.period, "period");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1774,7 +1774,7 @@ public class Encounter extends DomainResource {
             super(builder);
             clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
             period = ValidationSupport.requireNonNull(builder.period, "period");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2032,7 +2032,7 @@ public class Encounter extends DomainResource {
             type = Collections.unmodifiableList(builder.type);
             period = builder.period;
             individual = builder.individual;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2378,7 +2378,7 @@ public class Encounter extends DomainResource {
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
             use = builder.use;
             rank = builder.rank;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2702,7 +2702,7 @@ public class Encounter extends DomainResource {
             specialArrangement = Collections.unmodifiableList(builder.specialArrangement);
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3304,7 +3304,7 @@ public class Encounter extends DomainResource {
             status = builder.status;
             physicalType = builder.physicalType;
             period = builder.period;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

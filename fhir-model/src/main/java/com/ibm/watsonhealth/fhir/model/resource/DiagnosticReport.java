@@ -1277,7 +1277,7 @@ public class DiagnosticReport extends DomainResource {
             super(builder);
             comment = builder.comment;
             link = ValidationSupport.requireNonNull(builder.link, "link");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

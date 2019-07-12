@@ -1045,7 +1045,7 @@ public class CareTeam extends DomainResource {
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

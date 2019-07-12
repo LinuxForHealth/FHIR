@@ -1363,7 +1363,7 @@ public class TerminologyCapabilities extends DomainResource {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
             version = builder.version;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1638,7 +1638,7 @@ public class TerminologyCapabilities extends DomainResource {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
             url = builder.url;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1915,7 +1915,7 @@ public class TerminologyCapabilities extends DomainResource {
             uri = builder.uri;
             version = Collections.unmodifiableList(builder.version);
             subsumption = builder.subsumption;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2264,7 +2264,7 @@ public class TerminologyCapabilities extends DomainResource {
                 language = Collections.unmodifiableList(builder.language);
                 filter = Collections.unmodifiableList(builder.filter);
                 property = Collections.unmodifiableList(builder.property);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2755,7 +2755,7 @@ public class TerminologyCapabilities extends DomainResource {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     op = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.op, "op"));
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -3019,7 +3019,7 @@ public class TerminologyCapabilities extends DomainResource {
             incomplete = builder.incomplete;
             parameter = Collections.unmodifiableList(builder.parameter);
             textFilter = builder.textFilter;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3428,7 +3428,7 @@ public class TerminologyCapabilities extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 documentation = builder.documentation;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3701,7 +3701,7 @@ public class TerminologyCapabilities extends DomainResource {
         private ValidateCode(Builder builder) {
             super(builder);
             translations = ValidationSupport.requireNonNull(builder.translations, "translations");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3937,7 +3937,7 @@ public class TerminologyCapabilities extends DomainResource {
         private Translation(Builder builder) {
             super(builder);
             needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4173,7 +4173,7 @@ public class TerminologyCapabilities extends DomainResource {
         private Closure(Builder builder) {
             super(builder);
             translation = builder.translation;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

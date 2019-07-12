@@ -1043,7 +1043,7 @@ public class MedicinalProductAuthorization extends DomainResource {
             jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
             legalStatusOfSupply = builder.legalStatusOfSupply;
             validityPeriod = builder.validityPeriod;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1481,7 +1481,7 @@ public class MedicinalProductAuthorization extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             date = ValidationSupport.choiceElement(builder.date, "date", Period.class, DateTime.class);
             application = Collections.unmodifiableList(builder.application);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

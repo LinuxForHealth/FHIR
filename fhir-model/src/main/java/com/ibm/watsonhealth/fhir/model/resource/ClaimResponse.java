@@ -1462,7 +1462,7 @@ public class ClaimResponse extends DomainResource {
             noteNumber = Collections.unmodifiableList(builder.noteNumber);
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1841,7 +1841,7 @@ public class ClaimResponse extends DomainResource {
                 reason = builder.reason;
                 amount = builder.amount;
                 value = builder.value;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2189,7 +2189,7 @@ public class ClaimResponse extends DomainResource {
                 noteNumber = Collections.unmodifiableList(builder.noteNumber);
                 adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
                 subDetail = Collections.unmodifiableList(builder.subDetail);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2564,7 +2564,7 @@ public class ClaimResponse extends DomainResource {
                     subDetailSequence = ValidationSupport.requireNonNull(builder.subDetailSequence, "subDetailSequence");
                     noteNumber = Collections.unmodifiableList(builder.noteNumber);
                     adjudication = Collections.unmodifiableList(builder.adjudication);
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -2954,7 +2954,7 @@ public class ClaimResponse extends DomainResource {
             noteNumber = Collections.unmodifiableList(builder.noteNumber);
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3990,7 +3990,7 @@ public class ClaimResponse extends DomainResource {
                 noteNumber = Collections.unmodifiableList(builder.noteNumber);
                 adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
                 subDetail = Collections.unmodifiableList(builder.subDetail);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -4574,7 +4574,7 @@ public class ClaimResponse extends DomainResource {
                     net = builder.net;
                     noteNumber = Collections.unmodifiableList(builder.noteNumber);
                     adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -5091,7 +5091,7 @@ public class ClaimResponse extends DomainResource {
             super(builder);
             category = ValidationSupport.requireNonNull(builder.category, "category");
             amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -5357,7 +5357,7 @@ public class ClaimResponse extends DomainResource {
             date = builder.date;
             amount = ValidationSupport.requireNonNull(builder.amount, "amount");
             identifier = builder.identifier;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -5757,7 +5757,7 @@ public class ClaimResponse extends DomainResource {
             type = builder.type;
             text = ValidationSupport.requireNonNull(builder.text, "text");
             language = builder.language;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -6105,7 +6105,7 @@ public class ClaimResponse extends DomainResource {
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             businessArrangement = builder.businessArrangement;
             claimResponse = builder.claimResponse;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -6455,7 +6455,7 @@ public class ClaimResponse extends DomainResource {
             detailSequence = builder.detailSequence;
             subDetailSequence = builder.subDetailSequence;
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

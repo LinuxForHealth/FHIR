@@ -1564,7 +1564,7 @@ public class Device extends DomainResource {
             carrierAIDC = builder.carrierAIDC;
             carrierHRF = builder.carrierHRF;
             entryType = builder.entryType;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2014,7 +2014,7 @@ public class Device extends DomainResource {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2272,7 +2272,7 @@ public class Device extends DomainResource {
             super(builder);
             systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
             version = builder.version;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2548,7 +2548,7 @@ public class Device extends DomainResource {
             type = builder.type;
             component = builder.component;
             value = ValidationSupport.requireNonNull(builder.value, "value");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2858,7 +2858,7 @@ public class Device extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
             valueCode = Collections.unmodifiableList(builder.valueCode);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

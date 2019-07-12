@@ -1094,7 +1094,7 @@ public class PractitionerRole extends DomainResource {
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1470,7 +1470,7 @@ public class PractitionerRole extends DomainResource {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
             during = builder.during;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

@@ -929,7 +929,7 @@ public class CodeGenerator {
                     !isStringSubtype(structureDefinition) && 
                     !isUriSubtype(structureDefinition)) || 
                     nested) {
-                cb._if("!hasChildren()")
+                cb._if("!hasValue() && !hasChildren()")
                     ._throw(_new("IllegalStateException", args(quote("ele-1: All FHIR elements must have a @value or children"))))
                 ._end();
             }
@@ -950,7 +950,7 @@ public class CodeGenerator {
             
             generateIsPartialMethod(structureDefinition, cb);
             generateIsAsMethods(structureDefinition, cb);
-//          generateHasValueMethod(structureDefinition, cb);
+            generateHasValueMethod(structureDefinition, cb);
             generateHasChildrenMethod(structureDefinition, path, cb, nested);
             generateFactoryMethods(structureDefinition, cb);
             generateAcceptMethod(structureDefinition, className, path, cb);
@@ -1515,7 +1515,6 @@ public class CodeGenerator {
         }
     }
     
-    @SuppressWarnings("unused")
     private void generateHasValueMethod(JsonObject structureDefinition, CodeBuilder cb) {
         String name = structureDefinition.getString("name");
     
@@ -1527,7 +1526,7 @@ public class CodeGenerator {
             cb.override();
         }
         
-        cb.method(mods("public"), "boolean", "hasValue");
+        cb.method(mods("protected"), "boolean", "hasValue");
         
         if ("Element".equals(name)) {
             cb._return("false");
@@ -1568,6 +1567,15 @@ public class CodeGenerator {
             if (declaredBy) {
                 String elementName = getElementName(elementDefinition, path);
                 String fieldName = getFieldName(elementName);
+                
+                if ("Element".equals(name) && "id".equals(fieldName)) {
+                    continue;
+                }
+                
+                if (isPrimitiveType(structureDefinition) && "value".equals(fieldName)) {
+                    continue;
+                }
+                
                 if (isRepeating(elementDefinition)) {
                     joiner.add("!" + fieldName + ".isEmpty()");
                 } else {

@@ -30,6 +30,11 @@ public class Markdown extends String {
         ValidationSupport.checkValue(value, PATTERN);
     }
 
+    @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
     public static Markdown of(java.lang.String value) {
         return Markdown.builder().value(value).build();
     }

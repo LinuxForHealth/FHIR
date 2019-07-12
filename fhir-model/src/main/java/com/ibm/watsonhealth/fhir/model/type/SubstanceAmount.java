@@ -38,7 +38,7 @@ public class SubstanceAmount extends BackboneElement {
         amountType = builder.amountType;
         amountText = builder.amountText;
         referenceRange = builder.referenceRange;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
@@ -404,7 +404,7 @@ public class SubstanceAmount extends BackboneElement {
             super(builder);
             lowLimit = builder.lowLimit;
             highLimit = builder.highLimit;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

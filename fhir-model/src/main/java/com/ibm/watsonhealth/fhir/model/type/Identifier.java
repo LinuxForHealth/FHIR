@@ -38,7 +38,7 @@ public class Identifier extends Element {
         value = builder.value;
         period = builder.period;
         assigner = builder.assigner;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

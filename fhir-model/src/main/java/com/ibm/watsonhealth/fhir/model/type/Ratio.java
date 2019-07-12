@@ -37,7 +37,7 @@ public class Ratio extends Element {
         super(builder);
         numerator = builder.numerator;
         denominator = builder.denominator;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

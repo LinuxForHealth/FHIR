@@ -1522,7 +1522,7 @@ public class CarePlan extends DomainResource {
             progress = Collections.unmodifiableList(builder.progress);
             reference = builder.reference;
             detail = builder.detail;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2021,7 +2021,7 @@ public class CarePlan extends DomainResource {
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

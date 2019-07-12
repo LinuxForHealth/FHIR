@@ -32,7 +32,7 @@ public class UsageContext extends Element {
         super(builder);
         code = ValidationSupport.requireNonNull(builder.code, "code");
         value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

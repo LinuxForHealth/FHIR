@@ -902,7 +902,7 @@ public class CompartmentDefinition extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             param = Collections.unmodifiableList(builder.param);
             documentation = builder.documentation;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

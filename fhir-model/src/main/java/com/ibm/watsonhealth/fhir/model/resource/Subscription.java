@@ -599,7 +599,7 @@ public class Subscription extends DomainResource {
             endpoint = builder.endpoint;
             payload = builder.payload;
             header = Collections.unmodifiableList(builder.header);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

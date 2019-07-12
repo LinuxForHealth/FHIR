@@ -880,7 +880,7 @@ public class NamingSystem extends DomainResource {
             preferred = builder.preferred;
             comment = builder.comment;
             period = builder.period;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

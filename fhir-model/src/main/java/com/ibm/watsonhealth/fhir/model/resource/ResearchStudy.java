@@ -1603,7 +1603,7 @@ public class ResearchStudy extends DomainResource {
             name = ValidationSupport.requireNonNull(builder.name, "name");
             type = builder.type;
             description = builder.description;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1912,7 +1912,7 @@ public class ResearchStudy extends DomainResource {
             super(builder);
             name = builder.name;
             type = builder.type;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

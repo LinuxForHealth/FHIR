@@ -41,7 +41,7 @@ public class DateTime extends Element {
         super(builder);
         value = builder.value;
         ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
@@ -63,9 +63,13 @@ public class DateTime extends Element {
     }
 
     @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
+    @Override
     protected boolean hasChildren() {
-        return super.hasChildren() || 
-            (value != null);
+        return super.hasChildren();
     }
 
     public static DateTime of(TemporalAccessor value) {

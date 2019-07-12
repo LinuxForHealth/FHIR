@@ -1541,7 +1541,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1797,7 +1797,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = builder.type;
             source = builder.source;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2083,7 +2083,7 @@ public class MedicationKnowledge extends DomainResource {
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
             isActive = builder.isActive;
             strength = builder.strength;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2395,7 +2395,7 @@ public class MedicationKnowledge extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             source = builder.source;
             cost = ValidationSupport.requireNonNull(builder.cost, "cost");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2688,7 +2688,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = builder.type;
             name = builder.name;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2974,7 +2974,7 @@ public class MedicationKnowledge extends DomainResource {
             dosage = Collections.unmodifiableList(builder.dosage);
             indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
             patientCharacteristics = Collections.unmodifiableList(builder.patientCharacteristics);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -3342,7 +3342,7 @@ public class MedicationKnowledge extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 dosage = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.dosage, "dosage"));
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3599,7 +3599,7 @@ public class MedicationKnowledge extends DomainResource {
                 super(builder);
                 characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, Quantity.class);
                 value = Collections.unmodifiableList(builder.value);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3898,7 +3898,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             classification = Collections.unmodifiableList(builder.classification);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4196,7 +4196,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = builder.type;
             quantity = builder.quantity;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4482,7 +4482,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = builder.type;
             value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, String.class, Quantity.class, Base64Binary.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4770,7 +4770,7 @@ public class MedicationKnowledge extends DomainResource {
             substitution = Collections.unmodifiableList(builder.substitution);
             schedule = Collections.unmodifiableList(builder.schedule);
             maxDispense = builder.maxDispense;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -5159,7 +5159,7 @@ public class MedicationKnowledge extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 allowed = ValidationSupport.requireNonNull(builder.allowed, "allowed");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -5413,7 +5413,7 @@ public class MedicationKnowledge extends DomainResource {
             private Schedule(Builder builder) {
                 super(builder);
                 schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -5651,7 +5651,7 @@ public class MedicationKnowledge extends DomainResource {
                 super(builder);
                 quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
                 period = builder.period;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -5928,7 +5928,7 @@ public class MedicationKnowledge extends DomainResource {
             areaUnderCurve = Collections.unmodifiableList(builder.areaUnderCurve);
             lethalDose50 = Collections.unmodifiableList(builder.lethalDose50);
             halfLifePeriod = builder.halfLifePeriod;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

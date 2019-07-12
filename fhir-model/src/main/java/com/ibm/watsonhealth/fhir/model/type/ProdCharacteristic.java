@@ -51,7 +51,7 @@ public class ProdCharacteristic extends BackboneElement {
         imprint = Collections.unmodifiableList(builder.imprint);
         image = Collections.unmodifiableList(builder.image);
         scoring = builder.scoring;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

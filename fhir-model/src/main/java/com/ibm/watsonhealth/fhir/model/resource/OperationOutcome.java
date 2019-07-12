@@ -407,7 +407,7 @@ public class OperationOutcome extends DomainResource {
             diagnostics = builder.diagnostics;
             location = Collections.unmodifiableList(builder.location);
             expression = Collections.unmodifiableList(builder.expression);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

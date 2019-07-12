@@ -852,7 +852,7 @@ public class Person extends DomainResource {
             super(builder);
             target = ValidationSupport.requireNonNull(builder.target, "target");
             assurance = builder.assurance;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

@@ -996,7 +996,7 @@ public class VerificationResult extends DomainResource {
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
             pushTypeAvailable = Collections.unmodifiableList(builder.pushTypeAvailable);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1539,7 +1539,7 @@ public class VerificationResult extends DomainResource {
             proxyIdentityCertificate = builder.proxyIdentityCertificate;
             proxySignature = builder.proxySignature;
             sourceSignature = builder.sourceSignature;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2034,7 +2034,7 @@ public class VerificationResult extends DomainResource {
             organization = ValidationSupport.requireNonNull(builder.organization, "organization");
             identityCertificate = builder.identityCertificate;
             attestationSignature = builder.attestationSignature;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

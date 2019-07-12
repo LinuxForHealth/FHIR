@@ -573,7 +573,7 @@ public class Bundle extends Resource {
             super(builder);
             relation = ValidationSupport.requireNonNull(builder.relation, "relation");
             url = ValidationSupport.requireNonNull(builder.url, "url");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -840,7 +840,7 @@ public class Bundle extends Resource {
             search = builder.search;
             request = builder.request;
             response = builder.response;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1297,7 +1297,7 @@ public class Bundle extends Resource {
                 super(builder);
                 mode = builder.mode;
                 score = builder.score;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1592,7 +1592,7 @@ public class Bundle extends Resource {
                 ifModifiedSince = builder.ifModifiedSince;
                 ifMatch = builder.ifMatch;
                 ifNoneExist = builder.ifNoneExist;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2004,7 +2004,7 @@ public class Bundle extends Resource {
                 etag = builder.etag;
                 lastModified = builder.lastModified;
                 outcome = builder.outcome;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

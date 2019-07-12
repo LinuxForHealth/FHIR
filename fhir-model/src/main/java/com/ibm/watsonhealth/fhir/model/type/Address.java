@@ -52,7 +52,7 @@ public class Address extends Element {
         postalCode = builder.postalCode;
         country = builder.country;
         period = builder.period;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

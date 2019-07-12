@@ -1165,7 +1165,7 @@ public class Condition extends DomainResource {
             summary = builder.summary;
             assessment = Collections.unmodifiableList(builder.assessment);
             type = builder.type;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1508,7 +1508,7 @@ public class Condition extends DomainResource {
             super(builder);
             code = Collections.unmodifiableList(builder.code);
             detail = Collections.unmodifiableList(builder.detail);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

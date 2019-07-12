@@ -694,7 +694,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             status = builder.status;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -978,7 +978,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
             maxTreatmentPeriod = builder.maxTreatmentPeriod;
             targetSpecies = Collections.unmodifiableList(builder.targetSpecies);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1460,7 +1460,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 withdrawalPeriod = Collections.unmodifiableList(builder.withdrawalPeriod);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1759,7 +1759,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     tissue = ValidationSupport.requireNonNull(builder.tissue, "tissue");
                     value = ValidationSupport.requireNonNull(builder.value, "value");
                     supportingInformation = builder.supportingInformation;
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }

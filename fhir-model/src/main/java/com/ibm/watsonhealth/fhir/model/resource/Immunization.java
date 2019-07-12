@@ -1567,7 +1567,7 @@ public class Immunization extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1845,7 +1845,7 @@ public class Immunization extends DomainResource {
             reference = builder.reference;
             publicationDate = builder.publicationDate;
             presentationDate = builder.presentationDate;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2199,7 +2199,7 @@ public class Immunization extends DomainResource {
             date = builder.date;
             detail = builder.detail;
             reported = builder.reported;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2523,7 +2523,7 @@ public class Immunization extends DomainResource {
             targetDisease = Collections.unmodifiableList(builder.targetDisease);
             doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

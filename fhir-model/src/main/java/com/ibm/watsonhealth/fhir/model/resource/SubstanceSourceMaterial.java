@@ -1038,7 +1038,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             fraction = builder.fraction;
             materialType = builder.materialType;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1339,7 +1339,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             author = Collections.unmodifiableList(builder.author);
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1859,7 +1859,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 super(builder);
                 authorType = builder.authorType;
                 authorDescription = builder.authorDescription;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2160,7 +2160,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 paternalOrganismId = builder.paternalOrganismId;
                 paternalOrganismName = builder.paternalOrganismName;
                 hybridType = builder.hybridType;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2562,7 +2562,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 phylum = builder.phylum;
                 clazz = builder.clazz;
                 order = builder.order;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2915,7 +2915,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             part = builder.part;
             partLocation = builder.partLocation;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

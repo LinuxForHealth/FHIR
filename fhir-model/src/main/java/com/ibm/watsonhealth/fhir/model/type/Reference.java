@@ -41,7 +41,7 @@ public class Reference extends Element {
         type = builder.type;
         identifier = builder.identifier;
         display = builder.display;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

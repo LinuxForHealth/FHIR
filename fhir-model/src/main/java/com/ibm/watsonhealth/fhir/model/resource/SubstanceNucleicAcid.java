@@ -606,7 +606,7 @@ public class SubstanceNucleicAcid extends DomainResource {
             threePrime = builder.threePrime;
             linkage = Collections.unmodifiableList(builder.linkage);
             sugar = Collections.unmodifiableList(builder.sugar);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1163,7 +1163,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1526,7 +1526,7 @@ public class SubstanceNucleicAcid extends DomainResource {
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

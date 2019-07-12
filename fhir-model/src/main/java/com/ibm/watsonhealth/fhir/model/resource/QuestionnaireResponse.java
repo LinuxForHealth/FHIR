@@ -859,7 +859,7 @@ public class QuestionnaireResponse extends DomainResource {
             text = builder.text;
             answer = Collections.unmodifiableList(builder.answer);
             item = Collections.unmodifiableList(builder.item);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1282,7 +1282,7 @@ public class QuestionnaireResponse extends DomainResource {
                 super(builder);
                 value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
                 item = Collections.unmodifiableList(builder.item);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

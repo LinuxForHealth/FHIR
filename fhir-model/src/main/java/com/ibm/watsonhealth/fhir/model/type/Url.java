@@ -31,6 +31,11 @@ public class Url extends Uri {
         ValidationSupport.checkValue(value, PATTERN);
     }
 
+    @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
     public static Url of(java.lang.String value) {
         return Url.builder().value(value).build();
     }

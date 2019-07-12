@@ -31,6 +31,11 @@ public class Code extends String {
         ValidationSupport.checkValue(value, PATTERN);
     }
 
+    @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
     public static Code of(java.lang.String value) {
         return Code.builder().value(value).build();
     }

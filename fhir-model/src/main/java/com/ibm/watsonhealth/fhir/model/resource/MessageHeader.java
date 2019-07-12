@@ -804,7 +804,7 @@ public class MessageHeader extends DomainResource {
             target = builder.target;
             endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
             receiver = builder.receiver;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1154,7 +1154,7 @@ public class MessageHeader extends DomainResource {
             version = builder.version;
             contact = builder.contact;
             endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1532,7 +1532,7 @@ public class MessageHeader extends DomainResource {
             identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
             code = ValidationSupport.requireNonNull(builder.code, "code");
             details = builder.details;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

@@ -1109,7 +1109,7 @@ public class InsurancePlan extends DomainResource {
             name = builder.name;
             telecom = Collections.unmodifiableList(builder.telecom);
             address = builder.address;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1487,7 +1487,7 @@ public class InsurancePlan extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             network = Collections.unmodifiableList(builder.network);
             benefit = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.benefit, "benefit"));
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1805,7 +1805,7 @@ public class InsurancePlan extends DomainResource {
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 requirement = builder.requirement;
                 limit = Collections.unmodifiableList(builder.limit);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2136,7 +2136,7 @@ public class InsurancePlan extends DomainResource {
                     super(builder);
                     value = builder.value;
                     code = builder.code;
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -2432,7 +2432,7 @@ public class InsurancePlan extends DomainResource {
             network = Collections.unmodifiableList(builder.network);
             generalCost = Collections.unmodifiableList(builder.generalCost);
             specificCost = Collections.unmodifiableList(builder.specificCost);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2978,7 +2978,7 @@ public class InsurancePlan extends DomainResource {
                 groupSize = builder.groupSize;
                 cost = builder.cost;
                 comment = builder.comment;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3330,7 +3330,7 @@ public class InsurancePlan extends DomainResource {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
                 benefit = Collections.unmodifiableList(builder.benefit);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3627,7 +3627,7 @@ public class InsurancePlan extends DomainResource {
                     super(builder);
                     type = ValidationSupport.requireNonNull(builder.type, "type");
                     cost = Collections.unmodifiableList(builder.cost);
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -3929,7 +3929,7 @@ public class InsurancePlan extends DomainResource {
                         applicability = builder.applicability;
                         qualifiers = Collections.unmodifiableList(builder.qualifiers);
                         value = builder.value;
-                        if (!hasChildren()) {
+                        if (!hasValue() && !hasChildren()) {
                             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                         }
                     }

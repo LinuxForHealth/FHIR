@@ -30,7 +30,7 @@ public class Boolean extends Element {
     private Boolean(Builder builder) {
         super(builder);
         value = builder.value;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
@@ -48,9 +48,13 @@ public class Boolean extends Element {
     }
 
     @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
+    @Override
     protected boolean hasChildren() {
-        return super.hasChildren() || 
-            (value != null);
+        return super.hasChildren();
     }
 
     public static Boolean of(java.lang.Boolean value) {

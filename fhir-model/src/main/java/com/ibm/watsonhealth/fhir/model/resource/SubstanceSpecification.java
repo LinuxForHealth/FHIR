@@ -1225,7 +1225,7 @@ public class SubstanceSpecification extends DomainResource {
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1685,7 +1685,7 @@ public class SubstanceSpecification extends DomainResource {
             parameters = builder.parameters;
             definingSubstance = ValidationSupport.choiceElement(builder.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2083,7 +2083,7 @@ public class SubstanceSpecification extends DomainResource {
             molecularWeight = builder.molecularWeight;
             source = Collections.unmodifiableList(builder.source);
             representation = Collections.unmodifiableList(builder.representation);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2651,7 +2651,7 @@ public class SubstanceSpecification extends DomainResource {
                 substitution = builder.substitution;
                 halfLife = builder.halfLife;
                 molecularWeight = builder.molecularWeight;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3038,7 +3038,7 @@ public class SubstanceSpecification extends DomainResource {
                     method = builder.method;
                     type = builder.type;
                     amount = builder.amount;
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -3362,7 +3362,7 @@ public class SubstanceSpecification extends DomainResource {
                 type = builder.type;
                 representation = builder.representation;
                 attachment = builder.attachment;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3687,7 +3687,7 @@ public class SubstanceSpecification extends DomainResource {
             statusDate = builder.statusDate;
             comment = builder.comment;
             source = Collections.unmodifiableList(builder.source);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4115,7 +4115,7 @@ public class SubstanceSpecification extends DomainResource {
             translation = Collections.unmodifiableList(builder.translation);
             official = Collections.unmodifiableList(builder.official);
             source = Collections.unmodifiableList(builder.source);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4869,7 +4869,7 @@ public class SubstanceSpecification extends DomainResource {
                 authority = builder.authority;
                 status = builder.status;
                 date = builder.date;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -5198,7 +5198,7 @@ public class SubstanceSpecification extends DomainResource {
             amountRatioLowLimit = builder.amountRatioLowLimit;
             amountType = builder.amountType;
             source = Collections.unmodifiableList(builder.source);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

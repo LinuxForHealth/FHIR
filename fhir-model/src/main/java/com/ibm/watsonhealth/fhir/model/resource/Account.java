@@ -864,7 +864,7 @@ public class Account extends DomainResource {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             priority = builder.priority;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1144,7 +1144,7 @@ public class Account extends DomainResource {
             party = ValidationSupport.requireNonNull(builder.party, "party");
             onHold = builder.onHold;
             period = builder.period;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

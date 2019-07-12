@@ -1861,7 +1861,7 @@ public class PlanDefinition extends DomainResource {
             addresses = Collections.unmodifiableList(builder.addresses);
             documentation = Collections.unmodifiableList(builder.documentation);
             target = Collections.unmodifiableList(builder.target);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2382,7 +2382,7 @@ public class PlanDefinition extends DomainResource {
                 measure = builder.measure;
                 detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
                 due = builder.due;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2757,7 +2757,7 @@ public class PlanDefinition extends DomainResource {
             transform = builder.transform;
             dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
             action = Collections.unmodifiableList(builder.action);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4205,7 +4205,7 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 kind = ValidationSupport.requireNonNull(builder.kind, "kind");
                 expression = builder.expression;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -4481,7 +4481,7 @@ public class PlanDefinition extends DomainResource {
                 actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
                 relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
                 offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -4773,7 +4773,7 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 role = builder.role;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -5049,7 +5049,7 @@ public class PlanDefinition extends DomainResource {
                 super(builder);
                 path = builder.path;
                 expression = builder.expression;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

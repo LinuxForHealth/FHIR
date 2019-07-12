@@ -1142,7 +1142,7 @@ public class Location extends DomainResource {
             longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
             latitude = ValidationSupport.requireNonNull(builder.latitude, "latitude");
             altitude = builder.altitude;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1442,7 +1442,7 @@ public class Location extends DomainResource {
             allDay = builder.allDay;
             openingTime = builder.openingTime;
             closingTime = builder.closingTime;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

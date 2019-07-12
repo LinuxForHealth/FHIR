@@ -1194,7 +1194,7 @@ public class ImplementationGuide extends DomainResource {
             uri = ValidationSupport.requireNonNull(builder.uri, "uri");
             packageId = builder.packageId;
             version = builder.version;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1502,7 +1502,7 @@ public class ImplementationGuide extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1764,7 +1764,7 @@ public class ImplementationGuide extends DomainResource {
             page = builder.page;
             parameter = Collections.unmodifiableList(builder.parameter);
             template = Collections.unmodifiableList(builder.template);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2213,7 +2213,7 @@ public class ImplementationGuide extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 description = builder.description;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2497,7 +2497,7 @@ public class ImplementationGuide extends DomainResource {
                 description = builder.description;
                 example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
                 groupingId = builder.groupingId;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2942,7 +2942,7 @@ public class ImplementationGuide extends DomainResource {
                 title = ValidationSupport.requireNonNull(builder.title, "title");
                 generation = ValidationSupport.requireNonNull(builder.generation, "generation");
                 page = Collections.unmodifiableList(builder.page);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3276,7 +3276,7 @@ public class ImplementationGuide extends DomainResource {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 value = ValidationSupport.requireNonNull(builder.value, "value");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3535,7 +3535,7 @@ public class ImplementationGuide extends DomainResource {
                 code = ValidationSupport.requireNonNull(builder.code, "code");
                 source = ValidationSupport.requireNonNull(builder.source, "source");
                 scope = builder.scope;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3834,7 +3834,7 @@ public class ImplementationGuide extends DomainResource {
             page = Collections.unmodifiableList(builder.page);
             image = Collections.unmodifiableList(builder.image);
             other = Collections.unmodifiableList(builder.other);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -4290,7 +4290,7 @@ public class ImplementationGuide extends DomainResource {
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
                 example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
                 relativePath = builder.relativePath;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -4602,7 +4602,7 @@ public class ImplementationGuide extends DomainResource {
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 title = builder.title;
                 anchor = Collections.unmodifiableList(builder.anchor);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

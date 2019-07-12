@@ -932,7 +932,7 @@ public class ObservationDefinition extends DomainResource {
             unit = builder.unit;
             conversionFactor = builder.conversionFactor;
             decimalPrecision = builder.decimalPrecision;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1297,7 +1297,7 @@ public class ObservationDefinition extends DomainResource {
             age = builder.age;
             gestationalAge = builder.gestationalAge;
             condition = builder.condition;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

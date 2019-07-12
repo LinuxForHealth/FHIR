@@ -41,7 +41,7 @@ public class Meta extends Element {
         profile = Collections.unmodifiableList(builder.profile);
         security = Collections.unmodifiableList(builder.security);
         tag = Collections.unmodifiableList(builder.tag);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

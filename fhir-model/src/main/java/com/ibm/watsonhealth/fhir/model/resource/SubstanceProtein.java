@@ -625,7 +625,7 @@ public class SubstanceProtein extends DomainResource {
             nTerminalModification = builder.nTerminalModification;
             cTerminalModificationId = builder.cTerminalModificationId;
             cTerminalModification = builder.cTerminalModification;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

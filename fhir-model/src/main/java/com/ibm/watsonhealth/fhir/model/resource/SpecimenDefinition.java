@@ -676,7 +676,7 @@ public class SpecimenDefinition extends DomainResource {
             retentionTime = builder.retentionTime;
             rejectionCriterion = Collections.unmodifiableList(builder.rejectionCriterion);
             handling = Collections.unmodifiableList(builder.handling);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1218,7 +1218,7 @@ public class SpecimenDefinition extends DomainResource {
                 minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", Quantity.class, String.class);
                 additive = Collections.unmodifiableList(builder.additive);
                 preparation = builder.preparation;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1731,7 +1731,7 @@ public class SpecimenDefinition extends DomainResource {
                 private Additive(Builder builder) {
                     super(builder);
                     additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -1976,7 +1976,7 @@ public class SpecimenDefinition extends DomainResource {
                 temperatureRange = builder.temperatureRange;
                 maxDuration = builder.maxDuration;
                 instruction = builder.instruction;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }

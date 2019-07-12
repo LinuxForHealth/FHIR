@@ -1007,7 +1007,7 @@ public class GraphDefinition extends DomainResource {
             max = builder.max;
             description = builder.description;
             target = Collections.unmodifiableList(builder.target);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1456,7 +1456,7 @@ public class GraphDefinition extends DomainResource {
                 profile = builder.profile;
                 compartment = Collections.unmodifiableList(builder.compartment);
                 link = Collections.unmodifiableList(builder.link);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -1885,7 +1885,7 @@ public class GraphDefinition extends DomainResource {
                     rule = ValidationSupport.requireNonNull(builder.rule, "rule");
                     expression = builder.expression;
                     description = builder.description;
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }

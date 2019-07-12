@@ -1826,7 +1826,7 @@ public class MedicationRequest extends DomainResource {
             quantity = builder.quantity;
             expectedSupplyDuration = builder.expectedSupplyDuration;
             performer = builder.performer;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2289,7 +2289,7 @@ public class MedicationRequest extends DomainResource {
                 super(builder);
                 quantity = builder.quantity;
                 duration = builder.duration;
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2576,7 +2576,7 @@ public class MedicationRequest extends DomainResource {
             super(builder);
             allowed = ValidationSupport.requireChoiceElement(builder.allowed, "allowed", Boolean.class, CodeableConcept.class);
             reason = builder.reason;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

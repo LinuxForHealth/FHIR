@@ -714,7 +714,7 @@ public class Substance extends DomainResource {
             identifier = builder.identifier;
             expiry = builder.expiry;
             quantity = builder.quantity;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1032,7 +1032,7 @@ public class Substance extends DomainResource {
             super(builder);
             quantity = builder.quantity;
             substance = ValidationSupport.requireChoiceElement(builder.substance, "substance", CodeableConcept.class, Reference.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

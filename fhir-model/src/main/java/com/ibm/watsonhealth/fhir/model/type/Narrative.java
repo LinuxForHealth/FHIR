@@ -47,7 +47,7 @@ public class Narrative extends Element {
         status = ValidationSupport.requireNonNull(builder.status, "status");
         div = ValidationSupport.requireNonNull(builder.div, "div");
         ValidationSupport.checkXHTMLContent(div);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

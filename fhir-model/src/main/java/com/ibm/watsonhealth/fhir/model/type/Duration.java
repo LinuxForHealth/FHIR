@@ -33,7 +33,7 @@ public class Duration extends Quantity {
 
     private Duration(Builder builder) {
         super(builder);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

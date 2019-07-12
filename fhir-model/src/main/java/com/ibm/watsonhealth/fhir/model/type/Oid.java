@@ -31,6 +31,11 @@ public class Oid extends Uri {
         ValidationSupport.checkValue(value, PATTERN);
     }
 
+    @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
     public static Oid of(java.lang.String value) {
         return Oid.builder().value(value).build();
     }

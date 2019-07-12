@@ -64,7 +64,7 @@ public class DataRequirement extends Element {
         dateFilter = Collections.unmodifiableList(builder.dateFilter);
         limit = builder.limit;
         sort = Collections.unmodifiableList(builder.sort);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
@@ -634,7 +634,7 @@ public class DataRequirement extends Element {
             searchParam = builder.searchParam;
             valueSet = builder.valueSet;
             code = Collections.unmodifiableList(builder.code);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1029,7 +1029,7 @@ public class DataRequirement extends Element {
             path = builder.path;
             searchParam = builder.searchParam;
             value = ValidationSupport.choiceElement(builder.value, "value", DateTime.class, Period.class, Duration.class);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -1359,7 +1359,7 @@ public class DataRequirement extends Element {
             super(builder);
             path = ValidationSupport.requireNonNull(builder.path, "path");
             direction = ValidationSupport.requireNonNull(builder.direction, "direction");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

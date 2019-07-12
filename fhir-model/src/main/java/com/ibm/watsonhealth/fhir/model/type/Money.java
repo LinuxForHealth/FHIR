@@ -29,7 +29,7 @@ public class Money extends Element {
         super(builder);
         value = builder.value;
         currency = builder.currency;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

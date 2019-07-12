@@ -106,7 +106,7 @@ public class Timing extends BackboneElement {
         event = Collections.unmodifiableList(builder.event);
         repeat = builder.repeat;
         code = builder.code;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
@@ -481,7 +481,7 @@ public class Timing extends BackboneElement {
             timeOfDay = Collections.unmodifiableList(builder.timeOfDay);
             when = Collections.unmodifiableList(builder.when);
             offset = builder.offset;
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }

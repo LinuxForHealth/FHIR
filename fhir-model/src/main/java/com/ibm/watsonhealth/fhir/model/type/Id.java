@@ -31,6 +31,11 @@ public class Id extends String {
         ValidationSupport.checkValue(value, PATTERN);
     }
 
+    @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
     public static Id of(java.lang.String value) {
         return Id.builder().value(value).build();
     }

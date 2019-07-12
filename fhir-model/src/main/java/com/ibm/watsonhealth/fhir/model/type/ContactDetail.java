@@ -32,7 +32,7 @@ public class ContactDetail extends Element {
         super(builder);
         name = builder.name;
         telecom = Collections.unmodifiableList(builder.telecom);
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

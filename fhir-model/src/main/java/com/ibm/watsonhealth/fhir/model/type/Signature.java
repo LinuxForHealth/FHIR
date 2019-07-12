@@ -44,7 +44,7 @@ public class Signature extends Element {
         targetFormat = builder.targetFormat;
         sigFormat = builder.sigFormat;
         data = builder.data;
-        if (!hasChildren()) {
+        if (!hasValue() && !hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

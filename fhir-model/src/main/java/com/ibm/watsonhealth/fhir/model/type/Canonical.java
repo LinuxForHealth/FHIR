@@ -31,6 +31,11 @@ public class Canonical extends Uri {
         ValidationSupport.checkValue(value, PATTERN);
     }
 
+    @Override
+    protected boolean hasValue() {
+        return (value != null);
+    }
+
     public static Canonical of(java.lang.String value) {
         return Canonical.builder().value(value).build();
     }

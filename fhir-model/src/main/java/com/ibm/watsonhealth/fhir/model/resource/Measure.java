@@ -2258,7 +2258,7 @@ public class Measure extends DomainResource {
             description = builder.description;
             population = Collections.unmodifiableList(builder.population);
             stratifier = Collections.unmodifiableList(builder.stratifier);
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
@@ -2664,7 +2664,7 @@ public class Measure extends DomainResource {
                 code = builder.code;
                 description = builder.description;
                 criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -2978,7 +2978,7 @@ public class Measure extends DomainResource {
                 description = builder.description;
                 criteria = builder.criteria;
                 component = Collections.unmodifiableList(builder.component);
-                if (!hasChildren()) {
+                if (!hasValue() && !hasChildren()) {
                     throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                 }
             }
@@ -3363,7 +3363,7 @@ public class Measure extends DomainResource {
                     code = builder.code;
                     description = builder.description;
                     criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
-                    if (!hasChildren()) {
+                    if (!hasValue() && !hasChildren()) {
                         throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
                     }
                 }
@@ -3681,7 +3681,7 @@ public class Measure extends DomainResource {
             usage = Collections.unmodifiableList(builder.usage);
             description = builder.description;
             criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
-            if (!hasChildren()) {
+            if (!hasValue() && !hasChildren()) {
                 throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
             }
         }
