@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.generator;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
+
 import java.io.OutputStream;
 import java.io.Writer;
 import java.math.BigDecimal;
@@ -142,19 +144,6 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 return JsonSupport.isChoiceElement(type, name);
             }
             return false;
-        }
-
-        private boolean isPrimitiveType(Class<?> elementType) {
-            return Base64Binary.class.equals(elementType) ||
-                    com.ibm.watsonhealth.fhir.model.type.Boolean.class.equals(elementType) ||
-                    com.ibm.watsonhealth.fhir.model.type.String.class.isAssignableFrom(elementType) || 
-                    Uri.class.isAssignableFrom(elementType) ||
-                    DateTime.class.equals(elementType) || 
-                    Date.class.equals(elementType) ||
-                    Time.class.equals(elementType) || 
-                    Instant.class.equals(elementType) || 
-                    com.ibm.watsonhealth.fhir.model.type.Integer.class.isAssignableFrom(elementType) || 
-                    Decimal.class.equals(elementType);
         }
         
         public void postVisit(Element element) {

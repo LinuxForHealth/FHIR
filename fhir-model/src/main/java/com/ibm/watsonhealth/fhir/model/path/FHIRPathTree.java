@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.path;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getTypeName;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
@@ -49,7 +51,7 @@ public class FHIRPathTree {
         Objects.requireNonNull(resource);
         
         BuildingVisitor visitor = new BuildingVisitor();
-        resource.accept(resource.getClass().getSimpleName(), visitor);
+        resource.accept(getTypeName(resource.getClass()), visitor);
         
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
@@ -58,7 +60,7 @@ public class FHIRPathTree {
         Objects.requireNonNull(element);
         
         BuildingVisitor visitor = new BuildingVisitor();
-        element.accept(element.getClass().getSimpleName(), visitor);
+        element.accept(getTypeName(element.getClass()), visitor);
         
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
@@ -72,31 +74,13 @@ public class FHIRPathTree {
         
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();
-        
-        private java.lang.String getElementName(java.lang.String elementName) {
-            if (elementName == null && !nameStack.isEmpty()) {
-                elementName = nameStack.peek();
-            }
-            return elementName;
-        }
-    
-        private int getIndex(String elementName) {
-            if (elementName == null && !indexStack.isEmpty()) {
-                return indexStack.peek();
-            }
-            return -1;
-        }
 
         private Map<String, FHIRPathNode> getPathNodeMap() {
             return pathNodeMap;
         }
         
         private String getPath() {
-            StringJoiner joiner = new StringJoiner(".");
-            for (String s : pathStack) {
-                joiner.add(s);
-            }
-            return joiner.toString();
+            return pathStack.stream().collect(Collectors.joining("."));
         }
     
         private FHIRPathNode getRoot() {
@@ -120,61 +104,81 @@ public class FHIRPathTree {
 
         @Override
         public void visit(java.lang.String elementName, BigDecimal value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathDecimalValue.decimalValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, byte[] value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathStringValue.stringValue(elementName, Base64.getEncoder().encodeToString(value)));
         }
     
         @Override
         public void visit(java.lang.String elementName, java.lang.Boolean value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathBooleanValue.booleanValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, java.lang.Integer value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathIntegerValue.integerValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, java.lang.String value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathStringValue.stringValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, LocalDate value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, LocalTime value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathTimeValue.timeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, Year value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, YearMonth value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
     
         @Override
         public void visit(java.lang.String elementName, ZonedDateTime value) {
-            elementName = getElementName(elementName);
+            if (elementName == null) {
+                elementName = nameStack.peek();
+            }
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
         
@@ -212,8 +216,11 @@ public class FHIRPathTree {
         
         @Override
         public void visitStart(java.lang.String elementName, Element element) {
-            int index = getIndex(elementName);
-            elementName = getElementName(elementName);
+            int index = -1;
+            if (elementName == null) {
+                elementName = nameStack.peek();
+                index = indexStack.peek();
+            }
             pathStackPush(elementName, index);
             FHIRPathNode.Builder builder = FHIRPathElementNode.builder(element).name(elementName);
             builderStack.push(builder);
@@ -230,8 +237,11 @@ public class FHIRPathTree {
         
         @Override
         public void visitStart(java.lang.String elementName, Resource resource) {
-            int index = getIndex(elementName);
-            elementName = getElementName(elementName);
+            int index = -1;
+            if (elementName == null) {
+                elementName = nameStack.peek();
+                index = indexStack.peek();
+            }
             pathStackPush(elementName, index);
             FHIRPathNode.Builder builder = FHIRPathResourceNode.builder(resource).name(elementName);
             builderStack.push(builder);

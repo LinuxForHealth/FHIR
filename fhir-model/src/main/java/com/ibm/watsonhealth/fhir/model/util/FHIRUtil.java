@@ -46,15 +46,21 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.Date;
+import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
 import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
+import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 
 public class FHIRUtil {
@@ -93,6 +99,27 @@ public class FHIRUtil {
             }
         }
         return resourceTypeMap;
+    }
+    
+    public static String getTypeName(Class<?> type) {
+        String typeName = type.getSimpleName();
+        if (isPrimitiveType(type)) {
+            typeName = typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
+        }
+        return typeName;
+    }
+    
+    public static boolean isPrimitiveType(Class<?> type) {
+        return Base64Binary.class.equals(type) ||
+            com.ibm.watsonhealth.fhir.model.type.Boolean.class.equals(type) ||
+            com.ibm.watsonhealth.fhir.model.type.String.class.isAssignableFrom(type) || 
+            Uri.class.isAssignableFrom(type) ||
+            DateTime.class.equals(type) || 
+            Date.class.equals(type) ||
+            Time.class.equals(type) || 
+            Instant.class.equals(type) || 
+            com.ibm.watsonhealth.fhir.model.type.Integer.class.isAssignableFrom(type) || 
+            Decimal.class.equals(type);
     }
 
     /**

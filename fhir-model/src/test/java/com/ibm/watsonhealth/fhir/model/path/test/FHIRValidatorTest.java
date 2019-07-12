@@ -81,8 +81,12 @@ public class FHIRValidatorTest {
         FHIRPathTree.DEBUG = true;
         FHIRValidator.DEBUG = true;
         List<Issue> issues = FHIRValidator.validator(patient).validate();
-        for (Issue issue : issues) {
-            System.out.println("Issue: [Severity: " + issue.getSeverity().getValue() + ", Issue Type: " + issue.getCode().getValue() + ", Diagnostics: " + issue.getDiagnostics().getValue() + ", Location: " + issue.getLocation().get(0).getValue() + "]");
+        
+        if (!issues.isEmpty()) {
+            System.out.println("Issue(s) found:");
+            for (Issue issue : issues) {
+                System.out.println("    Severity: " + issue.getSeverity().getValue() + ", Issue Type: " + issue.getCode().getValue() + ", Diagnostics: " + issue.getDiagnostics().getValue() + ", Location: " + issue.getLocation().get(0).getValue());
+            }
         }
     }
 }

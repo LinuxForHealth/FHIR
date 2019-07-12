@@ -11,6 +11,7 @@ import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.getPrimitiv
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getTypeName;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,13 +19,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
-import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
@@ -49,10 +49,10 @@ public class FHIRValidator {
             FHIRPathNode root = tree.getRoot();
             if (root.isResourceNode()) {
                 Resource resource = root.asResourceNode().resource();
-                resource.accept(resource.getClass().getSimpleName(), visitor);
+                resource.accept(getTypeName(resource.getClass()), visitor);
             } else if (root.isElementNode()) {
                 Element element = root.asElementNode().element();
-                element.accept(element.getClass().getSimpleName(), visitor);
+                element.accept(getTypeName(element.getClass()), visitor);
             }
             return visitor.getIssues();
         } catch (Exception e) {
@@ -75,10 +75,12 @@ public class FHIRValidator {
     public static class ValidatingVisitor extends AbstractVisitor {
         private static final String WARNING_LEVEL = "Warning";
         private static final String BASE_LOCATION = "(base)";
+        
         private final Stack<java.lang.String> nameStack = new Stack<>();
         private final Stack<java.lang.String> pathStack = new Stack<>();
         private final Stack<java.lang.Integer> indexStack = new Stack<>();
         private final FHIRPathTree tree;
+        
         private List<Issue> issues = new ArrayList<>(); 
         
         private ValidatingVisitor(FHIRPathTree tree) {
@@ -89,45 +91,6 @@ public class FHIRValidator {
             return Collections.unmodifiableList(issues);
         }
         
-        private void checkConstraints(Class<?> type, java.lang.String path) {
-            List<Constraint> constraints = getConstraints(type);
-            for (Constraint constraint : constraints) {
-                try {
-                    if (DEBUG) {
-                        System.out.println("    Constraint: " + constraint.id() + ", " + constraint.level() + ", " + constraint.location() + ", " + constraint.expression() + ", " + constraint.description());
-                    }
-                    
-                    Collection<FHIRPathNode> initialContext = singleton(tree.getNode(path));
-                    if (!BASE_LOCATION.equals(constraint.location())) {
-                        initialContext = eval(constraint.location(), initialContext);
-                    }
-                    
-                    java.lang.String expr = constraint.expression();
-                    Collection<FHIRPathNode> result = eval(expr, initialContext);
-                    
-                    if (hasPrimitiveValue(result)) {
-                        FHIRPathPrimitiveValue value = getPrimitiveValue(result);
-                        if (value.isBooleanValue() && value.asBooleanValue().isFalse()) {
-                            // constraint check failed
-                            String level = constraint.level();
-                            IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-                            Issue issue = Issue.builder(severity, IssueType.INVARIANT)
-                                    .location(string(path))
-                                    .diagnostics(string(constraint.id() + ": " + constraint.description()))
-                                    .build();
-                            issues.add(issue);
-                        }
-                    }
-                    
-                    if (DEBUG) {
-                        System.out.println("    Evaluation result: " + result);
-                    }
-                } catch (FHIRPathException e) {
-                    throw new Error(e);
-                }
-            }
-        }
-
         private List<Constraint> getConstraints(Class<?> type) {
             List<Class<?>> classes = new ArrayList<>();
             while (!Object.class.equals(type)) {
@@ -144,26 +107,8 @@ public class FHIRValidator {
             return constraints;
         }
 
-        private java.lang.String getElementName(java.lang.String elementName) {
-            if (elementName == null && !nameStack.isEmpty()) {
-                elementName = nameStack.peek();
-            }
-            return elementName;
-        }
-        
-        private int getIndex(java.lang.String elementName) {
-            if (elementName == null && !indexStack.isEmpty()) {
-                return indexStack.peek();
-            }
-            return -1;
-        }
-
         private java.lang.String getPath() {
-            StringJoiner joiner = new StringJoiner(".");
-            for (java.lang.String s : pathStack) {
-                joiner.add(s);
-            }
-            return joiner.toString();
+            return pathStack.stream().collect(Collectors.joining("."));
         }
         
         private void pathStackPop() {
@@ -178,6 +123,49 @@ public class FHIRValidator {
             }
             if (DEBUG) {
                 System.out.println(getPath());
+            }
+        }
+
+        private void validate(Class<?> type, java.lang.String path) {
+            List<Constraint> constraints = getConstraints(type);
+            for (Constraint constraint : constraints) {
+                validate(constraint, path);
+            }
+        }
+
+        private void validate(Constraint constraint, java.lang.String path) {
+            try {
+                if (DEBUG) {
+                    System.out.println("    Constraint: " + constraint);
+                }
+                
+                Collection<FHIRPathNode> initialContext = singleton(tree.getNode(path));
+                if (!BASE_LOCATION.equals(constraint.location())) {
+                    initialContext = eval(constraint.location(), initialContext);
+                }
+                
+                java.lang.String expr = constraint.expression();
+                Collection<FHIRPathNode> result = eval(expr, initialContext);
+                
+                if (hasPrimitiveValue(result)) {
+                    FHIRPathPrimitiveValue value = getPrimitiveValue(result);
+                    if (value.isBooleanValue() && value.asBooleanValue().isFalse()) {
+                        // constraint validation failed
+                        String level = constraint.level();
+                        IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+                        Issue issue = Issue.builder(severity, IssueType.INVARIANT)
+                                .location(string(path))
+                                .diagnostics(string(constraint.id() + ": " + constraint.description()))
+                                .build();
+                        issues.add(issue);
+                    }
+                }
+                
+                if (DEBUG) {
+                    System.out.println("    Evaluation result: " + result);
+                }
+            } catch (Exception e) {
+                throw new Error(e);
             }
         }
 
@@ -199,10 +187,13 @@ public class FHIRValidator {
         
         @Override
         public void visitStart(java.lang.String elementName, Element element) {
-            int index = getIndex(elementName);
-            elementName = getElementName(elementName);
+            int index = -1;
+            if (elementName == null) {
+                elementName = nameStack.peek();
+                index = indexStack.peek();
+            }
             pathStackPush(elementName, index);
-            checkConstraints(element.getClass(), getPath());
+            validate(element.getClass(), getPath());
             if (index != -1) {
                 indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
             }
@@ -216,10 +207,13 @@ public class FHIRValidator {
         
         @Override
         public void visitStart(java.lang.String elementName, Resource resource) {
-            int index = getIndex(elementName);
-            elementName = getElementName(elementName);
+            int index = -1;
+            if (elementName == null) {
+                elementName = nameStack.peek();
+                index = indexStack.peek();
+            }
             pathStackPush(elementName, index);
-            checkConstraints(resource.getClass(), getPath());
+            validate(resource.getClass(), getPath());
             if (index != -1) {
                 indexStack.set(indexStack.size() - 1, indexStack.peek() + 1);
             }
